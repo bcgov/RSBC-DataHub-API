@@ -1,0 +1,96 @@
+
+{   
+    "data_types": [
+        {
+            "name": "evt_issuance",
+            "tables": [
+                {
+                    "name": "vph_events",
+                    "relationship": "one-to-one",
+                    "fields": [
+                        {
+                            "json_name": "event_id",
+                            "destination_name": "EVENT_ID"
+                        },
+                        {
+                            "json_name": "event_date_time",
+                            "destination_name": "EVENT_DTM"
+                        },
+                        {
+                            "json_name": "evt_issuance.ticket_number",
+                            "destination_name": "TICKET_NO"
+                        }
+                    ]
+                },
+                {
+                    "name": "vph_ticket_kpi_details",
+                    "relationship": "one-to-one",
+                    "fields": [
+                        {
+                            "json_name": "evt_issuance.ticket_number",
+                            "destination_name": "TICKET_NO"
+                        },
+                        {
+                            "json_name": "evt_issuance.violation_date",
+                            "destination_name": "violation_dt"
+                        },
+                        {
+                            "json_name": "evt_issuance.violation_time",
+                            "destination_name": "violation_tm"
+                        }
+                    ]
+                },
+                {
+                    "name": "vph_violation_kpi_details",
+                    "relationship": "one-to-many",
+                    "many_details": {
+                        "itterate_on": "evt_issuance.counts",
+                        "key_field": {
+                            "json_name": "evt_issuance.ticket_number",
+                            "destination_name": "TICKET_NO"
+                        }
+                    },
+                    "fields": [
+                        {
+                            "json_name": "count_number",
+                            "destination_name": "count_nbr"
+                        },
+                        {
+                            "json_name": "act_code",
+                            "destination_name": "act_cd"
+                        },
+                        {
+                            "json_name": "section_text",
+                            "destination_name": "section_txt"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "vt_query",
+            "tables": [
+                {
+                    "name": "vph_events",
+                    "relationship": "one-to-one",
+                    "fields": [
+                        {
+                            "json_name": "event_id",
+                            "destination_name": "EVENT_ID"
+                        },
+                        {
+                            "json_name": "event_date_time",
+                            "destination_name": "EVENT_DTM"
+                        },
+                        {
+                            "json_name": "evt_issuance.ticket_number",
+                            "destination_name": "TICKET_NO"
+                        }
+                    ]
+                }
+            ]
+        }
+
+    ]
+        
+}

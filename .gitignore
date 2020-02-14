@@ -1,0 +1,7 @@
+.docker/
+ingest/.env/
+.vscode/
+.env
+__pycache__/
+*.pyc
+

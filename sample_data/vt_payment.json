@@ -1,0 +1,14 @@
+{
+    "event_id": 1234,
+    "event_version": "1.1",
+    "event_date_time": "2020-01-20 08:23:16",
+    "event_type": "vt_payment",
+    "event_source": "ETK",
+    "vt_payment": {
+        "ticket_number": "EZ12345678",
+        "count_number": 1,
+        "payment_card_type": "Visa",
+        "payment_ticket_type_code": "S",
+        "payment_amount": 142
+      }
+}
