@@ -17,6 +17,7 @@ class Listener():
         self.connection = pika.BlockingConnection(parameters)
         self.validator = validator
         self.availableQueues = []
+        self.messageAttributeUsedForQueueName = config.MESSAGE_QUEUE_ATTRIBUTE
         logging.warning('*** validator initialized  ***')
 
     def main(self):
@@ -32,7 +33,11 @@ class Listener():
         message = body.decode(Config.RABBITMQ_MESSAGE_ENCODE)
         messageDict = json.loads(message)
         
-        queue = self._getWriteQueue(self.validator.validate(messageDict),messageDict)
+        queue = self._getWriteQueue(
+            self.validator.validate(messageDict),
+            messageDict,
+            self.messageAttributeUsedForQueueName)
+            
         logging.warning("write to: " + queue)
 
         # only remove the message from the ingested queue if
@@ -61,18 +66,18 @@ class Listener():
         return False
         
 
-    def _getWriteQueue(self, isValid: bool, message: dict):
+    def _getWriteQueue(self, isValid: bool, message: dict, messageAttribute: str ):
 
-        if 'event_type' not in message:
+        if messageAttribute not in message:
             # if the message_type attribute doesn't exist in the
             # message, write the message to a miscelllaneous error queue
             return Config.RABBITMQ_MISC_ERROR_QUEUE
 
         # otherwise write the message to an event-type specific queue
         if(isValid):
-            return message['event_type'] + ".valid"
+            return message[messageAttribute] + ".valid"
         else:
-            return message['event_type'] + ".not-valid"
+            return message[messageAttribute] + ".not-valid"
 
 
     def _createQueueIfNotExists(self, channel, queuesAlreadyDeclared, currentQueue):

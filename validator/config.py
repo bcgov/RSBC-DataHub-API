@@ -15,3 +15,10 @@ class Config():
     VALIDATOR_USER              = os.getenv('VALIDATOR_USER')
     VALIDATOR_PASS              = os.getenv('VALIDATOR_PASS')
 
+    # The validator automatically creates destination valid and not valid queues
+    # as needed.  The destination queues follow the format 'ETK.valid' and 
+    # 'ETK.not-valid' where 'ETK' is taken from the 'event_source' attribute in 
+    # the message but can be configured to any message attribute by overriding 
+    # the 'MESSAGE_QUEUE_ATTRIBUTE' variable below.
+    MESSAGE_QUEUE_ATTRIBUTE     = os.getenv('MESSAGE_QUEUE_ATTRIBUTE', 'event_source')
+
