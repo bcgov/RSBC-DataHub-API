@@ -1,0 +1,1045 @@
+{
+  "event_id": 1234,
+  "event_version": "1.1",
+  "event_date_time": "2020-01-20 08:23:16",
+  "event_type": "dmf_collection",
+  "event_source": "DMF",
+  "dmf_collection": {
+    "resourceType": "Bundle",
+    "id": "0992be00-1548-4894-afbe-e207ae76005d",
+    "type": "collection",
+    "timestamp": "2020-02-14T23:31:57.9977971+00:00",
+    "entry": [
+      {
+        "resource": {
+          "resourceType": "Patient",
+          "id": "patient1",
+          "identifier": [
+            {
+              "system": "https://fhir.infoway-inforoute.ca/registry/NamingSystem/bc-patient-healthcare-identifier",
+              "value": "73a7d6b7-0310-4fff-9b0b-7891a5e390f5"
+            }
+          ],
+          "active": true,
+          "name": [
+            {
+              "use": "official",
+              "family": "Abbott",
+              "given": [
+                "Geoffrey"
+              ]
+            }
+          ],
+          "telecom": [
+            {
+              "system": "phone",
+              "value": "555-514-6152",
+              "use": "home"
+            }
+          ],
+          "gender": "male",
+          "birthDate": "1990-09-01",
+          "address": [
+            {
+              "use": "home",
+              "line": [
+                "997 Koepp Row Unit 64"
+              ],
+              "city": "Southborough",
+              "state": "Massachusetts",
+              "postalCode": "01772",
+              "country": "CA"
+            }
+          ]
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Practitioner",
+          "identifier": [
+            {
+              "system": "https://ehealthbc.ca/API/FHIR/NamingSystem/ca-bc-msp",
+              "value": "93370"
+            }
+          ],
+          "active": true,
+          "name": [
+            {
+              "use": "official",
+              "family": "Orn",
+              "given": [
+                "Albertine"
+              ]
+            }
+          ],
+          "address": [
+            {
+              "use": "home",
+              "line": [
+                "66B CONCORD STREET"
+              ],
+              "city": "WILMINGTON",
+              "state": "MA",
+              "postalCode": "1887",
+              "country": "CA"
+            }
+          ]
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "QuestionnaireResponse",
+          "meta": {
+            "lastUpdated": "2020-02-14T23:31:58.0051996+00:00",
+            "source": "RSBC Driver's Medical Exam",
+            "tag": [
+              {
+                "system": "machineName",
+                "code": "poc-phsaformrepository:roadsafetydmer"
+              },
+              {
+                "system": "name",
+                "code": "roadsafetydmer"
+              },
+              {
+                "system": "project",
+                "code": "5cfe73398a40823c62361cde"
+              },
+              {
+                "system": "created",
+                "code": "2020-02-06"
+              },
+              {
+                "system": "modified",
+                "code": "2020-02-13"
+              },
+              {
+                "system": "_vid",
+                "code": "0"
+              },
+              {
+                "system": "tags",
+                "code": "anami,common,publish"
+              }
+            ]
+          },
+          "item": [
+            {
+              "linkId": "patientInformation",
+              "text": "Patient Information",
+              "item": [
+                {
+                  "linkId": "patient.identifier.value",
+                  "text": "BC Personal Health Number",
+                  "answer": [
+                    {
+                      "valueString": "73a7d6b7-0310-4fff-9b0b-7891a5e390f5"
+                    }
+                  ]
+                },
+                {
+                  "linkId": "patient.name.family",
+                  "text": "Patient Last Name",
+                  "answer": [
+                    {
+                      "valueString": "Abbott"
+                    }
+                  ]
+                },
+                {
+                  "linkId": "patient.name.given",
+                  "text": "Patient First Name",
+                  "answer": [
+                    {
+                      "valueString": "Geoffrey"
+                    }
+                  ]
+                },
+                {
+                  "linkId": "patient.BirthDate",
+                  "text": "Date of Birth",
+                  "answer": [
+                    {
+                      "valueString": "1990-09-01"
+                    }
+                  ]
+                },
+                {
+                  "linkId": "patient.gender",
+                  "text": "Gender",
+                  "answer": [
+                    {
+                      "valueString": "male"
+                    }
+                  ]
+                },
+                {
+                  "linkId": "patient.telecom.value",
+                  "text": "Phone Number",
+                  "answer": [
+                    {
+                      "valueString": "555-514-6152"
+                    }
+                  ]
+                },
+                {
+                  "linkId": "patientInformationAddress",
+                  "text": "Address",
+                  "item": [
+                    {
+                      "linkId": "address.use",
+                      "text": "Address Type",
+                      "answer": [
+                        {
+                          "valueString": "home"
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "address.line2",
+                      "text": "Street Address 2",
+                      "answer": [
+                        {
+                          "valueString": "997 Koepp Row Unit 64"
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "address.city",
+                      "text": "City",
+                      "answer": [
+                        {
+                          "valueString": "Southborough"
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "address.state",
+                      "text": "Province",
+                      "answer": [
+                        {
+                          "valueString": "Massachusetts"
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "address.postalCode",
+                      "text": "Postal Code",
+                      "answer": [
+                        {
+                          "valueString": "01772"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "providerInformation",
+              "text": "Provider Information",
+              "item": [
+                {
+                  "linkId": "practitioner.name.given",
+                  "text": "Provider First Name",
+                  "answer": [
+                    {
+                      "valueString": "Albertine"
+                    }
+                  ]
+                },
+                {
+                  "linkId": "practitioner.name.family",
+                  "text": "Provider Last Name",
+                  "answer": [
+                    {
+                      "valueString": "Orn"
+                    }
+                  ]
+                },
+                {
+                  "linkId": "practitioner.identifier.type",
+                  "text": "Provider Identifier Type",
+                  "answer": [
+                    {
+                      "valueString": "mspid"
+                    }
+                  ]
+                },
+                {
+                  "linkId": "practitioner.identifier.mspId",
+                  "text": "MSP ID#",
+                  "answer": [
+                    {
+                      "valueString": "93370"
+                    }
+                  ]
+                },
+                {
+                  "linkId": "providerInformationAddress",
+                  "text": "Address",
+                  "item": [
+                    {
+                      "linkId": "address.use",
+                      "text": "Address Type",
+                      "answer": [
+                        {
+                          "valueString": "work"
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "address.line2",
+                      "text": "Street Address 2",
+                      "answer": [
+                        {
+                          "valueString": "66B CONCORD STREET"
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "address.city",
+                      "text": "City",
+                      "answer": [
+                        {
+                          "valueString": "WILMINGTON"
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "address.state",
+                      "text": "Province",
+                      "answer": [
+                        {
+                          "valueString": "MA"
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "address.postalCode",
+                      "text": "Postal Code",
+                      "answer": [
+                        {
+                          "valueString": "1887"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "relationshipwithPatient",
+              "item": [
+                {
+                  "linkId": "familyPhysicianOrNp",
+                  "text": "Provider's Relationship with Patient",
+                  "answer": [
+                    {
+                      "valueBoolean": true
+                    }
+                  ]
+                },
+                {
+                  "linkId": "locum",
+                  "text": "Provider's Relationship with Patient",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "walkIn",
+                  "text": "Provider's Relationship with Patient",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "firstVisit",
+                  "text": "Provider's Relationship with Patient",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "np",
+                  "text": "Provider's Relationship with Patient",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "specialist",
+                  "text": "Provider's Relationship with Patient",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "panel",
+              "text": "",
+              "item": [
+                {
+                  "linkId": "ReasonforExamination",
+                  "text": "Reason for Examination",
+                  "answer": [
+                    {
+                      "valueString": "Age DMER"
+                    }
+                  ]
+                },
+                {
+                  "linkId": "patientDriversLicenseNumber",
+                  "text": "Driver's License Number",
+                  "answer": [
+                    {
+                      "valueDecimal": 1234569
+                    }
+                  ]
+                },
+                {
+                  "linkId": "columns7Class",
+                  "text": "Current License Class",
+                  "answer": [
+                    {
+                      "valueDecimal": 5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "panel2",
+              "text": "VISION",
+              "item": [
+                {
+                  "linkId": "vision",
+                  "item": [
+                    {
+                      "linkId": "acuityLoss",
+                      "text": "VISION",
+                      "answer": [
+                        {
+                          "valueBoolean": false
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "fieldDefect",
+                      "text": "VISION",
+                      "answer": [
+                        {
+                          "valueBoolean": false
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "eyeDisease",
+                      "text": "VISION",
+                      "answer": [
+                        {
+                          "valueBoolean": false
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "other",
+                      "text": "VISION",
+                      "answer": [
+                        {
+                          "valueBoolean": false
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "panel3",
+              "text": "HEARING",
+              "item": [
+                {
+                  "linkId": "hearing",
+                  "item": [
+                    {
+                      "linkId": "hearingLoss",
+                      "text": "HEARING",
+                      "answer": [
+                        {
+                          "valueBoolean": false
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "vertigo",
+                      "text": "HEARING",
+                      "answer": [
+                        {
+                          "valueBoolean": false
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "other",
+                      "text": "HEARING",
+                      "answer": [
+                        {
+                          "valueBoolean": false
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "panel4",
+              "text": "CARDIOVASCULAR",
+              "item": [
+                {
+                  "linkId": "syncope",
+                  "text": "Syncope",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "cad",
+                  "text": "CAD",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "arrhythmia",
+                  "text": "Arrhythmia",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "pacemaker",
+                  "text": "Pacemaker",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "icd",
+                  "text": "ICD",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "congestiveheartfailure",
+                  "text": "Congestive heart failure",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "aneurysm",
+                  "text": "Aneurysm",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "peripheralvasculardisease",
+                  "text": "Peripheral vascular disease",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "cvOther",
+                  "text": "Cardiovascular - Other",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "HistoryPanel4",
+              "text": "CNS",
+              "item": [
+                {
+                  "linkId": "columnsCvatia",
+                  "text": "CVA/TIA",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "columnsSeizureDisorder",
+                  "text": "Seizure Disorder",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "columnsSeizuredisorder",
+                  "text": "Seizure disorder",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "columnsCongenitalConditionCerebralPalsyetc",
+                  "text": "Congenital Condition (Cerebral Palsy, etc.)",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "columnsNarcolepsy",
+                  "text": "Narcolepsy",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "columnsProgressiveDeficitParkinsonsMsalSetc",
+                  "text": "Progressive Deficit (Parkinson's, MS, ALS, etc.)",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "columnsStabledeficitParaplegiaNerveDamageetc",
+                  "text": "Stable deficit (Paraplegia, Nerve Damage, etc.)",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "columnsDementiaDiagnosis",
+                  "text": "Dementia Diagnosis",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "columnsSignificantHeadInjury",
+                  "text": "Significant Head Injury",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "columnsOther6",
+                  "text": "Other (CNS)",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "HistoryPanel6",
+              "text": "RESPIRATORY (section 8)",
+              "item": [
+                {
+                  "linkId": "columnsOxygenrequiredwhendriving",
+                  "text": "Oxygen required when driving",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "columnsObstructivesleepapnea",
+                  "text": "Obstructive sleep apnea",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "columnsApneaHyponeaIndexAhi",
+                  "text": "Apnea Hyponea Index(AHI)",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "columnsEpworthScore",
+                  "text": "Epworth Score",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "HistoryPanel8",
+              "text": "ENDOCRINE (Section 9)",
+              "item": [
+                {
+                  "linkId": "historyPanel8Diabetes",
+                  "text": "Diabetes",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "historyPanel8SevereHypoglycemia",
+                  "text": "Severe Hypoglycemia",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "historyPanel8HypoglycemiaUnawareness",
+                  "text": "Hypoglycemia Unawareness",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "historyPanel8StableBgControl",
+                  "text": "Stable BG Control",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "historyPanel8OtherEndocrine",
+                  "text": "Other (Endocrine)",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "columnsHx1Panel",
+              "text": "MUSCULOSKELETAL",
+              "item": [
+                {
+                  "linkId": "amputation",
+                  "text": "Amputation",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "weakness",
+                  "text": "Weakness",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "rangeofmotionloss",
+                  "text": "Range of motion loss",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "musculoskeletalOther",
+                  "text": "Other",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "HistoryPanel7",
+              "text": "PSYCHIATRIC (Section 12)",
+              "item": [
+                {
+                  "linkId": "historyPanel7Psychosis",
+                  "text": "Psychosis",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "historyPanel7SevereDepression",
+                  "text": "Severe Depression",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "historyPanel7Impairedjudgmentinsight",
+                  "text": "Impaired judgment, insight",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "historyPanel7MedicationnonCompliance",
+                  "text": "Medication non-compliance",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "historyPanel7Stablepsychiatriccondition",
+                  "text": "Stable psychiatric condition",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "historyPanel7OtherPsych",
+                  "text": "Other (Psych)",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "HistoryPanel9",
+              "text": "DRUGS AND ALCOHOL (Sections 13 and 14)",
+              "item": [
+                {
+                  "linkId": "columnsAlcoholordrugabuseinpast2Years",
+                  "text": "Alcohol or drug abuse in past 2 years",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "columnsAlcoholrelatedseizure",
+                  "text": "Alcohol related seizure",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "columnsPrescribeddrugsthatcouldimpair",
+                  "text": "Prescribed drugs that could impair",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "historyOtherConditions",
+              "text": "OTHER CONDITIONS"
+            },
+            {
+              "linkId": "visionScreeningVisualAcuityUncorrected2",
+              "text": "Visual Acuity - Uncorrected",
+              "item": [
+                {
+                  "linkId": "visionScreeningVisualAcuityUncorrected",
+                  "text": "Uncorrected",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "visionScreeningVisualAcuityCorrected2",
+              "text": "Visual Acuity - Corrected",
+              "item": [
+                {
+                  "linkId": "visionScreeningVisualAcuityCorrected",
+                  "text": "Corrected",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "visionScreeningVisualField",
+              "text": "Visual Field",
+              "item": [
+                {
+                  "linkId": "visionScreeningMeetCriteriaYes",
+                  "text": "Yes",
+                  "answer": [
+                    {
+                      "valueBoolean": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "visionScreeningBloodPressure",
+              "text": "Blood Pressure"
+            },
+            {
+              "linkId": "panel5",
+              "text": "",
+              "item": [
+                {
+                  "linkId": "doespatienthaveaconditionthatmayaffectdriving",
+                  "text": "Does patient have a condition that may affect driving?",
+                  "answer": [
+                    {
+                      "valueString": "no"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "panel6",
+              "text": ""
+            },
+            {
+              "linkId": "columns5Panel",
+              "text": "",
+              "item": [
+                {
+                  "linkId": "specialistConsult",
+                  "text": "Specialist Consult",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "roadtesttoassess",
+                  "text": "Road test to assess",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "restrictions",
+                  "text": "Restrictions",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "columns5Panel2",
+              "text": "",
+              "item": [
+                {
+                  "linkId": "columns5Panel2DateConsentandCertificationGiven",
+                  "text": "Date Consent and Certification Given",
+                  "answer": [
+                    {
+                      "valueDateTime": "2020-02-14"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+
+}
