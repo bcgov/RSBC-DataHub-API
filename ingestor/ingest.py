@@ -9,28 +9,21 @@ application = FlaskAPI(__name__)
 rabbitmq = RabbitMQ( Config() )
 logging.warning('*** ingestor initialized ***')   
 
-# Create the queues, if they don't already exist
-authorizedQueues = Config.RABBITMQ_QUEUES.split(',')
-for authorizedQueue in authorizedQueues:
-    rabbitmq.verifyOrCreate(authorizedQueue)
+# Create a queue for the messages Flask receives (if it doesn't already exist)
+rabbitmq.verifyOrCreate(Config.RABBITMQ_QUEUE)
 
 
-@application.route('/api/v1/event/<queue>', methods=["POST"])
-def create(queue):
+@application.route('/api/v1/event', methods=["POST"])
+def create():
 
-    if(queue not in authorizedQueues):
-        return Response( "Error_" + queue + "_not_valid" , 500, mimetype='application/json')
-
-
-    if(rabbitmq.publish( queue , json.dumps(request.json) )):
+    if(rabbitmq.publish( Config.RABBITMQ_QUEUE , json.dumps(request.json) )):
 
         return jsonify(request.json), 200
         
     else:
 
         # Caution: RabbitMQ will only return false if the RabbitMQ is not
-        # connected. If the queue doesn't exist, for example, RabbitMQ
-        # accepts the message and immediately discards it.
+        # connected. 
 
         return Response( error , 500, mimetype='application/json')
     

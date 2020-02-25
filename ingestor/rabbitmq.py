@@ -16,10 +16,6 @@ class RabbitMQ():
 
 
     def publish(self, queue_name: str, payload: str):
-        #logging.debug('in the pike save() method')
-        #logging.debug(self.amqp_connection)
-
-        #self.channel.queue_declare(queue=queue_name, durable=True)
 
         tries = self.maximumConnectionRetries 
         while tries > 0:
