@@ -6,7 +6,6 @@ metadata:
     description: "Deploys a single RabbitMQ node"
     iconClass: icon-rabbitmq
     tags: rabbitmq,mq,messaging
-
 parameters:
 - name: COMPONENT
   displayName: "Component"
@@ -102,7 +101,7 @@ objects:
   stringData:
     username: ${RABBITMQ_USER}
     password: ${RABBITMQ_PASS}
-    url: "amqp://${RABBITMQ_USER}:${RABBITMQ_PASS}@${RABBITMQ_NAME}-balancer"
+    url: "amqp://${RABBITMQ_USER}:${RABBITMQ_PASS}@${RABBITMQ_NAME}"
     cookie: ${ERLANG_COOKIE}
   metadata:
     name: ${NAME}-${COMPONENT}${SUFFIX}-secret
@@ -115,21 +114,10 @@ objects:
   data:
     rabbitmq.conf: |
         loopback_users.guest = false
-
-        ## Clustering
-        #cluster_formation.peer_discovery_backend = rabbit_peer_discovery_k8s
-        #cluster_formation.k8s.host = kubernetes.default.svc.cluster.local
-        #cluster_formation.k8s.address_type = hostname
-        #cluster_formation.k8s.hostname_suffix = .${RABBITMQ_NAME}.${NAMESPACE}.svc.cluster.local
-        #cluster_formation.node_cleanup.interval = 10
-        #cluster_formation.node_cleanup.only_log_warning = true
-        #cluster_partition_handling = autoheal
-        ## queue master locator
         queue_master_locator=client-local
     enabled_plugins: |
       [rabbitmq_management].
 
-# Load balancer
 - kind: Service
   apiVersion: v1
   metadata:
@@ -150,21 +138,6 @@ objects:
     selector:
       name: ${NAME}-${COMPONENT}${SUFFIX}
 
-# Headless service that makes it possible to lookup individual rabbitmq nodes
-# - apiVersion: v1
-#   kind: Service
-#   metadata:
-#     name: ${RABBITMQ_NAME}
-#   labels:
-#     app: ${RABBITMQ_NAME}
-# spec:
-#   selector:
-#     app: ${RABBITMQ_NAME}
-#   clusterIP: None
-#   ports:
-#     - name: amqp
-#       port: 5672
-#       targetPort: 5672
 - kind: Route
   apiVersion: v1
   metadata:
