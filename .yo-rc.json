@@ -42,6 +42,13 @@
               "namespace": "iowaey-prod"
             }
           }
+        },
+        ".": {
+          "jenkinsJobName": "rsbc-dh",
+          "github_owner": "bcgov",
+          "github_repo": "RSBC-DataHub-API",
+          "jenkinsFilePath": "Jenkinsfile",
+          "uuid": "5a90a70f-6214-4e08-9998-d3238d5d2f19"
         }
       }
     }
