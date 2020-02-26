@@ -14,6 +14,17 @@ module.exports = settings => {
 
   // The deployment of your cool app goes here ▼▼▼
 
+  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rabbitmq-rsbcdh-template.yaml`, {
+    'param':{
+      'NAME': phases[phase].name,
+      'SUFFIX': phases[phase].suffix,
+      'VERSION': phases[phase].tag,
+      'PHASE': phases[phase].phase,
+      'URL_SUFFIX': phases[phase].url_suffix,
+      'HOST': `${phases[phase].name}${phases[phase].suffix}-${phases[phase].namespace}${URL_SUFFIX}`
+    }
+  }))
+
   oc.applyRecommendedLabels(
     objects,
     phases[phase].name,
