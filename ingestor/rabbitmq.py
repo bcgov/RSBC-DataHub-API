@@ -28,12 +28,14 @@ class RabbitMQ():
                     body=payload,
                     properties=pika.BasicProperties(
                         delivery_mode = 2,
-                        content_type='application/json')
+                        content_type='application/json'),
+                    mandatory=True
                     )
+
                 return True
 
             except Exception as error:
-                logging.warning(error)
+                logging.warning("Could not publish message to queue ... trying to reestablish the connection")
                 self.connection = self._getConnection(self.amqp_connection)
                 self.channel = self._getChannel(self.connection)
         
@@ -52,7 +54,7 @@ class RabbitMQ():
                 return True
 
             except Exception as error:
-                logging.warning(error)
+                logging.warning("Could not declare queue ... trying to reestablish the connection")
                 self.connection = self._getConnection(self.amqp_connection)
                 self.channel = self._getChannel(self.connection)
         

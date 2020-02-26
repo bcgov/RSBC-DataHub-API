@@ -20,10 +20,7 @@ def create():
 
         return jsonify(request.json), 200
         
-    else:
-
-        # Caution: RabbitMQ will only return false if the RabbitMQ is not
-        # connected. 
+    else: 
 
         return Response( error , 500, mimetype='application/json')
     
