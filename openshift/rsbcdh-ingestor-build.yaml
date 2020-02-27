@@ -42,18 +42,19 @@ objects:
 - apiVersion: v1
   kind: BuildConfig
   metadata:
-    annotations:
-      description: Defines how to build the application
+    annotations: {}
     creationTimestamp: null
+    labels: {}
     name: ${NAME}${SUFFIX}
   spec:
-    completionDeadlineSeconds: 600
+    completionDeadlineSeconds: 1440
     failedBuildsHistoryLimit: 3
     nodeSelector: null
     output:
       to:
         kind: ImageStreamTag
-        name: ${NAME}:${VERSION}
+        name: ${NAME}${SUFFIX}:${VERSION}
+    postCommit: {}
     resources:
       limits:
         cpu: "2"
@@ -64,22 +65,18 @@ objects:
     runPolicy: SerialLatestOnly
     source:
       contextDir: ${SOURCE_CONTEXT_DIR}
-      git:
-        ref: ${SOURCE_REPOSITORY_REF}
-        uri: ${SOURCE_REPOSITORY_URL}
-      type: Git
+      type: Binary
     strategy:
-      sourceStrategy:
-        env:
-        - name: BUILD_LOGLEVEL
-          value: "2"
+      dockerStrategy:
+        env: []
         from:
           kind: ImageStreamTag
-          name: ${NAME}${SUFFIX}:${VERSION}
-      type: Source
+          name: rhscl-python-36-rhel7:1
+      type: Docker
     successfulBuildsHistoryLimit: 3
     triggers:
-    - type: ImageChange
+    - imageChange: {}
+      type: ImageChange
     - type: ConfigChange
   status:
     lastVersion: 0
