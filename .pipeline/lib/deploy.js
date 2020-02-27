@@ -21,7 +21,7 @@ module.exports = settings => {
       'VERSION': phases[phase].tag,
       'PHASE': phases[phase].phase,
       'URL_SUFFIX': phases[phase].url_suffix,
-      'HOST': `${phases[phase].name}${phases[phase].suffix}-${phases[phase].namespace}${URL_SUFFIX}`
+      'HOST': `${phases[phase].name}${phases[phase].suffix}-${phases[phase].namespace}${phases[phase].url_suffix}`
     }
   }))
 
