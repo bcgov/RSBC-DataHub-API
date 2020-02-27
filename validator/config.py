@@ -15,3 +15,5 @@ class Config():
 
     VALIDATOR_USER              = os.getenv('VALIDATOR_USER')
     VALIDATOR_PASS              = os.getenv('VALIDATOR_PASS')
+
+    VALIDATOR_LOG_LEVEL         = os.getenv('VALIDATOR_LOG_LEVEL', 'INFO')

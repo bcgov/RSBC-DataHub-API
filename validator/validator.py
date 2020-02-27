@@ -10,6 +10,7 @@ class Validate():
     
     def __init__(self, config):
         self.schemas = self._getSchemas(config.SCHEMA_FILENAME)
+        logging.basicConfig(level=config.VALIDATOR_LOG_LEVEL)
 
 
     def _getSchemas(self, fileName) -> dict:
@@ -27,10 +28,10 @@ class Validate():
             v = Cerberus(schema['cerberus'])
             v.allow_unknown = schema['allow_unknown']
             if(v.validate(message)):
-                logging.warning(' - passes validation using: ' + schema['short_name'])
+                logging.info(' - passes validation using: ' + schema['short_name'])
                 return True
 
-        logging.warning(' - NOT valid ')
+        logging.info(' - NOT valid ')
         return False
 
 

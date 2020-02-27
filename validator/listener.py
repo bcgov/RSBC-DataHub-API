@@ -9,7 +9,7 @@ from cerberus import Validator as Cerberus
 
 class Listener():
 
-    maximumConnectionRetries = 5
+    maximumConnectionRetries = 250
     
     def __init__(self, config, validator):
         url = self.getAmqpUrl(config.VALIDATOR_USER, config.VALIDATOR_PASS, config.RABBITMQ_URL)
@@ -20,11 +20,11 @@ class Listener():
         logging.warning('*** validator initialized  ***')
 
     def main(self):
+        logging.basicConfig(level=self.config.VALIDATOR_LOG_LEVEL)
         channel = self.connection.channel()
         channel.basic_qos(prefetch_count=1)
         channel.basic_consume(queue=self.config.RABBITMQ_WATCH_QUEUE, on_message_callback=self.callback)
         channel.start_consuming()
-        logging.warning('*** validator listening  ***')
 
 
     def callback(self, ch, method, properties, body):
@@ -37,7 +37,7 @@ class Listener():
         else:
             queue = self.config.RABBITMQ_FAIL_QUEUE
 
-        logging.warning("write to: " + queue)
+        logging.info("write to: " + queue)
 
         # only remove the message from the ingested queue if it has 
         # successfully been writen to a `valid` or `not-valid` queue
@@ -53,7 +53,7 @@ class Listener():
     
         tries = Listener.maximumConnectionRetries 
         while tries > 0:
-            tries -= 1;
+            tries -= 1
 
             try:
                 channel.basic_publish( exchange='', routing_key=queue_name, body=message, mandatory=True)
