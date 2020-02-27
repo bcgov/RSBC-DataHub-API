@@ -128,7 +128,7 @@ objects:
        port: 5672
        targetPort: 5672
     selector:
-      name: ${NAME}-${COMPONENT}${SUFFIX}
+      app: ${NAME}-${COMPONENT}${SUFFIX}
     sessionAffinity: None
 - kind: Route
   apiVersion: v1
