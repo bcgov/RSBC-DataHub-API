@@ -26,18 +26,6 @@ objects:
         type: "Local"
   status:
     dockerImageRepository: ""
-- apiVersion: image.openshift.io/v1
-  kind: ImageStream
-  metadata:
-    annotations:
-      description: Application Image
-    creationTimestamp: null
-    labels:
-      shared: "true"
-    name: ${NAME}-base
-  spec:
-    lookupPolicy:
-      local: false
 - apiVersion: v1
   kind: ImageStream
   metadata:
