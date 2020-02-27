@@ -29,6 +29,10 @@ parameters:
   displayName: "Application phase"
   description: "Application phase"
   required: true
+- name: HOST
+  displayName: "Application host name"
+  description: "Application host name"
+  required: true
 - name: URL_SUFFIX
   displayName: "Application url suffix"
   description: "Application url suffix"
