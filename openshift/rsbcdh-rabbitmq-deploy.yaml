@@ -238,7 +238,7 @@ objects:
           - name: RABBITMQ_USE_LONGNAME
             value: "true"
           - name: RABBITMQ_NODENAME
-            value: "rabbit@$(POD_NAME).${RABBITMQ_NAME}.$(POD_NAMESPACE).svc.cluster.local"
+            value: "rabbit@$(POD_NAME).$(POD_NAMESPACE).svc.cluster.local"
           - name: RABBITMQ_CONFIG_FILE
             value: /var/lib/rabbitmq/rabbitmq
         volumes:
