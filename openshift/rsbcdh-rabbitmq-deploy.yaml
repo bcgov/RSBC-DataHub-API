@@ -62,10 +62,6 @@ parameters:
   description: "Password securing the RabbitMQ instance"
   generate: expression
   from: "[a-zA-Z0-9]{16}"
-- name: ERLANG_COOKIE
-  description: "Cookie used for authentication of cluster nodes"
-  generate: expression
-  from: "[a-zA-Z0-9]{16}"
 - name: SERVICE_ACCOUNT
   description: "Name of the service account used by RabbitMQ k8s plugin"
   value: rabbitmq-discovery
@@ -99,7 +95,6 @@ objects:
     username: ${RABBITMQ_USER}
     password: ${RABBITMQ_PASS}
     url: "amqp://${RABBITMQ_USER}:${RABBITMQ_PASS}@${RABBITMQ_NAME}"
-    cookie: ${ERLANG_COOKIE}
   metadata:
     name: ${NAME}-${COMPONENT}${SUFFIX}-secret
   type: Opaque
@@ -216,11 +211,6 @@ objects:
               secretKeyRef:
                 name: ${NAME}-${COMPONENT}${SUFFIX}-secret
                 key: password
-          - name: RABBITMQ_ERLANG_COOKIE
-            valueFrom:
-              secretKeyRef:
-                name: ${NAME}-${COMPONENT}${SUFFIX}-secret
-                key: cookie
           - name: K8S_SERVICE_NAME
             value: ${NAME}-${COMPONENT}${SUFFIX}
           - name: POD_IP
