@@ -24,7 +24,11 @@ const phases = {
     instance: `${name}-dev-${changeId}`,
     version:`${version}-${changeId}`,
     tag:`dev-${version}-${changeId}`,
-    url_suffix: `${url_suffix}`
+    url_suffix: `${url_suffix}`,
+    cpu_request: '100m',
+    cpu_limit: '200m',
+    memory_request: '256Mi',
+    memory_limit: '512Mi'
   },
   test: {namespace:'iowaey-test',
     name: `${name}`, phase: 'test',
@@ -32,7 +36,11 @@ const phases = {
     instance: `${name}-test`,
     version:`${version}`,
     tag:`test-${version}`,
-    url_suffix: `${url_suffix}`
+    url_suffix: `${url_suffix}`,
+    cpu_request: '100m',
+    cpu_limit: '200m',
+    memory_request: '256Mi',
+    memory_limit: '512Mi'
   },
   prod: {namespace:'iowaey-prod',
     name: `${name}`,
@@ -42,7 +50,11 @@ const phases = {
     instance: `${name}-prod`,
     version:`${version}`,
     tag:`prod-${version}`,
-    url_suffix: `${url_suffix}`
+    url_suffix: `${url_suffix}`,
+    cpu_request: '100m',
+    cpu_limit: '200m',
+    memory_request: '256Mi',
+    memory_limit: '512Mi'
   }
 };
 
