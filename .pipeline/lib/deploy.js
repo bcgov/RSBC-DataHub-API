@@ -21,7 +21,6 @@ module.exports = settings => {
       'VERSION': phases[phase].tag,
       'PHASE': phases[phase].phase,
       'URL_SUFFIX': phases[phase].url_suffix,
-      'HOST': `${phases[phase].name}${phases[phase].suffix}-${phases[phase].namespace}${phases[phase].url_suffix}`,
       'CPU_REQUEST': phases[phase].cpu_request,
       'CPU_LIMIT': phases[phase].cpu_limit,
       'MEMORY_REQUEST': phases[phase].memory_request,

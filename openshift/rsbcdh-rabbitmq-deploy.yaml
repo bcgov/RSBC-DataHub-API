@@ -29,10 +29,6 @@ parameters:
   displayName: "Application phase"
   description: "Application phase"
   required: true
-- name: HOST
-  displayName: "Application host name"
-  description: "Application host name"
-  required: true
 - name: URL_SUFFIX
   displayName: "Application url suffix"
   description: "Application url suffix"
@@ -52,9 +48,6 @@ parameters:
 - name: MEMORY_LIMIT
   displayName: "Memory Limit"
   description: "Maximum amount of memory the container can use."
-  required: true
-- name: NAMESPACE
-  description: "OpenShift project (current namespace)"
   required: true
 - name: RABBITMQ_NAME
   description: "Name of the RabbitMQ cluster"
