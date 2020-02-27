@@ -129,7 +129,7 @@ objects:
        targetPort: 5672
     selector:
       name: ${NAME}-${COMPONENT}${SUFFIX}
-
+    sessionAffinity: None
 - kind: Route
   apiVersion: v1
   metadata:
@@ -192,12 +192,12 @@ objects:
               containerPort: 5672
           livenessProbe:
             exec:
-              command: ["rabbitmqctl", "status"]
+              command: ["rabbitmqctl", "--longnames", "status"]
             initialDelaySeconds: 360
             timeoutSeconds: 10
           readinessProbe:
             exec:
-              command: ["rabbitmqctl", "status"]
+              command: ["rabbitmqctl", "--longnames", "status"]
             initialDelaySeconds: 120
             timeoutSeconds: 10
           env:
