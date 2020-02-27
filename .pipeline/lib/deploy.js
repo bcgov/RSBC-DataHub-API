@@ -14,7 +14,7 @@ module.exports = settings => {
 
   // The deployment of your cool app goes here ▼▼▼
 
-  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rabbitmq-rsbcdh-template.yaml`, {
+  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-rabbitmq-deploy.yaml`, {
     'param':{
       'NAME': phases[phase].name,
       'SUFFIX': phases[phase].suffix,

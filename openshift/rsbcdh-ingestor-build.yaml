@@ -1,0 +1,117 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata: {}
+objects:
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations: null
+    creationTimestamp: null
+    labels:
+      shared: "true"
+    name: rhscl-python-36-rhel7
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations:
+        openshift.io/imported-from: registry.access.redhat.com/rhscl/python-36-rhel7:1
+      from:
+        kind: DockerImage
+        name: registry.access.redhat.com/rhscl/python-36-rhel7:1
+      generation: null
+      importPolicy: {}
+      name: "1"
+      referencePolicy:
+        type: "Local"
+  status:
+    dockerImageRepository: ""
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      description: Application Image
+    creationTimestamp: null
+    labels:
+      shared: "true"
+    name: ${NAME}-base
+  spec:
+    lookupPolicy:
+      local: false
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      description: Keeps track of changes in the application image
+    creationTimestamp: null
+    labels:
+      shared: "true"
+    name: ${NAME}${SUFFIX}
+  spec:
+    lookupPolicy:
+      local: false
+    tags: []
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      description: Defines how to build the application
+    creationTimestamp: null
+    name: ${NAME}${SUFFIX}
+  spec:
+    completionDeadlineSeconds: 600
+    failedBuildsHistoryLimit: 3
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: ${NAME}:${VERSION}
+    resources:
+      limits:
+        cpu: "2"
+        memory: 8Gi
+      requests:
+        cpu: "1"
+        memory: 4Gi
+    runPolicy: SerialLatestOnly
+    source:
+      contextDir: ${SOURCE_CONTEXT_DIR}
+      git:
+        ref: ${SOURCE_REPOSITORY_REF}
+        uri: ${SOURCE_REPOSITORY_URL}
+      type: Git
+    strategy:
+      sourceStrategy:
+        env:
+        - name: BUILD_LOGLEVEL
+          value: "2"
+        from:
+          kind: ImageStreamTag
+          name: ${NAME}${SUFFIX}:${VERSION}
+      type: Source
+    successfulBuildsHistoryLimit: 3
+    triggers:
+    - type: ImageChange
+    - type: ConfigChange
+  status:
+    lastVersion: 0
+parameters:
+- name: NAME
+  description: A prefix for all objects
+  displayName: Name
+  required: true
+  value: rsbc-dh
+- name: SUFFIX
+  description: A suffix appended to all objects
+  displayName: Name Suffix
+  required: true
+- name: VERSION
+  required: true
+- name: SOURCE_CONTEXT_DIR
+  required: true
+  value: "../ingestor"
+- name: SOURCE_REPOSITORY_URL
+  required: true
+- name: SOURCE_REPOSITORY_REF
+  required: false
+  value: master
