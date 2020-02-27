@@ -149,6 +149,36 @@
           "required": true
         }
       }
+    },
+    {
+      "short_name": "vt_dispute_finding",
+      "description": "schema for vt_dispute_finding",
+      "allow_unknown": true,
+      "cerberus": {
+        "event_id": {
+          "type": "integer",
+          "required": true
+        },
+        "event_version": {
+          "type": "string",
+          "required": true
+        },
+        "event_date_time": {
+          "type": "string",
+          "required": true
+        },
+        "event_type": {
+          "type": "string",
+          "required": true,
+          "allowed": [
+            "vt_dispute_finding"
+          ]
+        },
+        "vt_dispute_finding": {
+          "type": "dict",
+          "required": true
+        }
+      }
     }
   ] 
 }

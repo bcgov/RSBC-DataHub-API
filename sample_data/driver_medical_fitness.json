@@ -3,7 +3,6 @@
   "event_version": "1.1",
   "event_date_time": "2020-01-20 08:23:16",
   "event_type": "dmf_collection",
-  "event_source": "DMF",
   "dmf_collection": {
     "resourceType": "Bundle",
     "id": "0992be00-1548-4894-afbe-e207ae76005d",
