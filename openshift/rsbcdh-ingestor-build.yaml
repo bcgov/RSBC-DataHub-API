@@ -34,7 +34,7 @@ objects:
     creationTimestamp: null
     labels:
       shared: "true"
-    name: ${NAME}-${COMPOENT}
+    name: ${NAME}-${COMPONENT}
   spec:
     lookupPolicy:
       local: false
