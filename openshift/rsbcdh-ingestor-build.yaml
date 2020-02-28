@@ -45,7 +45,7 @@ objects:
     annotations: {}
     creationTimestamp: null
     labels: {}
-    name: ${NAME}${SUFFIX}
+    name: ${NAME}-${COMPONENT}${SUFFIX}
   spec:
     completionDeadlineSeconds: 1440
     failedBuildsHistoryLimit: 3
