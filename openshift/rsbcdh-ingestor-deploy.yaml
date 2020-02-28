@@ -13,6 +13,10 @@ parameters:
 - name: INGEST_USER
 - name: INGEST_PASS
 - name: SECRET_KEY
+- name: FLASK_ENV
+  value: "Development"
+- name: MAX_CONNECTION_RETRIES
+  value: 10
 - name: URL_SUFFIX
   required: true
 - name: CPU_REQUEST
@@ -91,6 +95,10 @@ objects:
                   secretKeyRef:
                     name: ${NAME}-${COMPONENT}${SUFFIX}-secret
                     key: password
+              - name: FLASK_ENV
+                value: ${FLASK_ENV}
+              - name: MAX_CONNECTION_RETRIES
+                value: ${MAX_CONNECTION_RETRIES}
           resources:
             limits:
               cpu: 80m
@@ -139,10 +147,10 @@ objects:
     name: ${NAME}-${COMPONENT}${SUFFIX}
   spec:
     ports:
-    - name: 8080-tcp
-      port: 8080
+    - name: 5000-tcp
+      port: 5000
       protocol: TCP
-      targetPort: 8080
+      targetPort: 5000
     selector:
       deploymentconfig: ${NAME}-${COMPONENT}${SUFFIX}
   status:
@@ -156,7 +164,7 @@ objects:
     host: ${NAME}-${COMPONENT}${SUFFIX}${URL_SUFFIX}
     path: ""
     port:
-      targetPort: 8080-tcp
+      targetPort: 5000-tcp
     tls:
       termination: edge
     to:
