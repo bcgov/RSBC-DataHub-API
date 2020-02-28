@@ -81,7 +81,7 @@ objects:
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
-            protocol: TCP
+              protocol: TCP
           env:
             - name: RABBITMQ_URL
               value: ${NAME}-rabbitmq-${SUFFIX}${URL_SUFFIX}
