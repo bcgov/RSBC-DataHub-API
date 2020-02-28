@@ -88,12 +88,12 @@ objects:
             - name: INGEST_USER
               valueFrom:
                 secretKeyRef:
-                  name: ${NAME}-${COMPONENT}${SUFFIX}-secret
+                  name: ${NAME}-rabbitmq${SUFFIX}-secret
                   key: username
             - name: INGEST_PASS
               valueFrom:
                 secretKeyRef:
-                  name: ${NAME}-${COMPONENT}${SUFFIX}-secret
+                  name: ${NAME}-rabbitmq${SUFFIX}-secret
                   key: password
             - name: FLASK_ENV
               value: ${FLASK_ENV}
