@@ -78,6 +78,19 @@ objects:
           ports:
           - containerPort: 8080
             protocol: TCP
+            env:
+              - name: RABBITMQ_URL
+                value: ${NAME}-rabbitmq-${SUFFIX}${URL_SUFFIX}
+              - name: INGEST_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: ${NAME}-${COMPONENT}${SUFFIX}-secret
+                    key: username
+              - name: INGEST_PASS
+                valueFrom:
+                  secretKeyRef:
+                    name: ${NAME}-${COMPONENT}${SUFFIX}-secret
+                    key: password
           resources:
             limits:
               cpu: 80m
