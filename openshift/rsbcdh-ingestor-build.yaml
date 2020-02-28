@@ -53,7 +53,7 @@ objects:
     output:
       to:
         kind: ImageStreamTag
-        name: ${NAME}${SUFFIX}:${VERSION}
+        name: ${NAME}-${COMPONENT}:${VERSION}
     postCommit: {}
     resources:
       limits:
@@ -86,6 +86,8 @@ parameters:
   displayName: Name
   required: true
   value: rsbc-dh
+- name: COMPONENT
+  value: ingestor
 - name: SUFFIX
   description: A suffix appended to all objects
   displayName: Name Suffix

@@ -3,6 +3,8 @@ kind: Template
 metadata: {}
 parameters:
 - name: NAME
+- name: COMPONENT
+  value: ingestor
 - name: PHASE
 - name: SUFFIX
 - name: VERSION
@@ -38,7 +40,7 @@ objects:
     creationTimestamp: null
     labels:
       shared: "true"
-    name: ${NAME}
+    name: ${NAME}-${COMPONENT}
   spec:
     lookupPolicy:
       local: false
@@ -92,7 +94,7 @@ objects:
         - app
         from:
           kind: ImageStreamTag
-          name: ${NAME}:${VERSION}
+          name: ${NAME}-${COMPONENT}:${VERSION}
       type: ImageChange
   status:
     availableReplicas: 0
