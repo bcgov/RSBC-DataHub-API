@@ -34,7 +34,7 @@ objects:
     creationTimestamp: null
     labels:
       shared: "true"
-    name: ${NAME}${SUFFIX}
+    name: ${NAME}-${COMPOENT}
   spec:
     lookupPolicy:
       local: false
