@@ -70,25 +70,6 @@ parameters:
   value: 1Gi
 
 objects:
-
-# This service account is needed for rabbit_peer_discovery_k8s plugin to be able to discover
-# cluster nodes
-#- apiVersion: v1
-# kind: ServiceAccount
-# metadata:
-#   name: ${SERVICE_ACCOUNT}
-
-#- apiVersion: v1
-# kind: RoleBinding
-# metadata:
-#   name: ${SERVICE_ACCOUNT}-view
-# roleRef:
-#   kind: Role
-#   name: view
-# subjects:
-# - kind: ServiceAccount
-#   name: ${SERVICE_ACCOUNT}
-
 - apiVersion: v1
   kind: Secret
   stringData:
@@ -130,6 +111,7 @@ objects:
     selector:
       app: ${NAME}-${COMPONENT}${SUFFIX}
     sessionAffinity: None
+
 - kind: Route
   apiVersion: v1
   metadata:
@@ -150,6 +132,7 @@ objects:
       termination: edge
     wildcardPolicy: None
   status: {}
+
 - apiVersion: apps/v1beta1
   kind: StatefulSet
   metadata:
@@ -243,6 +226,8 @@ objects:
     volumeClaimTemplates:
     - metadata:
         name: rabbitmq-storage
+        labels:
+          app: ${NAME}-${COMPONENT}${SUFFIX}
       spec:
         accessModes: [ "ReadWriteOnce" ]
         resources:
