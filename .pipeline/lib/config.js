@@ -17,7 +17,7 @@ const phases = {
     tag:`build-${version}-${changeId}`,
     url_suffix: `${url_suffix}`
   },
-  pr: {namespace:'iowaey-pr',
+  pr: {namespace:'iowaey-dev',
     name: `${name}`,
     phase: 'pr',
     transient: true, // auto clean build
