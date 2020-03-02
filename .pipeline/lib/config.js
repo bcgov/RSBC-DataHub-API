@@ -9,6 +9,7 @@ const phases = {
   build: {namespace:'iowaey-tools',
     name: `${name}`,
     phase: 'build',
+    transient: true, // auto clean build
     changeId:changeId,
     suffix: `-build-${changeId}`,
     instance: `${name}-build-${changeId}`,
@@ -19,6 +20,7 @@ const phases = {
   dev: {namespace:'iowaey-dev',
     name: `${name}`,
     phase: 'dev',
+    transient: true, // auto clean build
     changeId:changeId,
     suffix: `-dev-${changeId}`,
     instance: `${name}-dev-${changeId}`,
