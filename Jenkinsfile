@@ -24,10 +24,17 @@ pipeline {
                 sh "cd .pipeline && ./npmw ci && ./npmw run build -- --pr=${CHANGE_ID}"
             }
         }
+        stage('Deploy (PR)') {
+            agent { label 'deploy' }
+            steps {
+                echo "Deploying PR ..."
+                sh "cd .pipeline && ./npmw ci && ./npmw run deploy -- --pr=${CHANGE_ID} --env=pr"
+            }
+        }
         stage('Deploy (DEV)') {
             agent { label 'deploy' }
             steps {
-                echo "Deploying ..."
+                echo "Deploying to DEV..."
                 sh "cd .pipeline && ./npmw ci && ./npmw run deploy -- --pr=${CHANGE_ID} --env=dev"
             }
         }
