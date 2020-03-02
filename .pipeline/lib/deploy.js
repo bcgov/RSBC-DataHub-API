@@ -17,7 +17,7 @@ module.exports = settings => {
   //First call will create/generate default secret values and a template secret object
   oc.createIfMissing(oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-secrets.yaml`, {
    'param':{
-     'NAME': `${phases[phase].name}-${phases[phase].suffix}`,
+     'NAME': `template.${phases[phase].name}-${phases[phase].phase}`,
      'SUFFIX': phases[phase].suffix,
      'VERSION': phases[phase].tag,
      'PHASE': phases[phase].phase
