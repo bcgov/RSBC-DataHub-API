@@ -84,7 +84,7 @@ objects:
               protocol: TCP
           env:
             - name: RABBITMQ_URL
-              value: ${NAME}-rabbitmq-amqp${SUFFIX}${URL_SUFFIX}
+              value: ${NAME}-rabbitmq${SUFFIX}
             - name: INGEST_USER
               valueFrom:
                 secretKeyRef:
