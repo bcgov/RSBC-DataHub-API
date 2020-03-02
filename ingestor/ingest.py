@@ -6,8 +6,8 @@ from flask_api import FlaskAPI
 
 
 application = FlaskAPI(__name__)
+logging.warning('*** ingestor initialized ***')
 rabbitmq = RabbitMQ( Config() )
-logging.warning('*** ingestor initialized ***')   
 
 # Create the queues, if they don't already exist
 authorizedQueues = Config.RABBITMQ_QUEUES.split(',')
