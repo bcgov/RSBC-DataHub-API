@@ -33,6 +33,14 @@ pipeline {
         }
         stage('Deploy (DEV)') {
             agent { label 'deploy' }
+            when {
+                expression { return env.CHANGE_TARGET == 'master';}
+                beforeInput true
+            }
+            input {
+                message "Should we continue with deployment to DEV?"
+                ok "Yes!"
+            }
             steps {
                 echo "Deploying to DEV..."
                 sh "cd .pipeline && ./npmw ci && ./npmw run deploy -- --pr=${CHANGE_ID} --env=dev"
