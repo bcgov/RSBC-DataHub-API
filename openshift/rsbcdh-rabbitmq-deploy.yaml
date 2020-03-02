@@ -115,12 +115,12 @@ objects:
 - kind: Route
   apiVersion: v1
   metadata:
-    name: ${NAME}-${COMPONENT}${SUFFIX}
+    name: ${NAME}-${COMPONENT}-http-${SUFFIX}
     creationTimestamp:
     annotations:
       openshift.io/host.generated: 'true'
   spec:
-    host: ${NAME}-${COMPONENT}${SUFFIX}${URL_SUFFIX}
+    host: ${NAME}-${COMPONENT}-http-${SUFFIX}${URL_SUFFIX}
     to:
       kind: Service
       name: ${NAME}-${COMPONENT}${SUFFIX}
@@ -130,6 +130,25 @@ objects:
     tls:
       insecureEdgeTerminationPolicy: Redirect
       termination: edge
+    wildcardPolicy: None
+  status: {}
+
+
+- kind: Route
+  apiVersion: v1
+  metadata:
+    name: ${NAME}-${COMPONENT}-amqp-${SUFFIX}
+    creationTimestamp:
+    annotations:
+      openshift.io/host.generated: 'true'
+  spec:
+    host: ${NAME}-${COMPONENT}-amqp-${SUFFIX}${URL_SUFFIX}
+    to:
+      kind: Service
+      name: ${NAME}-${COMPONENT}${SUFFIX}
+      weight: 100
+    port:
+      targetPort: amqp 
     wildcardPolicy: None
   status: {}
 
