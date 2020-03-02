@@ -17,6 +17,21 @@ const phases = {
     tag:`build-${version}-${changeId}`,
     url_suffix: `${url_suffix}`
   },
+  pr: {namespace:'iowaey-pr',
+    name: `${name}`,
+    phase: 'pr',
+    transient: true, // auto clean build
+    changeId:changeId,
+    suffix: `-pr-${changeId}`,
+    instance: `${name}-pr-${changeId}`,
+    version:`${version}-${changeId}`,
+    tag:`pr-${version}-${changeId}`,
+    url_suffix: `${url_suffix}`,
+    cpu_request: '100m',
+    cpu_limit: '200m',
+    memory_request: '256Mi',
+    memory_limit: '512Mi'
+  },
   dev: {namespace:'iowaey-dev',
     name: `${name}`,
     phase: 'dev',
