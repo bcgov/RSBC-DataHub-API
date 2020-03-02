@@ -71,16 +71,6 @@ parameters:
 
 objects:
 - apiVersion: v1
-  kind: Secret
-  stringData:
-    username: ${RABBITMQ_USER}
-    password: ${RABBITMQ_PASS}
-    url: "amqp://${RABBITMQ_USER}:${RABBITMQ_PASS}@${RABBITMQ_NAME}"
-  metadata:
-    name: ${NAME}-${COMPONENT}${SUFFIX}-secret
-  type: Opaque
-
-- apiVersion: v1
   kind: ConfigMap
   metadata:
     name: ${NAME}-${COMPONENT}${SUFFIX}-config
@@ -205,12 +195,12 @@ objects:
           - name: RABBITMQ_DEFAULT_USER
             valueFrom:
               secretKeyRef:
-                name: ${NAME}-${COMPONENT}${SUFFIX}-secret
+                name: ${NAME}${SUFFIX}
                 key: username
           - name: RABBITMQ_DEFAULT_PASS
             valueFrom:
               secretKeyRef:
-                name: ${NAME}-${COMPONENT}${SUFFIX}-secret
+                name: ${NAME}${SUFFIX}
                 key: password
           - name: K8S_SERVICE_NAME
             value: ${NAME}-${COMPONENT}${SUFFIX}
