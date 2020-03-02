@@ -14,6 +14,13 @@ module.exports = settings => {
 
   // The deployment of your cool app goes here ▼▼▼
 
+  //First call will create/generate default secret values and a template secret object
+  oc.createIfMissing(oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbc-dh-secrets.json`, {
+   'param':{
+     'NAME': `${phases[phase].name}-${phases[phase].suffix}`,
+     'SUFFIX': phases[phase].suffix
+    }
+  }))
   objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-rabbitmq-deploy.yaml`, {
     'param':{
       'NAME': phases[phase].name,
