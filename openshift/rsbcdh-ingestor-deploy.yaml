@@ -44,7 +44,7 @@ objects:
   metadata:
     name: ${NAME}${SUFFIX}
     annotations:
-      as-copy-of: template.${NAME}${PHASE}
+      as-copy-of: template.${NAME}-${PHASE}
   type: Opaque
 - apiVersion: image.openshift.io/v1
   kind: ImageStream
