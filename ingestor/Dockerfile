@@ -10,4 +10,4 @@ RUN source /opt/app-root/etc/scl_enable && \
 COPY *.py ${APP_ROOT}/src/
 
 #TODO - Add worker processes to gunicorn below 
-CMD [ "gunicorn", "--bind", "0.0.0.0:5000", "wsgi" ]
+CMD [ "gunicorn", "--bind", "0.0.0.0:5000", "${APP_ROOT}/src/wsgi" ]
