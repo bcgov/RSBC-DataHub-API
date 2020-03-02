@@ -18,7 +18,9 @@ module.exports = settings => {
   oc.createIfMissing(oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-secrets.yaml`, {
    'param':{
      'NAME': `${phases[phase].name}-${phases[phase].suffix}`,
-     'SUFFIX': phases[phase].suffix
+     'SUFFIX': phases[phase].suffix,
+     'VERSION': phases[phase].tag,
+     'PHASE': phases[phase].phase
     }
   }))
   objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-rabbitmq-deploy.yaml`, {
