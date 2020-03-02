@@ -14,9 +14,9 @@ parameters:
 - name: INGEST_PASS
 - name: SECRET_KEY
 - name: FLASK_ENV
-  value: "development"
+  value: 'development'
 - name: MAX_CONNECTION_RETRIES
-  value: "10"
+  value: '10'
 - name: URL_SUFFIX
   required: true
 - name: CPU_REQUEST
