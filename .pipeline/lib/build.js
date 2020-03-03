@@ -21,6 +21,16 @@ module.exports = settings => {
       'SOURCE_CONTEXT_DIR': 'ingestor'
     }
   }))
+  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-validator-build.yaml`, {
+    'param':{
+      'NAME': phases[phase].name,
+      'SUFFIX': phases[phase].suffix,
+      'VERSION': phases[phase].tag,
+      'SOURCE_REPOSITORY_URL': oc.git.http_url,
+      'SOURCE_REPOSITORY_REF': oc.git.ref,
+      'SOURCE_CONTEXT_DIR': 'validator'
+    }
+  }))
 
   oc.applyRecommendedLabels(
     objects,
