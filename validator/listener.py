@@ -17,18 +17,22 @@ class Listener():
         self.connection = pika.BlockingConnection(parameters)
         self.validator = validator
         self.config = config
+        logging.basicConfig(level=config.VALIDATOR_LOG_LEVEL)
         logging.warning('*** validator initialized  ***')
 
     def main(self):
-        logging.basicConfig(level=self.config.VALIDATOR_LOG_LEVEL)
         channel = self.connection.channel()
+        self._verifyOrCreate(channel, self.config.RABBITMQ_VALID_QUEUE)
+        self._verifyOrCreate(channel, self.config.RABBITMQ_FAIL_QUEUE)
         channel.basic_qos(prefetch_count=1)
         channel.basic_consume(queue=self.config.RABBITMQ_WATCH_QUEUE, on_message_callback=self.callback)
         channel.start_consuming()
 
 
     def callback(self, ch, method, properties, body):
+        logging.warning('message received; callback invoked')
         # convert body (in bytes) to string 
+        
         message = body.decode(self.config.RABBITMQ_MESSAGE_ENCODE)
         messageDict = json.loads(message)
         
@@ -63,6 +67,25 @@ class Listener():
                 logging.warning("Could not publish message to queue ... trying to reestablish the connection")
         
         return False
+
+
+    def _verifyOrCreate(self, channel, queue_name: str):
+       
+        logging.info('verify or create: ' + queue_name)
+        tries = Listener.maximumConnectionRetries 
+        while tries > 0:
+            tries -= 1
+
+            try:
+                channel.queue_declare(queue=queue_name, durable=True)
+                logging.info('Confirmed, there is a queue called: ' + queue_name )
+                return True
+
+            except Exception as error:
+                logging.warning("Error: could not create " + queue_name )
+                
+        return False
+
 
 
         
