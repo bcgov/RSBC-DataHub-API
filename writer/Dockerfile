@@ -6,6 +6,7 @@ RUN source /opt/app-root/etc/scl_enable && \
     set -x && \
     yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm && \
     yum -y update && \
+    yum list | grep -i odbc && \
     yum -y install unixODBC && \
     yum -y install unixODBC-devel && \
     pip install -U pip setuptools wheel && \
