@@ -3,7 +3,7 @@ FROM python:3.7.3-stretch
 COPY requirements.txt ${APP_ROOT}/src/
 RUN source /opt/app-root/etc/scl_enable && \
     set -x && \
-    apt-get update; apt-get install -y --no-install-recommends unixodbc-dev; rm -rf /var/lib/apt/lists/*; \
+    yum update; yum install -y unixodbc-dev \
     pip install -U pip setuptools wheel && \
     sha256sum "${APP_ROOT}/src/requirements.txt" > ${APP_ROOT}/requirements.sha256  && \
     cd ${APP_ROOT}/src && pip install -r requirements.txt
