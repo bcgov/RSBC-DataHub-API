@@ -4,7 +4,7 @@ COPY requirements.txt ${APP_ROOT}/src/
 USER root
 RUN source /opt/app-root/etc/scl_enable && \
     set -x && \
-    yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpma && \
+    yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm && \
     yum -y update && \
     yum -y install unixODBC && \
     yum -y install unixODBC-devel && \
