@@ -7,9 +7,11 @@ import time
 import json
 
 # This listener watches the RabbitMQ queue defined in the 
-# Config.  When a message appears in the queue the Listener
-# envokes callback() and then passes the message to the
-# Mapper class
+# Config.  When a message appears in the queue the Listener:
+#  - envokes callback(),
+#  - transforms the message using the Mapper class,
+#  - finally passing a dict to the Database class for writing
+
 class Listener():
 
     
@@ -44,8 +46,7 @@ class Listener():
 
         # The Mapper is responsible for converting the message into a 
         # list of tables for insertion into a database.  Each table includes
-        # a header record (list of fields names) and a data record (list of
-        # data to be inserted)
+        # data record(s) to be inserted.
         tablesForInsert = Mapper(self.config).convertToTables(dictMessage)
 
         # The database insert method is responsible for connecting to the 
@@ -61,6 +62,7 @@ class Listener():
     
     
 if __name__ == "__main__":
+    #logging.warning( 'jl_TEST' + Config().DB_USERNAME)
     Listener(Config(), MsSQL(Config())).main()
 
 
