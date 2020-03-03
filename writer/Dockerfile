@@ -1,6 +1,7 @@
 FROM python:3.7.3-stretch
 
 COPY requirements.txt ${APP_ROOT}/src/
+USER root
 RUN source /opt/app-root/etc/scl_enable && \
     set -x && \
     yum update; yum install -y unixodbc-dev \
