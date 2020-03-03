@@ -10,6 +10,7 @@ class RabbitMQ():
         self.amqp_connection = self._getConnectionURL(config.INGEST_USER, config.INGEST_PASS, config.RABBITMQ_URL)
         self.connection = self._getConnection(self.amqp_connection)
         self.channel = self._getChannel(self.connection)
+        logging.basicConfig(level=config.INGESTOR_LOG_LEVEL)
 
     def _getConnectionURL(self, user: str, passwd: str, host: str) -> str:
         return "amqp://{}:{}@{}:5672/%2F?connection_attempts=250&heartbeat=3600".format(user, passwd, host)
@@ -17,9 +18,10 @@ class RabbitMQ():
 
     def publish(self, queue_name: str, payload: str):
 
+        logging.info('publish to: ' + queue_name )
         tries = self.maximumConnectionRetries 
         while tries > 0:
-            tries -= 1;
+            tries -= 1
 
             try:
                 self.channel.basic_publish(  
@@ -44,13 +46,14 @@ class RabbitMQ():
 
     def verifyOrCreate(self, queue_name: str):
        
+        logging.info('verify or create: ' + queue_name)
         tries = self.maximumConnectionRetries 
         while tries > 0:
-            tries -= 1;
+            tries -= 1
 
             try:
                 self.channel.queue_declare(queue=queue_name, durable=True)
-                logging.warning('Confirmed, there is a queue called: ' + queue_name )
+                logging.info('Confirmed, there is a queue called: ' + queue_name )
                 return True
 
             except Exception as error:
