@@ -9,16 +9,16 @@ objects:
     creationTimestamp: null
     labels:
       shared: "true"
-    name: python-36-ubi
+    name: python-36-ubi8
   spec:
     lookupPolicy:
       local: false
     tags:
     - annotations:
-      openshift.io/imported-from: registry.redhat.io/ubi8/python-36
+      openshift.io/imported-from: registry.access.redhat.com/ubi8/python-36
       from:
         kind: DockerImage
-        name: registry.redhat.io/ubi8/python-36
+        name: registry.access.redhat.com/ubi8/python-36
       generation: null
       importPolicy: {}
       name: "1"
@@ -71,7 +71,7 @@ objects:
         env: []
         from:
           kind: ImageStreamTag
-          name: python-36-ubi
+          name: python-36-ubi8
       type: Docker
     successfulBuildsHistoryLimit: 3
     triggers:
