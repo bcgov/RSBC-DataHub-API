@@ -184,12 +184,12 @@ objects:
           livenessProbe:
             exec:
               command: ["rabbitmqctl", "--longnames", "status"]
-            initialDelaySeconds: 360
+            initialDelaySeconds: 30
             timeoutSeconds: 10
           readinessProbe:
             exec:
               command: ["rabbitmqctl", "--longnames", "status"]
-            initialDelaySeconds: 120
+            initialDelaySeconds: 10
             timeoutSeconds: 10
           env:
           - name: RABBITMQ_DEFAULT_USER
