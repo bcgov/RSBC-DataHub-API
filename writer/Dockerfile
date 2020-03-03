@@ -4,7 +4,7 @@ COPY requirements.txt ${APP_ROOT}/src/
 USER root
 RUN source /opt/app-root/etc/scl_enable && \
     set -x && \
-    yum update; yum install -y unixodbc-dev \
+    yum update && yum -y install unixodbc-dev && \
     pip install -U pip setuptools wheel && \
     sha256sum "${APP_ROOT}/src/requirements.txt" > ${APP_ROOT}/requirements.sha256  && \
     cd ${APP_ROOT}/src && pip install -r requirements.txt
