@@ -61,6 +61,7 @@ module.exports = settings => {
       'MEMORY_REQUEST': phases[phase].memory_request,
       'MEMORY_LIMIT': phases[phase].memory_limit
     }
+  }))
 
   oc.applyRecommendedLabels(
     objects,
