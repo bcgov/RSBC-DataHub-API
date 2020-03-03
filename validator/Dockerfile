@@ -12,5 +12,4 @@ WORKDIR ${APP_ROOT}/src/
 COPY *.py ${APP_ROOT}/src/
 COPY schemas.json ${APP_ROOT}/src/
 
-#TODO - Add worker processes to gunicorn below 
 CMD [ "python", "./listener.py" ]
