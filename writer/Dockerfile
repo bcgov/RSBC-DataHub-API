@@ -6,7 +6,7 @@ RUN source /opt/app-root/etc/scl_enable && \
     set -x && \
     yum -y update && \
     yum -y install unixODBC && \
-    yum -y install unixODBC-dev && \
+    yum -y install unixODBC-devel && \
     pip install -U pip setuptools wheel && \
     sha256sum "${APP_ROOT}/src/requirements.txt" > ${APP_ROOT}/requirements.sha256  && \
     cd ${APP_ROOT}/src && pip install -r requirements.txt
