@@ -62,29 +62,11 @@ parameters:
   description: "Password securing the RabbitMQ instance"
   generate: expression
   from: "[a-zA-Z0-9]{16}"
-- name: SERVICE_ACCOUNT
-  description: "Name of the service account used by RabbitMQ k8s plugin"
-  value: rabbitmq-discovery
 - name: VOLUME_SIZE
   description: "Size of the RabbitMQ data volume"
   value: 1Gi
 
 objects:
-- apiVersion: v1
-  kind: ServiceAccount
-  metadata:
-    name: ${SERVICE_ACCOUNT}
-
-- apiVersion: v1
-  kind: RoleBinding
-  metadata:
-    name: ${SERVICE_ACCOUNT}-view
-  roleRef:
-    kind: Role
-    name: view
-  subjects:
-   - kind: ServiceAccount
-     name: ${SERVICE_ACCOUNT}
 
 - apiVersion: v1
   kind: ConfigMap
@@ -174,7 +156,6 @@ objects:
         labels:
           app: ${NAME}-${COMPONENT}${SUFFIX}
       spec:
-        serviceAccountName: ${SERVICE_ACCOUNT}
         terminationGracePeriodSeconds: 30
         containers:
         - name: rabbitmq
