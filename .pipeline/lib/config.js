@@ -3,7 +3,7 @@ const options= require('@bcgov/pipeline-cli').Util.parseArguments()
 const changeId = options.pr //aka pull-request
 const version = '1.0.0'
 const name = 'rsbc-dh'
-const url_suffix = '.ocp.bitbox.ca'
+const url_suffix = '.pathfinder.gov.bc.ca'
 
 const phases = {
   build: {namespace:'iowaey-tools',
