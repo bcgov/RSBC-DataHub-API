@@ -71,6 +71,22 @@ parameters:
 
 objects:
 - apiVersion: v1
+ kind: ServiceAccount
+ metadata:
+   name: ${SERVICE_ACCOUNT}
+
+- apiVersion: v1
+ kind: RoleBinding
+ metadata:
+   name: ${SERVICE_ACCOUNT}-view
+ roleRef:
+   kind: Role
+   name: view
+ subjects:
+ - kind: ServiceAccount
+   name: ${SERVICE_ACCOUNT}
+
+- apiVersion: v1
   kind: ConfigMap
   metadata:
     name: ${NAME}-${COMPONENT}${SUFFIX}-config
