@@ -7,7 +7,8 @@ class Config():
     
     #RABBITMQ
     MQ_URL                  = os.getenv('MQ_URL', 'localhost')
-    MQ_WATCH_QUEUE          = os.getenv('MQ_WATCH_QUEUE', 'ETK.valid')
+    WRITE_WATCH_QUEUE       = os.getenv('WRITE_WATCH_QUEUE', 'ETK.valid')
+    WRITE_FAIL_QUEUE        = os.getenv('WRITE_FAIL_QUEUE', 'ETK.fail-write')
     MQ_WRITER_USER          = os.getenv('MQ_WRITER_USER', 'jlonge')
     MQ_WRITER_PASS          = os.getenv('MQ_WRITER_PASS', '***REMOVED***')
     MQ_MESSAGE_ENCODE       = os.getenv('MQ_MESSAGE_ENCODE', 'utf-8')
@@ -15,7 +16,6 @@ class Config():
     #DATABASE
     DB_HOST                 = os.getenv('DB_HOST')
     DB_NAME                 = os.getenv('DB_NAME')
-    DB_SCHEMA               = os.getenv('DB_SCHEMA')
     DB_USERNAME             = os.getenv('DB_USERNAME')
     DB_PASSWORD             = os.getenv('DB_PASSWORD')
 

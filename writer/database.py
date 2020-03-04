@@ -20,15 +20,13 @@ class AbstractDatabase(ABC):
 class MsSQL(AbstractDatabase):
 
 
-    def insert(self, tablesToBeInserted: dict):
+    def insert(self, tablesToBeInserted: dict) -> dict:
 
         #Connect to database
         connectionString = self._getDatabaseConnectionString(self.config)
         logging.warning(connectionString)
         connection = db.connect(connectionString)
         cursor = connection.cursor()
-
-        #Add try / catch logic here
 
 
         for table in tablesToBeInserted:
@@ -40,13 +38,26 @@ class MsSQL(AbstractDatabase):
 
             logging.warning(insertStatement)
             logging.warning(table['values'])
-            cursor.executemany(insertStatement,table['values'])
-            connection.commit()
 
+            try:
+                cursor.executemany(insertStatement,table['values'])
+
+            except Exception as error:
+                errorString = error.__class__.__name__
+                logging.warning("Write to db failed: " + errorString)
+                logging.warning(str(error))
+
+                return {
+                    'isSuccessful': False,
+                    'error_type': errorString,
+                    'error_description': str(error)
+                }
+
+            connection.commit()
 
         cursor.close()
         connection.close()
-
+        return { 'isSuccessful': True }
 
 
     def _getDatabaseConnectionString(self, config ):
