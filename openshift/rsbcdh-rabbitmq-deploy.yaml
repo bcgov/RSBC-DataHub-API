@@ -180,12 +180,12 @@ objects:
               containerPort: 5672
           livenessProbe:
             exec:
-              command: ["rabbitmqctl", "--longnames", "status"]
+              command: ["rabbitmqctl", "status"]
             initialDelaySeconds: 30
             timeoutSeconds: 10
           readinessProbe:
             exec:
-              command: ["rabbitmqctl", "--longnames", "status"]
+              command: ["rabbitmqctl", "status"]
             initialDelaySeconds: 10
             timeoutSeconds: 10
           env:
@@ -214,9 +214,9 @@ objects:
               fieldRef:
                 fieldPath: metadata.namespace
           - name: RABBITMQ_USE_LONGNAME
-            value: "true"
+            value: "false"
           - name: RABBITMQ_NODENAME
-            value: "rabbit@$(POD_NAME).${NAME}-${COMPONENT}${SUFFIX}.$(POD_NAMESPACE).svc.cluster.local"
+            value: "rabbit@${NAME}-${COMPONENT}${SUFFIX}"
           - name: RABBITMQ_CONFIG_FILE
             value: /var/lib/rabbitmq/rabbitmq
         volumes:
