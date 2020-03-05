@@ -76,6 +76,33 @@ objects:
     rabbitmq.conf: |
         loopback_users.guest = false
         queue_master_locator=client-local
+        management.load_definitions = /etc/rabbitmq/definitions.json
+    definitions.json: |
+        {
+          "queues": [
+            {
+              "name": "ETK",
+              "vhost": "/",
+              "durable": true,
+              "auto_delete": false,
+              "arguments": {}
+            },
+            {
+              "name": "ETK.valid",
+              "vhost": "/",
+              "durable": true,
+              "auto_delete": false,
+              "arguments": {}
+            },
+            {
+              "name": "ETK.not-valid",
+              "vhost": "/",
+              "durable": true,
+              "auto_delete": false,
+              "arguments": {}
+            },
+          ]
+        } 
     enabled_plugins: |
       [rabbitmq_management].
 
@@ -235,6 +262,8 @@ objects:
             items:
             - key: rabbitmq.conf
               path: rabbitmq.conf
+            - key: definitions.json
+              path: definitions.json
             - key: enabled_plugins
               path: enabled_plugins
     volumeClaimTemplates:
