@@ -90,13 +90,6 @@ objects:
           ports:
             - containerPort: 8080
               protocol: TCP
-          resources:
-            limits:
-              cpu: 250m
-              memory: 1Gi
-            requests:
-              cpu: 100m
-              memory: 512Mi
           env:
             - name: RABBITMQ_URL
               value: ${NAME}-rabbitmq${SUFFIX}
