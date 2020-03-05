@@ -216,7 +216,7 @@ objects:
           - name: RABBITMQ_USE_LONGNAME
             value: "false"
           - name: RABBITMQ_NODENAME
-            value: "rabbit@${NAME}-${COMPONENT}${SUFFIX}"
+            value: "rabbit@$(POD_NAME)"
           - name: RABBITMQ_CONFIG_FILE
             value: /var/lib/rabbitmq/rabbitmq
         volumes:
