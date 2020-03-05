@@ -97,21 +97,6 @@ objects:
             requests:
               cpu: 100m
               memory: 512Mi
-          livenessProbe:
-            exec:
-              command: ["cat", "/etc/motd"]
-            failureThreshold: 10
-            initialDelaySeconds: 240
-            timeoutSeconds: 30
-            periodSeconds: 60
-          readinessProbe:
-            exec:
-              command: ["cat", "/etc/motd"]
-            failureThreshold: 10
-            initialDelaySeconds: 90
-            timeoutSeconds: 30
-            periodSeconds: 60
-
           env:
             - name: RABBITMQ_URL
               value: ${NAME}-rabbitmq${SUFFIX}
