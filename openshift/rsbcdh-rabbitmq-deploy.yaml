@@ -188,7 +188,7 @@ objects:
             exec:
               command: ["rabbitmqctl", "status"]
             failureThreshold: 10
-            initialDelaySeconds: 540
+            initialDelaySeconds: 180
             timeoutSeconds: 30
           env:
           - name: RABBITMQ_DEFAULT_USER
