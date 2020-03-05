@@ -13,6 +13,8 @@ module.exports = settings => {
   var objects = [];
 
   // The deployment of your cool app goes here ▼▼▼
+  console.log('Delete routes...')
+  oc.raw('delete', ['route'], {selector:`app=${phases[phase].instance},env-name=${phases[phase].phase},github-repo=${oc.git.repository},github-owner=${oc.git.owner}`, wait:'true', namespace:phases[phase].namespace})
 
   //First call will create/generate default secret values and a template secret object
   oc.createIfMissing(oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-secrets.yaml`, {
@@ -62,19 +64,19 @@ module.exports = settings => {
       'MEMORY_LIMIT': phases[phase].memory_limit
     }
   }))
-  // objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-writer-deploy.yaml`, {
-  //   'param':{
-  //     'NAME': phases[phase].name,
-  //     'SUFFIX': phases[phase].suffix,
-  //     'VERSION': phases[phase].tag,
-  //     'PHASE': phases[phase].phase,
-  //     'URL_SUFFIX': phases[phase].url_suffix,
-  //     'CPU_REQUEST': phases[phase].cpu_request,
-  //     'CPU_LIMIT': phases[phase].cpu_limit,
-  //     'MEMORY_REQUEST': phases[phase].memory_request,
-  //     'MEMORY_LIMIT': phases[phase].memory_limit
-  //   }
-  // }))
+  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-writer-deploy.yaml`, {
+    'param':{
+      'NAME': phases[phase].name,
+      'SUFFIX': phases[phase].suffix,
+      'VERSION': phases[phase].tag,
+      'PHASE': phases[phase].phase,
+      'URL_SUFFIX': phases[phase].url_suffix,
+      'CPU_REQUEST': phases[phase].cpu_request,
+      'CPU_LIMIT': phases[phase].cpu_limit,
+      'MEMORY_REQUEST': phases[phase].memory_request,
+      'MEMORY_LIMIT': phases[phase].memory_limit
+    }
+  }))
 
   oc.applyRecommendedLabels(
     objects,
