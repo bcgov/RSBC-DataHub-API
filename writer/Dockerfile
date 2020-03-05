@@ -7,7 +7,7 @@ RUN source /opt/app-root/etc/scl_enable && \
     yum -y update && \
     yum -y install unixODBC && \
     wget https://packages.microsoft.com/rhel/8/prod/unixODBC-devel-2.3.7-1.rh.x86_64.rpm && \
-    yum localinstall unixODBC-devel-2.3.7-1.rh.x86_64.rpm && \
+    yum -y localinstall unixODBC-devel-2.3.7-1.rh.x86_64.rpm && \
     pip install -U pip setuptools wheel && \
     sha256sum "${APP_ROOT}/src/requirements.txt" > ${APP_ROOT}/requirements.sha256  && \
     cd ${APP_ROOT}/src && pip install -r requirements.txt
