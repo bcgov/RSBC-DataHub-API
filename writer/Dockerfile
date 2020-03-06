@@ -9,6 +9,9 @@ RUN source /opt/app-root/etc/scl_enable && \
     curl https://packages.microsoft.com/config/rhel/8/prod.repo > /etc/yum.repos.d/mssql-release.repo && \
     export ACCEPT_EULA=Y && \
     yum -y install msodbcsql17 && \
+    yum -y install mssql-tools && \
+    echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile && \
+    echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc && \
     yum -y install unixODBC-devel && \
     pip install -U pip setuptools wheel && \
     sha256sum "${APP_ROOT}/src/requirements.txt" > ${APP_ROOT}/requirements.sha256  && \
