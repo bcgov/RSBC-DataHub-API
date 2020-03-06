@@ -71,7 +71,7 @@ objects:
         env: []
         from:
           kind: ImageStreamTag
-          name: python-36-ubi8:latest
+          name: python-36-ubi8:1
       type: Docker
     successfulBuildsHistoryLimit: 3
     triggers:
