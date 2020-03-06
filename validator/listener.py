@@ -12,7 +12,7 @@ class Listener():
     maximumConnectionRetries = 250
     
     def __init__(self, config, validator):
-        url = self.getAmqpUrl(config.VALIDATOR_USER, config.VALIDATOR_PASS, config.RABBITMQ_URL)
+        url = self.getAmqpUrl(config)
         parameters = pika.URLParameters(url)
         self.connection = pika.BlockingConnection(parameters)
         self.validator = validator
@@ -49,8 +49,12 @@ class Listener():
             ch.basic_ack(delivery_tag=method.delivery_tag)
 
 
-    def getAmqpUrl(self, user: str, passwd: str, host: str):
-        return "amqp://{}:{}@{}:5672/%2F?connection_attempts=250&heartbeat=3600".format(user, passwd, host)
+    def getAmqpUrl(self, config):
+        return "amqp://{}:{}@{}:5672/%2F?connection_attempts=250&heartbeat=3600".format(
+            config.VALIDATOR_USER, 
+            config.VALIDATOR_PASS, 
+            config.RABBITMQ_URL
+            )
 
 
     def _publish(self, channel, queue_name, message):

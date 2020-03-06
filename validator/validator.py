@@ -10,7 +10,7 @@ class Validate():
     
     def __init__(self, config):
         self.schemas = self._getSchemas(config.SCHEMA_FILENAME)
-        logging.basicConfig(level=config.VALIDATOR_LOG_LEVEL)
+        #logging.basicConfig(level=config.VALIDATOR_LOG_LEVEL)
 
 
     def _getSchemas(self, fileName) -> dict:
