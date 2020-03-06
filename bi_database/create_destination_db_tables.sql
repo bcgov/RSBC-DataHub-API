@@ -76,6 +76,7 @@ CREATE TABLE [etk].[issuances](
 	[count_quantity] [tinyint],
  CONSTRAINT [pk_issuance] PRIMARY KEY CLUSTERED 
 (
+	[event_id] ASC,
 	[ticket_number] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
@@ -101,6 +102,7 @@ CREATE TABLE [etk].[payments](
 	[payment_amount] [int] NOT NULL,
  CONSTRAINT [pk_payments] PRIMARY KEY CLUSTERED 
 (
+	[event_id] ASC,
 	[count_number] ASC,
 	[ticket_number] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -123,6 +125,7 @@ CREATE TABLE [etk].[queries](
 	[ticket_number] [varchar](100) NOT NULL,
  CONSTRAINT [pk_query] PRIMARY KEY CLUSTERED 
 (
+	[event_id] ASC,
 	[ticket_number] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
@@ -149,6 +152,7 @@ CREATE TABLE [etk].[disputes](
 	[compressed_section] [varchar](400) NOT NULL,
  CONSTRAINT [pk_dispute] PRIMARY KEY CLUSTERED 
 (
+	[event_id] ASC,
 	[count_number] ASC,
 	[ticket_number] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -175,6 +179,7 @@ CREATE TABLE [etk].[dispute_status_updates](
 	[dispute_action_code] [varchar](400) NOT NULL,
  CONSTRAINT [pk_dispute_status_update] PRIMARY KEY CLUSTERED 
 (
+	[event_id] ASC,
 	[count_number] ASC,
 	[ticket_number] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -201,6 +206,7 @@ CREATE TABLE [etk].[dispute_findings](
 	[finding_description] [varchar](400) NOT NULL,
  CONSTRAINT [pk_dispute_finding] PRIMARY KEY CLUSTERED 
 (
+	[event_id] ASC,
 	[count_number] ASC,
 	[ticket_number] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
