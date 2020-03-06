@@ -9,6 +9,7 @@ class AbstractDatabase(ABC):
     
     def __init__(self, config):
         self.config = config
+        logging.basicConfig(level=config.WRITER_LOG_LEVEL)
         logging.warning('*** database class initialized  ***')
 
 
@@ -20,12 +21,14 @@ class AbstractDatabase(ABC):
 class MsSQL(AbstractDatabase):
 
 
-    def insert(self, tablesToBeInserted: dict) -> dict:
+    def insert(self, tablesToBeInserted: dict ) -> dict:
 
         #Connect to database
+        logging.warning('insert called')
+        logging.warning(self.config.DB_HOST)
         connectionString = self._getDatabaseConnectionString(self.config)
-        logging.warning(connectionString)
-        connection = db.connect(connectionString)
+        logging.debug(connectionString)
+        connection = self._getDatabaseConnection(connectionString)
         cursor = connection.cursor()
 
 
@@ -58,6 +61,21 @@ class MsSQL(AbstractDatabase):
         cursor.close()
         connection.close()
         return { 'isSuccessful': True }
+
+
+    def _getDatabaseConnection(self, connectionString):
+        
+        # Infinite loop until connection established
+
+        while True:
+            try:
+                connection = db.connect(connectionString)
+                return connection
+            except Exception as error:
+                logging.warning("Unable to connect")
+                logging.warning(str(error))
+
+
 
 
     def _getDatabaseConnectionString(self, config ):

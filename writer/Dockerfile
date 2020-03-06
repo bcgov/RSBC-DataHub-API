@@ -1,0 +1,26 @@
+FROM python:3.7.3-stretch
+
+COPY requirements.txt /tmp/
+
+RUN apt-get update 
+RUN apt-get -y install apt-transport-https
+
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+#Ubuntu 18.04
+RUN curl https://packages.microsoft.com/config/ubuntu/18.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
+
+RUN apt-get update 
+RUN ACCEPT_EULA=Y apt-get -y install msodbcsql17
+RUN ACCEPT_EULA=Y apt-get -y install mssql-tools
+RUN apt-get -y install unixodbc-dev
+
+RUN pip install -r /tmp/requirements.txt
+
+RUN useradd --create-home appuser
+WORKDIR /home/appuser
+USER appuser
+
+COPY *.py /home/appuser/
+COPY mapper.json /home/appuser/
+
+CMD [ "python", "./listener.py" ]

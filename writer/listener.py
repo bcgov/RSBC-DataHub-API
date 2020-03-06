@@ -17,20 +17,21 @@ class Listener():
     maximumConnectionRetries = 250  
     
     def __init__(self, config, database):
-        url = self.getAmqpUrl(
-            config.MQ_WRITER_USER, 
-            config.MQ_WRITER_PASS, 
-            config.MQ_URL
-            )
+        url = self.getAmqpUrl(config)
         parameters = pika.URLParameters(url)
         self.connection = pika.BlockingConnection(parameters)
         self.config = config
         self.database = database
+        logging.basicConfig(level=config.WRITER_LOG_LEVEL)
         logging.warning('*** Writer: listener initiallized ***')
 
 
-    def getAmqpUrl(self, user: str, passwd: str, host: str):
-        return "amqp://{}:{}@{}:5672/%2F?connection_attempts=250&heartbeat=3600".format(user, passwd, host)
+    def getAmqpUrl(self, config):
+        return "amqp://{}:{}@{}:5672/%2F?connection_attempts=250&heartbeat=3600".format(
+            config.MQ_WRITER_USER,
+            config.MQ_WRITER_PASS, 
+            config.RABBITMQ_URL
+            )
 
 
     def main(self):
@@ -40,6 +41,7 @@ class Listener():
         channel.basic_consume(queue=self.config.WRITE_WATCH_QUEUE, on_message_callback=self.callback)
         channel.start_consuming()
         logging.warning('*** Writer: listening for valid messages ***')
+
 
     def callback(self, ch, method, properties, body):
         # convert body (in bytes) to string 
@@ -64,19 +66,23 @@ class Listener():
             # remove the message from RabbitMQs WRITE_WATCH_QUEUE
             ch.basic_ack(delivery_tag=method.delivery_tag)
         else:
-            errorMessage = self._wrapMessageWithError(dictMessage, result)
+            errorMessage = self._addErrorToMessage(dictMessage, result)
             jsonErrorMessage = json.dumps(errorMessage)
             
             if(self._publish(ch, self.config.WRITE_FAIL_QUEUE, jsonErrorMessage )):
                 ch.basic_ack(delivery_tag=method.delivery_tag)
 
 
-    def _wrapMessageWithError(self, message: dict, error: dict) -> dict:
-        return {
-            'error_type': error['error_type'],
-            'error_description': error['error_description'],
-            'message': message
-        }
+    def _addErrorToMessage(self, message: dict, error: dict) -> dict:
+        # We add 'errors' as a message attribute so as to keep a
+        # history of events in case it fails repeatedly.  
+        
+        if('errors' not in message):
+            message['errors'] = []
+        
+        message['errors'].append(error)
+            
+        return message
 
 
     def _publish(self, channel, queue_name: str, message: str):
@@ -116,7 +122,7 @@ class Listener():
     
     
 if __name__ == "__main__":
-    #logging.warning( 'jl_TEST' + Config().DB_USERNAME)
-    Listener(Config(), MsSQL(Config())).main()
+
+    Listener( Config(), MsSQL( Config() ) ).main()
 
 

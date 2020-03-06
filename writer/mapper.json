@@ -153,6 +153,10 @@
                     "relationship": "one-to-one",
                     "fields": [
                         {
+                            "json_name": "event_id",
+                            "destination_name": "event_id"
+                        },
+                        {
                             "json_name": "vt_query.ticket_number",
                             "destination_name": "ticket_number"
                         }
