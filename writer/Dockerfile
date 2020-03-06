@@ -8,7 +8,7 @@ RUN source /opt/app-root/etc/scl_enable && \
     yum -y install unixODBC && \
     curl https://packages.microsoft.com/config/rhel/8/prod.repo > /etc/yum.repos.d/mssql-release.repo && \
     export ACCEPT_EULA=Y && \
-    yum install msodbcsql17 && \
+    yum -y install msodbcsql17 && \
     yum -y localinstall unixODBC-devel && \
     pip install -U pip setuptools wheel && \
     sha256sum "${APP_ROOT}/src/requirements.txt" > ${APP_ROOT}/requirements.sha256  && \
