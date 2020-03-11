@@ -1,0 +1,278 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: rabbitmq-nocluster
+  annotations:
+    description: "Deploys a single RabbitMQ node"
+    iconClass: icon-rabbitmq
+    tags: rabbitmq,mq,messaging
+parameters:
+- name: COMPONENT
+  displayName: "Component"
+  description: "The Component name assigned to all of the objects defined in this template.  You should keep this as default unless your know what your doing."
+  required: true
+  value: rabbitmq
+- name: NAME
+  displayName: "Name"
+  description: "The name assigned to all of the OpenShift resources associated to the server instance."
+  required: true
+  value: rsbc-dh
+- name: SUFFIX
+  displayName: "Application name suffix"
+  description: "Application name suffix"
+  required: true
+- name: VERSION
+  displayName: "Application version number"
+  description: "Application version number"
+  required: true
+- name: PHASE
+  displayName: "Application phase"
+  description: "Application phase"
+  required: true
+- name: URL_SUFFIX
+  displayName: "Application url suffix"
+  description: "Application url suffix"
+  required: true
+- name: CPU_REQUEST
+  displayName: "CPU Request"
+  description: "Requested amount of CPU the container can use."
+  required: true
+- name: CPU_LIMIT
+  displayName: "CPU Limit"
+  description: "Maximum amount of CPU the container can use."
+  required: true
+- name: MEMORY_REQUEST
+  displayName: "Memory Request"
+  description: "Requested amount of memory the container can use."
+  required: true
+- name: MEMORY_LIMIT
+  displayName: "Memory Limit"
+  description: "Maximum amount of memory the container can use."
+  required: true
+- name: RABBITMQ_NAME
+  description: "Name of the RabbitMQ cluster"
+  value: rabbitmq
+- name: ISTAG
+  description: "Image to deploy"
+  value: rabbitmq:3.8.2-management
+- name: RABBITMQ_USER
+  description: "Username for the RabbitMQ instance"
+  value: rabbitmq
+- name: RABBITMQ_PASS
+  description: "Password securing the RabbitMQ instance"
+  generate: expression
+  from: "[a-zA-Z0-9]{16}"
+- name: VOLUME_SIZE
+  description: "Size of the RabbitMQ data volume"
+  value: 1Gi
+
+objects:
+
+- apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: ${NAME}-${COMPONENT}${SUFFIX}-config
+  data:
+    rabbitmq.conf: |
+        loopback_users.guest = false
+        queue_master_locator=client-local
+        management.load_definitions = /etc/rabbitmq/definitions.json
+    definitions.json: |
+        {
+          "queues": [
+            {
+              "name": "ETK",
+              "vhost": "/",
+              "durable": true,
+              "auto_delete": false,
+              "arguments": {}
+            },
+            {
+              "name": "ETK.valid",
+              "vhost": "/",
+              "durable": true,
+              "auto_delete": false,
+              "arguments": {}
+            },
+            {
+              "name": "ETK.not-valid",
+              "vhost": "/",
+              "durable": true,
+              "auto_delete": false,
+              "arguments": {}
+            },
+          ]
+        } 
+    enabled_plugins: |
+      [rabbitmq_management].
+
+- kind: Service
+  apiVersion: v1
+  metadata:
+    name: ${NAME}-${COMPONENT}${SUFFIX}
+    labels:
+      name: ${NAME}-${COMPONENT}${SUFFIX}
+  spec:
+    type: ClusterIP
+    ports:
+     - name: http
+       protocol: TCP
+       port: 15672
+       targetPort: 15672
+     - name: amqp
+       protocol: TCP
+       port: 5672
+       targetPort: 5672
+    selector:
+      app: ${NAME}-${COMPONENT}${SUFFIX}
+    sessionAffinity: None
+
+- kind: Route
+  apiVersion: v1
+  metadata:
+    name: ${NAME}-${COMPONENT}-http${SUFFIX}
+    creationTimestamp:
+    annotations:
+      openshift.io/host.generated: 'true'
+  spec:
+    host: ${NAME}-${COMPONENT}-http${SUFFIX}${URL_SUFFIX}
+    to:
+      kind: Service
+      name: ${NAME}-${COMPONENT}${SUFFIX}
+      weight: 100
+    port:
+      targetPort: http
+    tls:
+      insecureEdgeTerminationPolicy: Redirect
+      termination: edge
+    wildcardPolicy: None
+  status: {}
+
+- kind: Route
+  apiVersion: v1
+  metadata:
+    name: ${NAME}-${COMPONENT}-amqp${SUFFIX}
+    creationTimestamp:
+    annotations:
+      openshift.io/host.generated: 'true'
+  spec:
+    host: ${NAME}-${COMPONENT}-amqp${SUFFIX}${URL_SUFFIX}
+    to:
+      kind: Service
+      name: ${NAME}-${COMPONENT}${SUFFIX}
+      weight: 100
+    port:
+      targetPort: amqp 
+    wildcardPolicy: None
+  status: {}
+
+- apiVersion: apps/v1beta1
+  kind: StatefulSet
+  metadata:
+    name: ${NAME}-${COMPONENT}${SUFFIX}
+    labels:
+      app: ${NAME}-${COMPONENT}${SUFFIX}
+  spec:
+    serviceName: ${NAME}-${COMPONENT}${SUFFIX}
+    replicas: 1
+    selector:
+      matchLabels:
+        app: ${NAME}-${COMPONENT}${SUFFIX}
+    template:
+      metadata:
+        labels:
+          app: ${NAME}-${COMPONENT}${SUFFIX}
+      spec:
+        terminationGracePeriodSeconds: 30
+        containers:
+        - name: rabbitmq
+          command:
+          - sh
+          args:
+          - -c
+          - cp -v /etc/rabbitmq/rabbitmq.conf ${RABBITMQ_CONFIG_FILE}.conf; exec docker-entrypoint.sh rabbitmq-server
+          image: ${ISTAG}
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/rabbitmq
+            - name: rabbitmq-storage
+              mountPath: /var/lib/rabbitmq
+          ports:
+            - name: http
+              protocol: TCP
+              containerPort: 15672
+            - name: amqp
+              protocol: TCP
+              containerPort: 5672
+          resources:
+            limits:
+              cpu: 500m
+              memory: 2Gi
+            requests:
+              cpu: 100m
+              memory: 512Mi
+          livenessProbe:
+            exec:
+              command: ["rabbitmqctl", "status"]
+            failureThreshold: 10
+            initialDelaySeconds: 240
+            timeoutSeconds: 30
+          readinessProbe:
+            exec:
+              command: ["rabbitmqctl", "status"]
+            failureThreshold: 10
+            initialDelaySeconds: 80
+            timeoutSeconds: 30
+          env:
+          - name: RABBITMQ_DEFAULT_USER
+            valueFrom:
+              secretKeyRef:
+                name: ${NAME}${SUFFIX}
+                key: username
+          - name: RABBITMQ_DEFAULT_PASS
+            valueFrom:
+              secretKeyRef:
+                name: ${NAME}${SUFFIX}
+                key: password
+          - name: K8S_SERVICE_NAME
+            value: ${NAME}-${COMPONENT}${SUFFIX}
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+          - name: RABBITMQ_USE_LONGNAME
+            value: "false"
+          - name: RABBITMQ_NODENAME
+            value: "rabbit@$(POD_NAME)"
+          - name: RABBITMQ_CONFIG_FILE
+            value: /var/lib/rabbitmq/rabbitmq
+        volumes:
+        - name: config-volume
+          configMap:
+            name: ${NAME}-${COMPONENT}${SUFFIX}-config
+            items:
+            - key: rabbitmq.conf
+              path: rabbitmq.conf
+            - key: definitions.json
+              path: definitions.json
+            - key: enabled_plugins
+              path: enabled_plugins
+    volumeClaimTemplates:
+    - metadata:
+        name: rabbitmq-storage
+        labels:
+          app: ${NAME}-${COMPONENT}${SUFFIX}
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: ${VOLUME_SIZE}

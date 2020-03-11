@@ -6,8 +6,8 @@ from flask_api import FlaskAPI
 
 
 application = FlaskAPI(__name__)
+logging.warning('*** ingestor initialized ***')
 rabbitmq = RabbitMQ( Config() )
-logging.warning('*** ingestor initialized ***')   
 
 # Create a queue for the messages Flask receives (if it doesn't already exist)
 rabbitmq.verifyOrCreate(Config.RABBITMQ_QUEUE)
