@@ -8,8 +8,9 @@ At the present time, road safety data is made up of the following types of event
 - the issuance of a ticket
 - the payment of a ticket
 - the dispute of a ticket
+- the status of a dispute
+- the finding of a disputed ticket
 - the query of a ticket record
-- an update or resolution of a dispute
 
 
 The system to handle these events is made up of four containers / pods:

@@ -2,7 +2,7 @@
 
 The ingestor is a Python Flask application that accepts POST requests in the form of a JSON payload and writes payload to a RabbitMQ queue for subsequent processing.  Endpoint:   
  
-``` http://<host_name>/api/v1/event ```
+``` http://<host_name>/v1/publish/event ```
 
  # Environment Variables
 
