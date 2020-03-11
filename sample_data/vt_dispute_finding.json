@@ -1,0 +1,13 @@
+{
+    "event_id": 1234,
+    "event_version": "1.1",
+    "event_date_time": "2020-01-20 08:23:16",
+    "event_type": "vt_dispute_finding",
+    "vt_dispute_finding": {
+        "ticket_number": "EZ12345678",
+        "count_number": 1,
+        "finding_date": "2019-09-01",
+        "finding_code": "string",
+        "finding_description": "string"
+      }
+}

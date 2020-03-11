@@ -3,7 +3,6 @@
     "event_version": "1.1",
     "event_date_time": "2020-01-20 08:23:16",
     "event_type": "evt_issuance",
-    "event_source": "ETK",
     "evt_issuance": {
         "ticket_number": "EZ12345678",
         "violation_date": "2019-09-01",
@@ -17,6 +16,7 @@
         "enforcement_jurisdiction_code":"1501",
         "enforcement_officer_number": "1111",
         "enforcement_officer_name": "SMITH, JANE",
+        "offender_type_name": "DRIVER",
         "count_quantity": 1,
         "counts": [
             {

@@ -22,7 +22,7 @@ class Mapper():
     # This convertToTables() method converts the json message
     # into one or more data tables according to the mapping 
     # instructions in the mapper.json config file.
-    def convertToTables(self, message: dict ):
+    def convertToTables(self, message: dict ) -> list:
 
         # The message's datatype determines how it should
         # be converted into tables.
@@ -35,7 +35,8 @@ class Mapper():
         for tableMap in mapping['tables']:
             table = {}
             table['table'] = tableMap['name']
-            
+            #table['relationship'] = tableMap['relationship']
+
             if(tableMap['relationship'] == 'one-to-one'):
                 table['columns'] = self._createOneHeaderRecord(tableMap)
                 table['values'] = self._createOneDataRecord(tableMap, message)
@@ -61,13 +62,15 @@ class Mapper():
 
     def _createOneDataRecord(self, tableMap, message) -> list:
         
+        collection = []
         data = []
 
         for field in tableMap['fields']:
             value = self._getFromDict(message,field['json_name'])
             data.append(value)
 
-        return data
+        collection.append(data)
+        return collection
 
 
     def _createManyHeaderRecord(self, tableMap) -> list:
@@ -86,21 +89,26 @@ class Mapper():
 
     def _createManyDataRecords(self, tableMap, message) -> list:
         
-        data = []
+        collection = []
 
         records = self._getFromDict(message,tableMap['many_details']['itterate_on'])
 
         for record in records:
 
+            singleRecord = []
+
             # Add the child table's key ID
             value = self._getFromDict(message,tableMap['many_details']['key_field']['json_name'])
-            data.append(value)
+            singleRecord.append(value)
 
             for field in tableMap['fields']:
                 value = self._getFromDict(record,field['json_name'])
-                data.append(value)
+                singleRecord.append(value)
 
-            return data
+            collection.append(singleRecord)
+            singleRecord = [] 
+        
+        return collection
 
 
 

@@ -5,63 +5,119 @@
             "name": "evt_issuance",
             "tables": [
                 {
-                    "name": "vph_events",
+                    "name": "etk.events",
                     "relationship": "one-to-one",
                     "fields": [
                         {
                             "json_name": "event_id",
-                            "destination_name": "EVENT_ID"
+                            "destination_name": "id"
                         },
                         {
                             "json_name": "event_date_time",
-                            "destination_name": "EVENT_DTM"
+                            "destination_name": "date_time"
                         },
                         {
-                            "json_name": "evt_issuance.ticket_number",
-                            "destination_name": "TICKET_NO"
+                            "json_name": "event_version",
+                            "destination_name": "version"
+                        },
+                        {
+                            "json_name": "event_type",
+                            "destination_name": "type"
                         }
                     ]
                 },
                 {
-                    "name": "vph_ticket_kpi_details",
+                    "name": "etk.issuances",
                     "relationship": "one-to-one",
                     "fields": [
                         {
+                            "json_name": "event_id",
+                            "destination_name": "event_id"
+                        },
+                        {
                             "json_name": "evt_issuance.ticket_number",
-                            "destination_name": "TICKET_NO"
+                            "destination_name": "ticket_number"
                         },
                         {
                             "json_name": "evt_issuance.violation_date",
-                            "destination_name": "violation_dt"
+                            "destination_name": "violation_date"
                         },
                         {
                             "json_name": "evt_issuance.violation_time",
-                            "destination_name": "violation_tm"
+                            "destination_name": "violation_time"
+                        },
+                        {
+                            "json_name": "evt_issuance.vehicle_make_name",
+                            "destination_name": "vehicle_make_name"
+                        },
+                        {
+                            "json_name": "evt_issuance.vehicle_type_code",
+                            "destination_name": "vehicle_type_code"
+                        },
+                        {
+                            "json_name": "evt_issuance.violation_city_name",
+                            "destination_name": "violation_city_name"
+                        },
+                        {
+                            "json_name": "evt_issuance.violation_city_code",
+                            "destination_name": "violation_city_code"
+                        },
+                        {
+                            "json_name": "evt_issuance.violation_highway_desc",
+                            "destination_name": "violation_highway_desc"
+                        },
+                        {
+                            "json_name": "evt_issuance.enforcement_jurisdiction_name",
+                            "destination_name": "enforcement_jurisdiction_name"
+                        },
+                        {
+                            "json_name": "evt_issuance.enforcement_jurisdiction_code",
+                            "destination_name": "enforcement_jurisdiction_code"
+                        },
+                        {
+                            "json_name": "evt_issuance.enforcement_officer_number",
+                            "destination_name": "enforcement_officer_number"
+                        },
+                        {
+                            "json_name": "evt_issuance.enforcement_officer_name",
+                            "destination_name": "enforcement_officer_name"
+                        },
+                        {
+                            "json_name": "evt_issuance.count_quantity",
+                            "destination_name": "count_quantity"
                         }
                     ]
                 },
                 {
-                    "name": "vph_violation_kpi_details",
+                    "name": "etk.violations",
                     "relationship": "one-to-many",
                     "many_details": {
                         "itterate_on": "evt_issuance.counts",
                         "key_field": {
                             "json_name": "evt_issuance.ticket_number",
-                            "destination_name": "TICKET_NO"
+                            "destination_name": "ticket_number"
                         }
                     },
                     "fields": [
                         {
                             "json_name": "count_number",
-                            "destination_name": "count_nbr"
+                            "destination_name": "count_number"
                         },
                         {
                             "json_name": "act_code",
-                            "destination_name": "act_cd"
+                            "destination_name": "act_code"
                         },
                         {
                             "json_name": "section_text",
-                            "destination_name": "section_txt"
+                            "destination_name": "section_text"
+                        },
+                        {
+                            "json_name": "section_desc",
+                            "destination_name": "section_desc"
+                        },
+                        {
+                            "json_name": "fine_amount",
+                            "destination_name": "fine_amount"
                         }
                     ]
                 }
@@ -71,20 +127,38 @@
             "name": "vt_query",
             "tables": [
                 {
-                    "name": "vph_events",
+                    "name": "etk.events",
                     "relationship": "one-to-one",
                     "fields": [
                         {
                             "json_name": "event_id",
-                            "destination_name": "EVENT_ID"
+                            "destination_name": "id"
                         },
                         {
                             "json_name": "event_date_time",
-                            "destination_name": "EVENT_DTM"
+                            "destination_name": "date_time"
                         },
                         {
-                            "json_name": "evt_issuance.ticket_number",
-                            "destination_name": "TICKET_NO"
+                            "json_name": "event_version",
+                            "destination_name": "version"
+                        },
+                        {
+                            "json_name": "event_type",
+                            "destination_name": "type"
+                        }
+                    ]
+                },
+                {
+                    "name": "etk.queries",
+                    "relationship": "one-to-one",
+                    "fields": [
+                        {
+                            "json_name": "event_id",
+                            "destination_name": "event_id"
+                        },
+                        {
+                            "json_name": "vt_query.ticket_number",
+                            "destination_name": "ticket_number"
                         }
                     ]
                 }
