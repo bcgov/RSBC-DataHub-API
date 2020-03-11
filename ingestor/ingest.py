@@ -13,7 +13,7 @@ rabbitmq = RabbitMQ( Config() )
 rabbitmq.verifyOrCreate(Config.RABBITMQ_QUEUE)
 
 
-@application.route('/api/v1/event', methods=["POST"])
+@application.route('/v1/publish/event', methods=["POST"])
 def create():
 
     if(rabbitmq.publish( Config.RABBITMQ_QUEUE , json.dumps(request.json) )):
