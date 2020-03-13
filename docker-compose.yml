@@ -14,7 +14,9 @@ services:
             - "5672:5672"   # TODO - Remove before flight
 
     ingestor:
-        build: ./ingestor
+        build: 
+          context: ./ingestor
+          dockerfile: Dockerfile-local
         depends_on:
           - rabbitmq
         environment:
@@ -29,7 +31,9 @@ services:
           - "5000:5000"
     
     validator:
-        build: ./validator
+        build: 
+          context: ./validator
+          dockerfile: Dockerfile-local
         depends_on:
           - rabbitmq
         environment:
@@ -41,7 +45,9 @@ services:
           VALIDATOR_LOG_LEVEL: "${VALIDATOR_LOG_LEVEL}"
 
     writer:
-        build: ./writer
+        build: 
+          context: ./writer
+          dockerfile: Dockerfile-local
         depends_on:
           - rabbitmq
         environment:
