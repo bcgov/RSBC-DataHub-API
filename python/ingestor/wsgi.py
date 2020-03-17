@@ -1,4 +1,4 @@
-from ingest import application
+from python.ingestor.ingest import application
 
 
 if __name__ == "__main__":

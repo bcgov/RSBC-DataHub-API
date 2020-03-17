@@ -20,8 +20,9 @@ RUN useradd --create-home appuser
 WORKDIR /home/appuser
 USER appuser
 
-COPY common/*.py /home/appuser/common/
-COPY writer/*.py /home/appuser/
-COPY writer/mapper.json /home/appuser/
+ENV PYTHONPATH /home/appuser/
 
-CMD [ "python", "./listener.py" ]
+COPY common/ /home/appuser/python/common/
+COPY writer/ /home/appuser/python/writer/
+
+CMD [ "python", "./python/writer/listener.py" ]

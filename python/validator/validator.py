@@ -1,24 +1,20 @@
 import logging
-import pika
-import time
 import json
 from cerberus import Validator as Cerberus
 
 
-class Validate():
+class Validate:
 
-    
     def __init__(self, config):
-        self.schemas = self._getSchemas(config.SCHEMA_FILENAME)
-        #logging.basicConfig(level=config.VALIDATOR_LOG_LEVEL)
+        self.schemas = self._get_schemas(config.SCHEMA_FILENAME)
+        logging.basicConfig(level=config.LOG_LEVEL)
 
-
-    def _getSchemas(self, fileName) -> dict:
-        with open(fileName, 'r') as f:
+    @staticmethod
+    def _get_schemas(file_name) -> dict:
+        with open(file_name, 'r') as f:
             data = f.read()
         
         return json.loads(data)
-
 
     def validate(self, message) -> bool:
         # loop through each schema, return True on 
@@ -27,7 +23,7 @@ class Validate():
         for schema in self.schemas['data']:
             v = Cerberus(schema['cerberus'])
             v.allow_unknown = schema['allow_unknown']
-            if(v.validate(message)):
+            if v.validate(message):
                 logging.info(' - passes validation using: ' + schema['short_name'])
                 return True
 

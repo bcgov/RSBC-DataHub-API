@@ -1,6 +1,6 @@
-from config import Config
+from python.ingestor.config import Config
 import logging
-from common.rabbitmq import RabbitMQ
+from python.common.rabbitmq import RabbitMQ
 from flask import request, jsonify, Response, json
 from flask_api import FlaskAPI
 

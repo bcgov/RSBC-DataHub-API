@@ -1,5 +1,5 @@
-from config import Config
-from validator import Validate
+from python.validator.config import Config
+from python.validator.validator import Validate
 import logging
 import pika
 import json

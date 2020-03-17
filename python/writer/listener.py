@@ -1,13 +1,13 @@
-from config import Config
-from database import MsSQL
-from mapper import Mapper
+from python.writer.config import Config
+from python.writer.database import MsSQL
+from python.writer.mapper import Mapper
 import logging
 import pika
 import json
 
 # This listener watches the RabbitMQ queue defined in the 
 # Config.  When a message appears in the queue the Listener:
-#  - envokes callback(),
+#  - invokes callback(),
 #  - transforms the message using the Mapper class,
 #  - finally passing a dict to the Database class for writing
 

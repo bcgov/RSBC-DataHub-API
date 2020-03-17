@@ -1,5 +1,5 @@
 import os
-from common.config import Config as BaseConfig
+from python.common.config import Config as BaseConfig
 
 
 class Config(BaseConfig):
