@@ -3,7 +3,6 @@ from database import MsSQL
 from mapper import Mapper
 import logging
 import pika
-import time
 import json
 
 # This listener watches the RabbitMQ queue defined in the 
@@ -12,7 +11,8 @@ import json
 #  - transforms the message using the Mapper class,
 #  - finally passing a dict to the Database class for writing
 
-class Listener():
+
+class Listener:
 
     maximumConnectionRetries = 250  
     
@@ -22,9 +22,8 @@ class Listener():
         self.connection = pika.BlockingConnection(parameters)
         self.config = config
         self.database = database
-        logging.basicConfig(level=config.WRITER_LOG_LEVEL)
+        logging.basicConfig(level=config.LOG_LEVEL)
         logging.warning('*** Writer: listener initiallized ***')
-
 
     def getAmqpUrl(self, config):
         return "amqp://{}:{}@{}:5672/%2F?connection_attempts=250&heartbeat=3600".format(
@@ -33,19 +32,17 @@ class Listener():
             config.RABBITMQ_URL
             )
 
-
     def main(self):
         channel = self.connection.channel()
-        self._verifyOrCreate(channel, self.config.WRITE_FAIL_QUEUE)
+        self._verifyOrCreate(channel, self.config.FAIL_QUEUE)
         channel.basic_qos(prefetch_count=1)
-        channel.basic_consume(queue=self.config.WRITE_WATCH_QUEUE, on_message_callback=self.callback)
+        channel.basic_consume(queue=self.config.WATCH_QUEUE, on_message_callback=self.callback)
         channel.start_consuming()
         logging.warning('*** Writer: listening for valid messages ***')
 
-
     def callback(self, ch, method, properties, body):
         # convert body (in bytes) to string 
-        message = body.decode(self.config.MQ_MESSAGE_ENCODE)
+        message = body.decode(self.config.RABBITMQ_MESSAGE_ENCODE)
         dictMessage = json.loads(message)
 
         # The Mapper is responsible for converting the message into a 
@@ -61,7 +58,7 @@ class Listener():
         # syntax to used to insert records into a Postgress database
         result = self.database.insert(tablesForInsert)
 
-        if(result['isSuccessful']):
+        if result['isSuccessful']:
             # acknowledge that the message was written to the database
             # remove the message from RabbitMQs WRITE_WATCH_QUEUE
             ch.basic_ack(delivery_tag=method.delivery_tag)
@@ -69,24 +66,21 @@ class Listener():
             errorMessage = self._addErrorToMessage(dictMessage, result)
             jsonErrorMessage = json.dumps(errorMessage)
             
-            if(self._publish(ch, self.config.WRITE_FAIL_QUEUE, jsonErrorMessage )):
+            if(self._publish(ch, self.config.FAIL_QUEUE, jsonErrorMessage )):
                 ch.basic_ack(delivery_tag=method.delivery_tag)
-
 
     def _addErrorToMessage(self, message: dict, error: dict) -> dict:
         # We add 'errors' as a message attribute so as to keep a
         # history of events in case it fails repeatedly.  
         
-        if('errors' not in message):
+        if 'errors' not in message:
             message['errors'] = []
         
         message['errors'].append(error)
             
         return message
 
-
     def _publish(self, channel, queue_name: str, message: str):
-    
         tries = Listener.maximumConnectionRetries 
         while tries > 0:
             tries -= 1
@@ -99,7 +93,6 @@ class Listener():
                 logging.warning("Could not write to queue: " + str(error))
         
         return False
-
 
     def _verifyOrCreate(self, channel, queue_name: str):
        
@@ -119,10 +112,5 @@ class Listener():
         return False
 
 
-    
-    
 if __name__ == "__main__":
-
     Listener( Config(), MsSQL( Config() ) ).main()
-
-

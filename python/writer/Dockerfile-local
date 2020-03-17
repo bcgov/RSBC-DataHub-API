@@ -1,6 +1,6 @@
 FROM python:3.7.3-stretch
 
-COPY requirements.txt /tmp/
+COPY writer/requirements.txt /tmp/
 
 RUN apt-get update 
 RUN apt-get -y install apt-transport-https
@@ -20,7 +20,8 @@ RUN useradd --create-home appuser
 WORKDIR /home/appuser
 USER appuser
 
-COPY *.py /home/appuser/
-COPY mapper.json /home/appuser/
+COPY common/*.py /home/appuser/common/
+COPY writer/*.py /home/appuser/
+COPY writer/mapper.json /home/appuser/
 
 CMD [ "python", "./listener.py" ]

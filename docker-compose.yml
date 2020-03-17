@@ -15,8 +15,8 @@ services:
 
     ingestor:
         build: 
-          context: ./ingestor
-          dockerfile: Dockerfile-local
+          context: python
+          dockerfile: ingestor/Dockerfile-local
         depends_on:
           - rabbitmq
         environment:
@@ -25,15 +25,15 @@ services:
           # events for processing
           INGEST_USER: "${INGEST_USER}"
           INGEST_PASS: "${INGEST_PASS}"
-          INGEST_LOG_LEVEL: "${INGEST_LOG_LEVEL}"
+          LOG_LEVEL: "${LOG_LEVEL}"
           SECRET_KEY: "${SECRET_KEY}"
         ports:
           - "5000:5000"
     
     validator:
         build: 
-          context: ./validator
-          dockerfile: Dockerfile-local
+          context: python
+          dockerfile: validator/Dockerfile-local
         depends_on:
           - rabbitmq
         environment:
@@ -42,12 +42,12 @@ services:
           # events and validate them
           VALIDATOR_USER: "${VALIDATOR_USER}"
           VALIDATOR_PASS: "${VALIDATOR_PASS}"
-          VALIDATOR_LOG_LEVEL: "${VALIDATOR_LOG_LEVEL}"
+          LOG_LEVEL: "${LOG_LEVEL}"
 
     writer:
         build: 
-          context: ./writer
-          dockerfile: Dockerfile-local
+          context: python
+          dockerfile: writer/Dockerfile-local
         depends_on:
           - rabbitmq
         environment:
@@ -56,7 +56,7 @@ services:
           # events and write them to the database
           MQ_WRITER_USER: "${MQ_WRITER_USER}"
           MQ_WRITER_PASS: "${MQ_WRITER_PASS}"
-          WRITER_LOG_LEVEL: "${WRITER_LOG_LEVEL}"
+          LOG_LEVEL: "${LOG_LEVEL}"
           DB_HOST: "${DB_HOST}"
           DB_NAME: "${DB_NAME}"
           DB_USERNAME: "${DB_USERNAME}"

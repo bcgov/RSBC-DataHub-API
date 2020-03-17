@@ -1,32 +1,32 @@
 from config import Config
 import logging
-from rabbitmq import RabbitMQ
+from common.rabbitmq import RabbitMQ
 from flask import request, jsonify, Response, json
 from flask_api import FlaskAPI
 
 
 application = FlaskAPI(__name__)
+logging.basicConfig(level=Config.LOG_LEVEL)
 logging.warning('*** ingestor initialized ***')
-rabbitmq = RabbitMQ( Config() )
+
+rabbit_mq = RabbitMQ(
+    Config.INGEST_USER,
+    Config.INGEST_PASS,
+    Config.RABBITMQ_URL,
+    Config.LOG_LEVEL,
+    Config.MAX_CONNECTION_RETRIES)
 
 # Create a queue for the messages Flask receives (if it doesn't already exist)
-rabbitmq.verifyOrCreate(Config.RABBITMQ_QUEUE)
+rabbit_mq.verifyOrCreate(Config.WRITE_QUEUE)
 
 
 @application.route('/v1/publish/event', methods=["POST"])
 def create():
-
-    if(rabbitmq.publish( Config.RABBITMQ_QUEUE , json.dumps(request.json) )):
-
+    if rabbit_mq.publish(Config.WRITE_QUEUE , json.dumps(request.json)):
         return jsonify(request.json), 200
-        
-    else: 
-
+    else:
         return Response( error , 500, mimetype='application/json')
-    
 
 
 if __name__ == "__main__":
     application.run(host='0.0.0.0')
-    
-
