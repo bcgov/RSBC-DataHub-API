@@ -2,13 +2,13 @@ import logging
 import pika
 
 
-class RabbitMQ():
+class RabbitMQ:
 
     def __init__(self, username, password, host_url, log_level = 'INFO', maximum_connection_retries = 250):
         self.maximumConnectionRetries = maximum_connection_retries
         self.amqp_connection = self._get_connection_url(username, password, host_url)
-        self.connection = self._getConnection(self.amqp_connection)
-        self.channel = self._getChannel(self.connection)
+        self.connection = self._get_connection(self.amqp_connection)
+        self.channel = self._get_channel(self.connection)
         logging.basicConfig(level=log_level)
 
     @staticmethod
@@ -37,12 +37,12 @@ class RabbitMQ():
 
             except Exception as error:
                 logging.warning("Could not publish message to queue ... trying to reestablish the connection")
-                self.connection = self._getConnection(self.amqp_connection)
-                self.channel = self._getChannel(self.connection)
+                self.connection = self._get_connection(self.amqp_connection)
+                self.channel = self._get_channel(self.connection)
         
         return False
 
-    def verifyOrCreate(self, queue_name: str):
+    def verify_or_create(self, queue_name: str):
        
         logging.info('verify or create: ' + queue_name)
         tries = self.maximumConnectionRetries 
@@ -56,14 +56,18 @@ class RabbitMQ():
 
             except Exception as error:
                 logging.warning("Could not declare queue ... trying to reestablish the connection")
-                self.connection = self._getConnection(self.amqp_connection)
-                self.channel = self._getChannel(self.connection)
+                self.connection = self._get_connection(self.amqp_connection)
+                self.channel = self._get_channel(self.connection)
         
         return False
 
-    def _getConnection(self, connectionURL):
-        parameters = pika.URLParameters(connectionURL)
+    @staticmethod
+    def _get_connection(connection_url):
+        logging.info('getting connection to RabbitMQ')
+        parameters = pika.URLParameters(connection_url)
         return pika.BlockingConnection(parameters)
 
-    def _getChannel(self, connection):
+    @staticmethod
+    def _get_channel(connection):
+        logging.info('getting channel to RabbitMQ')
         return connection.channel()

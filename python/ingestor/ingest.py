@@ -17,7 +17,7 @@ rabbit_mq = RabbitMQ(
     Config.MAX_CONNECTION_RETRIES)
 
 # Create a queue for the messages Flask receives (if it doesn't already exist)
-rabbit_mq.verifyOrCreate(Config.WRITE_QUEUE)
+rabbit_mq.verify_or_create(Config.WRITE_QUEUE)
 
 
 @application.route('/v1/publish/event', methods=["POST"])
