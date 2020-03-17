@@ -6,7 +6,7 @@ from cerberus import Validator as Cerberus
 class Validate:
 
     def __init__(self, config):
-        self.schemas = self._get_schemas(config.SCHEMA_FILENAME)
+        self.schemas = self._get_schemas(config.SCHEMA_PATH + config.SCHEMA_FILENAME)
         logging.basicConfig(level=config.LOG_LEVEL)
 
     @staticmethod

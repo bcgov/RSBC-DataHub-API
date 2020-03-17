@@ -13,7 +13,16 @@ class RabbitMQ:
 
     @staticmethod
     def _get_connection_url(user: str, password: str, host: str) -> str:
-        return "amqp://{}:{}@{}:5672/%2F?connection_attempts=250&heartbeat=3600".format(user, password, host)
+        return "amqp://{}:{}@{}:5672/%2F?connection_attempts=250&heartbeat=3600".format(
+            user,
+            password,
+            host)
+
+    def consume(self, queue_name: str, callback ):
+        self.verify_or_create(queue_name)
+        self.channel.basic_qos(prefetch_count=1)
+        self.channel.basic_consume(queue=queue_name, on_message_callback=callback)
+        self.channel.start_consuming()
 
     def publish(self, queue_name: str, payload: str):
 
