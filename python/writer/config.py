@@ -18,4 +18,4 @@ class Config(BaseConfig):
 
     # THE ODBC DRIVER MUST BE INSTALLED IN THE CONTAINER
     ODBC_DRIVER                 = os.getenv('ODBC_DRIVER', 'ODBC Driver 17 for SQL Server')
-    MAPPER_CONFIG_FILENAME      = os.getenv('MAPPER_CONFIG_FILENAME', 'mapper.json')
+    MAPPER_CONFIG_FILENAME      = os.getenv('MAPPER_CONFIG_FILENAME', 'python/writer/mapper.json')

@@ -4,28 +4,19 @@ from python.common.rabbitmq import RabbitMQ
 import logging
 import json
 
+# This listener watches the RabbitMQ WATCH_QUEUE defined in the
+# Config.  When a message appears in the queue the Listener:
+#  - invokes callback(),
+#  - determines whether the message is valid or not valid,
+#  - writes the message to a valid or not valid queue
 
 class Listener:
 
-    maximumConnectionRetries = 250
-    
-    def __init__(self, config, validator):
+    def __init__(self, config, validator, rabbit_writer, rabbit_listener):
         self.validator = validator
         self.config = config
-
-        self.writer = RabbitMQ(
-            config.VALIDATOR_USER,
-            config.VALIDATOR_PASS,
-            config.RABBITMQ_URL,
-            config.LOG_LEVEL,
-            config.MAX_CONNECTION_RETRIES)
-
-        self.listener = RabbitMQ(
-            config.VALIDATOR_USER,
-            config.VALIDATOR_PASS,
-            config.RABBITMQ_URL,
-            config.LOG_LEVEL,
-            config.MAX_CONNECTION_RETRIES)
+        self.writer = rabbit_writer
+        self.listener = rabbit_listener
 
         logging.basicConfig(level=config.LOG_LEVEL)
         logging.warning('*** validator initialized  ***')
@@ -60,4 +51,19 @@ class Listener:
 
 
 if __name__ == "__main__":
-    Listener(Config(), Validate(Config())).main()
+    Listener(
+        Config(),
+        Validate(Config()),
+        RabbitMQ(
+            Config.VALIDATOR_USER,
+            Config.VALIDATOR_PASS,
+            Config.RABBITMQ_URL,
+            Config.LOG_LEVEL,
+            Config.MAX_CONNECTION_RETRIES),
+        RabbitMQ(
+            Config.VALIDATOR_USER,
+            Config.VALIDATOR_PASS,
+            Config.RABBITMQ_URL,
+            Config.LOG_LEVEL,
+            Config.MAX_CONNECTION_RETRIES)
+    ).main()

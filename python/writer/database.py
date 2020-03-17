@@ -1,21 +1,13 @@
 import pyodbc as db
-from abc import ABC, abstractmethod
 import logging
 
 
-class AbstractDatabase(ABC):
+class MsSQL:
 
     def __init__(self, config):
         self.config = config
         logging.basicConfig(level=config.LOG_LEVEL)
         logging.warning('*** database class initialized  ***')
-
-    @abstractmethod
-    def insert(self, tables_to_be_inserted: dict) -> bool:
-        pass
-
-
-class MsSQL(AbstractDatabase):
 
     def insert(self, tables_to_be_inserted: dict) -> dict:
 

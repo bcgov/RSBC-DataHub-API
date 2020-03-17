@@ -6,7 +6,7 @@ import operator
 class Mapper:
 
     def __init__(self, config):
-        self.mappings = self.getMappings(config.MAPPER_PATH + config.MAPPER_CONFIG_FILENAME)
+        self.mappings = self.getMappings(config.MAPPER_CONFIG_FILENAME)
 
     def getMappings(self, fileName) -> dict:
         with open(fileName, 'r') as f:
