@@ -2,18 +2,18 @@
 
 The validator is a Python application that:
  - listens for messages posted to a RabbitMQ queue,
- - determines if the message is valid,
- - if the message is valid, the message is written to the a `valid` sub-queue,
- - if the message is not-valid, the message is written to the a `not-valid` sub-queue.
+ - determines if the message is valid or not-valid,
+ - if the message is valid, the message is moved to a `valid` queue,
+ - if the message is not-valid, the message is moved to a `not-valid` queue.
  
- The application is designed to be configured almost entirely using environment variables and JSON configuration files.
+ The application is designed to be configured using environment variables and JSON configuration files.
 
  # Environment Variables
 
   - `RABBITMQ_URL` - is the URL that the validator uses to connect to RabbitMQ.  By default, the URL is set to 'localhost'.
-  - `RABBITMQ_WATCH_QUEUE` - name of the queue that the validator listens to. When messages arrive in this queue, the validator determines if it's valid or not.
-  - `RABBITMQ_VALID_QUEUE` - the name of the queue that the validator publishes messages that are valid. 
-  - `RABBITMQ_FAIL_QUEUE` - the name of the queue that the validator publishes messages that are not valid.
+  - `WATCH_QUEUE` - name of the queue that the validator listens to. When messages arrive in this queue, the validator determines if it's valid or not.
+  - `VALID_QUEUE` - the name of the queue that the validator publishes messages that are valid. 
+  - `FAIL_QUEUE` - the name of the queue that the validator publishes messages that are not valid.
   - `RABBITMQ_MESSAGE_ENCODE` - the encoding used for RabbitMQ messages. By default this is set to 'utf-8'.
   - `SCHEMA_FILENAME` - the name of the JSON file that is used by the validator to determine if messages are valid or not valid (see more details below).
   - `VALIDATOR_USER` & `VALIDATOR_PASS` - are the credentials the validator should use when connecting to RabbitMQ.  It is recommended that these credentials be different from the credentials used to administer RabbitMQ

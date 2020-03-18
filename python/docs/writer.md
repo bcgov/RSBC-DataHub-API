@@ -2,24 +2,32 @@
 
 The writer is a Python application that:
  - consumes messages posted to a RabbitMQ queue,
- - transforms the JSON message into database friendly format
  - creates insert statements for one or more database tables
+ - writes the data to the database and deletes the message from the queue
+ - if the record already exists in the database or otherwise cannot be inserted, 
+ the message is moved to a failed-write queue and an error message attribute is appended to the event  
  
- The application is designed to be configured almost entirely using environment variables and JSON configuration files.
+ The application is designed to be configured using environment variables and JSON configuration files.
 
  # Environment Variables
 
-  - `MQ_URL` - is the URL that the writer uses to connect to RabbitMQ.  By default, the URL is set to 'localhost'.
-  - `MQ_WATCH_QUEUE` - name of the queue that the writer listens to. When messages arrive in this queue, it's written to the database.
-  - `MQ_MESSAGE_ENCODE` - the encoding used for RabbitMQ messages. By default this is set to 'utf-8'.
-  - `MQ_WRITER_USER` & `MQ_WRITER_PASS` - are the credentials the writer should use when connecting to RabbitMQ.  It is recommended that these credentials be different from the credentials used to administer RabbitMQ
-  - `MAPPER_CONFIG_FILENAME` - the name of the JSON file that is used by the configure the writer (see below).
+ - `RABBITMQ_URL` - is the URL that the ingestor uses to connect to RabbitMQ.  By default, the URL is set to 'localhost'.
+ - `RABBITMQ_EXCHANGE` - is the name of the RabbitMQ exchange.  At present, the ingestor uses a blank / null exchange.   
+ - `RETRY_DELAY` - is the time (in seconds) that RabbitMQ will wait before trying the connection again
+ - `LOG_LEVEL` - sets the verbosity of the logging system. Options are: WARN, INFO or DEBUG. By default the log level is set to INFO.
+ - `RABBITMQ_MESSAGE_ENCODE` - determines the encoding mechanism used for messages.  By default it is set to `uft-8`.
+ - `WRITE_QUEUE` - is the name of the RabbitMQ that the ingestor will use to save messages.  By default the name of this queue is **ingested** but can 
+ be overridden as needed.
+ - `MAX_CONNECTION_RETRIES` - sets the number of times that the Ingestor will attempt to connect to RabbitMQ before giving up.
   
-  - `DB_HOST` - the host name of the database
-  - `DB_NAME` - the name of the database
-  - `DB_SCHEMA` - the schema used be the database
-  - `DB_USERNAME` & `DB_PASSWORD` - credentials used to connect the writer to the database.
-
+ - `WATCH_QUEUE` - name of the queue that the writer listens to. When messages arrive in this queue, it's written to the database.
+ - `FAIL_QUEUE` - name of the queue that the writer moves messages that cannot be written to the database. 
+ - `MQ_WRITER_USER` & `MQ_WRITER_PASS` - are the credentials the writer should use when connecting to RabbitMQ.  It is recommended that these credentials be different from the credentials used to administer RabbitMQ
+  
+ - `DB_HOST` - the host name of the database
+ - `DB_NAME` - the name of the database
+ - `DB_USERNAME` & `DB_PASSWORD` - credentials used to connect the writer to the database.
+ - `MAPPER_CONFIG_FILENAME` - the name of the JSON file that is used by the configure the writer (see below).
 
 
   # Mapping Schema
