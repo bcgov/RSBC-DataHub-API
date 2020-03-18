@@ -1,8 +1,8 @@
 from python.ingestor.config import Config
-import logging
 from python.common.rabbitmq import RabbitMQ
 from flask import request, jsonify, Response, json
 from flask_api import FlaskAPI
+import logging
 
 
 application = FlaskAPI(__name__)
@@ -14,18 +14,16 @@ rabbit_mq = RabbitMQ(
     Config.INGEST_PASS,
     Config.RABBITMQ_URL,
     Config.LOG_LEVEL,
-    Config.MAX_CONNECTION_RETRIES)
-
-# Create a queue for the messages Flask receives (if it doesn't already exist)
-rabbit_mq.verify_or_create(Config.WRITE_QUEUE)
+    Config.MAX_CONNECTION_RETRIES,
+    Config.RETRY_DELAY)
 
 
 @application.route('/v1/publish/event', methods=["POST"])
 def create():
-    if rabbit_mq.publish(Config.WRITE_QUEUE , json.dumps(request.json)):
+    if rabbit_mq.publish(Config.WRITE_QUEUE, json.dumps(request.json)):
         return jsonify(request.json), 200
     else:
-        return Response( error , 500, mimetype='application/json')
+        return Response('Unavailable', 500, mimetype='application/json')
 
 
 if __name__ == "__main__":

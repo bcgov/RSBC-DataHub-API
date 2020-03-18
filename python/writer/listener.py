@@ -23,7 +23,6 @@ class Listener:
         logging.basicConfig(level=config.LOG_LEVEL)
         logging.warning('*** writer initialized ***')
 
-
     def main(self):
         # start listening for messages on the WATCH_QUEUE
         # when a message arrives invoke the callback()
@@ -83,11 +82,13 @@ if __name__ == "__main__":
             Config.MQ_WRITER_PASS,
             Config.RABBITMQ_URL,
             Config.LOG_LEVEL,
-            Config.MAX_CONNECTION_RETRIES),
+            Config.MAX_CONNECTION_RETRIES,
+            Config.RETRY_DELAY),
         RabbitMQ(
             Config.MQ_WRITER_USER,
             Config.MQ_WRITER_PASS,
             Config.RABBITMQ_URL,
             Config.LOG_LEVEL,
-            Config.MAX_CONNECTION_RETRIES)
+            Config.MAX_CONNECTION_RETRIES,
+            Config.RETRY_DELAY)
     ).main()

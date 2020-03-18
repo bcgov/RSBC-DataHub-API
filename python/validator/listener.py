@@ -10,6 +10,7 @@ import json
 #  - determines whether the message is valid or not valid,
 #  - writes the message to a valid or not valid queue
 
+
 class Listener:
 
     def __init__(self, config, validator, rabbit_writer, rabbit_listener):
@@ -26,16 +27,12 @@ class Listener:
         # when a message arrives invoke the callback()
         self.listener.consume(self.config.WATCH_QUEUE, self.callback )
 
-
     def callback(self, ch, method, properties, body):
         logging.info('message received; callback invoked')
 
         # convert body (in bytes) to string
         message = body.decode(self.config.RABBITMQ_MESSAGE_ENCODE)
         message_dict = json.loads(message)
-
-        self.writer.verify_or_create(self.config.VALID_QUEUE)
-        self.writer.verify_or_create(self.config.FAIL_QUEUE)
 
         if self.validator.validate(message_dict):
             queue = self.config.VALID_QUEUE
@@ -59,11 +56,13 @@ if __name__ == "__main__":
             Config.VALIDATOR_PASS,
             Config.RABBITMQ_URL,
             Config.LOG_LEVEL,
-            Config.MAX_CONNECTION_RETRIES),
+            Config.MAX_CONNECTION_RETRIES,
+            Config.RETRY_DELAY),
         RabbitMQ(
             Config.VALIDATOR_USER,
             Config.VALIDATOR_PASS,
             Config.RABBITMQ_URL,
             Config.LOG_LEVEL,
-            Config.MAX_CONNECTION_RETRIES)
+            Config.MAX_CONNECTION_RETRIES,
+            Config.RETRY_DELAY)
     ).main()
