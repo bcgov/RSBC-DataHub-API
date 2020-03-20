@@ -1,9 +1,8 @@
 FROM python:3.7.3-stretch
-WORKDIR ingestor
 RUN [ "pwd" ]
 RUN [ "ls", "-R" ]
 
-COPY requirements.txt ${APP_ROOT}/src/
+COPY ingestor/requirements.txt ${APP_ROOT}/src/
 CMD [ "echo" , "requirements copied" ]
 
 RUN source /opt/app-root/etc/scl_enable && \
