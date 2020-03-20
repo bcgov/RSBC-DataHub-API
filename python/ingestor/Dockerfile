@@ -19,7 +19,11 @@ COPY common/*.py ${APP_ROOT}/src/python/common/
 COPY ingestor/*.py ${APP_ROOT}/src/python/ingestor/
 
 CMD [ "echo" , "python files copied" ]
+RUN [ "pwd" ]
 RUN [ "ls", "-R" ]
 
+WORKDIR ${APP_ROOT}/src/python/ingestor
+RUN [ "pwd" ]
+RUN [ "ls", "-R" ]
 #TODO - Add worker processes to gunicorn below 
-CMD [ "gunicorn", "--error-logfile", "-", "--bind", "0.0.0.0:5000", "--pythonpath", "${APP_ROOT}/src/python/ingestor", "wsgi" ]
+CMD [ "gunicorn", "--error-logfile", "-", "--bind", "0.0.0.0:5000", "wsgi" ]
