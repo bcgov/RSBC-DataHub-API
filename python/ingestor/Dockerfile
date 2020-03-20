@@ -1,6 +1,6 @@
 FROM python:3.7.3-stretch
 
-COPY ../python/ingestor/requirements.txt ${APP_ROOT}/src/
+COPY ../ingestor/requirements.txt ${APP_ROOT}/src/
 CMD [ "echo" , "requirements copied" ]
 
 RUN source /opt/app-root/etc/scl_enable && \
@@ -11,8 +11,8 @@ RUN source /opt/app-root/etc/scl_enable && \
 
 CMD [ "echo" , "requirements installed" ]
 
-COPY common/*.py ${APP_ROOT}/src/python/common/
-COPY ingestor/*.py ${APP_ROOT}/src/python/ingestor/
+COPY ../common/*.py ${APP_ROOT}/src/python/common/
+COPY ../ingestor/*.py ${APP_ROOT}/src/python/ingestor/
 
 CMD [ "echo" , "python files copied" ]
 
