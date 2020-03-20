@@ -13,7 +13,6 @@ CMD [ "echo" , "requirements installed" ]
 RUN [ "pwd" ]
 RUN [ "ls", "-R" ]
 
-COPY python/common/*.py ${APP_ROOT}/src/python/common/
 COPY *.py ${APP_ROOT}/src/python/ingestor/
 
 CMD [ "echo" , "python files copied" ]
