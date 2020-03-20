@@ -18,7 +18,7 @@ module.exports = settings => {
       'VERSION': phases[phase].tag,
       'SOURCE_REPOSITORY_URL': oc.git.http_url,
       'SOURCE_REPOSITORY_REF': oc.git.ref,
-      'SOURCE_CONTEXT_DIR': 'python/ingestor'
+      'SOURCE_CONTEXT_DIR': 'python'
     }
   }))
   objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-validator-build.yaml`, {
@@ -28,7 +28,7 @@ module.exports = settings => {
       'VERSION': phases[phase].tag,
       'SOURCE_REPOSITORY_URL': oc.git.http_url,
       'SOURCE_REPOSITORY_REF': oc.git.ref,
-      'SOURCE_CONTEXT_DIR': 'python/validator'
+      'SOURCE_CONTEXT_DIR': 'python'
     }
   }))
   objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-writer-build.yaml`, {
@@ -38,7 +38,7 @@ module.exports = settings => {
       'VERSION': phases[phase].tag,
       'SOURCE_REPOSITORY_URL': oc.git.http_url,
       'SOURCE_REPOSITORY_REF': oc.git.ref,
-      'SOURCE_CONTEXT_DIR': 'python/writer'
+      'SOURCE_CONTEXT_DIR': 'python'
     }
   }))
 

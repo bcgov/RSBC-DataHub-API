@@ -64,7 +64,7 @@ objects:
         memory: 4Gi
     runPolicy: SerialLatestOnly
     source:
-      contextDir: ${SOURCE_CONTEXT_DIR}
+      contextDir: ${SOURCE_CONTEXT_DIR}/ingestor
       type: Binary
     strategy:
       dockerStrategy:
