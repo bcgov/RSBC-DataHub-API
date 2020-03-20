@@ -1,4 +1,7 @@
 FROM python:3.7.3-stretch
+WORKDIR ingestor
+RUN [ "pwd" ]
+RUN [ "ls", "-R" ]
 
 COPY requirements.txt ${APP_ROOT}/src/
 CMD [ "echo" , "requirements copied" ]
