@@ -11,12 +11,13 @@ RUN source /opt/app-root/etc/scl_enable && \
 
 CMD [ "echo" , "requirements installed" ]
 RUN [ "pwd" ]
-RUN [ "ls" ]
+RUN [ "ls", "-R" ]
 
+COPY python/common/*.py ${APP_ROOT}/src/python/common/
 COPY *.py ${APP_ROOT}/src/python/ingestor/
 
 CMD [ "echo" , "python files copied" ]
-RUN [ "ls" ]
+RUN [ "ls", "-R" ]
 
 #TODO - Add worker processes to gunicorn below 
 CMD [ "gunicorn", "--error-logfile", "-", "--bind", "0.0.0.0:5000", "--pythonpath", "${APP_ROOT}/src/python/ingestor", "wsgi" ]
