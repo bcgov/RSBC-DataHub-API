@@ -80,7 +80,7 @@ class Mapper:
     def _createManyDataRecords(self, tableMap, message) -> list:
         
         collection = []
-        records = self._getFromDict(message,tableMap['many_details']['itterate_on'])
+        records = self._getFromDict(message,tableMap['many_details']['iterate_on'])
 
         for record in records:
             singleRecord = []
@@ -92,8 +92,6 @@ class Mapper:
                 value = self._getFromDict(record,field['json_name'])
                 singleRecord.append(value)
             collection.append(singleRecord)
-
-        
         return collection
 
     def _getFromDict(self, dataDict: dict, itemToGetInDotNotation: str):
