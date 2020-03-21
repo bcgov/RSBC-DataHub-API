@@ -1,0 +1,56 @@
+{
+  "@bcgov/generator-bcdk": {
+    "promptValues": {
+      "modules": {
+        "jenkins": {
+          "path": ".jenkins",
+          "name": "jenkins",
+          "namespace": "iowaey-tools",
+          "version": "1.0.0",
+          "environments": {
+            "build": {
+              "namespace": "iowaey-tools"
+            },
+            "dev": {
+              "namespace": "iowaey-tools"
+            },
+            "prod": {
+              "namespace": "iowaey-tools"
+            }
+          },
+          "jenkinsJobName": "_jenkins",
+          "github_owner": "bcgov",
+          "github_repo": "RSBC-DataHub-API",
+          "jenkinsFilePath": ".jenkins/Jenkinsfile",
+          "uuid": "53748c7c-e231-48bd-a13e-082651185330"
+        },
+        "rsbc-bi": {
+          "name": "rsbc-bi",
+          "version": "1.0.0",
+          "path": ".",
+          "environments": {
+            "build": {
+              "namespace": "iowaey-tools"
+            },
+            "dev": {
+              "namespace": "iowaey-dev"
+            },
+            "test": {
+              "namespace": "iowaey-test"
+            },
+            "prod": {
+              "namespace": "iowaey-prod"
+            }
+          }
+        },
+        ".": {
+          "jenkinsJobName": "rsbc-dh",
+          "github_owner": "bcgov",
+          "github_repo": "RSBC-DataHub-API",
+          "jenkinsFilePath": "Jenkinsfile",
+          "uuid": "5a90a70f-6214-4e08-9998-d3238d5d2f19"
+        }
+      }
+    }
+  }
+}

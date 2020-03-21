@@ -1,0 +1,16 @@
+FROM python:3.7.3-stretch
+
+COPY validator/requirements.txt /tmp/
+
+RUN pip install -r /tmp/requirements.txt
+
+RUN useradd --create-home appuser
+WORKDIR /home/appuser
+USER appuser
+
+ENV PYTHONPATH /home/appuser/
+
+COPY common/ /home/appuser/python/common/
+COPY validator/ /home/appuser/python/validator/
+
+CMD [ "python", "./python/validator/listener.py" ]
