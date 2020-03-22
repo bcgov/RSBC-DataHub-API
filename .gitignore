@@ -4,5 +4,5 @@ ingest/.env/
 .env
 __pycache__/
 *.pyc
-
+.idea/
 node_modules/

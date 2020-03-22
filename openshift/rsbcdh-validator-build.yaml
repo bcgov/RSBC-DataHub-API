@@ -68,6 +68,7 @@ objects:
       type: Binary
     strategy:
       dockerStrategy:
+        dockerfilePath: validator/Dockerfile
         env: []
         from:
           kind: ImageStreamTag
