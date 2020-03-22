@@ -64,7 +64,7 @@ objects:
         memory: 4Gi
     runPolicy: SerialLatestOnly
     source:
-      contextDir: ${SOURCE_CONTEXT_DIR}/validator
+      contextDir: ${SOURCE_CONTEXT_DIR}
       type: Binary
     strategy:
       dockerStrategy:
