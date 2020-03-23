@@ -11,6 +11,6 @@ COPY common/*.py ${APP_ROOT}/src/python/common/
 COPY validator/*.py ${APP_ROOT}/src/python/validator/
 COPY validator/schemas.json ${APP_ROOT}/src/python/validator/
 
-WORKDIR ${APP_ROOT}/src/python/validator/
+WORKDIR ${APP_ROOT}/src
 
 CMD [ "python", "python/validator/listener.py" ]
