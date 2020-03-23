@@ -15,6 +15,8 @@ parameters:
 - name: SECRET_KEY
 - name: FLASK_ENV
   value: 'development'
+- name: PYTHONPATH
+  value: '/opt/app-root/lib/python3.6/site-packages:/opt/app-root/src/'
 - name: URL_SUFFIX
   required: true
 - name: CPU_REQUEST
