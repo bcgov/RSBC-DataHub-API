@@ -13,4 +13,4 @@ COPY validator/schemas.json ${APP_ROOT}/src/python/validator/
 
 WORKDIR ${APP_ROOT}/src/python/validator/
 
-CMD [ "python", "./listener.py" ]
+CMD [ "python", "python/validator/listener.py" ]
