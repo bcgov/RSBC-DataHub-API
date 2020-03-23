@@ -23,5 +23,5 @@ RUN [ "pwd" ]
 RUN [ "ls", "-R" ]
 
 #TODO - Add worker processes to gunicorn below
-CMD [ "gunicorn", "--error-logfile", "-", "--bind", "0.0.0.0:5000", "--pythonpath", "${APP_ROOT}/src/python/ingestor", "wsgi" ]
+CMD [ "gunicorn", "--error-logfile", "-", "--bind", "0.0.0.0:5000", "--pythonpath", "python/ingestor", "wsgi" ]
 
