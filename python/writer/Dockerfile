@@ -1,6 +1,6 @@
 FROM python:3.7.3-stretch
 
-COPY requirements.txt ${APP_ROOT}/src/
+COPY writer/requirements.txt ${APP_ROOT}/src/
 USER root
 RUN source /opt/app-root/etc/scl_enable && \
     set -x && \
@@ -17,9 +17,9 @@ RUN source /opt/app-root/etc/scl_enable && \
     sha256sum "${APP_ROOT}/src/requirements.txt" > ${APP_ROOT}/requirements.sha256  && \
     cd ${APP_ROOT}/src && pip install -r requirements.txt
 
-WORKDIR ${APP_ROOT}/src/
+COPY __init__.py ${APP_ROOT}/src/python/
+COPY common/*.py ${APP_ROOT}/src/python/common/
+COPY writer/*.py ${APP_ROOT}/src/python/writer/
+COPY writer/mapper.json ${APP_ROOT}/src/python/writer/
 
-COPY *.py ${APP_ROOT}/src/
-COPY mapper.json ${APP_ROOT}/src/
-
-CMD [ "python", "./listener.py" ]
+CMD [ "python", "python/writer/listener.py" ]

@@ -68,6 +68,7 @@ objects:
       type: Binary
     strategy:
       dockerStrategy:
+        dockerfilePath: ingestor/Dockerfile
         env: []
         from:
           kind: ImageStreamTag
