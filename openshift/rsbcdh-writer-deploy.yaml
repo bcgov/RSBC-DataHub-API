@@ -10,9 +10,33 @@ parameters:
 - name: VERSION
 - name: HOST
 - name: RABBITMQ_URL
-- name: VALIDATOR_USER
-- name: VALIDATOR_PASS
-- name: SECRET_KEY
+- name: RABBITMQ_EXCHANGE
+- name: RETRY_DELAY
+  value: '30'
+- name: LOG_LEVEL
+  value: 'INFO'
+- name: RABBITMQ_MESSAGE_ENCODE
+  value: 'utf8'
+- name: WRITE_QUEUE
+  value: 'ingested'
+- name: MAX_CONNECTION_RETRIES
+  value: '10'
+- name: WATCH_QUEUE
+  value: 'ETK.valid'
+- name: FAIL_QUEUE
+  value: 'ETK.fail-write'
+- name: MQ_WRITER_USER
+- name: MQ_WRITER_PASS
+- name: DB_HOST
+  value: 'unknown.ag.gov.bc.ca'
+- name: DB_NAME
+  value: 'db_name_unknown'
+- name: DB_USERNAME
+  value: 'db_user_unknown'
+- name: DB_PASSWORD
+  value: 'db_pass_unknown'
+- name: MAPPER_CONFIG_FILENAME
+  value: 'python/writer/mapper.json'
 - name: FLASK_ENV
   value: 'development'
 - name: PYTHONPATH
@@ -95,16 +119,40 @@ objects:
           env:
             - name: RABBITMQ_URL
               value: ${NAME}-rabbitmq${SUFFIX}
-            - name: VALIDATOR_USER
+            - name: MQ_WRITER_USER
               valueFrom:
                 secretKeyRef:
                   name: ${NAME}${SUFFIX}
                   key: username
-            - name: VALIDATOR_PASS
+            - name: MQ_WRITER_PASS
               valueFrom:
                 secretKeyRef:
                   name: ${NAME}${SUFFIX}
                   key: password
+            - name: RETRY_DELAY
+              value: ${RETRY_DELAY}
+            - name: LOG_LEVEL
+              value: ${LOG_LEVEL}
+            - name: RABBITMQ_MESSAGE_ENCODE
+              value: ${RABBITMQ_MESSAGE_ENCODE}
+            - name: WRITE_QUEUE
+              value: ${WRITE_QUEUE}
+            - name: MAX_CONNECTION_RETRIES
+              value: ${MAX_CONNECTION_RETRIES}
+            - name: WATCH_QUEUE
+              value: ${WATCH_QUEUE}
+            - name: FAIL_QUEUE
+              value: ${FAIL_QUEUE}
+            - name: DB_HOST
+              value: ${DB_HOST}
+            - name: DB_NAME
+              value: ${DB_NAME}
+            - name: DB_USERNAME
+              value: ${DB_USERNAME}
+            - name: DB_PASSWORD
+              value: ${DB_PASSWORD}
+            - name: MAPPER_CONFIG_FILENAME
+              value: ${MAPPER_CONFIG_FILENAME}
             - name: FLASK_ENV
               value: ${FLASK_ENV}
             - name: PYTHONPATH
