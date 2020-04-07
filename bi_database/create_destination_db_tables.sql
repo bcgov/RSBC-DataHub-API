@@ -2,64 +2,73 @@
 USE [rsbcodw]
 GO
 
-/****** Object:  Table [etk].[events] ******/
-DROP TABLE IF EXISTS [etk].[events]
-GO
-
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-CREATE TABLE [etk].[events](
-	[id] [bigint] NOT NULL,
-	[date_time] [date] NOT NULL,
-	[type] [varchar](100) NOT NULL,
-	[version] [varchar](10) NOT NULL
-) ON [PRIMARY]
-GO
-
-
-
-/****** Object:  Table [etk].[violations] ******/
-DROP TABLE IF EXISTS [etk].[violations]
-GO
-
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
+/****** --=-=-= CREATE TABLE : VIOLATIONS******/
+IF OBJECT_ID (N'etk.violations', N'U') IS NOT NULL
+DROP TABLE etk.violations;
 GO
 
 CREATE TABLE [etk].[violations](
-	[count_number] [tinyint] NOT NULL,
-	[ticket_number] [varchar](100) NOT NULL,
-	[act_code] [varchar](400) NOT NULL,
-	[section_text] [varchar](400) NOT NULL,
-	[section_desc] [varchar](400) NOT NULL,
-	[fine_amount] [varchar](400) NOT NULL,
- CONSTRAINT [pk_violations] PRIMARY KEY CLUSTERED 
+    [ticket_number] [varchar](100) NOT NULL,
+    [count_number] [tinyint] NOT NULL,
+    [act_code] [varchar](400) NOT NULL,
+    [section_text] [varchar](400) NOT NULL,
+    [section_desc] [varchar](400) NOT NULL,
+    [fine_amount] [varchar](400) NOT NULL,
+CONSTRAINT [pk_violations] PRIMARY KEY CLUSTERED
 (
-	[count_number] ASC,
-	[ticket_number] ASC
+    [count_number] ASC,
+    [ticket_number] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
 
-/****** Object:  Table [etk].[issuance] ******/
-DROP TABLE IF EXISTS [etk].[issuances]
+/****** --=-=-= CREATE TABLE : QUERIES******/
+IF OBJECT_ID (N'etk.queries', N'U') IS NOT NULL
+DROP TABLE etk.queries;
 GO
 
-SET ANSI_NULLS ON
+CREATE TABLE [etk].[queries](
+    [event_id] [bigint] NOT NULL,
+    [ticket_number] [varchar](100) NOT NULL,
+CONSTRAINT [pk_query] PRIMARY KEY CLUSTERED
+(
+    [event_id] ASC,
+    [ticket_number] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
 GO
 
-SET QUOTED_IDENTIFIER ON
+
+/****** --=-=-= CREATE TABLE : PAYMENTS******/
+IF OBJECT_ID (N'etk.payments', N'U') IS NOT NULL
+DROP TABLE etk.payments;
+GO
+
+CREATE TABLE [etk].[payments](
+    [event_id] [bigint] NOT NULL,
+    [ticket_number] [varchar](100) NOT NULL,
+    [count_number] [tinyint] NOT NULL,
+    [payment_card_type] [varchar](400) NOT NULL,
+    [payment_ticket_type_code] [varchar](400) NOT NULL,
+    [payment_amount] [numeric](10, 2) NOT NULL,
+CONSTRAINT [pk_payments] PRIMARY KEY CLUSTERED
+(
+    [event_id] ASC,
+    [ticket_number] ASC,
+    [count_number] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+/****** --=-=-= CREATE TABLE : ISSUANCES******/
+IF OBJECT_ID (N'etk.issuances', N'U') IS NOT NULL
+DROP TABLE etk.issuances;
 GO
 
 CREATE TABLE [etk].[issuances](
-	[event_id] [bigint] NOT NULL,
+    [event_id] [bigint] NOT NULL,
     [submit_date] [date] NOT NULL,
     [sent_time] [varchar](400) NOT NULL,
     [ticket_number] [varchar](400) NOT NULL,
@@ -93,141 +102,88 @@ CREATE TABLE [etk].[issuances](
     [enforcement_officer_number] [varchar](400) NULL,
     [enforcement_officer_name] [varchar](400) NULL,
     [ent_date] [date] NULL,
- CONSTRAINT [pk_issuance] PRIMARY KEY CLUSTERED 
+CONSTRAINT [pk_issuance] PRIMARY KEY CLUSTERED
 (
-	[event_id] ASC,
-	[ticket_number] ASC
+    [event_id] ASC,
+    [ticket_number] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
 
-/****** Object:  Table [etk].[payments] ******/
-DROP TABLE IF EXISTS [etk].[payments]
+/****** --=-=-= CREATE TABLE : EVENTS******/
+IF OBJECT_ID (N'etk.events', N'U') IS NOT NULL
+DROP TABLE etk.events;
 GO
 
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-CREATE TABLE [etk].[payments](
-	[event_id] [bigint] NOT NULL,
-	[count_number] [tinyint] NOT NULL,
-	[ticket_number] [varchar](100) NOT NULL,
-	[payment_card_type] [varchar](400) NOT NULL,
-	[payment_ticket_type_code] [varchar](400) NOT NULL,
-	[payment_amount] [int] NOT NULL,
- CONSTRAINT [pk_payments] PRIMARY KEY CLUSTERED 
-(
-	[event_id] ASC,
-	[count_number] ASC,
-	[ticket_number] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+CREATE TABLE [etk].[events](
+    [id] [bigint] NOT NULL,
+    [date_time] [date] NOT NULL,
+    [type] [varchar](100) NOT NULL,
+    [version] [varchar](10) NOT NULL
 ) ON [PRIMARY]
 GO
 
 
-/****** Object:  Table [etk].[query] ******/
-DROP TABLE IF EXISTS [etk].[queries]
-GO
-
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-CREATE TABLE [etk].[queries](
-	[event_id] [bigint] NOT NULL,
-	[ticket_number] [varchar](100) NOT NULL,
- CONSTRAINT [pk_query] PRIMARY KEY CLUSTERED 
-(
-	[event_id] ASC,
-	[ticket_number] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-
-
-/****** Object:  Table [etk].[dispute] ******/
-DROP TABLE IF EXISTS [etk].[disputes]
-GO
-
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
+/****** --=-=-= CREATE TABLE : DISPUTES******/
+IF OBJECT_ID (N'etk.disputes', N'U') IS NOT NULL
+DROP TABLE etk.disputes;
 GO
 
 CREATE TABLE [etk].[disputes](
-	[event_id] [bigint] NOT NULL,
-	[count_number] [tinyint] NOT NULL,
-	[ticket_number] [varchar](100) NOT NULL,
-	[dispute_action_date] [varchar](400) NOT NULL,
-	[dispute_type_code] [varchar](400) NOT NULL,
-	[count_act_regulation] [varchar](400) NOT NULL,
-	[compressed_section] [varchar](400) NOT NULL,
- CONSTRAINT [pk_dispute] PRIMARY KEY CLUSTERED 
+    [event_id] [bigint]NULL,
+    [ticket_number] [varchar](100) NOT NULL,
+    [count_number] [tinyint] NOT NULL,
+    [dispute_action_date] [varchar](400) NOT NULL,
+    [dispute_type_code] [varchar](400) NULL,
+    [count_act_regulation] [varchar](400) NULL,
+    [compressed_section] [varchar](400) NULL,
+CONSTRAINT [pk_dispute] PRIMARY KEY CLUSTERED
 (
-	[event_id] ASC,
-	[count_number] ASC,
-	[ticket_number] ASC
+    [count_number] ASC,
+    [ticket_number] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
 
-
-/****** Object:  Table [etk].[dispute_status_update] ******/
-DROP TABLE IF EXISTS [etk].[dispute_status_updates]
-GO
-
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
+/****** --=-=-= CREATE TABLE : DISPUTE_STATUS_UPDATES******/
+IF OBJECT_ID (N'etk.dispute_status_updates', N'U') IS NOT NULL
+DROP TABLE etk.dispute_status_updates;
 GO
 
 CREATE TABLE [etk].[dispute_status_updates](
-	[event_id] [bigint] NOT NULL,
-	[count_number] [tinyint] NOT NULL,
-	[ticket_number] [varchar](100) NOT NULL,
-	[dispute_action_date] [varchar](400) NOT NULL,
-	[dispute_action_code] [varchar](400) NOT NULL,
- CONSTRAINT [pk_dispute_status_update] PRIMARY KEY CLUSTERED 
+    [event_id] [bigint] NOT NULL,
+    [count_number] [tinyint] NOT NULL,
+    [ticket_number] [varchar](100) NOT NULL,
+    [dispute_action_date] [varchar](400) NOT NULL,
+    [dispute_action_code] [varchar](400) NOT NULL,
+CONSTRAINT [pk_dispute_status_update] PRIMARY KEY CLUSTERED
 (
-	[event_id] ASC,
-	[count_number] ASC,
-	[ticket_number] ASC
+    [event_id] ASC,
+    [count_number] ASC,
+    [ticket_number] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
 
-/****** Object:  Table [etk].[dispute_finding] ******/
-DROP TABLE IF EXISTS [etk].[dispute_findings]
-GO
-
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
+/****** --=-=-= CREATE TABLE : DISPUTE_FINDINGS******/
+IF OBJECT_ID (N'etk.dispute_findings', N'U') IS NOT NULL
+DROP TABLE etk.dispute_findings;
 GO
 
 CREATE TABLE [etk].[dispute_findings](
-	[event_id] [bigint] NOT NULL,
-	[count_number] [tinyint] NOT NULL,
-	[ticket_number] [varchar](100) NOT NULL,
-	[finding_date] [varchar](400) NOT NULL,
-	[finding_code] [varchar](400) NOT NULL,
-	[finding_description] [varchar](400) NOT NULL,
- CONSTRAINT [pk_dispute_finding] PRIMARY KEY CLUSTERED 
+    [event_id] [bigint] NOT NULL,
+    [count_number] [tinyint] NOT NULL,
+    [ticket_number] [varchar](100) NOT NULL,
+    [finding_date] [varchar](400) NOT NULL,
+    [finding_code] [varchar](400) NOT NULL,
+    [finding_description] [varchar](400) NOT NULL,
+CONSTRAINT [pk_dispute_finding] PRIMARY KEY CLUSTERED
 (
-	[event_id] ASC,
-	[count_number] ASC,
-	[ticket_number] ASC
+    [count_number] ASC,
+    [ticket_number] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
