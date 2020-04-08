@@ -5,14 +5,15 @@ from python.common.rabbitmq import RabbitMQ
 import logging
 import json
 
-# This listener watches the RabbitMQ WATCH_QUEUE defined in the
-# Config.  When a message appears in the queue the Listener:
-#  - invokes callback(),
-#  - transforms the message using the Mapper class,
-#  - finally passing a dict to the Database class for writing
-
 
 class Listener:
+    """
+        This listener watches the RabbitMQ WATCH_QUEUE defined in the
+        Config.  When a message appears in the queue the Listener:
+         - invokes callback(),
+         - transforms the message using the Mapper class,
+         - finally passing a dict to the Database class for writing
+    """
     
     def __init__(self, config, database, mapper, rabbit_writer, rabbit_listener):
         self.config = config
@@ -42,10 +43,7 @@ class Listener:
 
         # The database insert method is responsible for connecting to the 
         # database, adding records to one or more tables and closing the 
-        # connection.  The database class can be extended to allow for
-        # writing to different databases. For example, the syntax to insert 
-        # records into a MSSQL database is slightly different than the 
-        # syntax to used to insert records into a Postgress database
+        # connection.
         result = self.database.insert(tables_for_insert)
 
         if result['isSuccessful']:
