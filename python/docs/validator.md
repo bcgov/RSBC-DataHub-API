@@ -41,7 +41,7 @@ The schema.json file defines a collection of schema definitions. The validator w
 It is recommended to create a schema for each different data type.
 
 Each schema definitions has **four** required attributes:
- - `short_name` - the short name of the schema used for log file output. 
+ - `event_type` - the short name of the schema used for log file output. 
  - `description` - a description field for reference in the schema only
  - `allow_unknown` - **Boolean** when set to 'True', the validator will allow fields / attributes that are not documented in the schema.  When set to 'False' all fields must be listed in the schema
  - `cerberus` - a set of fields / attributes and the associated rules. [Cerberus](https://docs.python-cerberus.org/en/stable/) is a well documented third-party validation library.
@@ -49,7 +49,7 @@ Each schema definitions has **four** required attributes:
 
 ```
 {
-      "short_name": "evt_issuance",
+      "event_type": "evt_issuance",
       "description": "schema for evt_issuance",
       "allow_unknown": true,
       "cerberus": {

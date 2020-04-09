@@ -2,6 +2,7 @@ from python.writer.config import Config
 from python.writer.database import MsSQL
 from python.writer.mapper import Mapper
 from python.common.rabbitmq import RabbitMQ
+from python.common.helper import Helper
 import logging
 import json
 
@@ -51,23 +52,9 @@ class Listener:
             # remove the message from RabbitMQs WRITE_WATCH_QUEUE
             ch.basic_ack(delivery_tag=method.delivery_tag)
         else:
-            error_message = self.add_error_to_message(message_dict, result)
-            json_error_message = json.dumps(error_message)
-            
-            if self.writer.publish(self.config.FAIL_QUEUE, json_error_message):
+            message_with_errors_appended = Helper.add_error_to_message(message_dict, result)
+            if self.writer.publish(self.config.FAIL_QUEUE, json.dumps(message_with_errors_appended)):
                 ch.basic_ack(delivery_tag=method.delivery_tag)
-
-    @staticmethod
-    def add_error_to_message(message: dict, error: dict) -> dict:
-        # We add 'errors' as a message attribute so as to keep a
-        # history of events in case it fails repeatedly.  
-        
-        if 'errors' not in message:
-            message['errors'] = []
-        
-        message['errors'].append(error)
-            
-        return message
 
 
 if __name__ == "__main__":

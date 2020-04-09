@@ -1,7 +1,7 @@
 {
   "data": [
     {
-      "short_name": "evt_issuance",
+      "event_type": "evt_issuance",
       "description": "schema for evt_issuance",
       "allow_unknown": true,
       "cerberus": {
@@ -31,7 +31,7 @@
       }
     },
     {
-      "short_name": "vt_query",
+      "event_type": "vt_query",
       "description": "schema for vt_query",
       "allow_unknown": true,
       "cerberus": {
@@ -61,7 +61,7 @@
       }
     },
     {
-      "short_name": "vt_payment",
+      "event_type": "vt_payment",
       "description": "schema for vt_payment",
       "allow_unknown": true,
       "cerberus": {
@@ -91,7 +91,7 @@
       }
     },
     {
-      "short_name": "vt_dispute",
+      "event_type": "vt_dispute",
       "description": "schema for vt_dispute",
       "allow_unknown": true,
       "cerberus": {
@@ -121,7 +121,7 @@
       }
     },
     {
-      "short_name": "vt_dispute_status_update",
+      "event_type": "vt_dispute_status_update",
       "description": "schema for vt_dispute_status_update",
       "allow_unknown": true,
       "cerberus": {
@@ -151,7 +151,7 @@
       }
     },
     {
-      "short_name": "vt_dispute_finding",
+      "event_type": "vt_dispute_finding",
       "description": "schema for vt_dispute_finding",
       "allow_unknown": true,
       "cerberus": {
