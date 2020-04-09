@@ -1,6 +1,7 @@
 import os
 from python.common.config import Config as BaseConfig
 
+
 class Config(BaseConfig):
     WATCH_QUEUE                 = os.getenv('WATCH_QUEUE', 'ETK')
     VALID_QUEUE                 = os.getenv('VALID_QUEUE', 'ETK.valid')

@@ -105,7 +105,7 @@ Below is an example of a `one-to-many` table definition.
     "name": "vph_violation_kpi_details",
     "relationship": "one-to-many",
     "many_details": {
-        "itterate_on": "evt_issuance.counts",
+        "iterate_on": "evt_issuance.counts",
         "key_field": {
             "json_name": "evt_issuance.ticket_number",
             "destination_name": "TICKET_NO"
@@ -129,5 +129,5 @@ Below is an example of a `one-to-many` table definition.
 ```
 
 One-to-many table definitions have an additional attribute called, `many_details` with two sub-attributes:
- - `itterate_on` - the list attribute in the JSON message which the writer will itterate over.
+ - `iterate_on` - the list attribute in the JSON message which the writer will itterate over.
  - `key_field` - the name of the primary field used by the database to join the one-to-many table to the parent table.

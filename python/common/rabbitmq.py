@@ -14,13 +14,15 @@ class RabbitMQ:
 
     @staticmethod
     def _get_connection_url(user: str, password: str, host: str, retries: int, retry_delay: int) -> str:
-        return "amqp://{}:{}@{}:5672/%2F?connection_attempts={}&retry_delay={}".format(
+        string = "amqp://{}:{}@{}:5672/%2F?connection_attempts={}&retry_delay={}".format(
             user,
             password,
             host,
             retries,
             retry_delay
         )
+        logging.info(string)
+        return string
 
     def consume(self, queue_name: str, callback ):
         self._verify_or_create(queue_name)

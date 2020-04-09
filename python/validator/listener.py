@@ -4,15 +4,15 @@ from python.common.rabbitmq import RabbitMQ
 import logging
 import json
 
-# This listener watches the RabbitMQ WATCH_QUEUE defined in the
-# Config.  When a message appears in the queue the Listener:
-#  - invokes callback(),
-#  - determines whether the message is valid or not valid,
-#  - writes the message to a valid or not valid queue
-
 
 class Listener:
-
+    """
+        This listener watches the RabbitMQ WATCH_QUEUE defined in the
+        Config.  When a message appears in the queue the Listener:
+         - invokes callback(),
+         - determines whether the message is valid or not valid,
+         - writes the message to a valid or not valid queue
+    """
     def __init__(self, config, validator, rabbit_writer, rabbit_listener):
         self.validator = validator
         self.config = config
