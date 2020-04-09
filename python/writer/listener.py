@@ -39,7 +39,7 @@ class Listener:
         # The Mapper is responsible for converting the message into a 
         # list of tables for insertion into a database.  Each table includes
         # data record(s) to be inserted.
-        tables_for_insert = self.mapper.convertToTables(message_dict)
+        tables_for_insert = self.mapper.convert_to_tables(message_dict)
 
         # The database insert method is responsible for connecting to the 
         # database, adding records to one or more tables and closing the 

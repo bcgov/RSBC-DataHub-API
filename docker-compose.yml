@@ -11,7 +11,7 @@ services:
             RABBITMQ_DEFAULT_PASS: "${RABBITMQ_DEFAULT_PASS}"
         ports:
             - "15672:15672" # Web admin port
-            - "5672:5672"   # TODO - Remove before flight
+            - "5672:5672"   # Do not expose this port in production
 
     ingestor:
         build: 
@@ -20,7 +20,7 @@ services:
         depends_on:
           - rabbitmq
         environment:
-          RABBITMQ_URL: 'rabbitmq'
+          RABBITMQ_URL: "${RABBITMQ_URL}"
           # The INGEST_USER is used to submit 
           # events for processing
           INGEST_USER: "${INGEST_USER}"
@@ -37,7 +37,7 @@ services:
         depends_on:
           - rabbitmq
         environment:
-          RABBITMQ_URL: 'rabbitmq'
+          RABBITMQ_URL: "${RABBITMQ_URL}"
           # The VALIDATE_USER is used to watch for submitted
           # events and validate them
           VALIDATOR_USER: "${VALIDATOR_USER}"
@@ -51,7 +51,7 @@ services:
         depends_on:
           - rabbitmq
         environment:
-          RABBITMQ_URL: 'rabbitmq'
+          RABBITMQ_URL: "${RABBITMQ_URL}"
           # The MQ_WRITER_USER is used to watch for validated
           # events and write them to the database
           MQ_WRITER_USER: "${MQ_WRITER_USER}"

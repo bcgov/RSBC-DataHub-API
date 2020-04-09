@@ -10,7 +10,6 @@ class MsSQL:
         logging.warning('*** database class initialized  ***')
 
     def insert(self, tables_to_be_inserted: dict) -> dict:
-
         # Connect to database
         logging.info('insert called')
         logging.info(self.config.DB_HOST)
@@ -20,7 +19,6 @@ class MsSQL:
         cursor = connection.cursor()
 
         for table in tables_to_be_inserted:
-            
             insert_statement = "INSERT INTO {} ({}) VALUES ({})".format(
                     table['table'], 
                     ",".join(str(x) for x in table['columns']),
@@ -30,8 +28,7 @@ class MsSQL:
             logging.info(table['values'])
 
             try:
-                cursor.executemany(insert_statement, table['values'])
-
+                cursor.execute(insert_statement, table['values'])
             except Exception as error:
                 error_string = error.__class__.__name__
                 logging.warning("Write to db failed: " + error_string)
@@ -72,10 +69,12 @@ class MsSQL:
 
     @staticmethod
     def _wrap_strings_with_quotes(value):
-        # SQL server insert statements wrap quotes around strings 
-        # but omit quotes if for numbers.
-
+        """
+            SQL server insert statements wrap quotes around strings
+            but omit quotes if numbers.
+        :param value:
+        :return:
+        """
         if str(type(value)) == "<class 'str'>":
             return "'{}'".format(value)
-
         return str(value)
