@@ -5,7 +5,7 @@ from python.validator.validator import Validate
 
 # To override the config class for testing
 class Config(ValidationConfig):
-    SCHEMA_FILENAME = 'python/validator/schemas.json'
+    SCHEMA_FILENAME = 'schemas.json'
     
 
 class TestValidator:
@@ -25,44 +25,44 @@ class TestValidator:
         sample_data = self.get_sample_data('python/tests/sample_data/event_issuance.json')
         assert type(sample_data) is dict
         validate_class = Validate(Config())
-        assert validate_class.validate(sample_data) == True
+        assert validate_class.validate(sample_data) is True
 
     def test_sample_data_vt_payment_passes_validation(self):
         sample_data = self.get_sample_data('python/tests/sample_data/vt_payment.json')
         assert type(sample_data) is dict
         validate_class = Validate(Config())
-        assert validate_class.validate(sample_data) == True
+        assert validate_class.validate(sample_data) is True
 
     def test_sample_data_vt_query_passes_validation(self):
         sample_data = self.get_sample_data('python/tests/sample_data/vt_query.json')
         assert type(sample_data) is dict
         validate_class = Validate(Config())
-        assert validate_class.validate(sample_data) == True
+        assert validate_class.validate(sample_data) is True
 
     def test_sample_data_vt_dispute_passes_validation(self):
         sample_data = self.get_sample_data('python/tests/sample_data/vt_dispute.json')
         assert type(sample_data) is dict
         validate_class = Validate(Config())
-        assert validate_class.validate(sample_data) == True
+        assert validate_class.validate(sample_data) is True
 
     def test_sample_data_vt_dispute_status_update_passes_validation(self):
         sample_data = self.get_sample_data('python/tests/sample_data/vt_dispute_status_update.json')
         assert type(sample_data) is dict
         validate_class = Validate(Config())
-        assert validate_class.validate(sample_data) == True
+        assert validate_class.validate(sample_data) is True
 
     def test_sample_data_vt_dispute_finding_passes_validation(self):
         sample_data = self.get_sample_data('python/tests/sample_data/vt_dispute_finding.json')
         assert type(sample_data) is dict
         validate_class = Validate(Config())
-        assert validate_class.validate(sample_data) == True
+        assert validate_class.validate(sample_data) is True
 
     def test_unknown_event_type_fails_validation(self):
         sample_data = self.get_sample_data('python/tests/sample_data/vt_payment.json')
         assert type(sample_data) is dict
         sample_data['event_type'] = 'unknown_event'
         validate_class = Validate(Config())
-        assert validate_class.validate(sample_data) == False
+        assert validate_class.validate(sample_data) is False
     
     @staticmethod
     def get_sample_data(file_name) -> dict:

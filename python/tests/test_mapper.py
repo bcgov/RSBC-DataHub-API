@@ -1,0 +1,83 @@
+import pytest
+import json
+from python.writer.config import Config as WriterConfig
+from python.writer.mapper import Mapper
+
+
+# To override the config class for testing
+class Config(WriterConfig):
+    MAPPER_CONFIG_FILENAME = 'python/writer/mapper.json'
+    
+
+class TestMapper:
+
+    def convert_to_tables(self, filename):
+        mapper = Mapper(WriterConfig())
+        sample_message = self.get_sample_data('python/tests/sample_data/' + filename)
+        return mapper.convert_to_tables(sample_message)
+
+    def test_sample_message_creates_multiple_tables_with_common_dict_structure(self):
+        for table in self.convert_to_tables('event_issuance.json'):
+            assert 'columns' in table
+            assert 'table' in table
+            assert 'values' in table
+
+    def test_event_issuance_message_creates_three_tables(self):
+        table_names = [table['table'] for table in self.convert_to_tables('event_issuance.json')]
+        assert table_names[0] == 'etk.events'
+        assert table_names[1] == 'etk.issuances'
+        assert table_names[2] == 'etk.violations'
+        assert len(table_names) == 3
+
+    def test_event_issuance_message_creates_an_events_table(self):
+        event = next(x for x in self.convert_to_tables('event_issuance.json') if x["table"] == 'etk.events')
+        assert event['columns'][0] == 'id'
+        assert event['columns'][1] == 'date_time'
+        assert event['columns'][2] == 'version'
+        assert event['columns'][3] == 'type'
+
+    def test_event_issuance_message_creates_an_issuance_table(self):
+        issuance = next(x for x in self.convert_to_tables('event_issuance.json') if x["table"] == 'etk.issuances')
+        assert issuance['columns'][0] == 'event_id'
+        assert issuance['columns'][1] == 'ticket_number'
+        assert issuance['columns'][2] == 'violation_date'
+        assert issuance['columns'][3] == 'violation_time'
+
+    def test_vt_payments_message_creates_two_tables(self):
+        table_names = [table['table'] for table in self.convert_to_tables('vt_payment.json')]
+        assert table_names[0] == 'etk.events'
+        assert table_names[1] == 'etk.payments'
+        assert len(table_names) == 2
+
+    def test_vt_query_message_creates_two_tables(self):
+        table_names = [table['table'] for table in self.convert_to_tables('vt_query.json')]
+        assert table_names[0] == 'etk.events'
+        assert table_names[1] == 'etk.queries'
+        assert len(table_names) == 2
+
+    def test_vt_dispute_message_creates_two_tables(self):
+        table_names = [table['table'] for table in self.convert_to_tables('vt_dispute.json')]
+        assert table_names[0] == 'etk.events'
+        assert table_names[1] == 'etk.disputes'
+        assert len(table_names) == 2
+
+    def test_vt_dispute_findings_message_creates_two_tables(self):
+        table_names = [table['table'] for table in self.convert_to_tables('vt_dispute_finding.json')]
+        assert table_names[0] == 'etk.events'
+        assert table_names[1] == 'etk.dispute_findings'
+        assert len(table_names) == 2
+
+    def test_vt_dispute_status_updates_message_creates_two_tables(self):
+        table_names = [table['table'] for table in self.convert_to_tables('vt_dispute_status_update.json')]
+        assert table_names[0] == 'etk.events'
+        assert table_names[1] == 'etk.dispute_status_updates'
+        assert len(table_names) == 2
+
+    @staticmethod
+    def get_sample_data(file_name) -> dict:
+        with open(file_name, 'r') as f:
+            data = f.read()
+        return json.loads(data)
+        
+
+
