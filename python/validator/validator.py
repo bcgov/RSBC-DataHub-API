@@ -26,7 +26,7 @@ class Validate:
         :param message:
         :return: dictionary
         """
-        if 'event_type' not in message:
+        if not message or 'event_type' not in message:
             error_message = "the 'event_type' attribute is required"
             logging.info(error_message)
             return {'isSuccess': False, 'errors': error_message}
