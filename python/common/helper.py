@@ -12,6 +12,8 @@ class Helper:
         :param error:
         :return:
         """
+        now_string = datetime.datetime.now().strftime("%d-%b-%Y (%H:%M:%S.%f)")
+
         if not message:
             message = dict()
 
@@ -19,6 +21,6 @@ class Helper:
             message['errors'] = []
         message['errors'].append({
             'error': error,
-            'timestamp': datetime.datetime.now()
+            'timestamp': now_string
         })
         return message
