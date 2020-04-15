@@ -38,13 +38,13 @@ class Validate:
             cerberus.allow_unknown = schema['allow_unknown']
             if cerberus.validate(message):
                 logging.info(' - passes validation using: ' + schema['event_type'])
-                return {'isSuccess': True, 'errors': None }
+                return {'isSuccess': True, 'errors': ''}
             else:
                 logging.info(' - message failed validation')
-                return {'isSuccess': False, 'errors': cerberus.document_error_tree}
-        else:
-            logging.info(' - NOT valid ' + message['event_type'] + ' is not in the schemas.json file')
-            return {
-                'isSuccess': False,
-                'errors': "event_type, " + message['event_type'] + ' is not in the schemas.json file'
-            }
+                return {'isSuccess': False, 'errors': cerberus.errors}
+
+        logging.info(' - NOT valid ' + message['event_type'] + ' is not in the schemas.json file')
+        return {
+            'isSuccess': False,
+            'errors': "event_type, " + message['event_type'] + ' is not in the schemas.json file'
+        }
