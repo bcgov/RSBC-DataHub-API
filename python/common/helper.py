@@ -12,7 +12,10 @@ class Helper:
         :param error:
         :return:
         """
-        if not message or 'errors' not in message:
+        if not message:
+            message = dict()
+
+        if 'errors' not in message:
             message['errors'] = []
         message['errors'].append({
             'error': error,
