@@ -25,8 +25,13 @@ class Validate:
         :param message:
         :return: dictionary
         """
+        # check that message is a dictionary
+        if not isinstance(message, dict):
+            error_message = 'message does not decode into dictionary object'
+            logging.info(error_message)
+            return {'isSuccess': False, 'errors': error_message}
 
-        # check basic structure of the message
+        # check basic structure of the message / event
         cerberus = Cerberus(self.schema['basic_message_structure']['cerberus_rules'])
         cerberus.allow_unknown = self.schema['basic_message_structure']['allow_unknown']
         if not cerberus.validate(message):
