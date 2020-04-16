@@ -74,10 +74,16 @@ class TestValidator:
         assert 'event_id' in validate_class.validate(sample_data)['errors']
 
     @staticmethod
-    def a_null_test_message_fails_validation(self):
+    def test_a_null_test_message_fails_validation():
         sample_data = None
         validate_class = Validate(Config())
-        assert validate_class.validate(sample_data) is False
+        assert validate_class.validate(sample_data)['isSuccess'] is False
+
+    @staticmethod
+    def test_a_test_message_with_bad_json_fails_validation():
+        sample_data = 'some string that is not json or does not decode into a dictionary'
+        validate_class = Validate(Config())
+        assert validate_class.validate(sample_data)['isSuccess'] is False
 
     @staticmethod
     def get_sample_data(file_name) -> dict:

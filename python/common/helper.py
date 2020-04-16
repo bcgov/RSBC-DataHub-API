@@ -4,7 +4,7 @@ import datetime
 class Helper:
 
     @staticmethod
-    def add_error_to_message(message: dict, error: dict) -> dict:
+    def add_error_to_message(message, error) -> dict:
         """
             Add 'errors' as a message attribute so as to keep a
             history of events in case it fails repeatedly.
@@ -14,10 +14,10 @@ class Helper:
         """
         now_string = datetime.datetime.now().strftime("%d-%b-%Y (%H:%M:%S.%f)")
 
-        if not message:
+        if not isinstance(message, dict):
             message = dict()
 
         if 'errors' not in message:
             message['errors'] = []
-        message['errors'].append({'error': error, 'timestamp': now_string})
+        message['errors'].append({'errors': error, 'timestamp': now_string})
         return message
