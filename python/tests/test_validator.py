@@ -5,7 +5,7 @@ from python.validator.validator import Validate
 
 # To override the config class for testing
 class Config(ValidationConfig):
-    SCHEMA_FILENAME = 'schemas.json'
+    SCHEMA_FILENAME = 'schema.json'
     
 
 class TestValidator:
@@ -59,16 +59,12 @@ class TestValidator:
         sample_data['event_type'] = 'unknown_event'
         validate_class = Validate(Config())
         assert validate_class.validate(sample_data)['isSuccess'] is False
-        error_message = "event_type, unknown_event is not in the schemas.json file"
-        assert validate_class.validate(sample_data)['errors'] == error_message
 
     def test_message_without_an_event_type_fails_validation(self):
         sample_data = self.get_sample_data('python/tests/sample_data/vt_payment.json')
         del sample_data['event_type']
         validate_class = Validate(Config())
         assert validate_class.validate(sample_data)['isSuccess'] is False
-        error_message = "the 'event_type' attribute is required"
-        assert validate_class.validate(sample_data)['errors'] == error_message
 
     def test_message_that_breaks_validation_rule_returns_problematic_attribute_name(self):
         sample_data = self.get_sample_data('python/tests/sample_data/vt_payment.json')
@@ -76,6 +72,12 @@ class TestValidator:
         validate_class = Validate(Config())
         assert validate_class.validate(sample_data)['isSuccess'] is False
         assert 'event_id' in validate_class.validate(sample_data)['errors']
+
+    @staticmethod
+    def a_null_test_message_fails_validation(self):
+        sample_data = None
+        validate_class = Validate(Config())
+        assert validate_class.validate(sample_data) is False
 
     @staticmethod
     def get_sample_data(file_name) -> dict:
