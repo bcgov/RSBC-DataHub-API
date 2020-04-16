@@ -32,9 +32,8 @@ class Validate:
 
         # lookup the schema in self.schemas['data'] that matches the event_type in the message
         matching_schema = None
-        for schema in self.schemas:
+        for schema in self.schemas['data']:
             if schema['event_type'] == message['event_type']:
-                logging.info('matching schema found')
                 matching_schema = schema
 
         if matching_schema:
