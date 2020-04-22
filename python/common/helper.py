@@ -19,5 +19,5 @@ class Helper:
 
         if 'errors' not in message:
             message['errors'] = []
-        message['errors'].append({'errors': error, 'timestamp': now_string})
+        message['errors'].append({'description': error, 'timestamp': now_string})
         return message

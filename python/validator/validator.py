@@ -27,16 +27,16 @@ class Validate:
         """
         # check that message is a dictionary
         if not isinstance(message, dict):
-            error_message = 'message does not decode into dictionary object'
+            error_message = 'the message does not decode into a dictionary object'
             logging.info(error_message)
-            return {'isSuccess': False, 'errors': error_message}
+            return {'isSuccess': False, 'description': error_message}
 
         # check basic structure of the message / event
         cerberus = Cerberus(self.schema['basic_message_structure']['cerberus_rules'])
         cerberus.allow_unknown = self.schema['basic_message_structure']['allow_unknown']
         if not cerberus.validate(message):
             logging.info(' - message failed basic validation')
-            return {'isSuccess': False, 'errors': cerberus.errors}
+            return {'isSuccess': False, 'description': cerberus.errors}
 
         # if the message passes basic validation, test again
         # against specific event type
@@ -44,7 +44,7 @@ class Validate:
         cerberus.allow_unknown = self.schema[message['event_type']]['allow_unknown']
         if cerberus.validate(message):
             logging.info(' - message passed validation for type: ' + message['event_type'])
-            return {'isSuccess': True, 'errors': ''}
+            return {'isSuccess': True, 'description': ''}
         else:
             logging.info(' - message failed validation for type: ' + message['event_type'])
-            return {'isSuccess': False, 'errors': cerberus.errors}
+            return {'isSuccess': False, 'description': cerberus.errors}

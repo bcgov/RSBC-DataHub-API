@@ -46,7 +46,7 @@ class Listener:
                 ch.basic_ack(delivery_tag=method.delivery_tag)
         else:
             # Validation FAILED
-            message_with_errors_appended = Helper.add_error_to_message(message_dict, validation_result['errors'])
+            message_with_errors_appended = Helper.add_error_to_message(message_dict, validation_result['description'])
             logging.info("write to: " + self.config.FAIL_QUEUE)
             if self.writer.publish(self.config.FAIL_QUEUE, json.dumps(message_with_errors_appended)):
                 ch.basic_ack(delivery_tag=method.delivery_tag)

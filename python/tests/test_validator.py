@@ -71,7 +71,7 @@ class TestValidator:
         sample_data['event_id'] = "1234"  # string instead of integer
         validate_class = Validate(Config())
         assert validate_class.validate(sample_data)['isSuccess'] is False
-        assert 'event_id' in validate_class.validate(sample_data)['errors']
+        assert 'event_id' in validate_class.validate(sample_data)['description']
 
     @staticmethod
     def test_a_null_test_message_fails_validation():

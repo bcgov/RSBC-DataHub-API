@@ -12,8 +12,8 @@ class TestHelper:
         assert isinstance(modified_message, dict)
         assert 'errors' in modified_message
         assert 'timestamp' in modified_message['errors'][0]
-        assert 'errors' in modified_message['errors'][0]
-        assert modified_message['errors'][0]['errors'] == expected_error_message
+        assert 'description' in modified_message['errors'][0]
+        assert modified_message['errors'][0]['description'] == expected_error_message
 
     @staticmethod
     def test_add_error_to_message_method_handles_cerberus_errors():
@@ -24,5 +24,5 @@ class TestHelper:
         assert isinstance(modified_message, dict)
         assert 'errors' in modified_message
         assert 'timestamp' in modified_message['errors'][0]
-        assert 'errors' in modified_message['errors'][0]
+        assert 'description' in modified_message['errors'][0]
 
