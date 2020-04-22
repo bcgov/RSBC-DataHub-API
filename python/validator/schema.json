@@ -33,7 +33,74 @@
     "cerberus_rules": {
       "evt_issuance": {
         "type": "dict",
-        "required": true
+        "required": true,
+        "schema": {
+          "ticket_number": {
+            "type": "string",
+            "required": true
+          },
+           "submit_date": {
+            "type": "string",
+            "required": true
+          },
+          "sent_time": {
+            "type": "string",
+            "required": true
+          },
+          "violation_date": {
+            "type": "string",
+            "required": true
+          },
+          "violation_time": {
+            "type": "string",
+            "required": true
+          },
+          "enforcement_jurisdiction_code": {
+            "type": "string",
+            "required": true
+          },
+          "certificate_of_service_date": {
+            "type": "string",
+            "required": true
+          },
+          "certificate_of_service_number": {
+            "type": "string",
+            "required": true
+          },
+          "e_violation_form_number": {
+            "type": "string",
+            "required": true
+          },
+          "counts": {
+            "type": "list",
+            "required": true,
+            "schema": {
+              "type": "dict",
+              "schema": {
+                "act_code": {
+                  "type": "string",
+                  "required": true
+                },
+                "count_number": {
+                   "type": "integer",
+                   "required": true
+                 },
+                "section_text": {
+                   "type": "string",
+                   "required": true
+                },
+                "section_desc": {
+                   "type": "string",
+                   "required": true
+                },
+                "fine_amount": {
+                   "type": "string",
+                   "required": true
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
@@ -42,7 +109,13 @@
     "cerberus_rules": {
       "vt_query": {
         "type": "dict",
-        "required": true
+        "required": true,
+        "schema": {
+          "ticket_number": {
+             "type": "string",
+             "required": true
+          }
+        }
       }
     }
   },
@@ -51,7 +124,29 @@
     "cerberus_rules": {
       "vt_payment": {
         "type": "dict",
-        "required": true
+        "required": true,
+         "schema": {
+           "ticket_number": {
+             "type": "string",
+             "required": true
+           },
+           "count_number": {
+             "type": "integer",
+             "required": true
+           },
+           "payment_card_type": {
+             "type": "string",
+             "required": true
+           },
+           "payment_ticket_type_code": {
+             "type": "string",
+             "required": true
+           },
+           "payment_amount": {
+             "type": "number",
+             "required": true
+           }
+         }
       }
     }
   },
@@ -60,7 +155,21 @@
     "cerberus_rules": {
       "vt_dispute": {
         "type": "dict",
-        "required": true
+        "required": true,
+        "schema": {
+           "ticket_number": {
+             "type": "string",
+             "required": true
+           },
+           "count_number": {
+             "type": "integer",
+             "required": true
+           },
+          "dispute_action_date": {
+             "type": "string",
+             "required": true
+           }
+        }
       }
     }
   },
@@ -69,7 +178,21 @@
     "cerberus_rules": {
       "vt_dispute_status_update": {
         "type": "dict",
-        "required": true
+        "required": true,
+        "schema": {
+           "ticket_number": {
+             "type": "string",
+             "required": true
+           },
+           "count_number": {
+             "type": "integer",
+             "required": true
+           },
+          "dispute_action_date": {
+             "type": "string",
+             "required": true
+           }
+        }
       }
     }
   },
@@ -78,7 +201,29 @@
     "cerberus_rules": {
       "vt_dispute_finding": {
         "type": "dict",
-        "required": true
+        "required": true,
+        "schema": {
+           "ticket_number": {
+             "type": "string",
+             "required": true
+           },
+           "count_number": {
+             "type": "integer",
+             "required": true
+           },
+          "finding_date": {
+             "type": "string",
+             "required": true
+          },
+          "finding_code": {
+             "type": "string",
+             "required": true
+          },
+          "finding_description": {
+             "type": "string",
+             "required": true
+          }
+        }
       }
     }
   }
