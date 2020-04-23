@@ -21,70 +21,90 @@ The validator is a Python application that:
 
   # Validation Schema
 
-The validator uses a JSON schema to determine if a message is valid.  By default, the name of the JSON schema is `schemas.json`, but it can be overridden using an environent variable, `SCHEMA_FILENAME`.
+The validator uses a JSON schema to determine if a message is valid.  By default, the name of the JSON schema is `schema.json`, but it can be overridden using an environment variable, `SCHEMA_FILENAME`.
 
-The schema.json file defines a collection of schema definitions. The validator will publish a message to the `valid` queue if the message passes **any one** of such schemas.
+To validate a message / event, the validator first uses the rules defined under the `basic_message_structure` attribute
+ of the schema.json file.  If the basic message structure passes validation, the validator then runs a second validation 
+ using rules specific to the event type.  
+
+For example, if the validator receives a message with an `event_type` of `evt_issuance` the message is first validated 
+against rules defined under the `basic_mesage_structure` attribute, then against rules defined under the `evt_issuance` 
+attribute of the schema.json file.
+    
+If the message passes **both** sets of rules the validator will publish the message to the `valid` queue, otherwise 
+the message is written to the failed queue.
+
+Below is an example of the basic_message_structure rules:
 
 ```
 {
-        "data": [
-                    {
-                        ... <schema 1> 
-                    },
-                    {
-                        ... <schema 2>
-                    }
-        ]
+      "basic_message_structure": {
+        "allow_unknown": true,
+        "cerberus_rules": {
+          "event_id": {
+            "type": "integer",
+            "required": true
+          },
+          "event_version": {
+            "type": "string",
+            "required": true
+          },
+          "event_date_time": {
+            "type": "string",
+            "required": true
+          },
+          "event_type": {
+            "type": "string",
+            "required": true,
+            "allowed": [
+              "evt_issuance",
+              "vt_query",
+              "vt_payment",
+              "vt_dispute",
+              "vt_dispute_status_update",
+              "vt_dispute_finding"
+            ]
+          }
+    }
+  }
 }
 ```
+The basic_message_structure has two required attributes:
+ - `allow_unknown` - **Boolean** when set to 'True', the validator will allow fields / attributes that are not 
+ documented in the schema.  When set to 'False' all fields must be listed in the schema
+ - `cerberus_rules` - a set of fields / attributes and the associated rules. 
+ [Cerberus](https://docs.python-cerberus.org/en/stable/) is a well-documented, third-party validation library.
 
-It is recommended to create a schema for each different data type.
-
-Each schema definitions has **four** required attributes:
- - `short_name` - the short name of the schema used for log file output. 
- - `description` - a description field for reference in the schema only
- - `allow_unknown` - **Boolean** when set to 'True', the validator will allow fields / attributes that are not documented in the schema.  When set to 'False' all fields must be listed in the schema
- - `cerberus` - a set of fields / attributes and the associated rules. [Cerberus](https://docs.python-cerberus.org/en/stable/) is a well documented third-party validation library.
-
+The rules for each event_type follow an identical pattern.  Below is an example of the rules for the `vt_query` event
+type.  
 
 ```
 {
-      "short_name": "evt_issuance",
-      "description": "schema for evt_issuance",
-      "allow_unknown": true,
-      "cerberus": {
-        ... < cerberus rules as defined below >
+  "vt_query": {
+    "allow_unknown": true,
+    "cerberus_rules": {
+      "vt_query": {
+        "type": "dict",
+        "required": true
       }
+    }
+  }
 }
 ```
 
-# Cerberus
-
-Below is an example of a Cerberus rule set.  Each attribute is the name of an field expected in the message.  Sub-attributes define the type of data expected and other rules. Cerberus' documentation describes a full list of the available rules here:  [https://docs.python-cerberus.org/en/stable/validation-rules.html]
+When a message fails validation, a validation error message is added to the message under the attribute, `errors`. 
+Below is an example:
 
 ```
-"event_id": {
-    "type": "integer",
-    "required": true
-},
-"event_version": {
-    "type": "string",
-    "required": true
-},
-"event_date_time": {
-    "type": "string",
-    "required": true
-},
-"event_type": {
-    "type": "string",
-    "required": true,
-    "allowed": [
-    "evt_issuance"
+{
+ "errors": [
+    {
+        "description": {
+            "event_id": [
+                "must be of integer type"
+                ]}, 
+            "timestamp": "22-Apr-2020 (15:46:52.017086)"
+        }
     ]
-},
-"evt_issuance": {
-    "type": "dict",
-    "required": true
 }
 ```
-

@@ -34,14 +34,6 @@
                             "destination_name": "event_id"
                         },
                         {
-                            "json_name": "evt_issuance.submit_date",
-                            "destination_name": "submit_date"
-                        },
-                        {
-                            "json_name": "evt_issuance.sent_time",
-                            "destination_name": "sent_time"
-                        },
-                        {
                             "json_name": "evt_issuance.ticket_number",
                             "destination_name": "ticket_number"
                         },
@@ -92,6 +84,14 @@
                         {
                             "json_name": "evt_issuance.violation_time",
                             "destination_name": "violation_time"
+                        },
+                        {
+                            "json_name": "evt_issuance.submit_date",
+                            "destination_name": "submit_date"
+                        },
+                        {
+                            "json_name": "evt_issuance.sent_time",
+                            "destination_name": "sent_time"
                         },
                         {
                             "json_name": "evt_issuance.vehicle_make_code",

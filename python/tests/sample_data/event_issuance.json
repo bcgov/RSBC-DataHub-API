@@ -17,6 +17,11 @@
         "enforcement_officer_number": "1111",
         "enforcement_officer_name": "SMITH, JANE",
         "offender_type_name": "DRIVER",
+        "certificate_of_service_date": "2019-09-02",
+        "certificate_of_service_number": "2345",
+        "e_violation_form_number": "23e45",
+        "submit_date": "2019-09-01",
+        "sent_time": "13:03",
         "count_quantity": 1,
         "counts": [
             {

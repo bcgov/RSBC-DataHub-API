@@ -6,28 +6,45 @@ from cerberus import Validator as Cerberus
 class Validate:
 
     def __init__(self, config):
-        self.schemas = self._get_schemas(config.SCHEMA_PATH + config.SCHEMA_FILENAME)
+        self.schema = self._get_schema(config.SCHEMA_PATH + config.SCHEMA_FILENAME)
         logging.basicConfig(level=config.LOG_LEVEL)
 
     @staticmethod
-    def _get_schemas(file_name) -> dict:
+    def _get_schema(file_name) -> dict:
         with open(file_name, 'r') as f:
             data = f.read()
-        
         return json.loads(data)
 
-    def validate(self, message) -> bool:
-        # loop through each schema, return True on 
-        # first schema that passes validation
+    def validate(self, message: dict) -> dict:
+        """
+            The validate methods looks up a schema with the same event_type
+            in the schema.json file, and uses the validation rules described
+            in the file to determine if the message is valid.  This method
+            returns a dictionary with the status of the validation and, if not
+            successful, an error message.
+        :param message:
+        :return: dictionary
+        """
+        # check that message is a dictionary
+        if not isinstance(message, dict):
+            error_message = 'the message does not decode into a dictionary object'
+            logging.info(error_message)
+            return {'isSuccess': False, 'description': error_message}
 
-        for schema in self.schemas['data']:
-            v = Cerberus(schema['cerberus'])
-            v.allow_unknown = schema['allow_unknown']
-            if v.validate(message):
-                logging.info(' - passes validation using: ' + schema['short_name'])
-                return True
+        # check basic structure of the message / event
+        cerberus = Cerberus(self.schema['basic_message_structure']['cerberus_rules'])
+        cerberus.allow_unknown = self.schema['basic_message_structure']['allow_unknown']
+        if not cerberus.validate(message):
+            logging.info(' - message failed basic validation')
+            return {'isSuccess': False, 'description': cerberus.errors}
 
-        logging.info(' - NOT valid ')
-        return False
-
-
+        # if the message passes basic validation, test again
+        # against specific event type
+        cerberus = Cerberus(self.schema[message['event_type']]['cerberus_rules'])
+        cerberus.allow_unknown = self.schema[message['event_type']]['allow_unknown']
+        if cerberus.validate(message):
+            logging.info(' - message passed validation for type: ' + message['event_type'])
+            return {'isSuccess': True, 'description': ''}
+        else:
+            logging.info(' - message failed validation for type: ' + message['event_type'])
+            return {'isSuccess': False, 'description': cerberus.errors}

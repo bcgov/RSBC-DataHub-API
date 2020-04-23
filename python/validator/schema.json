@@ -1,0 +1,230 @@
+{
+  "basic_message_structure": {
+    "allow_unknown": true,
+    "cerberus_rules": {
+      "event_id": {
+        "type": "integer",
+        "required": true
+      },
+      "event_version": {
+        "type": "string",
+        "required": true
+      },
+      "event_date_time": {
+        "type": "string",
+        "required": true
+      },
+      "event_type": {
+        "type": "string",
+        "required": true,
+        "allowed": [
+          "evt_issuance",
+          "vt_query",
+          "vt_payment",
+          "vt_dispute",
+          "vt_dispute_status_update",
+          "vt_dispute_finding"
+        ]
+      }
+    }
+  },
+  "evt_issuance": {
+    "allow_unknown": true,
+    "cerberus_rules": {
+      "evt_issuance": {
+        "type": "dict",
+        "required": true,
+        "schema": {
+          "ticket_number": {
+            "type": "string",
+            "required": true
+          },
+           "submit_date": {
+            "type": "string",
+            "required": true
+          },
+          "sent_time": {
+            "type": "string",
+            "required": true
+          },
+          "violation_date": {
+            "type": "string",
+            "required": true
+          },
+          "violation_time": {
+            "type": "string",
+            "required": true
+          },
+          "enforcement_jurisdiction_code": {
+            "type": "string",
+            "required": true
+          },
+          "certificate_of_service_date": {
+            "type": "string",
+            "required": true
+          },
+          "certificate_of_service_number": {
+            "type": "string",
+            "required": true
+          },
+          "e_violation_form_number": {
+            "type": "string",
+            "required": true
+          },
+          "counts": {
+            "type": "list",
+            "required": true,
+            "schema": {
+              "type": "dict",
+              "schema": {
+                "act_code": {
+                  "type": "string",
+                  "required": true
+                },
+                "count_number": {
+                   "type": "integer",
+                   "required": true
+                 },
+                "section_text": {
+                   "type": "string",
+                   "required": true
+                },
+                "section_desc": {
+                   "type": "string",
+                   "required": true
+                },
+                "fine_amount": {
+                   "type": "string",
+                   "required": true
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "vt_query": {
+    "allow_unknown": true,
+    "cerberus_rules": {
+      "vt_query": {
+        "type": "dict",
+        "required": true,
+        "schema": {
+          "ticket_number": {
+             "type": "string",
+             "required": true
+          }
+        }
+      }
+    }
+  },
+  "vt_payment": {
+    "allow_unknown": true,
+    "cerberus_rules": {
+      "vt_payment": {
+        "type": "dict",
+        "required": true,
+         "schema": {
+           "ticket_number": {
+             "type": "string",
+             "required": true
+           },
+           "count_number": {
+             "type": "integer",
+             "required": true
+           },
+           "payment_card_type": {
+             "type": "string",
+             "required": true
+           },
+           "payment_ticket_type_code": {
+             "type": "string",
+             "required": true
+           },
+           "payment_amount": {
+             "type": "number",
+             "required": true
+           }
+         }
+      }
+    }
+  },
+  "vt_dispute": {
+    "allow_unknown": true,
+    "cerberus_rules": {
+      "vt_dispute": {
+        "type": "dict",
+        "required": true,
+        "schema": {
+           "ticket_number": {
+             "type": "string",
+             "required": true
+           },
+           "count_number": {
+             "type": "integer",
+             "required": true
+           },
+          "dispute_action_date": {
+             "type": "string",
+             "required": true
+           }
+        }
+      }
+    }
+  },
+  "vt_dispute_status_update": {
+    "allow_unknown": true,
+    "cerberus_rules": {
+      "vt_dispute_status_update": {
+        "type": "dict",
+        "required": true,
+        "schema": {
+           "ticket_number": {
+             "type": "string",
+             "required": true
+           },
+           "count_number": {
+             "type": "integer",
+             "required": true
+           },
+          "dispute_action_date": {
+             "type": "string",
+             "required": true
+           }
+        }
+      }
+    }
+  },
+  "vt_dispute_finding": {
+    "allow_unknown": true,
+    "cerberus_rules": {
+      "vt_dispute_finding": {
+        "type": "dict",
+        "required": true,
+        "schema": {
+           "ticket_number": {
+             "type": "string",
+             "required": true
+           },
+           "count_number": {
+             "type": "integer",
+             "required": true
+           },
+          "finding_date": {
+             "type": "string",
+             "required": true
+          },
+          "finding_code": {
+             "type": "string",
+             "required": true
+          },
+          "finding_description": {
+             "type": "string",
+             "required": true
+          }
+        }
+      }
+    }
+  }
+}

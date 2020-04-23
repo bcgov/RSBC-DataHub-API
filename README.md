@@ -17,7 +17,7 @@ The system to handle these events is made up of four containers / pods:
 - A validator that checks each event to make sure it includes the required fields.
 - A writer that inserts the data into a business intelligence database
 
-# Development 
+# Local development 
 
 To begin local development of this project:
 - create a `.env` file by copying `.env.sample` to `.env` in the root of the project directory

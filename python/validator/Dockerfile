@@ -10,6 +10,6 @@ RUN source /opt/app-root/etc/scl_enable && \
 COPY __init__.py ${APP_ROOT}/src/python/
 COPY common/*.py ${APP_ROOT}/src/python/common/
 COPY validator/*.py ${APP_ROOT}/src/python/validator/
-COPY validator/schemas.json ${APP_ROOT}/src/python/validator/
+COPY validator/schema.json ${APP_ROOT}/src/python/validator/
 
 CMD [ "python", "python/validator/listener.py" ]
