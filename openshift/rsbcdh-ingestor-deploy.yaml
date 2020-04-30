@@ -86,12 +86,12 @@ objects:
             - name: INGEST_USER
               valueFrom:
                 secretKeyRef:
-                  name: ${NAME}${SUFFIX}
+                  name: ${NAME}-${PHASE}
                   key: username
             - name: INGEST_PASS
               valueFrom:
                 secretKeyRef:
-                  name: ${NAME}${SUFFIX}
+                  name: ${NAME}-${PHASE}
                   key: password
             - name: FLASK_ENV
               value: ${FLASK_ENV}
