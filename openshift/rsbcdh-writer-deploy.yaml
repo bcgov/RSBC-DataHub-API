@@ -92,12 +92,12 @@ objects:
             - name: MQ_WRITER_USER
               valueFrom:
                 secretKeyRef:
-                  name: ${NAME}${VERSION}
+                  name: ${NAME}${SUFFIX}
                   key: username
             - name: MQ_WRITER_PASS
               valueFrom:
                 secretKeyRef:
-                  name: ${NAME}${VERSION}
+                  name: ${NAME}${SUFFIX}
                   key: password
             - name: DB_HOST
               value: ${DB_HOST}

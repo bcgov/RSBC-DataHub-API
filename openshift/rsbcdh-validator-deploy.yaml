@@ -88,12 +88,12 @@ objects:
             - name: VALIDATOR_USER
               valueFrom:
                 secretKeyRef:
-                  name: ${NAME}${VERSION}
+                  name: ${NAME}${SUFFIX}
                   key: username
             - name: VALIDATOR_PASS
               valueFrom:
                 secretKeyRef:
-                  name: ${NAME}${VERSION}
+                  name: ${NAME}${SUFFIX}
                   key: password
             - name: FLASK_ENV
               value: ${FLASK_ENV}
