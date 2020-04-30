@@ -24,4 +24,5 @@ COPY writer/mapper.json ${APP_ROOT}/src/python/writer/
 
 ADD writer/entrypoint.sh .
 RUN chmod 766 /etc/passwd
-ENTRYPOINT entrypoint.sh
+RUN chmod 754 ${APP_ROOT}/src/entrypoint.sh
+ENTRYPOINT ${APP_ROOT}/src/entrypoint.sh
