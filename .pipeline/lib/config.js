@@ -39,7 +39,7 @@ const phases = {
     phase: 'dev',
     transient: true, // auto clean build
     changeId:changeId,
-    suffix: `-dev-${changeId}`,
+    suffix: `-dev`,
     instance: `${name}-dev-${changeId}`,
     version:`${version}-${changeId}`,
     tag:`dev-${version}-${changeId}`,
@@ -54,6 +54,7 @@ const phases = {
   test: {namespace:'iowaey-test',
     name: `${name}`, phase: 'test',
     changeId:changeId, suffix: `-test`,
+    suffix: `-test`,
     instance: `${name}-test`,
     version:`${version}`,
     tag:`test-${version}`,
