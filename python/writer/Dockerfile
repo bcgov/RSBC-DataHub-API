@@ -22,6 +22,6 @@ COPY common/*.py ${APP_ROOT}/src/python/common/
 COPY writer/*.py ${APP_ROOT}/src/python/writer/
 COPY writer/mapper.json ${APP_ROOT}/src/python/writer/
 
-ADD entrypoint.sh .
+ADD writer/entrypoint.sh .
 RUN chmod 766 /etc/passwd
 ENTRYPOINT entrypoint.sh
