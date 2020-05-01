@@ -107,12 +107,12 @@ objects:
               valueFrom:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
-                  key: db_username
+                  key: db-username
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
-                  key: db_password
+                  key: db-password
             - name: PYTHONPATH
               value: ${PYTHONPATH}
           resources:
