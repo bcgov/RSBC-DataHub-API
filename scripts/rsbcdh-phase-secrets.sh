@@ -37,9 +37,9 @@ oc delete secret template.rsbc-dh-${PF_PHASE}
 
 echo "Creating template secret template.rsbc-dh-${PF_PHASE}"
 oc create secret generic template.rsbc-dh-${PF_PHASE} \
---from-literal=username="rabbitmq" \
---from-literal=password="jUfopcKW4DT" \
---from-literal=db-username="odwadmin" \
---from-literal=db-password='Ce$yRWL(558{zQK'
+--from-literal=username="replace-with-real" \
+--from-literal=password="replace-with-real" \
+--from-literal=db-username="replace-with-real" \
+--from-literal=db-password='replace-with-real'
 
 echo "Complete"
