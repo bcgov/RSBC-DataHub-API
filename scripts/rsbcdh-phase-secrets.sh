@@ -39,7 +39,7 @@ echo "Creating template secret template.rsbc-dh-${PF_PHASE}"
 oc create secret generic template.rsbc-dh-${PF_PHASE} \
 --from-literal=username="rabbitmq" \
 --from-literal=password="jUfopcKW4DT" \
---from-literal=db_username="odwadmin" \
---from-literal=db_password='Ce$yRWL(558{zQK'
+--from-literal=db-username="odwadmin" \
+--from-literal=db-password='Ce$yRWL(558{zQK'
 
 echo "Complete"
