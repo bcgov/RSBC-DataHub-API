@@ -23,7 +23,7 @@ const phases = {
     changeId:changeId,
     suffix: `-pr-${changeId}`,
     instance: `${name}-pr-${changeId}`,
-    version:`pr-${changeId}`,
+    version:`pr`,
     tag:`pr-${changeId}`,
     url_suffix: `${url_suffix}`,
     db_host: 'clockwork.idir.bcgov',
