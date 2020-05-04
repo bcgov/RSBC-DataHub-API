@@ -17,7 +17,7 @@ module.exports = settings => {
   oc.raw('delete', ['route'], {selector:`app=${phases[phase].instance},env-name=${phases[phase].phase},github-repo=${oc.git.repository},github-owner=${oc.git.owner}`, wait:'true', namespace:phases[phase].namespace})
 
   //First call will create/generate default secret values frome a pre-existing manually created template secret object
-  oc.createIfMissing(oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-secrets.yaml`, {
+  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-secrets.yaml`, {
    'param':{
      'NAME': `${phases[phase].name}-${phases[phase].phase}`,
      'SUFFIX': phases[phase].suffix
