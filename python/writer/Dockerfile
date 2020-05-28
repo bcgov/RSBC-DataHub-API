@@ -22,4 +22,7 @@ COPY common/*.py ${APP_ROOT}/src/python/common/
 COPY writer/*.py ${APP_ROOT}/src/python/writer/
 COPY writer/mapper.json ${APP_ROOT}/src/python/writer/
 
-CMD [ "python", "python/writer/listener.py" ]
+ADD writer/entrypoint.sh .
+RUN chmod 766 /etc/passwd
+RUN chmod 754 ${APP_ROOT}/src/entrypoint.sh
+ENTRYPOINT ${APP_ROOT}/src/entrypoint.sh

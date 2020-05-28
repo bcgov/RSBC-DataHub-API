@@ -10,11 +10,15 @@ parameters:
 - name: VERSION
 - name: HOST
 - name: RABBITMQ_URL
-- name: VALIDATOR_USER
-- name: VALIDATOR_PASS
+- name: MQ_WRITER_USER
+- name: MQ_WRITER_PASS
+- name: DB_HOST
+  required: true
+- name: DB_NAME
+  required: true
+- name: DB_USERNAME
+- name: DB_PASSWORD
 - name: SECRET_KEY
-- name: FLASK_ENV
-  value: 'development'
 - name: PYTHONPATH
   value: '/opt/app-root/lib/python3.6/site-packages:/opt/app-root/src/'
 - name: URL_SUFFIX
@@ -36,16 +40,6 @@ parameters:
   description: Memory upper limit
   required: true
 objects:
-- apiVersion: v1
-  kind: Secret
-  stringData:
-    username: ${RABBITMQ_USER}
-    password: ${RABBITMQ_PASS}
-  metadata:
-    name: ${NAME}${SUFFIX}
-    annotations:
-      as-copy-of: template.${NAME}-${PHASE}
-  type: Opaque
 - apiVersion: image.openshift.io/v1
   kind: ImageStream
   metadata:
@@ -95,18 +89,30 @@ objects:
           env:
             - name: RABBITMQ_URL
               value: ${NAME}-rabbitmq${SUFFIX}
-            - name: VALIDATOR_USER
+            - name: MQ_WRITER_USER
               valueFrom:
                 secretKeyRef:
-                  name: ${NAME}${SUFFIX}
+                  name: ${NAME}-${PHASE}
                   key: username
-            - name: VALIDATOR_PASS
+            - name: MQ_WRITER_PASS
               valueFrom:
                 secretKeyRef:
-                  name: ${NAME}${SUFFIX}
+                  name: ${NAME}-${PHASE}
                   key: password
-            - name: FLASK_ENV
-              value: ${FLASK_ENV}
+            - name: DB_HOST
+              value: ${DB_HOST}
+            - name: DB_NAME
+              value: ${DB_NAME}
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: db-username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: db-password
             - name: PYTHONPATH
               value: ${PYTHONPATH}
           resources:

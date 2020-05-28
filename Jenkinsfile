@@ -28,7 +28,7 @@ pipeline {
             agent { label 'deploy' }
             steps {
                 echo "Deploying PR ..."
-                sh "cd .pipeline && ./npmw ci && ./npmw run deploy -- --pr=${CHANGE_ID} --env=pr"
+                sh "cd .pipeline && ./npmw ci && DEBUG=* ./npmw run deploy -- --pr=${CHANGE_ID} --env=pr"
             }
         }
         stage('Deploy (DEV)') {
@@ -43,7 +43,7 @@ pipeline {
             }
             steps {
                 echo "Deploying to DEV..."
-                sh "cd .pipeline && ./npmw ci && ./npmw run deploy -- --pr=${CHANGE_ID} --env=dev"
+                sh "cd .pipeline && ./npmw ci && DEBUG=* ./npmw run deploy -- --pr=${CHANGE_ID} --env=dev"
             }
         }
         stage('Deploy (TEST)') {

@@ -36,16 +36,6 @@ parameters:
   description: Memory upper limit
   required: true
 objects:
-- apiVersion: v1
-  kind: Secret
-  stringData:
-    username: ${RABBITMQ_USER}
-    password: ${RABBITMQ_PASS}
-  metadata:
-    name: ${NAME}${SUFFIX}
-    annotations:
-      as-copy-of: template.${NAME}-${PHASE}
-  type: Opaque
 - apiVersion: image.openshift.io/v1
   kind: ImageStream
   metadata:
@@ -98,12 +88,12 @@ objects:
             - name: VALIDATOR_USER
               valueFrom:
                 secretKeyRef:
-                  name: ${NAME}${SUFFIX}
+                  name: ${NAME}-${PHASE}
                   key: username
             - name: VALIDATOR_PASS
               valueFrom:
                 secretKeyRef:
-                  name: ${NAME}${SUFFIX}
+                  name: ${NAME}-${PHASE}
                   key: password
             - name: FLASK_ENV
               value: ${FLASK_ENV}
