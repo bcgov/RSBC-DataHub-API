@@ -24,6 +24,27 @@ class TestValidator:
         validate_class = Validate(Config())
         assert validate_class.validate(sample_data)['isSuccess'] is True
 
+    def test_sample_data_event_issuance_fails_validation_with_empty_section_desc(self):
+        sample_data = self.get_sample_data('python/tests/sample_data/event_issuance.json')
+        assert type(sample_data) is dict
+        sample_data['evt_issuance']['counts'][0]['section_desc'] = ''
+        validate_class = Validate(Config())
+        assert validate_class.validate(sample_data)['isSuccess'] is False
+
+    def test_sample_data_event_issuance_fails_validation_with_missing_section_desc(self):
+        sample_data = self.get_sample_data('python/tests/sample_data/event_issuance.json')
+        assert type(sample_data) is dict
+        del sample_data['evt_issuance']['counts'][0]['section_desc']
+        validate_class = Validate(Config())
+        assert validate_class.validate(sample_data)['isSuccess'] is False
+
+    def test_sample_data_event_issuance_fails_validation_with_null_section_desc(self):
+        sample_data = self.get_sample_data('python/tests/sample_data/event_issuance.json')
+        assert type(sample_data) is dict
+        sample_data['evt_issuance']['counts'][0]['section_desc'] = None
+        validate_class = Validate(Config())
+        assert validate_class.validate(sample_data)['isSuccess'] is False
+
     def test_sample_data_vt_payment_passes_validation(self):
         sample_data = self.get_sample_data('python/tests/sample_data/vt_payment.json')
         assert type(sample_data) is dict

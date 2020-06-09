@@ -91,7 +91,8 @@
                 },
                 "section_desc": {
                    "type": "string",
-                   "required": true
+                   "required": true,
+                   "empty": false
                 },
                 "fine_amount": {
                    "type": "string",
