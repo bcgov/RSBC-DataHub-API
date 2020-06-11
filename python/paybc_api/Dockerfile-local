@@ -1,0 +1,14 @@
+FROM python:3.7.3-stretch
+
+COPY paybc_api/requirements.txt /tmp/
+
+RUN pip install -r /tmp/requirements.txt
+
+COPY paybc_api/*.py /home/appuser/python/paybc_api/
+COPY paybc_api/website/*.py /home/appuser/python/paybc_api/website/
+
+RUN useradd --create-home appuser
+WORKDIR /home/appuser
+USER appuser
+
+CMD [ "gunicorn", "--bind", "0.0.0.0:5001", "--pythonpath", "/home/appuser/python/paybc_api", "wsgi:create_app()" ]

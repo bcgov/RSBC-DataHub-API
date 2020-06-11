@@ -1,8 +1,10 @@
 .docker/
 ingest/.env/
+scripts/*secrets.sh
 .vscode/
 .env
 __pycache__/
 *.pyc
 .idea/
 node_modules/
+*.sqlite
