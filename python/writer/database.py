@@ -40,7 +40,7 @@ class MsSQL:
                     'error_description': str(error)
                 }
 
-            connection.commit()
+        connection.commit()
 
         cursor.close()
         connection.close()
