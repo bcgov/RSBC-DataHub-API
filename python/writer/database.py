@@ -41,7 +41,6 @@ class MsSQL:
                 }
 
         connection.commit()
-
         cursor.close()
         connection.close()
         return {'isSuccessful': True}
