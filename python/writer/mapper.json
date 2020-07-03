@@ -58,7 +58,7 @@
                             "destination_name": "young_person_yn"
                         },
                         {
-                            "json_name": "evt_issuance.offender_type_code",
+                            "json_name": "evt_issuance.offender_type_name",
                             "destination_name": "offender_type_code"
                         },
                         {
