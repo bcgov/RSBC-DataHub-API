@@ -150,8 +150,8 @@
                             "destination_name": "mre_minor_version_text"
                         },
                         {
-                            "json_name": "evt_issuance.ent_date",
-                            "destination_name": "ent_date"
+                            "json_name": "evt_issuance.sent_date",
+                            "destination_name": "sent_date"
                         },
                         {
                             "json_name": "evt_issuance.enforcement_jurisdiction_code",
