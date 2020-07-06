@@ -58,7 +58,7 @@
                             "destination_name": "young_person_yn"
                         },
                         {
-                            "json_name": "evt_issuance.offender_type_code",
+                            "json_name": "evt_issuance.offender_type_name",
                             "destination_name": "offender_type_code"
                         },
                         {
@@ -150,8 +150,8 @@
                             "destination_name": "mre_minor_version_text"
                         },
                         {
-                            "json_name": "evt_issuance.ent_date",
-                            "destination_name": "ent_date"
+                            "json_name": "evt_issuance.sent_date",
+                            "destination_name": "sent_date"
                         },
                         {
                             "json_name": "evt_issuance.enforcement_jurisdiction_code",
