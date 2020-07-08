@@ -42,6 +42,10 @@
                             "destination_name": "drivers_licence_province_code"
                         },
                         {
+                            "json_name": "evt_issuance.vehicle_nsc_puj_code",
+                            "destination_name": "vehicle_nsc_puj_code"
+                        },
+                        {
                             "json_name": "evt_issuance.person_gender_code",
                             "destination_name": "person_gender_code"
                         },
@@ -94,7 +98,7 @@
                             "destination_name": "sent_time"
                         },
                         {
-                            "json_name": "evt_issuance.vehicle_make_code",
+                            "json_name": "evt_issuance.vehicle_make_name",
                             "destination_name": "vehicle_make_code"
                         },
                         {
