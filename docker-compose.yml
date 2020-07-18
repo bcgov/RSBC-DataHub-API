@@ -61,4 +61,15 @@ services:
           DB_NAME: "${DB_NAME}"
           DB_USERNAME: "${DB_USERNAME}"
           DB_PASSWORD: "${DB_PASSWORD}"
-      
+
+    paybc-api:
+      build:
+        context: python
+        dockerfile: paybc_api/Dockerfile-local
+      environment:
+        LOG_LEVEL: "${LOG_LEVEL}"
+        PAYBC_FLASK_SECRET: "${PAYBC_FLASK_SECRET}"
+        PAYBC_CLIENT_ID: "${PAYBC_CLIENT_ID}"
+        PAYBC_CLIENT_SECRET: "${PAYBC_CLIENT_SECRET}"
+      ports:
+        - "5001:5001"

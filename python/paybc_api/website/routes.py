@@ -72,11 +72,19 @@ def search_for_invoice(invoice_number, pay_bc_reference, check_value):
     logging.warning('pay_bc_reference: ' + pay_bc_reference)
     logging.warning('check_value: ' + check_value)
     if invoice_number is not None and check_value is not None and pay_bc_reference is not None:
+
+        # TODO "request.host_url currently returns "http" (not https)
+        # As a temporary workaround replace http with https
+
         # TODO - replace hard code data below with lookup from VIPS API
         if invoice_number == "1234" and check_value == "Smith":
             return dict({
                 "items": [
-                    {"url": request.host_url + 'api_v2/invoice/1234'}
+                    {
+                        "selected_invoice": {
+                            "$ref": request.host_url.replace('http', 'https') + 'api_v2/invoice/1234'
+                        }
+                    }
                 ]
             })
         else:
@@ -93,7 +101,7 @@ def get_invoice(invoice_number):
     if invoice_number == '1234':
         return dict({
             "invoice_number": "RSI_TEST_004",
-            "pbc_ref_number": "10006",
+            "pbc_ref_number": "10008",
             "party_number": 0,
             "party_name": "RSI",
             "account_number": "0",
@@ -102,9 +110,9 @@ def get_invoice(invoice_number):
             "term_due_date": "2017-03-03T08:00:00Z",
             "total": 200.00,
             "amount_due": 200.00,
-            "attribute1": "",
-            "attribute2": "",
-            "attribute3": ""
+            "attribute1": "attribute one",
+            "attribute2": "attribute two",
+            "attribute3": "attribute three"
         })
     else:
         return dict({
