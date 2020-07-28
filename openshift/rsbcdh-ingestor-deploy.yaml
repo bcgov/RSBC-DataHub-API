@@ -13,6 +13,7 @@ parameters:
 - name: INGEST_USER
 - name: INGEST_PASS
 - name: SECRET_KEY
+- name: ENCRYPT_KEY
 - name: FLASK_ENV
   value: 'development'
 - name: URL_SUFFIX
@@ -93,6 +94,11 @@ objects:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
                   key: password
+            - name: ENCRYPT_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: ${NAME}-${PHASE}
+                    key: encrypt-key
             - name: FLASK_ENV
               value: ${FLASK_ENV}
           resources:

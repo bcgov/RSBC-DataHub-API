@@ -27,6 +27,7 @@ services:
           INGEST_PASS: "${INGEST_PASS}"
           LOG_LEVEL: "${LOG_LEVEL}"
           SECRET_KEY: "${SECRET_KEY}"
+          ENCRYPT_KEY: "${ENCRYPT_KEY}"
         ports:
           - "5000:5000"
     
@@ -43,6 +44,7 @@ services:
           VALIDATOR_USER: "${VALIDATOR_USER}"
           VALIDATOR_PASS: "${VALIDATOR_PASS}"
           LOG_LEVEL: "${LOG_LEVEL}"
+          ENCRYPT_KEY: "${ENCRYPT_KEY}"
 
     writer:
         build: 

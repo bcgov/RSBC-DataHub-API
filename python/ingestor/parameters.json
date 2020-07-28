@@ -6,7 +6,7 @@
     },
     "forms": {
       "expected_format": "application/xml",
-      "encrypt-at-rest": false,
+      "encrypt-at-rest": true,
       "queue": "ETK"
     }
 }

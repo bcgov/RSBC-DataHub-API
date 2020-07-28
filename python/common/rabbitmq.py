@@ -30,7 +30,7 @@ class RabbitMQ:
         self.channel.basic_consume(queue=queue_name, on_message_callback=callback)
         self.channel.start_consuming()
 
-    def publish(self, queue_name: str, payload: str):
+    def publish(self, queue_name: str, payload: bytes):
 
         logging.info('publish to: ' + queue_name)
         for tries in range(RabbitMQ.MaximumTriesAfterError):

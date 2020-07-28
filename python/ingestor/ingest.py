@@ -50,7 +50,7 @@ def create(data_type='ETK'):
 
     if rabbit_mq.publish(available_parameters[data_type]['queue'],
                          Message.encode_message(
-                             available_parameters[data_type]['encrypt'],
+                             available_parameters[data_type]['encrypt-at-rest'],
                              payload,
                              Config.ENCRYPT_KEY)):
         return jsonify(payload), 200
