@@ -1,7 +1,7 @@
-import pytest
 import json
 from python.writer.config import Config as WriterConfig
 from python.writer.mapper import Mapper
+from python.common.helper import load_json_into_dict
 
 
 # To override the config class for testing
@@ -11,9 +11,10 @@ class Config(WriterConfig):
 
 class TestMapper:
 
-    def convert_to_tables(self, filename):
+    @staticmethod
+    def convert_to_tables(filename):
         mapper = Mapper(WriterConfig())
-        sample_message = self.get_sample_data('python/tests/sample_data/' + filename)
+        sample_message = load_json_into_dict('python/tests/sample_data/' + filename)
         return mapper.convert_to_tables(sample_message)
 
     def test_sample_message_creates_multiple_tables_with_common_dict_structure(self):
@@ -40,8 +41,9 @@ class TestMapper:
         issuance = next(x for x in self.convert_to_tables('event_issuance.json') if x["table"] == 'etk.issuances')
         assert issuance['columns'][0] == 'event_id'
         assert issuance['columns'][1] == 'ticket_number'
-        assert issuance['columns'][2] == 'violation_date'
-        assert issuance['columns'][3] == 'violation_time'
+        assert issuance['columns'][2] == 'offender_type_code'
+        assert issuance['columns'][3] == 'violation_date'
+        assert issuance['columns'][4] == 'violation_time'
 
     def test_vt_payments_message_creates_two_tables(self):
         table_names = [table['table'] for table in self.convert_to_tables('vt_payment.json')]
@@ -73,11 +75,5 @@ class TestMapper:
         assert table_names[1] == 'etk.dispute_status_updates'
         assert len(table_names) == 2
 
-    @staticmethod
-    def get_sample_data(file_name) -> dict:
-        with open(file_name, 'r') as f:
-            data = f.read()
-        return json.loads(data)
-        
 
 
