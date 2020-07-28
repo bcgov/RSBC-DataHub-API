@@ -1,7 +1,10 @@
+import python.common.helper as helper
 from python.ingestor.config import Config
 from python.common.rabbitmq import RabbitMQ
-from flask import request, jsonify, Response, json
+from python.common.message import Message
+from flask import request, jsonify, Response
 from flask_api import FlaskAPI
+import xmltodict
 import logging
 
 
@@ -10,18 +13,47 @@ logging.basicConfig(level=Config.LOG_LEVEL)
 logging.warning('*** ingestor initialized ***')
 
 rabbit_mq = RabbitMQ(
-    Config.INGEST_USER,
-    Config.INGEST_PASS,
-    Config.RABBITMQ_URL,
-    Config.LOG_LEVEL,
-    Config.MAX_CONNECTION_RETRIES,
-    Config.RETRY_DELAY)
+        Config.INGEST_USER,
+        Config.INGEST_PASS,
+        Config.RABBITMQ_URL,
+        Config.LOG_LEVEL,
+        Config.MAX_CONNECTION_RETRIES,
+        Config.RETRY_DELAY)
+
+available_parameters = helper.load_json_into_dict('python/ingestor/' + Config.PARAMETERS_FILE)
 
 
+@application.route('/v1/publish/event/<data_type>', methods=["POST"])
 @application.route('/v1/publish/event', methods=["POST"])
-def create():
-    if rabbit_mq.publish(Config.WRITE_QUEUE, json.dumps(request.json)):
-        return jsonify(request.json), 200
+def create(data_type='ETK'):
+
+    if data_type not in available_parameters:
+        warning_string = data_type + ' is a not a valid parameter'
+        logging.warning(warning_string)
+        return jsonify({"error": warning_string}), 500
+
+    logging.debug('content-type: ' + request.content_type)
+    if data_type == "ETK":
+        payload = request.json
+    elif data_type == "forms":
+        payload = {
+            "event_version": "1.1",
+            "event_date_time": "",
+            "event_type": "form_submission",
+            "form_submission": xmltodict.parse(request.get_data())
+        }
+    else:
+        logging.warning('content-type not recognized: ' + request.content_type)
+        return Response('Content type not recognized', 500, mimetype='application/json')
+
+    logging.debug('payload type: ' + str(type(payload)))
+
+    if rabbit_mq.publish(available_parameters[data_type]['queue'],
+                         Message.encode_message(
+                             available_parameters[data_type]['encrypt'],
+                             payload,
+                             Config.ENCRYPT_KEY)):
+        return jsonify(payload), 200
     else:
         return Response('Unavailable', 500, mimetype='application/json')
 

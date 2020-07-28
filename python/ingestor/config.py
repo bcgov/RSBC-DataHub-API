@@ -6,7 +6,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(BaseConfig):
     SECRET_KEY                  = os.getenv('SECRET_KEY')
-    WRITE_QUEUE                 = os.getenv('WRITE_QUEUE', 'ETK')
+    PARAMETERS_FILE             = os.getenv('PARAMETERS_FILE', 'parameters.json')
     INGEST_USER                 = os.getenv('INGEST_USER')
     INGEST_PASS                 = os.getenv('INGEST_PASS')
 

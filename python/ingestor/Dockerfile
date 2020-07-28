@@ -17,6 +17,7 @@ RUN [ "ls", "-R" ]
 
 COPY common/*.py ${APP_ROOT}/src/python/common/
 COPY ingestor/*.py ${APP_ROOT}/src/python/ingestor/
+COPY ingestor/*.json ${APP_ROOT}/src/python/ingestor/
 
 CMD [ "echo" , "python files copied" ]
 RUN [ "pwd" ]
