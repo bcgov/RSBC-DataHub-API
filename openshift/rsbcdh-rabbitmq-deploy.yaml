@@ -81,14 +81,21 @@ objects:
         {
           "queues": [
             {
-              "name": "ETK",
+              "name": "ingested",
               "vhost": "/",
               "durable": true,
               "auto_delete": false,
               "arguments": {}
             },
             {
-              "name": "ETK.valid",
+              "name": "validated",
+              "vhost": "/",
+              "durable": true,
+              "auto_delete": false,
+              "arguments": {}
+            },
+            {
+              "name": "error",
               "vhost": "/",
               "durable": true,
               "auto_delete": false,
@@ -96,6 +103,13 @@ objects:
             },
             {
               "name": "ETK.not-valid",
+              "vhost": "/",
+              "durable": true,
+              "auto_delete": false,
+              "arguments": {}
+            },
+            {
+              "name": "DF.not-valid",
               "vhost": "/",
               "durable": true,
               "auto_delete": false,

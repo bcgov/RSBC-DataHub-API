@@ -315,7 +315,7 @@
       }
     }
   },
-  "irp_form_submission": {
+  "form_submission": {
      "allow_unknown": true,
     "valid-queue": "DF.valid",
     "invalid-queue": "DF.not-valid",
