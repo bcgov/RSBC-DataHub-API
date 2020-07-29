@@ -13,13 +13,13 @@ parameters:
 - name: MQ_WRITER_USER
 - name: MQ_WRITER_PASS
 - name: DB_HOST
-- name: ENCRYPT_KEY
   required: true
 - name: DB_NAME
   required: true
 - name: DB_USERNAME
 - name: DB_PASSWORD
 - name: SECRET_KEY
+- name: ENCRYPT_KEY
 - name: PYTHONPATH
   value: '/opt/app-root/lib/python3.6/site-packages:/opt/app-root/src/'
 - name: URL_SUFFIX
