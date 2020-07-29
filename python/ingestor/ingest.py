@@ -38,21 +38,15 @@ def create(data_type='ETK'):
     elif data_type == "forms":
         payload = {
             "event_version": "1.1",
+            "encrypt_at_rest": available_parameters[data_type]['encrypt-at-rest'],
             "event_date_time": "",
-            "event_type": "form_submission",
-            "form_submission": xmltodict.parse(request.get_data())
+            "event_type": "irp_form_submission",
+            "irp_form_submission": xmltodict.parse(request.get_data())
         }
-    else:
-        logging.warning('content-type not recognized: ' + request.content_type)
-        return Response('Content type not recognized', 500, mimetype='application/json')
 
     logging.debug('payload type: ' + str(type(payload)))
 
-    if rabbit_mq.publish(available_parameters[data_type]['queue'],
-                         Message.encode_message(
-                             available_parameters[data_type]['encrypt-at-rest'],
-                             payload,
-                             Config.ENCRYPT_KEY)):
+    if rabbit_mq.publish(available_parameters[data_type]['queue'], Message.encode_message(payload, Config.ENCRYPT_KEY)):
         return jsonify(payload), 200
     else:
         return Response('Unavailable', 500, mimetype='application/json')

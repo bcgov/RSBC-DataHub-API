@@ -1,6 +1,6 @@
 import json
 from python.validator.config import Config as ValidationConfig
-from python.validator.validator import Validate
+from python.validator.validate import Validate
 
 
 # To override the config class for testing

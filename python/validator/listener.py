@@ -1,9 +1,8 @@
 from python.validator.config import Config
-from python.validator.validator import Validate
+from python.validator.validate import Validate
 from python.common.rabbitmq import RabbitMQ
-from python.common.helper import Helper
+from python.common.message import Message
 import logging
-import json
 
 
 class Listener:
@@ -14,11 +13,12 @@ class Listener:
          - determines whether the message is valid or not valid,
          - writes the message to a valid or not valid queue
     """
-    def __init__(self, config, validator, rabbit_writer, rabbit_listener):
+    def __init__(self, config, validator, rabbit_writer, rabbit_listener, message):
         self.validator = validator
         self.config = config
         self.writer = rabbit_writer
         self.listener = rabbit_listener
+        self.message = message
 
         logging.basicConfig(level=config.LOG_LEVEL)
         logging.warning('*** validator initialized  ***')
@@ -34,21 +34,19 @@ class Listener:
     def callback(self, ch, method, properties, body):
         logging.info('message received; callback invoked')
 
-        # convert body (in bytes) to string
-        message = body.decode(self.config.RABBITMQ_MESSAGE_ENCODE)
-        message_dict = json.loads(message)
+        message_dict = self.message.decode_message(body)
 
-        validation_result = self.validator.validate(message_dict)
-        if validation_result['isSuccess']:
-            # Validation was SUCCESSFUL
-            logging.info("write to: " + self.config.VALID_QUEUE)
-            if self.writer.publish(self.config.VALID_QUEUE, message):
+        result = self.validator.validate(message_dict)
+        logging.info("write to: " + result['queue'])
+        if result['isSuccess']:
+            # Validation SUCCESSFUL
+            if self.writer.publish(result['queue'], self.message.encode_message(message_dict, self.config.ENCRYPT_KEY)):
                 ch.basic_ack(delivery_tag=method.delivery_tag)
         else:
             # Validation FAILED
-            message_with_errors_appended = Helper.add_error_to_message(message_dict, validation_result['description'])
-            logging.info("write to: " + self.config.FAIL_QUEUE)
-            if self.writer.publish(self.config.FAIL_QUEUE, json.dumps(message_with_errors_appended)):
+            message_with_errors = self.message.add_error_to_message(message_dict, result)
+            if self.writer.publish(
+                    result['queue'], self.message.encode_message(message_with_errors, self.config.ENCRYPT_KEY)):
                 ch.basic_ack(delivery_tag=method.delivery_tag)
 
 
@@ -69,5 +67,6 @@ if __name__ == "__main__":
             Config.RABBITMQ_URL,
             Config.LOG_LEVEL,
             Config.MAX_CONNECTION_RETRIES,
-            Config.RETRY_DELAY)
+            Config.RETRY_DELAY),
+        Message()
     ).main()

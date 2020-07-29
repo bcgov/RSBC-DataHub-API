@@ -7,49 +7,22 @@ class Message:
 
     ENCRYPTED_ATTRIBUTE_NAME = 'encrypted'
 
-    # @staticmethod
-    # def encode_entire_message(is_encrypt: bool, message: dict, secret: str, encoding="utf-8") -> bytes:
-    #     """
-    #     Encrypt and encode the entire message.  When a message is
-    #     ingested it hasn't yet been validated so we encrypt the
-    #     entire message before sending it to RabbitMQ in case the
-    #     message format isn't as expected.
-    #     """
-    #     encoded_message = Message.encode(message, encoding)
-    #     if is_encrypt:
-    #         fernet = Fernet(bytes(secret, encoding))
-    #         return fernet.encrypt(encoded_message)
-    #     else:
-    #         return encoded_message
-    #
-    # @staticmethod
-    # def decode_entire_message(is_encrypt: bool, encoded_message: bytes, secret: str, encoding="utf-8") -> dict:
-    #     """
-    #     Decrypt and decode an ingested message and return a Python dictionary.
-    #     An ingested message is entirely encrypted.
-    #     """
-    #     if is_encrypt:
-    #         fernet = Fernet(bytes(secret, encoding))
-    #         return Message.decode(fernet.decrypt(encoded_message))
-    #     else:
-    #         Message.decode(encoded_message)
-            
     @staticmethod
-    def encode_message(is_encrypt: bool, message: dict, secret: str, encoding="utf-8") -> bytes:
+    def encode_message(message: dict, secret: str, encoding="utf-8") -> bytes:
         """
         Encrypt the sensitive attributes of the message but leave the event attributes and
         errors attributes unencrypted so admins can look at the message in RabbitMQ and
         determine why the message failed validation or why it couldn't be written to the
         database.
         """
-        if is_encrypt:
+        if 'encrypt-at-rest' in message and message['encrypt-at-rest']:
             message = Message.encrypt_sensitive_attribute(message, secret, encoding)
         return Message.encode(message)
 
     @staticmethod
-    def decode_message(is_encrypt: bool, body: bytes, secret, encoding) -> dict:
+    def decode_message(body: bytes, secret, encoding) -> dict:
         decoded_message = Message.decode(body)
-        if is_encrypt:
+        if 'encrypt-at-rest' in decoded_message and decoded_message['encrypt-at-rest'] is not True:
             return Message.decrypt_sensitive_attribute(decoded_message, secret, encoding)
         return decoded_message 
 

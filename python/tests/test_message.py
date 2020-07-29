@@ -33,12 +33,18 @@ class TestEncryptedMessage:
         assert 'ticket_number' in decrypted_message['vt_query']
         assert decrypted_message == sample_data
 
-    def test_encode_message(self, sample_data):
-        message_bytes = Message.encode_message(True, sample_data, self.KEY, self.BYTE_ENCODING)
+    def test_encode_encrypted_text_message(self, sample_data):
+        sample_data['encrypt-at-rest'] = True
+        message_bytes = Message.encode_message(sample_data, self.KEY, self.BYTE_ENCODING)
+        message_string = message_bytes.decode("utf-8")
+        message_dict = json.loads(message_string)
         assert isinstance(message_bytes, bytes)
+        assert isinstance(message_dict, dict)
+        assert 'encrypted' in message_dict
+        assert 'vt_query' not in message_dict
 
     def test_plain_message_encode(self, sample_data):
-        encoded_message = Message.encode_message(False, sample_data, '')
+        encoded_message = Message.encode_message(sample_data, '')
         assert isinstance(encoded_message, bytes)
 
     def test_plain_message_decode(self, sample_data):
@@ -70,6 +76,6 @@ class TestEncryptedMessage:
 
     @staticmethod
     def test_encode_plain_text_message(sample_data):
-        message_bytes = Message.encode_message(False, sample_data, '')
+        message_bytes = Message.encode_message(sample_data, '')
         assert isinstance(message_bytes, bytes)
 
