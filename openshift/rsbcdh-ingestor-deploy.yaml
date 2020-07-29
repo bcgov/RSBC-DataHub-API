@@ -95,10 +95,10 @@ objects:
                   name: ${NAME}-${PHASE}
                   key: password
             - name: ENCRYPT_KEY
-                valueFrom:
-                  secretKeyRef:
-                    name: ${NAME}-${PHASE}
-                    key: encrypt-key
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: encrypt-key
             - name: FLASK_ENV
               value: ${FLASK_ENV}
           resources:
