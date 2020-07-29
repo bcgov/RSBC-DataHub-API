@@ -4,7 +4,7 @@ from python.common.config import Config as BaseConfig
 
 class Config(BaseConfig):
     # RABBITMQ
-    WATCH_QUEUE                 = os.getenv('WATCH_QUEUE', 'ETK.valid')
+    WATCH_QUEUE                 = os.getenv('WATCH_QUEUE', 'validated')
     FAIL_QUEUE                  = os.getenv('FAIL_QUEUE', 'ETK.fail-write')
 
     MQ_WRITER_USER              = os.getenv('MQ_WRITER_USER')

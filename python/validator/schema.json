@@ -1,7 +1,7 @@
 {
   "evt_issuance": {
     "allow_unknown": true,
-    "valid-queue": "ETK.valid",
+    "valid-queue": "validated",
     "invalid-queue": "ETK.not-valid",
     "cerberus_rules": {
       "event_id": {
@@ -99,7 +99,7 @@
   },
   "vt_query": {
     "allow_unknown": true,
-    "valid-queue": "ETK.valid",
+    "valid-queue": "validated",
     "invalid-queue": "ETK.not-valid",
     "cerberus_rules": {
       "event_id": {
@@ -133,7 +133,7 @@
   },
   "vt_payment": {
     "allow_unknown": true,
-    "valid-queue": "ETK.valid",
+    "valid-queue": "validated",
     "invalid-queue": "ETK.not-valid",
     "cerberus_rules": {
       "event_id": {
@@ -183,7 +183,7 @@
   },
   "vt_dispute": {
     "allow_unknown": true,
-    "valid-queue": "ETK.valid",
+    "valid-queue": "validated",
     "invalid-queue": "ETK.not-valid",
     "cerberus_rules": {
       "event_id": {
@@ -225,7 +225,7 @@
   },
   "vt_dispute_status_update": {
     "allow_unknown": true,
-    "valid-queue": "ETK.valid",
+    "valid-queue": "validated",
     "invalid-queue": "ETK.not-valid",
     "cerberus_rules": {
       "event_id": {
@@ -267,7 +267,7 @@
   },
   "vt_dispute_finding": {
     "allow_unknown": true,
-    "valid-queue": "ETK.valid",
+    "valid-queue": "validated",
     "invalid-queue": "ETK.not-valid",
     "cerberus_rules": {
       "event_id": {
