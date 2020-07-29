@@ -43,7 +43,7 @@
                         },
                         {
                             "json_name": "evt_issuance.vehicle_nsc_puj_code",
-                            "destination_name": "vehicle_nsc_puj_code"
+                            "destination_name": "vehicle_nsj_puj_cd"
                         },
                         {
                             "json_name": "evt_issuance.person_gender_code",
