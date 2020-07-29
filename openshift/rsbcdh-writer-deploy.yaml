@@ -13,6 +13,7 @@ parameters:
 - name: MQ_WRITER_USER
 - name: MQ_WRITER_PASS
 - name: DB_HOST
+- name: ENCRYPT_KEY
   required: true
 - name: DB_NAME
   required: true
@@ -113,6 +114,11 @@ objects:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
                   key: db-password
+            - name: ENCRYPT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: encrypt-key
             - name: PYTHONPATH
               value: ${PYTHONPATH}
           resources:

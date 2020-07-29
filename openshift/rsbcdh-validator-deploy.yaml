@@ -12,7 +12,7 @@ parameters:
 - name: RABBITMQ_URL
 - name: VALIDATOR_USER
 - name: VALIDATOR_PASS
-- name: SECRET_KEY
+- name: ENCRYPT_KEY
 - name: FLASK_ENV
   value: 'development'
 - name: PYTHONPATH
@@ -95,6 +95,11 @@ objects:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
                   key: password
+            - name: ENCRYPT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: encrypt-key
             - name: FLASK_ENV
               value: ${FLASK_ENV}
             - name: PYTHONPATH
