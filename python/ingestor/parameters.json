@@ -4,7 +4,7 @@
       "encrypt-at-rest": false,
       "queue": "ETK"
     },
-    "forms": {
+    "form": {
       "expected_format": "application/xml",
       "encrypt-at-rest": true,
       "queue": "ETK"
