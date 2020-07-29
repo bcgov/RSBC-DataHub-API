@@ -320,60 +320,34 @@
     "valid-queue": "DF.valid",
     "invalid-queue": "DF.not-valid",
       "cerberus_rules": {
-        "form": {
+        "event_version": {
+          "type": "string",
+          "required": true
+        },
+        "event_type": {
+          "type": "string",
+          "required": true,
+          "allowed": [
+            "form_submission"
+          ]
+        },
+        "form_submission": {
           "type": "dict",
           "required": true,
           "schema": {
-             "section-identification-information": {
-               "type": "dict",
-               "required": true
-             },
-             "section-request-for-review-oral-written": {
-               "type": "dict",
-               "required": true
-             },
-             "section-irp-information": {
-               "type": "dict",
-               "required": true,
-               "schema": {
-                 "control-prohibition-number": {
-                   "type": "string",
-                   "required": true
-                 },
-                 "control-date-served": {
-                   "type": "string",
-                   "required": true
-                 },
-                 "licence-seized": {
-                   "type": "string",
-                   "required": true,
-                   "nullable": true
-                 },
-                 "licence-lost-or-stolen": {
-                   "type": "string",
-                   "required": true,
-                   "nullable": true
-                 },
-                 "licence-not-surrendered": {
-                   "type": "string",
-                   "required": true,
-                   "nullable": true
-                 },
-                 "control-prohibition-type-length": {
-                   "type": "string",
-                   "required": true,
-                   "allowed": [
-                     "3-days-warn",
-                     "7-days-warn",
-                     "30-days-warn",
-                     "90-days-fail",
-                     "90-days-refusal"
-                   ]
-                 }
-               }
-             },
-            "section-4": {
-              "required": true
+            "form": {
+              "type": "dict",
+              "required": true,
+              "schema": {
+                "section-request-for-review-oral-written": {
+                  "type": "dict",
+                  "required": true
+                },
+                "section-irp-information": {
+                  "type": "dict",
+                  "required": true
+                }
+              }
             }
           }
         }
