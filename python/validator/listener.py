@@ -34,7 +34,7 @@ class Listener:
     def callback(self, ch, method, properties, body):
         logging.info('message received; callback invoked')
 
-        message_dict = self.message.decode_message(body)
+        message_dict = self.message.decode_message(body, self.config.ENCRYPT_KEY)
 
         result = self.validator.validate(message_dict)
         logging.info("write to: " + result['queue'])

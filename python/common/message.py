@@ -20,11 +20,11 @@ class Message:
         return Message.encode(message)
 
     @staticmethod
-    def decode_message(body: bytes, secret, encoding) -> dict:
-        decoded_message = Message.decode(body)
-        if 'encrypt-at-rest' in decoded_message and decoded_message['encrypt-at-rest'] is not True:
-            return Message.decrypt_sensitive_attribute(decoded_message, secret, encoding)
-        return decoded_message 
+    def decode_message(body: bytes, secret, encoding="utf-8") -> dict:
+        messsage = Message.decode(body)
+        if 'encrypt-at-rest' in messsage and messsage['encrypt-at-rest']:
+            return Message.decrypt_sensitive_attribute(messsage, secret, encoding)
+        return messsage 
 
     @staticmethod
     def encrypt_sensitive_attribute(message: dict, secret: str, encoding="utf-8") -> dict:
