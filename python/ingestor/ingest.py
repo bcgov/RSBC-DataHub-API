@@ -35,13 +35,13 @@ def create(data_type='ETK'):
     logging.debug('content-type: ' + request.content_type)
     if data_type == "ETK":
         payload = request.json
-    elif data_type == "forms":
+    elif data_type == "form":
         payload = {
             "event_version": "1.1",
             "encrypt_at_rest": available_parameters[data_type]['encrypt-at-rest'],
             "event_date_time": "",
-            "event_type": "irp_form_submission",
-            "irp_form_submission": xmltodict.parse(request.get_data())
+            "event_type": "form_submission",
+            "form_submission": xmltodict.parse(request.get_data())
         }
 
     logging.debug('payload type: ' + str(type(payload)))
