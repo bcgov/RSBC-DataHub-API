@@ -21,7 +21,7 @@ def revoke_token():
 @require_oauth()
 def search():
     """
-    On the PayBC site, a user lookups an invoice to be paid. PayBC searches for
+    On the Pay_BC site, a user lookups an invoice to be paid. PayBC searches for
     the invoice in our system using a GET request with an invoice number and a
     check_value.  We return an array of items to be paid.
     :return:

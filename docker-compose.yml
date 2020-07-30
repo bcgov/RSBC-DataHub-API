@@ -75,3 +75,17 @@ services:
         PAYBC_CLIENT_SECRET: "${PAYBC_CLIENT_SECRET}"
       ports:
         - "5001:5001"
+
+    form_verification:
+        build:
+          context: python
+          dockerfile: form_verification/Dockerfile-local
+        depends_on:
+          - rabbitmq
+        environment:
+          RABBITMQ_URL: "${RABBITMQ_URL}"
+          RABBITMQ_USER: "${RABBITMQ_USER}"
+          RABBITMQ_PASS: "${RABBITMQ_PASS}"
+          VIPS_API_ROOT_URI: "${VIPS_API_ROOT_URI}"
+          LOG_LEVEL: "${LOG_LEVEL}"
+          ENCRYPT_KEY: "${ENCRYPT_KEY}"
