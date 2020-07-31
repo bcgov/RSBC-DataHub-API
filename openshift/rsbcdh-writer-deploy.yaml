@@ -13,7 +13,6 @@ parameters:
 - name: MQ_WRITER_USER
 - name: MQ_WRITER_PASS
 - name: DB_HOST
-  required: true
 - name: DB_NAME
   required: true
 - name: DB_USERNAME
@@ -94,14 +93,17 @@ objects:
               valueFrom:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
-                  key: username
+                  key: rabbitmq-username
             - name: MQ_WRITER_PASS
               valueFrom:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
-                  key: password
+                  key: rabbitmq-password
             - name: DB_HOST
-              value: ${DB_HOST}
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: db-host-name
             - name: DB_NAME
               value: ${DB_NAME}
             - name: DB_USERNAME

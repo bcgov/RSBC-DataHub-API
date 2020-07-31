@@ -89,12 +89,12 @@ objects:
               valueFrom:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
-                  key: username
+                  key: rabbitmq-username
             - name: VALIDATOR_PASS
               valueFrom:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
-                  key: password
+                  key: rabbitmq-password
             - name: ENCRYPT_KEY
               valueFrom:
                 secretKeyRef:

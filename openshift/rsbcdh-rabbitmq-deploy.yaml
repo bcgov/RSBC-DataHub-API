@@ -247,12 +247,12 @@ objects:
             valueFrom:
               secretKeyRef:
                 name: ${NAME}-${PHASE}
-                key: username
+                key: rabbitmq-username
           - name: RABBITMQ_DEFAULT_PASS
             valueFrom:
               secretKeyRef:
                 name: ${NAME}-${PHASE}
-                key: password
+                key: rabbitmq-password
           - name: K8S_SERVICE_NAME
             value: ${NAME}-${COMPONENT}${SUFFIX}
           - name: POD_IP
