@@ -5,8 +5,6 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config(BaseConfig):
-    SECRET_KEY                  = os.getenv('SECRET_KEY')
+    FLASK_SECRET_KEY            = os.getenv('FLASK_SECRET_KEY')
     PARAMETERS_FILE             = os.getenv('PARAMETERS_FILE', 'parameters.json')
-    INGEST_USER                 = os.getenv('INGEST_USER')
-    INGEST_PASS                 = os.getenv('INGEST_PASS')
 

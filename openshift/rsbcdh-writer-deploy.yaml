@@ -10,8 +10,8 @@ parameters:
 - name: VERSION
 - name: HOST
 - name: RABBITMQ_URL
-- name: MQ_WRITER_USER
-- name: MQ_WRITER_PASS
+- name: RABBITMQ_USER
+- name: RABBITMQ_PASS
 - name: DB_HOST
 - name: DB_NAME
   required: true
@@ -89,12 +89,12 @@ objects:
           env:
             - name: RABBITMQ_URL
               value: ${NAME}-rabbitmq${SUFFIX}
-            - name: MQ_WRITER_USER
+            - name: RABBITMQ_USER
               valueFrom:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
                   key: rabbitmq-username
-            - name: MQ_WRITER_PASS
+            - name: RABBITMQ_PASS
               valueFrom:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}

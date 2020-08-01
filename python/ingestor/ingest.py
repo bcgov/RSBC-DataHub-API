@@ -9,12 +9,13 @@ import logging
 
 
 application = FlaskAPI(__name__)
+application.secret = Config.FLASK_SECRET_KEY
 logging.basicConfig(level=Config.LOG_LEVEL)
 logging.warning('*** ingestor initialized ***')
 
 rabbit_mq = RabbitMQ(
-        Config.INGEST_USER,
-        Config.INGEST_PASS,
+        Config.RABBITMQ_USER,
+        Config.RABBITMQ_PASS,
         Config.RABBITMQ_URL,
         Config.LOG_LEVEL,
         Config.MAX_CONNECTION_RETRIES,

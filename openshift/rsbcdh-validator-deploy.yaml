@@ -85,12 +85,12 @@ objects:
           env:
             - name: RABBITMQ_URL
               value: ${NAME}-rabbitmq${SUFFIX}
-            - name: VALIDATOR_USER
+            - name: RABBITMQ_USER
               valueFrom:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
                   key: rabbitmq-username
-            - name: VALIDATOR_PASS
+            - name: RABBITMQ_PASS
               valueFrom:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}

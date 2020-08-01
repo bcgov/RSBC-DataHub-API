@@ -7,9 +7,6 @@ class Config(BaseConfig):
     WATCH_QUEUE                 = os.getenv('WATCH_QUEUE', 'validated')
     FAIL_QUEUE                  = os.getenv('FAIL_QUEUE', 'ETK.fail-write')
 
-    MQ_WRITER_USER              = os.getenv('MQ_WRITER_USER')
-    MQ_WRITER_PASS              = os.getenv('MQ_WRITER_PASS')
-
     # DATABASE
     DB_HOST                     = os.getenv('DB_HOST')
     DB_NAME                     = os.getenv('DB_NAME')

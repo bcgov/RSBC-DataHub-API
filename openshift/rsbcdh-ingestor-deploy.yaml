@@ -10,10 +10,11 @@ parameters:
 - name: VERSION
 - name: HOST
 - name: RABBITMQ_URL
-- name: INGEST_USER
-- name: INGEST_PASS
+- name: RABBITMQ_USER
+- name: RABBITMQ_PASS
 - name: SECRET_KEY
 - name: ENCRYPT_KEY
+- name: FLASK_SECRET_KEY
 - name: FLASK_ENV
   value: 'development'
 - name: URL_SUFFIX
@@ -84,12 +85,12 @@ objects:
           env:
             - name: RABBITMQ_URL
               value: ${NAME}-rabbitmq${SUFFIX}
-            - name: INGEST_USER
+            - name: RABBITMQ_USER
               valueFrom:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
                   key: rabbitmq-username
-            - name: INGEST_PASS
+            - name: RABBITMQ_PASS
               valueFrom:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
@@ -99,6 +100,11 @@ objects:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
                   key: encrypt-key
+            - name: FLASK_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: ingestor-flask-secret
             - name: FLASK_ENV
               value: ${FLASK_ENV}
           resources:
