@@ -54,7 +54,7 @@ class Listener:
             message_with_errors_appended = Message.add_error_to_message(message_dict, result)
             if self.writer.publish(
                     self.config.FAIL_QUEUE,
-                    self.message.encode_message(message_with_errors_appended)):
+                    self.message.encode_message(message_with_errors_appended, self.config.ENCRYPT_KEY)):
                 ch.basic_ack(delivery_tag=method.delivery_tag)
 
 
