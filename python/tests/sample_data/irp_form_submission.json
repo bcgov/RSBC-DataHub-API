@@ -1,49 +1,52 @@
 {
-  "form": {
-    "section-6": {
-      "control-3": null
-    },
-    "section-irp-information": {
-      "control-prohibition-number": "201234567",
-      "control-date-served": "2020-06-15",
-      "control-notice": null,
-      "licence-seized": "licence-seized",
-      "licence-lost-or-stolen": null,
-      "licence-not-surrendered": null,
-      "control-prohibition-type-length": "3-days-warn"
-    },
-    "section-identification-information": {
-      "control-applicant": "false",
-      "control-driver-email": "jsmith@domain.test",
-      "control-phone-number": "2505551212",
-      "control-bcdl": "1111111",
-      "control-driver-first-name": "Jonathan",
-      "control-driver-last-name": "Smith",
-      "control-street-address": "123 Main Street",
-      "control-driver-city-town": "Victoria",
-      "control-driver-province": "britishcolumbia",
-      "control-driver-postal-code": "V8R 3M1",
-      "control-use-secondary-address": "false",
-      "control-secondary-address-name": null,
-      "control-secondary-address1": null,
-      "control-secondary_city": null,
-      "control-secondary-address-province": "britishcolumbia",
-      "control-secondary-address-postal": null
-    },
-    "section-grounds-for-review": {
-      "control-grounds-for-review-text": null
-    },
-    "section-request-for-review-oral-written": {
-      "control-1": null,
-      "written-review-info": null,
-      "hearing-request-type": null,
-      "oral-review-info": null
-    },
-    "section-4": {
-      "control-6": null,
-      "control-11": null,
-      "date-signed": "2020-06-18",
-      "vips-verification": "Smith~201234567~2020-06-15"
-    }
+  "event_type": "form_submission",
+  "form_submission": {
+     "form": {
+        "section-6": {
+          "control-3": null
+        },
+        "section-irp-information": {
+          "control-prohibition-number": "201234567",
+          "control-date-served": "2020-06-15",
+          "control-notice": null,
+          "licence-seized": "licence-seized",
+          "licence-lost-or-stolen": null,
+          "licence-not-surrendered": null,
+          "control-prohibition-type-length": "3-days-warn"
+        },
+        "section-identification-information": {
+          "control-applicant": "false",
+          "control-driver-email": "jsmith@domain.test",
+          "control-phone-number": "2505551212",
+          "control-bcdl": "1111111",
+          "control-driver-first-name": "Jonathan",
+          "control-driver-last-name": "Smith",
+          "control-street-address": "123 Main Street",
+          "control-driver-city-town": "Victoria",
+          "control-driver-province": "britishcolumbia",
+          "control-driver-postal-code": "V8R 3M1",
+          "control-use-secondary-address": "false",
+          "control-secondary-address-name": null,
+          "control-secondary-address1": null,
+          "control-secondary_city": null,
+          "control-secondary-address-province": "britishcolumbia",
+          "control-secondary-address-postal": null
+        },
+        "section-grounds-for-review": {
+          "control-grounds-for-review-text": null
+        },
+        "section-request-for-review-oral-written": {
+          "control-1": null,
+          "written-review-info": null,
+          "hearing-request-type": null,
+          "oral-review-info": null
+        },
+        "section-4": {
+          "control-6": null,
+          "control-11": null,
+          "date-signed": "2020-06-18",
+          "vips-verification": "Smith~201234567~2020-06-15"
+        }
+     }
   }
 }

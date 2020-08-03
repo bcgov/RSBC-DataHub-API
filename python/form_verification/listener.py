@@ -4,6 +4,7 @@ from python.common.vips_api import get_prohibition
 from python.common.message import Message
 import python.form_verification.middleware as mw
 import logging
+import json
 
 
 class Listener:
@@ -20,8 +21,9 @@ class Listener:
         self.listener = rabbit_listener
         self.message = message
 
-        logging.basicConfig(level=config.LOG_LEVEL)
-        logging.warning('*** validator initialized  ***')
+        self.logger = logging.getLogger()
+        self.logger.setLevel(level=config.LOG_LEVEL)
+        self.logger.warning('*** validator initialized  ***')
 
     def main(self):
         """
@@ -32,38 +34,34 @@ class Listener:
         self.listener.consume(self.config.WATCH_QUEUE, self.callback)
 
     def callback(self, ch, method, properties, body):
-        logging.info('message received; callback invoked')
+        self.logger.info('message received; callback invoked')
 
         message_dict = self.message.decode_message(body, self.config.ENCRYPT_KEY)
         prohibition_number = message_dict['form_submission']['form']['section-irp-information']['control-prohibition-number']
 
         is_get_success, vips_response = get_prohibition(prohibition_number, self.config)
         if is_get_success:
-            message_dict['form_submission']['vips_response'] = vips_response
+            message_dict['form_submission']['vips_response'] = vips_response['data']['status']
 
-            # invoke middleware chain to determine how to handle next steps
-            # each pair of functions below represents (success(), failure())
+            # invoke middleware chain to determine which event to generate
+            # each pair of functions below represents (success, failure)
             mw.middle_logic([
-                (mw.prohibition_should_have_been_entered_in_vips(
-                    message=message_dict,
-                    delay_days=self.config.DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY),
-                 mw.not_yet_in_vips_event(message=message_dict)),
+                (mw.prohibition_should_have_been_entered_in_vips, mw.not_yet_in_vips_event),
+                (mw.prohibition_exists_in_vips, mw.prohibition_not_found_event),
+                (mw.user_submitted_last_name_matches_vips, mw.last_name_mismatch_event),
+                (mw.date_served_not_older_than_one_week, mw.prohibition_older_than_7_days_event)
 
-                (mw.prohibition_exists_in_vips(message=message_dict),
-                 mw.prohibition_not_found_event(message=message_dict)),
+            ], message=message_dict, delay_days=self.config.DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY)
 
-                (mw.user_submitted_last_name_matches_vips(message=message_dict),
-                 mw.last_name_mismatch_event(message=message_dict)),
-
-                (mw.date_served_not_older_than_one_week(message=message_dict),
-                 mw.prohibition_older_than_7_days_event(message=message_dict))
-
-            ])
-            logging.debug('middleware logic complete')
-            # TODO - message verified - write message to verified queue
+            # Acknowledge the message add to the WRITE queue
+            self.logger.debug('middleware logic complete; returning event: %s', message_dict['event_type'])
+            if self.writer.publish(
+                    self.config.WRITE_QUEUE,
+                    self.message.encode_message(message_dict, self.config.ENCRYPT_KEY)):
+                ch.basic_ack(delivery_tag=method.delivery_tag)
 
         else:
-            logging.warning('no response from VIPS')
+            self.logger.warning('no response from the VIPS API')
             # TODO - write event back to the watch queue
             #  we can't proceed without access to VIPS
 

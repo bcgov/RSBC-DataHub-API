@@ -7,8 +7,8 @@ services:
         environment:
             # The RABBITMQ_DEFAULT_USER is used
             # to connect to the web admin
-            RABBITMQ_DEFAULT_USER: "${RABBITMQ_DEFAULT_USER}"
-            RABBITMQ_DEFAULT_PASS: "${RABBITMQ_DEFAULT_PASS}"
+            RABBITMQ_DEFAULT_USER: "${RABBITMQ_USER}"
+            RABBITMQ_DEFAULT_PASS: "${RABBITMQ_PASS}"
         ports:
             - "15672:15672" # Web admin port
             - "5672:5672"   # Do not expose this port in production
@@ -21,11 +21,11 @@ services:
           - rabbitmq
         environment:
           RABBITMQ_URL: "${RABBITMQ_URL}"
-          # The INGEST_USER is used to submit 
+          # The RABBITMQ_USER is used to submit 
           # events for processing
-          INGEST_USER: "${INGEST_USER}"
-          INGEST_PASS: "${INGEST_PASS}"
-          LOG_LEVEL: "${LOG_LEVEL}"
+          RABBITMQ_USER: "${RABBITMQ_USER}"
+          RABBITMQ_PASS: "${RABBITMQ_PASS}"
+          LOG_LEVEL: "WARNING"
           SECRET_KEY: "${SECRET_KEY}"
           ENCRYPT_KEY: "${ENCRYPT_KEY}"
         ports:
@@ -39,11 +39,11 @@ services:
           - rabbitmq
         environment:
           RABBITMQ_URL: "${RABBITMQ_URL}"
-          # The VALIDATE_USER is used to watch for submitted
+          # The RABBITMQ_USER is used to watch for submitted
           # events and validate them
-          VALIDATOR_USER: "${VALIDATOR_USER}"
-          VALIDATOR_PASS: "${VALIDATOR_PASS}"
-          LOG_LEVEL: "${LOG_LEVEL}"
+          RABBITMQ_USER: "${RABBITMQ_USER}"
+          RABBITMQ_PASS: "${RABBITMQ_PASS}"
+          LOG_LEVEL: "WARNING"
           ENCRYPT_KEY: "${ENCRYPT_KEY}"
 
     writer:
@@ -54,11 +54,11 @@ services:
           - rabbitmq
         environment:
           RABBITMQ_URL: "${RABBITMQ_URL}"
-          # The MQ_WRITER_USER is used to watch for validated
+          # The RABBITMQ_USER is used to watch for validated
           # events and write them to the database
-          MQ_WRITER_USER: "${MQ_WRITER_USER}"
-          MQ_WRITER_PASS: "${MQ_WRITER_PASS}"
-          LOG_LEVEL: "${LOG_LEVEL}"
+          RABBITMQ_USER: "${RABBITMQ_USER}"
+          RABBITMQ_PASS: "${RABBITMQ_PASS}"
+          LOG_LEVEL: "WARNING"
           DB_HOST: "${DB_HOST}"
           DB_NAME: "${DB_NAME}"
           DB_USERNAME: "${DB_USERNAME}"
@@ -69,7 +69,7 @@ services:
         context: python
         dockerfile: paybc_api/Dockerfile-local
       environment:
-        LOG_LEVEL: "${LOG_LEVEL}"
+        LOG_LEVEL: "WARNING"
         PAYBC_FLASK_SECRET: "${PAYBC_FLASK_SECRET}"
         PAYBC_CLIENT_ID: "${PAYBC_CLIENT_ID}"
         PAYBC_CLIENT_SECRET: "${PAYBC_CLIENT_SECRET}"
@@ -86,6 +86,8 @@ services:
           RABBITMQ_URL: "${RABBITMQ_URL}"
           RABBITMQ_USER: "${RABBITMQ_USER}"
           RABBITMQ_PASS: "${RABBITMQ_PASS}"
+          VIPS_API_USER: "${VIPS_API_USER}"
+          VIPS_API_PASS: "${VIPS_API_PASS}"
           VIPS_API_ROOT_URI: "${VIPS_API_ROOT_URI}"
-          LOG_LEVEL: "${LOG_LEVEL}"
+          LOG_LEVEL: "DEBUG"
           ENCRYPT_KEY: "${ENCRYPT_KEY}"
