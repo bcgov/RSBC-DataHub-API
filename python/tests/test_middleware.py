@@ -45,3 +45,11 @@ class TestMiddleware:
         sample_data['form_submission']['vips_response'] = response_from_api
         result, args = middleware.user_submitted_last_name_matches_vips(message=sample_data)
         assert result is True
+
+    @staticmethod
+    def test_modify_event_method():
+        new_event_name = "new_event"
+        event = load_json_into_dict('python/tests/sample_data/irp_form_submission.json')
+        modified_event = middleware.modify_event(event, new_event_name)
+        assert new_event_name in modified_event
+        assert modified_event['event_type'] == new_event_name

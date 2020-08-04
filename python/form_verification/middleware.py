@@ -85,9 +85,10 @@ def prohibition_not_found_event(**args):
     """
     create prohibition not found event
     """
-    logging.debug('create prohibition not found event')
+    event = "prohibition_not_found"
+    logging.debug('create {} event'.format(event))
     message = args.get('message')
-    message['event_type'] = 'prohibition_not_found'
+    args['message'] = modify_event(message, event)
     return args
 
 
@@ -95,9 +96,10 @@ def last_name_mismatch_event(**args):
     """
     create last name mismatch event
     """
-    logging.debug('create last name mismatch event')
+    event = "last_name_mismatch"
+    logging.debug('create {} event'.format(event))
     message = args.get('message')
-    message['event_type'] = 'last_name_mismatch'
+    args['message'] = modify_event(message, event)
     return args
 
 
@@ -105,9 +107,10 @@ def not_yet_in_vips_event(**args):
     """
     create not yet in vips event
     """
-    logging.debug('create prohibition not yet entered in VIPS event')
+    event = 'prohibition_not_yet_in_vips'
+    logging.debug('create {} event'.format(event))
     message = args.get('message')
-    message['event_type'] = 'prohibition_not_yet_in_vips'
+    args['message'] = modify_event(message, event)
     # TODO - determine appropriate hold period so we don't query the api multiple times per second
     logging.critical('TODO - hard coded value needs to be replaced')
     message['hold_until'] = '2020-01-01'
@@ -118,7 +121,19 @@ def prohibition_older_than_7_days_event(**args):
     """
     create prohibition older than 7 days event
     """
-    logging.debug('create prohibition served more than 7 days ago event')
+    event = 'prohibition_served_more_than_7_days_ago'
+    logging.debug('create {} event'.format(event))
     message = args.get('message')
-    message['event_type'] = 'prohibition_served_more_than_7_days_ago'
+    args['message'] = modify_event(message, event)
     return args
+
+
+def modify_event(message: dict, new_event_type: str):
+    """
+    Replace the current event_type with new_event_type and rename
+    corresponding event_type attribute
+    """
+    current_event_type = message['event_type']
+    message[new_event_type] = message.pop(current_event_type)
+    message['event_type'] = new_event_type
+    return message
