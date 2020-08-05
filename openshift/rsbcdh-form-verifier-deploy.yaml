@@ -4,7 +4,7 @@ metadata: {}
 parameters:
 - name: NAME
 - name: COMPONENT
-  value: form_verifier
+  value: form-verifier
 - name: PHASE
 - name: SUFFIX
 - name: VERSION
