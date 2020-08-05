@@ -10,7 +10,8 @@
       },
       "event_version": {
         "type": "string",
-        "required": true
+        "required": true,
+        "allowed": ["1.4"]
       },
       "event_date_time": {
         "type": "string",
@@ -108,7 +109,8 @@
       },
       "event_version": {
         "type": "string",
-        "required": true
+        "required": true,
+        "allowed": ["1.4"]
       },
       "event_date_time": {
         "type": "string",
@@ -142,7 +144,8 @@
       },
       "event_version": {
         "type": "string",
-        "required": true
+        "required": true,
+        "allowed": ["1.4"]
       },
       "event_date_time": {
         "type": "string",
@@ -163,6 +166,10 @@
            },
            "count_number": {
              "type": "integer",
+             "required": true
+           },
+           "transaction_id": {
+             "type": "string",
              "required": true
            },
            "payment_card_type": {
@@ -192,7 +199,8 @@
       },
       "event_version": {
         "type": "string",
-        "required": true
+        "required": true,
+        "allowed": ["1.4"]
       },
       "event_date_time": {
         "type": "string",
@@ -234,7 +242,8 @@
       },
       "event_version": {
         "type": "string",
-        "required": true
+        "required": true,
+        "allowed": ["1.4"]
       },
       "event_date_time": {
         "type": "string",
@@ -276,7 +285,8 @@
       },
       "event_version": {
         "type": "string",
-        "required": true
+        "required": true,
+        "allowed": ["1.4"]
       },
       "event_date_time": {
         "type": "string",
@@ -322,7 +332,8 @@
       "cerberus_rules": {
         "event_version": {
           "type": "string",
-          "required": true
+          "required": true,
+          "allowed": ["1.4"]
         },
         "event_type": {
           "type": "string",

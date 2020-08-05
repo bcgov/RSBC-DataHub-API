@@ -38,7 +38,7 @@ def create(data_type='ETK'):
         payload = request.json
     elif data_type == "form":
         payload = {
-            "event_version": "1.1",
+            "event_version": "1.4",
             "encrypt_at_rest": available_parameters[data_type]['encrypt-at-rest'],
             "event_date_time": "",
             "event_type": "form_submission",

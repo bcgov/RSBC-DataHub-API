@@ -1,6 +1,6 @@
 {
     "event_id": 1234,
-    "event_version": "1.1",
+    "event_version": "1.4",
     "event_date_time": "2020-01-20 08:23:16",
     "event_type": "vt_query",
     "vt_query": {

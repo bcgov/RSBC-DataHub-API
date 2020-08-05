@@ -9,7 +9,7 @@ curl --request POST \
   --header 'content-type: application/json' \
   --data '{
     "event_id": 12351,
-    "event_version": "1.1",
+    "event_version": "1.4",
     "event_date_time": "2020-01-20 08:23:16",
     "event_type": "evt_issuance",
     "evt_issuance": {
@@ -55,7 +55,7 @@ curl --request POST \
   --header 'content-type: application/json' \
   --data '{
     "event_id": 1236,
-    "event_version": "1.1",
+    "event_version": "1.4",
     "event_date_time": "2020-01-20 08:23:16",
     "event_type": "vt_query",
     "vt_query": {
@@ -71,7 +71,7 @@ curl --request POST \
   --header 'content-type: application/json' \
   --data '{
     "event_id": 1234,
-    "event_version": "1.1",
+    "event_version": "1.4",
     "event_date_time": "2020-01-20 08:23:16",
     "event_type": "vt_payment",
     "vt_payment": {
@@ -91,7 +91,7 @@ curl --request POST \
   --header 'content-type: application/json' \
   --data '{
     "event_id": 1234,
-    "event_version": "1.1",
+    "event_version": "1.4",
     "event_date_time": "2020-01-20 08:23:16",
     "event_type": "vt_dispute",
     "vt_dispute": {
@@ -112,7 +112,7 @@ curl --request POST \
   --header 'content-type: application/json' \
   --data '{
     "event_id": 1234,
-    "event_version": "1.1",
+    "event_version": "1.4",
     "event_date_time": "2020-01-20 08:23:16",
     "event_type": "vt_dispute_finding",
     "vt_dispute_finding": {
@@ -132,7 +132,7 @@ curl --request POST \
   --header 'content-type: application/json' \
   --data ' {
     "event_id": 1234,
-    "event_version": "1.1",
+    "event_version": "1.4",
     "event_date_time": "2020-01-20 08:23:16",
     "event_type": "vt_dispute_status_update",
     "vt_dispute_status_update": {
