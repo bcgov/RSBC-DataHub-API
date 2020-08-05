@@ -4,7 +4,7 @@ metadata: {}
 parameters:
 - name: NAME
 - name: COMPONENT
-  value: validator
+  value: form_verifier
 - name: PHASE
 - name: SUFFIX
 - name: VERSION
@@ -13,7 +13,11 @@ parameters:
 - name: RABBITMQ_USER
 - name: RABBITMQ_PASS
 - name: ENCRYPT_KEY
-  value: 'development'
+- name: VIPS_API_USER
+- name: VIPS_API_PASS
+- name: VIPS_API_ROOT_URI
+- name: DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY
+  value: '3'
 - name: PYTHONPATH
   value: '/opt/app-root/lib/python3.6/site-packages:/opt/app-root/src/'
 - name: URL_SUFFIX
@@ -99,8 +103,23 @@ objects:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
                   key: encrypt-key
-            - name: FLASK_ENV
-              value: ${FLASK_ENV}
+            - name: VIPS_API_ROOT_URI
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: vips-api-root-uri
+            - name: VIPS_API_USER
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: vips-api-username
+            - name: VIPS_API_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: vips-api-username
+            - name: DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY
+              value: ${DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY}
             - name: PYTHONPATH
               value: ${PYTHONPATH}
           resources:

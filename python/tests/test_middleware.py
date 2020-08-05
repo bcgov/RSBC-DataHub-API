@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
-from python.form_verification.config import Config as BusinessConfig
-import python.form_verification.middleware as middleware
+from python.form_verifier.config import Config as BusinessConfig
+import python.form_verifier.middleware as middleware
 from python.common.helper import load_json_into_dict
 
 

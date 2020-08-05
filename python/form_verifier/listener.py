@@ -1,8 +1,8 @@
-from python.form_verification.config import Config
+from python.form_verifier.config import Config
 from python.common.rabbitmq import RabbitMQ
 from python.common.vips_api import get_prohibition
 from python.common.message import Message
-import python.form_verification.middleware as mw
+import python.form_verifier.middleware as mw
 import logging
 import json
 
@@ -12,7 +12,7 @@ class Listener:
         This listener watches the RabbitMQ WATCH_QUEUE defined in the
         Config.  When a message appears in the queue the Listener:
          - invokes callback(),
-         - calls out to the VIPS API and checks to see if the prohibition exists
+         - calls out to the VIPS API and, if successful, copies the status into the message
          - invokes middleware to determine the appropriate event
     """
     def __init__(self, config, rabbit_writer, rabbit_listener, message):
@@ -62,8 +62,10 @@ class Listener:
 
         else:
             self.logger.warning('no response from the VIPS API')
-            # TODO - write event back to the watch queue
-            #  we can't proceed without access to VIPS
+            if self.writer.publish(
+                    self.config.WATCH_QUEUE,
+                    self.message.encode_message(message_dict, self.config.ENCRYPT_KEY)):
+                ch.basic_ack(delivery_tag=method.delivery_tag)
 
 
 if __name__ == "__main__":

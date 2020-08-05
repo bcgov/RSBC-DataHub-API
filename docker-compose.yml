@@ -79,7 +79,7 @@ services:
     form_verification:
         build:
           context: python
-          dockerfile: form_verification/Dockerfile-local
+          dockerfile: python/form_verifier/Dockerfile-local
         depends_on:
           - rabbitmq
         environment:
