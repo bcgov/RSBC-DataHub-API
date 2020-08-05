@@ -11,4 +11,4 @@ COPY __init__.py ${APP_ROOT}/src/python/
 COPY common/*.py ${APP_ROOT}/src/python/common/
 COPY form_verifier/*.py ${APP_ROOT}/src/python/form_verifier/
 
-CMD [ "python", "python/form_verification/listener.py" ]
+CMD [ "python", "python/form_verifier/listener.py" ]
