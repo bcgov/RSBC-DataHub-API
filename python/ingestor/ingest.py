@@ -44,8 +44,7 @@ def create(data_type='ETK'):
             "event_type": "form_submission",
             "form_submission": xmltodict.parse(request.get_data())
         }
-
-    logging.debug('payload type: ' + str(type(payload)))
+        logging.warning(request.get_data)
 
     if rabbit_mq.publish(available_parameters[data_type]['queue'], Message.encode_message(payload, Config.ENCRYPT_KEY)):
         return jsonify(payload), 200
