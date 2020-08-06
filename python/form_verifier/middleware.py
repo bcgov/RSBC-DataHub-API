@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from unicodedata import normalize
 import logging
 
 
@@ -35,17 +36,16 @@ def user_submitted_last_name_matches_vips(**args):
     last name entered by the applicant via the form.
     """
     message = args.get('message')
-    last_name_as_submitted = message['form_submission']['form']['identification-information']['driver-last-name']
-    last_name_from_vips = message['form_submission']['vips_response']['surnameNm']
+    last_name_as_submitted = remove_accents(message['form_submission']['form']['identification-information']['driver-last-name'])
+    last_name_from_vips = remove_accents(message['form_submission']['vips_response']['data']['status']['surnameNm'])
     logging.debug('compare last name: %s and %s', last_name_as_submitted, last_name_from_vips)
-    # TODO - normalize and capitalize both last names before comparison
-    is_last_name_match = bool(last_name_from_vips == last_name_as_submitted)
+    is_last_name_match = bool(last_name_from_vips.upper() == last_name_as_submitted.upper())
     return is_last_name_match, args
 
 
 def prohibition_should_have_been_entered_in_vips(**args):
     """
-    Returns False if the application should be placed in a hold queue until
+    Returns False if the application should be placed on hold until
     VIPS has more time to enter the paper prohibition into the database
     """
     message = args.get('message')
@@ -53,14 +53,16 @@ def prohibition_should_have_been_entered_in_vips(**args):
     today = datetime.today()
     date_served = datetime.strptime(date_served_string, '%Y-%m-%d')
     very_recently_served = (today - date_served).days < args.get('delay_days')
-    is_not_holdable = not(bool("vips_response" not in message['form_submission'] and very_recently_served))
-    logging.debug('Prohibition should already be entered in VIPS: %s and %s', is_not_holdable, date_served_string)
-    return is_not_holdable, args
+    record_not_found_in_vips = message['form_submission']['vips_response']['resp'] == 'fail'
+    is_holdable = record_not_found_in_vips and very_recently_served
+    print(date_served, very_recently_served, record_not_found_in_vips, is_holdable)
+    logging.debug('Prohibition should already be entered in VIPS: %s and %s', not is_holdable, date_served_string)
+    return not is_holdable, args
 
 
 def prohibition_exists_in_vips(**args):
     message = args.get('message')
-    result = "vips_response" in message['form_submission']['form']
+    result = message['form_submission']['vips_response']['resp'] == 'success'
     logging.debug('Prohibition exists in VIPS: %s', result)
     return result, args
 
@@ -137,3 +139,9 @@ def modify_event(message: dict, new_event_type: str):
     message[new_event_type] = message.pop(current_event_type)
     message['event_type'] = new_event_type
     return message
+
+
+def remove_accents(input_str):
+    nfkd_form = normalize('NFKD', input_str)
+    only_ascii = nfkd_form.encode('ASCII', 'ignore')
+    return only_ascii

@@ -15,8 +15,6 @@ def get_prohibition(prohibition_number: str, config, local_requests=requests):
         return False, error
 
     data = response.json()
-    if data['resp'] == 'fail':
-        logging.warning('VIPS API error: ', json.dumps(data), correlation_id)
-        return False, data
-    logging.info('VIPS API success', json.dumps(data), correlation_id)
+    # Note: VIPS response could be either record found or record not found
+    logging.info('VIPS API response', json.dumps(data), correlation_id)
     return True, data

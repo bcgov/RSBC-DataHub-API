@@ -1,0 +1,15 @@
+{
+  "data": {
+    "status":{
+      "noticeTypeCd":"ADP",
+      "effectiveDt":"2018-06-20 00:00:00 -07:00",
+      "reviewFormSubmittedYn":"N",
+      "reviewCreatedYn":"Y",
+      "originalCause":"IRP3",
+      "surnameNm":"PATEL",
+      "reviewStartDtm":"2019-01-01 15:30:00 -08:00",
+      "reviewEndDtm":"2019-01-01 17:30:00 -08:00"
+    }
+  },
+  "resp": "success"
+}

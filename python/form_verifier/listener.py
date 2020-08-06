@@ -41,7 +41,7 @@ class Listener:
 
         is_get_success, vips_response = get_prohibition(prohibition_number, self.config)
         if is_get_success:
-            message_dict['form_submission']['vips_response'] = vips_response['data']['status']
+            message_dict['form_submission']['vips_response'] = vips_response
 
             # invoke middleware chain to determine which event to generate
             # each pair of functions below represents (success, failure)

@@ -6,18 +6,18 @@
   "form_submission": {
     "form": {
       "prohibition-information": {
-        "control-prohibition-number": "00765432",
+        "control-prohibition-number": "211212123",
         "control-11": null,
-        "control-is-adp": "true",
-        "control-is-irp": "false",
+        "control-is-adp": "false",
+        "control-is-irp": "true",
         "control-is-ul": "false",
-        "date-of-service": "2020-08-05",
+        "date-of-service": "2020-08-04",
         "control-notice": null,
-        "licence-seized": null,
+        "licence-seized": "licence-seized",
         "licence-lost-or-stolen": null,
         "licence-not-surrendered": null,
         "licence-not-issued": null,
-        "irp-prohibition-type-length": null
+        "irp-prohibition-type-length": "3-days-warn"
       },
       "application-instructions": {
         "review-30-90-day-text": null,
@@ -26,12 +26,12 @@
         "control-7": null
       },
       "identification-information": {
-        "driver-first-name": "Charles",
-        "driver-last-name": "Charles",
-        "driver-bcdl": null,
+        "driver-first-name": "Bob",
+        "driver-last-name": "Jones",
+        "driver-bcdl": "3333333",
         "contact-info-text": null,
-        "driver-phone-number": "2505551212",
-        "driver-email-address": "charles@hotmail.com",
+        "driver-phone-number": "6043195905",
+        "driver-email-address": "bob@hotmail.com",
         "applicant-not-driver": "false",
         "applicant-role": null,
         "first-name-representative": null,
@@ -39,13 +39,13 @@
         "phone-no-representative": null,
         "email-representative": null,
         "control-2": null,
-        "street-address": "4th Floor - 617 Government Street",
+        "street-address": "123 Main Road",
         "control-driver-city-town": "Victoria",
         "control-driver-province": "britishcolumbia",
-        "control-driver-postal-code": "V8W 9V1"
+        "control-driver-postal-code": "V6R 1A5"
       },
       "grounds-for-review": {
-        "irp-grounds": null,
+        "irp-grounds": "1",
         "ul-grounds": null,
         "control-8": null,
         "adp-grounds-alcohol": null,
@@ -64,7 +64,7 @@
       },
       "consent-and-submission": {
         "consent-text": null,
-        "signature-applicant-name": null,
+        "signature-applicant-name": "TEST TEST",
         "date-signed": "2020-08-05"
       }
     }
