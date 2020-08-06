@@ -35,7 +35,7 @@ def user_submitted_last_name_matches_vips(**args):
     last name entered by the applicant via the form.
     """
     message = args.get('message')
-    last_name_as_submitted = message['form_submission']['form']['section-identification-information']['control-driver-last-name']
+    last_name_as_submitted = message['form_submission']['form']['identification-information']['driver-last-name']
     last_name_from_vips = message['form_submission']['vips_response']['surnameNm']
     logging.debug('compare last name: %s and %s', last_name_as_submitted, last_name_from_vips)
     # TODO - normalize and capitalize both last names before comparison
@@ -49,7 +49,7 @@ def prohibition_should_have_been_entered_in_vips(**args):
     VIPS has more time to enter the paper prohibition into the database
     """
     message = args.get('message')
-    date_served_string = message['form_submission']['form']['section-irp-information']['control-date-served']
+    date_served_string = message['form_submission']['form']['prohibition-information']['date-of-service']
     today = datetime.today()
     date_served = datetime.strptime(date_served_string, '%Y-%m-%d')
     very_recently_served = (today - date_served).days < args.get('delay_days')
@@ -74,7 +74,7 @@ def date_served_not_older_than_one_week(**args):
     days_in_week = 7
     message = args.get('message')
     # TODO - verify date served from VIPS, not user supplied date
-    date_served_string = message['form_submission']['form']['section-irp-information']['control-date-served']
+    date_served_string = message['form_submission']['form']['prohibition-information']['date-of-service']
     today = datetime.today()
     date_served = datetime.strptime(date_served_string, '%Y-%m-%d')
     # In legislation, prohibitions cannot be appealed after one week

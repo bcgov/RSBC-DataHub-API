@@ -1,4 +1,5 @@
 import pytest
+from cryptography.fernet import Fernet
 import json
 from python.common.message import Message
 from pprint import pprint
@@ -6,8 +7,7 @@ from pprint import pprint
 
 class TestEncryptedMessage:
 
-    BYTE_ENCODING = 'utf-8'
-    KEY = 'to1AC3l-KLazylZRYHVTOVq_v7ixfdLeHTXWN5mBVIs='
+    KEY = str(Fernet.generate_key(), 'utf-8')
 
     @pytest.fixture
     def sample_data(self):
@@ -18,7 +18,7 @@ class TestEncryptedMessage:
 
     @pytest.fixture
     def get_encrypted_message(self, sample_data):
-        return Message.encrypt_sensitive_attribute(sample_data, self.KEY, self.BYTE_ENCODING)
+        return Message.encrypt_sensitive_attribute(sample_data, self.KEY)
 
     @staticmethod
     def test_encrypt_sensitive_attribute_method(get_encrypted_message):
@@ -27,15 +27,15 @@ class TestEncryptedMessage:
         assert isinstance(get_encrypted_message['encrypted'], str)
 
     def test_decrypt_sensitive_attribute_method(self, get_encrypted_message, sample_data):
-        decrypted_message = Message.decrypt_sensitive_attribute(get_encrypted_message, self.KEY, self.BYTE_ENCODING)
+        decrypted_message = Message.decrypt_sensitive_attribute(get_encrypted_message, self.KEY)
         assert 'vt_query' in decrypted_message
         assert 'encrypted' not in decrypted_message
         assert 'ticket_number' in decrypted_message['vt_query']
         assert decrypted_message == sample_data
 
-    def test_encode_encrypted_text_message(self, sample_data):
+    def test_encode_encrypted_text_message_v1(self, sample_data):
         sample_data['encrypt-at-rest'] = True
-        message_bytes = Message.encode_message(sample_data, self.KEY, self.BYTE_ENCODING)
+        message_bytes = Message.encode_message(sample_data, self.KEY)
         message_string = message_bytes.decode("utf-8")
         message_dict = json.loads(message_string)
         assert isinstance(message_bytes, bytes)
@@ -78,4 +78,21 @@ class TestEncryptedMessage:
     def test_encode_plain_text_message(sample_data):
         message_bytes = Message.encode_message(sample_data, '')
         assert isinstance(message_bytes, bytes)
+        pprint(message_bytes)
+
+    @staticmethod
+    def test_decode_plain_text_message(sample_data):
+        message_bytes = Message.encode_message(sample_data, '')
+        message_dict = Message.decode_message(message_bytes, '')
+        pprint(message_bytes)
+        assert sample_data == message_dict
+
+    @staticmethod
+    def test_encode_encrypted_text_message(sample_data):
+        encryption_string = str(Fernet.generate_key(), "utf-8")
+        print(encryption_string)
+        sample_data['encrypt-at-rest'] = True
+        message_bytes = Message.encode_message(sample_data, encryption_string)
+        assert isinstance(message_bytes, bytes)
+        pprint(message_bytes)
 

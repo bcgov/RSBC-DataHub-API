@@ -1,52 +1,72 @@
 {
+  "event_version": "1.4",
+  "encrypt_at_rest": true,
+  "event_date_time": "",
   "event_type": "form_submission",
   "form_submission": {
-     "form": {
-        "section-6": {
-          "control-3": null
-        },
-        "section-irp-information": {
-          "control-prohibition-number": "201234567",
-          "control-date-served": "2020-06-15",
-          "control-notice": null,
-          "licence-seized": "licence-seized",
-          "licence-lost-or-stolen": null,
-          "licence-not-surrendered": null,
-          "control-prohibition-type-length": "3-days-warn"
-        },
-        "section-identification-information": {
-          "control-applicant": "false",
-          "control-driver-email": "jsmith@domain.test",
-          "control-phone-number": "2505551212",
-          "control-bcdl": "1111111",
-          "control-driver-first-name": "Jonathan",
-          "control-driver-last-name": "Smith",
-          "control-street-address": "123 Main Street",
-          "control-driver-city-town": "Victoria",
-          "control-driver-province": "britishcolumbia",
-          "control-driver-postal-code": "V8R 3M1",
-          "control-use-secondary-address": "false",
-          "control-secondary-address-name": null,
-          "control-secondary-address1": null,
-          "control-secondary_city": null,
-          "control-secondary-address-province": "britishcolumbia",
-          "control-secondary-address-postal": null
-        },
-        "section-grounds-for-review": {
-          "control-grounds-for-review-text": null
-        },
-        "section-request-for-review-oral-written": {
-          "control-1": null,
-          "written-review-info": null,
-          "hearing-request-type": null,
-          "oral-review-info": null
-        },
-        "section-4": {
-          "control-6": null,
-          "control-11": null,
-          "date-signed": "2020-06-18",
-          "vips-verification": "Smith~201234567~2020-06-15"
-        }
-     }
+    "form": {
+      "prohibition-information": {
+        "control-prohibition-number": "00765432",
+        "control-11": null,
+        "control-is-adp": "true",
+        "control-is-irp": "false",
+        "control-is-ul": "false",
+        "date-of-service": "2020-08-05",
+        "control-notice": null,
+        "licence-seized": null,
+        "licence-lost-or-stolen": null,
+        "licence-not-surrendered": null,
+        "licence-not-issued": null,
+        "irp-prohibition-type-length": null
+      },
+      "application-instructions": {
+        "review-30-90-day-text": null,
+        "review-3-7-day-text": null,
+        "review-ul-text": null,
+        "control-7": null
+      },
+      "identification-information": {
+        "driver-first-name": "Charles",
+        "driver-last-name": "Charles",
+        "driver-bcdl": null,
+        "contact-info-text": null,
+        "driver-phone-number": "2505551212",
+        "driver-email-address": "charles@hotmail.com",
+        "applicant-not-driver": "false",
+        "applicant-role": null,
+        "first-name-representative": null,
+        "last-name-representative": null,
+        "phone-no-representative": null,
+        "email-representative": null,
+        "control-2": null,
+        "street-address": "4th Floor - 617 Government Street",
+        "control-driver-city-town": "Victoria",
+        "control-driver-province": "britishcolumbia",
+        "control-driver-postal-code": "V8W 9V1"
+      },
+      "grounds-for-review": {
+        "irp-grounds": null,
+        "ul-grounds": null,
+        "control-8": null,
+        "adp-grounds-alcohol": null,
+        "adp-grounds-alcohol-list": null,
+        "adp-grounds-drugs": null,
+        "adp-grounds-drugs-list": null,
+        "adp-grounds-alcohol-drugs": null,
+        "adp-grounds-alcohol-drugs-list": null,
+        "adp-grounds-drug-expert": null,
+        "adp-grounds-drug-expert-list": null
+      },
+      "request-for-review": {
+        "written-review-info": null,
+        "hearing-request-type": null,
+        "oral-review-info": null
+      },
+      "consent-and-submission": {
+        "consent-text": null,
+        "signature-applicant-name": null,
+        "date-signed": "2020-08-05"
+      }
+    }
   }
 }

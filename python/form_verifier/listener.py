@@ -37,7 +37,7 @@ class Listener:
         self.logger.info('message received; callback invoked')
 
         message_dict = self.message.decode_message(body, self.config.ENCRYPT_KEY)
-        prohibition_number = message_dict['form_submission']['form']['section-irp-information']['control-prohibition-number']
+        prohibition_number = message_dict['form_submission']['form']['prohibition-information']['control-prohibition-number']
 
         is_get_success, vips_response = get_prohibition(prohibition_number, self.config)
         if is_get_success:

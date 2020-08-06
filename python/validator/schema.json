@@ -350,11 +350,17 @@
               "type": "dict",
               "required": true,
               "schema": {
-                "section-request-for-review-oral-written": {
+                "identification-information": {
                   "type": "dict",
-                  "required": true
+                  "required": true,
+                  "schema": {
+                    "driver-first-name": {
+                      "type": "string",
+                      "required": true
+                    }
+                  }
                 },
-                "section-irp-information": {
+                "prohibition-information": {
                   "type": "dict",
                   "required": true
                 }
