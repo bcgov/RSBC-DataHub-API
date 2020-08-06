@@ -69,7 +69,7 @@ def test_prohibition_should_have_been_entered_in_vips_method(vips_response, date
     response_from_api = load_json_into_dict('python/tests/sample_data/' + vips_response)
     sample_data['form_submission']['vips_response'] = response_from_api
     print(json.dumps(sample_data))
-    result, args = middleware.prohibition_should_have_been_entered_in_vips(message=sample_data, delay_days=3)
+    result, args = middleware.prohibition_should_have_been_entered_in_vips(message=sample_data, delay_days='3')
     assert result is expected
 
 

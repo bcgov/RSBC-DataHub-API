@@ -38,7 +38,7 @@ def user_submitted_last_name_matches_vips(**args):
     message = args.get('message')
     last_name_as_submitted = remove_accents(message['form_submission']['form']['identification-information']['driver-last-name'])
     last_name_from_vips = remove_accents(message['form_submission']['vips_response']['data']['status']['surnameNm'])
-    logging.debug('compare last name: %s and %s', last_name_as_submitted, last_name_from_vips)
+    logging.debug('compare last name: {} and {}'.format(last_name_as_submitted, last_name_from_vips))
     is_last_name_match = bool(last_name_from_vips.upper() == last_name_as_submitted.upper())
     return is_last_name_match, args
 
@@ -52,18 +52,18 @@ def prohibition_should_have_been_entered_in_vips(**args):
     date_served_string = message['form_submission']['form']['prohibition-information']['date-of-service']
     today = datetime.today()
     date_served = datetime.strptime(date_served_string, '%Y-%m-%d')
-    very_recently_served = (today - date_served).days < args.get('delay_days')
+    very_recently_served = (today - date_served).days < int(args.get('delay_days'))
     record_not_found_in_vips = message['form_submission']['vips_response']['resp'] == 'fail'
     is_holdable = record_not_found_in_vips and very_recently_served
     print(date_served, very_recently_served, record_not_found_in_vips, is_holdable)
-    logging.debug('Prohibition should already be entered in VIPS: %s and %s', not is_holdable, date_served_string)
+    logging.debug('Prohibition should already be entered in VIPS: {} and {}'.format(not is_holdable, date_served_string))
     return not is_holdable, args
 
 
 def prohibition_exists_in_vips(**args):
     message = args.get('message')
     result = message['form_submission']['vips_response']['resp'] == 'success'
-    logging.debug('Prohibition exists in VIPS: %s', result)
+    logging.debug('Prohibition exists in VIPS: {}'.format(result))
     return result, args
 
 
