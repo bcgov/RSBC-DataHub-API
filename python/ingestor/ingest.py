@@ -42,9 +42,9 @@ def create(data_type='ETK'):
             "encrypt_at_rest": available_parameters[data_type]['encrypt-at-rest'],
             "event_date_time": "",
             "event_type": "form_submission",
-            "form_submission": xmltodict.parse(request.get_data())
+            "form_submission": request.get_data()
+            # "form_submission": xmltodict.parse(request.get_data())
         }
-        logging.warning(request.get_data)
 
     if rabbit_mq.publish(available_parameters[data_type]['queue'], Message.encode_message(payload, Config.ENCRYPT_KEY)):
         return jsonify(payload), 200
