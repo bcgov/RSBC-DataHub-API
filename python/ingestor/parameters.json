@@ -1,12 +1,12 @@
 {
     "ETK": {
       "expected_format": "application/json",
-      "encrypt-at-rest": false,
+      "encrypt_at_rest": false,
       "queue": "ingested"
     },
     "form": {
       "expected_format": "application/xml",
-      "encrypt-at-rest": true,
+      "encrypt_at_rest": false,
       "queue": "ingested"
     }
 }

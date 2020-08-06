@@ -15,14 +15,14 @@ class Message:
         determine why the message failed validation or why it couldn't be written to the
         database.
         """
-        if 'encrypt-at-rest' in message and message['encrypt-at-rest'] is True:
+        if 'encrypt_at_rest' in message and message['encrypt_at_rest'] is True:
             message = Message.encrypt_sensitive_attribute(message, secret, encoding)
         return Message.encode(message)
 
     @staticmethod
     def decode_message(body: bytes, secret: str, encoding="utf-8") -> dict:
         message = Message.decode(body)
-        if 'encrypt-at-rest' in message and message['encrypt-at-rest'] is True:
+        if 'encrypt_at_rest' in message and message['encrypt_at_rest'] is True:
             return Message.decrypt_sensitive_attribute(message, secret, encoding)
         return message
 

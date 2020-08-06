@@ -40,7 +40,7 @@ def create(data_type='ETK'):
     elif data_type == "form":
         payload = {
             "event_version": "1.4",
-            "encrypt_at_rest": available_parameters[data_type]['encrypt-at-rest'],
+            "encrypt_at_rest": available_parameters[data_type]['encrypt_at_rest'],
             "event_date_time": "",
             "event_type": "form_submission",
             "form_submission": xmltodict.parse(request.get_data())
