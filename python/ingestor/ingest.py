@@ -34,6 +34,7 @@ def create(data_type='ETK'):
         return jsonify({"error": warning_string}), 500
 
     logging.debug('content-type: ' + request.content_type)
+
     if data_type == "ETK":
         payload = request.json
     elif data_type == "form":
@@ -44,8 +45,11 @@ def create(data_type='ETK'):
             "event_type": "form_submission",
             "form_submission": xmltodict.parse(request.get_data())
         }
+    else:
+        payload = None
 
-    if rabbit_mq.publish(available_parameters[data_type]['queue'], request.get_data()):
+    encoded_message = Message.encode_message(payload, Config.ENCRYPT_KEY)
+    if payload is not None and rabbit_mq.publish(available_parameters[data_type]['queue'], encoded_message):
         return jsonify(payload), 200
     else:
         return Response('Unavailable', 500, mimetype='application/json')

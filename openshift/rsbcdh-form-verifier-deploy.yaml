@@ -117,7 +117,7 @@ objects:
               valueFrom:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
-                  key: vips-api-username
+                  key: vips-api-password
             - name: DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY
               value: ${DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY}
             - name: PYTHONPATH
