@@ -49,7 +49,8 @@ class Listener:
                 (mw.prohibition_should_have_been_entered_in_vips, mw.not_yet_in_vips_event),
                 (mw.prohibition_exists_in_vips, mw.prohibition_not_found_event),
                 (mw.user_submitted_last_name_matches_vips, mw.last_name_mismatch_event),
-                (mw.date_served_not_older_than_one_week, mw.prohibition_older_than_7_days_event)
+                (mw.date_served_not_older_than_one_week, mw.prohibition_older_than_7_days_event),
+                (mw.has_drivers_licence_been_seized, mw.licence_not_seized_event)
 
             ], message=message_dict, delay_days=self.config.DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY)
 

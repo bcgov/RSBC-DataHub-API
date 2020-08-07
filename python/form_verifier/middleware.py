@@ -82,6 +82,29 @@ def date_served_not_older_than_one_week(**args):
     return bool((today - date_served).days <= days_in_week), args
 
 
+def has_drivers_licence_been_seized(**args):
+    """
+    Returns true if VIPS indicates the driver's licence has been seized
+    """
+    # TODO - complete this method once NTT makes field available
+    message = args.get('message')
+    if message['form_submission']['vips_response']['data']['status']['effectiveDt'] is True:
+        return True, args
+    # TODO - replace True wit False below
+    return True, args
+
+
+def licence_not_seized_event(**args):
+    """
+    create licence not seized event
+    """
+    event = "licence_not_seized"
+    logging.debug('create {} event'.format(event))
+    message = args.get('message')
+    args['message'] = modify_event(message, event)
+    return args
+
+
 def prohibition_not_found_event(**args):
     """
     create prohibition not found event

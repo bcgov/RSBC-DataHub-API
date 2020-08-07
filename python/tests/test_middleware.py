@@ -88,3 +88,20 @@ def test_prohibition_should_have_been_entered_in_vips_method(vips_response, expe
     sample_data['form_submission']['vips_response'] = response_from_api
     result, args = middleware.prohibition_exists_in_vips(message=sample_data)
     assert result is expected
+
+
+licence_seized = [
+    ('Yes', True),
+    ('No', False)
+]
+
+
+@pytest.mark.parametrize("vips_response, expected", exists_in_vips_data)
+def test_has_drivers_licence_been_seized_method(vips_response, expected):
+    # TODO - this test is broken, waiting on NTT to update query response to include required field
+    sample_data = load_json_into_dict('python/tests/sample_data/irp_form_submission.json')
+    response_from_api = load_json_into_dict('python/tests/sample_data/vips_response_success.json')
+    response_from_api['data']['status']['licence_seized'] = vips_response
+    sample_data['form_submission']['vips_response'] = response_from_api
+    result, args = middleware.has_drivers_licence_been_seized(message=sample_data)
+    assert result is expected
