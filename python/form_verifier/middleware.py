@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from dateutil import parser
 from unicodedata import normalize
 import logging
 
@@ -49,6 +50,7 @@ def prohibition_should_have_been_entered_in_vips(**args):
     VIPS has more time to enter the paper prohibition into the database
     """
     message = args.get('message')
+    # Note: we have to rely on the date_served as submitted by the user -- not the date in VIPS
     date_served_string = message['form_submission']['form']['prohibition-information']['date-of-service']
     today = datetime.today()
     date_served = datetime.strptime(date_served_string, '%Y-%m-%d')
@@ -69,16 +71,13 @@ def prohibition_exists_in_vips(**args):
 
 def date_served_not_older_than_one_week(**args):
     """
-    Check that the date served ENTERED BY THE USER in no older than one week.
-    Required arguments:
-     - message=
+    Check that the date served is no older than 7 days.
     """
     days_in_week = 7
     message = args.get('message')
-    # TODO - verify date served from VIPS, not user supplied date
-    date_served_string = message['form_submission']['form']['prohibition-information']['date-of-service']
+    date_served_string = message['form_submission']['vips_response']['data']['status']['effectiveDt']
     today = datetime.today()
-    date_served = datetime.strptime(date_served_string, '%Y-%m-%d')
+    date_served = parser.isoparse(date_served_string)
     # In legislation, prohibitions cannot be appealed after one week
     return bool((today - date_served).days <= days_in_week), args
 
@@ -114,8 +113,8 @@ def not_yet_in_vips_event(**args):
     message = args.get('message')
     args['message'] = modify_event(message, event)
     # TODO - determine appropriate hold period so we don't query the api multiple times per second
-    logging.critical('TODO - hard coded value needs to be replaced')
-    message['hold_until'] = '2020-01-01'
+    logging.critical('TODO - hard coded hold_until value needs to be replaced')
+    message['do_not_process_until'] = '2020-01-01'
     return args
 
 

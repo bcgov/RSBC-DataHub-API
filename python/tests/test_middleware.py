@@ -16,8 +16,10 @@ date_served_data = [
 @pytest.mark.parametrize("date_offset, expected", date_served_data)
 def test_date_served_today_older_than_one_week_method(date_offset, expected):
     sample_data = load_json_into_dict('python/tests/sample_data/irp_form_submission.json')
-    date_under_test = (datetime.today() - timedelta(days=date_offset)).strftime('%Y-%m-%d')
-    sample_data['form_submission']['form']['prohibition-information']['date-of-service'] = date_under_test
+    date_under_test = (datetime.today() - timedelta(days=date_offset)).isoformat()
+    response_from_api = load_json_into_dict('python/tests/sample_data/vips_response_success.json')
+    sample_data['form_submission']['vips_response'] = response_from_api
+    sample_data['form_submission']['vips_response']['data']['status']['effectiveDt'] = date_under_test
     (result, args) = middleware.date_served_not_older_than_one_week(message=sample_data)
     assert result is expected
 

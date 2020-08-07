@@ -23,7 +23,7 @@ class Listener:
 
         self.logger = logging.getLogger()
         self.logger.setLevel(level=config.LOG_LEVEL)
-        self.logger.warning('*** validator initialized  ***')
+        self.logger.warning('*** form verifier initialized  ***')
 
     def main(self):
         """
