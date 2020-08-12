@@ -86,12 +86,8 @@ def has_drivers_licence_been_seized(**args):
     """
     Returns true if VIPS indicates the driver's licence has been seized
     """
-    # TODO - complete this method once NTT makes field available
     message = args.get('message')
-    if message['form_submission']['vips_response']['data']['status']['effectiveDt'] is True:
-        return True, args
-    # TODO - replace True wit False below
-    return True, args
+    return message['form_submission']['vips_response']['data']['status']['DriverLicenceSeizedYn'] == "Y", args
 
 
 def licence_not_seized_event(**args):
