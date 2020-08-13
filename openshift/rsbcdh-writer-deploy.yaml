@@ -17,7 +17,14 @@ parameters:
   required: true
 - name: DB_USERNAME
 - name: DB_PASSWORD
-- name: SECRET_KEY
+- name: VIPS_API_ROOT_URL
+- name: VIPS_API_USERNAME
+- name: VIPS_API_PASSWORD
+- name: COMM_SERV_AUTH_URL
+- name: COMM_SERV_API_ROOT_URL
+- name: COMM_SERV_REALM
+- name: COMM_SERV_CLIENT_ID
+- name: COMM_SERV_CLIENT_SECRET
 - name: ENCRYPT_KEY
 - name: PYTHONPATH
   value: '/opt/app-root/lib/python3.6/site-packages:/opt/app-root/src/'
@@ -89,6 +96,46 @@ objects:
           env:
             - name: RABBITMQ_URL
               value: ${NAME}-rabbitmq${SUFFIX}
+            - name: VIPS_API_ROOT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: vips-api-root-url
+            - name: VIPS_API_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: vips-api-username
+            - name: VIPS_API_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: vips-api-password
+            - name: COMM_SERV_AUTH_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: comm-serv-auth-url
+            - name: COMM_SERV_API_ROOT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: comm-serv-api-root-url
+            - name: COMM_SERV_REALM
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: comm-serv-realm
+            - name: COMM_SERV_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: comm-serv-client-id
+            - name: COMM_SERV_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: comm-serv-client-secret
             - name: RABBITMQ_USER
               valueFrom:
                 secretKeyRef:

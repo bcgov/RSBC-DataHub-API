@@ -1,8 +1,12 @@
 from python.writer.config import Config
-from python.writer.database import MsSQL
-from python.writer.mapper import Mapper
+from python.writer.database import write as database_writer
+from python.common.vips_api import store as save_to_vips
+import python.common.email as email
+from python.common.helper import middle_logic
 from python.common.rabbitmq import RabbitMQ
-from python.common.message import Message
+from python.common.message import decode_message
+import python.writer.actions as actions
+
 import logging
 
 
@@ -15,13 +19,10 @@ class Listener:
          - finally passing a dict to the Database class for writing
     """
     
-    def __init__(self, config, database, mapper, rabbit_writer, rabbit_listener, message):
+    def __init__(self, config, rabbit_writer, rabbit_listener):
         self.config = config
-        self.database = database
-        self.mapper = mapper
         self.listener = rabbit_listener
         self.writer = rabbit_writer
-        self.message = message
         logging.basicConfig(level=config.LOG_LEVEL)
         logging.warning('*** writer initialized ***')
 
@@ -34,35 +35,60 @@ class Listener:
         logging.info('message received; callback invoked')
 
         # convert body (in bytes) to string
-        message_dict = self.message.decode_message(body, self.config.ENCRYPT_KEY)
+        message_dict = decode_message(body, self.config.ENCRYPT_KEY)
 
-        # The Mapper is responsible for converting the message into a 
-        # list of tables for insertion into a database.  Each table includes
-        # data record(s) to be inserted.
-        tables_for_insert = self.mapper.convert_to_tables(message_dict)
+        middle_logic(self.get_listeners(message_dict['event_type']),
+                     message=message_dict, config=self.config, writer=self.writer, channel=ch, method=method)
 
-        # The database insert method is responsible for connecting to the 
-        # database, adding records to one or more tables and closing the 
-        # connection.
-        result = self.database.insert(tables_for_insert)
+        # if we get here the middle_logic functions were all successful so we
+        # can acknowledge the message and delete it from the WRITE_WATCH_QUEUE
+        ch.basic_ack(delivery_tag=method.delivery_tag)
 
-        if result['isSuccessful']:
-            # acknowledge that the message was written to the database
-            # remove the message from RabbitMQs WRITE_WATCH_QUEUE
-            ch.basic_ack(delivery_tag=method.delivery_tag)
+    def get_listeners(self, event_type: str) -> list:
+        """
+        Get the list of (success, failure) function pairs to invoke
+         for a particular event type
+        """
+        if event_type in self.listeners():
+            return self.listeners()[event_type]
         else:
-            message_with_errors_appended = Message.add_error_to_message(message_dict, result)
-            if self.writer.publish(
-                    self.config.FAIL_QUEUE,
-                    self.message.encode_message(message_with_errors_appended, self.config.ENCRYPT_KEY)):
-                ch.basic_ack(delivery_tag=method.delivery_tag)
+            # TODO - replace empty list with at least one default function
+            logging.critical('Unknown event_type: ' + event_type)
+            return [
+                (actions.unknown_event_type, email.administrator)
+            ]
+
+    @staticmethod
+    def listeners() -> dict:
+        return {
+            "evt_issuance": [
+                (database_writer, actions.add_to_failed_write_queue)
+            ],
+            "vt_dispute_finding": [
+                (database_writer, actions.add_to_failed_write_queue)
+            ],
+            "vt_dispute_status_update": [
+                (database_writer, actions.add_to_failed_write_queue)
+            ],
+            "vt_dispute": [
+                (database_writer, actions.add_to_failed_write_queue)
+            ],
+            "vt_payment": [
+                (database_writer, actions.add_to_failed_write_queue)
+            ],
+            "vt_query": [
+                (database_writer, actions.add_to_failed_write_queue)
+            ],
+            "form_submission": [
+                (save_to_vips, actions.unable_to_save_to_vips_api),
+                (email.invoice_to_applicant, actions.unable_to_send_email)
+            ]
+        }
 
 
 if __name__ == "__main__":
     Listener(
         Config(),
-        MsSQL(Config()),
-        Mapper(Config()),
         RabbitMQ(
             Config.RABBITMQ_USER,
             Config.RABBITMQ_PASS,
@@ -76,6 +102,5 @@ if __name__ == "__main__":
             Config.RABBITMQ_URL,
             Config.LOG_LEVEL,
             Config.MAX_CONNECTION_RETRIES,
-            Config.RETRY_DELAY),
-        Message()
+            Config.RETRY_DELAY)
     ).main()

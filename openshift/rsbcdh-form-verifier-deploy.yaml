@@ -107,7 +107,7 @@ objects:
               valueFrom:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
-                  key: vips-api-root-uri
+                  key: vips-api-root-url
             - name: VIPS_API_USER
               valueFrom:
                 secretKeyRef:

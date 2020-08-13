@@ -2,4 +2,5 @@ pika==1.1.0
 pyodbc==4.0.28
 sql==0.4.0
 cryptography==2.9.2
+requests==2.23.0
 pydash==4.7.6

@@ -1,24 +1,32 @@
 import pytest
 from datetime import datetime, timedelta
-from python.form_verifier.config import Config as BusinessConfig
 import python.form_verifier.middleware as middleware
 from python.common.helper import load_json_into_dict
 import json
 
 date_served_data = [
-    (0, True),
-    (1, True),
-    (7, True),
-    (8, False)
+    ('IRP', 0, True),
+    ('IRP', 1, True),
+    ('IRP', 7, True),
+    ('IRP', 8, False),
+    ('UL', 0, True),
+    ('UL', 1, True),
+    ('UL', 7, True),
+    ('UL', 8, True),
+    ('ADP', 0, True),
+    ('ADP', 1, True),
+    ('ADP', 7, True),
+    ('ADP', 8, False)
 ]
 
 
-@pytest.mark.parametrize("date_offset, expected", date_served_data)
-def test_date_served_today_older_than_one_week_method(date_offset, expected):
+@pytest.mark.parametrize("prohibition_type, date_offset, expected", date_served_data)
+def test_date_served_today_older_than_one_week_method(prohibition_type, date_offset, expected):
     sample_data = load_json_into_dict('python/tests/sample_data/irp_form_submission.json')
     date_under_test = (datetime.today() - timedelta(days=date_offset)).isoformat()
     response_from_api = load_json_into_dict('python/tests/sample_data/vips_response_success.json')
     sample_data['form_submission']['vips_response'] = response_from_api
+    sample_data['form_submission']['vips_response']['data']['status']['noticeTypeCd'] = prohibition_type
     sample_data['form_submission']['vips_response']['data']['status']['effectiveDt'] = date_under_test
     (result, args) = middleware.date_served_not_older_than_one_week(message=sample_data)
     assert result is expected

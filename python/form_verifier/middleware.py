@@ -4,33 +4,6 @@ from unicodedata import normalize
 import logging
 
 
-def middle_logic(functions: list, **args):
-    """
-    Recursive function that calls each middleware function in the list.
-    The list of functions past in are in pairs -- a success function and
-    a failure function.  If the success function is successful, the next
-    success function is called, otherwise the failure function is called.
-
-    The middleware is called like this:
-
-    middleware_to_test = [(success1, failure1)
-                          (success2, failure2)]
-    middle_logic(middleware_to_test)
-
-    """
-    if functions:
-        success_function, failure_function = functions.pop(0)
-        logging.debug('calling success function: ' + success_function.__name__)
-        flag, args = success_function(**args)
-        print("Flag is", flag)
-        if flag:
-            logging.debug('calling middleware logic recursively')
-            middle_logic(functions, **args)
-        else:
-            logging.debug('calling failure function: ' + failure_function.__name__)
-            failure_function(**args)
-
-
 def user_submitted_last_name_matches_vips(**args):
     """
     Check that last name retrieved from the VIPS API matches the
@@ -71,15 +44,20 @@ def prohibition_exists_in_vips(**args):
 
 def date_served_not_older_than_one_week(**args):
     """
-    Check that the date served is no older than 7 days.
+    If the prohibition type is ADP or IRP then check
+    that the date served is no older than 7 days.
     """
-    days_in_week = 7
     message = args.get('message')
-    date_served_string = message['form_submission']['vips_response']['data']['status']['effectiveDt']
-    today = datetime.today()
-    date_served = parser.isoparse(date_served_string)
-    # In legislation, prohibitions cannot be appealed after one week
-    return bool((today - date_served).days <= days_in_week), args
+    prohibition_type = message['form_submission']['vips_response']['data']['status']['noticeTypeCd']
+    if prohibition_type == 'ADP' or prohibition_type == 'IRP':
+        days_in_week = 7
+        date_served_string = message['form_submission']['vips_response']['data']['status']['effectiveDt']
+        today = datetime.today()
+        date_served = parser.isoparse(date_served_string)
+        # In legislation, prohibitions cannot be appealed after one week
+        return bool((today - date_served).days <= days_in_week), args
+    else:
+        return True, args
 
 
 def has_drivers_licence_been_seized(**args):

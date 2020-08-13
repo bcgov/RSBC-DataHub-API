@@ -18,3 +18,7 @@ def get_prohibition(prohibition_number: str, config, local_requests=requests):
     # Note: VIPS response could be either record found or record not found
     logging.info('VIPS API response: {} correlation_id: {}'.format(json.dumps(data), correlation_id))
     return True, data
+
+
+def store(message: dict, config, local_requests=requests):
+    pass

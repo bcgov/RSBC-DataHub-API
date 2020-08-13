@@ -1,7 +1,8 @@
 from python.form_verifier.config import Config
 from python.common.rabbitmq import RabbitMQ
 from python.common.vips_api import get_prohibition
-from python.common.message import Message
+from python.common.message import encode_message, decode_message
+from python.common.helper import middle_logic
 import python.form_verifier.middleware as mw
 import logging
 import json
@@ -19,7 +20,6 @@ class Listener:
         self.config = config
         self.writer = rabbit_writer
         self.listener = rabbit_listener
-        self.message = message
 
         self.logger = logging.getLogger()
         self.logger.setLevel(level=config.LOG_LEVEL)
@@ -36,7 +36,7 @@ class Listener:
     def callback(self, ch, method, properties, body):
         self.logger.info('message received; callback invoked')
 
-        message_dict = self.message.decode_message(body, self.config.ENCRYPT_KEY)
+        message_dict = decode_message(body, self.config.ENCRYPT_KEY)
         prohibition_number = message_dict['form_submission']['form']['prohibition-information']['control-prohibition-number']
 
         is_get_success, vips_response = get_prohibition(prohibition_number, self.config)
@@ -45,7 +45,7 @@ class Listener:
 
             # invoke middleware chain to determine which event to generate
             # each pair of functions below represents (success, failure)
-            mw.middle_logic([
+            middle_logic([
                 (mw.prohibition_should_have_been_entered_in_vips, mw.not_yet_in_vips_event),
                 (mw.prohibition_exists_in_vips, mw.prohibition_not_found_event),
                 (mw.user_submitted_last_name_matches_vips, mw.last_name_mismatch_event),
@@ -58,14 +58,14 @@ class Listener:
             self.logger.debug('middleware logic complete; returning event: %s', message_dict['event_type'])
             if self.writer.publish(
                     self.config.WRITE_QUEUE,
-                    self.message.encode_message(message_dict, self.config.ENCRYPT_KEY)):
+                    encode_message(message_dict, self.config.ENCRYPT_KEY)):
                 ch.basic_ack(delivery_tag=method.delivery_tag)
 
         else:
             self.logger.warning('no response from the VIPS API')
             if self.writer.publish(
                     self.config.WATCH_QUEUE,
-                    self.message.encode_message(message_dict, self.config.ENCRYPT_KEY)):
+                    encode_message(message_dict, self.config.ENCRYPT_KEY)):
                 ch.basic_ack(delivery_tag=method.delivery_tag)
 
 
@@ -85,6 +85,5 @@ if __name__ == "__main__":
             Config.RABBITMQ_URL,
             Config.LOG_LEVEL,
             Config.MAX_CONNECTION_RETRIES,
-            Config.RETRY_DELAY),
-        Message()
+            Config.RETRY_DELAY)
     ).main()

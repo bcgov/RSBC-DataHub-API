@@ -3,6 +3,11 @@ from pydash import objects
 
 
 class Mapper:
+    """
+    The Mapper is responsible for converting the message into a
+    list of tables for insertion into a database.  Each table includes
+    data record(s) to be inserted.
+    """
 
     def __init__(self, config):
         self.mappings = self.get_mappings(config.MAPPER_CONFIG_FILENAME)

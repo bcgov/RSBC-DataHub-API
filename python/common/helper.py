@@ -1,4 +1,5 @@
 import json
+import logging
 
 
 def load_json_into_dict(file_name) -> dict:
@@ -43,3 +44,29 @@ def _times_2(number: int) -> int:
     :return:
     """
     return int(list(str(number * 2))[0])
+
+def middle_logic(functions: list, **args):
+    """
+    Recursive function that calls each middleware function in the list.
+    The list of functions past in are in pairs -- a success function and
+    a failure function.  If the success function is successful, the next
+    success function is called, otherwise the failure function is called.
+
+    The middleware is called like this:
+
+    middleware_to_test = [(success1, failure1)
+                          (success2, failure2)]
+    middle_logic(middleware_to_test)
+
+    """
+    if functions:
+        success_function, failure_function = functions.pop(0)
+        logging.debug('calling success function: ' + success_function.__name__)
+        flag, args = success_function(**args)
+        print("Flag is", flag)
+        if flag:
+            logging.debug('calling middleware logic recursively')
+            middle_logic(functions, **args)
+        else:
+            logging.debug('calling failure function: ' + failure_function.__name__)
+            failure_function(**args)

@@ -1,7 +1,7 @@
 import python.common.helper as helper
 from python.ingestor.config import Config
 from python.common.rabbitmq import RabbitMQ
-from python.common.message import Message
+from python.common.message import encode_message
 from flask import request, jsonify, Response
 from flask_api import FlaskAPI
 import xmltodict
@@ -48,7 +48,7 @@ def create(data_type='ETK'):
     else:
         payload = None
 
-    encoded_message = Message.encode_message(payload, Config.ENCRYPT_KEY)
+    encoded_message = encode_message(payload, Config.ENCRYPT_KEY)
     if payload is not None and rabbit_mq.publish(available_parameters[data_type]['queue'], encoded_message):
         return jsonify(payload), 200
     else:

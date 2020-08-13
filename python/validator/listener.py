@@ -1,7 +1,7 @@
 from python.validator.config import Config
 from python.validator.validate import Validate
 from python.common.rabbitmq import RabbitMQ
-from python.common.message import Message
+from python.common.message import encode_message, decode_message, add_error_to_message
 import logging
 
 
@@ -13,12 +13,11 @@ class Listener:
          - determines whether the message is valid or not valid,
          - writes the message to a valid or not valid queue
     """
-    def __init__(self, config, validator, rabbit_writer, rabbit_listener, message):
+    def __init__(self, config, validator, rabbit_writer, rabbit_listener):
         self.validator = validator
         self.config = config
         self.writer = rabbit_writer
         self.listener = rabbit_listener
-        self.message = message
 
         logging.basicConfig(level=config.LOG_LEVEL)
         logging.warning('*** validator initialized  ***')
@@ -34,19 +33,19 @@ class Listener:
     def callback(self, ch, method, properties, body):
         logging.info('message received; callback invoked')
 
-        message_dict = self.message.decode_message(body, self.config.ENCRYPT_KEY)
+        message_dict = decode_message(body, self.config.ENCRYPT_KEY)
 
         result = self.validator.validate(message_dict)
         logging.info("write to: " + result['queue'])
         if result['isSuccess']:
             # Validation SUCCESSFUL
-            if self.writer.publish(result['queue'], self.message.encode_message(message_dict, self.config.ENCRYPT_KEY)):
+            if self.writer.publish(result['queue'], encode_message(message_dict, self.config.ENCRYPT_KEY)):
                 ch.basic_ack(delivery_tag=method.delivery_tag)
         else:
             # Validation FAILED
-            message_with_errors = self.message.add_error_to_message(message_dict, result)
+            message_with_errors = add_error_to_message(message_dict, result)
             if self.writer.publish(
-                    result['queue'], self.message.encode_message(message_with_errors, self.config.ENCRYPT_KEY)):
+                    result['queue'], encode_message(message_with_errors, self.config.ENCRYPT_KEY)):
                 ch.basic_ack(delivery_tag=method.delivery_tag)
 
 
@@ -67,6 +66,5 @@ if __name__ == "__main__":
             Config.RABBITMQ_URL,
             Config.LOG_LEVEL,
             Config.MAX_CONNECTION_RETRIES,
-            Config.RETRY_DELAY),
-        Message()
+            Config.RETRY_DELAY)
     ).main()
