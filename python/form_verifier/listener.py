@@ -16,7 +16,7 @@ class Listener:
          - calls out to the VIPS API and, if successful, copies the status into the message
          - invokes middleware to determine the appropriate event
     """
-    def __init__(self, config, rabbit_writer, rabbit_listener, message):
+    def __init__(self, config, rabbit_writer, rabbit_listener):
         self.config = config
         self.writer = rabbit_writer
         self.listener = rabbit_listener
