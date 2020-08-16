@@ -4,7 +4,7 @@ import json
 import uuid
 
 
-def get_prohibition(prohibition_number: str, config, local_requests=requests):
+def query_get(prohibition_number: str, config, local_requests=requests):
     correlation_id = str(uuid.uuid4())
     endpoint = config.VIPS_API_ROOT_URI + prohibition_number + '/status/' + correlation_id
     logging.debug('vips_api_endpoint: {}'.format(endpoint))
