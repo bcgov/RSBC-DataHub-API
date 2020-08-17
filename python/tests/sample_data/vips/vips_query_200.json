@@ -1,0 +1,24 @@
+{
+    "resp": "success",
+    "data": {
+        "status": {
+            "noticeTypeCd": "UL",
+            "effectiveDt": "2018-04-12 00:00:00 -07:00",
+            "reviewFormSubmittedYn": "N",
+            "reviewCreatedYn": "N",
+            "originalCause": "IRPINDEF",
+            "surnameNm": "Norris",
+            "driverLicenceSeizedYn": "Y",
+            "disclosure": [
+                {
+                    "documentId": "1234",
+                    "disclosedDtm": "2019-01-02 17:30:00 -08:00"
+                },
+                {
+                    "documentId": "1234",
+                    "disclosedDtm": "2019-01-02 17:30:00 -08:00"
+                }
+            ]
+        }
+    }
+}

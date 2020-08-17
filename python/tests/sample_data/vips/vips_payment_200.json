@@ -1,0 +1,11 @@
+{
+  "data": {
+    "transactionInfo": {
+      "paymentAmount": "string",
+      "paymentCardType": "string",
+      "paymentDate": "string",
+      "receiptNumberTxt": "string"
+    }
+  },
+  "resp": "string"
+}

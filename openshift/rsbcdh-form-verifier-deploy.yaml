@@ -13,9 +13,9 @@ parameters:
 - name: RABBITMQ_USER
 - name: RABBITMQ_PASS
 - name: ENCRYPT_KEY
-- name: VIPS_API_USER
-- name: VIPS_API_PASS
-- name: VIPS_API_ROOT_URI
+- name: VIPS_API_USERNAME
+- name: VIPS_API_PASSWORD
+- name: VIPS_API_ROOT_URL
 - name: DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY
   value: '3'
 - name: PYTHONPATH
@@ -103,17 +103,17 @@ objects:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
                   key: encrypt-key
-            - name: VIPS_API_ROOT_URI
+            - name: VIPS_API_ROOT_URL
               valueFrom:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
                   key: vips-api-root-url
-            - name: VIPS_API_USER
+            - name: VIPS_API_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
                   key: vips-api-username
-            - name: VIPS_API_PASS
+            - name: VIPS_API_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}

@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from dateutil import parser
-from unicodedata import normalize
 import logging
+from python.common.vips_api import is_last_name_match
 
 
 def user_submitted_last_name_matches_vips(**args):
@@ -10,11 +10,9 @@ def user_submitted_last_name_matches_vips(**args):
     last name entered by the applicant via the form.
     """
     message = args.get('message')
-    last_name_as_submitted = remove_accents(message['form_submission']['form']['identification-information']['driver-last-name'])
-    last_name_from_vips = remove_accents(message['form_submission']['vips_response']['data']['status']['surnameNm'])
-    logging.debug('compare last name: {} and {}'.format(last_name_as_submitted, last_name_from_vips))
-    is_last_name_match = bool(last_name_from_vips.upper() == last_name_as_submitted.upper())
-    return is_last_name_match, args
+    last_name_as_submitted = message['form_submission']['form']['identification-information']['driver-last-name']
+    last_name_from_vips = message['form_submission']['vips_response']['data']['status']['surnameNm']
+    return is_last_name_match(last_name_from_vips, last_name_as_submitted), args
 
 
 def prohibition_should_have_been_entered_in_vips(**args):
@@ -137,7 +135,3 @@ def modify_event(message: dict, new_event_type: str):
     return message
 
 
-def remove_accents(input_str):
-    nfkd_form = normalize('NFKD', input_str)
-    only_ascii = nfkd_form.encode('ASCII', 'ignore')
-    return only_ascii

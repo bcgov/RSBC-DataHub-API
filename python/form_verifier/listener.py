@@ -5,7 +5,7 @@ from python.common.message import encode_message, decode_message
 from python.common.helper import middle_logic
 import python.form_verifier.middleware as mw
 import logging
-import json
+import uuid
 
 
 class Listener:
@@ -38,8 +38,9 @@ class Listener:
 
         message_dict = decode_message(body, self.config.ENCRYPT_KEY)
         prohibition_number = message_dict['form_submission']['form']['prohibition-information']['control-prohibition-number']
+        message_dict['correlation_id'] = str(uuid.uuid4())
 
-        is_get_success, vips_response = query_get(prohibition_number, self.config)
+        is_get_success, vips_response = query_get(prohibition_number, self.config, message_dict['correlation_id'])
         if is_get_success:
             message_dict['form_submission']['vips_response'] = vips_response
 

@@ -27,6 +27,11 @@ def search():
     :return:
     """
     if request.method == 'GET':
+        # look up the prohibition status from VIPS
+        # confirm the last names match
+        # look up the payment status and confirm not paid
+        # confirm application exists in VIPS
+
         return jsonify(search_for_invoice(
             request.args.get('invoice_number', None),
             request.args.get('pay_bc_reference', None),

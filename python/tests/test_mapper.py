@@ -14,7 +14,7 @@ class TestMapper:
     @staticmethod
     def convert_to_tables(filename):
         mapper = Mapper(WriterConfig())
-        sample_message = load_json_into_dict('python/tests/sample_data/' + filename)
+        sample_message = load_json_into_dict('python/tests/sample_data/etk/' + filename)
         return mapper.convert_to_tables(sample_message)
 
     def test_sample_message_creates_multiple_tables_with_common_dict_structure(self):
