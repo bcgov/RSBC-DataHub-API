@@ -1,5 +1,7 @@
 import logging
 from python.common.message import encode_message
+import python.common.email as email
+import json
 
 
 def add_to_failed_write_queue(**args):
@@ -22,7 +24,11 @@ def unable_to_send_email(**args):
 
 
 def unable_to_save_to_vips_api(**args):
-    logging.critical('unable to save to the vips API')
+    logging.critical('inside unable_to_save_to_vips_api()')
+    config = args.get('config')
+    message = args.get('message')
+    logging.warning('message details: {}'.format(json.dumps(message)))
+    email.send_test_email(config=config)
     return args
 
 

@@ -1,6 +1,6 @@
 from python.writer.config import Config
 from python.writer.database import write as database_writer
-from python.common.vips_api import store as save_to_vips
+from python.common.vips_api import application_create as save_to_vips
 import python.common.email as email
 from python.common.helper import middle_logic
 from python.common.rabbitmq import RabbitMQ
@@ -42,6 +42,7 @@ class Listener:
 
         # if we get here the middle_logic functions were all successful so we
         # can acknowledge the message and delete it from the WRITE_WATCH_QUEUE
+        logging.info('all listeners executed - acknowledging message as received')
         ch.basic_ack(delivery_tag=method.delivery_tag)
 
     def get_listeners(self, event_type: str) -> list:
@@ -52,10 +53,8 @@ class Listener:
         if event_type in self.listeners():
             return self.listeners()[event_type]
         else:
-            # TODO - replace empty list with at least one default function
-            logging.critical('Unknown event_type: ' + event_type)
             return [
-                (actions.unknown_event_type, email.administrator)
+                (actions.unknown_event_type, email.admin_unknown_event_type)
             ]
 
     @staticmethod

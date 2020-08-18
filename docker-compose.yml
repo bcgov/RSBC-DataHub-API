@@ -63,6 +63,13 @@ services:
           DB_NAME: "${DB_NAME}"
           DB_USERNAME: "${DB_USERNAME}"
           DB_PASSWORD: "${DB_PASSWORD}"
+          COMM_SERV_AUTH_URL: "${COMM_SERV_AUTH_URL}"
+          COMM_SERV_API_ROOT_URL: "${COMM_SERV_API_ROOT_URL}"
+          COMM_SERV_REALM: "${COMM_SERV_REALM}"
+          COMM_SERV_CLIENT_ID: "${COMM_SERV_CLIENT_ID}"
+          COMM_SERV_CLIENT_SECRET: "${COMM_SERV_CLIENT_SECRET}"
+          ADMIN_EMAIL_ADDRESS: "${ADMIN_EMAIL_ADDRESS}"
+
 
     paybc-api:
       build:
@@ -79,7 +86,7 @@ services:
     form_verification:
         build:
           context: python
-          dockerfile: python/form_verifier/Dockerfile-local
+          dockerfile: form_verifier/Dockerfile-local
         depends_on:
           - rabbitmq
         environment:

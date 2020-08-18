@@ -27,3 +27,5 @@ class Config(BaseConfig):
     COMM_SERV_REALM             = os.getenv('COMM_SERV_REALM')
     COMM_SERV_CLIENT_ID         = os.getenv('COMM_SERV_CLIENT_ID')
     COMM_SERV_CLIENT_SECRET     = os.getenv('COMM_SERV_CLIENT_SECRET')
+
+    ADMIN_EMAIL_ADDRESS         = os.getenv('ADMIN_EMAIL_ADDRESS')
