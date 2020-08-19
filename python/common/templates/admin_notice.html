@@ -1,7 +1,6 @@
 {% extends "email_alert_base.html" %}
 
-{% block page_title %}{{ title }}{% endblock %}
-{% block body_title %}{{ title }}{% endblock %}
+{% block page_title %}Error: Unknown Event Type{% endblock %}
 
 {% block paragraph1 %}The event handler has received an unknown event type: {{ event_type }}{% endblock %}
 
