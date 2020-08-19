@@ -1,5 +1,21 @@
 import json
 import logging
+from dateutil import parser
+import datetime
+
+
+def vips_str_to_datetime(date_string: str) -> datetime:
+    """
+    This utility takes a VIPS datetime string and
+    converts it to a Python datetime object.
+    VIPS uses is a non-standard datetime format.
+    Like this: 2019-01-02 17:30:00 -08:00
+    """
+    date_and_time = date_string[0:19]
+    offset_hour = date_string[20:23]
+    offset_minute = date_string[24:26]
+    iso8601_string = date_and_time + offset_hour + offset_minute
+    return parser.parse(iso8601_string)
 
 
 def load_json_into_dict(file_name) -> dict:

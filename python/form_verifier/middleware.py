@@ -1,7 +1,8 @@
-from datetime import datetime, timedelta
-from dateutil import parser
+from datetime import datetime, timedelta, timezone
+from python.common.helper import vips_str_to_datetime
 import logging
 from python.common.vips_api import is_last_name_match
+import pytz
 
 
 def user_submitted_last_name_matches_vips(**args):
@@ -44,16 +45,17 @@ def date_served_not_older_than_one_week(**args):
     """
     If the prohibition type is ADP or IRP then check
     that the date served is no older than 7 days.
+    Prohibitions may not be appealed after 7 days.
     """
     message = args.get('message')
     prohibition_type = message['form_submission']['vips_response']['data']['status']['noticeTypeCd']
     if prohibition_type == 'ADP' or prohibition_type == 'IRP':
         days_in_week = 7
         date_served_string = message['form_submission']['vips_response']['data']['status']['effectiveDt']
-        today = datetime.today()
-        date_served = parser.isoparse(date_served_string)
-        # In legislation, prohibitions cannot be appealed after one week
-        return bool((today - date_served).days <= days_in_week), args
+        tz = pytz.timezone('America/Vancouver')
+        today = datetime.now(tz)
+        date_served = vips_str_to_datetime(date_served_string)
+        return bool((today - date_served).days < days_in_week), args
     else:
         return True, args
 

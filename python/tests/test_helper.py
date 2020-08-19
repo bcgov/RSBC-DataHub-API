@@ -1,5 +1,7 @@
 import python.common.helper as helper
 import python.common.message as message
+import pytest
+from dateutil import parser
 
 
 class TestHelper:
@@ -27,3 +29,12 @@ class TestHelper:
         assert 'timestamp' in modified_message['errors'][0]
         assert 'description' in modified_message['errors'][0]
 
+    vips_date_strings = [
+        ("2019-01-02 17:30:00 -08:00", "2019-01-02 17:30:00-0800"),
+        ("2019-01-02 17:30:00 -07:00", "2019-01-02 17:30:00-0700"),
+    ]
+
+    @pytest.mark.parametrize("vips_datetime, expected", vips_date_strings)
+    def test_vips_datetime_conversion(self, vips_datetime, expected):
+        actual = helper.vips_str_to_datetime(vips_datetime)
+        assert actual == parser.parse(expected)

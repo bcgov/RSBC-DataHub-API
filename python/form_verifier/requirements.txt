@@ -1,5 +1,6 @@
 cryptography==2.9.2
 python-dateutil==2.8.1
 requests==2.23.0
+pytz==2020.1
 uuid==1.30
 pika==1.1.0
