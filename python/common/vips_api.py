@@ -1,6 +1,8 @@
 import requests
 import logging
 import json
+from datetime import datetime
+from iso8601 import parse_date
 from unicodedata import normalize
 
 
@@ -109,3 +111,18 @@ def remove_accents(input_str):
 def is_last_name_match(last_name1: str, last_name2: str) -> bool:
     logging.debug('compare last name: {} and {}'.format(last_name1, last_name2))
     return bool(remove_accents(last_name1).upper() == remove_accents(last_name2).upper())
+
+
+def vips_str_to_datetime(vips_datetime: str) -> datetime:
+    """
+    This utility takes a VIPS datetime string and
+    converts it to a Python datetime object.
+    VIPS uses is a non-standard datetime format.
+    Like this: 2019-01-02 17:30:00 -08:00
+    """
+    date_string = vips_datetime[0:10]
+    time_string = vips_datetime[11:19]
+    offset_hour = vips_datetime[20:23]
+    offset_minute = vips_datetime[24:26]
+    iso8601_string = "{}T{}{}:{}".format(date_string, time_string, offset_hour, offset_minute)
+    return parse_date(iso8601_string)

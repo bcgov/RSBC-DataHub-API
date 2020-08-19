@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta, timezone
-from python.common.helper import vips_str_to_datetime
+from python.common.vips_api import vips_str_to_datetime
 import logging
 from python.common.vips_api import is_last_name_match
 import pytz

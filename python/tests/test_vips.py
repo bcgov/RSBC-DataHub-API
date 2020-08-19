@@ -2,6 +2,8 @@ import python.common.vips_api as vips
 import json
 from unittest.mock import MagicMock
 from python.common.helper import load_json_into_dict
+import pytest
+from iso8601 import parse_date
 
 
 class TestConfig:
@@ -78,3 +80,13 @@ class TestVips:
             TestVips.CORRELATION_ID)
         assert is_success is True
         assert "transactionInfo" in actual['data']
+
+    vips_date_strings = [
+        ("2019-01-02 17:30:00 -08:00", "2019-01-02 17:30:00-0800"),
+        ("2019-01-02 17:30:00 -07:00", "2019-01-02 17:30:00-0700"),
+    ]
+
+    @pytest.mark.parametrize("vips_datetime, expected", vips_date_strings)
+    def test_vips_datetime_conversion(self, vips_datetime, expected):
+        actual = vips.vips_str_to_datetime(vips_datetime)
+        assert actual == parse_date(expected)
