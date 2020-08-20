@@ -1,8 +1,11 @@
 from datetime import datetime, timedelta, timezone
 from python.common.vips_api import vips_str_to_datetime
 import logging
+from python.form_verifier.config import Config
 from python.common.vips_api import is_last_name_match
 import pytz
+
+logging.basicConfig(level=Config.LOG_LEVEL)
 
 
 def user_submitted_last_name_matches_vips(**args):
@@ -37,7 +40,7 @@ def prohibition_should_have_been_entered_in_vips(**args):
 def prohibition_exists_in_vips(**args):
     message = args.get('message')
     result = message['form_submission']['vips_response']['resp'] == 'success'
-    logging.debug('Prohibition exists in VIPS: {}'.format(result))
+    logging.info('Prohibition exists in VIPS: {}'.format(result))
     return result, args
 
 

@@ -58,7 +58,7 @@ services:
           # events and write them to the database
           RABBITMQ_USER: "${RABBITMQ_USER}"
           RABBITMQ_PASS: "${RABBITMQ_PASS}"
-          LOG_LEVEL: "WARNING"
+          LOG_LEVEL: "INFO"
           DB_HOST: "${DB_HOST}"
           DB_NAME: "${DB_NAME}"
           DB_USERNAME: "${DB_USERNAME}"

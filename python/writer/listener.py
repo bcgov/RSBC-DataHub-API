@@ -5,8 +5,9 @@ from python.common.helper import middle_logic
 from python.common.rabbitmq import RabbitMQ
 from python.common.message import decode_message
 import python.writer.actions as actions
-
 import logging
+
+logging.basicConfig(level=Config.LOG_LEVEL)
 
 
 class Listener:
@@ -22,7 +23,6 @@ class Listener:
         self.config = config
         self.listener = rabbit_listener
         self.writer = rabbit_writer
-        logging.basicConfig(level=config.LOG_LEVEL)
         logging.warning('*** writer initialized ***')
 
     def main(self):
@@ -42,7 +42,8 @@ class Listener:
                      config=self.config,
                      writer=self.writer,
                      channel=ch,
-                     method=method)
+                     method=method,
+                     logger=logging)
 
     def get_listeners(self, event_type: str) -> list:
         """
@@ -55,7 +56,7 @@ class Listener:
             return [
                 (actions.unknown_event_type, actions.do_nothing),
                 # (actions.write_to_fail_queue, actions.unable_to_write_to_RabbitMQ),
-                (actions.acknowledge_receipt, actions.unable_to_acknowledge_receipt)
+                (actions.acknowledge_receipt_to_rabbitmq, actions.unable_to_acknowledge_receipt)
             ]
 
     @staticmethod
@@ -63,55 +64,56 @@ class Listener:
         return {
             "evt_issuance": [
                 (database_writer, actions.add_to_failed_write_queue_and_acknowledge),
-                (actions.acknowledge_receipt, actions.unable_to_acknowledge_receipt)
+                (actions.acknowledge_receipt_to_rabbitmq, actions.unable_to_acknowledge_receipt)
             ],
             "vt_dispute_finding": [
                 (database_writer, actions.add_to_failed_write_queue_and_acknowledge),
-                (actions.acknowledge_receipt, actions.unable_to_acknowledge_receipt)
+                (actions.acknowledge_receipt_to_rabbitmq, actions.unable_to_acknowledge_receipt)
             ],
             "vt_dispute_status_update": [
                 (database_writer, actions.add_to_failed_write_queue_and_acknowledge),
-                (actions.acknowledge_receipt, actions.unable_to_acknowledge_receipt)
+                (actions.acknowledge_receipt_to_rabbitmq, actions.unable_to_acknowledge_receipt)
             ],
             "vt_dispute": [
                 (database_writer, actions.add_to_failed_write_queue_and_acknowledge),
-                (actions.acknowledge_receipt, actions.unable_to_acknowledge_receipt)
+                (actions.acknowledge_receipt_to_rabbitmq, actions.unable_to_acknowledge_receipt)
             ],
             "vt_payment": [
                 (database_writer, actions.add_to_failed_write_queue_and_acknowledge),
-                (actions.acknowledge_receipt, actions.unable_to_acknowledge_receipt)
+                (actions.acknowledge_receipt_to_rabbitmq, actions.unable_to_acknowledge_receipt)
             ],
             "vt_query": [
                 (database_writer, actions.add_to_failed_write_queue_and_acknowledge),
-                (actions.acknowledge_receipt, actions.unable_to_acknowledge_receipt)
+                (actions.acknowledge_receipt_to_rabbitmq, actions.unable_to_acknowledge_receipt)
             ],
             "prohibition_served_more_than_7_days_ago": [
                 (email.applicant_prohibition_served_more_than_7_days_ago, actions.unable_to_send_email),
-                (actions.acknowledge_receipt, actions.unable_to_acknowledge_receipt)
+                (actions.acknowledge_receipt_to_rabbitmq, actions.unable_to_acknowledge_receipt)
             ],
             "licence_not_seized": [
                 (email.applicant_licence_not_seized, actions.unable_to_send_email),
-                (actions.acknowledge_receipt, actions.unable_to_acknowledge_receipt)
+                (actions.acknowledge_receipt_to_rabbitmq, actions.unable_to_acknowledge_receipt)
             ],
             "prohibition_not_yet_in_vips": [
-                (actions.has_hold_expired, actions.write_back_to_queue_and_acknowledge),
+                (actions.has_hold_expired, actions.add_to_watch_queue_and_acknowledge),
                 (email.applicant_prohibition_not_yet_in_vips, actions.unable_to_send_email),
                 (actions.add_do_not_process_until_attribute, actions.unable_to_place_on_hold),
-                (actions.write_back_to_queue_and_acknowledge, actions.unable_to_acknowledge_receipt)
+                (actions.write_back_to_watch_queue, actions.unable_to_acknowledge_receipt),
+                (actions.acknowledge_receipt_to_rabbitmq, actions.unable_to_acknowledge_receipt)
             ],
             "prohibition_not_found": [
                 (email.applicant_prohibition_not_found, actions.unable_to_send_email),
-                (actions.acknowledge_receipt, actions.unable_to_acknowledge_receipt)
+                (actions.acknowledge_receipt_to_rabbitmq, actions.unable_to_acknowledge_receipt)
             ],
             "form_submission": [
                 (actions.save_application_to_vips, actions.unable_to_save_to_vips_api),
                 (email.application_received, actions.unable_to_send_email),
-                (actions.acknowledge_receipt, actions.unable_to_acknowledge_receipt)
+                (actions.acknowledge_receipt_to_rabbitmq, actions.unable_to_acknowledge_receipt)
             ],
             "last_name_mismatch": [
                 # TODO - do we tell applicants when last name does not match?
                 (email.applicant_prohibition_not_found, actions.unable_to_send_email),
-                (actions.acknowledge_receipt, actions.unable_to_acknowledge_receipt)
+                (actions.acknowledge_receipt_to_rabbitmq, actions.unable_to_acknowledge_receipt)
             ],
         }
 

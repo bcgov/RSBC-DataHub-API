@@ -1,12 +1,15 @@
 import logging
 from python.common.message import encode_message
+from python.writer.config import Config
 import python.common.email as email
 import json
+
+logging.basicConfig(level=Config.LOG_LEVEL)
 
 
 def has_hold_expired(**args):
     # TODO - complete this method
-    logging.critical('has hold expired - method not implemented')
+    logging.info('has hold expired - method not implemented')
     return True, args
 
 
@@ -15,7 +18,8 @@ def add_do_not_process_until_attribute(**args):
     return True, args
 
 
-def write_back_to_queue_and_acknowledge(**args):
+def write_back_to_watch_queue(**args):
+    logging.critical('write_back_to_watch_queue: method not implemented')
     # TODO - complete this method
     return True, args
 
@@ -40,6 +44,20 @@ def add_to_failed_write_queue_and_acknowledge(**args):
         channel.basic_ack(delivery_tag=method.delivery_tag)
     else:
         logging.critical('unable to write to RabbitMQ {} queue'.format(config.FAIL_QUEUE))
+    return args
+
+
+def add_to_watch_queue_and_acknowledge(**args):
+    config = args.get('config')
+    message = args.get('message')
+    writer = args.get('writer')
+    channel = args.get('channel')
+    method = args.get('method')
+    logging.warning('writing back to watch queue')
+    if writer.publish(config.WATCH_QUEUE, encode_message(message, config.ENCRYPT_KEY)):
+        channel.basic_ack(delivery_tag=method.delivery_tag)
+    else:
+        logging.critical('unable to write to RabbitMQ {} queue'.format(config.WATCH_QUEUE))
     return args
 
 
@@ -86,11 +104,11 @@ def unknown_event_type(**args) -> tuple:
     return True, args
 
 
-def acknowledge_receipt(**args) -> tuple:
+def acknowledge_receipt_to_rabbitmq(**args) -> tuple:
     """
     Acknowledge the message received from RabbitMQ and delete it from the WATCH_QUEUE
     """
-    logging.info('all listeners executed - acknowledging message as received')
+    logging.info('RabbitMQ - acknowledging message as received')
     ch = args.get('channel')
     method = args.get('method')
     ch.basic_ack(delivery_tag=method.delivery_tag)

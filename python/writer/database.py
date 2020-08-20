@@ -1,7 +1,10 @@
 import pyodbc as db
 import logging
+from python.writer.config import Config
 from python.writer.mapper import Mapper
 import python.common.message as msg
+
+logging.basicConfig(level=Config.LOG_LEVEL)
 
 
 def write(**args):

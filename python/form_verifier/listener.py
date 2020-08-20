@@ -7,6 +7,8 @@ import python.form_verifier.middleware as mw
 import logging
 import uuid
 
+logging.basicConfig(level=Config.LOG_LEVEL)
+
 
 class Listener:
     """
@@ -20,10 +22,7 @@ class Listener:
         self.config = config
         self.writer = rabbit_writer
         self.listener = rabbit_listener
-
-        self.logger = logging.getLogger()
-        self.logger.setLevel(level=config.LOG_LEVEL)
-        self.logger.warning('*** form verifier initialized  ***')
+        logging.warning('*** form verifier initialized  ***')
 
     def main(self):
         """
@@ -34,7 +33,7 @@ class Listener:
         self.listener.consume(self.config.WATCH_QUEUE, self.callback)
 
     def callback(self, ch, method, properties, body):
-        self.logger.info('message received; callback invoked')
+        logging.info('message received; callback invoked')
 
         message_dict = decode_message(body, self.config.ENCRYPT_KEY)
         prohibition_number = message_dict['form_submission']['form']['prohibition-information']['control-prohibition-number']
@@ -56,14 +55,14 @@ class Listener:
             ], message=message_dict, delay_days=self.config.DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY)
 
             # Acknowledge the message add to the WRITE queue
-            self.logger.debug('middleware logic complete; returning event: %s', message_dict['event_type'])
+            logging.info('middleware logic complete; returning event: %s', message_dict['event_type'])
             if self.writer.publish(
                     self.config.WRITE_QUEUE,
                     encode_message(message_dict, self.config.ENCRYPT_KEY)):
                 ch.basic_ack(delivery_tag=method.delivery_tag)
 
         else:
-            self.logger.warning('no response from the VIPS API')
+            logging.warning('no response from the VIPS API')
             if self.writer.publish(
                     self.config.WATCH_QUEUE,
                     encode_message(message_dict, self.config.ENCRYPT_KEY)):

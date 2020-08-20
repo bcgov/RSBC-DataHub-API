@@ -1,8 +1,11 @@
 from keycloak import KeycloakOpenID
+from python.common.config import Config
 import requests
 import json
 import logging
 from jinja2 import Environment, PackageLoader, select_autoescape
+
+logging.basicConfig(level=Config.LOG_LEVEL)
 
 
 def application_received(**args):
@@ -23,16 +26,16 @@ def application_received(**args):
 
 
 def send_email_to_admin(**args):
-    title = args.get('title')
+    subject = args.get('title')
     config = args.get('config')
     message = args.get('message')
     body = args.get('body')
     template = get_jinja2_env().get_template('admin_notice.html')
     return send_email(
         [config.ADMIN_EMAIL_ADDRESS],
-        title,
+        subject,
         config.REPLY_EMAIL_ADDRESS,
-        template.render(subject=title, body=body, message=json.dumps(message)),
+        template.render(subject=subject, body=body, message=json.dumps(message)),
         config.COMM_SERV_API_ROOT_URL,
         get_common_services_access_token(config)), args
 
@@ -40,7 +43,7 @@ def send_email_to_admin(**args):
 def applicant_prohibition_served_more_than_7_days_ago(**args):
     config = args.get('config')
     message = args.get('message')
-    subject = 'Re: Driving Prohibition Review - Expired'
+    subject = 'Re: Driving Prohibition Review - Too Late to Apply'
     template = get_jinja2_env().get_template('application_not_received_in_time.html')
     return send_email(
         [get_email_address(message)],
@@ -77,10 +80,41 @@ def applicant_prohibition_not_found(**args):
         get_common_services_access_token(config)), args
 
 
+def applicant_last_name_mismatch(**args):
+    config = args.get('config')
+    message = args.get('message')
+    logging.info('Applicant last name does not match VIPS')
+    subject = 'Re: Driving Prohibition Review - Not Found'
+    template = get_jinja2_env().get_template('application_not_found.html')
+    return send_email(
+        [get_email_address(message)],
+        subject,
+        config.REPLY_EMAIL_ADDRESS,
+        template.render(
+            full_name=get_full_name(message),
+            prohibition_number=get_prohibition_number(message),
+            subject=subject),
+        config.COMM_SERV_API_ROOT_URL,
+        get_common_services_access_token(config)), args
+
+
 def applicant_prohibition_not_yet_in_vips(**args):
-    # TODO - write method
-    logging.critical('message not implemented')
-    return True, args
+    config = args.get('config')
+    message = args.get('message')
+    subject = 'Re: Driving Prohibition Review - Not Entered Yet'
+    logger = args.get('logger')
+    logger.info('Re: Driving Prohibition Review - Not Yet in VIPS')
+    template = get_jinja2_env().get_template('application_not_yet_in_vips.html')
+    return send_email(
+        [get_email_address(message)],
+        subject,
+        config.REPLY_EMAIL_ADDRESS,
+        template.render(
+            full_name=get_full_name(message),
+            prohibition_number=get_prohibition_number(message),
+            subject=subject),
+        config.COMM_SERV_API_ROOT_URL,
+        get_common_services_access_token(config)), args
 
 
 def send_email(to: list, subject: str, from_address: str, html_template, api_root_url: str, access_token: str) -> bool:
@@ -92,6 +126,7 @@ def send_email(to: list, subject: str, from_address: str, html_template, api_roo
         "subject": subject,
         "to": to
     }
+    logging.info('Sending email to: {} - {}'.format(to, subject))
     auth_header = {"Authorization": "Bearer {}".format(access_token)}
     try:
         response = requests.post(api_root_url + '/api/v1/email', headers=auth_header, json=payload)
@@ -99,7 +134,7 @@ def send_email(to: list, subject: str, from_address: str, html_template, api_roo
         logging.critical('No response from BC Common Services: {}'.format(json.dumps(error)))
         return False
     data = response.json()
-    logging.warning('response from common services: {}'.format(json.dumps(data)))
+    logging.debug('response from common services: {}'.format(json.dumps(data)))
     return "msgId" in data['messages'][0]
 
 
