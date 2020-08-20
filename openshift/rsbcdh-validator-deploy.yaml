@@ -12,6 +12,8 @@ parameters:
 - name: RABBITMQ_URL
 - name: RABBITMQ_USER
 - name: RABBITMQ_PASS
+- name: LOG_LEVEL
+  value: 'WARNING'
 - name: ENCRYPT_KEY
   value: 'development'
 - name: PYTHONPATH
@@ -103,6 +105,8 @@ objects:
               value: ${FLASK_ENV}
             - name: PYTHONPATH
               value: ${PYTHONPATH}
+            - name: LOG_LEVEL
+              value: ${LOG_LEVEL}
           resources:
             limits:
               cpu: 80m

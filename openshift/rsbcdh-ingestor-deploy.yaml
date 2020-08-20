@@ -15,6 +15,8 @@ parameters:
 - name: SECRET_KEY
 - name: ENCRYPT_KEY
 - name: FLASK_SECRET_KEY
+- name: LOG_LEVEL
+  value: 'WARNING'
 - name: FLASK_ENV
   value: 'development'
 - name: URL_SUFFIX
@@ -107,6 +109,8 @@ objects:
                   key: ingestor-flask-secret
             - name: FLASK_ENV
               value: ${FLASK_ENV}
+            - name: LOG_LEVEL
+              value: ${LOG_LEVEL}
           resources:
             limits:
               cpu: 80m

@@ -18,6 +18,8 @@ parameters:
 - name: VIPS_API_ROOT_URL
 - name: DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY
   value: '3'
+- name: LOG_LEVEL
+  value: 'WARNING'
 - name: PYTHONPATH
   value: '/opt/app-root/lib/python3.6/site-packages:/opt/app-root/src/'
 - name: URL_SUFFIX
@@ -120,6 +122,8 @@ objects:
                   key: vips-api-password
             - name: DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY
               value: ${DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY}
+            - name: LOG_LEVEL
+              value: ${LOG_LEVEL}
             - name: PYTHONPATH
               value: ${PYTHONPATH}
           resources:

@@ -1,6 +1,9 @@
 import logging
+from python.common.config import Config
 from python.common.helper import load_json_into_dict
 from cerberus import Validator as Cerberus
+
+logging.basicConfig(level=Config.LOG_LEVEL)
 
 
 class Validate:
@@ -8,7 +11,6 @@ class Validate:
     def __init__(self, config):
         self.config = config
         self.schemas = load_json_into_dict(config.SCHEMA_PATH + config.SCHEMA_FILENAME)
-        logging.basicConfig(level=config.LOG_LEVEL)
 
     def validate(self, message: dict) -> dict:
         """

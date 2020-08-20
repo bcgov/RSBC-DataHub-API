@@ -4,6 +4,8 @@ from python.common.rabbitmq import RabbitMQ
 from python.common.message import encode_message, decode_message, add_error_to_message
 import logging
 
+logging.basicConfig(level=Config.LOG_LEVEL)
+
 
 class Listener:
     """
@@ -18,8 +20,6 @@ class Listener:
         self.config = config
         self.writer = rabbit_writer
         self.listener = rabbit_listener
-
-        logging.basicConfig(level=config.LOG_LEVEL)
         logging.warning('*** validator initialized  ***')
 
     def main(self):
