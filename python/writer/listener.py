@@ -1,6 +1,5 @@
 from python.writer.config import Config
 from python.writer.database import write as database_writer
-from python.common.vips_api import application_create as save_to_vips
 import python.common.email as email
 from python.common.helper import middle_logic
 from python.common.rabbitmq import RabbitMQ
@@ -37,13 +36,13 @@ class Listener:
         # convert body (in bytes) to string
         message_dict = decode_message(body, self.config.ENCRYPT_KEY)
 
+        # invoke listener functions
         middle_logic(self.get_listeners(message_dict['event_type']),
-                     message=message_dict, config=self.config, writer=self.writer, channel=ch, method=method)
-
-        # if we get here the middle_logic functions were all successful so we
-        # can acknowledge the message and delete it from the WRITE_WATCH_QUEUE
-        logging.info('all listeners executed - acknowledging message as received')
-        ch.basic_ack(delivery_tag=method.delivery_tag)
+                     message=message_dict,
+                     config=self.config,
+                     writer=self.writer,
+                     channel=ch,
+                     method=method)
 
     def get_listeners(self, event_type: str) -> list:
         """
@@ -54,34 +53,66 @@ class Listener:
             return self.listeners()[event_type]
         else:
             return [
-                (actions.unknown_event_type, email.admin_unknown_event_type)
+                (actions.unknown_event_type, actions.do_nothing),
+                # (actions.write_to_fail_queue, actions.unable_to_write_to_RabbitMQ),
+                (actions.acknowledge_receipt, actions.unable_to_acknowledge_receipt)
             ]
 
     @staticmethod
     def listeners() -> dict:
         return {
             "evt_issuance": [
-                (database_writer, actions.add_to_failed_write_queue)
+                (database_writer, actions.add_to_failed_write_queue_and_acknowledge),
+                (actions.acknowledge_receipt, actions.unable_to_acknowledge_receipt)
             ],
             "vt_dispute_finding": [
-                (database_writer, actions.add_to_failed_write_queue)
+                (database_writer, actions.add_to_failed_write_queue_and_acknowledge),
+                (actions.acknowledge_receipt, actions.unable_to_acknowledge_receipt)
             ],
             "vt_dispute_status_update": [
-                (database_writer, actions.add_to_failed_write_queue)
+                (database_writer, actions.add_to_failed_write_queue_and_acknowledge),
+                (actions.acknowledge_receipt, actions.unable_to_acknowledge_receipt)
             ],
             "vt_dispute": [
-                (database_writer, actions.add_to_failed_write_queue)
+                (database_writer, actions.add_to_failed_write_queue_and_acknowledge),
+                (actions.acknowledge_receipt, actions.unable_to_acknowledge_receipt)
             ],
             "vt_payment": [
-                (database_writer, actions.add_to_failed_write_queue)
+                (database_writer, actions.add_to_failed_write_queue_and_acknowledge),
+                (actions.acknowledge_receipt, actions.unable_to_acknowledge_receipt)
             ],
             "vt_query": [
-                (database_writer, actions.add_to_failed_write_queue)
+                (database_writer, actions.add_to_failed_write_queue_and_acknowledge),
+                (actions.acknowledge_receipt, actions.unable_to_acknowledge_receipt)
+            ],
+            "prohibition_served_more_than_7_days_ago": [
+                (email.applicant_prohibition_served_more_than_7_days_ago, actions.unable_to_send_email),
+                (actions.acknowledge_receipt, actions.unable_to_acknowledge_receipt)
+            ],
+            "licence_not_seized": [
+                (email.applicant_licence_not_seized, actions.unable_to_send_email),
+                (actions.acknowledge_receipt, actions.unable_to_acknowledge_receipt)
+            ],
+            "prohibition_not_yet_in_vips": [
+                (actions.has_hold_expired, actions.write_back_to_queue_and_acknowledge),
+                (email.applicant_prohibition_not_yet_in_vips, actions.unable_to_send_email),
+                (actions.add_do_not_process_until_attribute, actions.unable_to_place_on_hold),
+                (actions.write_back_to_queue_and_acknowledge, actions.unable_to_acknowledge_receipt)
+            ],
+            "prohibition_not_found": [
+                (email.applicant_prohibition_not_found, actions.unable_to_send_email),
+                (actions.acknowledge_receipt, actions.unable_to_acknowledge_receipt)
             ],
             "form_submission": [
-                (save_to_vips, actions.unable_to_save_to_vips_api),
-                (email.invoice_to_applicant, actions.unable_to_send_email)
-            ]
+                (actions.save_application_to_vips, actions.unable_to_save_to_vips_api),
+                (email.application_received, actions.unable_to_send_email),
+                (actions.acknowledge_receipt, actions.unable_to_acknowledge_receipt)
+            ],
+            "last_name_mismatch": [
+                # TODO - do we tell applicants when last name does not match?
+                (email.applicant_prohibition_not_found, actions.unable_to_send_email),
+                (actions.acknowledge_receipt, actions.unable_to_acknowledge_receipt)
+            ],
         }
 
 

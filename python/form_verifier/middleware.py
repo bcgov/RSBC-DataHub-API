@@ -64,8 +64,12 @@ def has_drivers_licence_been_seized(**args):
     """
     Returns true if VIPS indicates the driver's licence has been seized
     """
+    # TODO - check with Andrea make sure this rule only applies to IRP & ADP
     message = args.get('message')
-    return message['form_submission']['vips_response']['data']['status']['DriverLicenceSeizedYn'] == "Y", args
+    prohibition_type = message['form_submission']['vips_response']['data']['status']['noticeTypeCd']
+    if prohibition_type == 'ADP' or prohibition_type == 'IRP':
+        return message['form_submission']['vips_response']['data']['status']['driverLicenceSeizedYn'] == "Y", args
+    return True, args
 
 
 def licence_not_seized_event(**args):

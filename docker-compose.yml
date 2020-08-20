@@ -96,5 +96,5 @@ services:
           VIPS_API_USERNAME: "${VIPS_API_USERNAME}"
           VIPS_API_PASSWORD: "${VIPS_API_PASSWORD}"
           VIPS_API_ROOT_URL: "${VIPS_API_ROOT_URL}"
-          LOG_LEVEL: "DEBUG"
+          LOG_LEVEL: "WARNING"
           ENCRYPT_KEY: "${ENCRYPT_KEY}"

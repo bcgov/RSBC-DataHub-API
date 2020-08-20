@@ -29,3 +29,4 @@ class Config(BaseConfig):
     COMM_SERV_CLIENT_SECRET     = os.getenv('COMM_SERV_CLIENT_SECRET')
 
     ADMIN_EMAIL_ADDRESS         = os.getenv('ADMIN_EMAIL_ADDRESS')
+    REPLY_EMAIL_ADDRESS         = os.getenv('REPLY_EMAIL_ADDRESS', 'do-not-reply@gov.bc.ca')

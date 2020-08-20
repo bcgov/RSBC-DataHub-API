@@ -45,6 +45,7 @@ def _times_2(number: int) -> int:
     """
     return int(list(str(number * 2))[0])
 
+
 def middle_logic(functions: list, **args):
     """
     Recursive function that calls each middleware function in the list.
@@ -61,12 +62,12 @@ def middle_logic(functions: list, **args):
     """
     if functions:
         success_function, failure_function = functions.pop(0)
-        logging.debug('calling success function: ' + success_function.__name__)
+        logging.warning('calling success function: ' + success_function.__name__)
         flag, args = success_function(**args)
         print("Flag is", flag)
         if flag:
             logging.debug('calling middleware logic recursively')
             middle_logic(functions, **args)
         else:
-            logging.debug('calling failure function: ' + failure_function.__name__)
+            logging.warning('calling failure function: ' + failure_function.__name__)
             failure_function(**args)

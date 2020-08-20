@@ -1,0 +1,20 @@
+{% extends "email_alert_base.html" %}
+
+{% block primary_message %}
+<tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+    <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
+        Your driving prohibition {{ prohibition_number }} isn’t in our system yet.
+    </td>
+</tr>
+<tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+    <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
+        Once it’s received, we’ll email you to let you know what to do next.
+    </td>
+</tr>
+{% endblock %}
+
+{% block page_title %}{{ subject }}{% endblock %}
+{% block subject %}{% include 'partials/subject_row.html' %}{% endblock %}
+{% block salutation %}{% include 'partials/salutation_row.html' %}{% endblock %}
+{% block thank_you_road_safety %}{% include 'partials/thank_you_road_safety_row.html' %}{% endblock %}
+{% block email_not_monitored %}{% include 'partials/email_not_monitored_row.html' %}{% endblock %}

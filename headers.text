@@ -1,0 +1,12 @@
+HTTP/1.1 200 
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 20 Aug 2020 16:49:42 GMT
+Set-Cookie: 6a6a911f7b3e3f7c35248a96e2045e03=68ba68e2deed91d48b902db94d836f4b; path=/; HttpOnly; Secure
+
