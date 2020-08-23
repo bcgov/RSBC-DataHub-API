@@ -103,13 +103,3 @@ def unknown_event_type(**args) -> tuple:
     # function with no associated failure function.
     return True, args
 
-
-def acknowledge_receipt_to_rabbitmq(**args) -> tuple:
-    """
-    Acknowledge the message received from RabbitMQ and delete it from the WATCH_QUEUE
-    """
-    logging.info('RabbitMQ - acknowledging message as received')
-    ch = args.get('channel')
-    method = args.get('method')
-    ch.basic_ack(delivery_tag=method.delivery_tag)
-    return True, args

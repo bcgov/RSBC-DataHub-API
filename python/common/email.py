@@ -8,11 +8,11 @@ from jinja2 import Environment, PackageLoader, select_autoescape
 logging.basicConfig(level=Config.LOG_LEVEL)
 
 
-def application_received(**args):
+def application_accepted(**args):
     config = args.get('config')
     message = args.get('message')
-    subject = 'Re: Driving Prohibition Review - Approved'
-    template = get_jinja2_env().get_template('application_approved.html')
+    subject = 'Re: Driving Prohibition Review - Application Accepted'
+    template = get_jinja2_env().get_template('application_accepted.html')
     return send_email(
         [get_email_address(message)],
         subject,
@@ -26,7 +26,7 @@ def application_received(**args):
 
 
 def send_email_to_admin(**args):
-    subject = args.get('title')
+    subject = args.get('subject')
     config = args.get('config')
     message = args.get('message')
     body = args.get('body')
@@ -43,7 +43,7 @@ def send_email_to_admin(**args):
 def applicant_prohibition_served_more_than_7_days_ago(**args):
     config = args.get('config')
     message = args.get('message')
-    subject = 'Re: Driving Prohibition Review - Too Late to Apply'
+    subject = 'Re: Driving Prohibition Review - 7-day Application Window Missed'
     template = get_jinja2_env().get_template('application_not_received_in_time.html')
     return send_email(
         [get_email_address(message)],
@@ -58,9 +58,20 @@ def applicant_prohibition_served_more_than_7_days_ago(**args):
 
 
 def applicant_licence_not_seized(**args):
-    # TODO - write method
-    logging.critical('message not implemented')
-    return True, args
+    config = args.get('config')
+    message = args.get('message')
+    subject = 'Re: Driving Prohibition Review - Licence Not Returned'
+    template = get_jinja2_env().get_template('licence_not_seized.html')
+    return send_email(
+        [get_email_address(message)],
+        subject,
+        config.REPLY_EMAIL_ADDRESS,
+        template.render(
+            full_name=get_full_name(message),
+            prohibition_number=get_prohibition_number(message),
+            subject=subject),
+        config.COMM_SERV_API_ROOT_URL,
+        get_common_services_access_token(config)), args
 
 
 def applicant_prohibition_not_found(**args):
@@ -83,9 +94,8 @@ def applicant_prohibition_not_found(**args):
 def applicant_last_name_mismatch(**args):
     config = args.get('config')
     message = args.get('message')
-    logging.info('Applicant last name does not match VIPS')
-    subject = 'Re: Driving Prohibition Review - Not Found'
-    template = get_jinja2_env().get_template('application_not_found.html')
+    subject = "Re: Driving Prohibition Review - Prohibition Number and Name Don't Match"
+    template = get_jinja2_env().get_template('last_name_mismatch.html')
     return send_email(
         [get_email_address(message)],
         subject,

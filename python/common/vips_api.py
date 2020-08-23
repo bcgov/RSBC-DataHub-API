@@ -6,9 +6,12 @@ from iso8601 import parse_date
 from unicodedata import normalize
 
 
-def query_get(prohibition_id: str, config, correlation_id: str) -> tuple:
+def status_get(prohibition_id: str, config, correlation_id: str) -> tuple:
     endpoint = build_endpoint(config.VIPS_API_ROOT_URL, prohibition_id, 'status', correlation_id)
-    return get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
+    is_response_successful, data = get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
+    is_success = 'resp' in data and data['resp'] == 'success'
+    is_not_found = 'error' in data and data['error']['message'] == 'Record not found'
+    return is_success or is_not_found, data
 
 
 def disclosure_get(document_id: str, config, correlation_id: str):
@@ -85,7 +88,7 @@ def get(endpoint: str, user: str, password: str, correlation_id='ABC') -> tuple:
     data = response.json()
     # Note: VIPS response could be either record found or record not found
     logging.info('VIPS API response: {} correlation_id: {}'.format(json.dumps(data), correlation_id))
-    return True, data
+    return 'resp' in data, data
 
 
 def create(endpoint: str, user: str, password: str,  payload: dict, correlation_id='ABC') -> tuple:

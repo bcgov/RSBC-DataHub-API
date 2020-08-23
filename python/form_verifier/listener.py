@@ -1,11 +1,12 @@
 from python.form_verifier.config import Config
 from python.common.rabbitmq import RabbitMQ
-from python.common.vips_api import query_get
+from python.common.vips_api import status_get
 from python.common.message import encode_message, decode_message
 from python.common.helper import middle_logic
-import python.form_verifier.middleware as mw
+import python.form_verifier.middleware as rules
 import logging
 import uuid
+import json
 
 logging.basicConfig(level=Config.LOG_LEVEL)
 
@@ -39,18 +40,18 @@ class Listener:
         prohibition_number = message_dict['form_submission']['form']['prohibition-information']['control-prohibition-number']
         message_dict['correlation_id'] = str(uuid.uuid4())
 
-        is_get_success, vips_response = query_get(prohibition_number, self.config, message_dict['correlation_id'])
+        is_get_success, vips_response = status_get(prohibition_number, self.config, message_dict['correlation_id'])
         if is_get_success:
             message_dict['form_submission']['vips_response'] = vips_response
 
             # invoke middleware chain to determine which event to generate
             # each pair of functions below represents (success, failure)
             middle_logic([
-                (mw.prohibition_should_have_been_entered_in_vips, mw.not_yet_in_vips_event),
-                (mw.prohibition_exists_in_vips, mw.prohibition_not_found_event),
-                (mw.user_submitted_last_name_matches_vips, mw.last_name_mismatch_event),
-                (mw.date_served_not_older_than_one_week, mw.prohibition_older_than_7_days_event),
-                (mw.has_drivers_licence_been_seized, mw.licence_not_seized_event)
+                (rules.prohibition_should_have_been_entered_in_vips, rules.not_yet_in_vips_event),
+                (rules.prohibition_exists_in_vips, rules.prohibition_not_found_event),
+                (rules.user_submitted_last_name_matches_vips, rules.last_name_mismatch_event),
+                (rules.date_served_not_older_than_one_week, rules.prohibition_older_than_7_days_event),
+                (rules.has_drivers_licence_been_seized, rules.licence_not_seized_event)
 
             ], message=message_dict, delay_days=self.config.DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY)
 
@@ -62,7 +63,7 @@ class Listener:
                 ch.basic_ack(delivery_tag=method.delivery_tag)
 
         else:
-            logging.warning('no response from the VIPS API')
+            logging.warning('Bad response from VIPS API: {}'.format(json.dumps(vips_response)))
             if self.writer.publish(
                     self.config.WATCH_QUEUE,
                     encode_message(message_dict, self.config.ENCRYPT_KEY)):

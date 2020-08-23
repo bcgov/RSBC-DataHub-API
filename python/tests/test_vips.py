@@ -41,7 +41,7 @@ class TestVips:
         vips.get = MagicMock(return_value=(True, response_from_api))
         endpoint = TestConfig.VIPS_API_ROOT_URL + '/12345/status/' + TestVips.CORRELATION_ID
         vips.get(endpoint, TestConfig.VIPS_API_USERNAME, TestConfig.VIPS_API_PASSWORD)
-        is_success, actual = vips.query_get("12345", TestConfig, TestVips.CORRELATION_ID)
+        is_success, actual = vips.status_get("12345", TestConfig, TestVips.CORRELATION_ID)
         vips.get.assert_called_with(
             endpoint,
             TestConfig.VIPS_API_USERNAME,

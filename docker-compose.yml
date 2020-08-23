@@ -9,6 +9,7 @@ services:
             # to connect to the web admin
             RABBITMQ_DEFAULT_USER: "${RABBITMQ_USER}"
             RABBITMQ_DEFAULT_PASS: "${RABBITMQ_PASS}"
+            RABBITMQ_LOGS: "WARNING"
         ports:
             - "15672:15672" # Web admin port
             - "5672:5672"   # Do not expose this port in production
@@ -96,5 +97,5 @@ services:
           VIPS_API_USERNAME: "${VIPS_API_USERNAME}"
           VIPS_API_PASSWORD: "${VIPS_API_PASSWORD}"
           VIPS_API_ROOT_URL: "${VIPS_API_ROOT_URL}"
-          LOG_LEVEL: "WARNING"
+          LOG_LEVEL: "INFO"
           ENCRYPT_KEY: "${ENCRYPT_KEY}"
