@@ -1,9 +1,47 @@
 import requests
 import logging
 import json
+import uuid
 from datetime import datetime
 from iso8601 import parse_date
 from unicodedata import normalize
+from python.common.config import Config
+
+logging.basicConfig(level=Config.LOG_LEVEL)
+
+
+def get_invoice_details(prohibition_number, config) -> tuple:
+    logging.info("inside get_invoice_details()")
+    correlation_id = generate_correlation_id()
+    is_status_success, vips_status = status_get(prohibition_number, config, correlation_id)
+    # TODO - waiting on NTT to provide application_id in the status response
+    # TODO - call application_get to retrieve missing data
+    service_date = vips_str_to_datetime(vips_status['data']['status']['effectiveDt'])
+    logging.info("current prohibition status: {}".format(json.dumps(vips_status)))
+    if is_status_success:
+        return True, dict({
+            "amount": 00.02,
+            "prohibition_period": "[Prohib. Period]",
+            "service_date": service_date.strftime("%b %-d, %Y"),
+            "notice_type_code": vips_status['data']['status']['noticeTypeCd'],
+            "oral_or_written": "[oral / written]"
+        })
+    return False, dict({})
+
+
+def is_application_ready_for_payment(prohibition_number, last_name, config) -> tuple:
+    logging.info("inside is_application_ready_for_payment()")
+    correlation_id = generate_correlation_id()
+    is_status_success, vips_status = status_get(prohibition_number, config, correlation_id)
+    logging.info("current prohibition status: {}".format(json.dumps(vips_status)))
+    if is_last_name_match(vips_status, last_name):
+        logging.info('last name matches')
+        is_payment_success, vips_payment = payment_get(prohibition_number, config, correlation_id)
+        logging.info('current payment status: {}'.format(json.dumps(vips_payment)))
+        is_form_submitted = vips_status['data']['status']['reviewCreatedYn'] == 'Y'
+        is_not_paid = vips_payment['resp'] == 'fail'
+        return (is_status_success and is_payment_success), (is_form_submitted and is_not_paid)
+    return is_status_success, False
 
 
 def status_get(prohibition_id: str, config, correlation_id: str) -> tuple:
@@ -24,27 +62,26 @@ def payment_get(prohibition_id: str, config, correlation_id: str):
     return get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
 
 
-def application_get(guid: str, config, correlation_id: str):
+def application_get(guid: str, config, correlation_id: str) -> tuple:
     endpoint = build_endpoint(config.VIPS_API_ROOT_URL, guid, 'application', correlation_id)
     return get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
 
 
-def application_create(form_type: str, prohibition_id: str, config, correlation_id: str, message: dict):
-    # /{formType}/{noticeNo}/application/{correlationId}
+def application_create(form_type: str, prohibition_id: str, config, correlation_id: str, **args):
     endpoint = build_endpoint(config.VIPS_API_ROOT_URL, form_type, prohibition_id, 'application', correlation_id)
     payload = {
         "applicationInfo": {
-            "email": message['form_submission']['form']['identification-information']['driver-email-address'],
-            "faxNo": "string",
-            "firstGivenNm": message['form_submission']['form']['identification-information']['driver-first-name'],
-            "formData": "string",
-            "manualEntryYN": "string",
-            "noticeSubjectCd": "string",
-            "phoneNo": "string",
-            "presentationTypeCd": "string",
-            "reviewRoleTypeCd": "string",
-            "secondGivenNm": "string",
-            "surnameNm": message['form_submission']['form']['identification-information']['driver-last-name'],
+            "email": args.get('email'),
+            "faxNo": args.get('fax'),
+            "firstGivenNm": args.get('first_name'),
+            "formData": args.get('form_date'),
+            "manualEntryYN": args.get('manual_entry', 'N'),
+            "noticeSubjectCd": args.get('notice_subject_type', 'PERS'),
+            "phoneNo": args.get('phone'),
+            "presentationTypeCd": args.get('presentation_type'),
+            "reviewRoleTypeCd": args.get('applicant_role'),
+            "secondGivenNm": args.get('middle_name'),
+            "surnameNm": args.get('last_name'),
         }
     }
     return create(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, payload, correlation_id)
@@ -111,16 +148,25 @@ def remove_accents(input_str):
     return only_ascii
 
 
-def is_last_name_match(last_name1: str, last_name2: str) -> bool:
-    logging.debug('compare last name: {} and {}'.format(last_name1, last_name2))
-    return bool(remove_accents(last_name1).upper() == remove_accents(last_name2).upper())
+def is_last_name_match(vips_response: dict, last_name: str) -> bool:
+    if 'data' in vips_response:
+        vips_last_name = vips_response['data']['status']['surnameNm']
+        logging.debug('compare last name: {} and {}'.format(vips_last_name, last_name))
+        return bool(remove_accents(vips_last_name).upper() == remove_accents(last_name).upper())
+    return False
+
+
+def has_been_paid(vips_payment_status: dict) -> tuple:
+    is_paid = 'data' in vips_payment_status and 'transactionInfo' in vips_payment_status['data']
+    valid_response = 'resp' in vips_payment_status
+    return valid_response, is_paid
 
 
 def vips_str_to_datetime(vips_datetime: str) -> datetime:
     """
     This utility takes a VIPS datetime string and
     converts it to a Python datetime object.
-    VIPS uses is a non-standard datetime format.
+    VIPS uses a non-standard datetime format.
     Like this: 2019-01-02 17:30:00 -08:00
     """
     date_string = vips_datetime[0:10]
@@ -129,3 +175,18 @@ def vips_str_to_datetime(vips_datetime: str) -> datetime:
     offset_minute = vips_datetime[24:26]
     iso8601_string = "{}T{}{}:{}".format(date_string, time_string, offset_hour, offset_minute)
     return parse_date(iso8601_string)
+
+
+def vips_datetime(date_time: datetime) -> str:
+    """
+    This utility takes a Python datetime object and
+    converts it to a datetime string for VIPS.
+    VIPS uses a non-standard datetime format.
+    Like this: 2019-01-02 17:30:00 -08:00
+    """
+    dt_string = date_time.strftime("%Y-%m-%d %H:%M:%S %z")
+    return dt_string[0:23] + ':' + dt_string[23:25]
+
+
+def generate_correlation_id():
+    return str(uuid.uuid4())

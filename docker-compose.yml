@@ -64,6 +64,9 @@ services:
           DB_NAME: "${DB_NAME}"
           DB_USERNAME: "${DB_USERNAME}"
           DB_PASSWORD: "${DB_PASSWORD}"
+          VIPS_API_USERNAME: "${VIPS_API_USERNAME}"
+          VIPS_API_PASSWORD: "${VIPS_API_PASSWORD}"
+          VIPS_API_ROOT_URL: "${VIPS_API_ROOT_URL}"
           COMM_SERV_AUTH_URL: "${COMM_SERV_AUTH_URL}"
           COMM_SERV_API_ROOT_URL: "${COMM_SERV_API_ROOT_URL}"
           COMM_SERV_REALM: "${COMM_SERV_REALM}"
@@ -77,10 +80,13 @@ services:
         context: python
         dockerfile: paybc_api/Dockerfile-local
       environment:
-        LOG_LEVEL: "WARNING"
+        LOG_LEVEL: "INFO"
         PAYBC_FLASK_SECRET: "${PAYBC_FLASK_SECRET}"
         PAYBC_CLIENT_ID: "${PAYBC_CLIENT_ID}"
         PAYBC_CLIENT_SECRET: "${PAYBC_CLIENT_SECRET}"
+        VIPS_API_USERNAME: "${VIPS_API_USERNAME}"
+        VIPS_API_PASSWORD: "${VIPS_API_PASSWORD}"
+        VIPS_API_ROOT_URL: "${VIPS_API_ROOT_URL}"
       ports:
         - "5001:5001"
 

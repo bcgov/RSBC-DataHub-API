@@ -30,3 +30,6 @@ class Config(BaseConfig):
 
     ADMIN_EMAIL_ADDRESS         = os.getenv('ADMIN_EMAIL_ADDRESS')
     REPLY_EMAIL_ADDRESS         = os.getenv('REPLY_EMAIL_ADDRESS', 'do-not-reply@gov.bc.ca')
+
+    # comma separated list of email addresses to receive a bcc of all outgoing emails
+    BCC_EMAIL_ADDRESSES         = os.getenv('ADMIN_EMAIL_ADDRESS')

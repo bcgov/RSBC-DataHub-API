@@ -1,0 +1,7 @@
+{
+  "resp":"fail",
+  "error":{
+    "message":"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">\n    <soapenv:Body>\n        <soapenv:Fault>\n            <faultcode>soapenv:Server</faultcode>\n            <faultstring>Policy Falsified</faultstring>\n            <faultactor>https://wsgw.dev.jag.gov.bc.ca/rdfpvips/ords/deva/vipsords/web/prohibitionStatus/21900056</faultactor>\n            <detail>\n                <l7:policyResult status=\"Assertion Falsified\" xmlns:l7=\"http://www.layer7tech.com/ws/policy/fault\"/>\n            </detail>\n        </soapenv:Fault>\n    </soapenv:Body>\n</soapenv:Envelope>\n",
+    "httpStatus":404
+  }
+}

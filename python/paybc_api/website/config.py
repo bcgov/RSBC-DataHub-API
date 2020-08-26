@@ -1,9 +1,14 @@
+from python.common.config import Config as BaseConfig
 import os
 
 
-class Config:
-    PAYBC_FLASK_SECRET = os.getenv('PAYBC_FLASK_SECRET')
-    PAYBC_CLIENT_ID = os.getenv('PAYBC_CLIENT_ID')
-    PAYBC_CLIENT_SECRET = os.getenv('PAYBC_CLIENT_SECRET')
-    OAUTH2_USER = os.getenv('OAUTH2_USER', 'admin')
+class Config(BaseConfig):
+    PAYBC_FLASK_SECRET          = os.getenv('PAYBC_FLASK_SECRET')
+    PAYBC_CLIENT_ID             = os.getenv('PAYBC_CLIENT_ID')
+    PAYBC_CLIENT_SECRET         = os.getenv('PAYBC_CLIENT_SECRET')
+    OAUTH2_USER                 = os.getenv('OAUTH2_USER', 'admin')
+
+    VIPS_API_ROOT_URL           = os.getenv('VIPS_API_ROOT_URL')
+    VIPS_API_USERNAME           = os.getenv('VIPS_API_USERNAME')
+    VIPS_API_PASSWORD           = os.getenv('VIPS_API_PASSWORD')
 

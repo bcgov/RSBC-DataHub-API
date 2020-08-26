@@ -15,8 +15,7 @@ def user_submitted_last_name_matches_vips(**args):
     """
     message = args.get('message')
     last_name_as_submitted = message['form_submission']['form']['identification-information']['driver-last-name']
-    last_name_from_vips = message['form_submission']['vips_response']['data']['status']['surnameNm']
-    return is_last_name_match(last_name_from_vips, last_name_as_submitted), args
+    return is_last_name_match(message['form_submission']['vips_response'], last_name_as_submitted), args
 
 
 def prohibition_should_have_been_entered_in_vips(**args):
@@ -67,7 +66,6 @@ def has_drivers_licence_been_seized(**args):
     """
     Returns true if VIPS indicates the driver's licence has been seized
     """
-    # TODO - check with Andrea make sure this rule only applies to IRP & ADP
     message = args.get('message')
     prohibition_type = message['form_submission']['vips_response']['data']['status']['noticeTypeCd']
     if prohibition_type == 'ADP' or prohibition_type == 'IRP':

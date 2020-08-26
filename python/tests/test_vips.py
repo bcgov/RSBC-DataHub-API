@@ -3,7 +3,9 @@ import json
 from unittest.mock import MagicMock
 from python.common.helper import load_json_into_dict
 import pytest
+import pytz
 from iso8601 import parse_date
+from datetime import datetime, timezone
 
 
 class TestConfig:
@@ -90,3 +92,14 @@ class TestVips:
     def test_vips_datetime_conversion(self, vips_datetime, expected):
         actual = vips.vips_str_to_datetime(vips_datetime)
         assert actual == parse_date(expected)
+
+    @staticmethod
+    def test_datetime_to_vips_string():
+        tz = pytz.timezone('America/Vancouver')
+        today = datetime.now(tz)
+        vips_date_string = vips.vips_datetime(today)
+        components = vips_date_string.split(":")
+        print(today.strftime("%z"))
+        print(vips_date_string)
+        assert len(components) == 4
+        assert vips_date_string[19:26] == ' -07:00'

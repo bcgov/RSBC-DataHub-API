@@ -102,16 +102,21 @@ def test_prohibition_should_have_been_entered_in_vips_method(vips_response, expe
 
 
 licence_seized = [
-    ("Y", True),
-    ("N", False)
+    ("UL", "Y", True),
+    ("UL", "N", True),
+    ("IRP", "Y", True),
+    ("IRP", "N", False),
+    ("ADP", "Y", True),
+    ("ADP", "N", False)
 ]
 
 
-@pytest.mark.parametrize("test_condition, expected", licence_seized)
-def test_has_drivers_licence_been_seized_method(test_condition, expected):
+@pytest.mark.parametrize("prohibition_type, test_condition, expected", licence_seized)
+def test_has_drivers_licence_been_seized_method(prohibition_type, test_condition, expected):
     sample_data = load_json_into_dict('python/tests/sample_data/form/irp_form_submission.json')
     response_from_api = load_json_into_dict('python/tests/sample_data/vips/vips_query_200.json')
-    response_from_api['data']['status']['DriverLicenceSeizedYn'] = test_condition
+    response_from_api['data']['status']['driverLicenceSeizedYn'] = test_condition
+    response_from_api['data']['status']['noticeTypeCd'] = prohibition_type
     sample_data['form_submission']['vips_response'] = response_from_api
     result, args = middleware.has_drivers_licence_been_seized(message=sample_data)
     assert result is expected

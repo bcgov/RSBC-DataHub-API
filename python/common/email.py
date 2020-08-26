@@ -16,7 +16,7 @@ def application_accepted(**args):
     return send_email(
         [get_email_address(message)],
         subject,
-        config.REPLY_EMAIL_ADDRESS,
+        config,
         template.render(
             full_name=get_full_name(message),
             prohibition_number=get_prohibition_number(message),
@@ -34,7 +34,7 @@ def send_email_to_admin(**args):
     return send_email(
         [config.ADMIN_EMAIL_ADDRESS],
         subject,
-        config.REPLY_EMAIL_ADDRESS,
+        config,
         template.render(subject=subject, body=body, message=json.dumps(message)),
         config.COMM_SERV_API_ROOT_URL,
         get_common_services_access_token(config)), args
@@ -48,7 +48,7 @@ def applicant_prohibition_served_more_than_7_days_ago(**args):
     return send_email(
         [get_email_address(message)],
         subject,
-        config.REPLY_EMAIL_ADDRESS,
+        config,
         template.render(
             full_name=get_full_name(message),
             prohibition_number=get_prohibition_number(message),
@@ -65,7 +65,7 @@ def applicant_licence_not_seized(**args):
     return send_email(
         [get_email_address(message)],
         subject,
-        config.REPLY_EMAIL_ADDRESS,
+        config,
         template.render(
             full_name=get_full_name(message),
             prohibition_number=get_prohibition_number(message),
@@ -82,7 +82,7 @@ def applicant_prohibition_not_found(**args):
     return send_email(
         [get_email_address(message)],
         subject,
-        config.REPLY_EMAIL_ADDRESS,
+        config,
         template.render(
             full_name=get_full_name(message),
             prohibition_number=get_prohibition_number(message),
@@ -99,7 +99,7 @@ def applicant_last_name_mismatch(**args):
     return send_email(
         [get_email_address(message)],
         subject,
-        config.REPLY_EMAIL_ADDRESS,
+        config,
         template.render(
             full_name=get_full_name(message),
             prohibition_number=get_prohibition_number(message),
@@ -118,7 +118,7 @@ def applicant_prohibition_not_yet_in_vips(**args):
     return send_email(
         [get_email_address(message)],
         subject,
-        config.REPLY_EMAIL_ADDRESS,
+        config,
         template.render(
             full_name=get_full_name(message),
             prohibition_number=get_prohibition_number(message),
@@ -127,11 +127,12 @@ def applicant_prohibition_not_yet_in_vips(**args):
         get_common_services_access_token(config)), args
 
 
-def send_email(to: list, subject: str, from_address: str, html_template, api_root_url: str, access_token: str) -> bool:
+def send_email(to: list, subject: str, config, html_template, api_root_url: str, access_token: str) -> bool:
     payload = {
         "bodyType": "html",
         "body": html_template,
-        "from": from_address,
+        "from": config.REPLY_EMAIL_ADDRESS,
+        "bcc": config.BCC_EMAIL_ADDRESSES.split(','),
         "encoding": "utf-8",
         "subject": subject,
         "to": to

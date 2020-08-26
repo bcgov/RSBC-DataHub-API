@@ -15,6 +15,7 @@ CMD [ "echo" , "requirements installed" ]
 RUN [ "pwd" ]
 RUN [ "ls", "-R" ]
 
+COPY paybc_api/*.py ${APP_ROOT}/src/python/common/
 COPY paybc_api/*.py ${APP_ROOT}/src/python/paybc_api/
 COPY paybc_api/website/*.py ${APP_ROOT}/src/python/paybc_api/website/
 

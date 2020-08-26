@@ -1,9 +1,12 @@
-from flask import Blueprint, request, session, url_for
-from flask import render_template, redirect, jsonify
+from flask import Blueprint, request, jsonify, make_response
 from python.paybc_api.website.oauth2 import authorization, require_oauth
+import python.common.vips_api as vips
+from python.paybc_api.website.config import Config
 import logging
 import datetime
 
+logging.basicConfig(level=Config.LOG_LEVEL)
+logging.warning('*** Pay BC API initialized ***')
 bp = Blueprint(__name__, 'home')
 
 
@@ -27,29 +30,56 @@ def search():
     :return:
     """
     if request.method == 'GET':
-        # look up the prohibition status from VIPS
-        # confirm the last names match
-        # look up the payment status and confirm not paid
-        # confirm application exists in VIPS
+        last_name = request.args.get('check_value', None, type=str)
+        prohibition_number = request.args.get('invoice_number', None, type=str)
+        paybc_reference = request.args.get('pay_bc_reference', None, type=str)
 
-        return jsonify(search_for_invoice(
-            request.args.get('invoice_number', None),
-            request.args.get('pay_bc_reference', None),
-            request.args.get('check_value', None)
+        logging.info("GET request received - prohib: {}, ref: {}, last_name: {}".format(
+            prohibition_number,
+            paybc_reference,
+            last_name
         ))
 
+        if prohibition_number is None or last_name is None or paybc_reference is None:
+            return make_response({
+                "error": "insufficient parameters supplied"
+            }, 400)
 
-@bp.route('/api_v2/invoice/<invoice_number>', methods=['GET'])
+        is_successful, is_okay_2_pay = vips.is_application_ready_for_payment(prohibition_number, last_name, Config)
+        logging.info("vips response: {}, okay to pay: {}".format(is_successful, is_okay_2_pay))
+        if is_successful:
+            if is_okay_2_pay:
+                return jsonify({
+                    "items": [{"selected_invoice": {
+                           "$ref": request.host_url.replace('http', 'https') + 'api_v2/invoice/' + prohibition_number}
+                        }
+                    ]
+                })
+            else:
+                error = 'A prohibition with that number is not found or not ready for payment'
+                logging.info(error)
+                return make_response({"error": error}, 404)
+        else:
+            error = 'No response from VIPS API'
+            logging.critical(error)
+            make_response({"error": error}, 500)
+
+
+@bp.route('/api_v2/invoice/<prohibition_number>', methods=['GET'])
 @require_oauth()
-def show(invoice_number):
+def show(prohibition_number):
     """
     PayBC requests details on the item to be paid from this endpoint.
-    :param invoice_number:
+    :param prohibition_number:
     :return:
     """
+    # TODO - using regex, validate the number provided
     if request.method == 'GET':
-        # lookup the request using the VIPS API
-        return jsonify(get_invoice(invoice_number))
+        is_status_successful, invoice_data = vips.get_invoice_details(prohibition_number, Config)
+        if is_status_successful:
+            return jsonify(transform_invoice(prohibition_number, invoice_data))
+        else:
+            return make_response({"error": 'We are unable to find invoice ' + prohibition_number}, 404)
 
 
 @bp.route('/api_v2/receipt', methods=['POST'])
@@ -63,63 +93,57 @@ def receipt():
     :return:
     """
     if request.method == 'POST':
+        payload = request.json
+
+        # TODO
+        #  - validated the data using Ceberus
+        #  - save payment info to VIPS
+        #  - if successful, return the following:
+
         return jsonify(dict({
             "status": "APP",
             "receipt_number": "TEST_RECEIPT",
-            # "receipt_date ": "28-NOV-2017",
             "receipt_date ": datetime.date.today().strftime('%d-%b-%Y'),
             "receipt_amount": 200.00
         }))
 
 
-def search_for_invoice(invoice_number, pay_bc_reference, check_value):
-    logging.warning('invoice_number: ' + invoice_number)
-    logging.warning('pay_bc_reference: ' + pay_bc_reference)
-    logging.warning('check_value: ' + check_value)
-    if invoice_number is not None and check_value is not None and pay_bc_reference is not None:
-
-        # TODO "request.host_url currently returns "http" (not https)
-        # As a temporary workaround replace http with https
-
-        # TODO - replace hard code data below with lookup from VIPS API
-        if invoice_number == "1234" and check_value == "Smith":
-            return dict({
-                "items": [
-                    {
-                        "selected_invoice": {
-                            "$ref": request.host_url.replace('http', 'https') + 'api_v2/invoice/1234'
-                        }
-                    }
-                ]
-            })
-        else:
-            return dict({
-                "Error": 'An invoice by that number is not found'
-            })
-    else:
-        return dict({
-            "Error": 'insufficient data supplied'
-        })
+def transform_invoice(prohibition_number, invoice_data: dict):
+    return dict({
+        "invoice_number": prohibition_number,
+        "pbc_ref_number": "10008",
+        "party_number": 0,
+        "party_name": "RSI",
+        "account_number": "0",
+        "site_number": "0",
+        "cust_trx_type": "Review Notice of Driving Prohibition",
+        "term_due_date": "2017-03-03T08:00:00Z",
+        "total": invoice_data['amount'],
+        "amount_due": invoice_data['amount'],
+        "attribute1": "[Prohib. Period] and type: {}".format(invoice_data['notice_type_code']),
+        "attribute2": invoice_data['service_date'],
+        "attribute3": invoice_data['oral_or_written']
+    })
 
 
-def get_invoice(invoice_number):
-    if invoice_number == '1234':
-        return dict({
-            "invoice_number": "RSI_TEST_004",
-            "pbc_ref_number": "10008",
-            "party_number": 0,
-            "party_name": "RSI",
-            "account_number": "0",
-            "site_number": "0",
-            "cust_trx_type": "Review Notice of Driving Prohibition",
-            "term_due_date": "2017-03-03T08:00:00Z",
-            "total": 200.00,
-            "amount_due": 200.00,
-            "attribute1": "attribute one",
-            "attribute2": "attribute two",
-            "attribute3": "attribute three"
-        })
-    else:
-        return dict({
-            "error": 'We are unable to find invoice ' + invoice_number
-        })
+@bp.route('/debug', methods=['GET'])
+def debug():
+    """
+    Hard coded schedule dates for testing
+    """
+    if request.method == 'GET':
+        return jsonify(dict({
+          "data": {
+            "timeSlots": [
+              {
+                "reviewEndDtm": "2020-09-02T14:30:00 -08:00",
+                "reviewStartDtm": "2020-09-02T15:30:00 -08:00"
+              },
+              {
+                "reviewEndDtm": "2020-09-02T15:30:00 -08:00",
+                "reviewStartDtm": "2020-09-02T16:30:00 -08:00"
+              }
+            ]
+          },
+          "resp": "success"
+        }))
