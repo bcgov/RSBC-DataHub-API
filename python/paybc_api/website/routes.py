@@ -126,13 +126,13 @@ def transform_invoice(prohibition_number, invoice_data: dict):
     })
 
 
-@bp.route('/schedule/<prohibition_number>/<last_name>', methods=['GET'])
-def schedule(prohibition_number, last_name):
+@bp.route('/schedule', methods=['POST'])
+def schedule():
     """
     Hard coded schedule dates for testing
     """
-    logging.warning("Get schedule request: {}, {}".format(prohibition_number, last_name))
-    if request.method == 'GET':
+    if request.method == 'POST':
+        logging.warning('form parameters: {}, {}'.format(request.form['id'], request.form['last_name']))
         return jsonify(dict({
           "data": {
             "timeSlots": [
