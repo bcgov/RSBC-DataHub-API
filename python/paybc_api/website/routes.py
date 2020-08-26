@@ -4,6 +4,7 @@ import python.common.vips_api as vips
 from python.paybc_api.website.config import Config
 import logging
 import datetime
+import pytz
 
 logging.basicConfig(level=Config.LOG_LEVEL)
 logging.warning('*** Pay BC API initialized ***')
@@ -135,14 +136,18 @@ def debug():
         return jsonify(dict({
           "data": {
             "timeSlots": [
-              {
-                "reviewEndDtm": "2020-09-02T14:30:00 -08:00",
-                "reviewStartDtm": "2020-09-02T15:30:00 -08:00"
-              },
-              {
-                "reviewEndDtm": "2020-09-02T15:30:00 -08:00",
-                "reviewStartDtm": "2020-09-02T16:30:00 -08:00"
-              }
+                {
+                    "name": "Friday, Sept 4, 2020 - 9:00am to 10:30am",
+                    "value": "base64-encoded-date-string-1"
+                },
+                {
+                    "name": "Friday, Sept 4, 2020 - 10:30am to 12:00am",
+                    "value": "base64-encoded-date-string-2"
+                },
+                {
+                    "name": "Monday, Sept 7, 2020 - 3:00pm to 4:30pm",
+                    "value": "base64-encoded-date-string-3"
+                }
             ]
           },
           "resp": "success"
