@@ -127,11 +127,12 @@ def transform_invoice(prohibition_number, invoice_data: dict):
     })
 
 
-@bp.route('/debug', methods=['GET'])
-def debug():
+@bp.route('/schedule/<prohibition_number>/<last_name>', methods=['GET'])
+def schedule(prohibition_number, last_name):
     """
     Hard coded schedule dates for testing
     """
+    logging.warning("Get schedule request: {}, {}".format(prohibition_number, last_name))
     if request.method == 'GET':
         return jsonify(dict({
           "data": {
