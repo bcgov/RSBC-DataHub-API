@@ -4,7 +4,6 @@ import python.common.vips_api as vips
 from python.paybc_api.website.config import Config
 import logging
 import datetime
-import pytz
 
 logging.basicConfig(level=Config.LOG_LEVEL)
 logging.warning('*** Pay BC API initialized ***')
