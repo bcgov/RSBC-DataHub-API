@@ -12,6 +12,9 @@ parameters:
 - name: PAYBC_CLIENT_ID
 - name: PAYBC_CLIENT_SECRET
 - name: PAYBC_FLASK_SECRET
+- name: VIPS_API_ROOT_URL
+- name: VIPS_API_USERNAME
+- name: VIPS_API_PASSWORD
 - name: AUTHLIB_INSECURE_TRANSPORT
 - name: FLASK_ENV
   value: 'development'
@@ -107,6 +110,21 @@ objects:
                 secretKeyRef:
                   name: ${NAME}${SUFFIX}
                   key: paybc-client-secret
+            - name: VIPS_API_ROOT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: vips-api-root-url
+            - name: VIPS_API_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: vips-api-username
+            - name: VIPS_API_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: vips-api-password
             - name: AUTHLIB_INSECURE_TRANSPORT
               value: "True"
           resources:
