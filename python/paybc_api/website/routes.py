@@ -131,24 +131,20 @@ def schedule():
     """
     Hard coded schedule dates for testing
     """
+    notice_type = request.form['type']
+    requested_date = request.form['requested_date']
+    prohibition_number = request.form['prohibition_number']
+    last_name = request.form['last_name']
+
     if request.method == 'POST':
-        logging.warning('form parameters: {}, {}'.format(request.form['id'], request.form['last_name']))
+        logging.warning('form parameters: {}, {}, {}, {}'.format(
+            notice_type, requested_date, prohibition_number, last_name
+        ))
+        is_successful, data = vips.schedule_get(notice_type, requested_date, Config)
+
         return jsonify(dict({
           "data": {
-            "timeSlots": [
-                {
-                    "name": "Friday, Sept 4, 2020 - 9:00am to 10:30am",
-                    "value": "base64-encoded-date-string-1"
-                },
-                {
-                    "name": "Friday, Sept 4, 2020 - 10:30am to 12:00am",
-                    "value": "base64-encoded-date-string-2"
-                },
-                {
-                    "name": "Monday, Sept 7, 2020 - 3:00pm to 4:30pm",
-                    "value": "base64-encoded-date-string-3"
-                }
-            ]
+            "timeSlots": vips.schedule_to_friendly_times(data['data']['timeSlots'])
           },
           "resp": "success"
         }))

@@ -103,3 +103,15 @@ class TestVips:
         print(vips_date_string)
         assert len(components) == 4
         assert vips_date_string[19:26] == ' -07:00'
+
+    @staticmethod
+    def test_transform_schedule_to_local_friendly_times():
+        vips_response = load_json_into_dict('python/tests/sample_data/vips/vips_schedule_200.json')
+        time_slots = vips_response['data']['timeSlots']
+        print(json.dumps(time_slots[0]))
+        print(str(type(time_slots[0])))
+        friendly_times_list = vips.schedule_to_friendly_times(time_slots)
+        expected = list(["9:00AM to 9:30AM", "10:00AM to 10:30AM",
+                         "11:00AM to 11:30AM", "12:00PM to 12:30PM", "1:00PM to 1:30PM"])
+        for index, item in enumerate(expected):
+            assert friendly_times_list[index]['label'] == item

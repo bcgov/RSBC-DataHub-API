@@ -6,6 +6,7 @@ from datetime import datetime
 from iso8601 import parse_date
 from unicodedata import normalize
 from python.common.config import Config
+import base64
 
 logging.basicConfig(level=Config.LOG_LEVEL)
 
@@ -92,16 +93,22 @@ def application_update(guid: str, config, correlation_id: str):
     return get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
 
 
-def schedule_get(notice_type_code: str, review_type_code: str, review_date, config, correlation_id: str) -> tuple:
+def schedule_get(notice_type_code: str, review_date: str, config) -> tuple:
+    correlation_id = generate_correlation_id()
     endpoint = build_endpoint(
         config.VIPS_API_ROOT_URL,
         notice_type_code,
-        review_type_code,
+        "ORAL",
         review_date,
         'review',
         'availableTimeSlot',
         correlation_id)
-    return get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
+    logging.debug("get VIPS schedule endpoint: {}".format(endpoint))
+    is_successful, data = get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
+    if is_successful and data['resp'] == 'success':
+        return True, data
+    logging.warning('Cannot GET VIPS schedule: {}'.format(json.dumps(data)))
+    return False, {}
 
 
 def health_get(config) -> tuple:
@@ -124,7 +131,7 @@ def get(endpoint: str, user: str, password: str, correlation_id='ABC') -> tuple:
 
     data = response.json()
     # Note: VIPS response could be either record found or record not found
-    logging.info('VIPS API response: {} correlation_id: {}'.format(json.dumps(data), correlation_id))
+    logging.debug('VIPS API response: {} correlation_id: {}'.format(json.dumps(data), correlation_id))
     return 'resp' in data, data
 
 
@@ -162,19 +169,70 @@ def has_been_paid(vips_payment_status: dict) -> tuple:
     return valid_response, is_paid
 
 
-def vips_str_to_datetime(vips_datetime: str) -> datetime:
+def vips_str_to_datetime(vips_date_time: str) -> datetime:
     """
     This utility takes a VIPS datetime string and
     converts it to a Python datetime object.
     VIPS uses a non-standard datetime format.
     Like this: 2019-01-02 17:30:00 -08:00
     """
-    date_string = vips_datetime[0:10]
-    time_string = vips_datetime[11:19]
-    offset_hour = vips_datetime[20:23]
-    offset_minute = vips_datetime[24:26]
+    date_string = vips_date_time[0:10]
+    time_string = vips_date_time[11:19]
+    offset_hour = vips_date_time[20:23]
+    offset_minute = vips_date_time[24:26]
     iso8601_string = "{}T{}{}:{}".format(date_string, time_string, offset_hour, offset_minute)
     return parse_date(iso8601_string)
+
+
+def vips_str_to_friendly_time(vips_date_time: str) -> str:
+    """
+    This function returns a friendly time "10:00am" when
+    given a VIPS date_time string
+    """
+    # TODO - test to make sure this works correctly
+    #  over a change to / from daylight savings time
+    date_time_object = vips_str_to_datetime(vips_date_time)
+    return date_time_object.strftime("%-I:%M%p")
+
+
+def _time_slot_to_friendly_time(time_slot: dict) -> dict:
+    start_time = time_slot['reviewStartDtm']
+    end_time = time_slot['reviewEndDtm']
+    return {
+        "label": "{} to {}".format(
+            vips_str_to_friendly_time(start_time),
+            vips_str_to_friendly_time(end_time)),
+        "value": encode_time_slot(time_slot)
+    }
+
+
+def encode_time_slot(time_slot: dict) -> str:
+    start_time = time_slot['reviewStartDtm']
+    end_time = time_slot['reviewEndDtm']
+    return bytes.decode(base64.b64encode(str.encode(start_time + "|" + end_time)))
+
+
+def decode_time_slot(encode_string: str) -> dict:
+    decoded_bytes = base64.b64decode(encode_string)
+    start_end = bytes.decode(decoded_bytes).split("|")
+    return {
+        "reviewStartDtm": start_end[0],
+        "reviewEndDtm": start_end[1]
+    }
+
+
+def schedule_to_friendly_times(time_slots: dict) -> list:
+    """
+    This function takes a list of timeslots as returned
+    by VIPS GET schedule and returns a list of
+    dictionary objects with friendly labels and base64
+    encoded VIPS date time string
+    {
+        label: "10:00am to 11:30am"
+        value: "ZGF0YSB0byBiZSBlbmNvZGVk"
+    }
+    """
+    return list(map(_time_slot_to_friendly_time, time_slots))
 
 
 def vips_datetime(date_time: datetime) -> str:
