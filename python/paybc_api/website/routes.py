@@ -142,9 +142,17 @@ def schedule():
         ))
         is_successful, data = vips.schedule_get(notice_type, requested_date, Config)
 
+        if is_successful:
+            return jsonify(dict({
+              "data": {
+                "timeSlots": vips.schedule_to_friendly_times(data['data']['timeSlots'])
+              }}))
         return jsonify(dict({
-          "data": {
-            "timeSlots": vips.schedule_to_friendly_times(data['data']['timeSlots'])
-          },
-          "resp": "success"
+            "data": {
+                "timeSlots": [
+                    {
+                        "label": "[There are no reviews available on {}]".format(requested_date)
+                    }
+                ]
+            }
         }))
