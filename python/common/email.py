@@ -11,7 +11,8 @@ logging.basicConfig(level=Config.LOG_LEVEL)
 def application_accepted(**args):
     config = args.get('config')
     message = args.get('message')
-    subject = 'Re: Driving Prohibition Review - Application Accepted'
+    prohibition_number = get_prohibition_number(message)
+    subject = 'Re: Driving Prohibition Review - Application Accepted  - {}'.format(prohibition_number)
     template = get_jinja2_env().get_template('application_accepted.html')
     return send_email(
         [get_email_address(message)],
@@ -19,7 +20,7 @@ def application_accepted(**args):
         config,
         template.render(
             full_name=get_full_name(message),
-            prohibition_number=get_prohibition_number(message),
+            prohibition_number=prohibition_number,
             subject=subject),
         config.COMM_SERV_API_ROOT_URL,
         get_common_services_access_token(config)), args
@@ -43,7 +44,8 @@ def send_email_to_admin(**args):
 def applicant_prohibition_served_more_than_7_days_ago(**args):
     config = args.get('config')
     message = args.get('message')
-    subject = 'Re: Driving Prohibition Review - 7-day Application Window Missed'
+    prohibition_number = get_prohibition_number(message)
+    subject = 'Re: Driving Prohibition Review - 7-day Application Window Missed - {}'.format(prohibition_number)
     template = get_jinja2_env().get_template('application_not_received_in_time.html')
     return send_email(
         [get_email_address(message)],
@@ -51,7 +53,7 @@ def applicant_prohibition_served_more_than_7_days_ago(**args):
         config,
         template.render(
             full_name=get_full_name(message),
-            prohibition_number=get_prohibition_number(message),
+            prohibition_number=prohibition_number,
             subject=subject),
         config.COMM_SERV_API_ROOT_URL,
         get_common_services_access_token(config)), args
@@ -60,7 +62,8 @@ def applicant_prohibition_served_more_than_7_days_ago(**args):
 def applicant_licence_not_seized(**args):
     config = args.get('config')
     message = args.get('message')
-    subject = 'Re: Driving Prohibition Review - Licence Not Returned'
+    prohibition_number = get_prohibition_number(message)
+    subject = 'Re: Driving Prohibition Review - Licence Not Returned - {}'.format(prohibition_number)
     template = get_jinja2_env().get_template('licence_not_seized.html')
     return send_email(
         [get_email_address(message)],
@@ -68,7 +71,7 @@ def applicant_licence_not_seized(**args):
         config,
         template.render(
             full_name=get_full_name(message),
-            prohibition_number=get_prohibition_number(message),
+            prohibition_number=prohibition_number,
             subject=subject),
         config.COMM_SERV_API_ROOT_URL,
         get_common_services_access_token(config)), args
@@ -77,7 +80,8 @@ def applicant_licence_not_seized(**args):
 def applicant_prohibition_not_found(**args):
     config = args.get('config')
     message = args.get('message')
-    subject = 'Re: Driving Prohibition Review - Not Found'
+    prohibition_number = get_prohibition_number(message)
+    subject = 'Re: Driving Prohibition Review - Not Found - {}'.format(prohibition_number)
     template = get_jinja2_env().get_template('application_not_found.html')
     return send_email(
         [get_email_address(message)],
@@ -85,7 +89,7 @@ def applicant_prohibition_not_found(**args):
         config,
         template.render(
             full_name=get_full_name(message),
-            prohibition_number=get_prohibition_number(message),
+            prohibition_number=prohibition_number,
             subject=subject),
         config.COMM_SERV_API_ROOT_URL,
         get_common_services_access_token(config)), args
@@ -94,7 +98,8 @@ def applicant_prohibition_not_found(**args):
 def applicant_last_name_mismatch(**args):
     config = args.get('config')
     message = args.get('message')
-    subject = "Re: Driving Prohibition Review - Prohibition Number and Name Don't Match"
+    prohibition_number = get_prohibition_number(message)
+    subject = "Re: Driving Prohibition Review - Prohibition Number and Name Don't Match - {}".format(prohibition_number)
     template = get_jinja2_env().get_template('last_name_mismatch.html')
     return send_email(
         [get_email_address(message)],
@@ -102,7 +107,7 @@ def applicant_last_name_mismatch(**args):
         config,
         template.render(
             full_name=get_full_name(message),
-            prohibition_number=get_prohibition_number(message),
+            prohibition_number=prohibition_number,
             subject=subject),
         config.COMM_SERV_API_ROOT_URL,
         get_common_services_access_token(config)), args
@@ -111,7 +116,8 @@ def applicant_last_name_mismatch(**args):
 def applicant_prohibition_not_yet_in_vips(**args):
     config = args.get('config')
     message = args.get('message')
-    subject = 'Re: Driving Prohibition Review - Not Entered Yet'
+    prohibition_number = get_prohibition_number(message)
+    subject = 'Re: Driving Prohibition Review - Not Entered Yet - {}'.format(prohibition_number)
     logger = args.get('logger')
     logger.info('Re: Driving Prohibition Review - Not Yet in VIPS')
     template = get_jinja2_env().get_template('application_not_yet_in_vips.html')
@@ -121,16 +127,16 @@ def applicant_prohibition_not_yet_in_vips(**args):
         config,
         template.render(
             full_name=get_full_name(message),
-            prohibition_number=get_prohibition_number(message),
+            prohibition_number=prohibition_number,
             subject=subject),
         config.COMM_SERV_API_ROOT_URL,
         get_common_services_access_token(config)), args
 
 
-def send_email(to: list, subject: str, config, html_template, api_root_url: str, access_token: str) -> bool:
+def send_email(to: list, subject: str, config, template, api_root_url: str, token: str) -> bool:
     payload = {
         "bodyType": "html",
-        "body": html_template,
+        "body": template,
         "from": config.REPLY_EMAIL_ADDRESS,
         "bcc": config.BCC_EMAIL_ADDRESSES.split(','),
         "encoding": "utf-8",
@@ -138,7 +144,7 @@ def send_email(to: list, subject: str, config, html_template, api_root_url: str,
         "to": to
     }
     logging.info('Sending email to: {} - {}'.format(to, subject))
-    auth_header = {"Authorization": "Bearer {}".format(access_token)}
+    auth_header = {"Authorization": "Bearer {}".format(token)}
     try:
         response = requests.post(api_root_url + '/api/v1/email', headers=auth_header, json=payload)
     except AssertionError as error:

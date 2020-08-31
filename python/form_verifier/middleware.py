@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta, timezone
 from python.common.vips_api import vips_str_to_datetime
+import python.common.prohibitions as pro
 import logging
 from python.form_verifier.config import Config
 from python.common.vips_api import is_last_name_match
@@ -50,8 +51,8 @@ def date_served_not_older_than_one_week(**args):
     Prohibitions may not be appealed after 7 days.
     """
     message = args.get('message')
-    prohibition_type = message['form_submission']['vips_response']['data']['status']['noticeTypeCd']
-    if prohibition_type == 'ADP' or prohibition_type == 'IRP':
+    prohibition = pro.prohibition_factory(message['form_submission']['vips_response']['data']['status']['noticeTypeCd'])
+    if prohibition.MUST_APPLY_FOR_REVIEW_WITHIN_7_DAYS:
         days_in_week = 7
         date_served_string = message['form_submission']['vips_response']['data']['status']['effectiveDt']
         tz = pytz.timezone('America/Vancouver')
@@ -67,8 +68,8 @@ def has_drivers_licence_been_seized(**args):
     Returns true if VIPS indicates the driver's licence has been seized
     """
     message = args.get('message')
-    prohibition_type = message['form_submission']['vips_response']['data']['status']['noticeTypeCd']
-    if prohibition_type == 'ADP' or prohibition_type == 'IRP':
+    prohibition = pro.prohibition_factory(message['form_submission']['vips_response']['data']['status']['noticeTypeCd'])
+    if prohibition.DRIVERS_LICENCE_MUST_BE_SEIZED_BEFORE_APPLICATION_ACCEPTED:
         return message['form_submission']['vips_response']['data']['status']['driverLicenceSeizedYn'] == "Y", args
     return True, args
 

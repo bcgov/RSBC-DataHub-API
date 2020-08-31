@@ -126,33 +126,58 @@ def transform_invoice(prohibition_number, invoice_data: dict):
     })
 
 
-@bp.route('/schedule', methods=['POST'])
-def schedule():
+@bp.route('/schedule/<notice_type>/<requested_date>', methods=['GET'])
+def schedule(notice_type, requested_date):
     """
-    Hard coded schedule dates for testing
+    GET timeslots for oral reviews for a specific date and prohibition_type
     """
-    notice_type = request.form['type']
-    requested_date = request.form['requested_date']
-    prohibition_number = request.form['prohibition_number']
-    last_name = request.form['last_name']
-
-    if request.method == 'POST':
-        logging.warning('form parameters: {}, {}, {}, {}'.format(
-            notice_type, requested_date, prohibition_number, last_name
-        ))
+    # TODO - validate inputs
+    if request.method == 'GET':
+        logging.warning('form parameters: {}, {}'.format(notice_type, requested_date))
         is_successful, data = vips.schedule_get(notice_type, requested_date, Config)
 
         if is_successful:
             return jsonify(dict({
-              "data": {
-                "timeSlots": vips.schedule_to_friendly_times(data['data']['timeSlots'])
-              }}))
+                "is_success": True,
+                "data": {
+                  "timeSlots": vips.schedule_to_friendly_times(data['data']['timeSlots'])
+                }}
+            ))
         return jsonify(dict({
             "data": {
-                "timeSlots": [
-                    {
-                        "label": "[There are no reviews available on {}]".format(requested_date)
-                    }
-                ]
+                "is_success": False,
+                "timeSlots": []
+            }
+        }))
+
+
+@bp.route('/review_dates', methods=['POST'])
+def review_dates():
+    """
+    Confirm prohibition number and last name matches VIPS.
+    Return list of possible review dates for given prohibition.
+    Note: using POST instead of GET to allow last names with
+    special characters from Orbeon.
+    """
+    prohibition_number = request.form['prohibition_number']
+    last_name = request.form['last_name']
+
+    if request.method == 'POST':
+        logging.warning('form parameters: {}, {}'.format(prohibition_number, last_name))
+        is_successful, data = vips.review_schedule_dates(prohibition_number, last_name, Config)
+
+        if is_successful:
+            return jsonify(dict({
+                "data": {
+                    "is_valid": True,
+                    "is_paid": data['is_paid'],
+                    "presentation_type": data['presentation_type'],
+                    "notice_type": data['notice_type'],
+                    "max_review_date": data['max_review_date'],
+                }
+            }))
+        return jsonify(dict({
+            "data": {
+                "is_valid": False,
             }
         }))

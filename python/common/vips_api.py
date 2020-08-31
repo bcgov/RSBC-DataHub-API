@@ -2,7 +2,8 @@ import requests
 import logging
 import json
 import uuid
-from datetime import datetime
+import python.common.prohibitions as pro
+from datetime import datetime, timedelta
 from iso8601 import parse_date
 from unicodedata import normalize
 from python.common.config import Config
@@ -45,6 +46,41 @@ def is_application_ready_for_payment(prohibition_number, last_name, config) -> t
     return is_status_success, False
 
 
+def review_schedule_dates(prohibition_number, last_name, config) -> tuple:
+    logging.info("inside is_application_ready_for_scheduling()")
+    correlation_id = generate_correlation_id()
+    is_response, vips_status = status_get(prohibition_number, config, correlation_id)
+    is_status_success = is_response and 'resp' in vips_status and vips_status['resp'] == 'success'
+    logging.info("current prohibition status: {}".format(json.dumps(vips_status)))
+    presentation_type = ''
+    if is_last_name_match(vips_status, last_name):
+        if 'applicationId' in vips_status['data']['status']:
+            application_id = vips_status['data']['status']['applicationId']
+            is_application, application = application_get(application_id, config, correlation_id)
+            logging.info("current application status: {}".format(json.dumps(application)))
+            if 'data' in application:
+                presentation_type = application['data']['applicationInfo']['presentationTypeCd']
+        prohibition = pro.prohibition_factory(vips_status['data']['status']['noticeTypeCd'])
+        service_date = vips_str_to_datetime(vips_status['data']['status']['effectiveDt'])
+        return is_status_success, dict({
+            "presentation_type": presentation_type,
+            "is_paid": "receiptNumberTxt" in vips_status['data']['status'],
+            "notice_type": vips_status['data']['status']['noticeTypeCd'],
+            "max_review_date": prohibition.get_max_review_date(service_date).strftime("%Y-%m-%d"),
+        })
+    logging.info('prohibition not found')
+    return False, dict({})
+
+
+def list_of_dates_between(start: datetime, end: datetime) -> list:
+    results = list()
+    delta = end - start
+    for i in range(delta.days + 1):
+        day = start + timedelta(days=i)
+        results.append(day.strftime("%Y-%m-%d"))
+    return results
+
+
 def status_get(prohibition_id: str, config, correlation_id: str) -> tuple:
     endpoint = build_endpoint(config.VIPS_API_ROOT_URL, prohibition_id, 'status', correlation_id)
     is_response_successful, data = get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
@@ -63,8 +99,8 @@ def payment_get(prohibition_id: str, config, correlation_id: str):
     return get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
 
 
-def application_get(guid: str, config, correlation_id: str) -> tuple:
-    endpoint = build_endpoint(config.VIPS_API_ROOT_URL, guid, 'application', correlation_id)
+def application_get(application_id: str, config, correlation_id: str) -> tuple:
+    endpoint = build_endpoint(config.VIPS_API_ROOT_URL, application_id, 'application', correlation_id)
     return get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
 
 

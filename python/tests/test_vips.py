@@ -115,3 +115,10 @@ class TestVips:
                          "11:00AM to 11:30AM", "12:00PM to 12:30PM", "1:00PM to 1:30PM"])
         for index, item in enumerate(expected):
             assert friendly_times_list[index]['label'] == item
+
+    @staticmethod
+    def test_list_of_dates_between_method():
+        start_date = datetime.strptime("2020-09-01", "%Y-%m-%d")
+        end_date = datetime.strptime("2020-09-05", "%Y-%m-%d")
+        expected = list(["2020-09-01", "2020-09-02", "2020-09-03", "2020-09-04", "2020-09-05"])
+        assert vips.list_of_dates_between(start_date, end_date) == expected
