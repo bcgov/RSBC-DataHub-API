@@ -46,32 +46,6 @@ def is_application_ready_for_payment(prohibition_number, last_name, config) -> t
     return is_status_success, False
 
 
-def review_schedule_dates(prohibition_number, last_name, config) -> tuple:
-    logging.info("inside is_application_ready_for_scheduling()")
-    correlation_id = generate_correlation_id()
-    is_response, vips_status = status_get(prohibition_number, config, correlation_id)
-    is_status_success = is_response and 'resp' in vips_status and vips_status['resp'] == 'success'
-    logging.info("current prohibition status: {}".format(json.dumps(vips_status)))
-    presentation_type = ''
-    if is_last_name_match(vips_status, last_name):
-        if 'applicationId' in vips_status['data']['status']:
-            application_id = vips_status['data']['status']['applicationId']
-            is_application, application = application_get(application_id, config, correlation_id)
-            logging.info("current application status: {}".format(json.dumps(application)))
-            if 'data' in application:
-                presentation_type = application['data']['applicationInfo']['presentationTypeCd']
-        prohibition = pro.prohibition_factory(vips_status['data']['status']['noticeTypeCd'])
-        service_date = vips_str_to_datetime(vips_status['data']['status']['effectiveDt'])
-        return is_status_success, dict({
-            "presentation_type": presentation_type,
-            "is_paid": "receiptNumberTxt" in vips_status['data']['status'],
-            "notice_type": vips_status['data']['status']['noticeTypeCd'],
-            "max_review_date": prohibition.get_max_review_date(service_date).strftime("%Y-%m-%d"),
-        })
-    logging.info('prohibition not found')
-    return False, dict({})
-
-
 def list_of_dates_between(start: datetime, end: datetime) -> list:
     results = list()
     delta = end - start
@@ -85,8 +59,9 @@ def status_get(prohibition_id: str, config, correlation_id: str) -> tuple:
     endpoint = build_endpoint(config.VIPS_API_ROOT_URL, prohibition_id, 'status', correlation_id)
     is_response_successful, data = get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
     is_success = 'resp' in data and data['resp'] == 'success'
-    is_not_found = 'error' in data and data['error']['message'] == 'Record not found'
-    return is_success or is_not_found, data
+    if is_success:
+        return True, data['data']['status']
+    return False, data['data']
 
 
 def disclosure_get(document_id: str, config, correlation_id: str):
@@ -101,7 +76,10 @@ def payment_get(prohibition_id: str, config, correlation_id: str):
 
 def application_get(application_id: str, config, correlation_id: str) -> tuple:
     endpoint = build_endpoint(config.VIPS_API_ROOT_URL, application_id, 'application', correlation_id)
-    return get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
+    is_success, data = get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
+    if is_success and "applicationInfo" in data['data']:
+        return True, data['data']['applicationInfo']
+    return False, data
 
 
 def application_create(form_type: str, prohibition_id: str, config, correlation_id: str, **args):
@@ -191,12 +169,10 @@ def remove_accents(input_str):
     return only_ascii
 
 
-def is_last_name_match(vips_response: dict, last_name: str) -> bool:
-    if 'data' in vips_response:
-        vips_last_name = vips_response['data']['status']['surnameNm']
-        logging.debug('compare last name: {} and {}'.format(vips_last_name, last_name))
-        return bool(remove_accents(vips_last_name).upper() == remove_accents(last_name).upper())
-    return False
+def is_last_name_match(vips_status: dict, last_name: str) -> bool:
+    vips_last_name = vips_status['surnameNm']
+    logging.debug('compare last name: {} and {}'.format(vips_last_name, last_name))
+    return bool(remove_accents(vips_last_name).upper() == remove_accents(last_name).upper())
 
 
 def has_been_paid(vips_payment_status: dict) -> tuple:

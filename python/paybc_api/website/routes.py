@@ -1,9 +1,11 @@
 from flask import Blueprint, request, jsonify, make_response
 from python.paybc_api.website.oauth2 import authorization, require_oauth
 import python.common.vips_api as vips
+import python.common.prohibitions as pro
 from python.paybc_api.website.config import Config
 import logging
 import datetime
+import json
 
 logging.basicConfig(level=Config.LOG_LEVEL)
 logging.warning('*** Pay BC API initialized ***')
@@ -164,16 +166,26 @@ def review_dates():
 
     if request.method == 'POST':
         logging.warning('form parameters: {}, {}'.format(prohibition_number, last_name))
-        is_successful, data = vips.review_schedule_dates(prohibition_number, last_name, Config)
-
-        if is_successful:
+        correlation_id = vips.generate_correlation_id()
+        is_response, vips_status = vips.status_get(prohibition_number, Config, correlation_id)
+        logging.info("current prohibition status: {}".format(json.dumps(vips_status)))
+        if is_response and vips.is_last_name_match(vips_status, last_name):
+            prohibition = pro.prohibition_factory(vips_status['noticeTypeCd'])
+            service_date = vips.vips_str_to_datetime(vips_status['effectiveDt'])
+            presentation_type = ''
+            if 'applicationId' in vips_status:
+                application_id = vips_status['applicationId']
+                is_application_success, application = vips.application_get(application_id, Config, correlation_id)
+                logging.info("current application status: {}".format(json.dumps(application)))
+                if is_application_success and 'presentationTypeCd' in application:
+                    presentation_type = application['presentationTypeCd']
             return jsonify(dict({
                 "data": {
                     "is_valid": True,
-                    "is_paid": data['is_paid'],
-                    "presentation_type": data['presentation_type'],
-                    "notice_type": data['notice_type'],
-                    "max_review_date": data['max_review_date'],
+                    "is_paid": "receiptNumberTxt" in vips_status,
+                    "presentation_type": presentation_type,
+                    "notice_type": vips_status['noticeTypeCd'],
+                    "max_review_date": prohibition.get_max_review_date(service_date).strftime("%Y-%m-%d")
                 }
             }))
         return jsonify(dict({
