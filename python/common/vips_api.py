@@ -27,7 +27,7 @@ def status_get(prohibition_id: str, config, correlation_id: str) -> tuple:
     is_success = 'resp' in data and data['resp'] == 'success'
     if is_success:
         return True, data['data']['status']
-    return False, data['data']
+    return False, data['error']
 
 
 def disclosure_get(document_id: str, config, correlation_id: str):

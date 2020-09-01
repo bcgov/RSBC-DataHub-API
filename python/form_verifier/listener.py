@@ -20,6 +20,7 @@ class Listener:
     def __init__(self, config, rabbit_writer, rabbit_listener):
         self.config = config
         self.listener = rabbit_listener
+        self.writer = rabbit_writer
         logging.warning('*** form verifier initialized  ***')
 
     def main(self):
