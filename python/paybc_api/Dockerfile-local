@@ -6,6 +6,7 @@ RUN pip install -r /tmp/requirements.txt
 
 COPY common/*.py /home/appuser/python/common/
 COPY paybc_api/*.py /home/appuser/python/paybc_api/
+COPY paybc_api/*.json /home/appuser/python/paybc_api/
 COPY paybc_api/website/*.py /home/appuser/python/paybc_api/website/
 
 RUN useradd --create-home appuser

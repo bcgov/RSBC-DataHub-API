@@ -1,12 +1,10 @@
-from python.form_verifier.config import Config
-from python.common.rabbitmq import RabbitMQ
-from python.common.vips_api import status_get
-from python.common.message import encode_message, decode_message
+from python.writer.config import Config
+import python.common.email as email
 from python.common.helper import middle_logic
-import python.form_verifier.middleware as rules
+from python.common.rabbitmq import RabbitMQ
+from python.common.message import decode_message
+import python.writer.actions as actions
 import logging
-import uuid
-import json
 
 logging.basicConfig(level=Config.LOG_LEVEL)
 
@@ -21,7 +19,6 @@ class Listener:
     """
     def __init__(self, config, rabbit_writer, rabbit_listener):
         self.config = config
-        self.writer = rabbit_writer
         self.listener = rabbit_listener
         logging.warning('*** form verifier initialized  ***')
 
@@ -29,45 +26,71 @@ class Listener:
         """
             Start listening for messages on the WATCH_QUEUE
             when a message arrives invoke the callback()
-        :return:
         """
         self.listener.consume(self.config.WATCH_QUEUE, self.callback)
 
     def callback(self, ch, method, properties, body):
         logging.info('message received; callback invoked')
 
+        # convert body (in bytes) to string
         message_dict = decode_message(body, self.config.ENCRYPT_KEY)
-        prohibition_number = message_dict['form_submission']['form']['prohibition-information']['control-prohibition-number']
-        message_dict['correlation_id'] = str(uuid.uuid4())
 
-        is_get_success, vips_response = status_get(prohibition_number, self.config, message_dict['correlation_id'])
-        if is_get_success:
-            message_dict['form_submission']['vips_response'] = vips_response
+        # invoke listener functions
+        middle_logic(self.get_listeners(message_dict['event_type']),
+                     message=message_dict,
+                     config=self.config,
+                     writer=self.writer,
+                     channel=ch,
+                     method=method,
+                     logger=logging)
 
-            # invoke middleware chain to determine which event to generate
-            # each pair of functions below represents (success, failure)
-            middle_logic([
-                (rules.prohibition_should_have_been_entered_in_vips, rules.not_yet_in_vips_event),
-                (rules.prohibition_exists_in_vips, rules.prohibition_not_found_event),
-                (rules.user_submitted_last_name_matches_vips, rules.last_name_mismatch_event),
-                (rules.date_served_not_older_than_one_week, rules.prohibition_older_than_7_days_event),
-                (rules.has_drivers_licence_been_seized, rules.licence_not_seized_event)
+        # Regardless of whether the process above follows the happy path or not,
+        # we need to acknowledge receipt of the message to RabbitMQ below. This
+        # acknowledgement deletes it from the queue so the logic above must have
+        # saved / handled the message before we get here.
 
-            ], message=message_dict, delay_days=self.config.DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY)
+        ch.basic_ack(delivery_tag=method.delivery_tag)
 
-            # Acknowledge the message add to the WRITE queue
-            logging.info('middleware logic complete; returning event: %s', message_dict['event_type'])
-            if self.writer.publish(
-                    self.config.WRITE_QUEUE,
-                    encode_message(message_dict, self.config.ENCRYPT_KEY)):
-                ch.basic_ack(delivery_tag=method.delivery_tag)
-
+    def get_listeners(self, event_type: str) -> list:
+        """
+        Get the list of (success, failure) function pairs to invoke
+         for a particular event type
+        """
+        if event_type in self.listeners():
+            return self.listeners()[event_type]
         else:
-            logging.warning('Bad response from VIPS API: {}'.format(json.dumps(vips_response)))
-            if self.writer.publish(
-                    self.config.WATCH_QUEUE,
-                    encode_message(message_dict, self.config.ENCRYPT_KEY)):
-                ch.basic_ack(delivery_tag=method.delivery_tag)
+            return [
+                (actions.unknown_event_type, actions.do_nothing),
+                # (actions.write_to_fail_queue, actions.unable_to_write_to_RabbitMQ),
+            ]
+
+    @staticmethod
+    def listeners() -> dict:
+        return {
+            "prohibition_served_more_than_7_days_ago": [
+                (email.applicant_prohibition_served_more_than_7_days_ago, actions.unable_to_send_email),
+            ],
+            "licence_not_seized": [
+                (email.applicant_licence_not_seized, actions.unable_to_send_email),
+            ],
+            "prohibition_not_yet_in_vips": [
+                (actions.has_hold_expired, actions.add_to_watch_queue_and_acknowledge),
+                # TODO - check vips again
+                (email.applicant_prohibition_not_yet_in_vips, actions.unable_to_send_email),
+                (actions.add_do_not_process_until_attribute, actions.unable_to_place_on_hold),
+                (actions.write_back_to_watch_queue, actions.unable_to_acknowledge_receipt),
+            ],
+            "prohibition_not_found": [
+                (email.applicant_prohibition_not_found, actions.unable_to_send_email),
+            ],
+            "form_submission": [
+                (actions.save_application_to_vips, actions.unable_to_save_to_vips_api),
+                (email.application_accepted, actions.unable_to_send_email),
+            ],
+            "last_name_mismatch": [
+                (email.applicant_last_name_mismatch, actions.unable_to_send_email),
+            ],
+        }
 
 
 if __name__ == "__main__":

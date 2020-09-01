@@ -33,16 +33,12 @@ def unable_to_place_on_hold(**args):
     return args
 
 
-def add_to_failed_write_queue_and_acknowledge(**args):
+def add_to_failed_write_queue(**args):
     config = args.get('config')
     message = args.get('message')
     writer = args.get('writer')
-    channel = args.get('channel')
-    method = args.get('method')
     logging.warning('writing to failed write queue')
-    if writer.publish(config.FAIL_QUEUE, encode_message(message, config.ENCRYPT_KEY)):
-        channel.basic_ack(delivery_tag=method.delivery_tag)
-    else:
+    if not writer.publish(config.FAIL_QUEUE, encode_message(message, config.ENCRYPT_KEY)):
         logging.critical('unable to write to RabbitMQ {} queue'.format(config.FAIL_QUEUE))
     return args
 

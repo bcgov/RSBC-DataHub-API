@@ -3,9 +3,12 @@ from python.paybc_api.website.oauth2 import authorization, require_oauth
 import python.common.vips_api as vips
 import python.common.prohibitions as pro
 from python.paybc_api.website.config import Config
+from python.common.helper import load_json_into_dict
+from cerberus import Validator as Cerberus
 import logging
 import datetime
 import json
+import re
 
 logging.basicConfig(level=Config.LOG_LEVEL)
 logging.warning('*** Pay BC API initialized ***')
@@ -29,42 +32,36 @@ def search():
     On the Pay_BC site, a user lookups an invoice to be paid. PayBC searches for
     the invoice in our system using a GET request with an invoice number and a
     check_value.  We return an array of items to be paid.
-    :return:
     """
     if request.method == 'GET':
         last_name = request.args.get('check_value', None, type=str)
         prohibition_number = request.args.get('invoice_number', None, type=str)
-        paybc_reference = request.args.get('pay_bc_reference', None, type=str)
 
-        logging.info("GET request received - prohib: {}, ref: {}, last_name: {}".format(
-            prohibition_number,
-            paybc_reference,
-            last_name
-        ))
+        logging.info("GET search/ request received: {}".format(json.dumps(request.args)))
 
-        if prohibition_number is None or last_name is None or paybc_reference is None:
-            return make_response({
-                "error": "insufficient parameters supplied"
-            }, 400)
+        if not validate(Config, 'search', request.args.to_dict()):
+            return make_response({"error": "failed validation"}, 400)
 
-        is_successful, is_okay_2_pay = vips.is_application_ready_for_payment(prohibition_number, last_name, Config)
-        logging.info("vips response: {}, okay to pay: {}".format(is_successful, is_okay_2_pay))
-        if is_successful:
-            if is_okay_2_pay:
-                return jsonify({
-                    "items": [{"selected_invoice": {
-                           "$ref": request.host_url.replace('http', 'https') + 'api_v2/invoice/' + prohibition_number}
-                        }
-                    ]
-                })
-            else:
-                error = 'A prohibition with that number is not found or not ready for payment'
-                logging.info(error)
-                return make_response({"error": error}, 404)
-        else:
-            error = 'No response from VIPS API'
-            logging.critical(error)
-            make_response({"error": error}, 500)
+        correlation_id = vips.generate_correlation_id()
+        is_status_success, vips_status = vips.status_get(prohibition_number, Config, correlation_id)
+        logging.info("current prohibition status: {}".format(json.dumps(vips_status)))
+        if not (
+                is_status_success and
+                vips.is_last_name_match(vips_status, last_name) and
+                "applicationId" in vips_status and
+                "receiptNumberTxt" in vips_status):
+            # TODO - check that the window to submit and pay for an application for review has not passed
+            error = 'A prohibition with that number is not found or not ready for payment'
+            logging.info(error)
+            return make_response({"error": error}, 404)
+
+        # TODO - http replaced with https for local development - REMOVE BEFORE FLIGHT!
+        return jsonify({
+            "items": [{"selected_invoice": {
+                   "$ref": request.host_url.replace('http', 'https') + 'api_v2/invoice/' + prohibition_number}
+                }
+            ]
+        })
 
 
 @bp.route('/api_v2/invoice/<prohibition_number>', methods=['GET'])
@@ -72,16 +69,40 @@ def search():
 def show(prohibition_number):
     """
     PayBC requests details on the item to be paid from this endpoint.
-    :param prohibition_number:
-    :return:
     """
-    # TODO - using regex, validate the number provided
+    if re.match("^\d{6,20}$", prohibition_number) is None:
+        logging.warning('show method failed validation: {}'.format(prohibition_number))
+        return make_response({"error": "failed validation"}, 400)
+
     if request.method == 'GET':
-        is_status_successful, invoice_data = vips.get_invoice_details(prohibition_number, Config)
-        if is_status_successful:
-            return jsonify(transform_invoice(prohibition_number, invoice_data))
-        else:
-            return make_response({"error": 'We are unable to find invoice ' + prohibition_number}, 404)
+        correlation_id = vips.generate_correlation_id()
+        is_status_success, vips_status = vips.status_get(prohibition_number, Config, correlation_id)
+        service_date = vips.vips_str_to_datetime(vips_status['effectiveDt'])
+        logging.info("current prohibition status: {}".format(json.dumps(vips_status)))
+        prohibition = pro.prohibition_factory(vips_status['noticeTypeCd'])
+        application_id = vips_status['applicationId']
+        is_application_success, application = vips.application_get(application_id, Config, correlation_id)
+        logging.info("current application status: {}".format(json.dumps(application)))
+        presentation_type = application['presentationTypeCd']
+        amount_due = prohibition.amount_due(presentation_type)
+        if is_status_success:
+            return jsonify(dict({
+                "invoice_number": prohibition_number,
+                "pbc_ref_number": "10008",
+                "party_number": 0,
+                "party_name": "RSI",
+                "account_number": "0",
+                "site_number": "0",
+                "cust_trx_type": "Review Notice of Driving Prohibition",
+                "term_due_date": service_date.isoformat(),
+                "total": amount_due,
+                "amount_due": amount_due,
+                "attribute1": vips_status['noticeTypeCd'],
+                "attribute2": service_date.strftime("%b %-d, %Y"),
+                "attribute3": presentation_type,
+                "amount": amount_due
+            }))
+        return make_response({"error": 'We are unable to find invoice: ' + prohibition_number}, 404)
 
 
 @bp.route('/api_v2/receipt', methods=['POST'])
@@ -92,104 +113,59 @@ def receipt():
     a list of invoices that have been paid (a user can pay multiple
     payments simultaneously), we'll notify VIPS of the payment and
     return the following to show that the receipt has been received.
-    :return:
     """
     if request.method == 'POST':
         payload = request.json
 
-        # TODO
-        #  - validated the data using Ceberus
-        #  - save payment info to VIPS
-        #  - if successful, return the following:
+        if not validate(Config, 'receipt', payload):
+            return make_response({"error": "failed validation"}, 400)
+
+        # PayBC has the facility to pay multiple invoices in a single transaction
+        # however we can assume there is only one transaction because this API only
+        # returns a single invoice per prohibition number.
+        prohibition_number = payload['invoices'][0]["trx_number"]
+
+        correlation_id = vips.generate_correlation_id()
+        is_successful, args = vips.payment_patch(prohibition_number,
+                                                 Config,
+                                                 correlation_id,
+                                                 card_type=payload['cardtype'],
+                                                 receipt_amount=payload['receipt_amount'],
+                                                 receipt_date=payload['receipt_date'],
+                                                 receipt_number=payload['receipt_number'])
+
+        if not is_successful:
+            return jsonify(dict({
+                "status": "INCMP",
+               }))
+
+        # TODO - trigger a payment event which sends email to applicant
+        #  with instructions to schedule
 
         return jsonify(dict({
             "status": "APP",
-            "receipt_number": "TEST_RECEIPT",
+            "receipt_number": payload['receipt_number'],
             "receipt_date ": datetime.date.today().strftime('%d-%b-%Y'),
-            "receipt_amount": 200.00
+            "receipt_amount": payload['receipt_amount']
         }))
 
 
-def transform_invoice(prohibition_number, invoice_data: dict):
-    return dict({
-        "invoice_number": prohibition_number,
-        "pbc_ref_number": "10008",
-        "party_number": 0,
-        "party_name": "RSI",
-        "account_number": "0",
-        "site_number": "0",
-        "cust_trx_type": "Review Notice of Driving Prohibition",
-        "term_due_date": "2017-03-03T08:00:00Z",
-        "total": invoice_data['amount'],
-        "amount_due": invoice_data['amount'],
-        "attribute1": "[Prohib. Period] and type: {}".format(invoice_data['notice_type_code']),
-        "attribute2": invoice_data['service_date'],
-        "attribute3": invoice_data['oral_or_written']
-    })
+def validate(config, method_name: str, payload: dict) -> bool:
+    schemas = load_json_into_dict(config.SCHEMA_PATH + config.SCHEMA_FILENAME)
 
+    # check that that the method_name has an associated validation schema
+    if method_name not in schemas:
+        logging.critical('{} does not have an associated validation schema'.format(method_name))
 
-@bp.route('/schedule/<notice_type>/<requested_date>', methods=['GET'])
-def schedule(notice_type, requested_date):
-    """
-    GET timeslots for oral reviews for a specific date and prohibition_type
-    """
-    # TODO - validate inputs
-    if request.method == 'GET':
-        logging.warning('form parameters: {}, {}'.format(notice_type, requested_date))
-        is_successful, data = vips.schedule_get(notice_type, requested_date, Config)
-
-        if is_successful:
-            return jsonify(dict({
-                "is_success": True,
-                "data": {
-                  "timeSlots": vips.schedule_to_friendly_times(data['data']['timeSlots'])
-                }}
-            ))
-        return jsonify(dict({
-            "data": {
-                "is_success": False,
-                "timeSlots": []
-            }
-        }))
-
-
-@bp.route('/review_dates', methods=['POST'])
-def review_dates():
-    """
-    Confirm prohibition number and last name matches VIPS.
-    Return list of possible review dates for given prohibition.
-    Note: using POST instead of GET to allow last names with
-    special characters from Orbeon.
-    """
-    prohibition_number = request.form['prohibition_number']
-    last_name = request.form['last_name']
-
-    if request.method == 'POST':
-        logging.warning('form parameters: {}, {}'.format(prohibition_number, last_name))
-        correlation_id = vips.generate_correlation_id()
-        is_response, vips_status = vips.status_get(prohibition_number, Config, correlation_id)
-        logging.info("current prohibition status: {}".format(json.dumps(vips_status)))
-        if is_response and vips.is_last_name_match(vips_status, last_name):
-            prohibition = pro.prohibition_factory(vips_status['noticeTypeCd'])
-            service_date = vips.vips_str_to_datetime(vips_status['effectiveDt'])
-            presentation_type = ''
-            if 'applicationId' in vips_status:
-                application_id = vips_status['applicationId']
-                is_application_success, application = vips.application_get(application_id, Config, correlation_id)
-                logging.info("current application status: {}".format(json.dumps(application)))
-                if is_application_success and 'presentationTypeCd' in application:
-                    presentation_type = application['presentationTypeCd']
-            return jsonify(dict({
-                "data": {
-                    "is_valid": True,
-                    "is_paid": "receiptNumberTxt" in vips_status,
-                    "presentation_type": presentation_type,
-                    "notice_type": vips_status['noticeTypeCd'],
-                    "max_review_date": prohibition.get_max_review_date(service_date).strftime("%Y-%m-%d")
-                }
-            }))
-        return jsonify(dict({
-            "data": {
-                "is_valid": False,
-            }
-        }))
+    # return the validation error message from the associated schema
+    schema = schemas[method_name]
+    logging.debug('schema: {}'.format(json.dumps(schema)))
+    logging.debug('payload: {}'.format(payload))
+    cerberus = Cerberus(schema['cerberus_rules'])
+    cerberus.allow_unknown = schema['allow_unknown']
+    if cerberus.validate(payload):
+        logging.info('payload passed validation')
+        return True
+    else:
+        logging.warning('payload failed validation: {}'.format(json.dumps(cerberus.errors)))
+        return False

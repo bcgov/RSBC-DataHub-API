@@ -37,27 +37,33 @@ class ProhibitionBase:
         return service_date + timedelta(days=17)
 
     @staticmethod
-    def is_paid_for_review(amount) -> bool:
-        return amount == ProhibitionBase.ORAL_REVIEW_PRICE
+    def amount_due(presentation_type: str):
+        if presentation_type == "WRIT":
+            return ProhibitionBase.WRITTEN_REVIEW_PRICE
+        if presentation_type == "ORAL":
+            return ProhibitionBase.ORAL_REVIEW_PRICE
 
 
 class UnlicencedDriver(ProhibitionBase):
     WRITTEN_REVIEW_PRICE = 50
-    ORAL_REVIEW_PRICE = None
     MUST_APPLY_FOR_REVIEW_WITHIN_7_DAYS = False
     DRIVERS_LICENCE_MUST_BE_SEIZED_BEFORE_APPLICATION_ACCEPTED = False
+    DAYS_TO_SCHEDULE_REVIEW = 30
 
     @staticmethod
     def get_max_review_date(service_date: datetime):
         """
         Over ride the base method. Set the maximum review date
-        for Unlicenced Drivers a year in the future.
+        for Unlicenced Drivers have 30 days to schedule review
         """
-        return service_date + timedelta(days=30)
+        # TODO - replace datetime.now() with submitted application date
+        #  otherwise the date returned won't be consistent.
+        #  REMOVE BEFORE FLIGHT
+        return datetime.now() + timedelta(days=UnlicencedDriver.DAYS_TO_SCHEDULE_REVIEW)
 
     @staticmethod
-    def is_paid_for_review(amount) -> bool:
-        return amount == UnlicencedDriver.WRITTEN_REVIEW_PRICE
+    def amount_due(presentation_type: str):
+        return UnlicencedDriver.WRITTEN_REVIEW_PRICE
 
 
 class ImmediateRoadside(ProhibitionBase):

@@ -1,7 +1,6 @@
 from python.writer.config import Config
 from python.writer.database import write as database_writer
-import python.common.email as email
-from python.common.helper import middle_logic
+from python.writer.actions import add_to_failed_write_queue
 from python.common.rabbitmq import RabbitMQ
 from python.common.message import decode_message
 import python.writer.actions as actions
@@ -36,80 +35,16 @@ class Listener:
         # convert body (in bytes) to string
         message_dict = decode_message(body, self.config.ENCRYPT_KEY)
 
-        # invoke listener functions
-        middle_logic(self.get_listeners(message_dict['event_type']),
-                     message=message_dict,
-                     config=self.config,
-                     writer=self.writer,
-                     channel=ch,
-                     method=method,
-                     logger=logging)
+        is_success, args = database_writer(message=message_dict, config=Config)
+        if not is_success:
+            add_to_failed_write_queue(message=message_dict, config=Config, writer=self.writer)
 
-        # Regardless of whether the process above follows the happy path or not,
-        # we need to acknowledge receipt of the message to RabbitMQ below. This
-        # acknowledgement deletes it from the queue so the logic above must have
-        # saved / handled the message before we get here.
+        # Regardless of whether the write above is successful we need to
+        # acknowledge receipt of the message to RabbitMQ. This acknowledgement
+        # deletes it from the queue so the logic above must have saved or
+        # handled the message before we get here.
 
         ch.basic_ack(delivery_tag=method.delivery_tag)
-
-    def get_listeners(self, event_type: str) -> list:
-        """
-        Get the list of (success, failure) function pairs to invoke
-         for a particular event type
-        """
-        if event_type in self.listeners():
-            return self.listeners()[event_type]
-        else:
-            return [
-                (actions.unknown_event_type, actions.do_nothing),
-                # (actions.write_to_fail_queue, actions.unable_to_write_to_RabbitMQ),
-]
-
-    @staticmethod
-    def listeners() -> dict:
-        return {
-            "evt_issuance": [
-                (database_writer, actions.add_to_failed_write_queue_and_acknowledge),
-                ],
-            "vt_dispute_finding": [
-                (database_writer, actions.add_to_failed_write_queue_and_acknowledge),
-                ],
-            "vt_dispute_status_update": [
-                (database_writer, actions.add_to_failed_write_queue_and_acknowledge),
-                ],
-            "vt_dispute": [
-                (database_writer, actions.add_to_failed_write_queue_and_acknowledge),
-                ],
-            "vt_payment": [
-                (database_writer, actions.add_to_failed_write_queue_and_acknowledge),
-                ],
-            "vt_query": [
-                (database_writer, actions.add_to_failed_write_queue_and_acknowledge),
-                ],
-            "prohibition_served_more_than_7_days_ago": [
-                (email.applicant_prohibition_served_more_than_7_days_ago, actions.unable_to_send_email),
-                ],
-            "licence_not_seized": [
-                (email.applicant_licence_not_seized, actions.unable_to_send_email),
-                ],
-            "prohibition_not_yet_in_vips": [
-                (actions.has_hold_expired, actions.add_to_watch_queue_and_acknowledge),
-                # TODO - check vips again
-                (email.applicant_prohibition_not_yet_in_vips, actions.unable_to_send_email),
-                (actions.add_do_not_process_until_attribute, actions.unable_to_place_on_hold),
-                (actions.write_back_to_watch_queue, actions.unable_to_acknowledge_receipt),
-                ],
-            "prohibition_not_found": [
-                (email.applicant_prohibition_not_found, actions.unable_to_send_email),
-                ],
-            "form_submission": [
-                (actions.save_application_to_vips, actions.unable_to_save_to_vips_api),
-                (email.application_accepted, actions.unable_to_send_email),
-                ],
-            "last_name_mismatch": [
-                (email.applicant_last_name_mismatch, actions.unable_to_send_email),
-            ],
-        }
 
 
 if __name__ == "__main__":

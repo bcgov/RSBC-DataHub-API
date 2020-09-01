@@ -12,3 +12,5 @@ class Config(BaseConfig):
     VIPS_API_USERNAME           = os.getenv('VIPS_API_USERNAME')
     VIPS_API_PASSWORD           = os.getenv('VIPS_API_PASSWORD')
 
+    SCHEMA_PATH                 = os.getenv('SCHEMA_PATH', 'python/paybc_api/')
+    SCHEMA_FILENAME             = os.getenv('SCHEMA_FILENAME', 'validation.json')

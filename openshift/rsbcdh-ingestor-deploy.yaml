@@ -12,6 +12,9 @@ parameters:
 - name: RABBITMQ_URL
 - name: RABBITMQ_USER
 - name: RABBITMQ_PASS
+- name: VIPS_API_USERNAME
+- name: VIPS_API_PASSWORD
+- name: VIPS_API_ROOT_URL
 - name: SECRET_KEY
 - name: ENCRYPT_KEY
 - name: FLASK_SECRET_KEY
@@ -97,6 +100,21 @@ objects:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
                   key: rabbitmq-password
+            - name: VIPS_API_ROOT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: vips-api-root-url
+            - name: VIPS_API_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: vips-api-username
+            - name: VIPS_API_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: vips-api-password
             - name: ENCRYPT_KEY
               valueFrom:
                 secretKeyRef:

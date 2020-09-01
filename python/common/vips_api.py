@@ -12,40 +12,6 @@ import base64
 logging.basicConfig(level=Config.LOG_LEVEL)
 
 
-def get_invoice_details(prohibition_number, config) -> tuple:
-    logging.info("inside get_invoice_details()")
-    correlation_id = generate_correlation_id()
-    is_status_success, vips_status = status_get(prohibition_number, config, correlation_id)
-    # TODO - waiting on NTT to provide application_id in the status response
-    # TODO - call application_get to retrieve missing data
-    service_date = vips_str_to_datetime(vips_status['data']['status']['effectiveDt'])
-    logging.info("current prohibition status: {}".format(json.dumps(vips_status)))
-    if is_status_success:
-        return True, dict({
-            "amount": 00.02,
-            "prohibition_period": "[Prohib. Period]",
-            "service_date": service_date.strftime("%b %-d, %Y"),
-            "notice_type_code": vips_status['data']['status']['noticeTypeCd'],
-            "oral_or_written": "[oral / written]"
-        })
-    return False, dict({})
-
-
-def is_application_ready_for_payment(prohibition_number, last_name, config) -> tuple:
-    logging.info("inside is_application_ready_for_payment()")
-    correlation_id = generate_correlation_id()
-    is_status_success, vips_status = status_get(prohibition_number, config, correlation_id)
-    logging.info("current prohibition status: {}".format(json.dumps(vips_status)))
-    if is_last_name_match(vips_status, last_name):
-        logging.info('last name matches')
-        is_payment_success, vips_payment = payment_get(prohibition_number, config, correlation_id)
-        logging.info('current payment status: {}'.format(json.dumps(vips_payment)))
-        is_form_submitted = vips_status['data']['status']['reviewCreatedYn'] == 'Y'
-        is_not_paid = vips_payment['resp'] == 'fail'
-        return (is_status_success and is_payment_success), (is_form_submitted and is_not_paid)
-    return is_status_success, False
-
-
 def list_of_dates_between(start: datetime, end: datetime) -> list:
     results = list()
     delta = end - start
@@ -74,10 +40,23 @@ def payment_get(prohibition_id: str, config, correlation_id: str):
     return get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
 
 
+def payment_patch(prohibition_id: str, config, correlation_id: str, **args):
+    endpoint = build_endpoint(config.VIPS_API_ROOT_URL, prohibition_id, 'payment', correlation_id)
+    payload = {
+            "transactionInfo": {
+                "paymentCardType": args.get('card_type'),
+                "paymentAmount": args.get('receipt_amount'),
+                "paymentDate": args.get('receipt_date'),
+                "receiptNumberTxt": args.get('receipt_number'),
+            }
+        }
+    return patch(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, payload, correlation_id)
+
+
 def application_get(application_id: str, config, correlation_id: str) -> tuple:
     endpoint = build_endpoint(config.VIPS_API_ROOT_URL, application_id, 'application', correlation_id)
     is_success, data = get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
-    if is_success and "applicationInfo" in data['data']:
+    if is_success and "data" in data and 'applicationInfo' in data['data']:
         return True, data['data']['applicationInfo']
     return False, data
 
@@ -87,7 +66,7 @@ def application_create(form_type: str, prohibition_id: str, config, correlation_
     payload = {
         "applicationInfo": {
             "email": args.get('email'),
-            "faxNo": args.get('fax'),
+            "faxNo": args.get('fax', ''),
             "firstGivenNm": args.get('first_name'),
             "formData": args.get('form_date'),
             "manualEntryYN": args.get('manual_entry', 'N'),
@@ -159,6 +138,19 @@ def create(endpoint: str, user: str, password: str,  payload: dict, correlation_
 
     data = response.json()
     # Note: VIPS response could be either record found or record not found
+    logging.info('VIPS API response: {} correlation_id: {}'.format(json.dumps(data), correlation_id))
+    return True, data
+
+
+def patch(endpoint: str, user: str, password: str,  payload: dict, correlation_id='ABC') -> tuple:
+    logging.debug('vips_api_endpoint: {}'.format(endpoint))
+    try:
+        response = requests.patch(endpoint, json=payload, auth=(user, password))
+    except AssertionError as error:
+        logging.warning('no response from the VIPS API')
+        return False, error
+
+    data = response.json()
     logging.info('VIPS API response: {} correlation_id: {}'.format(json.dumps(data), correlation_id))
     return True, data
 
