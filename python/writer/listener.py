@@ -1,8 +1,7 @@
 from python.writer.config import Config
 from python.writer.database import write as database_writer
-from python.form_verifier.actions import add_to_failed_write_queue
 from python.common.rabbitmq import RabbitMQ
-from python.common.message import decode_message
+from python.common.message import decode_message, encode_message
 import logging
 
 logging.basicConfig(level=Config.LOG_LEVEL)
@@ -36,7 +35,7 @@ class Listener:
 
         is_success, args = database_writer(message=message_dict, config=Config)
         if not is_success:
-            add_to_failed_write_queue(message=message_dict, config=Config, writer=self.writer)
+            self.writer.publish(Config.FAIL_QUEUE, encode_message(message_dict, Config.ENCRYPT_KEY))
 
         # Regardless of whether the write above is successful we need to
         # acknowledge receipt of the message to RabbitMQ. This acknowledgement
