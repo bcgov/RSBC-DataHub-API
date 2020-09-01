@@ -1,9 +1,8 @@
 from python.writer.config import Config
 from python.writer.database import write as database_writer
-from python.writer.actions import add_to_failed_write_queue
+from python.form_verifier.actions import add_to_failed_write_queue
 from python.common.rabbitmq import RabbitMQ
 from python.common.message import decode_message
-import python.writer.actions as actions
 import logging
 
 logging.basicConfig(level=Config.LOG_LEVEL)

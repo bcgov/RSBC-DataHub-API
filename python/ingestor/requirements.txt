@@ -9,3 +9,5 @@ MarkupSafe==1.1.1
 pika==1.1.0
 xmltodict==0.12.0
 Werkzeug==0.16.0
+requests==2.23.0
+iso8601==0.1.12
