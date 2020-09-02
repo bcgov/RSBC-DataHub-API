@@ -140,9 +140,8 @@ def create(endpoint: str, user: str, password: str,  payload: dict, correlation_
         return False, error
 
     data = response.json()
-    # Note: VIPS response could be either record found or record not found
     logging.info('VIPS API response: {} correlation_id: {}'.format(json.dumps(data), correlation_id))
-    return True, data
+    return response.status_code == 200, data
 
 
 def patch(endpoint: str, user: str, password: str,  payload: dict, correlation_id='ABC') -> tuple:
@@ -156,7 +155,7 @@ def patch(endpoint: str, user: str, password: str,  payload: dict, correlation_i
 
     data = response.json()
     logging.info('VIPS API patch response: {} correlation_id: {}'.format(json.dumps(data), correlation_id))
-    return True, data
+    return response.status_code == 200, data
 
 
 def remove_accents(input_str):
