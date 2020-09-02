@@ -1,6 +1,6 @@
 import logging
 from python.common.message import encode_message
-from python.writer.config import Config
+from python.form_verifier.config import Config
 import python.common.email as email
 import json
 

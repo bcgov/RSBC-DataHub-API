@@ -49,11 +49,11 @@ def search():
                 is_status_success and
                 vips.is_last_name_match(vips_status, last_name) and
                 "applicationId" in vips_status and
-                "receiptNumberTxt" in vips_status):
+                "receiptNumberTxt" not in vips_status):
             # TODO - check that the window to submit and pay for an application for review has not passed
             error = 'A prohibition with that number is not found or not ready for payment'
             logging.info(error)
-            return make_response({"error": error}, 404)
+            return jsonify({"error": error})
 
         # TODO - http replaced with https for local development - REMOVE BEFORE FLIGHT!
         return jsonify({
