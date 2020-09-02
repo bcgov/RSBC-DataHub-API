@@ -41,12 +41,14 @@ def payment_get(prohibition_id: str, config, correlation_id: str):
 
 
 def payment_patch(prohibition_id: str, config, correlation_id: str, **args):
+    logging.info('inside payment_patch()')
     endpoint = build_endpoint(config.VIPS_API_ROOT_URL, prohibition_id, 'payment', correlation_id)
+    vips_date_string = vips_datetime(args.get('receipt_date'))
     payload = {
             "transactionInfo": {
                 "paymentCardType": args.get('card_type'),
                 "paymentAmount": args.get('receipt_amount'),
-                "paymentDate": args.get('receipt_date'),
+                "paymentDate": vips_date_string,
                 "receiptNumberTxt": args.get('receipt_number'),
             }
         }
@@ -129,7 +131,8 @@ def get(endpoint: str, user: str, password: str, correlation_id='ABC') -> tuple:
 
 
 def create(endpoint: str, user: str, password: str,  payload: dict, correlation_id='ABC') -> tuple:
-    logging.debug('vips_api_endpoint: {}'.format(endpoint))
+    logging.info('create endpoint: {}'.format(endpoint))
+    logging.info('create payload: {}'.format(json.dumps(payload)))
     try:
         response = requests.post(endpoint, json=payload, auth=(user, password))
     except AssertionError as error:
@@ -143,7 +146,8 @@ def create(endpoint: str, user: str, password: str,  payload: dict, correlation_
 
 
 def patch(endpoint: str, user: str, password: str,  payload: dict, correlation_id='ABC') -> tuple:
-    logging.debug('vips_api_endpoint: {}'.format(endpoint))
+    logging.info('patch endpoint: {}'.format(endpoint))
+    logging.info('patch payload: {}'.format(json.dumps(payload)))
     try:
         response = requests.patch(endpoint, json=payload, auth=(user, password))
     except AssertionError as error:
@@ -151,7 +155,7 @@ def patch(endpoint: str, user: str, password: str,  payload: dict, correlation_i
         return False, error
 
     data = response.json()
-    logging.info('VIPS API response: {} correlation_id: {}'.format(json.dumps(data), correlation_id))
+    logging.info('VIPS API patch response: {} correlation_id: {}'.format(json.dumps(data), correlation_id))
     return True, data
 
 

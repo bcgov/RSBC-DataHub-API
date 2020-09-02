@@ -6,7 +6,8 @@ from python.paybc_api.website.config import Config
 from python.common.helper import load_json_into_dict
 from cerberus import Validator as Cerberus
 import logging
-import datetime
+from datetime import datetime, timezone
+import pytz
 import json
 import re
 
@@ -70,7 +71,7 @@ def show(prohibition_number):
     """
     PayBC requests details on the item to be paid from this endpoint.
     """
-    if re.match("^\d{6,20}$", prohibition_number) is None:
+    if re.match(r"^\d{6,20}$", prohibition_number) is None:
         logging.warning('show method failed validation: {}'.format(prohibition_number))
         return make_response({"error": "failed validation"}, 400)
 
@@ -125,13 +126,15 @@ def receipt():
         # returns a single invoice per prohibition number.
         prohibition_number = payload['invoices'][0]["trx_number"]
 
+        date_object = pay_bc_date_to_datetime(payload['receipt_date'])
+
         correlation_id = vips.generate_correlation_id()
         is_successful, args = vips.payment_patch(prohibition_number,
                                                  Config,
                                                  correlation_id,
                                                  card_type=payload['cardtype'],
                                                  receipt_amount=payload['receipt_amount'],
-                                                 receipt_date=payload['receipt_date'],
+                                                 receipt_date=date_object,
                                                  receipt_number=payload['receipt_number'])
 
         if not is_successful:
@@ -169,3 +172,12 @@ def validate(config, method_name: str, payload: dict) -> bool:
     else:
         logging.warning('payload failed validation: {}'.format(json.dumps(cerberus.errors)))
         return False
+
+
+def pay_bc_date_to_datetime(pay_bc_date: str) -> datetime:
+    """
+    Transform PayBC date format: 20-JUN-2017 datetime object
+    """
+    tz = pytz.timezone('America/Vancouver')
+    date_object = datetime.strptime(pay_bc_date, "%d-%b-%Y")
+    return tz.localize(date_object)
