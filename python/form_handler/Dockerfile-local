@@ -1,6 +1,6 @@
 FROM python:3.7.3-stretch
 
-COPY form_verifier/requirements.txt /tmp/
+COPY form_handler/requirements.txt /tmp/
 
 RUN pip install -r /tmp/requirements.txt
 
@@ -11,6 +11,6 @@ USER appuser
 ENV PYTHONPATH /home/appuser/
 
 COPY common/ /home/appuser/python/common/
-COPY form_verifier/ /home/appuser/python/form_verifier/
+COPY form_handler/ /home/appuser/python/form_handler/
 
-CMD [ "python", "./python/form_verifier/listener.py" ]
+CMD [ "python", "./python/form_handler/listener.py" ]

@@ -68,7 +68,7 @@ objects:
       type: Binary
     strategy:
       dockerStrategy:
-        dockerfilePath: form_verifier/Dockerfile
+        dockerfilePath: form_handler/Dockerfile
         env: []
         from:
           kind: ImageStreamTag
@@ -88,7 +88,7 @@ parameters:
   required: true
   value: rsbc-dh
 - name: COMPONENT
-  value: form-verifier
+  value: form-handler
 - name: SUFFIX
   description: A suffix appended to all objects
   displayName: Name Suffix
@@ -97,7 +97,7 @@ parameters:
   required: true
 - name: SOURCE_CONTEXT_DIR
   required: true
-  value: "../form_verifier"
+  value: "../form_handler"
 - name: SOURCE_REPOSITORY_URL
   required: true
 - name: SOURCE_REPOSITORY_REF

@@ -21,7 +21,7 @@ module.exports = settings => {
       'SOURCE_CONTEXT_DIR': 'python'
     }
   }))
-    objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-form-verifier-build.yaml`, {
+    objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-form-handler-build.yaml`, {
     'param':{
       'NAME': phases[phase].name,
       'SUFFIX': phases[phase].suffix,

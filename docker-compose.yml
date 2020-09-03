@@ -90,10 +90,10 @@ services:
       ports:
         - "5001:5001"
 
-    form_verification:
+    form_handler:
         build:
           context: python
-          dockerfile: form_verifier/Dockerfile-local
+          dockerfile: python/form_handler/Dockerfile-local
         depends_on:
           - rabbitmq
         environment:

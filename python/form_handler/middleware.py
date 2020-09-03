@@ -2,7 +2,7 @@ from datetime import datetime, timedelta, timezone
 from python.common.vips_api import vips_str_to_datetime
 import python.common.prohibitions as pro
 import logging
-from python.form_verifier.config import Config
+from python.form_handler.config import Config
 from python.common.vips_api import is_last_name_match
 import pytz
 

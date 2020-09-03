@@ -51,7 +51,7 @@ module.exports = settings => {
         'MEMORY_LIMIT': phases[phase].memory_limit
       }
     }))
-    objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-form-verifier-deploy.yaml`, {
+    objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-form-handler-deploy.yaml`, {
       'param': {
         'NAME': phases[phase].name,
         'SUFFIX': phases[phase].suffix,

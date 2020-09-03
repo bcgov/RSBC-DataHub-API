@@ -1,6 +1,6 @@
 FROM python:3.7.3-stretch
 
-COPY form_verifier/requirements.txt ${APP_ROOT}/src/
+COPY form_handler/requirements.txt ${APP_ROOT}/src/
 RUN source /opt/app-root/etc/scl_enable && \
     set -x && \
     pip install -U pip setuptools && \
@@ -9,6 +9,6 @@ RUN source /opt/app-root/etc/scl_enable && \
 
 COPY __init__.py ${APP_ROOT}/src/python/
 COPY common/*.py ${APP_ROOT}/src/python/common/
-COPY form_verifier/*.py ${APP_ROOT}/src/python/form_verifier/
+COPY form_handler/*.py ${APP_ROOT}/src/python/form_handler/
 
-CMD [ "python", "python/form_verifier/listener.py" ]
+CMD [ "python", "python/form_handler/listener.py" ]

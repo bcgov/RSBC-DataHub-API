@@ -1,9 +1,9 @@
-from python.form_verifier.config import Config
+from python.form_handler.config import Config
 import python.common.email as email
 from python.common.helper import middle_logic
 from python.common.rabbitmq import RabbitMQ
 from python.common.message import decode_message
-import python.form_verifier.actions as actions
+import python.form_handler.actions as actions
 import logging
 
 logging.basicConfig(level=Config.LOG_LEVEL)

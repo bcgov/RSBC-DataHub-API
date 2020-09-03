@@ -6,7 +6,7 @@ import python.common.vips_api as vips
 import python.common.prohibitions as pro
 from flask import request, jsonify, Response, make_response
 from flask_api import FlaskAPI
-
+import base64
 import xmltodict
 import logging
 import json
@@ -16,7 +16,7 @@ import re
 application = FlaskAPI(__name__)
 application.secret = Config.FLASK_SECRET_KEY
 logging.basicConfig(level=Config.LOG_LEVEL)
-logging.warning('*** ingestor initialized ***')
+logging.warning('*** flask initialized ***')
 
 rabbit_mq = RabbitMQ(
         Config.RABBITMQ_USER,
@@ -29,32 +29,31 @@ rabbit_mq = RabbitMQ(
 available_parameters = helper.load_json_into_dict('python/ingestor/' + Config.PARAMETERS_FILE)
 
 
-@application.route('/v1/publish/event/<data_type>', methods=["POST"])
+@application.route('/v1/publish/event/ETK', methods=["POST"])
 @application.route('/v1/publish/event', methods=["POST"])
-def create(data_type='ETK'):
-
-    if data_type not in available_parameters:
-        warning_string = data_type + ' is a not a valid parameter'
-        logging.warning(warning_string)
-        return jsonify({"error": warning_string}), 500
-
-    logging.debug('content-type: ' + request.content_type)
-
-    if data_type == "ETK":
-        payload = request.json
-    elif data_type == "form":
-        payload = {
-            "event_version": "1.4",
-            "encrypt_at_rest": available_parameters[data_type]['encrypt_at_rest'],
-            "event_date_time": "",
-            "event_type": "form_submission",
-            "form_submission": xmltodict.parse(request.get_data())
-        }
-    else:
-        payload = None
-
+def ingest_etk():
+    payload = request.json
     encoded_message = encode_message(payload, Config.ENCRYPT_KEY)
-    if payload is not None and rabbit_mq.publish(available_parameters[data_type]['queue'], encoded_message):
+    if payload is not None and rabbit_mq.publish(available_parameters['form']['queue'], encoded_message):
+        return jsonify(payload), 200
+    else:
+        return Response('Unavailable', 500, mimetype='application/json')
+
+
+@application.route('/v1/publish/event/form', methods=["POST"])
+def ingest_form():
+    logging.debug('content-type: ' + request.content_type)
+    payload = {
+        "event_version": "1.4",
+        "encrypt_at_rest": available_parameters['form']['encrypt_at_rest'],
+        "event_date_time": "",
+        "url_parameters": request.args.to_dict(),
+        "event_type": "form_submission",
+        "form_submission": xmltodict.parse(request.get_data())
+    }
+    payload['form_submission']['xml'] = base64.b64encode(request.get_data()).decode()
+    encoded_message = encode_message(payload, Config.ENCRYPT_KEY)
+    if payload is not None and rabbit_mq.publish(available_parameters['form']['queue'], encoded_message):
         return jsonify(payload), 200
     else:
         return Response('Unavailable', 500, mimetype='application/json')
@@ -65,9 +64,8 @@ def schedule(notice_type, requested_date):
     """
     GET timeslots for oral reviews for a specific date and prohibition_type
     """
-
     if re.match("^UL|ADP|IRP$", notice_type) is None or \
-            re.match("^\d{4}-([0]\d|1[0-2])-([0-2]\d|3[01])$", requested_date) is None:
+            re.match(r"^\d{4}-([0]\d|1[0-2])-([0-2]\d|3[01])$", requested_date) is None:
         logging.warning('schedule method failed validation: {}, {}'.format(notice_type, requested_date))
         return make_response({"error": "failed validation"}, 400)
 
@@ -101,7 +99,7 @@ def review_dates():
     prohibition_number = request.form['prohibition_number']
     last_name = request.form['last_name']
 
-    if re.match("^\d{6,20}$", prohibition_number) is None:
+    if re.match(r"^\d{6,20}$", prohibition_number) is None:
         logging.warning('review_dates method failed validation: {}'.format(prohibition_number))
         return make_response({"error": "failed validation"}, 400)
 
