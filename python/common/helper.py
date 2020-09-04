@@ -5,7 +5,6 @@ from python.common.config import Config
 logging.basicConfig(level=Config.LOG_LEVEL)
 
 
-
 def load_json_into_dict(file_name) -> dict:
     with open(file_name, 'r') as f:
         data = f.read()

@@ -51,7 +51,9 @@ class TestVips:
             TestVips.CORRELATION_ID)
         print(json.dumps(actual))
         assert is_success is True
-        assert "data" in actual
+        assert "driverLicenceSeizedYn" in actual
+        assert "surnameNm" in actual
+        assert "disclosure" in actual
 
     @staticmethod
     def test_disclosure_get_method():

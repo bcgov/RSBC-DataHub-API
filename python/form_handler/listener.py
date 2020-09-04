@@ -1,6 +1,7 @@
 from python.form_handler.config import Config
 import python.common.email as email
 from python.common.helper import middle_logic
+import python.form_handler.middleware as rules
 from python.common.rabbitmq import RabbitMQ
 from python.common.message import decode_message
 import python.form_handler.actions as actions
@@ -14,7 +15,6 @@ class Listener:
         This listener watches the RabbitMQ WATCH_QUEUE defined in the
         Config.  When a message appears in the queue the Listener:
          - invokes callback(),
-         - calls out to the VIPS API and, if successful, copies the status into the message
          - invokes middleware to determine the appropriate event
     """
     def __init__(self, config, rabbit_writer, rabbit_listener):
@@ -61,35 +61,24 @@ class Listener:
             return self.listeners()[event_type]
         else:
             return [
-                (actions.unknown_event_type, actions.do_nothing),
+                # TODO - add error to payload
+                (actions.add_to_failed_queue, actions.do_nothing),
                 # (actions.write_to_fail_queue, actions.unable_to_write_to_RabbitMQ),
             ]
 
     @staticmethod
     def listeners() -> dict:
         return {
-            "prohibition_served_more_than_7_days_ago": [
-                (email.applicant_prohibition_served_more_than_7_days_ago, actions.unable_to_send_email),
-            ],
-            "licence_not_seized": [
-                (email.applicant_licence_not_seized, actions.unable_to_send_email),
-            ],
-            "prohibition_not_yet_in_vips": [
-                (actions.has_hold_expired, actions.add_to_watch_queue_and_acknowledge),
-                # TODO - check vips again
-                (email.applicant_prohibition_not_yet_in_vips, actions.unable_to_send_email),
-                (actions.add_do_not_process_until_attribute, actions.unable_to_place_on_hold),
-                (actions.write_back_to_watch_queue, actions.unable_to_acknowledge_receipt),
-            ],
-            "prohibition_not_found": [
-                (email.applicant_prohibition_not_found, actions.unable_to_send_email),
-            ],
             "form_submission": [
-                (actions.save_application_to_vips, actions.unable_to_save_to_vips_api),
-                (email.application_accepted, actions.unable_to_send_email),
-            ],
-            "last_name_mismatch": [
-                (email.applicant_last_name_mismatch, actions.unable_to_send_email),
+                (actions.has_hold_expired, actions.add_to_watch_queue),
+                (actions.update_vips_status, actions.add_to_watch_queue),
+                (rules.prohibition_should_have_been_entered_in_vips, actions.add_to_watch_queue),
+                (rules.prohibition_exists_in_vips, email.applicant_prohibition_not_found),
+                (rules.user_submitted_last_name_matches_vips, email.applicant_last_name_mismatch),
+                (rules.date_served_not_older_than_one_week, email.applicant_prohibition_served_more_than_7_days_ago),
+                (rules.has_drivers_licence_been_seized, email.applicant_licence_not_seized),
+                (rules.is_driver_the_applicant, actions.accepted_driver_is_represented),
+                (actions.accepted_driver_is_applicant, actions.unable_to_save_to_vips_api),
             ],
         }
 

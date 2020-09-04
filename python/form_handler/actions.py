@@ -33,7 +33,7 @@ def unable_to_place_on_hold(**args):
     return args
 
 
-def add_to_failed_write_queue(**args):
+def add_to_failed_queue(**args):
     config = args.get('config')
     message = args.get('message')
     writer = args.get('writer')
@@ -43,16 +43,13 @@ def add_to_failed_write_queue(**args):
     return args
 
 
-def add_to_watch_queue_and_acknowledge(**args):
+def add_to_watch_queue(**args):
     config = args.get('config')
     message = args.get('message')
     writer = args.get('writer')
-    channel = args.get('channel')
-    method = args.get('method')
     logging.warning('writing back to watch queue')
-    if writer.publish(config.WATCH_QUEUE, encode_message(message, config.ENCRYPT_KEY)):
-        channel.basic_ack(delivery_tag=method.delivery_tag)
-    else:
+    is_successful = writer.publish(config.WATCH_QUEUE, encode_message(message, config.ENCRYPT_KEY))
+    if not is_successful:
         logging.critical('unable to write to RabbitMQ {} queue'.format(config.WATCH_QUEUE))
     return args
 

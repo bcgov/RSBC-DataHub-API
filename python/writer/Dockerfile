@@ -19,8 +19,6 @@ RUN source /opt/app-root/etc/scl_enable && \
 
 COPY __init__.py ${APP_ROOT}/src/python/
 COPY common/*.py ${APP_ROOT}/src/python/common/
-COPY common/templates/*.html ${APP_ROOT}/src/python/common/templates/
-COPY common/templates/partials/*.html ${APP_ROOT}/src/python/common/templates/partials/
 COPY writer/*.py ${APP_ROOT}/src/python/writer/
 COPY writer/mapper.json ${APP_ROOT}/src/python/writer/
 

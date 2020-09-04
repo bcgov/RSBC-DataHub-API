@@ -48,7 +48,7 @@ services:
           ENCRYPT_KEY: "${ENCRYPT_KEY}"
 
     writer:
-        build: 
+        build:
           context: python
           dockerfile: writer/Dockerfile-local
         depends_on:
@@ -67,13 +67,6 @@ services:
           VIPS_API_USERNAME: "${VIPS_API_USERNAME}"
           VIPS_API_PASSWORD: "${VIPS_API_PASSWORD}"
           VIPS_API_ROOT_URL: "${VIPS_API_ROOT_URL}"
-          COMM_SERV_AUTH_URL: "${COMM_SERV_AUTH_URL}"
-          COMM_SERV_API_ROOT_URL: "${COMM_SERV_API_ROOT_URL}"
-          COMM_SERV_REALM: "${COMM_SERV_REALM}"
-          COMM_SERV_CLIENT_ID: "${COMM_SERV_CLIENT_ID}"
-          COMM_SERV_CLIENT_SECRET: "${COMM_SERV_CLIENT_SECRET}"
-          ADMIN_EMAIL_ADDRESS: "${ADMIN_EMAIL_ADDRESS}"
-
 
     paybc-api:
       build:
@@ -93,7 +86,7 @@ services:
     form_handler:
         build:
           context: python
-          dockerfile: python/form_handler/Dockerfile-local
+          dockerfile: form_handler/Dockerfile-local
         depends_on:
           - rabbitmq
         environment:
@@ -103,5 +96,11 @@ services:
           VIPS_API_USERNAME: "${VIPS_API_USERNAME}"
           VIPS_API_PASSWORD: "${VIPS_API_PASSWORD}"
           VIPS_API_ROOT_URL: "${VIPS_API_ROOT_URL}"
+          COMM_SERV_AUTH_URL: "${COMM_SERV_AUTH_URL}"
+          COMM_SERV_API_ROOT_URL: "${COMM_SERV_API_ROOT_URL}"
+          COMM_SERV_REALM: "${COMM_SERV_REALM}"
+          COMM_SERV_CLIENT_ID: "${COMM_SERV_CLIENT_ID}"
+          COMM_SERV_CLIENT_SECRET: "${COMM_SERV_CLIENT_SECRET}"
+          ADMIN_EMAIL_ADDRESS: "${ADMIN_EMAIL_ADDRESS}"
           LOG_LEVEL: "INFO"
           ENCRYPT_KEY: "${ENCRYPT_KEY}"

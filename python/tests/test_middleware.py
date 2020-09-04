@@ -28,9 +28,9 @@ def test_date_served_today_older_than_one_week_method(prohibition_type, date_off
     sample_data = load_json_into_dict('python/tests/sample_data/form/irp_form_submission.json')
     vips_date_time_string = (datetime.today() - timedelta(days=date_offset)).strftime("%Y-%m-%d %H:%M:%S -08:00")
     response_from_api = load_json_into_dict('python/tests/sample_data/vips/vips_query_200.json')
-    sample_data['form_submission']['vips_response'] = response_from_api
-    sample_data['form_submission']['vips_response']['data']['status']['noticeTypeCd'] = prohibition_type
-    sample_data['form_submission']['vips_response']['data']['status']['effectiveDt'] = vips_date_time_string
+    sample_data['form_submission']['vips_response'] = response_from_api['data']['status']
+    sample_data['form_submission']['vips_response']['noticeTypeCd'] = prohibition_type
+    sample_data['form_submission']['vips_response']['effectiveDt'] = vips_date_time_string
     (result, args) = middleware.date_served_not_older_than_one_week(message=sample_data)
     assert result is expected
 
@@ -49,7 +49,7 @@ def test_user_submitted_last_name_matches_vips_method(user_entered_last_name, la
     sample_data['form_submission']['form']['identification-information']['driver-last-name'] = user_entered_last_name
     response_from_api = load_json_into_dict('python/tests/sample_data/vips/vips_query_200.json')
     response_from_api['data']['status']['surnameNm'] = last_name_from_vips
-    sample_data['form_submission']['vips_response'] = response_from_api
+    sample_data['form_submission']['vips_response'] = response_from_api['data']['status']
     result, args = middleware.user_submitted_last_name_matches_vips(message=sample_data)
     assert result is expected
 
