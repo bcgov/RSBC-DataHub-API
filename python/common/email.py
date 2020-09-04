@@ -13,7 +13,10 @@ def application_accepted(**args):
     message = args.get('message')
     prohibition_number = get_prohibition_number(message)
     subject = 'Re: Driving Prohibition Review - Application Accepted  - {}'.format(prohibition_number)
-    template = get_jinja2_env().get_template('application_accepted.html')
+    # Note - two templates are used; one for a driver applicant, the other for a lawyer / representative
+    template_filename = 'application_accepted.html'
+    # TODO - add test to check if applicant is the driver or applicant is lawyer / representative
+    template = get_jinja2_env().get_template(template_filename)
     return send_email(
         [get_email_address(message)],
         subject,
@@ -133,7 +136,7 @@ def applicant_prohibition_not_yet_in_vips(**args):
         get_common_services_access_token(config)), args
 
 
-def send_email(to: list, subject: str, config, template, api_root_url: str, token: str) -> bool:
+def send_email(to: list, subject: str, config, template, api_root_url: str, token: str) -> tuple:
     payload = {
         "bodyType": "html",
         "body": template,
@@ -149,10 +152,10 @@ def send_email(to: list, subject: str, config, template, api_root_url: str, toke
         response = requests.post(api_root_url + '/api/v1/email', headers=auth_header, json=payload)
     except AssertionError as error:
         logging.critical('No response from BC Common Services: {}'.format(json.dumps(error)))
-        return False
+        return False, error
     data = response.json()
     logging.debug('response from common services: {}'.format(json.dumps(data)))
-    return "msgId" in data['messages'][0]
+    return "msgId" in data['messages'][0], data
 
 
 def get_common_services_access_token(config):

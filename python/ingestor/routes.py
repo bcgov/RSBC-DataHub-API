@@ -6,6 +6,7 @@ import python.common.vips_api as vips
 import python.common.prohibitions as pro
 from flask import request, jsonify, Response, make_response
 from flask_api import FlaskAPI
+from datetime import datetime
 import base64
 import xmltodict
 import logging
@@ -46,7 +47,7 @@ def ingest_form():
     payload = {
         "event_version": "1.4",
         "encrypt_at_rest": available_parameters['form']['encrypt_at_rest'],
-        "event_date_time": "",
+        "event_date_time": datetime.now().isoformat(),
         "url_parameters": request.args.to_dict(),
         "event_type": "form_submission",
         "form_submission": xmltodict.parse(request.get_data())

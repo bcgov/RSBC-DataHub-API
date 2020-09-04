@@ -51,26 +51,37 @@ def _times_2(number: int) -> int:
 
 def middle_logic(functions: list, **args):
     """
-    Recursive function that calls each middleware function in the list.
-    The list of functions past in are in pairs -- a success function and
-    a failure function.  If the success function is successful, the next
-    success function is called, otherwise the failure function is called.
+    Recursive function that calls each node in the list.
+    Each node has a "try" function that is executed first. If the try
+    function returns True, the next node in the list is returned.  If the
+    try function returns False, the node's "fail" list is executed in the
+    same way.
 
-    The middleware is called like this:
+    example = dict({
+            "rules": [
+                {
+                    "pass": success1,
+                    "fail": [
+                        {
+                            "pass": failure1,
+                            "fail": []
+                        }
+                    ],
+                },
+            ]
+        })
 
-    middleware_to_test = [(success1, failure1)
-                          (success2, failure2)]
-    middle_logic(middleware_to_test)
-
+    The middleware is called like this: middle_logic(example['rules'])
     """
+
     if functions:
-        success_function, failure_function = functions.pop(0)
-        logging.info('calling success function: ' + success_function.__name__)
-        flag, args = success_function(**args)
-        logging.debug("result from {} is {}".format(success_function.__name__, flag))
+        try_fail_node = functions.pop(0)
+        logging.debug('calling try function: ' + try_fail_node['try'].__name__)
+        flag, args = try_fail_node(**args)
+        logging.info("result from {} is {}".format(try_fail_node['try'].__name__, flag))
         if flag:
             logging.debug('calling middleware logic recursively')
             middle_logic(functions, **args)
         else:
-            logging.info('calling failure function: ' + failure_function.__name__)
-            failure_function(**args)
+            logging.debug('calling failure functions recursively')
+            middle_logic(try_fail_node['fail'], **args)
