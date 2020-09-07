@@ -1,5 +1,4 @@
-from python.common.email import get_jinja2_env
-import pytest
+from python.form_handler.rsi_email import get_jinja2_env
 
 
 def test_admin_notice_method():

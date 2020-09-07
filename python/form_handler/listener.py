@@ -1,5 +1,5 @@
 from python.form_handler.config import Config
-import python.common.email as email
+import python.form_handler.rsi_email as rsi_email
 from python.common.helper import middle_logic
 import python.form_handler.middleware as rules
 from python.common.rabbitmq import RabbitMQ
@@ -72,7 +72,7 @@ class Listener:
                     "fail": []
                 },
                 {
-                    "try": email.admin_unknown_event_type,
+                    "try": rsi_email.admin_unknown_event_type,
                     "fail": []
                 }
             ],
@@ -92,7 +92,7 @@ class Listener:
                 {
                     "try": rules.prohibition_should_have_been_entered_in_vips,
                     "fail": [
-                        {"try": email.applicant_prohibition_not_yet_in_vips, "fail": []},
+                        {"try": rsi_email.applicant_prohibition_not_yet_in_vips, "fail": []},
                         {"try": actions.add_hold_until_attribute, "fail": []},
                         {"try": actions.add_to_hold_queue, "fail": []}
                     ]
@@ -100,36 +100,36 @@ class Listener:
                 {
                     "try": rules.prohibition_exists_in_vips,
                     "fail": [
-                        {"try": email.applicant_prohibition_not_found, "fail": []}
+                        {"try": rsi_email.applicant_prohibition_not_found, "fail": []}
                     ]
                 },
                 {
                     "try": rules.user_submitted_last_name_matches_vips,
                     "fail": [
-                        {"try": email.applicant_last_name_mismatch, "fail": []}
+                        {"try": rsi_email.applicant_last_name_mismatch, "fail": []}
                     ]
                 },
                 {
                     "try": rules.date_served_not_older_than_one_week,
                     "fail": [
-                        {"try": email.applicant_prohibition_served_more_than_7_days_ago(), "fail": []}
+                        {"try": rsi_email.applicant_prohibition_served_more_than_7_days_ago(), "fail": []}
                     ]
                 },
                 {
                     "try": rules.has_drivers_licence_been_seized,
                     "fail": [
-                        {"try": email.applicant_licence_not_seized, "fail": []}
+                        {"try": rsi_email.applicant_licence_not_seized, "fail": []}
                     ]
                 },
                 {
                     "try": actions.save_application_to_vips,
                     "fail": [
                         {"try": actions.add_to_failed_queue, "fail": []},
-                        {"try": email.admin_unable_to_save_to_vips, "fail": []}
+                        {"try": rsi_email.admin_unable_to_save_to_vips, "fail": []}
                     ]
                 },
                 {
-                    "try": email.application_accepted,
+                    "try": rsi_email.application_accepted,
                     "fail": []
                 }
             ],

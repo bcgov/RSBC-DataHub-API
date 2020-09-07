@@ -188,7 +188,7 @@ def get_common_services_access_token(config):
 
 def get_jinja2_env():
     return Environment(
-        loader=PackageLoader('python', 'common/templates'),
+        loader=PackageLoader('python', 'form_handler/templates'),
         autoescape=select_autoescape(['html', 'xml'])
     )
 
