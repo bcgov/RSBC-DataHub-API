@@ -6,6 +6,7 @@ from python.common.rabbitmq import RabbitMQ
 from python.common.message import decode_message
 import python.form_handler.actions as actions
 import logging
+import json
 
 logging.basicConfig(level=Config.LOG_LEVEL)
 
@@ -112,7 +113,7 @@ class Listener:
                 {
                     "try": rules.date_served_not_older_than_one_week,
                     "fail": [
-                        {"try": rsi_email.applicant_prohibition_served_more_than_7_days_ago(), "fail": []}
+                        {"try": rsi_email.applicant_prohibition_served_more_than_7_days_ago, "fail": []}
                     ]
                 },
                 {

@@ -26,12 +26,14 @@ def prohibition_should_have_been_entered_in_vips(**args):
     VIPS has more time to enter the paper prohibition into the database
     """
     message = args.get('message')
+    config = args.get('config')
+    delay_days = int(config.DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY)
     vips_status_success = args.get('vips_data_success')
     # Note: we have to rely on the date_served as submitted by the user -- not the date in VIPS
     date_served_string = message['form_submission']['form']['prohibition-information']['date-of-service']
     today = datetime.today()
     date_served = datetime.strptime(date_served_string, '%Y-%m-%d')
-    very_recently_served = (today - date_served).days < int(args.get('delay_days'))
+    very_recently_served = (today - date_served).days < delay_days
     is_holdable = very_recently_served and not vips_status_success
     print("date_served: {}, very_recently_served: {}, vips_status_success: {}, is holdable: {}".format(
         date_served, very_recently_served, vips_status_success, is_holdable)

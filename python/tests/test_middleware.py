@@ -1,4 +1,5 @@
 import pytest
+from python.form_handler.config import Config
 from datetime import datetime, timedelta
 import python.form_handler.middleware as middleware
 from python.common.helper import load_json_into_dict
@@ -70,7 +71,7 @@ def test_prohibition_should_have_been_entered_in_vips_method(is_vips_status_succ
     sample_data['form_submission']['form']['prohibition-information']['date-of-service'] = date_under_test
     result, args = middleware.prohibition_should_have_been_entered_in_vips(
         message=sample_data,
-        delay_days='3',
+        config=Config,
         vips_data_success=is_vips_status_successful)
     assert result is expected
 

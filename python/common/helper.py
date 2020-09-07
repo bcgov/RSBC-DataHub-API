@@ -77,7 +77,7 @@ def middle_logic(functions: list, **args):
     if functions:
         try_fail_node = functions.pop(0)
         logging.debug('calling try function: ' + try_fail_node['try'].__name__)
-        flag, args = try_fail_node(**args)
+        flag, args = try_fail_node['try'](**args)
         logging.info("result from {} is {}".format(try_fail_node['try'].__name__, flag))
         if flag:
             logging.debug('calling middleware logic recursively')
