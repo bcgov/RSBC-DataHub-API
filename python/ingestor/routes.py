@@ -12,6 +12,7 @@ import xmltodict
 import logging
 import json
 import re
+from functools import wraps
 
 
 application = FlaskAPI(__name__)
@@ -28,6 +29,22 @@ rabbit_mq = RabbitMQ(
         Config.RETRY_DELAY)
 
 available_parameters = helper.load_json_into_dict('python/ingestor/' + Config.PARAMETERS_FILE)
+
+
+def basic_auth_required(f):
+    """
+    Decorator that implements basic auth when added to a route
+    """
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if not auth or not check_credentials(Config, auth.username, auth.password):
+            message = {'error': 'Basic Auth Required.'}
+            resp = jsonify(message)
+            resp.status_code = 401
+            return resp
+        return f(*args, **kwargs)
+    return decorated
 
 
 @application.route('/v1/publish/event/ETK', methods=["POST"])
@@ -135,6 +152,22 @@ def review_dates():
                 "is_valid": False,
             }
         }))
+
+
+@application.route('/restricted', methods=['GET'])
+@basic_auth_required
+def restricted():
+    # TODO - REMOVE BEFORE FLIGHT - for debugging purposes
+    return make_response({"message": "success"}, 200)
+
+
+def check_credentials(config, username_submitted, password_submitted) -> bool:
+    username = config.FLASK_BASIC_AUTH_USER
+    password = config.FLASK_BASIC_AUTH_PASS
+    logging.info('credentials: {}:{}'.format(username, password))
+    if username_submitted == username and password_submitted == password:
+        return True
+    return False
 
 
 if __name__ == "__main__":

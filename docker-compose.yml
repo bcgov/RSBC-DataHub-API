@@ -29,6 +29,9 @@ services:
           LOG_LEVEL: "WARNING"
           SECRET_KEY: "${SECRET_KEY}"
           ENCRYPT_KEY: "${ENCRYPT_KEY}"
+          FLASK_BASIC_AUTH_USER: "${FLASK_BASIC_AUTH_USER}"
+          FLASK_BASIC_AUTH_PASS: "${FLASK_BASIC_AUTH_PASS}"
+
         ports:
           - "5000:5000"
     
