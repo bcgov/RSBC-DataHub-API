@@ -40,22 +40,19 @@ class Listener:
         middle_logic(self.get_listeners(message_dict['event_type']),
                      message=message_dict,
                      config=self.config,
-                     writer=self.writer,
-                     channel=ch,
-                     method=method,
-                     logger=logging)
+                     writer=self.writer)
 
         # Regardless of whether the process above follows the happy path or not,
         # we need to acknowledge receipt of the message to RabbitMQ below. This
-        # acknowledgement deletes it from the queue so the logic above must have
-        # saved / handled the message before we get here.
+        # acknowledgement deletes it from the WATCH queue so the logic above
+        # must have saved / handled the message before we get here.
 
         ch.basic_ack(delivery_tag=method.delivery_tag)
 
     def get_listeners(self, event_type: str) -> list:
         """
-        Get the list of (success, failure) function pairs to invoke
-         for a particular event type
+        Get the list of nested list of functions to invoke
+        for a particular form type
         """
         if event_type in self.listeners():
             return self.listeners()[event_type]
@@ -67,32 +64,37 @@ class Listener:
         return {
             "unknown_event": [
                 {
-                    "try": actions.add_to_failed_queue,
+                    "try": actions.add_unknown_event_error_to_message,
                     "fail": []
                 },
                 {
                     "try": actions.add_to_failed_queue,
+                    "fail": []
+                },
+                {
+                    "try": email.admin_unknown_event_type,
                     "fail": []
                 }
             ],
             "form_submission": [
                 { 
-                    "try": actions.has_hold_expired,
+                    "try": actions.is_not_on_hold,
                     "fail": [
-                        {"try": actions.add_to_watch_queue, "fail": []}
+                        {"try": actions.add_to_hold_queue, "fail": []}
                     ]
                 },
                 {
                     "try": actions.update_vips_status,
                     "fail": [
-                        {"try": actions.add_to_watch_queue, "fail": []}
+                        {"try": actions.add_to_hold_queue, "fail": []}
                     ]
                 },
                 {
                     "try": rules.prohibition_should_have_been_entered_in_vips,
                     "fail": [
                         {"try": email.applicant_prohibition_not_yet_in_vips, "fail": []},
-                        {"try": actions.add_to_watch_queue, "fail": []}
+                        {"try": actions.add_hold_until_attribute, "fail": []},
+                        {"try": actions.add_to_hold_queue, "fail": []}
                     ]
                 },
                 {
@@ -122,7 +124,8 @@ class Listener:
                 {
                     "try": actions.save_application_to_vips,
                     "fail": [
-                        {"try": actions.unable_to_save_to_vips_api, "fail": []}
+                        {"try": actions.add_to_failed_queue, "fail": []},
+                        {"try": email.admin_unable_to_save_to_vips, "fail": []}
                     ]
                 },
                 {

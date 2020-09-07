@@ -13,10 +13,7 @@ def application_accepted(**args):
     message = args.get('message')
     prohibition_number = get_prohibition_number(message)
     subject = 'Re: Driving Prohibition Review - Application Accepted  - {}'.format(prohibition_number)
-    # Note - two templates are used; one for a driver applicant, the other for a lawyer / representative
-    template_filename = 'application_accepted.html'
-    # TODO - add test to check if applicant is the driver or applicant is lawyer / representative
-    template = get_jinja2_env().get_template(template_filename)
+    template = get_jinja2_env().get_template('application_accepted.html')
     return send_email(
         [get_email_address(message)],
         subject,
@@ -134,6 +131,26 @@ def applicant_prohibition_not_yet_in_vips(**args):
             subject=subject),
         config.COMM_SERV_API_ROOT_URL,
         get_common_services_access_token(config)), args
+
+
+def admin_unable_to_save_to_vips(**args) -> tuple:
+    logging.critical('inside unable_to_save_to_vips_api()')
+    config = args.get('config')
+    message = args.get('message')
+    title = 'Critical Error: Unable to save to VIPS'
+    body_text = 'While attempting to save an application to VIPS, an error was returned. ' + \
+                'We will save the record to a failed write queue in RabbitMQ.'
+    logging.critical('unable to save to VIPS: {}'.format(json.dumps(message)))
+    return send_email_to_admin(config=config, title=title, body=body_text), args
+
+
+def admin_unknown_event_type(**args) -> tuple:
+    message = args.get('message')
+    config = args.get('config')
+    title = 'Critical Error: Unknown Event Type'
+    body_text = "An unknown event has been received: " + message['event_type']
+    logging.critical('unknown event type: {}'.format(message['event_type']))
+    return send_email_to_admin(config=config, title=title, body=body_text), args
 
 
 def send_email(to: list, subject: str, config, template, api_root_url: str, token: str) -> tuple:

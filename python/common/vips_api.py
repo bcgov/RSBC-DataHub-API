@@ -22,6 +22,9 @@ def list_of_dates_between(start: datetime, end: datetime) -> list:
 
 
 def status_get(prohibition_id: str, config, correlation_id: str) -> tuple:
+    """
+    Call out to the VIPS API and return the prohibition status
+    """
     endpoint = build_endpoint(config.VIPS_API_ROOT_URL, prohibition_id, 'status', correlation_id)
     is_response_successful, data = get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
     is_success = 'resp' in data and data['resp'] == 'success'
@@ -164,8 +167,7 @@ def remove_accents(input_str):
     return only_ascii
 
 
-def is_last_name_match(vips_status: dict, last_name: str) -> bool:
-    vips_last_name = vips_status['surnameNm']
+def is_last_name_match(vips_last_name: dict, last_name: str) -> bool:
     logging.debug('compare last name: {} and {}'.format(vips_last_name, last_name))
     return bool(remove_accents(vips_last_name).upper() == remove_accents(last_name).upper())
 

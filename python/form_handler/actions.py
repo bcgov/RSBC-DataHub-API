@@ -1,25 +1,43 @@
 import logging
-from python.common.message import encode_message
+from datetime import datetime, timedelta
+from python.common.message import encode_message, add_error_to_message
 from python.form_handler.config import Config
-import python.common.email as email
-import json
+import python.common.vips_api as vips
+import iso8601
 
 logging.basicConfig(level=Config.LOG_LEVEL)
 
 
 def update_vips_status(**args) -> tuple:
-    # TODO - complete this method
+    config = args.get('config')
+    prohibition_number = ''
+    correlation_id = vips.generate_correlation_id()
+    args['vips_data_success'], args['vips_status'] = vips.status_get(prohibition_number, config, correlation_id)
     return True, args
 
 
-def has_hold_expired(**args) -> tuple:
-    # TODO - complete this method
-    logging.info('has hold expired - method not implemented')
-    return True, args
+def is_not_on_hold(**args) -> tuple:
+    """
+    Returns true if the message is not on hold -- either
+    there is no 'hold_until' attribute OR there is a
+    hold_unit attribute, but it's ISO datetime if
+    greater than the current datetime.
+    """
+    message = args.get('message')
+    if 'hold_until' not in message:
+        return True, args
+    now = datetime.now()
+    hold_until = iso8601.parse_date(message['hold_until'], None)
+    return now >= hold_until, args
 
 
-def add_do_not_process_until_attribute(**args) -> tuple:
-    # TODO - complete this method
+def add_hold_until_attribute(**args) -> tuple:
+    """
+    Adds a do not process until attribute to the message
+    """
+    message = args.get('message')
+    config = args.get('config')
+    message['hold_until'] = (datetime.today() + timedelta(hours=config.HOURS_TO_HOLD_BEFORE_TRYING_VIPS)).isoformat()
     return True, args
 
 
@@ -39,48 +57,24 @@ def add_to_failed_queue(**args) -> tuple:
     return True, args
 
 
-def add_to_watch_queue(**args) -> tuple:
+def add_to_hold_queue(**args) -> tuple:
     config = args.get('config')
     message = args.get('message')
     writer = args.get('writer')
-    logging.warning('writing back to watch queue')
-    is_successful = writer.publish(config.WATCH_QUEUE, encode_message(message, config.ENCRYPT_KEY))
-    if not is_successful:
-        logging.critical('unable to write to RabbitMQ {} queue'.format(config.WATCH_QUEUE))
+    logging.warning('writing to hold queue')
+    if not writer.publish(config.HOLD_QUEUE, encode_message(message, config.ENCRYPT_KEY)):
+        logging.critical('unable to write to RabbitMQ {} queue'.format(config.HOLD_QUEUE))
         return False, args
     return True, args
 
 
-def unable_to_send_email(**args) -> tuple:
-    logging.critical('unable to send email')
-    return args
-
-
-def unable_to_acknowledge_receipt(**args) -> tuple:
-    logging.critical('unable to acknowledge receipt to RabbitMQ')
-    config = args.get('config')
-    title = 'Critical Error: Unable to acknowledge receipt to RabbitMQ'
-    body = 'Unable to acknowledge receipt to RabbitMQ'
-    return email.send_email_to_admin(config=config, title=title, body=body), args
-
-
-def unable_to_save_to_vips_api(**args) -> tuple:
-    logging.critical('inside unable_to_save_to_vips_api()')
-    config = args.get('config')
+def add_unknown_event_error_to_message(**args) -> tuple:
     message = args.get('message')
-    title = 'Critical Error: Unable to save to VIPS'
-    body_text = 'While attempting to save an application to VIPS, an error was returned. ' + \
-                'We will save the record to a failed write queue in RabbitMQ.'
-    logging.critical('unable to save to VIPS: {}'.format(json.dumps(message)))
-    return email.send_email_to_admin(config=config, title=title, body=body_text), args
-
-
-def unknown_event_type(**args) -> tuple:
-    message = args.get('message')
-    config = args.get('config')
-    title = 'Critical Error: Unknown Event Type'
-    body_text = "An unknown event has been received: " + message['event_type']
-    logging.critical('unknown event type: {}'.format(message['event_type']))
-    return email.send_email_to_admin(config=config, title=title, body=body_text), args
-
-
+    event_type = '[ no event type attribute ]'
+    if 'event_type' in message:
+        event_type = message['event_type']
+    error = dict({
+        "error": "unknown event type: {}".format(event_type)
+    })
+    message = add_error_to_message(message, error)
+    return True, args
