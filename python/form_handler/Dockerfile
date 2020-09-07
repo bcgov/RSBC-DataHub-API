@@ -9,8 +9,8 @@ RUN source /opt/app-root/etc/scl_enable && \
 
 COPY __init__.py ${APP_ROOT}/src/python/
 COPY common/*.py ${APP_ROOT}/src/python/common/
-COPY common/templates/*.html ${APP_ROOT}/src/python/common/templates/
-COPY common/templates/partials/*.html ${APP_ROOT}/src/python/common/templates/partials/
+COPY form_handler/templates/*.html ${APP_ROOT}/src/python/form_handler/templates/
+COPY form_handler/templates/partials/*.html ${APP_ROOT}/src/python/form_handler/templates/partials/
 COPY form_handler/*.py ${APP_ROOT}/src/python/form_handler/
 
 CMD [ "python", "python/form_handler/listener.py" ]
