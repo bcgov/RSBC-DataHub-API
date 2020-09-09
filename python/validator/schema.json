@@ -325,8 +325,8 @@
       }
     }
   },
-  "form_submission": {
-     "allow_unknown": true,
+  "prohibition_review": {
+    "allow_unknown": true,
     "valid-queue": "DF.valid",
     "invalid-queue": "DF.not-valid",
       "cerberus_rules": {
@@ -338,11 +338,9 @@
         "event_type": {
           "type": "string",
           "required": true,
-          "allowed": [
-            "form_submission"
-          ]
+          "allowed": ["prohibition_review"]
         },
-        "form_submission": {
+        "prohibition_review": {
           "type": "dict",
           "required": true,
           "schema": {
@@ -354,7 +352,16 @@
                   "type": "dict",
                   "required": true,
                   "schema": {
-                    "driver-first-name": {
+                    "applicant-role": {
+                      "type": "string",
+                      "required": true,
+                      "allowed": ["driver", "lawyer", "advocate"]
+                    },
+                    "first-name-applicant": {
+                      "type": "string",
+                      "required": true
+                    },
+                    "last-name-applicant": {
                       "type": "string",
                       "required": true
                     }
@@ -362,12 +369,84 @@
                 },
                 "prohibition-information": {
                   "type": "dict",
-                  "required": true
+                  "required": true,
+                  "schema": {
+                    "control-prohibition-number": {
+                      "type": "string",
+                      "required": true
+                    },
+                    "date-of-service": {
+                      "type": "string",
+                      "required": true
+                    },
+                    "licence-seized": {
+                      "type": "string",
+                      "required": true,
+                      "nullable": true
+                    },
+                    "licence-not-surrendered": {
+                      "type": "string",
+                      "required": true,
+                      "nullable": true
+                    },
+                    "licence-lost-or-stolen": {
+                      "type": "string",
+                      "required": true,
+                      "nullable": true
+                    },
+                    "licence-not-issued": {
+                      "type": "string",
+                      "required": true,
+                      "nullable": true
+                    }
+                  }
+                },
+                "review-information": {
+                  "type": "dict",
+                  "required": true,
+                  "schema": {
+                    "irp-prohibition-type-length": {
+                      "type": "string",
+                      "required": true,
+                      "nullable": true
+                    },
+                    "hearing-request-type": {
+                      "type": "string",
+                      "required": true,
+                      "nullable": true
+                    }
+                  }
                 }
               }
             }
           }
         }
       }
+  },
+  "review_schedule_picker": {
+    "allow_unknown": true,
+    "valid-queue": "DF.valid",
+    "invalid-queue": "DF.not-valid",
+    "cerberus_rules": {
+      "event_version": {
+        "type": "string",
+        "required": true,
+        "allowed": [
+          "1.4"
+        ]
+      },
+      "event_type": {
+        "type": "string",
+        "required": true,
+        "allowed": [
+          "review_schedule_picker"
+        ]
+      },
+      "review_schedule_picker": {
+        "type": "dict",
+        "required": true,
+        "schema": {}
+      }
+    }
   }
 }
