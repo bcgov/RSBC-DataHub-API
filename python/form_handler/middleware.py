@@ -15,30 +15,38 @@ def user_submitted_last_name_matches_vips(**args):
     last name entered by the applicant via the form.
     """
     message = args.get('message')
-    vips_data = args.get('vips_data')
-    last_name_as_submitted = message['form_submission']['form']['identification-information']['driver-last-name']
-    return is_last_name_match(vips_data['surnameNm'], last_name_as_submitted), args
+    vips_status = args.get('vips_status')
+    last_name_as_submitted = message['prohibition_review']['form']['identification-information']['driver-last-name']
+    return is_last_name_match(vips_status, last_name_as_submitted), args
 
 
 def prohibition_should_have_been_entered_in_vips(**args):
     """
+    Returns TRUE if the prohibition is found in VIPS or enough
+    time has elapsed that the prohibition should have been entered.
     Returns False if the application should be placed on hold until
-    VIPS has more time to enter the paper prohibition into the database
+    VIPS has more time to enter the prohibition into the database
     """
     message = args.get('message')
     config = args.get('config')
+    vips_status = args.get('vips_status')
+
     delay_days = int(config.DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY)
-    vips_status_success = args.get('vips_data_success')
+    vips_status_success = False
+    if "resp" in vips_status and vips_status['resp'] == 'success':
+        # record found in VIPS so there's no need to hold
+        return True, args
+
     # Note: we have to rely on the date_served as submitted by the user -- not the date in VIPS
-    date_served_string = message['form_submission']['form']['prohibition-information']['date-of-service']
+    # Check to see if enough time has elapsed to enter the prohibition into VIPS
+    date_served_string = message['prohibition_review']['form']['prohibition-information']['date-of-service']
     today = datetime.today()
     date_served = datetime.strptime(date_served_string, '%Y-%m-%d')
     very_recently_served = (today - date_served).days < delay_days
-    is_holdable = very_recently_served and not vips_status_success
-    print("date_served: {}, very_recently_served: {}, vips_status_success: {}, is holdable: {}".format(
-        date_served, very_recently_served, vips_status_success, is_holdable)
+    print("date_served: {}, very_recently_served: {}, vips_status_success: {}".format(
+        date_served, very_recently_served, vips_status_success)
     )
-    return not is_holdable, args
+    return not very_recently_served, args
 
 
 def prohibition_exists_in_vips(**args):

@@ -28,5 +28,5 @@ def test_application_received():
     assert number in html
     assert date_received in html
     assert "You must <strong>not</strong> drive" in html
-    assert "we won't get your response" in html
+    assert "Please do not respond to this email" in html
 

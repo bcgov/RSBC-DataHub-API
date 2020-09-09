@@ -43,36 +43,36 @@ last_name_match_data = [
 
 @pytest.mark.parametrize("user_entered_last_name, last_name_from_vips, expected", last_name_match_data)
 def test_user_submitted_last_name_matches_vips_method(user_entered_last_name, last_name_from_vips, expected):
-    sample_data = dict()
-    vips_data = dict()
-    vips_data['surnameNm'] = last_name_from_vips
+    vips_status = load_json_into_dict("python/tests/sample_data/vips/vips_query_200.json")
+    vips_status['data']['status']['surnameNm'] = last_name_from_vips
     sample_data = load_json_into_dict('python/tests/sample_data/form/irp_form_submission.json')
-    sample_data['form_submission']['form']['identification-information']['driver-last-name'] = user_entered_last_name
-    result, args = middleware.user_submitted_last_name_matches_vips(message=sample_data, vips_data=vips_data)
+    sample_data['prohibition_review']['form']['identification-information']['driver-last-name'] = user_entered_last_name
+    result, args = middleware.user_submitted_last_name_matches_vips(message=sample_data, vips_status=vips_status)
     assert result is expected
 
 
 should_have_been_entered_into_vips_data = [
-    (False, 0, False),
-    (False, 2, False),
-    (False, 3, True),
-    (True, 0, True),
-    (True, 2, True),
-    (True, 3, True)
+    ("vips_query_404.json", 0, False),
+    ("vips_query_404.json", 2, False),
+    ("vips_query_404.json", 3, True),
+    ("vips_query_200.json", 0, True),
+    ("vips_query_200.json", 2, True),
+    ("vips_query_200.json", 3, True)
 ]
 
 
-@pytest.mark.parametrize("is_vips_status_successful, date_offset, expected", should_have_been_entered_into_vips_data)
-def test_prohibition_should_have_been_entered_in_vips_method(is_vips_status_successful, date_offset, expected):
+@pytest.mark.parametrize("response_from_vips, date_offset, expected", should_have_been_entered_into_vips_data)
+def test_prohibition_should_have_been_entered_in_vips_method(response_from_vips, date_offset, expected):
+    vips_status = load_json_into_dict("python/tests/sample_data/vips/{}".format(response_from_vips))
     days = timedelta(date_offset)
     new_date = datetime.today() - days
     date_under_test = new_date.strftime("%Y-%m-%d")
     sample_data = load_json_into_dict('python/tests/sample_data/form/irp_form_submission.json')
-    sample_data['form_submission']['form']['prohibition-information']['date-of-service'] = date_under_test
+    sample_data['prohibition_review']['form']['prohibition-information']['date-of-service'] = date_under_test
     result, args = middleware.prohibition_should_have_been_entered_in_vips(
         message=sample_data,
         config=Config,
-        vips_data_success=is_vips_status_successful)
+        vips_status=vips_status)
     assert result is expected
 
 

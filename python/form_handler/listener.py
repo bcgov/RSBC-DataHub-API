@@ -77,7 +77,7 @@ class Listener:
                     "fail": []
                 }
             ],
-            "form_submission": [
+            "prohibition_review": [
                 { 
                     "try": actions.is_not_on_hold,
                     "fail": [

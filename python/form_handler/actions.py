@@ -12,8 +12,9 @@ def update_vips_status(**args) -> tuple:
     config = args.get('config')
     prohibition_number = ''
     correlation_id = vips.generate_correlation_id()
-    args['vips_data_success'], args['vips_status'] = vips.status_get(prohibition_number, config, correlation_id)
-    return True, args
+    is_api_callout_successful, vips_status_data = vips.status_get(prohibition_number, config, correlation_id)
+    args['vips_status'] = vips_status_data
+    return is_api_callout_successful, args
 
 
 def is_not_on_hold(**args) -> tuple:

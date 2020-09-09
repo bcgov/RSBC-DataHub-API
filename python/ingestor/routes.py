@@ -39,7 +39,7 @@ def basic_auth_required(f):
     def decorated(*args, **kwargs):
         auth = request.authorization
         if not auth or not check_credentials(Config, auth.username, auth.password):
-            message = {'error': 'Basic Auth Required.'}
+            message = {'error': 'Unauthorized'}
             resp = jsonify(message)
             resp.status_code = 401
             return resp
@@ -61,15 +61,16 @@ def ingest_etk():
 @application.route('/v1/publish/event/form', methods=["POST"])
 def ingest_form():
     logging.debug('content-type: ' + request.content_type)
+    form_name = request.args.get('form')
     payload = {
         "event_version": "1.4",
         "encrypt_at_rest": available_parameters['form']['encrypt_at_rest'],
         "event_date_time": datetime.now().isoformat(),
         "url_parameters": request.args.to_dict(),
-        "event_type": "form_submission",
-        "form_submission": xmltodict.parse(request.get_data())
+        "event_type": form_name,
+        form_name: xmltodict.parse(request.get_data())
     }
-    payload['form_submission']['xml'] = base64.b64encode(request.get_data()).decode()
+    payload[form_name]['xml'] = base64.b64encode(request.get_data()).decode()
     encoded_message = encode_message(payload, Config.ENCRYPT_KEY)
     if payload is not None and rabbit_mq.publish(available_parameters['form']['queue'], encoded_message):
         return jsonify(payload), 200
@@ -78,6 +79,7 @@ def ingest_form():
 
 
 @application.route('/schedule/<notice_type>/<requested_date>', methods=['GET'])
+@basic_auth_required
 def schedule(notice_type, requested_date):
     """
     GET timeslots for oral reviews for a specific date and prohibition_type
@@ -107,6 +109,7 @@ def schedule(notice_type, requested_date):
 
 
 @application.route('/review_dates', methods=['POST'])
+@basic_auth_required
 def review_dates():
     """
     Confirm prohibition number and last name matches VIPS.
@@ -152,13 +155,6 @@ def review_dates():
                 "is_valid": False,
             }
         }))
-
-
-@application.route('/restricted', methods=['GET'])
-@basic_auth_required
-def restricted():
-    # TODO - REMOVE BEFORE FLIGHT - for debugging purposes
-    return make_response({"message": "success"}, 200)
 
 
 def check_credentials(config, username_submitted, password_submitted) -> bool:

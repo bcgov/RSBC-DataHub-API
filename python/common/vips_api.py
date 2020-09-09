@@ -23,14 +23,15 @@ def list_of_dates_between(start: datetime, end: datetime) -> list:
 
 def status_get(prohibition_id: str, config, correlation_id: str) -> tuple:
     """
-    Call out to the VIPS API and return the prohibition status
+    Call out to the VIPS API and return the prohibition status. Returns (True, data)
+    if the callout to the API was successful.  Returns (False, data) if the call out
+    to the API was unsuccessful.  For example, the API is down.
     """
     endpoint = build_endpoint(config.VIPS_API_ROOT_URL, prohibition_id, 'status', correlation_id)
     is_response_successful, data = get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
-    is_success = 'resp' in data and data['resp'] == 'success'
-    if is_success:
-        return True, data['data']['status']
-    return False, data['error']
+    if 'resp' in data:
+        return True, data
+    return False, dict({})
 
 
 def disclosure_get(document_id: str, config, correlation_id: str):
@@ -167,7 +168,8 @@ def remove_accents(input_str):
     return only_ascii
 
 
-def is_last_name_match(vips_last_name: dict, last_name: str) -> bool:
+def is_last_name_match(vips_status: dict, last_name: str) -> bool:
+    vips_last_name = vips_status['data']['status']['surnameNm']
     logging.debug('compare last name: {} and {}'.format(vips_last_name, last_name))
     return bool(remove_accents(vips_last_name).upper() == remove_accents(last_name).upper())
 

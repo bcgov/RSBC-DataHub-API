@@ -38,7 +38,7 @@ class TestVips:
         assert "responseMessage" in actual
 
     @staticmethod
-    def test_query_get_method():
+    def test_query_get_method_success():
         response_from_api = load_json_into_dict('python/tests/sample_data/vips/vips_query_200.json')
         vips.get = MagicMock(return_value=(True, response_from_api))
         endpoint = TestConfig.VIPS_API_ROOT_URL + '/12345/status/' + TestVips.CORRELATION_ID
@@ -51,9 +51,40 @@ class TestVips:
             TestVips.CORRELATION_ID)
         print(json.dumps(actual))
         assert is_success is True
-        assert "driverLicenceSeizedYn" in actual
-        assert "surnameNm" in actual
-        assert "disclosure" in actual
+        assert "driverLicenceSeizedYn" in actual['data']['status']
+        assert "surnameNm" in actual['data']['status']
+        assert "disclosure" in actual['data']['status']
+
+    @staticmethod
+    def test_query_get_method_failure():
+        response_from_api = load_json_into_dict('python/tests/sample_data/vips/vips_query_404.json')
+        vips.get = MagicMock(return_value=(True, response_from_api))
+        endpoint = TestConfig.VIPS_API_ROOT_URL + '/12345/status/' + TestVips.CORRELATION_ID
+        vips.get(endpoint, TestConfig.VIPS_API_USERNAME, TestConfig.VIPS_API_PASSWORD)
+        is_success, actual = vips.status_get("12345", TestConfig, TestVips.CORRELATION_ID)
+        vips.get.assert_called_with(
+            endpoint,
+            TestConfig.VIPS_API_USERNAME,
+            TestConfig.VIPS_API_PASSWORD,
+            TestVips.CORRELATION_ID)
+        print(json.dumps(actual))
+        assert is_success is True
+        assert "fail" in actual['resp']
+
+    @staticmethod
+    def test_query_get_method_bad_response():
+        response_from_api = dict({"offline": True})
+        vips.get = MagicMock(return_value=(False, response_from_api))
+        endpoint = TestConfig.VIPS_API_ROOT_URL + '/12345/status/' + TestVips.CORRELATION_ID
+        vips.get(endpoint, TestConfig.VIPS_API_USERNAME, TestConfig.VIPS_API_PASSWORD)
+        is_success, actual = vips.status_get("12345", TestConfig, TestVips.CORRELATION_ID)
+        vips.get.assert_called_with(
+            endpoint,
+            TestConfig.VIPS_API_USERNAME,
+            TestConfig.VIPS_API_PASSWORD,
+            TestVips.CORRELATION_ID)
+        print(json.dumps(actual))
+        assert is_success is False
 
     @staticmethod
     def test_disclosure_get_method():
@@ -124,3 +155,10 @@ class TestVips:
         end_date = datetime.strptime("2020-09-05", "%Y-%m-%d")
         expected = list(["2020-09-01", "2020-09-02", "2020-09-03", "2020-09-04", "2020-09-05"])
         assert vips.list_of_dates_between(start_date, end_date) == expected
+
+    @staticmethod
+    def test_last_name_match():
+        response_from_api = load_json_into_dict('python/tests/sample_data/vips/vips_query_200.json')
+        is_success = vips.is_last_name_match(response_from_api, "Norris")
+        assert is_success is True
+
