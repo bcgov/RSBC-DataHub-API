@@ -159,6 +159,6 @@ class TestVips:
     @staticmethod
     def test_last_name_match():
         response_from_api = load_json_into_dict('python/tests/sample_data/vips/vips_query_200.json')
-        is_success = vips.is_last_name_match(response_from_api, "Norris")
+        is_success = vips.is_last_name_match(response_from_api['data']['status'], "Norris")
         assert is_success is True
 

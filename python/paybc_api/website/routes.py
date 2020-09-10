@@ -2,6 +2,8 @@ from flask import Blueprint, request, jsonify, make_response
 from python.paybc_api.website.oauth2 import authorization, require_oauth
 import python.common.vips_api as vips
 import python.common.prohibitions as pro
+import python.common.helper as helper
+import python.common.business as rules
 from python.paybc_api.website.config import Config
 from python.common.helper import load_json_into_dict
 from cerberus import Validator as Cerberus
@@ -35,34 +37,25 @@ def search():
     check_value.  We return an array of items to be paid.
     """
     if request.method == 'GET':
-        last_name = request.args.get('check_value', None, type=str)
-        prohibition_number = request.args.get('invoice_number', None, type=str)
-
-        logging.info("GET search/ request received: {}".format(json.dumps(request.args)))
-
-        if not validate(Config, 'search', request.args.to_dict()):
-            return make_response({"error": "failed validation"}, 400)
-
-        correlation_id = vips.generate_correlation_id()
-        is_status_success, vips_status = vips.status_get(prohibition_number, Config, correlation_id)
-        logging.info("current prohibition status: {}".format(json.dumps(vips_status)))
-        if not (
-                is_status_success and
-                vips.is_last_name_match(vips_status, last_name) and
-                "applicationId" in vips_status and
-                "receiptNumberTxt" not in vips_status):
-            # TODO - check that the window to submit and pay for an application for review has not passed
-            error = 'A prohibition with that number is not found or not ready for payment'
-            logging.info(error)
-            return jsonify({"error": error})
-
-        # TODO - http replaced with https for local development - REMOVE BEFORE FLIGHT!
-        return jsonify({
-            "items": [{"selected_invoice": {
-                   "$ref": request.host_url.replace('http', 'https') + 'api_v2/invoice/' + prohibition_number}
-                }
-            ]
-        })
+        # invoke middleware functions
+        prohibition_number = request.args.get('invoice_number')
+        driver_last_name = request.args.get('check_value')
+        logging.info('inputs: {}, {}'.format(prohibition_number, driver_last_name))
+        args = helper.middle_logic(
+            rules.ready_for_payment(),
+            config=Config,
+            prohibition_number=prohibition_number,
+            driver_last_name=driver_last_name)
+        if 'error_string' not in args:
+            # TODO - http replaced with https for local development - REMOVE BEFORE FLIGHT!
+            host_url = request.host_url.replace('http', 'https')
+            return jsonify({
+                "items": [{"selected_invoice": {
+                       "$ref": host_url + 'api_v2/invoice/' + args.get('prohibition_number')}
+                    }
+                ]
+            })
+        return jsonify({"error": args.get('error_string')})
 
 
 @bp.route('/api_v2/invoice/<prohibition_number>', methods=['GET'])
@@ -71,24 +64,17 @@ def show(prohibition_number):
     """
     PayBC requests details on the item to be paid from this endpoint.
     """
-    if re.match(r"^\d{6,20}$", prohibition_number) is None:
-        logging.warning('show method failed validation: {}'.format(prohibition_number))
-        return make_response({"error": "failed validation"}, 400)
-
     if request.method == 'GET':
-        correlation_id = vips.generate_correlation_id()
-        is_status_success, vips_status = vips.status_get(prohibition_number, Config, correlation_id)
-        service_date = vips.vips_str_to_datetime(vips_status['effectiveDt'])
-        logging.info("current prohibition status: {}".format(json.dumps(vips_status)))
-        prohibition = pro.prohibition_factory(vips_status['noticeTypeCd'])
-        application_id = vips_status['applicationId']
-        is_application_success, application = vips.application_get(application_id, Config, correlation_id)
-        logging.info("current application status: {}".format(json.dumps(application)))
-        presentation_type = application['presentationTypeCd']
-        amount_due = prohibition.amount_due(presentation_type)
-        if is_status_success:
+        # invoke middleware functions
+        args = helper.middle_logic(rules.ready_for_invoicing(),
+                                   prohibition_number=prohibition_number,
+                                   config=Config)
+        if 'error_string' not in args:
+            presentation_type = args.get('presentation_type')
+            amount_due = args.get('amount_due')
+            service_date = args.get('service_date')
             return jsonify(dict({
-                "invoice_number": prohibition_number,
+                "invoice_number": args.get('prohibition_number'),
                 "pbc_ref_number": "10008",
                 "party_number": 0,
                 "party_name": "RSI",
@@ -98,12 +84,12 @@ def show(prohibition_number):
                 "term_due_date": service_date.isoformat(),
                 "total": amount_due,
                 "amount_due": amount_due,
-                "attribute1": vips_status['noticeTypeCd'],
+                "attribute1": args.get('vips_data')['noticeTypeCd'],
                 "attribute2": service_date.strftime("%b %-d, %Y"),
                 "attribute3": presentation_type,
                 "amount": amount_due
             }))
-        return make_response({"error": 'We are unable to find invoice: ' + prohibition_number}, 404)
+        return make_response({"error": args.get('error_string')}, 404)
 
 
 @bp.route('/api_v2/receipt', methods=['POST'])
@@ -138,9 +124,7 @@ def receipt():
                                                  receipt_number=payload['receipt_number'])
 
         if not is_successful:
-            return jsonify(dict({
-                "status": "INCMP",
-               }))
+            return jsonify(dict({"status": "INCMP"}))
 
         # TODO - trigger a payment event which sends email to applicant
         #  with instructions to schedule
@@ -148,7 +132,7 @@ def receipt():
         return jsonify(dict({
             "status": "APP",
             "receipt_number": payload['receipt_number'],
-            "receipt_date ": datetime.date.today().strftime('%d-%b-%Y'),
+            "receipt_date ": datetime.today().strftime('%d-%b-%Y'),
             "receipt_amount": payload['receipt_amount']
         }))
 

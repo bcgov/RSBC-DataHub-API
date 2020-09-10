@@ -2,19 +2,9 @@ import logging
 from datetime import datetime, timedelta
 from python.common.message import encode_message, add_error_to_message
 from python.form_handler.config import Config
-import python.common.vips_api as vips
 import iso8601
 
 logging.basicConfig(level=Config.LOG_LEVEL)
-
-
-def update_vips_status(**args) -> tuple:
-    config = args.get('config')
-    prohibition_number = ''
-    correlation_id = vips.generate_correlation_id()
-    is_api_callout_successful, vips_status_data = vips.status_get(prohibition_number, config, correlation_id)
-    args['vips_status'] = vips_status_data
-    return is_api_callout_successful, args
 
 
 def is_not_on_hold(**args) -> tuple:

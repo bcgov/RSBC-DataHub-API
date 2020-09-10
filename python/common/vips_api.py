@@ -71,17 +71,17 @@ def application_create(form_type: str, prohibition_id: str, config, correlation_
     endpoint = build_endpoint(config.VIPS_API_ROOT_URL, form_type, prohibition_id, 'application', correlation_id)
     payload = {
         "applicationInfo": {
-            "email": args.get('email'),
-            "faxNo": args.get('fax', ''),
-            "firstGivenNm": args.get('first_name'),
-            "formData": args.get('form_date'),
-            "manualEntryYN": args.get('manual_entry', 'N'),
-            "noticeSubjectCd": args.get('notice_subject_type', 'PERS'),
+            "email": args.get('applicant_email_address'),
+            "faxNo": '',
+            "firstGivenNm": args.get('applicant_first_name'),
+            "formData": args.get('xml_form_data'),
+            "manualEntryYN": 'Y',
+            "noticeSubjectCd": 'PERS',
             "phoneNo": args.get('phone'),
             "presentationTypeCd": args.get('presentation_type'),
             "reviewRoleTypeCd": args.get('applicant_role'),
-            "secondGivenNm": args.get('middle_name'),
-            "surnameNm": args.get('last_name'),
+            "secondGivenNm": '',
+            "surnameNm": args.get('applicant_last_name'),
         }
     }
     return create(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, payload, correlation_id)
@@ -92,8 +92,7 @@ def application_update(guid: str, config, correlation_id: str):
     return get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
 
 
-def schedule_get(notice_type_code: str, review_date: str, config) -> tuple:
-    correlation_id = generate_correlation_id()
+def schedule_get(notice_type_code: str, review_date: str, config, correlation_id='abcd') -> tuple:
     endpoint = build_endpoint(
         config.VIPS_API_ROOT_URL,
         notice_type_code,
@@ -102,9 +101,8 @@ def schedule_get(notice_type_code: str, review_date: str, config) -> tuple:
         'review',
         'availableTimeSlot',
         correlation_id)
-    logging.debug("get VIPS schedule endpoint: {}".format(endpoint))
     is_successful, data = get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
-    if is_successful and data['resp'] == 'success':
+    if is_successful:
         return True, data
     logging.warning('Cannot GET VIPS schedule: {}'.format(json.dumps(data)))
     return False, {}
@@ -169,15 +167,9 @@ def remove_accents(input_str):
 
 
 def is_last_name_match(vips_status: dict, last_name: str) -> bool:
-    vips_last_name = vips_status['data']['status']['surnameNm']
+    vips_last_name = vips_status['surnameNm']
     logging.debug('compare last name: {} and {}'.format(vips_last_name, last_name))
     return bool(remove_accents(vips_last_name).upper() == remove_accents(last_name).upper())
-
-
-def has_been_paid(vips_payment_status: dict) -> tuple:
-    is_paid = 'data' in vips_payment_status and 'transactionInfo' in vips_payment_status['data']
-    valid_response = 'resp' in vips_payment_status
-    return valid_response, is_paid
 
 
 def vips_str_to_datetime(vips_date_time: str) -> datetime:

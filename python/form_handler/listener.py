@@ -1,12 +1,11 @@
 from python.form_handler.config import Config
 import python.form_handler.rsi_email as rsi_email
-from python.common.helper import middle_logic
-import python.form_handler.middleware as rules
+import python.common.helper as helper
+import python.common.middleware as middleware
 from python.common.rabbitmq import RabbitMQ
 from python.common.message import decode_message
 import python.form_handler.actions as actions
 import logging
-import json
 
 logging.basicConfig(level=Config.LOG_LEVEL)
 
@@ -38,10 +37,10 @@ class Listener:
         message_dict = decode_message(body, self.config.ENCRYPT_KEY)
 
         # invoke listener functions
-        middle_logic(self.get_listeners(message_dict['event_type']),
-                     message=message_dict,
-                     config=self.config,
-                     writer=self.writer)
+        helper.middle_logic(helper.get_listeners(self.listeners(), message_dict['event_type']),
+                            message=message_dict,
+                            config=self.config,
+                            writer=self.writer)
 
         # Regardless of whether the process above follows the happy path or not,
         # we need to acknowledge receipt of the message to RabbitMQ below. This
@@ -50,32 +49,13 @@ class Listener:
 
         ch.basic_ack(delivery_tag=method.delivery_tag)
 
-    def get_listeners(self, event_type: str) -> list:
-        """
-        Get the list of nested list of functions to invoke
-        for a particular form type
-        """
-        if event_type in self.listeners():
-            return self.listeners()[event_type]
-        else:
-            return self.listeners()['unknown_event']
-
     @staticmethod
     def listeners() -> dict:
         return {
             "unknown_event": [
-                {
-                    "try": actions.add_unknown_event_error_to_message,
-                    "fail": []
-                },
-                {
-                    "try": actions.add_to_failed_queue,
-                    "fail": []
-                },
-                {
-                    "try": rsi_email.admin_unknown_event_type,
-                    "fail": []
-                }
+                {"try": actions.add_unknown_event_error_to_message, "fail": []},
+                {"try": actions.add_to_failed_queue, "fail": []},
+                {"try": rsi_email.admin_unknown_event_type, "fail": []}
             ],
             "prohibition_review": [
                 { 
@@ -84,40 +64,42 @@ class Listener:
                         {"try": actions.add_to_hold_queue, "fail": []}
                     ]
                 },
+                {"try": middleware.get_data_from_prohibition_review_form, "fail": []},
+                {"try": middleware.create_correlation_id, "fail": []},
                 {
-                    "try": actions.update_vips_status,
+                    "try": middleware.update_vips_status,
                     "fail": [
                         {"try": actions.add_to_hold_queue, "fail": []}
                     ]
                 },
                 {
-                    "try": rules.prohibition_should_have_been_entered_in_vips,
+                    "try": middleware.prohibition_exists_in_vips,
                     "fail": [
+                        {
+                            "try": middleware.prohibition_served_recently,
+                            "fail": [
+                                {"try": rsi_email.applicant_prohibition_not_found, "fail": []}
+                            ]
+                        },
                         {"try": rsi_email.applicant_prohibition_not_yet_in_vips, "fail": []},
                         {"try": actions.add_hold_until_attribute, "fail": []},
                         {"try": actions.add_to_hold_queue, "fail": []}
                     ]
                 },
                 {
-                    "try": rules.prohibition_exists_in_vips,
-                    "fail": [
-                        {"try": rsi_email.applicant_prohibition_not_found, "fail": []}
-                    ]
-                },
-                {
-                    "try": rules.user_submitted_last_name_matches_vips,
+                    "try": middleware.user_submitted_last_name_matches_vips,
                     "fail": [
                         {"try": rsi_email.applicant_last_name_mismatch, "fail": []}
                     ]
                 },
                 {
-                    "try": rules.date_served_not_older_than_one_week,
+                    "try": middleware.date_served_not_older_than_one_week,
                     "fail": [
                         {"try": rsi_email.applicant_prohibition_served_more_than_7_days_ago, "fail": []}
                     ]
                 },
                 {
-                    "try": rules.has_drivers_licence_been_seized,
+                    "try": middleware.has_drivers_licence_been_seized,
                     "fail": [
                         {"try": rsi_email.applicant_licence_not_seized, "fail": []}
                     ]
@@ -129,10 +111,7 @@ class Listener:
                         {"try": rsi_email.admin_unable_to_save_to_vips, "fail": []}
                     ]
                 },
-                {
-                    "try": rsi_email.application_accepted,
-                    "fail": []
-                }
+                {"try": rsi_email.application_accepted, "fail": []}
             ],
         }
 

@@ -21,7 +21,7 @@ parameters:
 - name: ENCRYPT_KEY
 - name: FLASK_SECRET_KEY
 - name: LOG_LEVEL
-  value: 'WARNING'
+  value: 'INFO'
 - name: FLASK_ENV
   value: 'development'
 - name: URL_SUFFIX

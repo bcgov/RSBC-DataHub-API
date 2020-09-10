@@ -10,16 +10,15 @@ logging.basicConfig(level=Config.LOG_LEVEL)
 
 def application_accepted(**args):
     config = args.get('config')
-    message = args.get('message')
-    prohibition_number = get_prohibition_number(message)
+    prohibition_number = args.get('prohibition_number')
     subject = 'Re: Driving Prohibition Review - Application Accepted  - {}'.format(prohibition_number)
     template = get_jinja2_env().get_template('application_accepted.html')
     return send_email(
-        [get_email_address(message)],
+        [args.get('applicant_email_address')],
         subject,
         config,
         template.render(
-            full_name=get_full_name(message),
+            full_name=args.get('driver_full_name'),
             prohibition_number=prohibition_number,
             subject=subject),
         config.COMM_SERV_API_ROOT_URL,
@@ -43,16 +42,15 @@ def send_email_to_admin(**args):
 
 def applicant_prohibition_served_more_than_7_days_ago(**args):
     config = args.get('config')
-    message = args.get('message')
-    prohibition_number = get_prohibition_number(message)
+    prohibition_number = args.get('prohibition_number')
     subject = 'Re: Driving Prohibition Review - 7-day Application Window Missed - {}'.format(prohibition_number)
     template = get_jinja2_env().get_template('application_not_received_in_time.html')
     return send_email(
-        [get_email_address(message)],
+        [args.get('applicant_email_address')],
         subject,
         config,
         template.render(
-            full_name=get_full_name(message),
+            full_name=args.get('driver_full_name'),
             prohibition_number=prohibition_number,
             subject=subject),
         config.COMM_SERV_API_ROOT_URL,
@@ -61,16 +59,15 @@ def applicant_prohibition_served_more_than_7_days_ago(**args):
 
 def applicant_licence_not_seized(**args):
     config = args.get('config')
-    message = args.get('message')
-    prohibition_number = get_prohibition_number(message)
+    prohibition_number = args.get('prohibition_number')
     subject = 'Re: Driving Prohibition Review - Licence Not Returned - {}'.format(prohibition_number)
     template = get_jinja2_env().get_template('licence_not_seized.html')
     return send_email(
-        [get_email_address(message)],
+        [args.get('applicant_email_address')],
         subject,
         config,
         template.render(
-            full_name=get_full_name(message),
+            full_name=args.get('driver_full_name'),
             prohibition_number=prohibition_number,
             subject=subject),
         config.COMM_SERV_API_ROOT_URL,
@@ -79,16 +76,15 @@ def applicant_licence_not_seized(**args):
 
 def applicant_prohibition_not_found(**args):
     config = args.get('config')
-    message = args.get('message')
-    prohibition_number = get_prohibition_number(message)
+    prohibition_number = args.get('prohibition_number')
     subject = 'Re: Driving Prohibition Review - Not Found - {}'.format(prohibition_number)
     template = get_jinja2_env().get_template('application_not_found.html')
     return send_email(
-        [get_email_address(message)],
+        [args.get('applicant_email_address')],
         subject,
         config,
         template.render(
-            full_name=get_full_name(message),
+            full_name=args.get('driver_full_name'),
             prohibition_number=prohibition_number,
             subject=subject),
         config.COMM_SERV_API_ROOT_URL,
@@ -97,16 +93,15 @@ def applicant_prohibition_not_found(**args):
 
 def applicant_last_name_mismatch(**args):
     config = args.get('config')
-    message = args.get('message')
-    prohibition_number = get_prohibition_number(message)
+    prohibition_number = args.get('prohibition_number')
     subject = "Re: Driving Prohibition Review - Prohibition Number and Name Don't Match - {}".format(prohibition_number)
     template = get_jinja2_env().get_template('last_name_mismatch.html')
     return send_email(
-        [get_email_address(message)],
+        [args.get('applicant_email_address')],
         subject,
         config,
         template.render(
-            full_name=get_full_name(message),
+            full_name=args.get('driver_full_name'),
             prohibition_number=prohibition_number,
             subject=subject),
         config.COMM_SERV_API_ROOT_URL,
@@ -115,18 +110,16 @@ def applicant_last_name_mismatch(**args):
 
 def applicant_prohibition_not_yet_in_vips(**args):
     config = args.get('config')
-    message = args.get('message')
-    prohibition_number = get_prohibition_number(message)
+    prohibition_number = args.get('prohibition_number')
     subject = 'Re: Driving Prohibition Review - Not Entered Yet - {}'.format(prohibition_number)
-    logger = args.get('logger')
-    logger.info('Re: Driving Prohibition Review - Not Yet in VIPS')
+    logging.info('Re: Driving Prohibition Review - Not Yet in VIPS')
     template = get_jinja2_env().get_template('application_not_yet_in_vips.html')
     return send_email(
-        [get_email_address(message)],
+        [args.get('applicant_email_address')],
         subject,
         config,
         template.render(
-            full_name=get_full_name(message),
+            full_name=args.get('driver_full_name'),
             prohibition_number=prohibition_number,
             subject=subject),
         config.COMM_SERV_API_ROOT_URL,
@@ -191,20 +184,3 @@ def get_jinja2_env():
         loader=PackageLoader('python', 'form_handler/templates'),
         autoescape=select_autoescape(['html', 'xml'])
     )
-
-
-def get_email_address(message: dict) -> str:
-    event_type = message['event_type']
-    return message[event_type]['form']['identification-information']['driver-email-address']
-
-
-def get_full_name(message: dict) -> str:
-    event_type = message['event_type']
-    first_name = message[event_type]['form']['identification-information']['driver-first-name']
-    last_name = message[event_type]['form']['identification-information']['driver-last-name']
-    return "{} {}".format(first_name, last_name)
-
-
-def get_prohibition_number(message: dict) -> str:
-    event_type = message['event_type']
-    return message[event_type]['form']['prohibition-information']['control-prohibition-number']

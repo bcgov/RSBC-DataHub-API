@@ -364,6 +364,10 @@
                     "last-name-applicant": {
                       "type": "string",
                       "required": true
+                    },
+                    "applicant-email-address": {
+                      "type": "string",
+                      "required": true
                     }
                   }
                 },
@@ -372,6 +376,10 @@
                   "required": true,
                   "schema": {
                     "control-prohibition-number": {
+                      "type": "string",
+                      "required": true
+                    },
+                    "prohibition-number-clean": {
                       "type": "string",
                       "required": true
                     },

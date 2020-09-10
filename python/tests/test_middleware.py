@@ -1,7 +1,7 @@
 import pytest
 from python.form_handler.config import Config
 from datetime import datetime, timedelta
-import python.form_handler.middleware as middleware
+import python.common.middleware as middleware
 from python.common.helper import load_json_into_dict
 
 date_served_data = [
@@ -45,48 +45,45 @@ last_name_match_data = [
 def test_user_submitted_last_name_matches_vips_method(user_entered_last_name, last_name_from_vips, expected):
     vips_status = load_json_into_dict("python/tests/sample_data/vips/vips_query_200.json")
     vips_status['data']['status']['surnameNm'] = last_name_from_vips
-    sample_data = load_json_into_dict('python/tests/sample_data/form/irp_form_submission.json')
-    sample_data['prohibition_review']['form']['identification-information']['driver-last-name'] = user_entered_last_name
-    result, args = middleware.user_submitted_last_name_matches_vips(message=sample_data, vips_status=vips_status)
+    result, args = middleware.user_submitted_last_name_matches_vips(
+        driver_last_name=user_entered_last_name,
+        vips_data=vips_status['data']['status'])
     assert result is expected
 
 
-should_have_been_entered_into_vips_data = [
-    ("vips_query_404.json", 0, False),
-    ("vips_query_404.json", 2, False),
-    ("vips_query_404.json", 3, True),
-    ("vips_query_200.json", 0, True),
-    ("vips_query_200.json", 2, True),
-    ("vips_query_200.json", 3, True)
+served_recently_data = [
+    (0, True),
+    (1, True),
+    (2, True),
+    (3, False),
+    (4, False)
 ]
 
 
-@pytest.mark.parametrize("response_from_vips, date_offset, expected", should_have_been_entered_into_vips_data)
-def test_prohibition_should_have_been_entered_in_vips_method(response_from_vips, date_offset, expected):
-    vips_status = load_json_into_dict("python/tests/sample_data/vips/{}".format(response_from_vips))
+@pytest.mark.parametrize("date_offset, expected", served_recently_data)
+def test_prohibition_served_recently_method(date_offset, expected):
     days = timedelta(date_offset)
     new_date = datetime.today() - days
     date_under_test = new_date.strftime("%Y-%m-%d")
-    sample_data = load_json_into_dict('python/tests/sample_data/form/irp_form_submission.json')
-    sample_data['prohibition_review']['form']['prohibition-information']['date-of-service'] = date_under_test
-    result, args = middleware.prohibition_should_have_been_entered_in_vips(
-        message=sample_data,
-        config=Config,
-        vips_status=vips_status)
+    result, args = middleware.prohibition_served_recently(
+        date_of_service=date_under_test,
+        config=Config)
     assert result is expected
 
 
 exists_in_vips_data = [
-    (True, True),
-    (False, False)
+    ("vips_query_404.json", False),
+    ("vips_query_200.json", True)
 ]
 
 
-@pytest.mark.parametrize("vips_data_success, expected", exists_in_vips_data)
-def test_prohibition_exists_in_vips_method(vips_data_success, expected):
-    # I know not worth testing, but for completeness ...
-    result, args = middleware.prohibition_exists_in_vips(vips_data_success=vips_data_success)
+@pytest.mark.parametrize("response_from_vips, expected", exists_in_vips_data)
+def test_prohibition_exists_in_vips_method(response_from_vips, expected):
+    vips_status = load_json_into_dict("python/tests/sample_data/vips/{}".format(response_from_vips))
+    result, data = middleware.prohibition_exists_in_vips(vips_status=vips_status)
     assert result is expected
+    if result:
+        assert 'vips_data' in data
 
 
 licence_seized = [
@@ -105,8 +102,8 @@ def test_has_drivers_licence_been_seized_method(prohibition_type, test_condition
     response_from_api = load_json_into_dict('python/tests/sample_data/vips/vips_query_200.json')
     response_from_api['data']['status']['driverLicenceSeizedYn'] = test_condition
     response_from_api['data']['status']['noticeTypeCd'] = prohibition_type
-    vips_status = response_from_api['data']['status']
-    result, args = middleware.has_drivers_licence_been_seized(message=sample_data, vips_status=vips_status)
+    vips_data = response_from_api['data']['status']
+    result, args = middleware.has_drivers_licence_been_seized(message=sample_data, vips_data=vips_data)
     assert result is expected
 
 

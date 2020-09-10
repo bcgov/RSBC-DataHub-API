@@ -73,7 +73,6 @@ def middle_logic(functions: list, **args):
 
     The middleware is called like this: middle_logic(example['rules'])
     """
-
     if functions:
         try_fail_node = functions.pop(0)
         logging.debug('calling try function: ' + try_fail_node['try'].__name__)
@@ -81,7 +80,19 @@ def middle_logic(functions: list, **args):
         logging.info("result from {} is {}".format(try_fail_node['try'].__name__, flag))
         if flag:
             logging.debug('calling middleware logic recursively')
-            middle_logic(functions, **args)
+            args = middle_logic(functions, **args)
         else:
             logging.debug('calling failure functions recursively')
-            middle_logic(try_fail_node['fail'], **args)
+            args = middle_logic(try_fail_node['fail'], **args)
+    return args
+
+
+def get_listeners(listeners, key: str) -> list:
+    """
+    Get the list of nested list of functions to invoke
+    for a particular form type
+    """
+    if key in listeners():
+        return listeners()[key]
+    else:
+        return listeners()['unknown_event']
