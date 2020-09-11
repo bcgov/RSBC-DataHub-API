@@ -286,7 +286,8 @@ def query_review_times_available(**args) -> tuple:
         logging.info('check VIPS for time slots available on: {}'.format(query_date_string))
         is_successful, data = vips.schedule_get(vips_data['noticeTypeCd'], query_date_string, config)
         if data['resp'] == 'success' and len(data['data']['timeSlots']) > 0:
-            time_slots += (vips.time_slots_to_friendly_times(data['data']['timeSlots']), presentation_type)
+            # TODO - replace hard-coded 'ORAL' below
+            time_slots += vips.time_slots_to_friendly_times(data['data']['timeSlots'], 'ORAL')
     logging.debug(json.dumps(time_slots))
     args['time_slots'] = time_slots
 
