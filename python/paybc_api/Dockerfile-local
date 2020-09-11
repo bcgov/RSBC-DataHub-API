@@ -5,6 +5,8 @@ COPY paybc_api/requirements.txt /tmp/
 RUN pip install -r /tmp/requirements.txt
 
 COPY common/*.py /home/appuser/python/common/
+COPY common/templates/*.html /home/appuser/python/common/templates/
+COPY common/templates/partials/*.html /home/appuser/python/common/templates/partials/
 COPY paybc_api/*.py /home/appuser/python/paybc_api/
 COPY paybc_api/*.json /home/appuser/python/paybc_api/
 COPY paybc_api/website/*.py /home/appuser/python/paybc_api/website/

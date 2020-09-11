@@ -2,7 +2,6 @@ import requests
 import logging
 import json
 import uuid
-import python.common.prohibitions as pro
 from datetime import datetime, timedelta
 from iso8601 import parse_date
 from unicodedata import normalize
@@ -12,12 +11,15 @@ import base64
 logging.basicConfig(level=Config.LOG_LEVEL)
 
 
-def list_of_dates_between(start: datetime, end: datetime) -> list:
+def list_of_weekdays_dates_between(start: datetime, end: datetime) -> list:
+    delta = timedelta(days=1)
+    query_date = start
     results = list()
-    delta = end - start
-    for i in range(delta.days + 1):
-        day = start + timedelta(days=i)
-        results.append(day.strftime("%Y-%m-%d"))
+    while query_date <= end:
+        day_of_week = query_date.strftime("%a")
+        if not (day_of_week == "Sun" or day_of_week == "Sat"):
+            results.append(query_date)
+        query_date += delta
     return results
 
 
@@ -62,8 +64,8 @@ def payment_patch(prohibition_id: str, config, correlation_id: str, **args):
 def application_get(application_id: str, config, correlation_id: str) -> tuple:
     endpoint = build_endpoint(config.VIPS_API_ROOT_URL, application_id, 'application', correlation_id)
     is_success, data = get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
-    if is_success and "data" in data and 'applicationInfo' in data['data']:
-        return True, data['data']['applicationInfo']
+    if is_success and "resp" in data:
+        return True, data
     return False, data
 
 
@@ -72,16 +74,16 @@ def application_create(form_type: str, prohibition_id: str, config, correlation_
     payload = {
         "applicationInfo": {
             "email": args.get('applicant_email_address'),
-            "faxNo": '',
-            "firstGivenNm": args.get('applicant_first_name'),
-            "formData": args.get('xml_form_data'),
-            "manualEntryYN": 'Y',
-            "noticeSubjectCd": 'PERS',
-            "phoneNo": args.get('phone'),
+            "phoneNo": args.get('applicant_phone_number'),
             "presentationTypeCd": args.get('presentation_type'),
             "reviewRoleTypeCd": args.get('applicant_role'),
-            "secondGivenNm": '',
+            "firstGivenNm": args.get('applicant_first_name'),
             "surnameNm": args.get('applicant_last_name'),
+            "formData": args.get('xml_form_data'),
+            "secondGivenNm": '',
+            "faxNo": '',
+            "manualEntryYN": 'Y',
+            "noticeSubjectCd": 'PERS',
         }
     }
     return create(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, payload, correlation_id)
@@ -102,7 +104,7 @@ def schedule_get(notice_type_code: str, review_date: str, config, correlation_id
         'availableTimeSlot',
         correlation_id)
     is_successful, data = get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
-    if is_successful:
+    if is_successful and 'resp' in data:
         return True, data
     logging.warning('Cannot GET VIPS schedule: {}'.format(json.dumps(data)))
     return False, {}
@@ -198,17 +200,6 @@ def vips_str_to_friendly_time(vips_date_time: str) -> str:
     return date_time_object.strftime("%-I:%M%p")
 
 
-def _time_slot_to_friendly_time(time_slot: dict) -> dict:
-    start_time = time_slot['reviewStartDtm']
-    end_time = time_slot['reviewEndDtm']
-    return {
-        "label": "{} to {}".format(
-            vips_str_to_friendly_time(start_time),
-            vips_str_to_friendly_time(end_time)),
-        "value": encode_time_slot(time_slot)
-    }
-
-
 def encode_time_slot(time_slot: dict) -> str:
     start_time = time_slot['reviewStartDtm']
     end_time = time_slot['reviewEndDtm']
@@ -224,18 +215,36 @@ def decode_time_slot(encode_string: str) -> dict:
     }
 
 
-def schedule_to_friendly_times(time_slots: dict) -> list:
+def _time_slot_to_friendly_time(time_slot: dict) -> dict:
+    start_time = time_slot['reviewStartDtm']
+    end_time = time_slot['reviewEndDtm']
+    return {
+        "label": "{} - {} to {}".format(
+            # Friday, Sept 4, 2020
+            vips_str_to_datetime(start_time).strftime("%a, %b %-d, %Y"),
+            vips_str_to_friendly_time(start_time),
+            vips_str_to_friendly_time(end_time)),
+        "value": encode_time_slot(time_slot)
+    }
+
+
+def time_slots_to_friendly_times(time_slots: dict, presentation_type) -> list:
     """
     This function takes a list of timeslots as returned
     by VIPS GET schedule and returns a list of
     dictionary objects with friendly labels and base64
     encoded VIPS date time string
     {
-        label: "10:00am to 11:30am"
+        label: "Fri, Sep 4, 2020 - 10:00am to 11:30am"
         value: "ZGF0YSB0byBiZSBlbmNvZGVk"
     }
     """
-    return list(map(_time_slot_to_friendly_time, time_slots))
+    if presentation_type == "ORAL":
+        return list(map(_time_slot_to_friendly_time, time_slots))
+    if presentation_type == "WRIT":
+        # TODO - loop through each time slot and display only unique dates
+        return []
+    return []
 
 
 def vips_datetime(date_time: datetime) -> str:

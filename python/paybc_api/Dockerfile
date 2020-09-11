@@ -16,6 +16,8 @@ RUN [ "pwd" ]
 RUN [ "ls", "-R" ]
 
 COPY common/*.py ${APP_ROOT}/src/python/common/
+COPY common/templates/*.html ${APP_ROOT}/src/python/common/templates/
+COPY common/templates/partials/*.html ${APP_ROOT}/src/python/common/templates/partials/
 COPY paybc_api/*.py ${APP_ROOT}/src/python/paybc_api/
 COPY paybc_api/*.json ${APP_ROOT}/src/python/paybc_api/
 COPY paybc_api/website/*.py ${APP_ROOT}/src/python/paybc_api/website/

@@ -13,7 +13,7 @@ class Config(BaseConfig):
     VIPS_API_USERNAME                   = os.getenv('VIPS_API_USERNAME')
     VIPS_API_PASSWORD                   = os.getenv('VIPS_API_PASSWORD')
 
-    # Common Services API for sending email
+    # Common Hosted Email Services API
     COMM_SERV_AUTH_URL                  = os.getenv('COMM_SERV_AUTH_URL')
     COMM_SERV_API_ROOT_URL              = os.getenv('COMM_SERV_API_ROOT_URL')
     COMM_SERV_REALM                     = os.getenv('COMM_SERV_REALM')

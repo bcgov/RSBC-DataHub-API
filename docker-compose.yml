@@ -26,7 +26,7 @@ services:
           # events for processing
           RABBITMQ_USER: "${RABBITMQ_USER}"
           RABBITMQ_PASS: "${RABBITMQ_PASS}"
-          LOG_LEVEL: "WARNING"
+          LOG_LEVEL: "INFO"
           SECRET_KEY: "${SECRET_KEY}"
           ENCRYPT_KEY: "${ENCRYPT_KEY}"
           FLASK_BASIC_AUTH_USER: "${FLASK_BASIC_AUTH_USER}"

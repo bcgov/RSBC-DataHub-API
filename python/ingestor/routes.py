@@ -79,41 +79,9 @@ def ingest_form():
             return Response('Unavailable', 500, mimetype='application/json')
 
 
-@application.route('/schedule/<notice_type>/<requested_date>', methods=['GET'])
+@application.route('/schedule', methods=['POST'])
 @basic_auth_required
-def schedule(notice_type, requested_date):
-    """
-    GET timeslots for oral reviews for a specific date and prohibition_type
-    """
-    if request.method == 'GET':
-
-        if re.match("^UL|ADP|IRP$", notice_type) is None or \
-                re.match(r"^\d{4}-([0]\d|1[0-2])-([0-2]\d|3[01])$", requested_date) is None:
-            logging.warning('schedule method failed validation: {}, {}'.format(notice_type, requested_date))
-            return make_response({"error": "failed validation"}, 400)
-
-        logging.warning('form parameters: {}, {}'.format(notice_type, requested_date))
-        logging.info("root url: " + Config.VIPS_API_ROOT_URL)
-        is_successful, data = vips.schedule_get(notice_type, requested_date, Config)
-
-        if is_successful and 'data' in data:
-            return jsonify(dict({
-                "is_success": True,
-                "data": {
-                  "timeSlots": vips.schedule_to_friendly_times(data['data']['timeSlots'])
-                }}
-            ))
-        return jsonify(dict({
-            "data": {
-                "is_success": False,
-                "timeSlots": []
-            }
-        }))
-
-
-@application.route('/review_dates', methods=['POST'])
-@basic_auth_required
-def review_dates():
+def schedule():
     """
     Confirm prohibition number and last name matches VIPS.
     Return list of possible review dates for given prohibition.
@@ -127,25 +95,20 @@ def review_dates():
                                    driver_last_name=request.form['last_name'],
                                    config=Config)
         if 'error_string' not in args:
-            vips_data = args.get('vips_data')
-            presentation_type = args.get('presentation_type')
-            service_date = args.get('service_date')
-            prohibition = args.get('prohibition')
             return jsonify(dict({
                 "data": {
                     "is_valid": True,
-                    "is_paid": True,
-                    "presentation_type": presentation_type,
-                    "notice_type": vips_data['noticeTypeCd'],
-                    "max_review_date": prohibition.get_max_review_date(service_date).strftime("%Y-%m-%d")
+                    "presentation_type": args.get('presentation_type'),
+                    "time_slots": args.get('time_slots')
                 }
             }))
         return jsonify(dict({
-            "data": {
-                "is_valid": False,
-                "error": args.get('error_string')
-            }
-        }))
+                    "data": {
+                        "is_success": False,
+                        "error": args.get('error_string'),
+                        "timeSlots": []
+                    }
+                }))
 
 
 def check_credentials(config, username_submitted, password_submitted) -> bool:

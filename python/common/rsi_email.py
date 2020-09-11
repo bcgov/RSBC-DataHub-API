@@ -11,7 +11,7 @@ logging.basicConfig(level=Config.LOG_LEVEL)
 def application_accepted(**args):
     config = args.get('config')
     prohibition_number = args.get('prohibition_number')
-    subject = 'Re: Driving Prohibition Review - Application Accepted  - {}'.format(prohibition_number)
+    subject = 'Re: Driving Prohibition Review - Application Received  - {}'.format(prohibition_number)
     template = get_jinja2_env().get_template('application_accepted.html')
     return send_email(
         [args.get('applicant_email_address')],
@@ -85,6 +85,31 @@ def applicant_prohibition_not_found(**args):
         config,
         template.render(
             full_name=args.get('driver_full_name'),
+            prohibition_number=prohibition_number,
+            subject=subject),
+        config.COMM_SERV_API_ROOT_URL,
+        get_common_services_access_token(config)), args
+
+
+def applicant_to_schedule_review(**args):
+    """
+    This message is sent immediately after an applicant pays
+    the application fee.  Since we don't have the driver's
+    first name handy, this email is addressed to the applicant.
+    """
+    config = args.get('config')
+    vips_application = args.get('vips_application')
+    email_address = vips_application['email']
+    full_name = "{} {}".format(vips_application['firstGivenNm'], vips_application['surnameNm'])
+    prohibition_number = args.get('prohibition_number')
+    subject = 'Re: Driving Prohibition Review - Select a Review Date - {}'.format(prohibition_number)
+    template = get_jinja2_env().get_template('select_review_date.html')
+    return send_email(
+        [email_address],
+        subject,
+        config,
+        template.render(
+            full_name=full_name,
             prohibition_number=prohibition_number,
             subject=subject),
         config.COMM_SERV_API_ROOT_URL,
@@ -181,6 +206,6 @@ def get_common_services_access_token(config):
 
 def get_jinja2_env():
     return Environment(
-        loader=PackageLoader('python', 'form_handler/templates'),
+        loader=PackageLoader('python', 'common/templates'),
         autoescape=select_autoescape(['html', 'xml'])
     )

@@ -1,13 +1,7 @@
-import requests
 import logging
-import json
-import uuid
-import calendar
 from datetime import datetime, timedelta
-from iso8601 import parse_date
-from unicodedata import normalize
 from python.common.config import Config
-import base64
+import pytz
 
 logging.basicConfig(level=Config.LOG_LEVEL)
 
@@ -28,13 +22,27 @@ class ProhibitionBase:
     ORAL_REVIEW_PRICE = 200
     MUST_APPLY_FOR_REVIEW_WITHIN_7_DAYS = True
     DRIVERS_LICENCE_MUST_BE_SEIZED_BEFORE_APPLICATION_ACCEPTED = True
+    # We can't schedule a review immediately, we have to give time for
+    # an applicant to receive disclosure and submit their evidence
+    MIN_DAYS_FROM_NOW_FOR_SCHEDULING = 3
 
     @staticmethod
-    def get_max_review_date(service_date: datetime) -> datetime:
+    def get_min_max_review_dates(service_date: datetime) -> tuple:
         """
-        Most prohibition reviews must be
+        IRP and ADP prohibition reviews must be scheduled within
+        a 7 to 14 window from the date of service.
         """
-        return service_date + timedelta(days=17)
+        tz = pytz.timezone('America/Vancouver')
+        earliest_possible_date = datetime.now(tz) + timedelta(days=ProhibitionBase.MIN_DAYS_FROM_NOW_FOR_SCHEDULING)
+        legislated_minimum = service_date + timedelta(days=7)
+        # The earliest possible review date is the greater of the
+        # legislated minimum date and the earliest possible date
+        if earliest_possible_date > legislated_minimum:
+            legislated_minimum = earliest_possible_date
+        legislated_maximum = service_date + timedelta(days=14)
+        if earliest_possible_date > legislated_maximum:
+            legislated_maximum = earliest_possible_date
+        return legislated_minimum, legislated_maximum
 
     @staticmethod
     def amount_due(presentation_type: str):
@@ -48,18 +56,18 @@ class UnlicencedDriver(ProhibitionBase):
     WRITTEN_REVIEW_PRICE = 50
     MUST_APPLY_FOR_REVIEW_WITHIN_7_DAYS = False
     DRIVERS_LICENCE_MUST_BE_SEIZED_BEFORE_APPLICATION_ACCEPTED = False
-    DAYS_TO_SCHEDULE_REVIEW = 30
+    DAYS_TO_SCHEDULE_REVIEW = 14
 
     @staticmethod
-    def get_max_review_date(service_date: datetime):
+    def get_min_max_review_dates(service_date: datetime) -> tuple:
         """
         Over ride the base method. Set the maximum review date
-        for Unlicenced Drivers have 30 days to schedule review
+        for Unlicenced Drivers have 14 days from today to schedule a
+        review
         """
-        # TODO - replace datetime.now() with submitted application date
-        #  otherwise the date returned won't be consistent.
-        #  REMOVE BEFORE FLIGHT
-        return datetime.now() + timedelta(days=UnlicencedDriver.DAYS_TO_SCHEDULE_REVIEW)
+        min_date = datetime.now()
+        max_date = min_date + timedelta(days=UnlicencedDriver.DAYS_TO_SCHEDULE_REVIEW)
+        return min_date, max_date
 
     @staticmethod
     def amount_due(presentation_type: str):

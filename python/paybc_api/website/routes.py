@@ -1,17 +1,11 @@
 from flask import Blueprint, request, jsonify, make_response
 from python.paybc_api.website.oauth2 import authorization, require_oauth
-import python.common.vips_api as vips
-import python.common.prohibitions as pro
 import python.common.helper as helper
 import python.common.business as rules
 from python.paybc_api.website.config import Config
-from python.common.helper import load_json_into_dict
-from cerberus import Validator as Cerberus
 import logging
-from datetime import datetime, timezone
-import pytz
-import json
-import re
+from datetime import datetime
+
 
 logging.basicConfig(level=Config.LOG_LEVEL)
 logging.warning('*** Pay BC API initialized ***')
@@ -103,31 +97,14 @@ def receipt():
     """
     if request.method == 'POST':
         payload = request.json
+        # invoke middleware functions
+        args = helper.middle_logic(rules.generate_pay_bc_receipt(),
+                                   payload=payload,
+                                   config=Config)
 
-        if not validate(Config, 'receipt', payload):
-            return make_response({"error": "failed validation"}, 400)
-
-        # PayBC has the facility to pay multiple invoices in a single transaction
-        # however we can assume there is only one transaction because this API only
-        # returns a single invoice per prohibition number.
-        prohibition_number = payload['invoices'][0]["trx_number"]
-
-        date_object = pay_bc_date_to_datetime(payload['receipt_date'])
-
-        correlation_id = vips.generate_correlation_id()
-        is_successful, args = vips.payment_patch(prohibition_number,
-                                                 Config,
-                                                 correlation_id,
-                                                 card_type=payload['cardtype'],
-                                                 receipt_amount=payload['receipt_amount'],
-                                                 receipt_date=date_object,
-                                                 receipt_number=payload['receipt_number'])
-
-        if not is_successful:
-            return jsonify(dict({"status": "INCMP"}))
-
-        # TODO - trigger a payment event which sends email to applicant
-        #  with instructions to schedule
+        if not args.get('payment_success'):
+            # TODO - set the http response code from middleware
+            return make_response(dict({"status": "INCMP"}), 400)
 
         return jsonify(dict({
             "status": "APP",
@@ -137,31 +114,6 @@ def receipt():
         }))
 
 
-def validate(config, method_name: str, payload: dict) -> bool:
-    schemas = load_json_into_dict(config.SCHEMA_PATH + config.SCHEMA_FILENAME)
-
-    # check that that the method_name has an associated validation schema
-    if method_name not in schemas:
-        logging.critical('{} does not have an associated validation schema'.format(method_name))
-
-    # return the validation error message from the associated schema
-    schema = schemas[method_name]
-    logging.debug('schema: {}'.format(json.dumps(schema)))
-    logging.debug('payload: {}'.format(payload))
-    cerberus = Cerberus(schema['cerberus_rules'])
-    cerberus.allow_unknown = schema['allow_unknown']
-    if cerberus.validate(payload):
-        logging.info('payload passed validation')
-        return True
-    else:
-        logging.warning('payload failed validation: {}'.format(json.dumps(cerberus.errors)))
-        return False
 
 
-def pay_bc_date_to_datetime(pay_bc_date: str) -> datetime:
-    """
-    Transform PayBC date format: 20-JUN-2017 datetime object
-    """
-    tz = pytz.timezone('America/Vancouver')
-    date_object = datetime.strptime(pay_bc_date, "%d-%b-%Y")
-    return tz.localize(date_object)
+

@@ -143,18 +143,20 @@ class TestVips:
         time_slots = vips_response['data']['timeSlots']
         print(json.dumps(time_slots[0]))
         print(str(type(time_slots[0])))
-        friendly_times_list = vips.schedule_to_friendly_times(time_slots)
-        expected = list(["9:00AM to 9:30AM", "10:00AM to 10:30AM",
-                         "11:00AM to 11:30AM", "12:00PM to 12:30PM", "1:00PM to 1:30PM"])
+        friendly_times_list = vips.time_slots_to_friendly_times(time_slots, "ORAL")
+        expected = list(["Fri, Sep 4, 2020 - 9:00AM to 9:30AM", "Fri, Sep 4, 2020 - 10:00AM to 10:30AM",
+                         "Fri, Sep 4, 2020 - 11:00AM to 11:30AM", "Fri, Sep 4, 2020 - 12:00PM to 12:30PM",
+                         "Fri, Sep 4, 2020 - 1:00PM to 1:30PM"])
         for index, item in enumerate(expected):
             assert friendly_times_list[index]['label'] == item
 
     @staticmethod
-    def test_list_of_dates_between_method():
+    def test_list_of_weekday_dates_between_method():
         start_date = datetime.strptime("2020-09-01", "%Y-%m-%d")
-        end_date = datetime.strptime("2020-09-05", "%Y-%m-%d")
-        expected = list(["2020-09-01", "2020-09-02", "2020-09-03", "2020-09-04", "2020-09-05"])
-        assert vips.list_of_dates_between(start_date, end_date) == expected
+        end_date = datetime.strptime("2020-09-07", "%Y-%m-%d")
+        expected = list(["2020-09-01", "2020-09-02", "2020-09-03", "2020-09-04", "2020-09-07"])
+        list_of_date_times = vips.list_of_weekdays_dates_between(start_date, end_date)
+        assert list(map(iso_date_string, list_of_date_times)) == expected
 
     @staticmethod
     def test_last_name_match():
@@ -162,3 +164,6 @@ class TestVips:
         is_success = vips.is_last_name_match(response_from_api['data']['status'], "Norris")
         assert is_success is True
 
+
+def iso_date_string(date_time: datetime) -> str:
+    return date_time.strftime("%Y-%m-%d")

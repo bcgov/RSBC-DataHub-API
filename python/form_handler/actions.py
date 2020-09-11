@@ -32,11 +32,6 @@ def add_hold_until_attribute(**args) -> tuple:
     return True, args
 
 
-def save_application_to_vips(**args) -> tuple:
-    # TODO - complete this method
-    return True, args
-
-
 def add_to_failed_queue(**args) -> tuple:
     config = args.get('config')
     message = args.get('message')

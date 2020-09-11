@@ -1,5 +1,6 @@
 import pytest
 from python.form_handler.config import Config
+import python.common.vips_api as vips
 from datetime import datetime, timedelta
 import python.common.middleware as middleware
 from python.common.helper import load_json_into_dict
@@ -112,4 +113,18 @@ applicant_roles = [
     ("lawyer", False),
     ("advocate", False)
 ]
+
+vips_date_strings = [
+    ("20-JUN-2017", "2017-06-20 00:00:00 -07:00"),
+]
+
+
+@pytest.mark.parametrize("pay_bc_date, expected", vips_date_strings)
+def test_pay_bc_date_transformation(pay_bc_date, expected):
+    payload = dict()
+    payload['receipt_date'] = pay_bc_date
+    is_success, args = middleware.transform_receipt_date_from_pay_bc_format(payload=payload)
+    date_object = args.get('receipt_date')
+    actual = vips.vips_datetime(date_object)
+    assert actual == expected
 

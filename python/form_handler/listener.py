@@ -1,5 +1,5 @@
 from python.form_handler.config import Config
-import python.form_handler.rsi_email as rsi_email
+import python.common.rsi_email as rsi_email
 import python.common.helper as helper
 import python.common.middleware as middleware
 from python.common.rabbitmq import RabbitMQ
@@ -105,7 +105,7 @@ class Listener:
                     ]
                 },
                 {
-                    "try": actions.save_application_to_vips,
+                    "try": middleware.save_application_to_vips,
                     "fail": [
                         {"try": actions.add_to_failed_queue, "fail": []},
                         {"try": rsi_email.admin_unable_to_save_to_vips, "fail": []}
