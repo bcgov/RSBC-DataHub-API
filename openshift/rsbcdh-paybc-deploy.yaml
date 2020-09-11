@@ -223,5 +223,5 @@ objects:
     - ReadWriteOnce
     resources:
       requests:
-        storage: "10Mi"
+        storage: "20Mi"
 
