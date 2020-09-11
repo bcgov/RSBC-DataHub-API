@@ -89,6 +89,10 @@ objects:
         labels:
           deploymentconfig: ${NAME}-${COMPONENT}${SUFFIX}
       spec:
+        volumes:
+        - name: "${NAME}-data"
+          persistentVolumeClaim:
+            claimName: "${NAME}-${COMPONENT}${SUFFIX}"
         containers:
         - image: " "
           name: app
@@ -138,6 +142,9 @@ objects:
             requests:
               cpu: 60m
               memory: 64Mi
+          volumeMounts:
+          - name: "${NAME}-data"
+            mountPath: "/mnt/sqlite"
     test: false
     triggers:
     - type: ConfigChange
@@ -204,3 +211,17 @@ objects:
       name: ${NAME}-${COMPONENT}${SUFFIX}
       weight: 100
     wildcardPolicy: None
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: "${NAME}-${COMPONENT}${SUFFIX}"
+  labels:
+    name: "${NAME}-${COMPONENT}${SUFFIX}"
+    template: "${NAME}-persistent-template"
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: "10Mi"
+
