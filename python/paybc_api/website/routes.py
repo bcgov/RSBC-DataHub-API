@@ -26,12 +26,12 @@ def revoke_token():
 @require_oauth()
 def search():
     """
-    On the Pay_BC site, a user lookups an invoice to be paid. PayBC searches for
-    the invoice in our system using a GET request with an invoice number and a
-    check_value.  We return an array of items to be paid.
+    On the Pay_BC site, a user lookups an prohibition_number (invoice) to be paid.
+    PayBC searches for the invoice in our system using a GET request with an
+    invoice number and a check_value.  We return an array of items to be paid.
     """
     if request.method == 'GET':
-        # invoke middleware functions
+        # invoke middleware business logic
         prohibition_number = request.args.get('invoice_number')
         driver_last_name = request.args.get('check_value')
         logging.info('inputs: {}, {}'.format(prohibition_number, driver_last_name))
@@ -59,7 +59,7 @@ def show(prohibition_number):
     PayBC requests details on the item to be paid from this endpoint.
     """
     if request.method == 'GET':
-        # invoke middleware functions
+        # invoke middleware business logic
         args = helper.middle_logic(rules.ready_for_invoicing(),
                                    prohibition_number=prohibition_number,
                                    config=Config)
@@ -97,7 +97,7 @@ def receipt():
     """
     if request.method == 'POST':
         payload = request.json
-        # invoke middleware functions
+        # invoke middleware business logic
         args = helper.middle_logic(rules.generate_pay_bc_receipt(),
                                    payload=payload,
                                    config=Config)
