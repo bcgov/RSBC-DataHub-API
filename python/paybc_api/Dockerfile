@@ -22,7 +22,7 @@ COPY paybc_api/*.py ${APP_ROOT}/src/python/paybc_api/
 COPY paybc_api/*.json ${APP_ROOT}/src/python/paybc_api/
 COPY paybc_api/website/*.py ${APP_ROOT}/src/python/paybc_api/website/
 
-RUN [ "chmod", "u+w", "${ABSOLUTE_DB_PATH}" ]
+RUN [ "chmod", "u+w", "/var/lib/sqlite" ]
 
 CMD [ "echo" , "python files copied" ]
 RUN [ "pwd" ]
