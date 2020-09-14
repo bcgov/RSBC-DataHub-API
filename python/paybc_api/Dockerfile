@@ -22,11 +22,11 @@ COPY paybc_api/*.py ${APP_ROOT}/src/python/paybc_api/
 COPY paybc_api/*.json ${APP_ROOT}/src/python/paybc_api/
 COPY paybc_api/website/*.py ${APP_ROOT}/src/python/paybc_api/website/
 
+RUN [ "chmod", "u+w", "${ABSOLUTE_DB_PATH}" ]
+
 CMD [ "echo" , "python files copied" ]
 RUN [ "pwd" ]
 RUN [ "ls", "-R" ]
-
-VOLUME [ "${NAME}-data" ]
 
 CMD [ "gunicorn", "--bind", "0.0.0.0:5000", "--pythonpath", "python/paybc_api", "wsgi:create_app()" ]
 
