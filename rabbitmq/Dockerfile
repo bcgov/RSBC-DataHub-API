@@ -26,4 +26,6 @@ RUN set -eux; \
 	apt-get update; apt-get install -y --no-install-recommends python; rm -rf /var/lib/apt/lists/*; \
 	rabbitmqadmin --version
 
+RUN rabbitmq-plugins enable rabbitmq_shovel
+
 EXPOSE 15671 15672
