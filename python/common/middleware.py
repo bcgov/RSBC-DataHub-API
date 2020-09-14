@@ -277,17 +277,16 @@ def query_review_times_available(**args) -> tuple:
     vips_data = args.get('vips_data')
     min_review_date = args.get('min_review_date')
     max_review_date = args.get('max_review_date')
-    presentation_type = args.get('presentation_type')
+    review_type = args.get('presentation_type')
     config = args.get('config')
     logging.info('query review times available')
     time_slots = list()
     for query_date in vips.list_of_weekdays_dates_between(min_review_date, max_review_date):
         query_date_string = query_date.strftime("%Y-%m-%d")
         logging.info('check VIPS for time slots available on: {}'.format(query_date_string))
-        is_successful, data = vips.schedule_get(vips_data['noticeTypeCd'], query_date_string, config)
+        is_successful, data = vips.schedule_get(vips_data['noticeTypeCd'], review_type, query_date_string, config)
         if data['resp'] == 'success' and len(data['data']['timeSlots']) > 0:
-            # TODO - replace hard-coded 'ORAL' below
-            time_slots += vips.time_slots_to_friendly_times(data['data']['timeSlots'], 'ORAL')
+            time_slots += vips.time_slots_to_friendly_times(data['data']['timeSlots'], review_type)
     logging.debug(json.dumps(time_slots))
     args['time_slots'] = time_slots
 

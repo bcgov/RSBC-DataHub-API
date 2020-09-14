@@ -94,11 +94,11 @@ def application_update(guid: str, config, correlation_id: str):
     return get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
 
 
-def schedule_get(notice_type_code: str, review_date: str, config, correlation_id='abcd') -> tuple:
+def schedule_get(notice_type_code: str, review_type: str, review_date: str, config, correlation_id='abcd') -> tuple:
     endpoint = build_endpoint(
         config.VIPS_API_ROOT_URL,
         notice_type_code,
-        "ORAL",
+        review_type,
         review_date,
         'review',
         'availableTimeSlot',
@@ -215,7 +215,7 @@ def decode_time_slot(encode_string: str) -> dict:
     }
 
 
-def _time_slot_to_friendly_time(time_slot: dict) -> dict:
+def _time_slot_to_friendly_date_time(time_slot: dict) -> dict:
     start_time = time_slot['reviewStartDtm']
     end_time = time_slot['reviewEndDtm']
     return {
@@ -228,22 +228,35 @@ def _time_slot_to_friendly_time(time_slot: dict) -> dict:
     }
 
 
+def _time_slot_to_friendly_date(time_slot: dict) -> dict:
+    start_time = time_slot['reviewStartDtm']
+    end_time = time_slot['reviewEndDtm']
+    return {
+        "label": "{}".format(
+            # Friday, Sept 4, 2020
+            vips_str_to_datetime(start_time).strftime("%a, %b %-d, %Y")),
+        "value": encode_time_slot(time_slot)
+    }
+
+
 def time_slots_to_friendly_times(time_slots: dict, presentation_type) -> list:
     """
     This function takes a list of timeslots as returned
     by VIPS GET schedule and returns a list of
     dictionary objects with friendly labels and base64
-    encoded VIPS date time string
+    encoded VIPS date time string.  Written reviews are
+    only shown the date -- no times.
     {
         label: "Fri, Sep 4, 2020 - 10:00am to 11:30am"
         value: "ZGF0YSB0byBiZSBlbmNvZGVk"
     }
     """
     if presentation_type == "ORAL":
-        return list(map(_time_slot_to_friendly_time, time_slots))
+        # Oral reviews are shown a specific date and times for in-person hearings
+        return list(map(_time_slot_to_friendly_date_time, time_slots))
     if presentation_type == "WRIT":
-        # TODO - loop through each time slot and display only unique dates
-        return []
+        # Written reviews are only shown a date -- no specific time
+        return list(map(_time_slot_to_friendly_date, time_slots))
     return []
 
 
