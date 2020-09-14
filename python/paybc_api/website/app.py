@@ -1,7 +1,4 @@
 import time
-import json
-import os
-from sqlite3 import OperationalError
 import logging
 from flask import Flask
 from python.paybc_api.website.models import db, User, OAuth2Client
