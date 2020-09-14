@@ -78,6 +78,8 @@ services:
       build:
         context: python
         dockerfile: paybc_api/Dockerfile-local
+      volumes:
+      - "${LOCAL_DB_PATH}:${ABSOLUTE_DB_PATH}"
       environment:
         LOG_LEVEL: "INFO"
         PAYBC_FLASK_SECRET: "${PAYBC_FLASK_SECRET}"
@@ -86,6 +88,9 @@ services:
         VIPS_API_USERNAME: "${VIPS_API_USERNAME}"
         VIPS_API_PASSWORD: "${VIPS_API_PASSWORD}"
         VIPS_API_ROOT_URL: "${VIPS_API_ROOT_URL}"
+        ABSOLUTE_DB_PATH: "${ABSOLUTE_DB_PATH}"
+        LOCAL_DB_PATH: "${LOCAL_DB_PATH}"
+
       ports:
         - "5001:5001"
 

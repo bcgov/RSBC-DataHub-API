@@ -14,3 +14,6 @@ class Config(BaseConfig):
 
     SCHEMA_PATH                 = os.getenv('SCHEMA_PATH', 'python/paybc_api/')
     SCHEMA_FILENAME             = os.getenv('SCHEMA_FILENAME', 'validation.json')
+
+    ABSOLUTE_DB_PATH            = os.getenv('ABSOLUTE_DB_PATH')
+    DB_NAME                     = os.getenv('DB_NAME', 'sqlite.db')

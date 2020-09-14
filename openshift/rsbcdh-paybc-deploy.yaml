@@ -15,6 +15,8 @@ parameters:
 - name: VIPS_API_ROOT_URL
 - name: VIPS_API_USERNAME
 - name: VIPS_API_PASSWORD
+- name: ABSOLUTE_DB_PATH
+  value: '/var/lib/sqlite'
 - name: AUTHLIB_INSECURE_TRANSPORT
 - name: LOG_LEVEL
   value: 'INFO'
@@ -133,6 +135,8 @@ objects:
                   key: vips-api-password
             - name: LOG_LEVEL
               value: ${LOG_LEVEL}
+            - name: ABSOLUTE_DB_PATH
+              value: ${ABSOLUTE_DB_PATH}
             - name: AUTHLIB_INSECURE_TRANSPORT
               value: "True"
           resources:
@@ -144,7 +148,7 @@ objects:
               memory: 64Mi
           volumeMounts:
           - name: "${NAME}-data"
-            mountPath: "/mnt/sqlite"
+            mountPath: "${ABSOLUTE_DB_PATH}"
     test: false
     triggers:
     - type: ConfigChange

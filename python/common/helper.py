@@ -87,12 +87,13 @@ def middle_logic(functions: list, **args):
     return args
 
 
-def get_listeners(listeners, key: str) -> list:
+def get_listeners(listeners: dict, key: str) -> list:
     """
     Get the list of nested list of functions to invoke
     for a particular form type
     """
-    if key in listeners():
-        return listeners()[key]
+    if key in listeners:
+        return listeners[key]
     else:
-        return listeners()['unknown_event']
+        return listeners['unknown_event']
+
