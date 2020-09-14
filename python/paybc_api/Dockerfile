@@ -26,7 +26,7 @@ CMD [ "echo" , "python files copied" ]
 RUN [ "pwd" ]
 RUN [ "ls", "-R" ]
 
-VOLUME ["${ABSOLUTE_DB_PATH}"]
+VOLUME [ ${ABSOLUTE_DB_PATH} ]
 
 CMD [ "gunicorn", "--bind", "0.0.0.0:5000", "--pythonpath", "python/paybc_api", "wsgi:create_app()" ]
 
