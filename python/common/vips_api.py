@@ -32,6 +32,9 @@ def status_get(prohibition_id: str, config, correlation_id: str) -> tuple:
     endpoint = build_endpoint(config.VIPS_API_ROOT_URL, prohibition_id, 'status', correlation_id)
     is_response_successful, data = get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
     if 'resp' in data:
+        # TODO - remove before flight - hard coded EffectiveDt below
+        if data['resp'] == "success":
+            data['data']['status']['effectiveDt'] = "2020-09-14 22:40:00 -07:00"
         return True, data
     return False, dict({})
 
@@ -170,7 +173,7 @@ def remove_accents(input_str):
 
 def is_last_name_match(vips_status: dict, last_name: str) -> bool:
     vips_last_name = vips_status['surnameNm']
-    logging.debug('compare last name: {} and {}'.format(vips_last_name, last_name))
+    logging.info('compare last name from VIPS: {} with user entered surname {}'.format(vips_last_name, last_name))
     return bool(remove_accents(vips_last_name).upper() == remove_accents(last_name).upper())
 
 

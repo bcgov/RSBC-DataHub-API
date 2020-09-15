@@ -30,7 +30,7 @@ def get_data_from_prohibition_review_form(**args) -> tuple:
     args['xml_form_data'] = m[event_type]['xml']
     args['applicant_role'] = m[event_type]['form']['identification-information']['applicant-role']
     first_name = m[event_type]['form']['identification-information']['driver-first-name']
-    last_name = m['prohibition_review']['form']['identification-information']['driver-last-name']
+    last_name = m[event_type]['form']['identification-information']['driver-last-name']
     args['driver_last_name'] = last_name
     args['driver_full_name'] = "{} {}".format(first_name, last_name)
     args['applicant_first_name'] = m[event_type]['form']['identification-information']['first-name-applicant']

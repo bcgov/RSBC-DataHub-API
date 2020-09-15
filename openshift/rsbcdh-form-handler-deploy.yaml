@@ -26,7 +26,7 @@ parameters:
 - name: DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY
   value: '3'
 - name: LOG_LEVEL
-  value: 'WARNING'
+  value: 'INFO'
 - name: PYTHONPATH
   value: '/opt/app-root/lib/python3.6/site-packages:/opt/app-root/src/'
 - name: URL_SUFFIX
