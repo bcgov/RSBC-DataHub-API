@@ -32,9 +32,6 @@ def status_get(prohibition_id: str, config, correlation_id: str) -> tuple:
     endpoint = build_endpoint(config.VIPS_API_ROOT_URL, prohibition_id, 'status', correlation_id)
     is_response_successful, data = get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
     if 'resp' in data:
-        # TODO - remove before flight - hard coded EffectiveDt below
-        if data['resp'] == "success":
-            data['data']['status']['effectiveDt'] = "2020-09-14 22:40:00 -07:00"
         return True, data
     return False, dict({})
 
@@ -72,9 +69,11 @@ def application_get(application_id: str, config, correlation_id: str) -> tuple:
     return False, data
 
 
-def application_create(form_type: str, prohibition_id: str, correlation_id: str, **args):
+def application_create(form_type: str, **args):
     config = args.get('config')
-    endpoint = build_endpoint(config.VIPS_API_ROOT_URL, form_type, prohibition_id, 'application', correlation_id)
+    correlation_id = args.get('correlation_id')
+    prohibition_number = args.get('prohibition_number')
+    endpoint = build_endpoint(config.VIPS_API_ROOT_URL, form_type, prohibition_number, 'application', correlation_id)
     payload = {
         "applicationInfo": {
             "email": args.get('applicant_email_address'),

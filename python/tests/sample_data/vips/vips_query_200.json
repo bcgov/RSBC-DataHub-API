@@ -3,7 +3,7 @@
     "data": {
         "status": {
             "noticeTypeCd": "UL",
-            "effectiveDt": "2018-04-12 00:00:00 -07:00",
+            "noticeServedDt": "2018-04-12 00:00:00 -07:00",
             "reviewFormSubmittedYn": "N",
             "reviewCreatedYn": "N",
             "originalCause": "IRPINDEF",

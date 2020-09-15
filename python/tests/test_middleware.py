@@ -29,7 +29,7 @@ def test_date_served_not_older_than_one_week_method(prohibition_type, date_offse
     vips_date_time_string = (datetime.today() - timedelta(days=date_offset)).strftime("%Y-%m-%d %H:%M:%S -08:00")
     vips_data = dict()
     vips_data['noticeTypeCd'] = prohibition_type
-    vips_data['effectiveDt'] = vips_date_time_string
+    vips_data['noticeServedDt'] = vips_date_time_string
     (result, args) = middleware.date_served_not_older_than_one_week(vips_data=vips_data)
     assert result is expected
 

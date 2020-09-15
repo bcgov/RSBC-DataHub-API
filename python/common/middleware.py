@@ -208,7 +208,7 @@ def date_served_not_older_than_one_week(**args) -> tuple:
     prohibition = pro.prohibition_factory(vips_data['noticeTypeCd'])
     if prohibition.MUST_APPLY_FOR_REVIEW_WITHIN_7_DAYS:
         days_in_week = 7
-        date_served_string = vips_data['effectiveDt']
+        date_served_string = vips_data['noticeServedDt']
         tz = pytz.timezone('America/Vancouver')
         today = datetime.now(tz)
         date_served = vips_str_to_datetime(date_served_string)
@@ -239,11 +239,8 @@ def has_drivers_licence_been_seized(**args) -> tuple:
 
 
 def save_application_to_vips(**args) -> tuple:
-    correlation_id = args.get('correlation_id')
     vips_data = args.get('vips_data')
-    prohibition_number = args.get('prohibition_number')
-    is_save_successful, vips_response = vips.application_create(
-        vips_data['noticeTypeCd'], prohibition_number, correlation_id, **args)
+    is_save_successful, vips_response = vips.application_create(vips_data['noticeTypeCd'], **args)
     if is_save_successful:
         args['vips_application_data'] = vips_response
         return True, args
@@ -260,7 +257,7 @@ def get_invoice_details(**args) -> tuple:
     presentation_type = vips_application['presentationTypeCd']
     args['amount_due'] = prohibition.amount_due(presentation_type)
     args['presentation_type'] = presentation_type
-    args['service_date'] = vips.vips_str_to_datetime(vips_data['effectiveDt'])
+    args['service_date'] = vips.vips_str_to_datetime(vips_data['noticeServedDt'])
     args['prohibition'] = prohibition
     return True, args
 
