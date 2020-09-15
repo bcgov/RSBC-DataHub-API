@@ -239,12 +239,11 @@ def has_drivers_licence_been_seized(**args) -> tuple:
 
 
 def save_application_to_vips(**args) -> tuple:
-    config = args.get('config')
     correlation_id = args.get('correlation_id')
     vips_data = args.get('vips_data')
     prohibition_number = args.get('prohibition_number')
     is_save_successful, vips_response = vips.application_create(
-        vips_data['noticeTypeCd'], prohibition_number, config, correlation_id, **args)
+        vips_data['noticeTypeCd'], prohibition_number, correlation_id, **args)
     if is_save_successful:
         args['vips_application_data'] = vips_response
         return True, args

@@ -72,7 +72,8 @@ def application_get(application_id: str, config, correlation_id: str) -> tuple:
     return False, data
 
 
-def application_create(form_type: str, prohibition_id: str, config, correlation_id: str, **args):
+def application_create(form_type: str, prohibition_id: str, correlation_id: str, **args):
+    config = args.get('config')
     endpoint = build_endpoint(config.VIPS_API_ROOT_URL, form_type, prohibition_id, 'application', correlation_id)
     payload = {
         "applicationInfo": {
