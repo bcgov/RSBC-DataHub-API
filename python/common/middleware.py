@@ -295,11 +295,11 @@ def query_review_times_available(**args) -> tuple:
 
 def transform_receipt_date_from_pay_bc_format(**args) -> tuple:
     """
-    Transform PayBC date format: 20-JUN-2017 to datetime object
+    Transform PayBC date format: 2020-09-15T16:59:04Z to datetime object
     """
     payload = args.get('payload')
     tz = pytz.timezone('America/Vancouver')
-    date_object = datetime.strptime(payload['receipt_date'], "%d-%b-%Y")
+    date_object = datetime.fromisoformat(payload['receipt_date'])
     args['receipt_date'] = tz.localize(date_object)
     return True, args
 

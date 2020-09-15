@@ -4,6 +4,7 @@ import python.common.helper as helper
 import python.common.business as rules
 from python.paybc_api.website.config import Config
 import logging
+import json
 from datetime import datetime
 
 
@@ -98,6 +99,7 @@ def receipt():
     if request.method == 'POST':
         payload = request.json
         # invoke middleware business logic
+        logging.info('receipt payload: {}'.format(json.dumps(payload)))
         args = helper.middle_logic(rules.generate_pay_bc_receipt(),
                                    payload=payload,
                                    config=Config)
@@ -109,7 +111,7 @@ def receipt():
         return jsonify(dict({
             "status": "APP",
             "receipt_number": payload['receipt_number'],
-            "receipt_date ": datetime.today().strftime('%d-%b-%Y'),
+            "receipt_date ": payload['receipt_date'],
             "receipt_amount": payload['receipt_amount']
         }))
 
