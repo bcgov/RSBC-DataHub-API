@@ -115,16 +115,22 @@ applicant_roles = [
 ]
 
 vips_date_strings = [
-    ("20-JUN-2017", "2017-06-20 00:00:00 -07:00"),
+    ("20-JUN-2017", "2017-06-20 00:00:00 -07:00", False),
+    ("2020-09-15T16:59:04Z", "2020-09-15 16:59:04 +00:00", True),
 ]
 
 
-@pytest.mark.parametrize("pay_bc_date, expected", vips_date_strings)
-def test_pay_bc_date_transformation(pay_bc_date, expected):
+@pytest.mark.parametrize("pay_bc_date, expected, result", vips_date_strings)
+def test_pay_bc_date_transformation(pay_bc_date, expected, result):
     payload = dict()
     payload['receipt_date'] = pay_bc_date
     is_success, args = middleware.transform_receipt_date_from_pay_bc_format(payload=payload)
     date_object = args.get('receipt_date')
-    actual = vips.vips_datetime(date_object)
-    assert actual == expected
+    if is_success:
+        actual = vips.vips_datetime(date_object)
+        assert actual == expected
+        assert is_success == result
+    assert is_success == result
+
+
 

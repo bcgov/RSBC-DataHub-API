@@ -298,9 +298,15 @@ def transform_receipt_date_from_pay_bc_format(**args) -> tuple:
     Transform PayBC date format: 2020-09-15T16:59:04Z to datetime object
     """
     payload = args.get('payload')
-    tz = pytz.timezone('America/Vancouver')
-    date_object = datetime.fromisoformat(payload['receipt_date'])
-    args['receipt_date'] = tz.localize(date_object)
+    tz = pytz.timezone('UTC')
+    try:
+        date_object = datetime.strptime(payload['receipt_date'], "%Y-%m-%dT%H:%M:%SZ")
+        args['receipt_date'] = tz.localize(date_object)
+    except ValueError:
+        error = 'receipt_date not formatted as expected'
+        args['error_string'] = error
+        logging.info(error)
+        return False, args
     return True, args
 
 
