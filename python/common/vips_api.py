@@ -136,8 +136,6 @@ def get(endpoint: str, user: str, password: str, correlation_id='ABC') -> tuple:
 
 
 def create(endpoint: str, user: str, password: str,  payload: dict, correlation_id='ABC') -> tuple:
-    logging.info('create endpoint: {}'.format(endpoint))
-    logging.info('create payload: {}'.format(json.dumps(payload)))
     try:
         response = requests.post(endpoint, json=payload, auth=(user, password))
     except AssertionError as error:
@@ -145,8 +143,13 @@ def create(endpoint: str, user: str, password: str,  payload: dict, correlation_
         return False, error
 
     data = response.json()
+    if response.status_code == 201:
+        return True, data
+    logging.info('VIPS create() was not successful')
+    logging.info('create endpoint: {}'.format(endpoint))
+    logging.info('create payload: {}'.format(json.dumps(payload)))
     logging.info('VIPS API response: {} correlation_id: {}'.format(json.dumps(data), correlation_id))
-    return response.status_code == 200, data
+    return False, data
 
 
 def patch(endpoint: str, user: str, password: str,  payload: dict, correlation_id='ABC') -> tuple:
