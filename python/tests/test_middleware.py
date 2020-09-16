@@ -142,7 +142,7 @@ hearing_request_types = [
 
 
 @pytest.mark.parametrize("hearing_type, expected", hearing_request_types)
-def test_transform_hearing_request_type(hearing_type, expected):
+def test_transform_hearing_request_types(hearing_type, expected):
     response, args = middleware.transform_hearing_request_type(hearing_request_type=hearing_type)
     assert response is True
     assert args['presentation_type'] == expected
@@ -154,5 +154,18 @@ def test_null_json_values_convert_to_none_types():
     assert sample_data['prohibition_review']['form']['consent-and-submission']['consent-text'] is None
 
 
+applicant_role_types = [
+    ("driver", "APPNT", True),
+    ("lawyer", "LWYR", True),
+    ("advocate", "AUTHPERS", True),
+    ("", None, False)
+]
+
+
+@pytest.mark.parametrize("role_type, expected, is_success", applicant_role_types)
+def test_transform_applicant_role_types(role_type, expected, is_success):
+    response, args = middleware.transform_applicant_role_type(applicant_role_raw=role_type)
+    assert response is is_success
+    assert args['applicant_role'] == expected
 
 

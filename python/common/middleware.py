@@ -28,7 +28,7 @@ def get_data_from_prohibition_review_form(**args) -> tuple:
     m = args.get('message')
     event_type = m['event_type']
     args['xml_form_data'] = m[event_type]['xml']
-    args['applicant_role'] = m[event_type]['form']['identification-information']['applicant-role']
+    args['applicant_role_raw'] = m[event_type]['form']['identification-information']['applicant-role']
     first_name = m[event_type]['form']['identification-information']['driver-first-name']
     last_name = m[event_type]['form']['identification-information']['driver-last-name']
     args['driver_last_name'] = last_name
@@ -359,4 +359,18 @@ def transform_hearing_request_type(**args) -> tuple:
     else:
         print('test: ' + hearing_request_type)
         args['presentation_type'] = hearing_request_type[:4].upper()
+    return True, args
+
+
+def transform_applicant_role_type(**args) -> tuple:
+    role = args.get('applicant_role_raw')
+    if role == 'driver':
+        args['applicant_role'] = "APPNT"
+    elif role == 'lawyer':
+        args['applicant_role'] = "LWYR"
+    elif role == 'advocate':
+        args['applicant_role'] = "AUTHPERS"
+    else:
+        args['applicant_role'] = None
+        return False, args
     return True, args

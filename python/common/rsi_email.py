@@ -155,11 +155,11 @@ def admin_unable_to_save_to_vips(**args) -> tuple:
     logging.critical('inside unable_to_save_to_vips_api()')
     config = args.get('config')
     message = args.get('message')
-    title = 'Critical Error: Unable to save to VIPS'
+    subject = 'Critical Error: Unable to save to VIPS'
     body_text = 'While attempting to save an application to VIPS, an error was returned. ' + \
                 'We will save the record to a failed write queue in RabbitMQ.'
     logging.critical('unable to save to VIPS: {}'.format(json.dumps(message)))
-    return send_email_to_admin(config=config, title=title, body=body_text), args
+    return send_email_to_admin(config=config, subject=subject, body=body_text), args
 
 
 def admin_unknown_event_type(**args) -> tuple:

@@ -105,6 +105,7 @@ class Listener:
                     ]
                 },
                 {"try": middleware.transform_hearing_request_type, "fail": []},
+                {"try": middleware.transform_applicant_role_type, "fail": []},
                 {
                     "try": middleware.save_application_to_vips,
                     "fail": [
