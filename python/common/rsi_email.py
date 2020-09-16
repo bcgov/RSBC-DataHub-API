@@ -189,8 +189,10 @@ def send_email(to: list, subject: str, config, template, api_root_url: str, toke
         logging.critical('No response from BC Common Services: {}'.format(json.dumps(error)))
         return False, error
     data = response.json()
-    logging.debug('response from common services: {}'.format(json.dumps(data)))
-    return "msgId" in data['messages'][0], data
+    if response.status_code == 201:
+        return True, data
+    logging.info('response from common services: {}'.format(json.dumps(data)))
+    return False, data
 
 
 def get_common_services_access_token(config):
