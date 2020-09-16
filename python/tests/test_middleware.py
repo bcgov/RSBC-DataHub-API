@@ -131,6 +131,28 @@ def test_pay_bc_date_transformation(pay_bc_date, expected, result):
         assert actual == expected
         assert is_success == result
     assert is_success == result
+    
+
+hearing_request_types = [
+    (None, "WRIT"),
+    ('', "WRIT"),
+    ("oral", "ORAL"),
+    ("written", "WRIT")
+]
+
+
+@pytest.mark.parametrize("hearing_type, expected", hearing_request_types)
+def test_transform_hearing_request_type(hearing_type, expected):
+    response, args = middleware.transform_hearing_request_type(hearing_request_type=hearing_type)
+    assert response is True
+    assert args['presentation_type'] == expected
+    
+
+def test_null_json_values_convert_to_none_types():
+    # check that json attributes with null values are converted to None type
+    sample_data = load_json_into_dict('python/tests/sample_data/form/irp_form_submission.json')
+    assert sample_data['prohibition_review']['form']['consent-and-submission']['consent-text'] is None
+
 
 
 

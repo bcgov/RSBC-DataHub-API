@@ -83,8 +83,6 @@ def application_create(form_type: str, **args):
             "firstGivenNm": args.get('applicant_first_name'),
             "surnameNm": args.get('applicant_last_name'),
             "formData": args.get('xml_form_data'),
-            "secondGivenNm": '',
-            "faxNo": '',
             "manualEntryYN": 'Y',
             "noticeSubjectCd": 'PERS',
         }

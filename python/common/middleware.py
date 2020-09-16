@@ -38,7 +38,8 @@ def get_data_from_prohibition_review_form(**args) -> tuple:
     args['applicant_email_address'] = m[event_type]['form']['identification-information']['applicant-email-address']
     args['applicant_phone_number'] = m[event_type]['form']['identification-information']['applicant-phone-number']
     args['prohibition_number'] = m[event_type]['form']['prohibition-information']['prohibition-number-clean']
-    args['date_of_service'] = m['prohibition_review']['form']['prohibition-information']['date-of-service']
+    args['date_of_service'] = m[event_type]['form']['prohibition-information']['date-of-service']
+    args['hearing-request-type'] = m[event_type]['form']['review-information']['hearing-request-type']
     return True, args
 
 
@@ -349,3 +350,13 @@ def validate_pay_bc_post_receipt(**args) -> tuple:
     else:
         logging.warning('payload failed validation: {}'.format(json.dumps(cerberus.errors)))
         return False, args
+
+
+def transform_hearing_request_type(**args) -> tuple:
+    hearing_request_type = args.get('hearing_request_type')
+    if hearing_request_type is None or hearing_request_type == '':
+        args['presentation_type'] = "WRIT"
+    else:
+        print('test: ' + hearing_request_type)
+        args['presentation_type'] = hearing_request_type[:4].upper()
+    return True, args

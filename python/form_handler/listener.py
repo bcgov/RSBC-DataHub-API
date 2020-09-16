@@ -104,6 +104,7 @@ class Listener:
                         {"try": rsi_email.applicant_licence_not_seized, "fail": []}
                     ]
                 },
+                {"try": middleware.transform_hearing_request_type, "fail": []},
                 {
                     "try": middleware.save_application_to_vips,
                     "fail": [
