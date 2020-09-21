@@ -64,7 +64,7 @@ module.exports = settings => {
     //     'MEMORY_LIMIT': phases[phase].memory_limit
     //   }
     // }))
-    objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-hold-processor.yaml`, {
+    objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-hold-processor-deploy.yaml`, {
       'param': {
         'NAME': phases[phase].name,
         'SUFFIX': phases[phase].suffix,
