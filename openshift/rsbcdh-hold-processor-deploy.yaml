@@ -4,7 +4,7 @@ metadata: {}
 parameters:
 - name: NAME
 - name: COMPONENT
-  value: hold_processor
+  value: hold-processor
 - name: PHASE
 - name: SUFFIX
 - name: VERSION
