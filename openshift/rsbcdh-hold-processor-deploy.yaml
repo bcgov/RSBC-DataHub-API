@@ -141,7 +141,7 @@ objects:
   status:
     loadBalancer: {}
 - apiVersion: image.openshift.io/v1
-  kind: CronJob
+  kind: ScheduledJob
   metadata:
     annotations:
       openshift.io/generated-by: OpenShiftNewApp
@@ -152,9 +152,6 @@ objects:
     jobTemplate:
       spec:
         template:
-          metadata:
-            labels:
-              parent: "cronjob"
           spec:
             containers:
             - name: app
