@@ -88,7 +88,7 @@ parameters:
   required: true
   value: rsbc-dh
 - name: COMPONENT
-  value: hold_processor
+  value: hold-processor
 - name: SUFFIX
   description: A suffix appended to all objects
   displayName: Name Suffix
