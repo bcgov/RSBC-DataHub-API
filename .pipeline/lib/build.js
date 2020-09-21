@@ -11,7 +11,7 @@ module.exports = settings => {
   const templatesLocalBaseUrl = oc.toFileUrl(path.resolve(__dirname, "../../openshift"));
 
   // The building of your cool app goes here ▼▼▼
-  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-hold-processor.yaml`, {
+  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-hold-processor-build.yaml`, {
     'param':{
       'NAME': phases[phase].name,
       'SUFFIX': phases[phase].suffix,
@@ -21,56 +21,56 @@ module.exports = settings => {
       'SOURCE_CONTEXT_DIR': 'python'
     }
   }))
-    objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-paybc-build.yaml`, {
-    'param':{
-      'NAME': phases[phase].name,
-      'SUFFIX': phases[phase].suffix,
-      'VERSION': phases[phase].tag,
-      'SOURCE_REPOSITORY_URL': oc.git.http_url,
-      'SOURCE_REPOSITORY_REF': oc.git.ref,
-      'SOURCE_CONTEXT_DIR': 'python'
-    }
-  }))
-    objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-form-handler-build.yaml`, {
-    'param':{
-      'NAME': phases[phase].name,
-      'SUFFIX': phases[phase].suffix,
-      'VERSION': phases[phase].tag,
-      'SOURCE_REPOSITORY_URL': oc.git.http_url,
-      'SOURCE_REPOSITORY_REF': oc.git.ref,
-      'SOURCE_CONTEXT_DIR': 'python'
-    }
-  }))
-  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-ingestor-build.yaml`, {
-    'param':{
-      'NAME': phases[phase].name,
-      'SUFFIX': phases[phase].suffix,
-      'VERSION': phases[phase].tag,
-      'SOURCE_REPOSITORY_URL': oc.git.http_url,
-      'SOURCE_REPOSITORY_REF': oc.git.ref,
-      'SOURCE_CONTEXT_DIR': 'python'
-    }
-  }))
-  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-validator-build.yaml`, {
-    'param':{
-      'NAME': phases[phase].name,
-      'SUFFIX': phases[phase].suffix,
-      'VERSION': phases[phase].tag,
-      'SOURCE_REPOSITORY_URL': oc.git.http_url,
-      'SOURCE_REPOSITORY_REF': oc.git.ref,
-      'SOURCE_CONTEXT_DIR': 'python'
-    }
-  }))
-  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-writer-build.yaml`, {
-    'param':{
-      'NAME': phases[phase].name,
-      'SUFFIX': phases[phase].suffix,
-      'VERSION': phases[phase].tag,
-      'SOURCE_REPOSITORY_URL': oc.git.http_url,
-      'SOURCE_REPOSITORY_REF': oc.git.ref,
-      'SOURCE_CONTEXT_DIR': 'python'
-    }
-  }))
+  //   objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-paybc-build.yaml`, {
+  //   'param':{
+  //     'NAME': phases[phase].name,
+  //     'SUFFIX': phases[phase].suffix,
+  //     'VERSION': phases[phase].tag,
+  //     'SOURCE_REPOSITORY_URL': oc.git.http_url,
+  //     'SOURCE_REPOSITORY_REF': oc.git.ref,
+  //     'SOURCE_CONTEXT_DIR': 'python'
+  //   }
+  // }))
+  //   objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-form-handler-build.yaml`, {
+  //   'param':{
+  //     'NAME': phases[phase].name,
+  //     'SUFFIX': phases[phase].suffix,
+  //     'VERSION': phases[phase].tag,
+  //     'SOURCE_REPOSITORY_URL': oc.git.http_url,
+  //     'SOURCE_REPOSITORY_REF': oc.git.ref,
+  //     'SOURCE_CONTEXT_DIR': 'python'
+  //   }
+  // }))
+  // objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-ingestor-build.yaml`, {
+  //   'param':{
+  //     'NAME': phases[phase].name,
+  //     'SUFFIX': phases[phase].suffix,
+  //     'VERSION': phases[phase].tag,
+  //     'SOURCE_REPOSITORY_URL': oc.git.http_url,
+  //     'SOURCE_REPOSITORY_REF': oc.git.ref,
+  //     'SOURCE_CONTEXT_DIR': 'python'
+  //   }
+  // }))
+  // objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-validator-build.yaml`, {
+  //   'param':{
+  //     'NAME': phases[phase].name,
+  //     'SUFFIX': phases[phase].suffix,
+  //     'VERSION': phases[phase].tag,
+  //     'SOURCE_REPOSITORY_URL': oc.git.http_url,
+  //     'SOURCE_REPOSITORY_REF': oc.git.ref,
+  //     'SOURCE_CONTEXT_DIR': 'python'
+  //   }
+  // }))
+  // objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-writer-build.yaml`, {
+  //   'param':{
+  //     'NAME': phases[phase].name,
+  //     'SUFFIX': phases[phase].suffix,
+  //     'VERSION': phases[phase].tag,
+  //     'SOURCE_REPOSITORY_URL': oc.git.http_url,
+  //     'SOURCE_REPOSITORY_REF': oc.git.ref,
+  //     'SOURCE_CONTEXT_DIR': 'python'
+  //   }
+  // }))
 
   oc.applyRecommendedLabels(
     objects,
