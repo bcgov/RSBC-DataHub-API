@@ -2,16 +2,10 @@ import python.common.helper as helper
 from python.ingestor.config import Config
 from python.common.rabbitmq import RabbitMQ
 from python.common.message import encode_message
-import python.common.business as rules
-import python.common.vips_api as vips
-from flask import request, jsonify, Response, make_response
+import python.ingestor.business as business
+from flask import request, jsonify, Response, g
 from flask_api import FlaskAPI
-from datetime import datetime
-import base64
-import xmltodict
 import logging
-import json
-import re
 from functools import wraps
 
 
@@ -20,13 +14,17 @@ application.secret = Config.FLASK_SECRET_KEY
 logging.basicConfig(level=Config.LOG_LEVEL)
 logging.warning('*** flask initialized ***')
 
-rabbit_mq = RabbitMQ(
-        Config.RABBITMQ_USER,
-        Config.RABBITMQ_PASS,
-        Config.RABBITMQ_URL,
-        Config.LOG_LEVEL,
-        Config.MAX_CONNECTION_RETRIES,
-        Config.RETRY_DELAY)
+
+@application.before_request
+def before_request_function():
+    g.writer = RabbitMQ(
+            Config.RABBITMQ_USER,
+            Config.RABBITMQ_PASS,
+            Config.RABBITMQ_URL,
+            Config.LOG_LEVEL,
+            Config.MAX_CONNECTION_RETRIES,
+            Config.RETRY_DELAY)
+
 
 available_parameters = helper.load_json_into_dict('python/ingestor/' + Config.PARAMETERS_FILE)
 
@@ -50,10 +48,10 @@ def basic_auth_required(f):
 @application.route('/v1/publish/event/ETK', methods=["POST"])
 @application.route('/v1/publish/event', methods=["POST"])
 def ingest_etk():
-    if request.method == 'POST':
+    if request.method == 'POST' and request.content_type == 'application/json':
         payload = request.json
         encoded_message = encode_message(payload, Config.ENCRYPT_KEY)
-        if payload is not None and rabbit_mq.publish(available_parameters['form']['queue'], encoded_message):
+        if payload is not None and g.writer.publish(available_parameters['form']['queue'], encoded_message):
             return jsonify(payload), 200
         else:
             return Response('Unavailable', 500, mimetype='application/json')
@@ -61,22 +59,15 @@ def ingest_etk():
 
 @application.route('/v1/publish/event/form', methods=["POST"])
 def ingest_form():
-    if request.method == 'POST' and request.content_type == 'application/xml':
-        form_name = request.args.get('form')
-        payload = {
-            "event_version": "1.4",
-            "encrypt_at_rest": available_parameters['form']['encrypt_at_rest'],
-            "event_date_time": datetime.now().isoformat(),
-            "url_parameters": request.args.to_dict(),
-            "event_type": form_name,
-            form_name: xmltodict.parse(request.get_data())
-        }
-        payload[form_name]['xml'] = base64.b64encode(request.get_data()).decode()
-        encoded_message = encode_message(payload, Config.ENCRYPT_KEY)
-        if payload is not None and rabbit_mq.publish(available_parameters['form']['queue'], encoded_message):
-            return jsonify(payload), 200
-        else:
-            return Response('Unavailable', 500, mimetype='application/json')
+    if request.method == 'POST':
+        # invoke middleware functions
+        args = helper.middle_logic(business.ingest_form(),
+                                   writer=g.writer,
+                                   form_parameters=available_parameters['form'],
+                                   request=request,
+                                   config=Config)
+
+        return args.get('response')
 
 
 @application.route('/schedule', methods=['POST'])
@@ -90,7 +81,7 @@ def schedule():
     """
     if request.method == 'POST':
         # invoke middleware functions
-        args = helper.middle_logic(rules.ready_for_scheduling(),
+        args = helper.middle_logic(business.get_available_time_slots(),
                                    prohibition_number=request.form['prohibition_number'],
                                    driver_last_name=request.form['last_name'],
                                    config=Config)

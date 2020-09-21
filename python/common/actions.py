@@ -1,7 +1,7 @@
 import logging
 from datetime import datetime, timedelta
 from python.common.message import encode_message, add_error_to_message
-from python.form_handler.config import Config
+from python.common.config import Config
 import iso8601
 
 logging.basicConfig(level=Config.LOG_LEVEL)
@@ -63,4 +63,15 @@ def add_unknown_event_error_to_message(**args) -> tuple:
         "error": "unknown event type: {}".format(event_type)
     })
     message = add_error_to_message(message, error)
+    return True, args
+
+
+def add_to_rabbitmq_queue(**args) -> tuple:
+    encoded_message = args.get('encoded_message')
+    queue = args.get('queue')
+    writer = args.get('writer')
+    logging.warning('writing to {} queue'.format(queue))
+    if not writer.publish(queue, encoded_message):
+        logging.critical('unable to write to RabbitMQ {} queue'.format(queue))
+        return False, args
     return True, args

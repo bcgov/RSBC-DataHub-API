@@ -1,5 +1,5 @@
 import pytest
-import python.form_handler.actions as actions
+import python.common.actions as actions
 from python.form_handler.config import Config
 from datetime import datetime, timedelta
 import json

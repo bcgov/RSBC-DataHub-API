@@ -4,11 +4,16 @@ import python.common.vips_api as vips
 from datetime import datetime, timedelta
 import python.common.middleware as middleware
 from python.common.helper import load_json_into_dict
+import pytest
+import flask
+from python.ingestor.routes import application
+
 
 date_served_data = [
     ('IRP', 0, True),
     ('IRP', 1, True),
-    ('IRP', 7, True),
+    ('IRP', 6, True),
+    ('IRP', 7, False),
     ('IRP', 8, False),
     ('IRP', 9, False),
     ('UL', 0, True),
@@ -18,7 +23,8 @@ date_served_data = [
     ('UL', 9, True),
     ('ADP', 0, True),
     ('ADP', 1, True),
-    ('ADP', 7, True),
+    ('ADP', 6, True),
+    ('ADP', 7, False),
     ('ADP', 8, False),
     ('ADP', 9, False)
 ]
@@ -108,12 +114,6 @@ def test_has_drivers_licence_been_seized_method(prohibition_type, test_condition
     assert result is expected
 
 
-applicant_roles = [
-    ("driver", True),
-    ("lawyer", False),
-    ("advocate", False)
-]
-
 vips_date_strings = [
     ("20-JUN-2017", "2017-06-20 00:00:00 -07:00", False),
     ("2020-09-15T16:59:04Z", "2020-09-15 16:59:04 +00:00", True),
@@ -169,3 +169,185 @@ def test_transform_applicant_role_types(role_type, expected, is_success):
     assert args['applicant_role'] == expected
 
 
+def test_create_correlation_id():
+    response, args = middleware.create_correlation_id()
+    assert 'correlation_id' in args
+    assert len(args['correlation_id']) == 36
+
+
+prohibition_numbers = [
+    ("1234", False),
+    ("21900055", True),
+    ("00900055", True),
+    ("30900055", True),
+    ("2100055", False),
+    ("21-900055", False),
+    ("30900055X", False),
+]
+
+
+@pytest.mark.parametrize("number_under_test, is_valid", prohibition_numbers)
+def test_validate_prohibition_number(number_under_test, is_valid):
+    response, args = middleware.validate_prohibition_number(prohibition_number=number_under_test)
+    assert response is is_valid
+
+
+applications = [
+    ({"resp": "fail"}, False),
+    ({"resp": "success"}, False),
+    ({"resp": "success", "data": {"applicationInfo": {}}}, True),
+]
+
+
+@pytest.mark.parametrize("response_under_test, is_valid", applications)
+def test_validate_application_received_from_vips(response_under_test, is_valid):
+    response, args = middleware.valid_application_received_from_vips(vips_application_data=response_under_test)
+    assert response is is_valid
+
+
+prohibitions_paid = [
+    ({"receiptNumberTxt": "1234"}, True),
+    ({"receiptNumberTxt": ""}, True),
+    ({"otherAttribute": "1234"}, False),
+    ({}, False),
+]
+
+
+@pytest.mark.parametrize("response_under_test, is_valid", prohibitions_paid)
+def test_application_paid(response_under_test, is_valid):
+    response, args = middleware.application_has_been_paid(vips_data=response_under_test)
+    assert response is is_valid
+
+
+@pytest.mark.parametrize("response_under_test, is_valid", prohibitions_paid)
+def test_application_not_paid(response_under_test, is_valid):
+    response, args = middleware.application_not_paid(vips_data=response_under_test)
+    assert response is not is_valid
+
+
+status_responses = [
+    ({"applicationId": "1234"}, True),
+    ({"applicationId": ""}, True),
+    ({"otherAttribute": "1234"}, False),
+    ({}, False),
+]
+
+
+@pytest.mark.parametrize("response_under_test, is_valid", status_responses)
+def test_application_saved_to_vips(response_under_test, is_valid):
+    response, args = middleware.application_has_been_saved_to_vips(vips_data=response_under_test)
+    assert response is is_valid
+
+
+@pytest.mark.parametrize("response_under_test, is_valid", status_responses)
+def test_application_not_saved_to_vips(response_under_test, is_valid):
+    response, args = middleware.application_not_previously_saved_to_vips(vips_data=response_under_test)
+    assert response is not is_valid
+
+
+form_names = [
+    ("abc_dde", True),
+    ("abcdefg", True),
+    ("abc123", False),
+    ("ab", False),
+]
+
+
+@pytest.mark.parametrize("string_under_test, is_valid", form_names)
+def test_application_saved_to_vips(string_under_test, is_valid):
+    response, args = middleware.validate_form_name(form_name=string_under_test)
+    assert response is is_valid
+
+
+@pytest.mark.parametrize("string_under_test, is_valid", form_names)
+def test_create_payload(string_under_test, is_valid):
+    response, args = middleware.create_payload(form_name=string_under_test)
+    assert args['payload']['event_type'] == string_under_test
+    assert response is True
+
+
+form_parameters_test = [
+    (dict({"encrypt_at_rest": False}), False),
+    (dict({"encrypt_at_rest": True}), True),
+]
+
+
+@pytest.mark.parametrize("record_under_test, is_valid", form_parameters_test)
+def test_add_encrypt_at_rest_attribute(record_under_test, is_valid):
+    payload = dict()
+    response, args = middleware.add_encrypt_at_rest_attribute(
+        form_parameters=record_under_test, payload=payload)
+    assert args['payload']['encrypt_at_rest'] == is_valid
+    assert response is True
+
+
+example_form_names = [
+    ("abc_dde", True),
+    ("abcdefg", True),
+    ("", False),
+]
+
+
+@pytest.mark.parametrize("string_under_test, is_valid", example_form_names)
+def test_form_name_provided(string_under_test, is_valid):
+    with application.test_request_context('/v1/publish/event/form?form={}'.format(string_under_test)):
+        response, args = middleware.form_name_provided(request=flask.request)
+        assert response is is_valid
+        if is_valid:
+            assert args['form_name'] == string_under_test
+
+
+content_types = [
+    ("application/json", False),
+    ("application/xml", True),
+    ("", False),
+]
+
+
+@pytest.mark.parametrize("string_under_test, is_valid", content_types)
+def test_content_type_is_xml(string_under_test, is_valid):
+    with application.test_request_context('/v1/publish/event/form', content_type=string_under_test):
+        response, args = middleware.content_type_is_xml(request=flask.request)
+        assert response is is_valid
+
+
+xml_data = [
+    ("<xml>okay</xml>", True),
+    ("<data><attrib>one</attrib><attrib_2>two</attrib_2></data>", True),
+    ("<xml>not okay<xml>", False),
+]
+
+
+@pytest.mark.parametrize("string_under_test, is_valid", xml_data)
+def test_convert_xml_to_dict(string_under_test, is_valid):
+    with application.test_request_context('/v1/publish/event/form', data=string_under_test):
+        response, args = middleware.convert_xml_to_dictionary_object(request=flask.request)
+        assert response is is_valid
+        if is_valid:
+            assert isinstance(args['xml_as_dict'], dict)
+
+
+@pytest.mark.parametrize("string_under_test, is_valid", xml_data)
+def test_using_base_64_encode_xml(string_under_test, is_valid):
+    form_name = 'sample_form_name'
+    with application.test_request_context('/v1/publish/event/form', data=string_under_test):
+        response, args = middleware.base_64_encode_xml(
+            request=flask.request, payload=dict({form_name: {}}), form_name=form_name)
+        assert response is True
+        assert form_name in args['payload']
+        assert 'xml' in args['payload'][form_name]
+
+
+form_parameters_test_queue = [
+    (dict({"queue": "ingested"}), 'ingested'),
+    (dict({"queue": "other"}), 'other'),
+]
+
+
+@pytest.mark.parametrize("record_under_test, queue", form_parameters_test_queue)
+def test_add_encrypt_at_rest_attribute(record_under_test, queue):
+    payload = dict()
+    response, args = middleware.get_queue_name_from_parameters(
+        form_parameters=record_under_test, payload=payload)
+    assert args['queue'] == queue
+    assert response is True

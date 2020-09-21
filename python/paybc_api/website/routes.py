@@ -1,12 +1,10 @@
 from flask import Blueprint, request, jsonify, make_response
 from python.paybc_api.website.oauth2 import authorization, require_oauth
 import python.common.helper as helper
-import python.common.business as rules
+import python.paybc_api.business as rules
 from python.paybc_api.website.config import Config
 import logging
 import json
-from datetime import datetime
-
 
 logging.basicConfig(level=Config.LOG_LEVEL)
 logging.warning('*** Pay BC API initialized ***')
@@ -37,7 +35,7 @@ def search():
         driver_last_name = request.args.get('check_value')
         logging.info('inputs: {}, {}'.format(prohibition_number, driver_last_name))
         args = helper.middle_logic(
-            rules.ready_for_payment(),
+            rules.search_for_invoice(),
             config=Config,
             prohibition_number=prohibition_number,
             driver_last_name=driver_last_name)
@@ -61,7 +59,7 @@ def show(prohibition_number):
     """
     if request.method == 'GET':
         # invoke middleware business logic
-        args = helper.middle_logic(rules.ready_for_invoicing(),
+        args = helper.middle_logic(rules.generate_invoice(),
                                    prohibition_number=prohibition_number,
                                    config=Config)
         if 'error_string' not in args:
@@ -100,7 +98,7 @@ def receipt():
         payload = request.json
         # invoke middleware business logic
         logging.info('receipt payload: {}'.format(json.dumps(payload)))
-        args = helper.middle_logic(rules.generate_pay_bc_receipt(),
+        args = helper.middle_logic(rules.save_payment(),
                                    payload=payload,
                                    config=Config)
 

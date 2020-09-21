@@ -1,5 +1,7 @@
 import json
+import pytz
 import logging
+import datetime
 from python.common.config import Config
 
 logging.basicConfig(level=Config.LOG_LEVEL)
@@ -97,3 +99,7 @@ def get_listeners(listeners: dict, key: str) -> list:
     else:
         return listeners['unknown_event']
 
+
+def localize_timezone(date_time: datetime) -> datetime:
+    tz = pytz.timezone('America/Vancouver')
+    return date_time.replace(tzinfo=tz)

@@ -6,9 +6,12 @@ import logging
 from cerberus import Validator as Cerberus
 from python.common.config import Config
 import python.common.vips_api as vips
+from python.common.message import encode_message
 import pytz
 import re
 import json
+import xmltodict
+import base64
 
 logging.basicConfig(level=Config.LOG_LEVEL)
 
@@ -94,11 +97,11 @@ def valid_application_received_from_vips(**args) -> tuple:
     Returns TRUE if the response from VIPS indicates a valid
     application was returned from VIPS
     """
-    vips_application_data = args.get('vips_application_data')
-    if 'resp' in vips_application_data and vips_application_data['resp'] == "success":
-        args['vips_application'] = vips_application_data['data']['applicationInfo']
+    data = args.get('vips_application_data')
+    if 'resp' in data and data['resp'] == "success" and 'data' in data:
+        args['vips_application'] = data['data']['applicationInfo']
         return True, args
-    logging.info(json.dumps(vips_application_data))
+    logging.info(json.dumps(data))
     error = 'a valid application was not returned from VIPS'
     args['error_string'] = error
     logging.info(error)
@@ -162,15 +165,28 @@ def application_not_paid(**args) -> tuple:
     return False, args
 
 
-def application_has_been_submitted(**args) -> tuple:
+def application_has_been_saved_to_vips(**args) -> tuple:
     """
-    Check that application has been paid
+    Check that application has been saved to VIPS
     """
     vips_data = args.get('vips_data')
     if 'applicationId' in vips_data:
         args['application_id'] = vips_data['applicationId']
         return True, args
     error = 'the application has not been submitted'
+    logging.info(error)
+    args['error_string'] = error
+    return False, args
+
+
+def application_not_previously_saved_to_vips(**args) -> tuple:
+    """
+    Check that application has NOT been saved to VIPS
+    """
+    vips_data = args.get('vips_data')
+    if 'applicationId' not in vips_data:
+        return True, args
+    error = 'this prohibition already has an application on file'
     logging.info(error)
     args['error_string'] = error
     return False, args
@@ -208,7 +224,7 @@ def date_served_not_older_than_one_week(**args) -> tuple:
     vips_data = args.get('vips_data')
     prohibition = pro.prohibition_factory(vips_data['noticeTypeCd'])
     if prohibition.MUST_APPLY_FOR_REVIEW_WITHIN_7_DAYS:
-        days_in_week = 7
+        days_in_week = 6
         date_served_string = vips_data['noticeServedDt']
         tz = pytz.timezone('America/Vancouver')
         today = datetime.now(tz)
@@ -374,3 +390,101 @@ def transform_applicant_role_type(**args) -> tuple:
         args['applicant_role'] = None
         return False, args
     return True, args
+
+
+def content_type_is_xml(**args) -> tuple:
+    request = args.get('request')
+    if request.content_type == 'application/xml':
+        return True, args
+    error = 'received content type is not XML'
+    args['error_string'] = error
+    logging.info(error)
+    return False, args
+
+
+def form_name_provided(**args) -> tuple:
+    request = args.get('request')
+    not_provided = 'not_provided'
+    args['form_name'] = request.args.get('form', "unknown")
+    if args['form_name'] == 'unknown':
+        error = 'missing key query parameter: form'
+        args['error_string'] = error
+        logging.info(error)
+        return False, args
+    return True, args
+
+
+def validate_form_name(**args) -> tuple:
+    form_name = args.get('form_name')
+    if re.match(r"^[a-z_]{3,30}$", form_name) is None:
+        error = 'form_name failed validation: {}'.format(form_name)
+        logging.info(error)
+        args['error_string'] = error
+        return False, args
+    return True, args
+
+
+def create_payload(**args) -> tuple:
+    form_name = args.get('form_name')
+    args['payload'] = dict({
+            "event_version": "1.4",
+            "event_date_time": datetime.now().isoformat(),
+            "event_type": form_name,
+            form_name: {
+                'xml': args['xml'],
+                'form': args['xml_as_dict']
+            }
+        })
+    return True, args
+
+
+def add_encrypt_at_rest_attribute(**args) -> tuple:
+    parameters = args.get('form_parameters')
+    args['encrypt_at_rest'] = parameters['encrypt_at_rest']
+    return True, args
+
+
+def convert_xml_to_dictionary_object(**args) -> tuple:
+    request = args.get('request')
+    try:
+        args['xml_as_dict'] = xmltodict.parse(request.get_data())
+    except xmltodict.expat.ExpatError:
+        error = 'unable to convert XML to a dict'
+        logging.info(error)
+        args['error_string'] = error
+        return False, args
+    return True, args
+
+
+def base_64_encode_xml(**args) -> tuple:
+    request = args.get('request')
+    args['xml'] = base64.b64encode(request.get_data()).decode()
+    return True, args
+
+
+def add_form_content_to_payload(**args) -> tuple:
+    payload = args.get('payload')
+    form_name = args.get('form_name')
+    payload[form_name] = dict()
+    payload[form_name]["form"] = args.get('xml_as_dict')
+    return True, args
+
+
+def get_queue_name_from_parameters(**args) -> tuple:
+    parameters = args.get('form_parameters')
+    args['queue'] = parameters['queue']
+    return True, args
+
+
+def encode_payload(**args) -> tuple:
+    payload = args.get('payload')
+    config = args.get('config')
+    args['encoded_message'] = encode_message(payload, config.ENCRYPT_KEY)
+    return True, args
+
+
+def content_length_within_bounds(**args) -> tuple:
+    request = args.get('request')
+    config = args.get('config')
+    some_arbitrary_byte_value = config.MAX_FORM_SUBMISSION_BYTES
+    return request.content_length < some_arbitrary_byte_value, args

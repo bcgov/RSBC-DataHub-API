@@ -10,5 +10,3 @@ RUN source /opt/app-root/etc/scl_enable && \
 COPY __init__.py ${APP_ROOT}/src/python/
 COPY common/*.py ${APP_ROOT}/src/python/common/
 COPY hold_processor/*.py ${APP_ROOT}/src/python/hold_processor/
-
-CMD [ "python", "python/hold_processor/script.py" ]

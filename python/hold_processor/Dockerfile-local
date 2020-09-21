@@ -12,5 +12,3 @@ ENV PYTHONPATH /home/appuser/
 
 COPY common/ /home/appuser/python/common/
 COPY hold_processor/ /home/appuser/python/hold_processor/
-
-CMD [ "python", "./python/hold_processor/script.py" ]
