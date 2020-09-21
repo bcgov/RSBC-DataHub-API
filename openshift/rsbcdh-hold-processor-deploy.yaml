@@ -1,0 +1,157 @@
+apiVersion: v1
+kind: Template
+metadata: {}
+parameters:
+- name: NAME
+- name: COMPONENT
+  value: hold_processor
+- name: PHASE
+- name: SUFFIX
+- name: VERSION
+- name: HOST
+- name: RABBITMQ_URL
+- name: RABBITMQ_USER
+- name: RABBITMQ_PASS
+- name: LOG_LEVEL
+  value: 'INFO'
+- name: PYTHONPATH
+  value: '/opt/app-root/lib/python3.6/site-packages:/opt/app-root/src/'
+- name: URL_SUFFIX
+  required: true
+- name: CPU_REQUEST
+  displayName: Requested CPU
+  description: Requested CPU
+  required: true
+- name: CPU_LIMIT
+  displayName: CPU upper limit
+  description: CPU upper limit
+  required: true
+- name: MEMORY_REQUEST
+  displayName: Requested memory
+  description: Requested memory
+  required: true
+- name: MEMORY_LIMIT
+  displayName: Memory upper limit
+  description: Memory upper limit
+  required: true
+objects:
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      shared: "true"
+    name: ${NAME}-${COMPONENT}
+  spec:
+    lookupPolicy:
+      local: false
+  status:
+    dockerImageRepository: ""
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    name: ${NAME}-${COMPONENT}${SUFFIX}
+  spec:
+    replicas: 1
+    selector:
+      deploymentconfig: ${NAME}-${COMPONENT}${SUFFIX}
+    strategy:
+      activeDeadlineSeconds: 21600
+      recreateParams:
+        timeoutSeconds: 180
+      resources: {}
+      type: Recreate
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          deploymentconfig: ${NAME}-${COMPONENT}${SUFFIX}
+      spec:
+        containers:
+        - image: " "
+          name: app
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: RABBITMQ_URL
+              value: ${NAME}-rabbitmq${SUFFIX}
+            - name: RABBITMQ_USER
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: rabbitmq-username
+            - name: RABBITMQ_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: rabbitmq-password
+            - name: PYTHONPATH
+              value: ${PYTHONPATH}
+            - name: LOG_LEVEL
+              value: ${LOG_LEVEL}
+          resources:
+            limits:
+              cpu: 80m
+              memory: 96Mi
+            requests:
+              cpu: 60m
+              memory: 64Mi
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - app
+        from:
+          kind: ImageStreamTag
+          name: ${NAME}-${COMPONENT}:${VERSION}
+      type: ImageChange
+  status:
+    availableReplicas: 0
+    latestVersion: 0
+    observedGeneration: 0
+    replicas: 0
+    unavailableReplicas: 0
+    updatedReplicas: 0
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    name: ${NAME}-${COMPONENT}${SUFFIX}
+  spec:
+    ports:
+    - name: 5000-tcp
+      port: 5000
+      protocol: TCP
+      targetPort: 5000
+    selector:
+      deploymentconfig: ${NAME}-${COMPONENT}${SUFFIX}
+  status:
+    loadBalancer: {}
+- apiVersion: image.openshift.io/v1
+  kind: ScheduledJob
+  metadata:
+    name: pi
+  spec:
+    schedule: */1 * * * ?
+    jobTemplate:
+      spec:
+        template:
+          spec:
+            containers:
+            - name: pi
+              image: perl
+              command: ["python",  "./python/hold_processor/script.py"]
+            restartPolicy: Never
