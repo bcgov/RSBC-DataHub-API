@@ -140,7 +140,7 @@ objects:
       deploymentconfig: ${NAME}-${COMPONENT}${SUFFIX}
   status:
     loadBalancer: {}
-- apiVersion: image.openshift.io/v1
+- apiVersion: batch/v2alpha1
   kind: ScheduledJob
   metadata:
     annotations:
@@ -148,7 +148,7 @@ objects:
     creationTimestamp: null
     name: ${NAME}-${COMPONENT}${SUFFIX}
   spec:
-    schedule: "* * * * *"
+    schedule: "*/1 * * * *"
     jobTemplate:
       spec:
         template:
