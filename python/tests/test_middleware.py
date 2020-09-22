@@ -258,12 +258,18 @@ def test_application_saved_to_vips(string_under_test, is_valid):
     response, args = middleware.validate_form_name(form_name=string_under_test)
     assert response is is_valid
 
+payloads_test = [
+    ('prohibition_review', '{"attribute": "value"}', "=xmlstre", True)
+]
 
-@pytest.mark.parametrize("string_under_test, is_valid", form_names)
-def test_create_payload(string_under_test, is_valid):
-    response, args = middleware.create_payload(form_name=string_under_test)
-    assert args['payload']['event_type'] == string_under_test
-    assert response is True
+
+@pytest.mark.parametrize("form_name, xml_as_dict, xml, is_valid", payloads_test)
+def test_create_payload(form_name, xml_as_dict, xml, is_valid):
+    response, args = middleware.create_payload(form_name=form_name, xml_as_dict=xml_as_dict, xml=xml)
+    assert args['payload']['event_type'] == form_name
+    assert args['payload'][form_name]['xml'] == xml
+    assert args['payload'][form_name]['form'] == xml_as_dict
+    assert response is is_valid
 
 
 form_parameters_test = [
@@ -334,8 +340,8 @@ def test_using_base_64_encode_xml(string_under_test, is_valid):
         response, args = middleware.base_64_encode_xml(
             request=flask.request, payload=dict({form_name: {}}), form_name=form_name)
         assert response is True
-        assert form_name in args['payload']
-        assert 'xml' in args['payload'][form_name]
+        assert 'xml' in args
+        assert len(args['xml']) > 0
 
 
 form_parameters_test_queue = [

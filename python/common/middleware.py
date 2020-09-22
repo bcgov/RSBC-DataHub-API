@@ -404,9 +404,9 @@ def content_type_is_xml(**args) -> tuple:
 
 def form_name_provided(**args) -> tuple:
     request = args.get('request')
-    not_provided = 'not_provided'
-    args['form_name'] = request.args.get('form', "unknown")
-    if args['form_name'] == 'unknown':
+    not_provided = 'unknown'
+    args['form_name'] = request.args.get('form', not_provided)
+    if args['form_name'] == not_provided or len(args['form_name']) == 0:
         error = 'missing key query parameter: form'
         args['error_string'] = error
         logging.info(error)
