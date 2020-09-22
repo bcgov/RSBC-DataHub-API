@@ -1,21 +1,21 @@
 apiVersion: v1
 kind: Template
-metadata: {}
+metadata:
+  name: cronjob-template
+  annotations:
+    description: 'Template for a job that moves messages from the DF.hold queue to DF.valid'
+    tags: 'cronjob'
 parameters:
 - name: NAME
 - name: COMPONENT
-  value: hold-processor
+  value: cronjob-shovel-template
 - name: PHASE
 - name: SUFFIX
 - name: VERSION
 - name: HOST
-- name: RABBITMQ_URL
-- name: RABBITMQ_USER
-- name: RABBITMQ_PASS
-- name: LOG_LEVEL
-  value: 'INFO'
-- name: PYTHONPATH
-  value: '/opt/app-root/lib/python3.6/site-packages:/opt/app-root/src/'
+- name: CRON_SCHEDULE
+  description: 'Cron-like schedule expression. Default: At 1pm every day'
+  value: '* 13 * * *'
 - name: URL_SUFFIX
   required: true
 - name: CPU_REQUEST
@@ -35,126 +35,59 @@ parameters:
   description: Memory upper limit
   required: true
 objects:
-- apiVersion: image.openshift.io/v1
-  kind: ImageStream
-  metadata:
-    annotations:
-      openshift.io/generated-by: OpenShiftNewApp
-    creationTimestamp: null
-    labels:
-      shared: "true"
-    name: ${NAME}-${COMPONENT}
-  spec:
-    lookupPolicy:
-      local: false
-  status:
-    dockerImageRepository: ""
-- apiVersion: apps.openshift.io/v1
-  kind: DeploymentConfig
-  metadata:
-    annotations:
-      openshift.io/generated-by: OpenShiftNewApp
-    creationTimestamp: null
-    name: ${NAME}-${COMPONENT}${SUFFIX}
-  spec:
-    replicas: 1
-    selector:
-      deploymentconfig: ${NAME}-${COMPONENT}${SUFFIX}
-    strategy:
-      activeDeadlineSeconds: 21600
-      recreateParams:
-        timeoutSeconds: 180
-      resources: {}
-      type: Recreate
-    template:
-      metadata:
-        annotations:
-          openshift.io/generated-by: OpenShiftNewApp
-        creationTimestamp: null
-        labels:
-          deploymentconfig: ${NAME}-${COMPONENT}${SUFFIX}
-      spec:
-        containers:
-        - image: " "
-          name: app
-          imagePullPolicy: Always
-          ports:
-            - containerPort: 8080
-              protocol: TCP
-          env:
-            - name: RABBITMQ_URL
-              value: ${NAME}-rabbitmq${SUFFIX}
-            - name: RABBITMQ_USER
-              valueFrom:
-                secretKeyRef:
-                  name: ${NAME}-${PHASE}
-                  key: rabbitmq-username
-            - name: RABBITMQ_PASS
-              valueFrom:
-                secretKeyRef:
-                  name: ${NAME}-${PHASE}
-                  key: rabbitmq-password
-            - name: PYTHONPATH
-              value: ${PYTHONPATH}
-            - name: LOG_LEVEL
-              value: ${LOG_LEVEL}
-          resources:
-            limits:
-              cpu: 80m
-              memory: 96Mi
-            requests:
-              cpu: 60m
-              memory: 64Mi
-    test: false
-    triggers:
-    - type: ConfigChange
-    - imageChangeParams:
-        automatic: true
-        containerNames:
-        - app
-        from:
-          kind: ImageStreamTag
-          name: ${NAME}-${COMPONENT}:${VERSION}
-      type: ImageChange
-  status:
-    availableReplicas: 0
-    latestVersion: 0
-    observedGeneration: 0
-    replicas: 0
-    unavailableReplicas: 0
-    updatedReplicas: 0
-- apiVersion: v1
-  kind: Service
-  metadata:
-    annotations:
-      openshift.io/generated-by: OpenShiftNewApp
-    creationTimestamp: null
-    name: ${NAME}-${COMPONENT}${SUFFIX}
-  spec:
-    ports:
-    - name: 5000-tcp
-      port: 5000
-      protocol: TCP
-      targetPort: 5000
-    selector:
-      deploymentconfig: ${NAME}-${COMPONENT}${SUFFIX}
-  status:
-    loadBalancer: {}
-- apiVersion: batch/v2alpha1
-  kind: ScheduledJob
-  metadata:
-    annotations:
-      openshift.io/generated-by: OpenShiftNewApp
-    creationTimestamp: null
-    name: ${NAME}-${COMPONENT}${SUFFIX}
-  spec:
-    schedule: "*/1 * * * *"
-    jobTemplate:
-      spec:
-        template:
-          spec:
-            containers:
-            - name: app
-              image: " "
-              command: ["python",  "./python/hold_processor/script.py"]
-            restartPolicy: Never
+  - apiVersion: batch/v1beta1
+    kind: CronJob
+    metadata:
+      name: ${COMPONENT}
+    spec:
+      schedule: ${CRON_SCHEDULE}
+      concurrencyPolicy: Forbid
+      jobTemplate:
+        spec:
+          template:
+            spec:
+              containers:
+                - name: ${COMPONENT}-job
+                  image: 'docker-registry.default.svc:5000/openshift/base-centos7:latest'
+                  command:
+                    - 'bash'
+                    - '-c'
+                    - >-
+                      echo -e "-------- STARTING CRON --------\n"
+
+                      echo -e "URL: ${RABBITMQ_URL}\n
+                      # echo -e "USER: ${RABBITMQ_USER}\n PASS: ${RABBITMQ_PASS}\n"
+
+                      echo -e "moving messages from: ${SOURCE_QUEUE} to: ${DESTINATION_QUEUE}\n"
+
+                      curl -X PUT "http://${RABBITMQ_URL}:15672/api/parameters/shovel/%2F/hold" \
+                        --user "${RABBITMQ_USER}:${RABBITMQ_PASS}"  \
+                        --header "Content-Type: application/json" \
+                        --data '{"value": {"src-protocol":"amqp091","src-uri":"amqp://'${RABBITMQ_USER}':'${RABBITMQ_PASS}'@'${RABBITMQ_URL}'","src-queue":"'${SOURCE_QUEUE}'","dest-protocol": "amqp091","dest-uri":"amqp://'${RABBITMQ_USER}':'${RABBITMQ_PASS}'@'${RABBITMQ_URL}'","dest-queue":"'${DESTINATION_QUEUE}'","src-delete-after": "queue-length"}}'
+
+                      echo -e "-------- CRON COMPLETE --------\n"
+                  resources:
+                    limits:
+                      cpu: 80m
+                      memory: 96Mi
+                    requests:
+                      cpu: 60m
+                      memory: 64Mi
+                  env:
+                    - name: RABBITMQ_URL
+                      value: ${NAME}-rabbitmq${SUFFIX}
+                    - name: RABBITMQ_USER
+                      valueFrom:
+                        secretKeyRef:
+                          name: ${NAME}-${PHASE}
+                          key: rabbitmq-username
+                    - name: RABBITMQ_PASS
+                      valueFrom:
+                        secretKeyRef:
+                          name: ${NAME}-${PHASE}
+                          key: rabbitmq-password
+                    - name: SOURCE_QUEUE
+                      value: 'DF.hold'
+                    - name: DESTINATION_QUEUE
+                      value: 'DF.valid'
+              restartPolicy: Never
