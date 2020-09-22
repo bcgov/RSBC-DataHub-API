@@ -1,4 +1,5 @@
 import python.common.middleware as middleware
+import python.common.rsi_email as rsi_email
 
 
 def search_for_invoice() -> list:
@@ -53,6 +54,5 @@ def save_payment() -> list:
         {"try": middleware.get_invoice_details, "fail": []},
         {"try": middleware.transform_receipt_date_from_pay_bc_format, "fail": []},
         {"try": middleware.save_payment_to_vips, "fail": []},
-        # TODO - BUG to be resolved - can't find email template below
-        # {"try": rsi_email.applicant_to_schedule_review(), "fail": []},
+        {"try": rsi_email.applicant_to_schedule_review, "fail": []},
         ]

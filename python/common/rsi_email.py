@@ -3,7 +3,7 @@ from python.common.config import Config
 import requests
 import json
 import logging
-from jinja2 import Environment, PackageLoader, select_autoescape
+from jinja2 import Environment, select_autoescape, FileSystemLoader
 
 logging.basicConfig(level=Config.LOG_LEVEL)
 
@@ -207,7 +207,8 @@ def get_common_services_access_token(config):
 
 
 def get_jinja2_env():
+    template_loader = FileSystemLoader(searchpath="./python/common/templates")
     return Environment(
-        loader=PackageLoader('python', 'common/templates'),
+        loader=template_loader,
         autoescape=select_autoescape(['html', 'xml'])
     )

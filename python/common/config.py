@@ -14,3 +14,17 @@ class Config:
     LOG_LEVEL                   = os.environ.get('LOG_LEVEL', 'WARNING').upper()
     RABBITMQ_MESSAGE_ENCODE     = os.getenv('RABBITMQ_MESSAGE_ENCODE', 'utf-8')
     ENCRYPT_KEY                 = os.getenv('ENCRYPT_KEY')
+
+    # Common Hosted Email Services API
+    COMM_SERV_AUTH_URL                  = os.getenv('COMM_SERV_AUTH_URL')
+    COMM_SERV_API_ROOT_URL              = os.getenv('COMM_SERV_API_ROOT_URL')
+    COMM_SERV_REALM                     = os.getenv('COMM_SERV_REALM')
+    COMM_SERV_CLIENT_ID                 = os.getenv('COMM_SERV_CLIENT_ID')
+    COMM_SERV_CLIENT_SECRET             = os.getenv('COMM_SERV_CLIENT_SECRET')
+
+    ADMIN_EMAIL_ADDRESS                 = os.getenv('ADMIN_EMAIL_ADDRESS')
+    REPLY_EMAIL_ADDRESS                 = os.getenv('REPLY_EMAIL_ADDRESS', 'do-not-reply@gov.bc.ca')
+
+    # comma separated list of email addresses to receive a bcc of all outgoing emails
+    BCC_EMAIL_ADDRESSES                 = os.getenv('BCC_EMAIL_ADDRESSES')
+
