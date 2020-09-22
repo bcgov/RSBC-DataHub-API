@@ -426,14 +426,14 @@ def validate_form_name(**args) -> tuple:
 
 def create_payload(**args) -> tuple:
     form_name = args.get('form_name')
+    form_data = args.get('xml_as_dict')
+    xml = args.get('xml')
+    form_data['xml'] = xml
     args['payload'] = dict({
             "event_version": "1.4",
             "event_date_time": datetime.now().isoformat(),
             "event_type": form_name,
-            form_name: {
-                'xml': args['xml'],
-                'form': args['xml_as_dict']
-            }
+            form_name: form_data
         })
     return True, args
 
@@ -459,14 +459,6 @@ def convert_xml_to_dictionary_object(**args) -> tuple:
 def base_64_encode_xml(**args) -> tuple:
     request = args.get('request')
     args['xml'] = base64.b64encode(request.get_data()).decode()
-    return True, args
-
-
-def add_form_content_to_payload(**args) -> tuple:
-    payload = args.get('payload')
-    form_name = args.get('form_name')
-    payload[form_name] = dict()
-    payload[form_name]["form"] = args.get('xml_as_dict')
     return True, args
 
 
