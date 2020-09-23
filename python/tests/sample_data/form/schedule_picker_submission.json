@@ -1,0 +1,23 @@
+{
+  "event_version": "1.4",
+  "event_date_time": "2020-09-23T18:04:50.336255",
+  "event_type": "review_schedule_picker",
+  "review_schedule_picker": {
+    "form": {
+      "section-1": {
+        "control-2": {
+          "@filename": "BCID_RoadSafetyBC_sanBPOE_RGB_pos.png",
+          "@mediatype": "image/png",
+          "#text": "/fr/service/persistence/crud/orbeon/builder/data/147b6c235547b8c37b199a6921ad888084e52553/467ff056e7cda18a2ac1f2d28d28ab024ad2dddd.bin"
+        },
+        "prohibition-number": "21-900309",
+        "prohibition-number-clean": "21900309",
+        "last-name": "Gordon",
+        "prohib-last-name": "21-900309-Gordon",
+        "timeslot-selected": "MjAyMC0wOS0yOCAwOTowMDowMCAtMDc6MDB8MjAyMC0wOS0yOCAwOTozMDowMCAtMDc6MDA=",
+        "control-1": null
+      }
+    },
+    "xml": "-not-used-"
+  },
+  "errors": [{"description": {"error": "unknown event type: review_schedule_picker"}, "timestamp": "23-Sep-2020 (18:04:50.615993)"}]}
