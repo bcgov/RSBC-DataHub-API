@@ -15,7 +15,7 @@ parameters:
 - name: HOST
 - name: CRON_SCHEDULE
   description: 'Cron-like schedule expression. Default: At 1pm every day'
-  value: '* 13 * * *'
+  value: '*/5 * * * *'
 - name: URL_SUFFIX
   required: true
 - name: CPU_REQUEST
@@ -55,7 +55,10 @@ objects:
                     - >-
                       echo -e "-------- STARTING CRON --------\n"
 
-                      echo -e "URL: ${RABBITMQ_URL}\n
+                      echo -e "endpoint: ${ENDPOINT}\n"
+                      echo -e "amqp_uri: ${AMQP_URI}\n"
+
+                      echo -e "URL: ${RABBITMQ_URL}\n"
                       # echo -e "USER: ${RABBITMQ_USER}\n PASS: ${RABBITMQ_PASS}\n"
 
                       echo -e "moving messages from: ${SOURCE_QUEUE} to: ${DESTINATION_QUEUE}\n"
@@ -90,4 +93,8 @@ objects:
                       value: 'DF.hold'
                     - name: DESTINATION_QUEUE
                       value: 'DF.valid'
+                    - name: ENDPOINT
+                      value: http://${RABBITMQ_URL}:15672/api/parameters/shovel/%2F/hold
+                    - name: AMQP_URI
+                      value: amqp://${RABBITMQ_USER}:${RABBITMQ_PASS}@${RABBITMQ_URL}
               restartPolicy: Never

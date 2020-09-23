@@ -43,7 +43,10 @@ def disclosure_get(document_id: str, config, correlation_id: str):
 
 def payment_get(prohibition_id: str, config, correlation_id: str):
     endpoint = build_endpoint(config.VIPS_API_ROOT_URL, prohibition_id, 'payment', 'status', correlation_id)
-    return get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
+    is_response_successful, data = get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
+    if 'resp' in data:
+        return True, data
+    return False, dict({})
 
 
 def payment_patch(prohibition_id: str, config, correlation_id: str, **args):

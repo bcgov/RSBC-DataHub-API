@@ -25,7 +25,9 @@ class ProhibitionBase:
     DRIVERS_LICENCE_MUST_BE_SEIZED_BEFORE_APPLICATION_ACCEPTED = True
     # We can't schedule a review immediately, we have to give time for
     # an applicant to receive disclosure and submit their evidence
-    MIN_DAYS_FROM_NOW_FOR_SCHEDULING = 3
+    MIN_DAYS_FROM_SCHEDULING_TO_REVIEW = 4
+    MIN_DAYS_FROM_SERVED_TO_REVIEW = 6
+    MAX_DAYS_FROM_SERVED_TO_REVIEW = 16
 
     @staticmethod
     def get_min_max_review_dates(service_date: datetime, today=datetime.now()) -> tuple:
@@ -34,14 +36,14 @@ class ProhibitionBase:
         a 7 to 14 window from the date of service.
         """
         tz = pytz.timezone('America/Vancouver')
-        days_for_scheduling = ProhibitionBase.MIN_DAYS_FROM_NOW_FOR_SCHEDULING
-        earliest_possible_date = today.replace(tzinfo=tz) + timedelta(days=days_for_scheduling)
-        legislated_minimum = service_date + timedelta(days=6)
+        earliest_possible_date = today.replace(tzinfo=tz) + timedelta(
+            days=ProhibitionBase.MIN_DAYS_FROM_SCHEDULING_TO_REVIEW)
+        legislated_minimum = service_date + timedelta(days=ProhibitionBase.MIN_DAYS_FROM_SERVED_TO_REVIEW)
         # The earliest possible review date is the greater of the
         # legislated minimum date and the earliest possible date
         if earliest_possible_date > legislated_minimum:
             legislated_minimum = earliest_possible_date
-        legislated_maximum = service_date + timedelta(days=13)
+        legislated_maximum = service_date + timedelta(days=ProhibitionBase.MAX_DAYS_FROM_SERVED_TO_REVIEW)
         if earliest_possible_date > legislated_maximum:
             legislated_maximum = earliest_possible_date
         return legislated_minimum, legislated_maximum
@@ -58,7 +60,6 @@ class UnlicencedDriver(ProhibitionBase):
     WRITTEN_REVIEW_PRICE = 50
     MUST_APPLY_FOR_REVIEW_WITHIN_7_DAYS = False
     DRIVERS_LICENCE_MUST_BE_SEIZED_BEFORE_APPLICATION_ACCEPTED = False
-    DAYS_TO_SCHEDULE_REVIEW = 16
 
     @staticmethod
     def get_min_max_review_dates(service_date: datetime, today=datetime.now()) -> tuple:
@@ -67,8 +68,8 @@ class UnlicencedDriver(ProhibitionBase):
         for Unlicenced Drivers have 14 days from today to schedule a
         review
         """
-        min_date = localize_timezone(today) + timedelta(days=UnlicencedDriver.MIN_DAYS_FROM_NOW_FOR_SCHEDULING)
-        max_date = localize_timezone(today) + timedelta(days=UnlicencedDriver.DAYS_TO_SCHEDULE_REVIEW)
+        min_date = localize_timezone(today) + timedelta(days=UnlicencedDriver.MIN_DAYS_FROM_SCHEDULING_TO_REVIEW)
+        max_date = localize_timezone(today) + timedelta(days=UnlicencedDriver.MAX_DAYS_FROM_SERVED_TO_REVIEW)
         return min_date, max_date
 
     @staticmethod

@@ -12,6 +12,7 @@ def process_incoming_form() -> dict:
         ],
         # "review_schedule_picker": [
         #     {"try": middleware.create_correlation_id, "fail": []},
+        #     {"try": middleware.determine_current_datetime, "fail": []},
         #     {"try": middleware.get_data_from_schedule_picker_form, "fail": []},
         #     {"try": middleware.validate_prohibition_number, "fail": []},
         #     {"try": middleware.validate_drivers_last_name, "fail": []},
@@ -19,7 +20,11 @@ def process_incoming_form() -> dict:
         #     {"try": middleware.prohibition_exists_in_vips, "fail": []},
         #     {"try": middleware.user_submitted_last_name_matches_vips, "fail": []},
         #     {"try": middleware.application_has_been_saved_to_vips, "fail": []},
-        #     {"try": middleware.date_served_not_older_than_one_week, "fail": []},
+
+        #     {"try": middleware.get_payment_status, "fail": []},
+        #     {"try": middleware.received_valid_payment_status, "fail": []},
+        #     {"try": middleware.paid_not_more_than_24hrs_ago, "fail": []},
+
         #     {"try": middleware.application_has_been_paid, "fail": []},
         #     {"try": middleware.get_application_details, "fail": []},
         #     {"try": middleware.valid_application_received_from_vips, "fail": []},
@@ -43,6 +48,7 @@ def process_incoming_form() -> dict:
             },
             {"try": middleware.get_data_from_prohibition_review_form, "fail": []},
             {"try": middleware.create_correlation_id, "fail": []},
+            {"try": middleware.determine_current_datetime, "fail": []},
             {
                 "try": middleware.update_vips_status,
                 "fail": [

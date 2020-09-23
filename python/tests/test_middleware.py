@@ -1,4 +1,4 @@
-import pytest
+import pytz
 from python.form_handler.config import Config
 import python.common.vips_api as vips
 from datetime import datetime, timedelta
@@ -11,33 +11,36 @@ from python.ingestor.routes import application
 
 
 date_served_data = [
-    ('IRP', 0, True),
-    ('IRP', 1, True),
-    ('IRP', 6, True),
-    ('IRP', 7, False),
-    ('IRP', 8, False),
-    ('IRP', 9, False),
-    ('UL', 0, True),
-    ('UL', 1, True),
-    ('UL', 7, True),
-    ('UL', 8, True),
-    ('UL', 9, True),
-    ('ADP', 0, True),
-    ('ADP', 1, True),
-    ('ADP', 6, True),
-    ('ADP', 7, False),
-    ('ADP', 8, False),
-    ('ADP', 9, False)
+    ('IRP', "2020-09-10 20:59:45 -08:00", "2020-09-11 13:31:22", True),
+    ('IRP', "2020-09-10 20:59:45 -08:00", "2020-09-16 13:31:22", True),
+    ('IRP', "2020-09-10 20:59:45 -08:00", "2020-09-17 13:31:22", False),
+    ('IRP', "2020-09-10 20:59:45 -08:00", "2020-09-18 13:31:22", False),
+    ('IRP', "2020-09-10 20:59:45 -08:00", "2020-09-19 13:31:22", False),
+
+    ('UL', "2020-09-10 20:59:45 -08:00", "2020-09-11 13:31:22", True),
+    ('UL', "2020-09-10 20:59:45 -08:00", "2020-09-16 13:31:22", True),
+    ('UL', "2020-09-10 20:59:45 -08:00", "2020-09-17 13:31:22", True),
+    ('UL', "2020-09-10 20:59:45 -08:00", "2020-09-18 13:31:22", True),
+    ('UL', "2020-09-10 20:59:45 -08:00", "2020-09-19 13:31:22", True),
+
+    ('ADP', "2020-09-10 20:59:45 -08:00", "2020-09-10 21:31:22", True),
+    ('ADP', "2020-09-10 20:59:45 -08:00", "2020-09-11 13:31:22", True),
+    ('ADP', "2020-09-10 20:59:45 -08:00", "2020-09-16 13:31:22", True),
+    ('ADP', "2020-09-10 20:59:45 -08:00", "2020-09-17 13:31:22", False),
+    ('ADP', "2020-09-10 20:59:45 -08:00", "2020-09-18 13:31:22", False),
+    ('ADP', "2020-09-10 20:59:45 -08:00", "2020-09-19 13:31:22", False),
 ]
 
 
-@pytest.mark.parametrize("prohibition_type, date_offset, expected", date_served_data)
-def test_date_served_not_older_than_one_week_method(prohibition_type, date_offset, expected):
-    vips_date_time_string = (datetime.today() - timedelta(days=date_offset)).strftime("%Y-%m-%d %H:%M:%S -08:00")
+@pytest.mark.parametrize("prohibition_type, notice_serve_date, today_is, expected", date_served_data)
+def test_date_served_not_older_than_one_week_method(prohibition_type, notice_serve_date, today_is, expected):
+    tz = pytz.timezone('America/Vancouver')
+    today_unaware = datetime.strptime(today_is, "%Y-%m-%d %H:%M:%S")
+    today_date = today_unaware.replace(tzinfo=tz)
     vips_data = dict()
     vips_data['noticeTypeCd'] = prohibition_type
-    vips_data['noticeServedDt'] = vips_date_time_string
-    (result, args) = middleware.date_served_not_older_than_one_week(vips_data=vips_data)
+    vips_data['noticeServedDt'] = notice_serve_date
+    (result, args) = middleware.date_served_not_older_than_one_week(vips_data=vips_data, today_date=today_date)
     assert result is expected
 
 
@@ -360,3 +363,26 @@ def test_add_encrypt_at_rest_attribute(record_under_test, queue):
         form_parameters=record_under_test, payload=payload)
     assert args['queue'] == queue
     assert response is True
+
+
+vips_payment_dates = [
+    ("2020-09-10 20:59:45 -07:00", "2020-09-11 13:31:22", True),
+    ("2020-09-10 20:59:45 -07:00", "2020-09-11 20:59:22", True),
+    ("2020-09-10 20:59:45 -07:00", "2020-09-11 20:24:00", True),
+    ("2020-09-10 20:59:45 -07:00", "2020-09-10 21:00:22", True),
+    ("2020-09-10 20:59:45 -07:00", "2020-09-11 21:00:22", False),
+    ("2020-09-10 20:59:45 -07:00", "2020-09-12 13:31:22", False),
+]
+
+
+@pytest.mark.parametrize("payment_date, current_time_is, expected", vips_payment_dates)
+def test_paid_not_more_than_24hrs_ago(payment_date, current_time_is, expected):
+    payment_data = dict()
+    payment_data['paymentDate'] = payment_date
+    tz = pytz.timezone('America/Vancouver')
+    today_unaware = datetime.strptime(current_time_is, "%Y-%m-%d %H:%M:%S")
+    today_date = tz.localize(today_unaware, is_dst=False)
+    print('today date is: {}'.format(today_date.isoformat()))
+    response, args = middleware.paid_not_more_than_24hrs_ago(
+        today_date=today_date, payment_data=payment_data)
+    assert response is expected

@@ -222,12 +222,11 @@ def date_served_not_older_than_one_week(**args) -> tuple:
     Prohibitions may not be appealed after 7 days.
     """
     vips_data = args.get('vips_data')
+    today = args.get('today_date')
     prohibition = pro.prohibition_factory(vips_data['noticeTypeCd'])
     if prohibition.MUST_APPLY_FOR_REVIEW_WITHIN_7_DAYS:
         days_in_week = 6
         date_served_string = vips_data['noticeServedDt']
-        tz = pytz.timezone('America/Vancouver')
-        today = datetime.now(tz)
         date_served = vips_str_to_datetime(date_served_string)
         if (today - date_served).days < days_in_week:
             return True, args
@@ -480,3 +479,59 @@ def content_length_within_bounds(**args) -> tuple:
     config = args.get('config')
     some_arbitrary_byte_value = config.MAX_FORM_SUBMISSION_BYTES
     return request.content_length < some_arbitrary_byte_value, args
+
+
+def paid_not_more_than_24hrs_ago(**args) -> tuple:
+    today_date = args.get('today_date')
+    payment_data = args.get('payment_data')
+    print(today_date)
+    payment_date = vips_str_to_datetime(payment_data['paymentDate'])
+    print(payment_date)
+    if (today_date - payment_date).days < 1:
+        return True, args
+    error = 'the payment is older than 24 hours'
+    args['error_string'] = error
+    logging.info(error)
+    return False, args
+
+
+def get_payment_status(**args) -> tuple:
+    """
+    Return True if the VIPS API responds to the get payment status
+    Further middleware required to determine if the query found a prohibition
+    """
+    config = args.get('config')
+    prohibition_number = args.get('prohibition_number')
+    correlation_id = args.get('correlation_id')
+    is_api_callout_successful, payment_data = vips.payment_get(prohibition_number, config, correlation_id)
+    if is_api_callout_successful:
+        args['vips_payment_data'] = payment_data
+        return True, args
+    error = 'the VIPS get_status operation returned an invalid response'
+    args['error_string'] = error
+    logging.info(error)
+    return False, args
+
+
+def received_valid_payment_status(**args) -> tuple:
+    """
+    Returns TRUE if the response from VIPS indicates a prohibition
+    was found that matches the prohibition_number provided
+    """
+    vips_payment_data = args.get('vips_payment_data')
+    if 'data' in vips_payment_data and 'transactionInfo' in vips_payment_data['data']:
+        args['payment_data'] = vips_payment_data['data']['transactionInfo']
+        return True, args
+    error = 'the payment does not exist in VIPS'
+    args['error_string'] = error
+    logging.info(error)
+    return False, args
+
+
+def determine_current_datetime(**args) -> tuple:
+    """
+    Return args['today_date'] as a timezone aware python datetime object
+    """
+    tz = pytz.timezone('America/Vancouver')
+    args['today_date'] = datetime.now(tz)
+    return True, args

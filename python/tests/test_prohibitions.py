@@ -5,13 +5,27 @@ import python.common.prohibitions as pro
 
 
 review_date_times = [
-    ('IRP', "2020-09-10", "2020-09-15", "2020-09-18", "2020-09-23"),
-    ('ADP', "2020-09-10", "2020-09-15", "2020-09-18", "2020-09-23"),
-    ('IRP', "2020-09-10", "2020-09-11", "2020-09-16", "2020-09-23"),
-    ('ADP', "2020-09-10", "2020-09-11", "2020-09-16", "2020-09-23"),
-    ('IRP', "2020-09-10", "2020-09-16", "2020-09-19", "2020-09-23"),
-    ('ADP', "2020-09-10", "2020-09-16", "2020-09-19", "2020-09-23"),
-    ('UL', "2020-09-10", "2020-09-15", "2020-09-18", "2020-10-01"),
+    # Applicant applies the day after date of service
+    # Type, ServiceDate   TodayIs       MinReviewDt   MaxReviewDt
+    ('IRP', "2020-09-10", "2020-09-11", "2020-09-16", "2020-09-26"),
+    ('ADP', "2020-09-10", "2020-09-11", "2020-09-16", "2020-09-26"),
+
+    # Applicant waits and applies on the fifth date, earliest possible
+    # review date is 4 days later
+    # Type, ServiceDate   TodayIs       MinReviewDt   MaxReviewDt
+    ('IRP', "2020-09-10", "2020-09-15", "2020-09-19", "2020-09-26"),
+    ('ADP', "2020-09-10", "2020-09-15", "2020-09-19", "2020-09-26"),
+
+    # Applicant waits and applies on the last possible date
+    # Type, ServiceDate   TodayIs       MinReviewDt   MaxReviewDt
+    ('IRP', "2020-09-10", "2020-09-16", "2020-09-20", "2020-09-26"),
+    ('ADP', "2020-09-10", "2020-09-16", "2020-09-20", "2020-09-26"),
+
+    # UL's are a special case, earliest possible date doesn't change
+    # but there is no legislated max review date. Arbitrarily, set
+    # max review date to two weeks from today.
+    # Type, ServiceDate   TodayIs       MinReviewDt   MaxReviewDt
+    ('UL', "2020-09-10", "2020-09-15", "2020-09-19", "2020-10-01"),
 ]
 
 
