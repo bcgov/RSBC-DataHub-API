@@ -26,7 +26,7 @@ class ProhibitionBase:
     # We can't schedule a review immediately, we have to give time for
     # an applicant to receive disclosure and submit their evidence
     MIN_DAYS_FROM_SCHEDULING_TO_REVIEW = 4
-    MIN_DAYS_FROM_SERVED_TO_REVIEW = 6
+    MIN_DAYS_FROM_SERVED_TO_REVIEW = 7
     MAX_DAYS_FROM_SERVED_TO_REVIEW = 16
 
     @staticmethod
