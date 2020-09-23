@@ -127,7 +127,7 @@ def build_endpoint(*args) -> str:
 def get(endpoint: str, user: str, password: str, correlation_id='ABC') -> tuple:
     logging.debug('vips_get_api_endpoint: {}'.format(endpoint))
     try:
-        response = requests.get(endpoint, auth=(user, password))
+        response = requests.get(endpoint, verify=False, auth=(user, password))
     except AssertionError as error:
         logging.warning('no response from the VIPS API')
         return False, error
@@ -140,7 +140,7 @@ def get(endpoint: str, user: str, password: str, correlation_id='ABC') -> tuple:
 
 def create(endpoint: str, user: str, password: str,  payload: dict, correlation_id='ABC') -> tuple:
     try:
-        response = requests.post(endpoint, json=payload, auth=(user, password))
+        response = requests.post(endpoint, verify=False, json=payload, auth=(user, password))
     except AssertionError as error:
         logging.warning('no response from the VIPS API')
         return False, error
@@ -159,7 +159,7 @@ def patch(endpoint: str, user: str, password: str,  payload: dict, correlation_i
     logging.info('patch endpoint: {}'.format(endpoint))
     logging.info('patch payload: {}'.format(json.dumps(payload)))
     try:
-        response = requests.patch(endpoint, json=payload, auth=(user, password))
+        response = requests.patch(endpoint, verify=False, json=payload, auth=(user, password))
     except AssertionError as error:
         logging.warning('no response from the VIPS API')
         return False, error

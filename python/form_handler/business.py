@@ -10,35 +10,35 @@ def process_incoming_form() -> dict:
             {"try": actions.add_to_failed_queue, "fail": []},
             {"try": rsi_email.admin_unknown_event_type, "fail": []}
         ],
-        # "review_schedule_picker": [
-        #     {"try": middleware.create_correlation_id, "fail": []},
-        #     {"try": middleware.determine_current_datetime, "fail": []},
-        #     {"try": middleware.get_data_from_schedule_picker_form, "fail": []},
-        #     {"try": middleware.validate_prohibition_number, "fail": []},
-        #     {"try": middleware.validate_drivers_last_name, "fail": []},
-        #     {"try": middleware.update_vips_status, "fail": []},
-        #     {"try": middleware.prohibition_exists_in_vips, "fail": []},
-        #     {"try": middleware.user_submitted_last_name_matches_vips, "fail": []},
-        #     {"try": middleware.application_has_been_saved_to_vips, "fail": []},
+        "review_schedule_picker": [
+            {"try": middleware.create_correlation_id, "fail": []},
+            {"try": middleware.determine_current_datetime, "fail": []},
+           # {"try": middleware.get_data_from_schedule_picker_form, "fail": []},
+            {"try": middleware.validate_prohibition_number, "fail": []},
+           # {"try": middleware.validate_drivers_last_name, "fail": []},
+            {"try": middleware.update_vips_status, "fail": []},
+            {"try": middleware.prohibition_exists_in_vips, "fail": []},
+            {"try": middleware.user_submitted_last_name_matches_vips, "fail": []},
+            {"try": middleware.application_has_been_saved_to_vips, "fail": []},
 
-        #     {"try": middleware.get_payment_status, "fail": []},
-        #     {"try": middleware.received_valid_payment_status, "fail": []},
-        #     {"try": middleware.paid_not_more_than_24hrs_ago, "fail": []},
+            {"try": middleware.get_payment_status, "fail": []},
+            {"try": middleware.received_valid_payment_status, "fail": []},
+            {"try": middleware.paid_not_more_than_24hrs_ago, "fail": []},
 
-        #     {"try": middleware.application_has_been_paid, "fail": []},
-        #     {"try": middleware.get_application_details, "fail": []},
-        #     {"try": middleware.valid_application_received_from_vips, "fail": []},
-        #     {"try": middleware.get_invoice_details, "fail": []},
-        #     {"try": middleware.calculate_schedule_window, "fail": []},
-        #     # {"try": middleware.query_review_times_available, "fail": []},
-        #
-        #     {"try": middleware.transform_requested_time_slot, "fail": []},
-        #     {"try": middleware.save_schedule_to_vips, "fail": [
-        #         {"try": rsi_email.applicant_requested_time_slot_not_available, "fail": []},
-        #     ]},
-        #     {"try": rsi_email.applicant_schedule_confirmation, "fail": []},
-        #     {"try": rsi_email.applicant_disclosure, "fail": []},
-        # ],
+            {"try": middleware.application_has_been_paid, "fail": []},
+            {"try": middleware.get_application_details, "fail": []},
+            {"try": middleware.valid_application_received_from_vips, "fail": []},
+            {"try": middleware.get_invoice_details, "fail": []},
+            {"try": middleware.calculate_schedule_window, "fail": []},
+            # {"try": middleware.query_review_times_available, "fail": []},
+
+            # {"try": middleware.transform_requested_time_slot, "fail": []},
+            # {"try": middleware.save_schedule_to_vips, "fail": [
+            #     {"try": rsi_email.applicant_requested_time_slot_not_available, "fail": []},
+            # ]},
+            # {"try": rsi_email.applicant_schedule_confirmation, "fail": []},
+            # {"try": rsi_email.applicant_disclosure, "fail": []},
+        ],
         "prohibition_review": [
             {
                 "try": actions.is_not_on_hold,
