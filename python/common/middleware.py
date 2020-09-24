@@ -32,10 +32,6 @@ def get_data_from_prohibition_review_form(**args) -> tuple:
     event_type = m['event_type']
     args['xml_form_data'] = m[event_type]['xml']
     args['applicant_role_raw'] = m[event_type]['form']['identification-information']['applicant-role']
-    first_name = m[event_type]['form']['identification-information']['driver-first-name']
-    last_name = m[event_type]['form']['identification-information']['driver-last-name']
-    args['driver_last_name'] = last_name
-    args['driver_full_name'] = "{} {}".format(first_name, last_name)
     args['applicant_first_name'] = m[event_type]['form']['identification-information']['first-name-applicant']
     args['applicant_last_name'] = m[event_type]['form']['identification-information']['last-name-applicant']
     args['applicant_email_address'] = m[event_type]['form']['identification-information']['applicant-email-address']
@@ -43,6 +39,25 @@ def get_data_from_prohibition_review_form(**args) -> tuple:
     args['prohibition_number'] = m[event_type]['form']['prohibition-information']['prohibition-number-clean']
     args['date_of_service'] = m[event_type]['form']['prohibition-information']['date-of-service']
     args['hearing-request-type'] = m[event_type]['form']['review-information']['hearing-request-type']
+    return True, args
+
+
+def populate_driver_name_fields_if_null(**args) -> tuple:
+    """
+    When driver is also the applicant, Orbeon doesn't fill in the driver's first
+    and last name fields. This function populates the driver name fields.
+    """
+    m = args.get('message')
+    event_type = m['event_type']
+    if args.get('applicant_role_raw') == 'driver':
+        first_name = m[event_type]['form']['identification-information']['first-name-applicant']
+        last_name = m[event_type]['form']['identification-information']['last-name-applicant']
+    else:
+        # applicant is either a lawyer or advocate
+        first_name = m[event_type]['form']['identification-information']['driver-first-name']
+        last_name = m[event_type]['form']['identification-information']['driver-last-name']
+    args['driver_last_name'] = last_name
+    args['driver_full_name'] = "{} {}".format(first_name, last_name)
     return True, args
 
 
@@ -486,6 +501,8 @@ def paid_not_more_than_24hrs_ago(**args) -> tuple:
     today_date = args.get('today_date')
     payment_data = args.get('payment_data')
     print(today_date)
+    if 'paymentDate' not in payment_data:
+        return True, args
     payment_date = vips_str_to_datetime(payment_data['paymentDate'])
     print(payment_date)
     if (today_date - payment_date).days < 1:
