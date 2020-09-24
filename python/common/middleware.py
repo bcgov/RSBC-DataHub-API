@@ -275,6 +275,7 @@ def get_invoice_details(**args) -> tuple:
     args['presentation_type'] = presentation_type
     args['service_date'] = vips.vips_str_to_datetime(vips_data['noticeServedDt'])
     args['prohibition'] = prohibition
+    args['notice_type_verbose'] = prohibition.type_verbose()
     return True, args
 
 

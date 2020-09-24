@@ -23,6 +23,7 @@ class ProhibitionBase:
     ORAL_REVIEW_PRICE = 200
     MUST_APPLY_FOR_REVIEW_WITHIN_7_DAYS = True
     DRIVERS_LICENCE_MUST_BE_SEIZED_BEFORE_APPLICATION_ACCEPTED = True
+
     # We can't schedule a review immediately, we have to give time for
     # an applicant to receive disclosure and submit their evidence
     MIN_DAYS_FROM_SCHEDULING_TO_REVIEW = 4
@@ -55,6 +56,10 @@ class ProhibitionBase:
         if presentation_type == "ORAL":
             return ProhibitionBase.ORAL_REVIEW_PRICE
 
+    @staticmethod
+    def type_verbose() -> str:
+        pass
+
 
 class UnlicencedDriver(ProhibitionBase):
     WRITTEN_REVIEW_PRICE = 50
@@ -76,10 +81,20 @@ class UnlicencedDriver(ProhibitionBase):
     def amount_due(presentation_type: str):
         return UnlicencedDriver.WRITTEN_REVIEW_PRICE
 
+    @staticmethod
+    def type_verbose() -> str:
+        return "Unlicensed driver prohibition"
+
 
 class ImmediateRoadside(ProhibitionBase):
-    pass
+
+    @staticmethod
+    def type_verbose() -> str:
+        return "Immediate roadside prohibition"
 
 
 class AdministrativeDriving(ProhibitionBase):
-    pass
+
+    @staticmethod
+    def type_verbose() -> str:
+        return "Administrative driving prohibition"

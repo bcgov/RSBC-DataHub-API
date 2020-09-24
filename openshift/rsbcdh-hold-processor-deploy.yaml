@@ -14,8 +14,8 @@ parameters:
 - name: VERSION
 - name: HOST
 - name: CRON_SCHEDULE
-  description: 'Cron schedule expression. Default: Every two hours'
-  value: '* */2 * * *'
+  description: 'Cron schedule expression. Default: Every hour at 5 past the hour'
+  value: '5 * * * *'
 - name: URL_SUFFIX
   required: true
 - name: CPU_REQUEST

@@ -77,7 +77,7 @@ def show(prohibition_number):
                 "term_due_date": service_date.isoformat(),
                 "total": amount_due,
                 "amount_due": amount_due,
-                "attribute1": args.get('vips_data')['noticeTypeCd'],
+                "attribute1": args.get('notice_type_verbose'),
                 "attribute2": service_date.strftime("%b %-d, %Y"),
                 "attribute3": presentation_type,
                 "amount": amount_due

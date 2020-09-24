@@ -155,7 +155,7 @@ def test_transform_hearing_request_types(hearing_type, expected):
 def test_null_json_values_convert_to_none_types():
     # check that json attributes with null values are converted to None type
     sample_data = load_json_into_dict('python/tests/sample_data/form/irp_form_submission.json')
-    assert sample_data['prohibition_review']['form']['consent-and-submission']['consent-text'] is None
+    assert sample_data['prohibition_review']['form']['review-information']['ul-grounds'] is None
 
 
 applicant_role_types = [

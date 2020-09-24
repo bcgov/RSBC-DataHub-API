@@ -41,16 +41,22 @@ def test_get_application_window(prohib_type: str, date_served: str, today_is: st
 
 
 prohibition_types = [
-    ('IRP', "ImmediateRoadside"),
-    ('ADP', "AdministrativeDriving"),
-    ('UL', "UnlicencedDriver"),
+    ('IRP', "ImmediateRoadside", "Immediate roadside prohibition"),
+    ('ADP', "AdministrativeDriving", "Administrative driving prohibition"),
+    ('UL', "UnlicencedDriver", "Unlicensed driver prohibition"),
 ]
 
 
-@pytest.mark.parametrize("prohib_type, class_expected", prohibition_types)
-def test_prohibition_factory(prohib_type: str, class_expected: str):
+@pytest.mark.parametrize("prohib_type, class_expected, verbose_type", prohibition_types)
+def test_prohibition_factory(prohib_type: str, class_expected: str, verbose_type: str):
     prohibition = pro.prohibition_factory(prohib_type)
     assert class_expected in str(prohibition.__class__)
+
+
+@pytest.mark.parametrize("prohib_type, class_expected, verbose_type", prohibition_types)
+def test_prohibition_type_verbose(prohib_type: str, class_expected: str, verbose_type: str):
+    prohibition = pro.prohibition_factory(prohib_type)
+    assert verbose_type == prohibition.type_verbose()
 
 
 def test_prohibition_unknown_factory():
