@@ -19,5 +19,5 @@
       }
     },
     "xml": "-not-used-"
-  },
-  "errors": [{"description": {"error": "unknown event type: review_schedule_picker"}, "timestamp": "23-Sep-2020 (18:04:50.615993)"}]}
+  }
+}

@@ -413,11 +413,6 @@
                   "type": "dict",
                   "required": true,
                   "schema": {
-                    "irp-prohibition-type-length": {
-                      "type": "string",
-                      "required": true,
-                      "nullable": true
-                    },
                     "hearing-request-type": {
                       "type": "string",
                       "required": true,
@@ -453,7 +448,36 @@
       "review_schedule_picker": {
         "type": "dict",
         "required": true,
-        "schema": {}
+        "schema": {
+          "form": {
+            "type": "dict",
+            "required": true,
+            "schema": {
+              "section-1": {
+                "type": "dict",
+                "required": true,
+                "schema": {
+                  "prohibition-number": {
+                      "type": "string",
+                      "required": true
+                  },
+                  "prohibition-number-clean": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "last-name": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "timeslot-selected": {
+                    "type": "string",
+                    "required": true
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
