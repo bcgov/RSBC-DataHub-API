@@ -49,7 +49,7 @@ def insert(config, tables_to_be_inserted: list) -> tuple:
             error_string = error.__class__.__name__
             logging.warning("Write to db failed: " + error_string)
             logging.warning(str(error))
-            return False, error
+            return False, dict({error_string: str(error)})
 
     connection.commit()
     cursor.close()

@@ -4,7 +4,7 @@ from python.common.config import Config as BaseConfig
 
 class Config(BaseConfig):
     # RABBITMQ
-    WATCH_QUEUE                 = os.getenv('WATCH_QUEUE', 'validated')
+    WATCH_QUEUE                 = os.getenv('WATCH_QUEUE', 'ETK.valid')
     FAIL_QUEUE                  = os.getenv('FAIL_QUEUE', 'ETK.fail-write')
 
     # BI DATABASE
