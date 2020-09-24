@@ -35,7 +35,8 @@ class Listener:
 
         is_success, args = database_writer(message=message_dict, config=Config)
         if not is_success:
-            self.writer.publish(Config.FAIL_QUEUE, encode_message(message_dict, Config.ENCRYPT_KEY))
+            message_with_errors = args.get('message')
+            self.writer.publish(Config.FAIL_QUEUE, encode_message(message_with_errors, Config.ENCRYPT_KEY))
 
         # Regardless of whether the write above is successful we need to
         # acknowledge receipt of the message to RabbitMQ. This acknowledgement

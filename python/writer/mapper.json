@@ -293,10 +293,6 @@
                             "destination_name": "count_number"
                         },
                         {
-                            "json_name": "vt_payment.transaction_id",
-                            "destination_name": "transaction_id"
-                        },
-                        {
                             "json_name": "vt_payment.payment_card_type",
                             "destination_name": "payment_card_type"
                         },

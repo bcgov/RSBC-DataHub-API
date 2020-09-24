@@ -15,7 +15,8 @@ def write(**args):
     is_successful, error = insert(config, tables_for_insert)
     if is_successful:
         return True, args
-    message = msg.add_error_to_message(message, error)
+    logging.warning('database write failed: {}'.format(error))
+    args['message'] = msg.add_error_to_message(message, error)
     return False, args
 
 
