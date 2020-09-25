@@ -124,3 +124,16 @@ services:
           BCC_EMAIL_ADDRESSES: "${BCC_EMAIL_ADDRESSES}"
           LOG_LEVEL: "INFO"
           ENCRYPT_KEY: "${ENCRYPT_KEY}"
+
+    geocoder:
+        build:
+          context: python
+          dockerfile: geocoder/Dockerfile-local
+        environment:
+          LOG_LEVEL: "INFO"
+          GEOCODE_SECRET_KEY: "${GEOCODE_SECRET_KEY}"
+          GEOCODE_BASIC_AUTH_USER: "${GEOCODE_BASIC_AUTH_USER}"
+          GEOCODE_BASIC_AUTH_PASS: "${GEOCODE_BASIC_AUTH_PASS}"
+
+        ports:
+          - "5003:5003"
