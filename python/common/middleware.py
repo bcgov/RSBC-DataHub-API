@@ -417,6 +417,16 @@ def content_type_is_xml(**args) -> tuple:
     return False, args
 
 
+def content_type_is_json(**args) -> tuple:
+    request = args.get('request')
+    if request.content_type == 'application/json':
+        return True, args
+    error = 'received content type is not JSON'
+    args['error_string'] = error
+    logging.info(error)
+    return False, args
+
+
 def form_name_provided(**args) -> tuple:
     request = args.get('request')
     not_provided = 'unknown'

@@ -73,7 +73,7 @@ def process_incoming_form() -> dict:
             {
                 "try": middleware.application_not_previously_saved_to_vips,
                 "fail": [
-                    # TODO - send email - application previously saved to VIPS
+                    {"try": rsi_email.application_already_created, "fail": []},
                 ]},
             {
                 "try": middleware.user_submitted_last_name_matches_vips,

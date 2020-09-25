@@ -151,6 +151,24 @@ def applicant_prohibition_not_yet_in_vips(**args):
         get_common_services_access_token(config)), args
 
 
+def application_already_created(**args):
+    config = args.get('config')
+    prohibition_number = args.get('prohibition_number')
+    subject = 'Re: Driving Prohibition Review - Already Applied - {}'.format(prohibition_number)
+    logging.info('Re: Driving Prohibition Review - Already Applied')
+    template = get_jinja2_env().get_template('application_already_created.html')
+    return send_email(
+        [args.get('applicant_email_address')],
+        subject,
+        config,
+        template.render(
+            full_name=args.get('driver_full_name'),
+            prohibition_number=prohibition_number,
+            subject=subject),
+        config.COMM_SERV_API_ROOT_URL,
+        get_common_services_access_token(config)), args
+
+
 def admin_unable_to_save_to_vips(**args) -> tuple:
     logging.critical('inside unable_to_save_to_vips_api()')
     config = args.get('config')
