@@ -36,7 +36,7 @@ def basic_auth_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         auth = request.authorization
-        if not auth or not check_credentials(Config, auth.username, auth.password):
+        if not auth or not helper.check_credentials(Config, auth.username, auth.password):
             message = {'error': 'Unauthorized'}
             resp = jsonify(message)
             resp.status_code = 401
@@ -100,15 +100,6 @@ def schedule():
                         "timeSlots": []
                     }
                 }))
-
-
-def check_credentials(config, username_submitted, password_submitted) -> bool:
-    username = config.FLASK_BASIC_AUTH_USER
-    password = config.FLASK_BASIC_AUTH_PASS
-    logging.info('credentials: {}:{}'.format(username, password))
-    if username_submitted == username and password_submitted == password:
-        return True
-    return False
 
 
 if __name__ == "__main__":

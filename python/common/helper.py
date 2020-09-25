@@ -103,3 +103,12 @@ def get_listeners(listeners: dict, key: str) -> list:
 def localize_timezone(date_time: datetime) -> datetime:
     tz = pytz.timezone('America/Vancouver')
     return date_time.replace(tzinfo=tz)
+
+
+def check_credentials(config, username_submitted, password_submitted) -> bool:
+    username = config.GEOCODE_BASIC_AUTH_USER
+    password = config.GEOCODE_BASIC_AUTH_PASS
+    logging.info('credentials: {}:{}'.format(username, password))
+    if username_submitted == username and password_submitted == password:
+        return True
+    return False
