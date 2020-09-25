@@ -17,7 +17,7 @@ RUN [ "ls", "-R" ]
 
 COPY common/*.py ${APP_ROOT}/src/python/common/
 COPY geocoder/*.py ${APP_ROOT}/src/python/geocoder/
-COPY geocoder/*.json ${APP_ROOT}/src/python/geocoder/
+
 
 CMD [ "echo" , "python files copied" ]
 RUN [ "pwd" ]
