@@ -78,10 +78,6 @@ objects:
         labels:
           deploymentconfig: ${NAME}-${COMPONENT}${SUFFIX}
       spec:
-        volumes:
-        - name: "${NAME}-data"
-          persistentVolumeClaim:
-            claimName: "${NAME}-${COMPONENT}${SUFFIX}"
         containers:
         - image: " "
           name: app
@@ -126,9 +122,6 @@ objects:
             requests:
               cpu: 60m
               memory: 64Mi
-          volumeMounts:
-          - name: "${NAME}-data"
-            mountPath: "/var/lib/sqlite"
     test: false
     triggers:
     - type: ConfigChange
