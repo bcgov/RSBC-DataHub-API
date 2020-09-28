@@ -87,14 +87,12 @@ def process_incoming_form() -> dict:
                     {"try": rsi_email.applicant_prohibition_served_more_than_7_days_ago, "fail": []}
                 ]
             },
-            # TODO - Remove before flight!!
-            #  temporarily disabled the following rule to work around VIPS sample data
-            # {
-            #     "try": middleware.has_drivers_licence_been_seized,
-            #     "fail": [
-            #         {"try": rsi_email.applicant_licence_not_seized, "fail": []}
-            #     ]
-            # },
+            {
+                "try": middleware.has_drivers_licence_been_seized,
+                "fail": [
+                    {"try": rsi_email.applicant_licence_not_seized, "fail": []}
+                ]
+            },
             {"try": middleware.transform_hearing_request_type, "fail": []},
             {"try": middleware.transform_applicant_role_type, "fail": []},
             {
