@@ -90,6 +90,7 @@ def application_create(form_type: str, **args):
             "noticeSubjectCd": 'PERS',
         }
     }
+    logging.info("application create payload: {}".format(json.dumps(payload)))
     return create(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, payload, correlation_id)
 
 
@@ -147,6 +148,7 @@ def create(endpoint: str, user: str, password: str,  payload: dict, correlation_
 
     data = response.json()
     if response.status_code == 201:
+        logging.info("create success response: {}".format(json.dumps(data)))
         return True, data
     logging.info('VIPS create() was not successful')
     logging.info('create endpoint: {}'.format(endpoint))
