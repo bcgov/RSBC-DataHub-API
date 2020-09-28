@@ -105,9 +105,7 @@ def localize_timezone(date_time: datetime) -> datetime:
     return date_time.replace(tzinfo=tz)
 
 
-def check_credentials(config, username_submitted, password_submitted) -> bool:
-    username = config.GEOCODE_BASIC_AUTH_USER
-    password = config.GEOCODE_BASIC_AUTH_PASS
+def check_credentials(username, password, username_submitted, password_submitted) -> bool:
     logging.debug('credentials: {}:{}'.format(username, password))
     if username_submitted == username and password_submitted == password:
         return True

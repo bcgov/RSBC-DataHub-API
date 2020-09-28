@@ -36,7 +36,8 @@ def basic_auth_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         auth = request.authorization
-        if not auth or not helper.check_credentials(Config, auth.username, auth.password):
+        if not auth or not helper.check_credentials(
+                Config.FLASK_BASIC_AUTH_USER, Config.FLASK_BASIC_AUTH_PASS, auth.username, auth.password):
             message = {'error': 'Unauthorized'}
             resp = jsonify(message)
             resp.status_code = 401
