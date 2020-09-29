@@ -30,4 +30,4 @@ def test_add_error_to_message_method_handles_cerberus_errors():
 
 def test_get_listener_functions():
     functions = helper.get_listeners(business.process_incoming_form(), 'prohibition_review')
-    assert len(functions) == 14
+    assert len(functions) == 15

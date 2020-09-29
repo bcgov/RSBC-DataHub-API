@@ -58,3 +58,25 @@ def ingest_form() -> list:
         ]},
         {"try": rest.okay, "fail": []}
        ]
+
+
+def okay_to_submit_evidence() -> list:
+    """
+    An applicant is ready for submit evidence when the application has
+    been submitted, paid and date selected for review.  Plus the review
+    date cannot be greater than today's date.
+    """
+    return [
+        {"try": middleware.create_correlation_id, "fail": []},
+        {"try": middleware.determine_current_datetime, "fail": []},
+        {"try": middleware.validate_prohibition_number, "fail": []},
+        {"try": middleware.update_vips_status, "fail": []},
+        {"try": middleware.prohibition_exists_in_vips, "fail": []},
+        {"try": middleware.user_submitted_last_name_matches_vips, "fail": []},
+        {"try": middleware.application_has_been_saved_to_vips, "fail": []},
+        {"try": middleware.get_payment_status, "fail": []},
+        {"try": middleware.received_valid_payment_status, "fail": []},
+        {"try": middleware.application_has_been_paid, "fail": []},
+        # {"try": middleware.review_time_slot_selected, "fail": []}
+        # {"try": middleware.review_must_be_in_the_future, "fail": []}
+       ]

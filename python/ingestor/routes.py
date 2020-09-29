@@ -103,5 +103,23 @@ def schedule():
                 }))
 
 
+@application.route('/evidence', methods=['POST'])
+@basic_auth_required
+def evidence():
+    """
+    Confirm prohibition number and last name matches VIPS and
+    applicant business rules satisfied to submit evidence.
+    """
+    if request.method == 'POST':
+        # invoke middleware functions
+        args = helper.middle_logic(business.okay_to_submit_evidence(),
+                                   prohibition_number=request.form['prohibition_number'],
+                                   driver_last_name=request.form['last_name'],
+                                   config=Config)
+        if 'error_string' not in args:
+            return jsonify(dict({"data": {"is_valid": True}}))
+        return jsonify(dict({"data": {"is_valid": False}}))
+
+
 if __name__ == "__main__":
     application.run(host='0.0.0.0')
