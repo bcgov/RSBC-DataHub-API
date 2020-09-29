@@ -1,23 +1,30 @@
 {
   "event_version": "1.4",
-  "event_date_time": "2020-09-23T18:04:50.336255",
+  "event_date_time": "2020-09-28T23:58:20.692897",
   "event_type": "review_schedule_picker",
   "review_schedule_picker": {
     "form": {
-      "section-1": {
-        "control-2": {
-          "@filename": "BCID_RoadSafetyBC_sanBPOE_RGB_pos.png",
+      "before-you-begin-section": {
+        "help-image": {
+          "@filename": "info_reduced.png",
           "@mediatype": "image/png",
-          "#text": "/fr/service/persistence/crud/orbeon/builder/data/147b6c235547b8c37b199a6921ad888084e52553/467ff056e7cda18a2ac1f2d28d28ab024ad2dddd.bin"
+          "#text": "/fr/service/persistence/crud/gov-pssg/review_schedule_picker/form/580a9e9d823a405b41129a12394c990de516ca94.bin"
         },
-        "prohibition-number": "21-900309",
-        "prohibition-number-clean": "21900309",
+        "help-text": null
+      },
+      "schedule-review-section": {
+        "prohibition-number": "21-900040",
+        "prohibition-number-clean": "21900040",
+        "prohibition-no-image": {
+          "@filename": "Combo prohibition no.png",
+          "@mediatype": "image/png",
+          "#text": "/fr/service/persistence/crud/gov-pssg/review_schedule_picker/form/7490a2bdcb0062a565a5e7aa2b4144560c83d8e7.bin"},
         "last-name": "Gordon",
-        "prohib-last-name": "21-900309-Gordon",
-        "timeslot-selected": "MjAyMC0wOS0yOCAwOTowMDowMCAtMDc6MDB8MjAyMC0wOS0yOCAwOTozMDowMCAtMDc6MDA=",
+        "control-3": null,
+        "api-error": null,
+        "timeslot-selected": "MjAyMC0xMC0wNyAwOTozMDowMCAtMDc6MDB8MjAyMC0xMC0wNyAxMDowMDowMCAtMDc6MDA=",
         "control-1": null
       }
     },
-    "xml": "-not-used-"
-  }
+    "xml": "--not-used--"}
 }

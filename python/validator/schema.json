@@ -453,7 +453,7 @@
             "type": "dict",
             "required": true,
             "schema": {
-              "section-1": {
+              "schedule-review-section": {
                 "type": "dict",
                 "required": true,
                 "schema": {
