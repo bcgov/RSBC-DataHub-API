@@ -13,6 +13,7 @@ import json
 import xmltodict
 import base64
 
+
 logging.basicConfig(level=Config.LOG_LEVEL)
 
 
@@ -68,6 +69,17 @@ def validate_prohibition_number(**args) -> tuple:
         logging.info(error)
         args['error_string'] = error
         return False, args
+    return True, args
+
+
+def clean_prohibition_number(**args) -> tuple:
+    """
+    Remove any non-digits from the prohibition number
+    and take only the first 8 digits
+    """
+    prohibition_number = args.get('prohibition_number')
+    prohibition_number = re.sub(r"\D", "", prohibition_number)
+    args['prohibition_number'] = prohibition_number[0:8]
     return True, args
 
 

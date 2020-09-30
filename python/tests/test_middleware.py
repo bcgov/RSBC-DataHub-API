@@ -196,6 +196,24 @@ def test_validate_prohibition_number(number_under_test, is_valid):
     assert response is is_valid
 
 
+clean_prohibition_numbers = [
+    ("1234", "1234"),
+    ("21900055", "21900055"),
+    ("00900055", "00900055"),
+    ("00-900055", "00900055"),
+    ("21-900055", "21900055"),
+    ("30900055X", "30900055"),
+]
+
+
+@pytest.mark.parametrize("before, after", clean_prohibition_numbers)
+def test_validate_prohibition_number(before, after):
+    response, args = middleware.clean_prohibition_number(prohibition_number=before)
+    clean_prohibition_number = args.get('prohibition_number')
+    assert response is True
+    assert clean_prohibition_number == after
+
+
 applications = [
     ({"resp": "fail"}, False),
     ({"resp": "success"}, False),

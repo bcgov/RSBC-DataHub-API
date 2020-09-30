@@ -13,6 +13,7 @@ def search_for_invoice() -> list:
     return [
         {"try": middleware.create_correlation_id, "fail": []},
         {"try": middleware.determine_current_datetime, "fail": []},
+        {"try": middleware.clean_prohibition_number, "fail": []},
         {"try": middleware.validate_prohibition_number, "fail": []},
         {"try": middleware.update_vips_status, "fail": []},
         {"try": middleware.prohibition_exists_in_vips, "fail": []},
@@ -31,6 +32,7 @@ def generate_invoice() -> list:
     return [
         {"try": middleware.create_correlation_id, "fail": []},
         {"try": middleware.determine_current_datetime, "fail": []},
+        {"try": middleware.clean_prohibition_number, "fail": []},
         {"try": middleware.validate_prohibition_number, "fail": []},
         {"try": middleware.update_vips_status, "fail": []},
         {"try": middleware.prohibition_exists_in_vips, "fail": []},
