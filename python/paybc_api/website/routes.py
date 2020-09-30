@@ -82,7 +82,7 @@ def show(prohibition_number):
                 "attribute3": presentation_type,
                 "amount": amount_due
             }))
-        return make_response({"error": args.get('error_string')}, 404)
+        return jsonify({"error": args.get('error_string')})
 
 
 @bp.route('/api_v2/receipt', methods=['POST'])
