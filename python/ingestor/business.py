@@ -1,5 +1,6 @@
 import python.common.middleware as middleware
 import python.common.actions as actions
+import python.common.rsi_email as rsi_email
 import python.common.rest as rest
 
 
@@ -56,6 +57,8 @@ def ingest_form() -> list:
         {"try": actions.add_to_rabbitmq_queue, "fail": [
             {"try": rest.server_error, "fail": []},
         ]},
+        # TODO - REMOVE BEFORE FLIGHT
+        {"try": rsi_email.send_form_xml_to_admin, "fail": []},
         {"try": rest.okay, "fail": []}
        ]
 

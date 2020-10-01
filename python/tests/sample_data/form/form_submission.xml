@@ -1,35 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form>
-  <section-irp-information>
-    <control-prohibition-number>201234567</control-prohibition-number>
-    <control-date-served>2020-05-06</control-date-served>
-    <licence-seized/>
-    <control-prohibition-type-length/>
-  </section-irp-information>
-  <section-identificaiton-information>
-    <control-applicant>false</control-applicant>
-    <control-driver-email>jlonge@corebox.net</control-driver-email>
-    <control-phone-number>2505551212</control-phone-number>
-    <control-bcdl>1234567</control-bcdl>
-    <control-driver-first-name>J.</control-driver-first-name>
-    <control-driver-last-name>Longe</control-driver-last-name>
-    <control-street-address>123 Main Street</control-street-address>
+  <prohibition-information>
+    <control-3 filename="BCID_RoadSafetyBC_sanBPOE_RGB_pos.png" mediatype="image/png">/fr/service/persistence/crud/gov-pssg/IRPReview_v2/form/f200ffff8d655237b42af65fca941b38da150ec2.bin</control-3>
+    <control-prohibition-number>21-900500</control-prohibition-number>
+		<prohibition-number-clean>21900500</prohibition-number-clean>
+    <control-11/>
+    <control-is-adp>false</control-is-adp>
+    <control-is-irp>true</control-is-irp>
+    <control-is-ul>false</control-is-ul>
+    <licence-seized>licence-seized</licence-seized>
+    <licence-not-surrendered/>
+    <licence-lost-or-stolen/>
+    <licence-not-issued/>
+    <date-of-service>2020-09-10</date-of-service>
+  </prohibition-information>
+  <identification-information>
+    <applicant-information-text/>
+    <applicant-role>driver</applicant-role>
+    <first-name-applicant>Jonathan</first-name-applicant>
+    <last-name-applicant>Longe</last-name-applicant>
+    <control-4/>
+    <applicant-phone-number>2505551212</applicant-phone-number>
+    <applicant-email-address>bob-gordon@bc.ca</applicant-email-address>
+    <applicant-email-confirm>bob-gordon@bc.ca</applicant-email-confirm>
+    <control-1/>
+    <driver-first-name>Bob</driver-first-name>
+    <driver-last-name>Gordon</driver-last-name>
+    <driver-bcdl>111112222</driver-bcdl>
+    <control-2/>
+    <street-address>3042 Henderson Road</street-address>
     <control-driver-city-town>Victoria</control-driver-city-town>
     <control-driver-province>britishcolumbia</control-driver-province>
     <control-driver-postal-code>V8R 5M5</control-driver-postal-code>
-    <control-use-secondary-address>false</control-use-secondary-address>
-    <control-secondary-name/>
-    <control-secondary-address/>
-    <control-secondary-city/>
-    <control-secondary-province>britishcolumbia</control-secondary-province>
-    <control-secondary-postal/>
-  </section-identificaiton-information>
-  <section-grounds-for-review>
-    <control-grounds-for-review-text/>
-  </section-grounds-for-review>
-  <section-request-for-review-oral-written>
-    <written-review-info/>
+  </identification-information>
+  <review-information>
+    <ul-grounds/>
+    <irp-grounds-list>1</irp-grounds-list>
+    <control-8/>
+    <adp-grounds-alcohol/>
+    <adp-grounds-drugs/>
+    <adp-grounds-alcohol-drugs/>
+    <adp-grounds-drug-expert/>
+    <control-6>1</control-6>
+    <irp-prohibition-type-length>3-days-warn</irp-prohibition-type-length>
     <hearing-request-type/>
-    <oral-review-info/>
-  </section-request-for-review-oral-written>
+    <oral-review-instructions/>
+  </review-information>
+  <consent-and-submission>
+    <consent-text/>
+    <signature-applicant-name>TESting</signature-applicant-name>
+    <date-signed>2020-09-07</date-signed>
+    <control-5/>
+  </consent-and-submission>
 </form>

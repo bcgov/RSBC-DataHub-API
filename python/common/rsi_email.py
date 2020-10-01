@@ -25,6 +25,29 @@ def application_accepted(**args):
         get_common_services_access_token(config)), args
 
 
+def send_form_xml_to_admin(**args):
+    config = args.get('config')
+    prohibition_number = args.get('prohibition_number')
+    subject = 'DEBUG - Form XML attached - {}'.format(prohibition_number)
+    template = get_jinja2_env().get_template('admin_notice.html')
+    return send_email(
+        [config.ADMIN_EMAIL_ADDRESS],
+        subject,
+        config,
+        template.render(
+            body='XML attached',
+            message='message xml attached',
+            subject=subject),
+        config.COMM_SERV_API_ROOT_URL,
+        get_common_services_access_token(config),
+        [{
+            "content": args.get('xml'),
+            "contentType": "string",
+            "encoding": "base64",
+            "filename": "submitted_form.xml"
+        }]), args
+
+
 def send_email_to_admin(**args):
     subject = args.get('subject')
     config = args.get('config')
@@ -189,8 +212,11 @@ def admin_unknown_event_type(**args) -> tuple:
     return send_email_to_admin(config=config, title=title, body=body_text), args
 
 
-def send_email(to: list, subject: str, config, template, api_root_url: str, token: str) -> tuple:
+def send_email(to: list, subject: str, config, template, api_root_url: str, token: str, attachments=None) -> tuple:
+    if attachments is None:
+        attachments = []
     payload = {
+        "attachments": attachments,
         "bodyType": "html",
         "body": template,
         "from": config.REPLY_EMAIL_ADDRESS,
