@@ -60,6 +60,11 @@ class ProhibitionBase:
     def type_verbose() -> str:
         pass
 
+    @staticmethod
+    def is_eligible_for_oral_review(vips_data: dict):
+        # Unlicenced Driving Prohibitions are never eligible for oral reviews
+        return False
+
 
 class UnlicencedDriver(ProhibitionBase):
     WRITTEN_REVIEW_PRICE = 50
@@ -92,9 +97,21 @@ class ImmediateRoadside(ProhibitionBase):
     def type_verbose() -> str:
         return "Immediate roadside prohibition"
 
+    @staticmethod
+    def is_eligible_for_oral_review(vips_data: dict):
+        if 'originalCause' in vips_data:
+            if vips_data['originalCause'] == 'IRP30' or vips_data['originalCause'] == 'IRP90':
+                return True
+        return False
+
 
 class AdministrativeDriving(ProhibitionBase):
 
     @staticmethod
     def type_verbose() -> str:
         return "Administrative driving prohibition"
+
+    @staticmethod
+    def is_eligible_for_oral_review(vips_data: dict):
+        # Administrative Driving Prohibitions are always eligible for oral reviews
+        return True

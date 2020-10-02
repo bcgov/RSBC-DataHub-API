@@ -62,3 +62,25 @@ def test_prohibition_type_verbose(prohib_type: str, class_expected: str, verbose
 def test_prohibition_unknown_factory():
     prohibition = pro.prohibition_factory('')
     assert prohibition is None
+
+
+oral_eligible = [
+
+    # Type, originalCause Expected
+    ('IRP', "IRP90", True),
+    ('IRP', "IRP30", True),
+    ('IRP', "IRP7", False),
+    ('IRP', "IRP3", False),
+    ('ADP', "BREATHSAMP", True),
+    ('UL', "", False),
+]
+
+
+@pytest.mark.parametrize("prohibition_type, original_cause, expected", oral_eligible)
+def test_is_oral_review_eligible(prohibition_type: str, original_cause: str, expected):
+    vips_data = {
+        "originalCause": original_cause
+    }
+    prohibition = pro.prohibition_factory(prohibition_type)
+    result = prohibition.is_eligible_for_oral_review(vips_data=vips_data)
+    assert result == expected

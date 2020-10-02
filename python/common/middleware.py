@@ -26,8 +26,9 @@ def create_correlation_id(**args) -> tuple:
 
 def get_data_from_prohibition_review_form(**args) -> tuple:
     """
-    Get key data from the message.  We can be sure the keys are in the message
-    because the validator checks for all these message attributes.
+    Get key data from the prohibition_review_form.  We can be sure
+    the keys are in the message because the validator checks for
+    these message attributes.
     """
     m = args.get('message')
     event_type = m['event_type']
@@ -39,7 +40,7 @@ def get_data_from_prohibition_review_form(**args) -> tuple:
     args['applicant_phone_number'] = m[event_type]['form']['identification-information']['applicant-phone-number']
     args['prohibition_number'] = m[event_type]['form']['prohibition-information']['prohibition-number-clean']
     args['date_of_service'] = m[event_type]['form']['prohibition-information']['date-of-service']
-    args['hearing-request-type'] = m[event_type]['form']['review-information']['hearing-request-type']
+    args['hearing_request_type'] = m[event_type]['form']['review-information']['hearing-request-type']
     return True, args
 
 
@@ -329,7 +330,6 @@ def query_review_times_available(**args) -> tuple:
             time_slots += vips.time_slots_to_friendly_times(data['data']['timeSlots'], review_type)
     logging.debug(json.dumps(time_slots))
     args['time_slots'] = time_slots
-
     return True, args
 
 
@@ -575,3 +575,53 @@ def determine_current_datetime(**args) -> tuple:
     tz = pytz.timezone('America/Vancouver')
     args['today_date'] = datetime.now(tz)
     return True, args
+
+
+def get_data_from_schedule_form(**args) -> tuple:
+    """
+    Get key data from the schedule_review.  We can be sure
+    the keys are in the message because the validator checks for
+    these message attributes.
+    """
+    m = args.get('message')
+    event_type = m['event_type']
+    args['prohibition_number'] = m[event_type]['form']['schedule-review-section']['prohibition-number']
+    args['driver_last_name'] = m[event_type]['form']['schedule-review-section']['last-name']
+    args['time_slot_selected'] = m[event_type]['form']['schedule-review-section']['timeslot-selected']
+    return True, args
+
+
+def validate_drivers_last_name(**args) -> tuple:
+    """
+    Return False if the driver last name has characters that
+    shouldn't appear in any name, regardless of nationality
+    """
+    last_name = args.get('driver_last_name')
+    if re.match(r"^[^±!@£$%^&*_+§¡€#¢§¶•ªº«\\/<>?:;|=.,]{1,30}$", last_name):
+        return True, args
+    logging.info('Driver last name includes prohibited characters')
+    return False, args
+
+
+def decode_selected_timeslot(**args) -> tuple:
+    coded_time_slot = args.get('selected_time_slot')
+    args['selected_timeslot'] = vips.decode_time_slot(coded_time_slot)
+    return True, args
+
+
+def force_presentation_type_to_written_if_ineligible_for_oral(**args) -> tuple:
+    """
+    Only certain kinds of IRP and ADP prohibitions are eligible for an
+    oral review.  If the user has requested an oral review when they're
+    not eligible change presentation type to written.
+    """
+    vips_data = args.get('vips_data')
+    presentation_type = args.get('presentation_type')
+    prohibition = pro.prohibition_factory(vips_data['noticeTypeCd'])
+    if not prohibition.is_eligible_for_oral_review(vips_data) and presentation_type == 'ORAL':
+        args['presentation_type'] = 'WRIT'
+        error = "Applicant has selected an oral review but they're not eligible. Changing the presentation_type to WRIT"
+        logging.info(error)
+    return True, args
+
+

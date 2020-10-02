@@ -13,9 +13,9 @@ def process_incoming_form() -> dict:
         "review_schedule_picker": [
             {"try": middleware.create_correlation_id, "fail": []},
             {"try": middleware.determine_current_datetime, "fail": []},
-           # {"try": middleware.get_data_from_schedule_picker_form, "fail": []},
+            {"try": middleware.get_data_from_schedule_form, "fail": []},
             {"try": middleware.validate_prohibition_number, "fail": []},
-           # {"try": middleware.validate_drivers_last_name, "fail": []},
+            {"try": middleware.validate_drivers_last_name, "fail": []},
             {"try": middleware.update_vips_status, "fail": []},
             {"try": middleware.prohibition_exists_in_vips, "fail": []},
             {"try": middleware.user_submitted_last_name_matches_vips, "fail": []},
@@ -30,7 +30,8 @@ def process_incoming_form() -> dict:
             {"try": middleware.valid_application_received_from_vips, "fail": []},
             {"try": middleware.get_invoice_details, "fail": []},
             {"try": middleware.calculate_schedule_window, "fail": []},
-            # {"try": middleware.query_review_times_available, "fail": []},
+            {"try": middleware.decode_selected_timeslot, "fail": []},
+            # {"try": middleware.is_selected_timeslot_inside_schedule_window, "fail": []},
 
             # {"try": middleware.transform_requested_time_slot, "fail": []},
             # {"try": middleware.save_schedule_to_vips, "fail": [
@@ -94,6 +95,7 @@ def process_incoming_form() -> dict:
                 ]
             },
             {"try": middleware.transform_hearing_request_type, "fail": []},
+            {"try": middleware.force_presentation_type_to_written_if_ineligible_for_oral, "fail": []},
             {"try": middleware.transform_applicant_role_type, "fail": []},
             {
                 "try": middleware.save_application_to_vips,
