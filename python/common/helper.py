@@ -107,7 +107,7 @@ def get_listeners(listeners: dict, key: str) -> list:
 
 def localize_timezone(date_time: datetime) -> datetime:
     tz = pytz.timezone('America/Vancouver')
-    return date_time.replace(tzinfo=tz)
+    return date_time.astimezone(tz)
 
 
 def check_credentials(username, password, username_submitted, password_submitted) -> bool:

@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from python.common.vips_api import vips_str_to_datetime
 import python.common.helper as helper
 import python.common.prohibitions as pro
@@ -644,7 +644,7 @@ def is_selected_timeslot_inside_schedule_window(**args) -> tuple:
     requested_date_time = vips.vips_str_to_datetime(requested_time_slot['reviewStartDtm'])
     min_review_date = args['min_review_date']
     max_review_date = args['max_review_date']
-    if min_review_date < requested_date_time < max_review_date:
+    if min_review_date <= requested_date_time < max_review_date + timedelta(days=1):
         return True, args
     error = 'selected time slot not within schedule window'
     logging.info(error)

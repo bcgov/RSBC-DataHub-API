@@ -37,7 +37,7 @@ class ProhibitionBase:
         a 7 to 14 window from the date of service.
         """
         tz = pytz.timezone('America/Vancouver')
-        earliest_possible_date = today.replace(tzinfo=tz) + timedelta(
+        earliest_possible_date = today.astimezone(tz) + timedelta(
             days=ProhibitionBase.MIN_DAYS_FROM_SCHEDULING_TO_REVIEW)
         legislated_minimum = service_date + timedelta(days=ProhibitionBase.MIN_DAYS_FROM_SERVED_TO_REVIEW)
         # The earliest possible review date is the greater of the

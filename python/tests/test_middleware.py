@@ -3,7 +3,7 @@ from python.form_handler.config import Config
 import python.common.vips_api as vips
 from datetime import datetime, timedelta
 import python.common.middleware as middleware
-from python.common.helper import load_json_into_dict, load_xml_to_string
+from python.common.helper import load_json_into_dict, load_xml_to_string, localize_timezone
 import pytest
 import flask
 import json
@@ -280,6 +280,7 @@ def test_application_saved_to_vips(string_under_test, is_valid):
     response, args = middleware.validate_form_name(form_name=string_under_test)
     assert response is is_valid
 
+
 payloads_test = [
     ('prohibition_review', '{"attribute": "value"}', "=xmlstre", True)
 ]
@@ -467,5 +468,29 @@ def test_decode_compress_encode_xml():
     response, args = middleware.base_64_encode_xml(xml_bytes=bytes_under_test)
     response, args = middleware.compress_form_data_xml(xml_base64=args['xml_base64'])
     assert 'xml' in args
-    assert False
+
+
+inside_review_window = [
+    ("2020-09-05", "2020-09-11", "2020-09-04 23:59:22 -07:00", False),
+    ("2020-09-05", "2020-09-11", "2020-09-05 00:01:22 -07:00", True),
+    ("2020-09-05", "2020-09-11", "2020-09-06 13:31:22 -07:00", True),
+    ("2020-09-05", "2020-09-11", "2020-09-12 13:31:22 -07:00", False),
+    ("2020-09-05", "2020-09-11", "2020-09-05 00:15:22 -07:00", True),
+    ("2020-09-04", "2020-09-11", "2020-09-11 17:59:22 -07:00", True),
+]
+
+
+@pytest.mark.parametrize("min_review_date, max_review_date, requested_start_datetime, expected", inside_review_window)
+def test_is_requested_time_slot_okay(min_review_date, max_review_date, requested_start_datetime, expected):
+    iso = "%Y-%m-%d"
+    min_review = localize_timezone(datetime.strptime(min_review_date, iso))
+    max_review = localize_timezone(datetime.strptime(max_review_date, iso))
+    timeslot = dict({
+        "reviewStartDtm": requested_start_datetime,
+        "reviewEndDtm": 'this attribute ignored in this test'
+    })
+    response, args = middleware.is_selected_timeslot_inside_schedule_window(
+        min_review_date=min_review, max_review_date=max_review, requested_time_slot=timeslot)
+    print("{} | {} | {}".format(min_review.isoformat(), max_review.isoformat(), requested_start_datetime))
+    assert response is expected
 
