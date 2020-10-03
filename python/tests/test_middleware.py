@@ -3,7 +3,7 @@ from python.form_handler.config import Config
 import python.common.vips_api as vips
 from datetime import datetime, timedelta
 import python.common.middleware as middleware
-from python.common.helper import load_json_into_dict
+from python.common.helper import load_json_into_dict, load_xml_to_string
 import pytest
 import flask
 import json
@@ -358,14 +358,14 @@ def test_convert_xml_to_dict(string_under_test, is_valid):
 
 
 @pytest.mark.parametrize("string_under_test, is_valid", xml_data)
-def test_using_base_64_encode_xml(string_under_test, is_valid):
+def test_get_xml_from_request(string_under_test, is_valid):
     form_name = 'sample_form_name'
     with application.test_request_context('/v1/publish/event/form', data=string_under_test):
-        response, args = middleware.base_64_encode_xml(
+        response, args = middleware.get_xml_from_request(
             request=flask.request, payload=dict({form_name: {}}), form_name=form_name)
         assert response is True
-        assert 'xml' in args
-        assert len(args['xml']) > 0
+        assert 'xml_bytes' in args
+        assert len(args['xml_bytes']) > 0
 
 
 form_parameters_test_queue = [
@@ -410,7 +410,7 @@ def test_get_data_from_schedule_form():
     # check that json attributes with null values are converted to None type
     sample_data = load_json_into_dict('python/tests/sample_data/form/schedule_picker_submission.json')
     response, args = middleware.get_data_from_schedule_form(message=sample_data)
-    assert args.get('time_slot_selected') == 'MjAyMC0xMC0wNyAwOTozMDowMCAtMDc6MDB8MjAyMC0xMC0wNyAxMDowMDowMCAtMDc6MDA='
+    assert args.get('requested_time_code') == 'MjAyMC0xMC0wNyAwOTozMDowMCAtMDc6MDB8MjAyMC0xMC0wNyAxMDowMDowMCAtMDc6MDA='
     assert args.get('prohibition_number') == '21-900040'
     assert args.get('driver_last_name') == 'Gordon'
 
@@ -455,7 +455,17 @@ def test_change_presentation_type_to_written_if_not_eligible(notice_type, cause,
         "originalCause": cause,
         "noticeTypeCd": notice_type
     }
-    response, args = middleware.transform_presentation_type_to_written_if_ineligible_for_oral(
+    response, args = middleware.force_presentation_type_to_written_if_ineligible_for_oral(
         presentation_type=requested_type, vips_data=vips_data)
     assert response is True
     assert args['presentation_type'] == expected
+
+
+def test_decode_compress_encode_xml():
+    string_under_test = load_xml_to_string('python/tests/sample_data/form/form_submission.xml')
+    bytes_under_test = string_under_test.encode()
+    response, args = middleware.base_64_encode_xml(xml_bytes=bytes_under_test)
+    response, args = middleware.compress_form_data_xml(xml_base64=args['xml_base64'])
+    assert 'xml' in args
+    assert False
+

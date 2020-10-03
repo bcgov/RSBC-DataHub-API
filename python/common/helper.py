@@ -13,6 +13,11 @@ def load_json_into_dict(file_name) -> dict:
     return json.loads(data)
 
 
+def load_xml_to_string(file_name) -> str:
+    with open(file_name, 'r') as f:
+        return f.read()
+
+
 def validate_form_number(number: str) -> bool:
     """
     Validate check digit used in IRP, VI and UL forms

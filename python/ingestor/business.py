@@ -50,6 +50,7 @@ def ingest_form() -> list:
         {"try": middleware.convert_xml_to_dictionary_object, "fail": [
             {"try": rest.server_error, "fail": []},
         ]},
+        {"try": middleware.get_xml_from_request, "fail": []},
         {"try": middleware.base_64_encode_xml, "fail": []},
         {"try": middleware.create_payload, "fail": []},
         {"try": middleware.encode_payload, "fail": []},

@@ -12,6 +12,7 @@ import re
 import json
 import xmltodict
 import base64
+import zlib
 
 
 logging.basicConfig(level=Config.LOG_LEVEL)
@@ -493,9 +494,28 @@ def convert_xml_to_dictionary_object(**args) -> tuple:
     return True, args
 
 
-def base_64_encode_xml(**args) -> tuple:
+def get_xml_from_request(**args) -> tuple:
     request = args.get('request')
-    args['xml'] = base64.b64encode(request.get_data()).decode()
+    args['xml_bytes'] = request.get_data()
+    return True, args
+
+
+def base_64_encode_xml(**args) -> tuple:
+    xml_raw = args.get('xml_bytes')
+    args['xml_base64'] = base64.b64encode(xml_raw).decode()
+    return True, args
+
+
+def compress_form_data_xml(**args) -> tuple:
+    xml_base64 = args.get('xml_base64')
+    original_len = len(xml_base64)
+    xml_bytes = base64.b64decode(xml_base64)
+    xml_compressed = zlib.compress(xml_bytes)
+    xml_encoded = base64.b64encode(xml_compressed).decode()
+    args['xml'] = xml_encoded
+    compressed_len = len(xml_encoded)
+    percent_change = int((compressed_len - original_len)/original_len * 100)
+    logging.info("compressing form XML using zlib has reduced string length by: {}%".format(percent_change))
     return True, args
 
 
@@ -577,20 +597,6 @@ def determine_current_datetime(**args) -> tuple:
     return True, args
 
 
-def get_data_from_schedule_form(**args) -> tuple:
-    """
-    Get key data from the schedule_review.  We can be sure
-    the keys are in the message because the validator checks for
-    these message attributes.
-    """
-    m = args.get('message')
-    event_type = m['event_type']
-    args['prohibition_number'] = m[event_type]['form']['schedule-review-section']['prohibition-number']
-    args['driver_last_name'] = m[event_type]['form']['schedule-review-section']['last-name']
-    args['time_slot_selected'] = m[event_type]['form']['schedule-review-section']['timeslot-selected']
-    return True, args
-
-
 def validate_drivers_last_name(**args) -> tuple:
     """
     Return False if the driver last name has characters that
@@ -603,17 +609,54 @@ def validate_drivers_last_name(**args) -> tuple:
     return False, args
 
 
-def decode_selected_timeslot(**args) -> tuple:
-    coded_time_slot = args.get('selected_time_slot')
-    args['selected_timeslot'] = vips.decode_time_slot(coded_time_slot)
+def get_data_from_schedule_form(**args) -> tuple:
+    """
+    Get key data from the schedule_review.  We can be sure
+    the keys are in the message because the validator checks for
+    these message attributes.
+    """
+    m = args.get('message')
+    event_type = m['event_type']
+    args['prohibition_number'] = m[event_type]['form']['schedule-review-section']['prohibition-number']
+    args['driver_last_name'] = m[event_type]['form']['schedule-review-section']['last-name']
+    args['requested_time_code'] = m[event_type]['form']['schedule-review-section']['timeslot-selected']
     return True, args
+
+
+def decode_selected_timeslot(**args) -> tuple:
+    coded_time_slot = args.get('requested_time_code')
+    args['requested_time_slot'] = vips.decode_time_slot(coded_time_slot)
+    return True, args
+
+
+def is_decoded_time_slot_valid(**args) -> tuple:
+    requested_time_slot = args.get('requested_time_slot')
+    if "reviewStartDtm" in requested_time_slot and "reviewEndDtm" in requested_time_slot:
+        return True, args
+    error = 'decoded time slot not in expected format'
+    logging.info(error)
+    args['error_string'] = error
+    return False, args
+
+
+def is_selected_timeslot_inside_schedule_window(**args) -> tuple:
+    requested_time_slot = args.get('requested_time_slot')
+    requested_date_time = vips.vips_str_to_datetime(requested_time_slot['reviewStartDtm'])
+    min_review_date = args['min_review_date']
+    max_review_date = args['max_review_date']
+    if min_review_date < requested_date_time < max_review_date:
+        return True, args
+    error = 'selected time slot not within schedule window'
+    logging.info(error)
+    args['error_string'] = error
+    return False, args
 
 
 def force_presentation_type_to_written_if_ineligible_for_oral(**args) -> tuple:
     """
-    Only certain kinds of IRP and ADP prohibitions are eligible for an
+    Only ADP and certain kinds of IRP prohibitions are eligible for an
     oral review.  If the user has requested an oral review when they're
-    not eligible change presentation type to written.
+    not eligible, change the presentation type to written.
     """
     vips_data = args.get('vips_data')
     presentation_type = args.get('presentation_type')
@@ -623,5 +666,3 @@ def force_presentation_type_to_written_if_ineligible_for_oral(**args) -> tuple:
         error = "Applicant has selected an oral review but they're not eligible. Changing the presentation_type to WRIT"
         logging.info(error)
     return True, args
-
-

@@ -31,7 +31,7 @@ def process_incoming_form() -> dict:
             {"try": middleware.get_invoice_details, "fail": []},
             {"try": middleware.calculate_schedule_window, "fail": []},
             {"try": middleware.decode_selected_timeslot, "fail": []},
-            # {"try": middleware.is_selected_timeslot_inside_schedule_window, "fail": []},
+            {"try": middleware.is_selected_timeslot_inside_schedule_window, "fail": []},
 
             # {"try": middleware.transform_requested_time_slot, "fail": []},
             # {"try": middleware.save_schedule_to_vips, "fail": [
@@ -97,6 +97,7 @@ def process_incoming_form() -> dict:
             {"try": middleware.transform_hearing_request_type, "fail": []},
             {"try": middleware.force_presentation_type_to_written_if_ineligible_for_oral, "fail": []},
             {"try": middleware.transform_applicant_role_type, "fail": []},
+            {"try": middleware.compress_form_data_xml, "fail": []},
             {
                 "try": middleware.save_application_to_vips,
                 "fail": [
