@@ -183,6 +183,8 @@ objects:
               value: ${FLASK_ENV}
             - name: LOG_LEVEL
               value: ${LOG_LEVEL}
+            - name: ENVIRONMENT
+              value: ${PHASE}
           resources:
             limits:
               cpu: 80m

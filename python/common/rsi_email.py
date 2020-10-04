@@ -11,8 +11,9 @@ logging.basicConfig(level=Config.LOG_LEVEL)
 def application_accepted(**args):
     config = args.get('config')
     prohibition_number = args.get('prohibition_number')
-    subject = 'Re: Driving Prohibition Review - Application Received  - {}'.format(prohibition_number)
-    template = get_jinja2_env().get_template('application_accepted.html')
+    t = "application_accepted.html"
+    subject = get_subject_string(t, prohibition_number)
+    template = get_jinja2_env().get_template(t)
     return send_email(
         [args.get('applicant_email_address')],
         subject,
@@ -66,8 +67,9 @@ def send_email_to_admin(**args):
 def applicant_prohibition_served_more_than_7_days_ago(**args):
     config = args.get('config')
     prohibition_number = args.get('prohibition_number')
-    subject = 'Re: Driving Prohibition Review - 7-day Application Window Missed - {}'.format(prohibition_number)
-    template = get_jinja2_env().get_template('application_not_received_in_time.html')
+    t = "application_not_received_in_time.html"
+    subject = get_subject_string(t, prohibition_number)
+    template = get_jinja2_env().get_template(t)
     return send_email(
         [args.get('applicant_email_address')],
         subject,
@@ -83,8 +85,9 @@ def applicant_prohibition_served_more_than_7_days_ago(**args):
 def applicant_licence_not_seized(**args):
     config = args.get('config')
     prohibition_number = args.get('prohibition_number')
-    subject = 'Re: Driving Prohibition Review - Licence Not Returned - {}'.format(prohibition_number)
-    template = get_jinja2_env().get_template('licence_not_seized.html')
+    t = "licence_not_seized.html"
+    subject = get_subject_string(t, prohibition_number)
+    template = get_jinja2_env().get_template(t)
     return send_email(
         [args.get('applicant_email_address')],
         subject,
@@ -100,8 +103,9 @@ def applicant_licence_not_seized(**args):
 def applicant_prohibition_not_found(**args):
     config = args.get('config')
     prohibition_number = args.get('prohibition_number')
-    subject = 'Re: Driving Prohibition Review - Not Found - {}'.format(prohibition_number)
-    template = get_jinja2_env().get_template('application_not_found.html')
+    t = "application_not_found.html"
+    subject = get_subject_string(t, prohibition_number)
+    template = get_jinja2_env().get_template(t)
     return send_email(
         [args.get('applicant_email_address')],
         subject,
@@ -122,11 +126,12 @@ def applicant_to_schedule_review(**args):
     """
     config = args.get('config')
     vips_application = args.get('vips_application')
+    t = 'select_review_date.html'
     email_address = vips_application['email']
     full_name = "{} {}".format(vips_application['firstGivenNm'], vips_application['surnameNm'])
     prohibition_number = args.get('prohibition_number')
-    subject = 'Re: Driving Prohibition Review - Select a Review Date - {}'.format(prohibition_number)
-    template = get_jinja2_env().get_template('select_review_date.html')
+    subject = get_subject_string(t, prohibition_number)
+    template = get_jinja2_env().get_template(t)
     return send_email(
         [email_address],
         subject,
@@ -139,11 +144,45 @@ def applicant_to_schedule_review(**args):
         get_common_services_access_token(config)), args
 
 
+def applicant_schedule_confirmation(**args):
+    """
+    This message is sent to the applicant after the requested review date
+    is successfully saved to VIPS.
+    """
+    config = args.get('config')
+    vips_application = args.get('vips_application')
+    email_address = vips_application['email']
+    presentation_type = vips_application['presentationTypeCd']
+    t = 'review_date_confirmed_{}.html'.format(presentation_type)
+    phone = vips_application['phoneNo']
+    full_name = "{} {}".format(vips_application['firstGivenNm'], vips_application['surnameNm'])
+    prohibition_number = args.get('prohibition_number')
+    subject = get_subject_string(t, prohibition_number)
+    template = get_jinja2_env().get_template(t)
+    return send_email(
+        [email_address],
+        subject,
+        config,
+        template.render(
+            full_name=full_name,
+            prohibition_number=prohibition_number,
+            subject=subject,
+            phone=phone,
+            human_friendly_time_slot=args.get('friendly_review_time_slot')),
+        config.COMM_SERV_API_ROOT_URL,
+        get_common_services_access_token(config)), args
+
+
 def applicant_last_name_mismatch(**args):
+    """
+    This email is sent to the applicant if the last name entered by the applicant
+    does not match the last name of the driver as entered in VIPS
+    """
     config = args.get('config')
     prohibition_number = args.get('prohibition_number')
-    subject = "Re: Driving Prohibition Review - Prohibition Number and Name Don't Match - {}".format(prohibition_number)
-    template = get_jinja2_env().get_template('last_name_mismatch.html')
+    t = 'last_name_mismatch.html'
+    subject = get_subject_string(t, prohibition_number)
+    template = get_jinja2_env().get_template(t)
     return send_email(
         [args.get('applicant_email_address')],
         subject,
@@ -159,9 +198,9 @@ def applicant_last_name_mismatch(**args):
 def applicant_prohibition_not_yet_in_vips(**args):
     config = args.get('config')
     prohibition_number = args.get('prohibition_number')
-    subject = 'Re: Driving Prohibition Review - Not Entered Yet - {}'.format(prohibition_number)
-    logging.info('Re: Driving Prohibition Review - Not Yet in VIPS')
-    template = get_jinja2_env().get_template('application_not_yet_in_vips.html')
+    t = 'application_not_yet_in_vips.html'
+    subject = get_subject_string(t, prohibition_number)
+    template = get_jinja2_env().get_template(t)
     return send_email(
         [args.get('applicant_email_address')],
         subject,
@@ -177,9 +216,9 @@ def applicant_prohibition_not_yet_in_vips(**args):
 def application_already_created(**args):
     config = args.get('config')
     prohibition_number = args.get('prohibition_number')
-    subject = 'Re: Driving Prohibition Review - Already Applied - {}'.format(prohibition_number)
-    logging.info('Re: Driving Prohibition Review - Already Applied')
-    template = get_jinja2_env().get_template('application_already_created.html')
+    t = 'application_already_created.html'
+    subject = get_subject_string(t, prohibition_number)
+    template = get_jinja2_env().get_template(t)
     return send_email(
         [args.get('applicant_email_address')],
         subject,
@@ -256,3 +295,23 @@ def get_jinja2_env():
         loader=template_loader,
         autoescape=select_autoescape(['html', 'xml'])
     )
+
+
+def get_subject_string(template_name: str, prohibition_number: str):
+    subjects = {
+        "last_name_mismatch.html": "Re: Driving Prohibition Review - Prohibition Number and Name Don't Match - {}",
+        "application_not_yet_in_vips.html": 'Re: Driving Prohibition Review - Not Entered Yet - {}',
+        "application_already_created.html": "Re: Driving Prohibition Review - Already Applied - {}",
+        "review_date_confirmed_ORAL.html": "Re: Driving Prohibition Review - Review Date Confirmed - {}",
+        "review_date_confirmed_WRIT.html": "Re: Driving Prohibition Review - Review Date Confirmed - {}",
+        "select_review_date.html": "Re: Driving Prohibition Review - Select a Review Date - {}",
+        "application_not_found.html": "Re: Driving Prohibition Review - Not Found - {}",
+        "licence_not_seized.html": "Re: Driving Prohibition Review - Licence Not Returned - {}",
+        "application_not_received_in_time.html": "Re: Driving Prohibition Review - 7-day Application Window Missed - {}",
+        "application_accepted.html": "Re: Driving Prohibition Review - Application Received  - {}"
+
+
+    }
+    subject_string = subjects[template_name].format(prohibition_number)
+    logging.info(subject_string)
+    return subject_string

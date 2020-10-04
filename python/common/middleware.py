@@ -289,7 +289,7 @@ def save_application_to_vips(**args) -> tuple:
     if is_save_successful:
         args['vips_application_data'] = vips_response
         return True, args
-    error = 'the VIPS get_application operation returned an invalid response'
+    error = 'the VIPS save_application operation returned an invalid response'
     args['error_string'] = error
     logging.info(error)
     return False, args
@@ -629,6 +629,14 @@ def decode_selected_timeslot(**args) -> tuple:
     return True, args
 
 
+def get_human_friendly_time_slot_string(**args) -> tuple:
+    vips_application = args.get('vips_application')
+    presentation_type = vips_application['presentationTypeCd']
+    time_slot = args.get('requested_time_slot')
+    args['friendly_review_time_slot'] = vips.time_slot_to_friendly_string(time_slot, presentation_type)
+    return True, args
+
+
 def is_decoded_time_slot_valid(**args) -> tuple:
     requested_time_slot = args.get('requested_time_slot')
     if "reviewStartDtm" in requested_time_slot and "reviewEndDtm" in requested_time_slot:
@@ -666,3 +674,14 @@ def force_presentation_type_to_written_if_ineligible_for_oral(**args) -> tuple:
         error = "Applicant has selected an oral review but they're not eligible. Changing the presentation_type to WRIT"
         logging.info(error)
     return True, args
+
+
+def save_schedule_to_vips(**args) -> tuple:
+    is_save_successful, vips_response = vips.schedule_create(**args)
+    if is_save_successful:
+        args['vips_schedule_data'] = vips_response
+        return True, args
+    error = 'the VIPS save_schedule operation returned an invalid response'
+    args['error_string'] = error
+    logging.info(error)
+    return False, args

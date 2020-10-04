@@ -115,6 +115,18 @@ def schedule_get(notice_type_code: str, review_type: str, review_date: str, conf
     return False, {}
 
 
+def schedule_create(**args):
+    config = args.get('config')
+    correlation_id = args.get('correlation_id')
+    prohibition_number = args.get('prohibition_number')
+    endpoint = build_endpoint(config.VIPS_API_ROOT_URL, prohibition_number, 'review', 'schedule', correlation_id)
+    payload = {
+        "timeSlot": args.get('requested_time_slot')
+    }
+    logging.info("schedule create payload: {}".format(json.dumps(payload)))
+    return create(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, payload, correlation_id)
+
+
 def health_get(config) -> tuple:
     endpoint = build_endpoint(config.VIPS_API_ROOT_URL, 'api', 'utility', 'ping')
     return get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD)
@@ -224,31 +236,27 @@ def decode_time_slot(encode_string: str) -> dict:
     }
 
 
-def _time_slot_to_friendly_date_time(time_slot: dict) -> dict:
+def time_slot_to_friendly_string(time_slot: dict, presentation_type: str) -> dict:
     start_time = time_slot['reviewStartDtm']
     end_time = time_slot['reviewEndDtm']
-    return {
-        "label": "{} - {} to {}".format(
-            # Friday, Sept 4, 2020
+    label = ""
+    if presentation_type == "ORAL":
+        label = "{} - {} to {}".format(
+            # Fri, Sep 4, 2020 - 10:00am to 10:30am
             vips_str_to_datetime(start_time).strftime("%a, %b %-d, %Y"),
             vips_str_to_friendly_time(start_time),
-            vips_str_to_friendly_time(end_time)),
-        "value": encode_time_slot(time_slot)
-    }
-
-
-def _time_slot_to_friendly_date(time_slot: dict) -> dict:
-    start_time = time_slot['reviewStartDtm']
-    end_time = time_slot['reviewEndDtm']
-    return {
-        "label": "{}".format(
+            vips_str_to_friendly_time(end_time))
+    elif presentation_type == "WRIT":
+        label = "{}".format(
             # Friday, Sept 4, 2020
-            vips_str_to_datetime(start_time).strftime("%a, %b %-d, %Y")),
+            vips_str_to_datetime(start_time).strftime("%a, %b %-d, %Y"))
+    return {
+        "label": label,
         "value": encode_time_slot(time_slot)
     }
 
 
-def time_slots_to_friendly_times(time_slots: dict, presentation_type) -> list:
+def time_slots_to_friendly_times(time_slots: dict, presentation_type: str) -> list:
     """
     This function takes a list of timeslots as returned
     by VIPS GET schedule and returns a list of
@@ -260,13 +268,7 @@ def time_slots_to_friendly_times(time_slots: dict, presentation_type) -> list:
         value: "ZGF0YSB0byBiZSBlbmNvZGVk"
     }
     """
-    if presentation_type == "ORAL":
-        # Oral reviews are shown a specific date and times for in-person hearings
-        return list(map(_time_slot_to_friendly_date_time, time_slots))
-    if presentation_type == "WRIT":
-        # Written reviews are only shown a date -- no specific time
-        return list(map(_time_slot_to_friendly_date, time_slots))
-    return []
+    return [time_slot_to_friendly_string(time_slot, presentation_type) for time_slot in time_slots]
 
 
 def vips_datetime(date_time: datetime) -> str:

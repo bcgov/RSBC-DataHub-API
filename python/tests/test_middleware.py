@@ -494,3 +494,21 @@ def test_is_requested_time_slot_okay(min_review_date, max_review_date, requested
     print("{} | {} | {}".format(min_review.isoformat(), max_review.isoformat(), requested_start_datetime))
     assert response is expected
 
+
+def test_get_human_friendly_time_slot_string_for_oral_review():
+    time_slot = {
+        "reviewStartDtm": "2020-09-04 10:00:00 -07:00",
+        "reviewEndDtm": "2020-09-04 10:30:00 -07:00"
+    }
+    friendly_string = vips.time_slot_to_friendly_string(time_slot, "ORAL")
+    assert friendly_string['label'] == 'Fri, Sep 4, 2020 - 10:00AM to 10:30AM'
+
+
+def test_get_human_friendly_time_slot_string_for_written_review():
+    time_slot = {
+        "reviewStartDtm": "2020-09-04 10:00:00 -07:00",
+        "reviewEndDtm": "2020-09-04 10:30:00 -07:00"
+    }
+    friendly_string = vips.time_slot_to_friendly_string(time_slot, "WRIT")
+    assert friendly_string['label'] == 'Fri, Sep 4, 2020'
+

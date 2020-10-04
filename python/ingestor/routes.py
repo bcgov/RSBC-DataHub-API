@@ -7,6 +7,7 @@ from flask import request, jsonify, Response, g
 from flask_api import FlaskAPI
 import logging
 from functools import wraps
+import python.common.rsi_email as rsi_email
 
 
 application = FlaskAPI(__name__)
@@ -119,6 +120,27 @@ def evidence():
         if 'error_string' not in args:
             return jsonify(dict({"data": {"is_valid": True}}))
         return jsonify(dict({"data": {"is_valid": False}}))
+
+
+@application.route('/check', methods=['GET'])
+def check():
+    """
+    This endpoint displays the text of various email templates sent by the system. It
+    is used for testing / debugging and only available in the DEV & TEST environments.
+    """
+    if request.method == 'GET' and Config.ENVIRONMENT in ['pr', 'dev', 'test']:
+        t = request.args.get('template')
+        time_slot = request.args.get('ts')
+        template = rsi_email.get_jinja2_env().get_template(t)
+        prohibition_number = "99999999"
+        subject = rsi_email.get_subject_string(t, prohibition_number)
+        return template.render(
+            full_name="Applicant Smith",
+            prohibition_number="99999999",
+            subject=subject,
+            phone="2505551212",
+            friendly_review_time_slot=time_slot
+        )
 
 
 if __name__ == "__main__":

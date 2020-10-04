@@ -32,12 +32,12 @@ def process_incoming_form() -> dict:
             {"try": middleware.calculate_schedule_window, "fail": []},
             {"try": middleware.decode_selected_timeslot, "fail": []},
             {"try": middleware.is_selected_timeslot_inside_schedule_window, "fail": []},
+            {"try": middleware.get_human_friendly_time_slot_string, "fail": []},
 
-            # {"try": middleware.transform_requested_time_slot, "fail": []},
-            # {"try": middleware.save_schedule_to_vips, "fail": [
-            #     {"try": rsi_email.applicant_requested_time_slot_not_available, "fail": []},
-            # ]},
-            # {"try": rsi_email.applicant_schedule_confirmation, "fail": []},
+            {"try": middleware.save_schedule_to_vips, "fail": [
+                # {"try": rsi_email.applicant_schedule_save_failed, "fail": []},
+            ]},
+            {"try": rsi_email.applicant_schedule_confirmation, "fail": []},
             # {"try": rsi_email.applicant_disclosure, "fail": []},
         ],
         "prohibition_review": [
