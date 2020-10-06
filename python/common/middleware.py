@@ -305,6 +305,7 @@ def get_invoice_details(**args) -> tuple:
     args['service_date'] = vips.vips_str_to_datetime(vips_data['noticeServedDt'])
     args['prohibition'] = prohibition
     args['notice_type_verbose'] = prohibition.type_verbose()
+    args['applicant_name'] = "{} {}".format(vips_application['firstGivenNm'], vips_application['surnameNm'])
     return True, args
 
 
@@ -685,3 +686,101 @@ def save_schedule_to_vips(**args) -> tuple:
     args['error_string'] = error
     logging.info(error)
     return False, args
+
+
+def create_disclosure_event(**args) -> tuple:
+    """
+    After a review date is scheduled, the system will send disclosure
+    (police documents) to the applicant.  Since a business rule states
+    that disclosure cannot be sent immediately, we use this method to
+    create a disclosure event that's added to the hold queue.
+    """
+    vips_application = args.get('vips_application')
+    event_type = "send_disclosure"
+    args['message'] = dict({
+        "event_version": "1.4",
+        "event_date_time": datetime.now().isoformat(),
+        "event_type": event_type,
+        event_type: {
+            "applicant_name": "{} {}".format(vips_application['firstGivenNm'], vips_application['surnameNm']),
+            "email": vips_application['email'],
+            "prohibition_number": args.get('prohibition_number'),
+            "review_date": args.get('requested_time_slot')['reviewStartDtm']
+        }
+    })
+    return True, args
+
+
+def is_any_unsent_disclosure(**args) -> tuple:
+    """
+    Returns True if there is unsent disclosure to send to applicant
+    """
+    vips_data = args.get('vips_data')
+    if 'disclosure' in vips_data:
+        if len(vips_data['disclosure']) > 0:
+            args['disclosures'] = vips_data['disclosure']
+            return True, args
+    return False, args
+
+
+def retrieve_unsent_disclosure(**args) -> tuple:
+    """
+    Retrieve disclosure files from VIPS and format as attachments
+    in a format for the Common Services API.
+    """
+    disclosures = args.get('disclosures')
+    correlation_id = args.get('correlation_id')
+    config = args.get('config')
+    disclosure_for_applicant = list()
+    error = False
+    for disclosure in disclosures:
+        is_successful, data = vips.disclosure_get(disclosure['documentId'], config, correlation_id)
+        if is_successful and data['resp'] == "success" and 'data' in data:
+            mine_type = data['data']['document']['mimeType']
+            file_extension = mine_type[-3:]
+            disclosure_for_applicant.append(dict(
+                {
+                    "content": data['data']['document']['document'],
+                    "contentType": "string",
+                    "encoding": "base64",
+                    "filename": "disclosure_{}.{}".format(disclosure['documentId'], file_extension)
+                }
+            ))
+        else:
+            error = True
+    if error is True:
+        return False, args
+    args['disclosure_for_applicant'] = disclosure_for_applicant
+    return True, args
+
+
+def mark_disclosure_as_sent(**args) -> tuple:
+    disclosures = args.get('disclosures')
+    correlation_id = args.get('correlation_id')
+    config = args.get('config')
+    disclosure_for_applicant = list()
+    error = False
+    for disclosure in disclosures:
+        successful, data = vips.disclosure_patch(disclosure['documentId'], config, correlation_id, **args)
+        if not successful:
+            error = True
+    if error is True:
+        return False, args
+    args['disclosure_for_applicant'] = disclosure_for_applicant
+    return True, args
+
+
+def get_data_from_disclosure_event(**args) -> tuple:
+    m = args.get('message')
+    event_type = m['event_type']
+    args['applicant_name'] = m[event_type]['applicant_name']
+    args['applicant_email_address'] = m[event_type]['email']
+    args['prohibition_number'] = m[event_type]['prohibition_number']
+    args['review_date'] = m[event_type]['review_date']
+    return True, args
+
+
+def is_review_in_the_future(**args) -> tuple:
+    review_start_datetime = vips_str_to_datetime(args.get('review_date'))
+    today_date = args.get('today_date')
+    return today_date < review_start_datetime, args

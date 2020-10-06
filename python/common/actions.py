@@ -22,13 +22,23 @@ def is_not_on_hold(**args) -> tuple:
     return now >= hold_until, args
 
 
-def add_hold_until_attribute(**args) -> tuple:
+def add_hold_before_trying_vips_again(**args) -> tuple:
     """
     Adds a do not process until attribute to the message
     """
     message = args.get('message')
     config = args.get('config')
     message['hold_until'] = (datetime.today() + timedelta(hours=config.HOURS_TO_HOLD_BEFORE_TRYING_VIPS)).isoformat()
+    return True, args
+
+
+def add_hold_before_sending_disclosure(**args) -> tuple:
+    """
+    Adds a do not process until attribute to the message
+    """
+    message = args.get('message')
+    config = args.get('config')
+    message['hold_until'] = (datetime.today() + timedelta(hours=config.HOURS_TO_HOLD_BEFORE_DISCLOSURE)).isoformat()
     return True, args
 
 

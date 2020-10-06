@@ -10,6 +10,36 @@ def process_incoming_form() -> dict:
             {"try": actions.add_to_failed_queue, "fail": []},
             {"try": rsi_email.admin_unknown_event_type, "fail": []}
         ],
+        "send_disclosure": [
+            {
+                "try": actions.is_not_on_hold,
+                "fail": [
+                    {"try": actions.add_to_hold_queue, "fail": []}
+                ]
+            },
+            {"try": middleware.get_data_from_disclosure_event, "fail": []},
+            {"try": middleware.determine_current_datetime, "fail": []},
+            {"try": middleware.is_review_in_the_future, "fail": [
+                # No further disclosure will be sent. The review has concluded.
+                ]},
+            {"try": middleware.create_correlation_id, "fail": []},
+            {"try": middleware.determine_current_datetime, "fail": []},
+            {"try": middleware.update_vips_status, "fail": []},
+            {"try": middleware.prohibition_exists_in_vips, "fail": []},
+            {"try": middleware.is_any_unsent_disclosure, "fail": [
+                # No new disclosure to send at present, try again later
+                {"try": actions.add_hold_before_sending_disclosure, "fail": []},
+                {"try": actions.add_to_hold_queue, "fail": []}
+            ]},
+            {"try": middleware.retrieve_unsent_disclosure, "fail": []},
+            {"try": rsi_email.applicant_disclosure, "fail": [
+                # if send is not successful, add back to hold queue
+            ]},
+            # TODO - {"try": middleware.mark_disclosure_as_sent, "fail": []},
+            {"try": actions.add_hold_before_sending_disclosure, "fail": []},
+            {"try": actions.add_to_hold_queue, "fail": []}
+
+        ],
         "review_schedule_picker": [
             {"try": middleware.create_correlation_id, "fail": []},
             {"try": middleware.determine_current_datetime, "fail": []},
@@ -38,7 +68,10 @@ def process_incoming_form() -> dict:
                 # {"try": rsi_email.applicant_schedule_save_failed, "fail": []},
             ]},
             {"try": rsi_email.applicant_schedule_confirmation, "fail": []},
-            # {"try": rsi_email.applicant_disclosure, "fail": []},
+            {"try": rsi_email.applicant_evidence_instructions, "fail": []},
+            {"try": middleware.create_disclosure_event, "fail": []},
+            {"try": actions.add_hold_before_sending_disclosure, "fail": []},
+            {"try": actions.add_to_hold_queue, "fail": []}
         ],
         "prohibition_review": [
             {
@@ -67,7 +100,7 @@ def process_incoming_form() -> dict:
                         ]
                     },
                     {"try": rsi_email.applicant_prohibition_not_yet_in_vips, "fail": []},
-                    {"try": actions.add_hold_until_attribute, "fail": []},
+                    {"try": actions.add_hold_before_trying_vips_again, "fail": []},
                     {"try": actions.add_to_hold_queue, "fail": []}
                 ]
             },

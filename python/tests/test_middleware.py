@@ -512,3 +512,19 @@ def test_get_human_friendly_time_slot_string_for_written_review():
     friendly_string = vips.time_slot_to_friendly_string(time_slot, "WRIT")
     assert friendly_string['label'] == 'Fri, Sep 4, 2020'
 
+
+review_date_in_the_future = [
+    ("2020-09-10 20:59:45 -07:00", "2020-09-11 13:31:22", False),
+    ("2020-09-10 13:59:45 -07:00", "2020-09-10 13:31:22", True),
+]
+
+
+@pytest.mark.parametrize("review_date, current_time_is, expected", review_date_in_the_future)
+def test_review_date_in_the_future(review_date, current_time_is, expected):
+    tz = pytz.timezone('America/Vancouver')
+    today_unaware = datetime.strptime(current_time_is, "%Y-%m-%d %H:%M:%S")
+    today_date = tz.localize(today_unaware, is_dst=False)
+    print('today date is: {}'.format(today_date.isoformat()))
+    response, args = middleware.is_review_in_the_future(
+        today_date=today_date, send_disclosure_until=review_date)
+    assert response is expected

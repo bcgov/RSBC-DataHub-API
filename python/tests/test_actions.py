@@ -10,7 +10,7 @@ class TestActions:
     @staticmethod
     def test_add_hold_until_attribute():
         message = dict()
-        is_success, args = actions.add_hold_until_attribute(message=message, config=Config)
+        is_success, args = actions.add_hold_before_trying_vips_again(message=message, config=Config)
         modified_message = args.get('message')
         print(json.dumps(modified_message))
         today = datetime.today()

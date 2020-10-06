@@ -38,7 +38,10 @@ def status_get(prohibition_id: str, config, correlation_id: str) -> tuple:
 
 def disclosure_get(document_id: str, config, correlation_id: str):
     endpoint = build_endpoint(config.VIPS_API_ROOT_URL, document_id, 'disclosure', correlation_id)
-    return get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
+    is_response_successful, data = get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
+    if 'resp' in data:
+        return True, data
+    return False, dict({})
 
 
 def payment_get(prohibition_id: str, config, correlation_id: str):
@@ -59,6 +62,18 @@ def payment_patch(prohibition_id: str, config, correlation_id: str, **args):
                 "paymentAmount": args.get('receipt_amount'),
                 "paymentDate": vips_date_string,
                 "receiptNumberTxt": args.get('receipt_number'),
+            }
+        }
+    return patch(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, payload, correlation_id)
+
+
+def disclosure_patch(document_id: str, config, correlation_id: str, **args):
+    logging.info('inside disclosure_patch()')
+    endpoint = build_endpoint(config.VIPS_API_ROOT_URL, 'disclosure', correlation_id)
+    payload = {
+            "disclosure": {
+                "disclosedDtm": args.get('card_type'),
+                "documentId": document_id
             }
         }
     return patch(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, payload, correlation_id)

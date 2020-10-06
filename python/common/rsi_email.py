@@ -155,7 +155,6 @@ def applicant_schedule_confirmation(**args):
     presentation_type = vips_application['presentationTypeCd']
     t = 'review_date_confirmed_{}.html'.format(presentation_type)
     phone = vips_application['phoneNo']
-    full_name = "{} {}".format(vips_application['firstGivenNm'], vips_application['surnameNm'])
     prohibition_number = args.get('prohibition_number')
     subject = get_subject_string(t, prohibition_number)
     template = get_jinja2_env().get_template(t)
@@ -164,7 +163,7 @@ def applicant_schedule_confirmation(**args):
         subject,
         config,
         template.render(
-            full_name=full_name,
+            full_name=args.get('applicant_name'),
             prohibition_number=prohibition_number,
             subject=subject,
             phone=phone,
@@ -229,6 +228,44 @@ def application_already_created(**args):
             subject=subject),
         config.COMM_SERV_API_ROOT_URL,
         get_common_services_access_token(config)), args
+
+
+def applicant_disclosure(**args) -> tuple:
+    config = args.get('config')
+    prohibition_number = args.get('prohibition_number')
+    t = 'send_disclosure_documents.html'
+    subject = get_subject_string(t, prohibition_number)
+    template = get_jinja2_env().get_template(t)
+    return send_email(
+        [args.get('applicant_email_address')],
+        subject,
+        config,
+        template.render(
+            full_name=args.get('applicant_name'),
+            prohibition_number=prohibition_number,
+            subject=subject),
+        config.COMM_SERV_API_ROOT_URL,
+        get_common_services_access_token(config),
+        args.get('disclosure_for_applicant')), args
+
+
+def applicant_evidence_instructions(**args) -> tuple:
+    config = args.get('config')
+    prohibition_number = args.get('prohibition_number')
+    t = 'send_evidence_instructions.html'
+    subject = get_subject_string(t, prohibition_number)
+    template = get_jinja2_env().get_template(t)
+    return send_email(
+        [args.get('applicant_email_address')],
+        subject,
+        config,
+        template.render(
+            full_name=args.get('applicant_name'),
+            prohibition_number=prohibition_number,
+            subject=subject),
+        config.COMM_SERV_API_ROOT_URL,
+        get_common_services_access_token(config),
+        args.get('disclosure_for_applicant')), args
 
 
 def admin_unable_to_save_to_vips(**args) -> tuple:
@@ -308,9 +345,9 @@ def get_subject_string(template_name: str, prohibition_number: str):
         "application_not_found.html": "Re: Driving Prohibition Review - Not Found - {}",
         "licence_not_seized.html": "Re: Driving Prohibition Review - Licence Not Returned - {}",
         "application_not_received_in_time.html": "Re: Driving Prohibition Review - 7-day Application Window Missed - {}",
-        "application_accepted.html": "Re: Driving Prohibition Review - Application Received  - {}"
-
-
+        "application_accepted.html": "Re: Driving Prohibition Review - Application Received  - {}",
+        "send_disclosure_documents.html": "Re: Driving Prohibition Review - Disclosure Documents Attached - {}",
+        "send_evidence_instructions.html": "Re: Driving Prohibition ReviewSubmit Evidence - {}"
     }
     subject_string = subjects[template_name].format(prohibition_number)
     logging.info(subject_string)
