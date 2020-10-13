@@ -63,21 +63,22 @@ def test_user_submitted_last_name_matches_vips_method(user_entered_last_name, la
 
 
 served_recently_data = [
-    (0, True),
-    (1, True),
-    (2, True),
-    (3, False),
-    (4, False)
+    ["2020-09-11", "2020-09-11", True],
+    ["2020-09-11", "2020-09-10", True],
+    ["2020-09-11", "2020-09-09", True],
+    ["2020-09-11", "2020-09-08", False],
+    ["2020-09-11", "2020-09-07", False],
 ]
 
 
-@pytest.mark.parametrize("date_offset, expected", served_recently_data)
-def test_prohibition_served_recently_method(date_offset, expected):
-    days = timedelta(date_offset)
-    new_date = datetime.today() - days
-    date_under_test = new_date.strftime("%Y-%m-%d")
+@pytest.mark.parametrize("today_is, date_served, expected", served_recently_data)
+def test_prohibition_served_recently_method(today_is, date_served, expected):
+    tz = pytz.timezone('America/Vancouver')
+    today_unaware = datetime.strptime(today_is, "%Y-%m-%d")
+    today_date = tz.localize(today_unaware, is_dst=False)
     result, args = middleware.prohibition_served_recently(
-        date_of_service=date_under_test,
+        today_date=today_date,
+        date_of_service=date_served,
         config=Config)
     assert result is expected
 
@@ -290,7 +291,7 @@ payloads_test = [
 def test_create_payload(form_name, json_data, xml, is_valid):
     xml_as_dict = json.loads(json_data)
     assert isinstance(xml_as_dict, dict)
-    response, args = middleware.create_payload(form_name=form_name, xml_as_dict=xml_as_dict, xml=xml)
+    response, args = middleware.create_form_payload(form_name=form_name, xml_as_dict=xml_as_dict, xml_base64=xml)
     assert args['payload']['event_type'] == form_name
     assert args['payload'][form_name]['xml'] == xml
     assert args['payload'][form_name] == xml_as_dict
@@ -521,10 +522,34 @@ review_date_in_the_future = [
 
 @pytest.mark.parametrize("review_date, current_time_is, expected", review_date_in_the_future)
 def test_review_date_in_the_future(review_date, current_time_is, expected):
+    vips_data = dict({'reviewStartDtm': review_date})
     tz = pytz.timezone('America/Vancouver')
     today_unaware = datetime.strptime(current_time_is, "%Y-%m-%d %H:%M:%S")
     today_date = tz.localize(today_unaware, is_dst=False)
     print('today date is: {}'.format(today_date.isoformat()))
     response, args = middleware.is_review_in_the_future(
-        today_date=today_date, send_disclosure_until=review_date)
+        today_date=today_date, vips_data=vips_data)
     assert response is expected
+
+
+disclosure_data = [
+    {
+        "disclosedDtm": "2020-09-10 20:59:45 -07:00",
+        "documentId": "123"
+    },
+    {
+        "documentId": "124"
+    },
+{
+        "documentId": "127"
+    }
+]
+
+
+def test_is_any_unsent_disclosure_method():
+    vips_data = dict({
+        "disclosure": disclosure_data
+    })
+    response, args = middleware.is_any_unsent_disclosure(vips_data=vips_data)
+    assert response is True
+    assert len(args.get('disclosures')) == 2

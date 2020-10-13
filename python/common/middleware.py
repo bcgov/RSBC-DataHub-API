@@ -25,21 +25,21 @@ def create_correlation_id(**args) -> tuple:
     return True, args
 
 
-def get_data_from_prohibition_review_form(**args) -> tuple:
+def get_data_from_application_form(**args) -> tuple:
     """
-    Get key data from the prohibition_review_form.  We can be sure
+    Get key data from the prohibition_review form.  We can be sure
     the keys are in the message because the validator checks for
     these message attributes.
     """
     m = args.get('message')
     event_type = m['event_type']
-    args['xml_form_data'] = m[event_type]['xml']
+    args['xml_base64'] = m[event_type]['xml']
     args['applicant_role_raw'] = m[event_type]['form']['identification-information']['applicant-role']
     args['applicant_first_name'] = m[event_type]['form']['identification-information']['first-name-applicant']
     args['applicant_last_name'] = m[event_type]['form']['identification-information']['last-name-applicant']
     args['applicant_email_address'] = m[event_type]['form']['identification-information']['applicant-email-address']
     args['applicant_phone_number'] = m[event_type]['form']['identification-information']['applicant-phone-number']
-    args['prohibition_number'] = m[event_type]['form']['prohibition-information']['prohibition-number-clean']
+    args['prohibition_number'] = m[event_type]['form']['prohibition-information']['control-prohibition-number']
     args['date_of_service'] = m[event_type]['form']['prohibition-information']['date-of-service']
     args['hearing_request_type'] = m[event_type]['form']['review-information']['hearing-request-type']
     return True, args
@@ -85,7 +85,7 @@ def clean_prohibition_number(**args) -> tuple:
     return True, args
 
 
-def update_vips_status(**args) -> tuple:
+def get_vips_status(**args) -> tuple:
     """
     Return True if the VIPS API responds to the get status request
     Further middleware required to determine if the query found a prohibition
@@ -232,8 +232,8 @@ def prohibition_served_recently(**args) -> tuple:
 
     # Note: we have to rely on the date_served as submitted by the user -- not the date in VIPS
     # Check to see if enough time has elapsed to enter the prohibition into VIPS
-    today = datetime.today()
-    date_served = datetime.strptime(date_served_string, '%Y-%m-%d')
+    today = args.get('today_date')
+    date_served = helper.localize_timezone(datetime.strptime(date_served_string, '%Y-%m-%d'))
     very_recently_served = (today - date_served).days < delay_days
     if very_recently_served:
         return True, args
@@ -463,13 +463,13 @@ def validate_form_name(**args) -> tuple:
     return True, args
 
 
-def create_payload(**args) -> tuple:
+def create_form_payload(**args) -> tuple:
     form_name = args.get('form_name')
     form_data = args.get('xml_as_dict')
-    xml = args.get('xml')
+    xml = args.get('xml_base64')
     form_data['xml'] = xml
     args['payload'] = dict({
-            "event_version": "1.4",
+            "event_version": "1.5",
             "event_date_time": datetime.now().isoformat(),
             "event_type": form_name,
             form_name: form_data
@@ -568,7 +568,7 @@ def get_payment_status(**args) -> tuple:
     if is_api_callout_successful:
         args['vips_payment_data'] = payment_data
         return True, args
-    error = 'the VIPS get_status operation returned an invalid response'
+    error = 'the VIPS payment_get operation returned an invalid response'
     args['error_string'] = error
     logging.info(error)
     return False, args
@@ -705,7 +705,6 @@ def create_disclosure_event(**args) -> tuple:
             "applicant_name": "{} {}".format(vips_application['firstGivenNm'], vips_application['surnameNm']),
             "email": vips_application['email'],
             "prohibition_number": args.get('prohibition_number'),
-            "review_date": args.get('requested_time_slot')['reviewStartDtm']
         }
     })
     return True, args
@@ -716,9 +715,13 @@ def is_any_unsent_disclosure(**args) -> tuple:
     Returns True if there is unsent disclosure to send to applicant
     """
     vips_data = args.get('vips_data')
+    unsent_disclosure = list()
     if 'disclosure' in vips_data:
-        if len(vips_data['disclosure']) > 0:
-            args['disclosures'] = vips_data['disclosure']
+        for item in vips_data['disclosure']:
+            if 'disclosedDtm' not in item:
+                unsent_disclosure.append(item)
+        if len(unsent_disclosure) > 0:
+            args['disclosures'] = unsent_disclosure
             return True, args
     return False, args
 
@@ -776,11 +779,42 @@ def get_data_from_disclosure_event(**args) -> tuple:
     args['applicant_name'] = m[event_type]['applicant_name']
     args['applicant_email_address'] = m[event_type]['email']
     args['prohibition_number'] = m[event_type]['prohibition_number']
-    args['review_date'] = m[event_type]['review_date']
     return True, args
 
 
 def is_review_in_the_future(**args) -> tuple:
-    review_start_datetime = vips_str_to_datetime(args.get('review_date'))
+    """
+    Get review date start time from VIPS and compare it with today's
+    date.  If the review is in the future, return True; otherwise
+    False
+    """
+    vips_data = args.get('vips_data')
+    review_start_datetime = vips_str_to_datetime(vips_data['reviewStartDtm'])
     today_date = args.get('today_date')
     return today_date < review_start_datetime, args
+
+
+def review_has_not_been_scheduled(**args) -> tuple:
+    """
+    Check that review has not previously been scheduled
+    """
+    vips_data = args.get('vips_data')
+    if 'reviewStartDtm' not in vips_data:
+        return True, args
+    error = 'A review has previously been scheduled'
+    logging.info(error)
+    args['error_string'] = error
+    return False, args
+
+
+def review_has_been_scheduled(**args) -> tuple:
+    """
+    Check that review has been scheduled
+    """
+    vips_data = args.get('vips_data')
+    if 'reviewStartDtm' in vips_data:
+        return True, args
+    error = 'A review has not been scheduled'
+    logging.info(error)
+    args['error_string'] = error
+    return False, args

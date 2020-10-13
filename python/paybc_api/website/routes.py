@@ -16,9 +16,10 @@ def issue_token():
     return authorization.create_token_response()
 
 
-@bp.route('/oauth/revoke', methods=['POST'])
-def revoke_token():
-    return authorization.create_endpoint_response('revocation')
+# *************  Revoke endpoint is disabled as we don't use it *************
+# @bp.route('/oauth/revoke', methods=['POST'])
+# def revoke_token():
+#     return authorization.create_endpoint_response('revocation')
 
 
 @bp.route('/api_v2/search', methods=['GET'])
@@ -70,8 +71,8 @@ def show(prohibition_number):
                 "invoice_number": args.get('prohibition_number'),
                 "pbc_ref_number": "10008",
                 "party_number": 0,
-                "party_name": "RSI",
-                "account_number": "0",
+                "party_name": "n/a",
+                "account_number": "n/a",
                 "site_number": "0",
                 "cust_trx_type": "Review Notice of Driving Prohibition",
                 "term_due_date": service_date.isoformat(),
@@ -112,8 +113,3 @@ def receipt():
             "receipt_date ": payload['receipt_date'],
             "receipt_amount": payload['receipt_amount']
         }))
-
-
-
-
-

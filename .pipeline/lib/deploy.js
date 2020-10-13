@@ -36,62 +36,58 @@ module.exports = settings => {
       'MEMORY_LIMIT': phases[phase].memory_limit
     }
   }))
-
-  if (phase !== "prod") {
-    objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-paybc-deploy.yaml`, {
-      'param': {
-        'NAME': phases[phase].name,
-        'SUFFIX': phases[phase].suffix,
-        'VERSION': phases[phase].tag,
-        'PHASE': phases[phase].phase,
-        'URL_SUFFIX': phases[phase].url_suffix,
-        'CPU_REQUEST': phases[phase].cpu_request,
-        'CPU_LIMIT': phases[phase].cpu_limit,
-        'MEMORY_REQUEST': phases[phase].memory_request,
-        'MEMORY_LIMIT': phases[phase].memory_limit
-      }
-    }))
-    objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-form-handler-deploy.yaml`, {
-      'param': {
-        'NAME': phases[phase].name,
-        'SUFFIX': phases[phase].suffix,
-        'VERSION': phases[phase].tag,
-        'PHASE': phases[phase].phase,
-        'URL_SUFFIX': phases[phase].url_suffix,
-        'CPU_REQUEST': phases[phase].cpu_request,
-        'CPU_LIMIT': phases[phase].cpu_limit,
-        'MEMORY_REQUEST': phases[phase].memory_request,
-        'MEMORY_LIMIT': phases[phase].memory_limit
-      }
-    }))
-    objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-hold-processor-deploy.yaml`, {
-      'param': {
-        'NAME': phases[phase].name,
-        'SUFFIX': phases[phase].suffix,
-        'VERSION': phases[phase].tag,
-        'PHASE': phases[phase].phase,
-        'URL_SUFFIX': phases[phase].url_suffix,
-        'CPU_REQUEST': phases[phase].cpu_request,
-        'CPU_LIMIT': phases[phase].cpu_limit,
-        'MEMORY_REQUEST': phases[phase].memory_request,
-        'MEMORY_LIMIT': phases[phase].memory_limit
-      }
-    }))
-    objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-geocoder-deploy.yaml`, {
-      'param': {
-        'NAME': phases[phase].name,
-        'SUFFIX': phases[phase].suffix,
-        'VERSION': phases[phase].tag,
-        'PHASE': phases[phase].phase,
-        'URL_SUFFIX': phases[phase].url_suffix,
-        'CPU_REQUEST': phases[phase].cpu_request,
-        'CPU_LIMIT': phases[phase].cpu_limit,
-        'MEMORY_REQUEST': phases[phase].memory_request,
-        'MEMORY_LIMIT': phases[phase].memory_limit
-      }
-    }))
-  }
-
+  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-paybc-deploy.yaml`, {
+    'param': {
+      'NAME': phases[phase].name,
+      'SUFFIX': phases[phase].suffix,
+      'VERSION': phases[phase].tag,
+      'PHASE': phases[phase].phase,
+      'URL_SUFFIX': phases[phase].url_suffix,
+      'CPU_REQUEST': phases[phase].cpu_request,
+      'CPU_LIMIT': phases[phase].cpu_limit,
+      'MEMORY_REQUEST': phases[phase].memory_request,
+      'MEMORY_LIMIT': phases[phase].memory_limit
+    }
+  }))
+  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-form-handler-deploy.yaml`, {
+    'param': {
+      'NAME': phases[phase].name,
+      'SUFFIX': phases[phase].suffix,
+      'VERSION': phases[phase].tag,
+      'PHASE': phases[phase].phase,
+      'URL_SUFFIX': phases[phase].url_suffix,
+      'CPU_REQUEST': phases[phase].cpu_request,
+      'CPU_LIMIT': phases[phase].cpu_limit,
+      'MEMORY_REQUEST': phases[phase].memory_request,
+      'MEMORY_LIMIT': phases[phase].memory_limit
+    }
+  }))
+  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-hold-processor-deploy.yaml`, {
+    'param': {
+      'NAME': phases[phase].name,
+      'SUFFIX': phases[phase].suffix,
+      'VERSION': phases[phase].tag,
+      'PHASE': phases[phase].phase,
+      'URL_SUFFIX': phases[phase].url_suffix,
+      'CPU_REQUEST': phases[phase].cpu_request,
+      'CPU_LIMIT': phases[phase].cpu_limit,
+      'MEMORY_REQUEST': phases[phase].memory_request,
+      'MEMORY_LIMIT': phases[phase].memory_limit
+    }
+  }))
+  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-geocoder-deploy.yaml`, {
+    'param': {
+      'NAME': phases[phase].name,
+      'SUFFIX': phases[phase].suffix,
+      'VERSION': phases[phase].tag,
+      'PHASE': phases[phase].phase,
+      'URL_SUFFIX': phases[phase].url_suffix,
+      'CPU_REQUEST': phases[phase].cpu_request,
+      'CPU_LIMIT': phases[phase].cpu_limit,
+      'MEMORY_REQUEST': phases[phase].memory_request,
+      'MEMORY_LIMIT': phases[phase].memory_limit
+    }
+  }))
   objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-ingestor-deploy.yaml`, {
     'param':{
       'NAME': phases[phase].name,

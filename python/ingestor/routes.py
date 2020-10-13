@@ -126,20 +126,34 @@ def evidence():
 def check():
     """
     This endpoint displays the text of various email templates sent by the system. It
-    is used for testing / debugging and only available in the DEV & TEST environments.
+    is used for testing / debugging and only available in the DEV environment.
     """
-    if request.method == 'GET' and Config.ENVIRONMENT in ['pr', 'dev', 'test']:
+    if request.method == 'GET' and Config.ENVIRONMENT in ['pr', 'dev']:
         t = request.args.get('template')
-        time_slot = request.args.get('ts')
-        template = rsi_email.get_jinja2_env().get_template(t)
         prohibition_number = "99999999"
         subject = rsi_email.get_subject_string(t, prohibition_number)
+        if subject is not None:
+            time_slot = request.args.get('ts')
+            template = rsi_email.get_jinja2_env().get_template(t)
+            return template.render(
+                full_name="Applicant Smith",
+                prohibition_number="99999999",
+                subject=subject,
+                phone="2505551212",
+                friendly_review_time_slot="Friday, Nov 1 between 9:00am and 9:30am"
+            )
+
+
+@application.route('/check_templates', methods=['GET'])
+def check_templates():
+    """
+    This endpoint returns a list links to available templates. It
+    is used for testing / debugging and only available in the DEV environment.
+    """
+    if request.method == 'GET' and Config.ENVIRONMENT in ['pr', 'dev']:
+        template = rsi_email.get_jinja2_env().get_template('list_of_templates.html')
         return template.render(
-            full_name="Applicant Smith",
-            prohibition_number="99999999",
-            subject=subject,
-            phone="2505551212",
-            friendly_review_time_slot=time_slot
+            templates=rsi_email.get_template_subjects()
         )
 
 

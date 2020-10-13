@@ -205,6 +205,10 @@
                         {
                             "json_name": "fine_amount",
                             "destination_name": "fine_amount"
+                        },
+                        {
+                            "json_name": "wording_nbr",
+                            "destination_name": "wording_number"
                         }
                     ]
                 }
@@ -291,6 +295,10 @@
                         {
                             "json_name": "vt_payment.count_number",
                             "destination_name": "count_number"
+                        },
+                        {
+                            "json_name": "vt_payment.transaction_id",
+                            "destination_name": "transaction_id"
                         },
                         {
                             "json_name": "vt_payment.payment_card_type",

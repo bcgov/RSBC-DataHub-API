@@ -1,0 +1,15 @@
+{% extends "email_alert_base.html" %}
+{% block primary_message %}
+<h3>Email Templates</h3>
+<p>
+    Below is a list of email templates used to communicate with applicants of driving prohibition reviews.
+    These templates are used for debugging and only available in our development environment.
+</p>
+<ul>
+{% for template in templates %}
+    <li><a href="{{ '/check?template=%s'%template }}">{{ templates[template][33:][:-5] }}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}
+
+{% block page_title %}RoadSafety Templates{% endblock %}

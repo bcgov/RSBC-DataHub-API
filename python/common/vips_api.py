@@ -100,7 +100,7 @@ def application_create(form_type: str, **args):
             "reviewRoleTypeCd": args.get('applicant_role'),
             "firstGivenNm": args.get('applicant_first_name'),
             "surnameNm": args.get('applicant_last_name'),
-            "formData": args.get('xml_form_data'),
+            "formData": args.get('xml'),
             "manualEntryYN": 'N',
             "noticeSubjectCd": 'PERS',
         }
@@ -174,7 +174,7 @@ def create(endpoint: str, user: str, password: str,  payload: dict, correlation_
         return False, error
 
     data = response.json()
-    if response.status_code == 201:
+    if response.status_code == 201 or response.status_code == 200:
         logging.info("create success response: {}".format(json.dumps(data)))
         return True, data
     logging.info('VIPS create() was not successful')
