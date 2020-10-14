@@ -1,4 +1,4 @@
-from python.common.rsi_email import get_jinja2_env, get_subject_string
+from python.common.rsi_email import get_jinja2_env, get_email_content
 import pytest
 
 
@@ -46,11 +46,12 @@ def test_schedule_review_email():
 
 
 template_names = [
-    ("last_name_mismatch.html", "Re: Driving Prohibition Review - Prohibition Number and Name Don't Match - 9999"),
-    ('template_does_not_exist.html', None)
+    ("last_name_mismatch.html", "Prohibition Number or Name Don't Match - Driving Prohibition Review 9999"),
+    ('template_does_not_exist.html', "Unknown template")
 ]
 
 
 @pytest.mark.parametrize("template_name, subject_string", template_names)
-def test_get_subject_string(template_name, subject_string):
-    assert get_subject_string(template_name, '9999') == subject_string
+def test_get_email_content(template_name, subject_string):
+    content = get_email_content(template_name, '9999')
+    assert content['subject'] == subject_string

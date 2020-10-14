@@ -36,7 +36,7 @@ def process_incoming_form() -> dict:
             {"try": rsi_email.applicant_disclosure, "fail": [
                 # if send is not successful, add back to hold queue
             ]},
-            # TODO - {"try": middleware.mark_disclosure_as_sent, "fail": []},
+            {"try": middleware.mark_disclosure_as_sent, "fail": []},
             {"try": actions.add_hold_before_sending_disclosure, "fail": []},
             {"try": actions.add_to_hold_queue, "fail": []}
 
@@ -67,7 +67,8 @@ def process_incoming_form() -> dict:
             {"try": middleware.get_human_friendly_time_slot_string, "fail": []},
 
             {"try": middleware.save_schedule_to_vips, "fail": [
-                # {"try": rsi_email.applicant_schedule_save_failed, "fail": []},
+                # Consider sending a message to the applicant in the unlikely
+                # event that the schedule save operation is unsuccessful
             ]},
             {"try": rsi_email.applicant_schedule_confirmation, "fail": []},
             {"try": rsi_email.applicant_evidence_instructions, "fail": []},

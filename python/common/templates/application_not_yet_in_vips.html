@@ -3,18 +3,34 @@
 {% block primary_message %}
 <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
     <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-        Your driving prohibition {{ prohibition_number }} isn’t in our system yet.
+        Your driving prohibition {{ prohibition_number }}, issued on {{ date_of_service }} isn’t in our system yet.
     </td>
 </tr>
 <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
     <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-        Once it’s received, we’ll email you to let you know what to do next.
+       <ol>
+           <li>
+              We'll check until 3 days from the date the prohibition was issued. The date we check is the
+               one you entered in the prohibition review application. Please be sure you entered
+               the date and prohibition number correctly.
+           </li>
+           <li>
+               When we find the prohibition, we’ll send you an email with the next step to continue
+               the application process <strong>OR</strong>
+           </li>
+           <li>
+               If we can’t find the prohibition, we’ll send you an email advising you
+               to apply in-person at ICBC, ServiceBC or an appointed agent.
+           </li>
+       </ol>
     </td>
 </tr>
 {% endblock %}
 
+{% block callout %}{% include 'partials/callout.html' %}{% endblock %}
+{% block timeline %}{% include 'partials/timeline_image.html' %}{% endblock %}
 {% block page_title %}{{ subject }}{% endblock %}
 {% block subject %}{% include 'partials/subject_row.html' %}{% endblock %}
 {% block salutation %}{% include 'partials/salutation_row.html' %}{% endblock %}
 {% block thank_you_road_safety %}{% include 'partials/thank_you_road_safety_row.html' %}{% endblock %}
-{% block email_not_monitored %}{% include 'partials/email_not_monitored_row.html' %}{% endblock %}
+{% block email_not_monitored %}{% include 'partials/call_ICBC.html' %}{% endblock %}

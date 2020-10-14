@@ -13,16 +13,18 @@ def application_accepted(**args):
     prohibition_number = args.get('prohibition_number')
     t = "application_accepted.html"
     args['email_template'] = t
-    subject = get_subject_string(t, prohibition_number)
+    content = get_email_content(t, prohibition_number)
     template = get_jinja2_env().get_template(t)
     return common_email_services.send_email(
         [args.get('applicant_email_address')],
-        subject,
+        content["subject"],
         config,
         template.render(
             full_name=args.get('driver_full_name'),
+            callout=content['callout'],
+            timeline=content['timeline'],
             prohibition_number=prohibition_number,
-            subject=subject)), args
+            subject=content["subject"])), args
 
 
 def send_form_xml_to_admin(**args):
@@ -67,16 +69,16 @@ def applicant_prohibition_served_more_than_7_days_ago(**args):
     prohibition_number = args.get('prohibition_number')
     t = "not_received_in_time.html"
     args['email_template'] = t
-    subject = get_subject_string(t, prohibition_number)
+    content = get_email_content(t, prohibition_number)
     template = get_jinja2_env().get_template(t)
     return common_email_services.send_email(
         [args.get('applicant_email_address')],
-        subject,
+        content["subject"],
         config,
         template.render(
             full_name=args.get('driver_full_name'),
             prohibition_number=prohibition_number,
-            subject=subject)), args
+            subject=content["subject"])), args
 
 
 def applicant_licence_not_seized(**args):
@@ -84,16 +86,18 @@ def applicant_licence_not_seized(**args):
     prohibition_number = args.get('prohibition_number')
     t = "licence_not_seized.html"
     args['email_template'] = t
-    subject = get_subject_string(t, prohibition_number)
+    content = get_email_content(t, prohibition_number)
     template = get_jinja2_env().get_template(t)
     return common_email_services.send_email(
         [args.get('applicant_email_address')],
-        subject,
+        content["subject"],
         config,
         template.render(
             full_name=args.get('driver_full_name'),
             prohibition_number=prohibition_number,
-            subject=subject)), args
+            callout=content['callout'],
+            timeline=content['timeline'],
+            subject=content["subject"])), args
 
 
 def applicant_prohibition_not_found(**args):
@@ -101,16 +105,18 @@ def applicant_prohibition_not_found(**args):
     prohibition_number = args.get('prohibition_number')
     t = "application_not_found.html"
     args['email_template'] = t
-    subject = get_subject_string(t, prohibition_number)
+    content = get_email_content(t, prohibition_number)
     template = get_jinja2_env().get_template(t)
     return common_email_services.send_email(
         [args.get('applicant_email_address')],
-        subject,
+        content["subject"],
         config,
         template.render(
             full_name=args.get('driver_full_name'),
             prohibition_number=prohibition_number,
-            subject=subject)), args
+            callout=content['callout'],
+            timeline=content['timeline'],
+            subject=content["subject"])), args
 
 
 def applicant_to_schedule_review(**args):
@@ -126,16 +132,18 @@ def applicant_to_schedule_review(**args):
     email_address = vips_application['email']
     full_name = "{} {}".format(vips_application['firstGivenNm'], vips_application['surnameNm'])
     prohibition_number = args.get('prohibition_number')
-    subject = get_subject_string(t, prohibition_number)
+    content = get_email_content(t, prohibition_number)
     template = get_jinja2_env().get_template(t)
     return common_email_services.send_email(
         [email_address],
-        subject,
+        content["subject"],
         config,
         template.render(
             full_name=full_name,
             prohibition_number=prohibition_number,
-            subject=subject)), args
+            callout=content['callout'],
+            timeline=content['timeline'],
+            subject=content["subject"])), args
 
 
 def applicant_schedule_confirmation(**args):
@@ -151,16 +159,18 @@ def applicant_schedule_confirmation(**args):
     args['email_template'] = t
     phone = vips_application['phoneNo']
     prohibition_number = args.get('prohibition_number')
-    subject = get_subject_string(t, prohibition_number)
+    content = get_email_content(t, prohibition_number)
     template = get_jinja2_env().get_template(t)
     return common_email_services.send_email(
         [email_address],
-        subject,
+        content["subject"],
         config,
         template.render(
             full_name=args.get('applicant_name'),
             prohibition_number=prohibition_number,
-            subject=subject,
+            callout=content['callout'],
+            timeline=content['timeline'],
+            subject=content["subject"],
             phone=phone,
             human_friendly_time_slot=args.get('friendly_review_time_slot'))), args
 
@@ -174,16 +184,18 @@ def applicant_last_name_mismatch(**args):
     prohibition_number = args.get('prohibition_number')
     t = 'last_name_mismatch.html'
     args['email_template'] = t
-    subject = get_subject_string(t, prohibition_number)
+    content = get_email_content(t, prohibition_number)
     template = get_jinja2_env().get_template(t)
     return common_email_services.send_email(
         [args.get('applicant_email_address')],
-        subject,
+        content["subject"],
         config,
         template.render(
             full_name=args.get('driver_full_name'),
             prohibition_number=prohibition_number,
-            subject=subject)), args
+            callout=content['callout'],
+            timeline=content['timeline'],
+            subject=content["subject"])), args
 
 
 def applicant_prohibition_not_yet_in_vips(**args):
@@ -191,16 +203,18 @@ def applicant_prohibition_not_yet_in_vips(**args):
     prohibition_number = args.get('prohibition_number')
     t = 'application_not_yet_in_vips.html'
     args['email_template'] = t
-    subject = get_subject_string(t, prohibition_number)
+    content = get_email_content(t, prohibition_number)
     template = get_jinja2_env().get_template(t)
     return common_email_services.send_email(
         [args.get('applicant_email_address')],
-        subject,
+        content["subject"],
         config,
         template.render(
             full_name=args.get('driver_full_name'),
             prohibition_number=prohibition_number,
-            subject=subject)), args
+            callout=content['callout'],
+            timeline=content['timeline'],
+            subject=content["subject"])), args
 
 
 def application_already_created(**args):
@@ -208,16 +222,18 @@ def application_already_created(**args):
     prohibition_number = args.get('prohibition_number')
     t = 'application_already_created.html'
     args['email_template'] = t
-    subject = get_subject_string(t, prohibition_number)
+    content = get_email_content(t, prohibition_number)
     template = get_jinja2_env().get_template(t)
     return common_email_services.send_email(
         [args.get('applicant_email_address')],
-        subject,
+        content["subject"],
         config,
         template.render(
             full_name=args.get('driver_full_name'),
             prohibition_number=prohibition_number,
-            subject=subject)), args
+            callout=content['callout'],
+            timeline=content['timeline'],
+            subject=content["subject"])), args
 
 
 def applicant_disclosure(**args) -> tuple:
@@ -225,16 +241,18 @@ def applicant_disclosure(**args) -> tuple:
     prohibition_number = args.get('prohibition_number')
     t = 'send_disclosure_documents.html'
     args['email_template'] = t
-    subject = get_subject_string(t, prohibition_number)
+    content = get_email_content(t, prohibition_number)
     template = get_jinja2_env().get_template(t)
     return common_email_services.send_email(
         [args.get('applicant_email_address')],
-        subject,
+        content["subject"],
         config,
         template.render(
             full_name=args.get('applicant_name'),
             prohibition_number=prohibition_number,
-            subject=subject),
+            callout=content['callout'],
+            timeline=content['timeline'],
+            subject=content["subject"]),
         args.get('disclosure_for_applicant')), args
 
 
@@ -243,17 +261,18 @@ def applicant_evidence_instructions(**args) -> tuple:
     prohibition_number = args.get('prohibition_number')
     t = 'send_evidence_instructions.html'
     args['email_template'] = t
-    subject = get_subject_string(t, prohibition_number)
+    content = get_email_content(t, prohibition_number)
     template = get_jinja2_env().get_template(t)
     return common_email_services.send_email(
         [args.get('applicant_email_address')],
-        subject,
+        content["subject"],
         config,
         template.render(
             full_name=args.get('applicant_name'),
             prohibition_number=prohibition_number,
-            subject=subject),
-        args.get('disclosure_for_applicant')), args
+            callout=content['callout'],
+            timeline=content['timeline'],
+            subject=content["subject"])), args
 
 
 def admin_unable_to_save_to_vips(**args) -> tuple:
@@ -284,27 +303,100 @@ def get_jinja2_env():
     )
 
 
-def get_subject_string(template_name: str, prohibition_number: str):
-    subjects = get_template_subjects()
-    if template_name in subjects:
-        subject_string = subjects[template_name].format(prohibition_number)
-        logging.info(subject_string)
-        return subject_string
-    return None
-
-
-def get_template_subjects() -> dict:
+def get_email_content(template_name: str, prohibition_number: str):
+    content = content_data()
+    if template_name in content:
+        email_content = content[template_name]
+        email_content['subject'] = email_content['raw_subject'].format(prohibition_number)
+        logging.info(email_content)
+        return email_content
     return dict({
-        "last_name_mismatch.html": "Re: Driving Prohibition Review - Prohibition Number and Name Don't Match - {}",
-        "application_not_yet_in_vips.html": 'Re: Driving Prohibition Review - Not Entered Yet - {}',
-        "application_already_created.html": "Re: Driving Prohibition Review - Already Applied - {}",
-        "review_date_confirmed_ORAL.html": "Re: Driving Prohibition Review - Review Date Confirmed - {}",
-        "review_date_confirmed_WRIT.html": "Re: Driving Prohibition Review - Review Date Confirmed - {}",
-        "select_review_date.html": "Re: Driving Prohibition Review - Select a Review Date - {}",
-        "application_not_found.html": "Re: Driving Prohibition Review - Not Found - {}",
-        "licence_not_seized.html": "Re: Driving Prohibition Review - Licence Not Returned - {}",
-        "not_received_in_time.html": "Re: Driving Prohibition Review - 7-day Application Window Missed - {}",
-        "application_accepted.html": "Re: Driving Prohibition Review - Application Received  - {}",
-        "send_disclosure_documents.html": "Re: Driving Prohibition Review - Disclosure Documents Attached - {}",
-        "send_evidence_instructions.html": "Re: Driving Prohibition Review - Submit Evidence - {}"
+            "raw_subject": "Unknown template requested {}",
+            "subject": "Unknown template",
+            "callout": "",
+            "title": "Unknown Template",
+            "timeline": ""
+        })
+
+
+def content_data() -> dict:
+    return dict({
+        "last_name_mismatch.html": {
+            "raw_subject": "Prohibition Number or Name Don't Match - Driving Prohibition Review {}",
+            "callout": "You must re-apply within 7 days from the date of prohibition issue.",
+            "title": "Prohibition Number or Name Don’t Match",
+            "timeline": "apply.png"
+        },
+        "application_not_yet_in_vips.html": {
+            "raw_subject": "Re: Driving Prohibition Review - Not Entered Yet - {}",
+            "callout": "If prohibition can’t be found 3 days after the issue date, you will be notified.",
+            "title": "Not Entered Yet",
+            "timeline": "apply.png"
+        },
+        "application_already_created.html": {
+            "raw_subject": "Already Applied – Driving Prohibition Review {}",
+            "callout": "You must call to make changes to your application.  ",
+            "title": "Already Applied",
+            "timeline": "apply.png"
+        },
+        "review_date_confirmed_ORAL.html": {
+            "raw_subject": "Review Date Confirmed - Driving Prohibition Review {}",
+            "callout": "Call us if you have not received the evidence 48 hours before your review.",
+            "title": "Review Date Confirmed Written",
+            "timeline": "disclosure.png"
+        },
+        "review_date_confirmed_WRIT.html": {
+            "raw_subject": "Review Date Confirmed - Driving Prohibition Review {}",
+            "callout": "Call us if you have not received the evidence 48 hours before your review.",
+            "title": "Review Date Confirmed Oral",
+            "timeline": "disclosure.png"
+        },
+        "select_review_date.html": {
+            "raw_subject": "Select Review Date - Driving Prohibition Review {}",
+            "callout": "You must have completed booking within 24 hours after payment.",
+            "title": "Select Review Date",
+            "timeline": "schedule.png"
+        },
+        "application_not_found.html": {
+            "raw_subject": "Prohibition Not Found – Driving Prohibition Review {}",
+            "callout": "You must apply in-person within the next 3 days.",
+            "title": "Prohibition Not Found",
+            "timeline": "apply.png"
+        },
+        "licence_not_seized.html": {
+            "raw_subject": "Licence Not Surrendered - Driving Prohibition Review {}",
+            "callout": "You must apply in-person for this review.",
+            "title": "Licence Not Surrendered",
+            "timeline": "apply.png"
+        },
+        "not_received_in_time.html": {
+            "raw_subject": "7-day Application Window Missed - Driving Prohibition Review {}",
+            "callout": "",
+            "title": "7-day Application Window Missed",
+            "timeline": ""
+        },
+        "application_accepted.html": {
+            "raw_subject": "Application Accepted - Driving Prohibition Review {}",
+            "callout": "You must pay in full by credit card within 7 days of receiving your prohibition ",
+            "title": "Application Accepted",
+            "timeline": "pay.png"
+        },
+        "send_disclosure_documents.html": {
+            "raw_subject": "Re: Driving Prohibition Review - Disclosure Documents Attached {}",
+            "callout": "",
+            "title": "Send Disclosure",
+            "timeline": "send_disclosure_documents.png"
+        },
+        "send_evidence_instructions.html": {
+            "raw_subject": "Submit Evidence - Driving Prohibition Review {}",
+            "callout": "You must finish providing evidence 2 days before your review.",
+            "title": "Submit Evidence",
+            "timeline": "evidence.png"
+        },
+        "evidence_received.html": {
+            "raw_subject": "Evidence Received - Driving Prohibition Review {}",
+            "callout": "",
+            "title": "Evidence Received",
+            "timeline": "evidence.png"
+        }
     })

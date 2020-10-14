@@ -15,7 +15,8 @@
 {% endblock %}
 
 {% block page_title %}{{ subject }}{% endblock %}
+{% block timeline %}{% include 'partials/timeline_image.html' %}{% endblock %}
 {% block subject %}{% include 'partials/subject_row.html' %}{% endblock %}
 {% block salutation %}{% include 'partials/salutation_row.html' %}{% endblock %}
 {% block thank_you_road_safety %}{% include 'partials/thank_you_road_safety_row.html' %}{% endblock %}
-{% block email_not_monitored %}{% include 'partials/email_not_monitored_row.html' %}{% endblock %}
+{% block email_not_monitored %}{% include 'partials/call_ICBC.html' %}{% endblock %}

@@ -3,23 +3,35 @@
 {% block primary_message %}
 <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
     <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-       To provide evidence for your review, please visit: [www.uploadmyevidence.ca]
+       You will need to satisfy RoadSafetyBC that one or more of the review grounds applies to you.
     </td>
 </tr>
 <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
     <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-        We only accept:
+       You can submit evidence and explain why your description of the event differs from that of the police.
+    </td>
+</tr>
+<tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+    <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
+       Visit [ link here ] to provide evidence for your review. You can use this link more than once.
+    </td>
+</tr>
+<tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+    <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
+        We <strong>only</strong> accept:
         <ul>
             <li>PDF, Word, Excel, text files</li>
             <li>.png, .jpg and .gif image files, and</li>
-            <li>.mp4 and .mov video files</li>
+            <li>.mp3 audio and .mp4 and .mov video files</li>
         </ul>
     </td>
 </tr>
 {% endblock %}
 
+{% block callout %}{% include 'partials/callout.html' %}{% endblock %}
+{% block timeline %}{% include 'partials/timeline_image.html' %}{% endblock %}
 {% block page_title %}{{ subject }}{% endblock %}
 {% block subject %}{% include 'partials/subject_row.html' %}{% endblock %}
 {% block salutation %}{% include 'partials/salutation_row.html' %}{% endblock %}
 {% block thank_you_road_safety %}{% include 'partials/thank_you_road_safety_row.html' %}{% endblock %}
-{% block email_not_monitored %}{% include 'partials/email_not_monitored_row.html' %}{% endblock %}
+{% block email_not_monitored %}{% include 'partials/call_appeals_registry.html' %}{% endblock %}

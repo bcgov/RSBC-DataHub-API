@@ -26,8 +26,11 @@ def search_for_invoice() -> list:
 
 def generate_invoice() -> list:
     """
-    An application is ready for invoicing when it's ready for payment plus:
-        -
+    An application is ready for payment when the:
+        - the prohibition is found in VIPS
+        - the name provided by the user matches the driver's name in VIPS
+        - an application has been saved in VIPS
+        - the window to apply (if applicable) has not expired
     """
     return [
         {"try": middleware.create_correlation_id, "fail": []},

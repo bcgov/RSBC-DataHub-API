@@ -9,34 +9,19 @@
 <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
     <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
         Visit <a href="https://pay.gov.bc.ca">PayBC</a> to pay the application fee.
-        You must pay it in full by credit card within 7 days of receiving your prohibition.
     </td>
 </tr>
 <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
     <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-        Once you've paid, we’ll:
-    </td>
-</tr>
-
-<tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
-    <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-        <ul>
-            <li>Tell you how to schedule your review</li>
-            <li>Send you the police evidence the adjudicator will use in your review</li>
-            <li>Give you instructions on how to send the adjudicator your statement and evidence</li>
-        </ul>
-    </td>
-</tr>
-<tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
-    <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-        Your review will be scheduled after you’ve paid the fee.
+        Once you've paid, we’ll send the link to schedule your review.
     </td>
 </tr>
 {% endblock %}
 
+{% block callout %}{% include 'partials/callout.html' %}{% endblock %}
+{% block timeline %}{% include 'partials/timeline_image.html' %}{% endblock %}
 {% block page_title %}{{ subject }}{% endblock %}
 {% block subject %}{% include 'partials/subject_row.html' %}{% endblock %}
 {% block salutation %}{% include 'partials/salutation_row.html' %}{% endblock %}
-{% block you_must_not_drive %}{% include 'partials/you_must_not_drive_row.html' %}{% endblock %}
 {% block thank_you_road_safety %}{% include 'partials/thank_you_road_safety_row.html' %}{% endblock %}
-{% block email_not_monitored %}{% include 'partials/email_not_monitored_row.html' %}{% endblock %}
+{% block email_not_monitored %}{% include 'partials/call_appeals_registry.html' %}{% endblock %}

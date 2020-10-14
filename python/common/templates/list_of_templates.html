@@ -7,7 +7,7 @@
 </p>
 <ul>
 {% for template in templates %}
-    <li><a href="{{ '/check?template=%s'%template }}">{{ templates[template][33:][:-5] }}</a></li>
+    <li><a href="{{ '/check?template=%s'%template }}">{{ templates[template]['title'] }}</a></li>
 {% endfor %}
 </ul>
 {% endblock %}

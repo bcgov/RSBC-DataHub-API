@@ -7,7 +7,7 @@
 {% block primary_message %}
 <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
     <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-        Your driving prohibition review has been scheduled and is confirmed for:<br />
+        Your driving prohibition review has been scheduled for:<br />
         <strong>{{ friendly_review_time_slot }}</strong>
     </td>
 </tr>
@@ -19,12 +19,18 @@
 </tr>
 <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
     <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-        If you need to change the date or phone number for your review,
-        please call RoadSafetyBC’s Appeals Registry at: 1-855-387-7747.
+        Changes to the review date or time of will only be granted in special situations.
+        Call RoadSafetyBC’s Appeals Registry at 1-855-387-7747 and select option 5.
+    </td>
+</tr>
+<tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+    <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
+        We’ll email you the police evidence soon. You may receive more than one email.
     </td>
 </tr>
 {% endblock %}
 
-
+{% block callout %}{% include 'partials/callout.html' %}{% endblock %}
+{% block timeline %}{% include 'partials/timeline_image.html' %}{% endblock %}
 {% block thank_you_road_safety %}{% include 'partials/thank_you_road_safety_row.html' %}{% endblock %}
-{% block email_not_monitored %}{% include 'partials/email_not_monitored_row.html' %}{% endblock %}
+{% block email_not_monitored %}{% include 'partials/call_appeals_registry.html' %}{% endblock %}

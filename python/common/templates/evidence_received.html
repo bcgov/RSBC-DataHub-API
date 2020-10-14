@@ -3,24 +3,19 @@
 {% block primary_message %}
 <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
     <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-        Our records show your Notice of Prohibition was issued more than 7 days ago.
-        You have missed the window to apply for a review of a driving prohibition.
+       On [date], we received the evidence that will be considered for your review.
     </td>
 </tr>
 <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
     <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-        Your application for a review of driving prohibition {{ prohibition_number }} has been denied.
-    </td>
-</tr>
-<tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
-    <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-        Our decision to deny your application cannot be appealed.
+       You may visit evidence.com to provide additional evidence until 2 days before the review.
     </td>
 </tr>
 {% endblock %}
 
+{% block timeline %}{% include 'partials/timeline_image.html' %}{% endblock %}
 {% block page_title %}{{ subject }}{% endblock %}
 {% block subject %}{% include 'partials/subject_row.html' %}{% endblock %}
 {% block salutation %}{% include 'partials/salutation_row.html' %}{% endblock %}
 {% block thank_you_road_safety %}{% include 'partials/thank_you_road_safety_row.html' %}{% endblock %}
-{% block email_not_monitored %}{% include 'partials/call_ICBC.html' %}{% endblock %}
+{% block email_not_monitored %}{% include 'partials/call_appeals_registry.html' %}{% endblock %}

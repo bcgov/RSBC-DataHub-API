@@ -131,14 +131,15 @@ def check():
     if request.method == 'GET' and Config.ENVIRONMENT in ['pr', 'dev']:
         t = request.args.get('template')
         prohibition_number = "99999999"
-        subject = rsi_email.get_subject_string(t, prohibition_number)
-        if subject is not None:
-            time_slot = request.args.get('ts')
+        content = rsi_email.get_email_content(t, prohibition_number)
+        if content['subject'] is not None:
             template = rsi_email.get_jinja2_env().get_template(t)
             return template.render(
                 full_name="Applicant Smith",
                 prohibition_number="99999999",
-                subject=subject,
+                subject=content['subject'],
+                callout=content['callout'],
+                timeline=content['timeline'],
                 phone="2505551212",
                 friendly_review_time_slot="Friday, Nov 1 between 9:00am and 9:30am"
             )
@@ -153,7 +154,7 @@ def check_templates():
     if request.method == 'GET' and Config.ENVIRONMENT in ['pr', 'dev']:
         template = rsi_email.get_jinja2_env().get_template('list_of_templates.html')
         return template.render(
-            templates=rsi_email.get_template_subjects()
+            templates=rsi_email.content_data()
         )
 
 

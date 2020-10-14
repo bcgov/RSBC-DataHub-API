@@ -4,21 +4,21 @@
 <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
     <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
         An application for the driving prohibition {{ prohibition_number }} has already been created.
-        We cannot revise the original application.
+        You cannot submit another application to make changes to the one you already submitted.
     </td>
 </tr>
 <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
     <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-        For more information about why, make an appointment online to visit an ICBC office. Be sure to take
-        your Notice of Prohibition. If you’re unable to make one in time to meet the application deadline,
-        visit an ICBC Driver Licensing Office right away. Arrive early as walk-in visits are limited.
+        If you must make changes to the application call RoadSafetyBC’s
+        Appeals Registry at 1-855-387-7747 and select option 5.
     </td>
 </tr>
 {% endblock %}
 
+{% block callout %}{% include 'partials/callout.html' %}{% endblock %}
+{% block timeline %}{% include 'partials/timeline_image.html' %}{% endblock %}
 {% block page_title %}{{ subject }}{% endblock %}
 {% block subject %}{% include 'partials/subject_row.html' %}{% endblock %}
 {% block salutation %}{% include 'partials/salutation_row.html' %}{% endblock %}
-{% block you_must_not_drive %}{% include 'partials/you_must_not_drive_row.html' %}{% endblock %}
 {% block thank_you_road_safety %}{% include 'partials/thank_you_road_safety_row.html' %}{% endblock %}
-{% block email_not_monitored %}{% include 'partials/email_not_monitored_row.html' %}{% endblock %}
+{% block email_not_monitored %}{% include 'partials/call_ICBC.html' %}{% endblock %}
