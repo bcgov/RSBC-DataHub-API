@@ -342,13 +342,13 @@ def content_data() -> dict:
         "review_date_confirmed_ORAL.html": {
             "raw_subject": "Review Date Confirmed - Driving Prohibition Review {}",
             "callout": "Call us if you have not received the evidence 48 hours before your review.",
-            "title": "Review Date Confirmed Written",
+            "title": "Review Date Confirmed Oral",
             "timeline": "disclosure.png"
         },
         "review_date_confirmed_WRIT.html": {
             "raw_subject": "Review Date Confirmed - Driving Prohibition Review {}",
             "callout": "Call us if you have not received the evidence 48 hours before your review.",
-            "title": "Review Date Confirmed Oral",
+            "title": "Review Date Confirmed Written",
             "timeline": "disclosure.png"
         },
         "select_review_date.html": {

@@ -11,14 +11,14 @@ test_search_method_data = [
     # Type, ServiceDate   TodayIs       Paid     LastName  InVips  Error
     ('IRP', "2020-09-10", "2020-09-15", False,   "Norris", True,  "the last name submitted does not match VIPS"),
     ('IRP', "2020-09-10", "2020-09-17", False,   "Gordon", True,  "the prohibition is older than one week"),
-    ('IRP', "2020-09-10", "2020-09-16", False,   "Gordon", True,  "the prohibition is older than one week"),
+    ('IRP', "2020-09-10", "2020-09-16", False,   "Gordon", True,  None),
     ('IRP', "2020-09-10", "2020-09-14", False,   "Gordon", False, "the prohibition does not exist in VIPS"),
     ('IRP', "2020-09-10", "2020-09-14", True,    "Gordon", True,  "the application has previously been paid"),
     ('IRP', "2020-09-10", "2020-09-14", False,   "Gordon", True,  None),
 
     ('ADP', "2020-09-10", "2020-09-15", False,   "Norris", True,  "the last name submitted does not match VIPS"),
     ('ADP', "2020-09-10", "2020-09-17", False,   "Gordon", True,  "the prohibition is older than one week"),
-    ('ADP', "2020-09-10", "2020-09-16", False,   "Gordon", True,  "the prohibition is older than one week"),
+    ('ADP', "2020-09-10", "2020-09-16", False,   "Gordon", True,  None),
     ('ADP', "2020-09-10", "2020-09-14", False,   "Gordon", False, "the prohibition does not exist in VIPS"),
     ('ADP', "2020-09-10", "2020-09-14", True,    "Gordon", True,  "the application has previously been paid"),
     ('ADP', "2020-09-10", "2020-09-14", False,   "Gordon", True,  None),

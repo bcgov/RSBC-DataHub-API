@@ -254,10 +254,10 @@ def date_served_not_older_than_one_week(**args) -> tuple:
     today = args.get('today_date')
     prohibition = pro.prohibition_factory(vips_data['noticeTypeCd'])
     if prohibition.MUST_APPLY_FOR_REVIEW_WITHIN_7_DAYS:
-        days_in_week = 6
+        days_in_week = 7
         date_served_string = vips_data['noticeServedDt']
         date_served = vips_str_to_datetime(date_served_string)
-        if (today - date_served).days < days_in_week:
+        if (today.date() - date_served.date()).days < days_in_week:
             return True, args
         error = 'the prohibition is older than one week'
         args['error_string'] = error

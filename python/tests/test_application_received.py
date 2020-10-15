@@ -33,7 +33,7 @@ vips_status_application_received = [
     ('IRP', "2020-09-10", "2020-09-15", "N",     "Gordon", True,  "licence_not_seized.html"),
     ('IRP', "2020-09-10", "2020-09-18", "Y",     "Gordon", True,  "not_received_in_time.html"),
     ('IRP', "2020-09-10", "2020-09-17", "Y",     "Gordon", True,  "not_received_in_time.html"),
-    ('IRP', "2020-09-10", "2020-09-16", "Y",     "Gordon", True,  "not_received_in_time.html"),
+    ('IRP', "2020-09-10", "2020-09-16", "Y",     "Gordon", True,  "application_accepted.html"),
     ('IRP', "2020-09-10", "2020-09-15", "Y",     "Gordon", True,  "application_accepted.html"),
 
     # When the prohibition is not found in VIPS, we rely on the service date as entered by the applicant
@@ -52,7 +52,7 @@ vips_status_application_received = [
     ('ADP', "2020-09-10", "2020-09-15", "N",     "Gordon", True,  "licence_not_seized.html"),
     ('ADP', "2020-09-10", "2020-09-18", "Y",     "Gordon", True,  "not_received_in_time.html"),
     ('ADP', "2020-09-10", "2020-09-17", "Y",     "Gordon", True,  "not_received_in_time.html"),
-    ('ADP', "2020-09-10", "2020-09-16", "Y",     "Gordon", True,  "not_received_in_time.html"),
+    ('ADP', "2020-09-10", "2020-09-16", "Y",     "Gordon", True,  "application_accepted.html"),
     ('ADP', "2020-09-10", "2020-09-11", "Y",     "Norris", True,  "last_name_mismatch.html"),
     ('ADP', "2020-09-10", "2020-09-15", "Y",     "Gordon", True,  "application_accepted.html"),
 

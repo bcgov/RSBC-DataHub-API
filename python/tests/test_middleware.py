@@ -1,7 +1,7 @@
 import pytz
 from python.form_handler.config import Config
 import python.common.vips_api as vips
-from datetime import datetime, timedelta
+from datetime import datetime
 import python.common.middleware as middleware
 from python.common.helper import load_json_into_dict, load_xml_to_string, localize_timezone
 import pytest
@@ -13,6 +13,7 @@ from python.ingestor.routes import application
 date_served_data = [
     ('IRP', "2020-09-10 20:59:45 -08:00", "2020-09-11 13:31:22", True),
     ('IRP', "2020-09-10 20:59:45 -08:00", "2020-09-16 13:31:22", True),
+    ('IRP', "2020-09-10 00:00:00 -08:00", "2020-09-16 23:31:22", True),
     ('IRP', "2020-09-10 20:59:45 -08:00", "2020-09-17 13:31:22", False),
     ('IRP', "2020-09-10 20:59:45 -08:00", "2020-09-18 13:31:22", False),
     ('IRP', "2020-09-10 20:59:45 -08:00", "2020-09-19 13:31:22", False),
@@ -34,9 +35,8 @@ date_served_data = [
 
 @pytest.mark.parametrize("prohibition_type, notice_serve_date, today_is, expected", date_served_data)
 def test_date_served_not_older_than_one_week_method(prohibition_type, notice_serve_date, today_is, expected):
-    tz = pytz.timezone('America/Vancouver')
     today_unaware = datetime.strptime(today_is, "%Y-%m-%d %H:%M:%S")
-    today_date = today_unaware.replace(tzinfo=tz)
+    today_date = localize_timezone(today_unaware)
     vips_data = dict()
     vips_data['noticeTypeCd'] = prohibition_type
     vips_data['noticeServedDt'] = notice_serve_date

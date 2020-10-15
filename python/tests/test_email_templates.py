@@ -25,7 +25,6 @@ def test_application_accepted():
     assert full_name in html
     assert subject in html
     assert number in html
-    assert "You must <strong>not</strong> drive" in html
     assert "Please do not respond to this email" in html
 
 
@@ -38,7 +37,7 @@ def test_schedule_review_email():
                            full_name=full_name,
                            prohibition_number=number)
     print(html)
-    assert "To select a date for your driving prohibition review" in html
+    assert "to select a review date" in html
     assert full_name in html
     assert subject in html
     assert number in html
