@@ -1,6 +1,7 @@
-
+import python.common.helper as helper
 from python.common.config import Config
-import python.common.common_email_services as common_email_services 
+import python.common.common_email_services as common_email_services
+from datetime import datetime
 import json
 import logging
 from jinja2 import Environment, select_autoescape, FileSystemLoader
@@ -201,15 +202,22 @@ def applicant_last_name_mismatch(**args):
 def applicant_prohibition_not_yet_in_vips(**args):
     config = args.get('config')
     prohibition_number = args.get('prohibition_number')
+    date_served_string = args.get('date_of_service')
+    date_served = helper.localize_timezone(datetime.strptime(date_served_string, '%Y-%m-%d'))
+    human_friendly_date_served = date_served.strftime("%B %d, %Y")
     t = 'application_not_yet_in_vips.html'
     args['email_template'] = t
     content = get_email_content(t, prohibition_number)
     template = get_jinja2_env().get_template(t)
+
+    # Note: we rely on the date_served as submitted by the user -- not the date in VIPS
+    # Check to see if enough time has elapsed to enter the prohibition into VIPS
     return common_email_services.send_email(
         [args.get('applicant_email_address')],
         content["subject"],
         config,
         template.render(
+            date_of_service=human_friendly_date_served,
             full_name=args.get('driver_full_name'),
             prohibition_number=prohibition_number,
             callout=content['callout'],
@@ -220,7 +228,7 @@ def applicant_prohibition_not_yet_in_vips(**args):
 def application_already_created(**args):
     config = args.get('config')
     prohibition_number = args.get('prohibition_number')
-    t = 'application_already_created.html'
+    t = 'already_applied.html'
     args['email_template'] = t
     content = get_email_content(t, prohibition_number)
     template = get_jinja2_env().get_template(t)
@@ -328,12 +336,12 @@ def content_data() -> dict:
             "timeline": "apply.png"
         },
         "application_not_yet_in_vips.html": {
-            "raw_subject": "Re: Driving Prohibition Review - Not Entered Yet - {}",
+            "raw_subject": "Prohibition Not Found Yet - Driving Prohibition Review {}",
             "callout": "If prohibition can’t be found 3 days after the issue date, you will be notified.",
             "title": "Not Entered Yet",
             "timeline": "apply.png"
         },
-        "application_already_created.html": {
+        "already_applied.html": {
             "raw_subject": "Already Applied – Driving Prohibition Review {}",
             "callout": "You must call to make changes to your application.  ",
             "title": "Already Applied",
@@ -377,12 +385,12 @@ def content_data() -> dict:
         },
         "application_accepted.html": {
             "raw_subject": "Application Accepted - Driving Prohibition Review {}",
-            "callout": "You must pay in full by credit card within 7 days of receiving your prohibition ",
+            "callout": "You must pay in full by credit card within 7 days of receiving your prohibition",
             "title": "Application Accepted",
             "timeline": "pay.png"
         },
         "send_disclosure_documents.html": {
-            "raw_subject": "Re: Driving Prohibition Review - Disclosure Documents Attached {}",
+            "raw_subject": "Disclosure Documents Attached - Driving Prohibition Review {}",
             "callout": "",
             "title": "Send Disclosure",
             "timeline": "send_disclosure_documents.png"

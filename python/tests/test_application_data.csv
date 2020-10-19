@@ -1,0 +1,35 @@
+IRP,2020-09-10,2020-09-11,Y,Norris,True,False,Prohibition Number or Name Don
+IRP,2020-09-10,2020-09-15,N,Gordon,True,False,Licence Not Surrendered - Driving Prohibition
+IRP,2020-09-10,2020-09-18,Y,Gordon,True,False,7-day Application Window Missed
+IRP,2020-09-10,2020-09-17,Y,Gordon,True,False,7-day Application Window Missed
+IRP,2020-09-10,2020-09-16,Y,Gordon,True,False,Application Accepted - Driving Prohibition Review
+IRP,2020-09-10,2020-09-15,Y,Gordon,True,False,Application Accepted - Driving Prohibition Review
+IRP,          ,2020-09-23,Y,Gordon,False,False,Prohibition Not Found Yet - 
+IRP,          ,2020-09-23,Y,Gordon,False,False,"3 days after the issue date, you will be notified"
+IRP,          ,2020-09-23,Y,Gordon,False,False,"issued on September 22, 2020 isn’t in our"
+IRP,          ,2020-09-24,Y,Gordon,False,False,- Driving Prohibition Review 21999344
+ADP,          ,2020-09-23,Y,Gordon,False,False,Prohibition Not Found Yet - 
+ADP,          ,2020-09-24,Y,Gordon,False,False,Prohibition Not Found Yet - 
+UL,          ,2020-09-23,Y,Gordon,False,False,Prohibition Not Found Yet - 
+UL,          ,2020-09-24,Y,Gordon,False,False,Prohibition Not Found Yet - 
+IRP,          ,2020-09-25,Y,Gordon,False,False,Prohibition Not Found –
+ADP,          ,2020-09-25,Y,Gordon,False,False,Prohibition Not Found –
+UL,           ,2020-09-25,Y,Gordon,False,False,Prohibition Not Found –
+IRP,          ,2020-09-25,Y,Gordon,False,False,You must apply in-person within the next 3 days.
+ADP,          ,2020-09-25,Y,Gordon,False,False,You must apply in-person within the next 3 days.
+UL,           ,2020-09-25,Y,Gordon,False,False,You must apply in-person within the next 3 days.
+ADP,2020-09-10,2020-09-11,Y,Norris,True,False,Prohibition Number or Name Don
+ADP,2020-09-10,2020-09-11,Y,Norris,True,False,You must re-apply within 7 days from the date of
+ADP,2020-09-10,2020-09-11,Y,Norris,True,False,Prohibition Number or Name Don
+UL,2020-09-10,2020-09-11,Y,Norris,True,False,Prohibition Number or Name Don
+ADP,2020-09-10,2020-09-15,N,Gordon,True,False,You must apply in-person for this review
+ADP,2020-09-10,2020-09-15,N,Gordon,True,False,Licence Not Surrendered - Driving Prohibition Review
+ADP,2020-09-10,2020-09-15,N,Gordon,True,False,John Gordon
+ADP,2020-09-10,2020-09-18,Y,Gordon,True,False,7-day Application Window Missed
+ADP,2020-09-10,2020-09-17,Y,Gordon,True,False,your application cannot be appealed
+ADP,2020-09-10,2020-09-16,Y,Gordon,True,False,Application Accepted - Driving Prohibition Review
+ADP,2020-09-10,2020-09-15,Y,Gordon,True,False,John Gordon
+UL,2020-09-10,2020-09-18,N,Gordon,True,False,You must pay in full by credit card within 7 days
+UL,2020-09-10,2020-09-18,N,Gordon,True,False,ll send the link to schedule your review.
+UL,2020-09-10,2020-09-18,N,Gordon,True,True,Already Applied
+UL,2020-09-10,2020-09-18,N,Gordon,True,True,Already Applied

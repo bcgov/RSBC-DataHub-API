@@ -1,4 +1,5 @@
 import pytest
+import csv
 import datetime
 import python.common.helper as helper
 import python.common.middleware as middleware
@@ -9,8 +10,18 @@ import python.common.vips_api as vips
 import python.common.common_email_services as common_email_services
 
 
-def status_gets(is_success, prohibition_type, date_served, last_name, seized, cause):
-    return is_success, {
+def get_test_data():
+    test_data = list()
+    with open('./python/tests/test_application_data.csv', newline='') as csvfile:
+        data = csv.reader(csvfile, delimiter=',')
+        for row in data:
+            print(row)
+            test_data.append(row)
+    return test_data
+
+
+def status_gets(is_success, prohibition_type, date_served, last_name, seized, cause, already_applied):
+    data = {
             "resp": "success",
             "data": {
                 "status": {
@@ -25,54 +36,25 @@ def status_gets(is_success, prohibition_type, date_served, last_name, seized, ca
                 }
             }
         }
-
-
-vips_status_application_received = [
-    # Type, ServiceDate   TodayIs       Seized   LastName  Valid EmailTemplate
-    ('IRP', "2020-09-10", "2020-09-11", "Y",     "Norris", True,  "last_name_mismatch.html"),
-    ('IRP', "2020-09-10", "2020-09-15", "N",     "Gordon", True,  "licence_not_seized.html"),
-    ('IRP', "2020-09-10", "2020-09-18", "Y",     "Gordon", True,  "not_received_in_time.html"),
-    ('IRP', "2020-09-10", "2020-09-17", "Y",     "Gordon", True,  "not_received_in_time.html"),
-    ('IRP', "2020-09-10", "2020-09-16", "Y",     "Gordon", True,  "application_accepted.html"),
-    ('IRP', "2020-09-10", "2020-09-15", "Y",     "Gordon", True,  "application_accepted.html"),
-
-    # When the prohibition is not found in VIPS, we rely on the service date as entered by the applicant
-    # to determine which template to use.  For the tests below we use a service date of 2020-09-22
-    ('IRP', "          ", "2020-09-23", "Y",     "Gordon", False, "application_not_yet_in_vips.html"),
-    ('IRP', "          ", "2020-09-24", "Y",     "Gordon", False, "application_not_yet_in_vips.html"),
-    ('IRP', "          ", "2020-09-25", "Y",     "Gordon", False, "application_not_found.html"),
-    ('ADP', "          ", "2020-09-23", "Y",     "Gordon", False, "application_not_yet_in_vips.html"),
-    ('ADP', "          ", "2020-09-24", "Y",     "Gordon", False, "application_not_yet_in_vips.html"),
-    ('ADP', "          ", "2020-09-25", "Y",     "Gordon", False, "application_not_found.html"),
-    ('UL',  "          ", "2020-09-23", "Y",     "Gordon", False, "application_not_yet_in_vips.html"),
-    ('UL',  "          ", "2020-09-24", "Y",     "Gordon", False, "application_not_yet_in_vips.html"),
-    ('UL',  "          ", "2020-09-25", "Y",     "Gordon", False, "application_not_found.html"),
-
-    ('ADP', "2020-09-10", "2020-09-11", "Y",     "Norris", True,  "last_name_mismatch.html"),
-    ('ADP', "2020-09-10", "2020-09-15", "N",     "Gordon", True,  "licence_not_seized.html"),
-    ('ADP', "2020-09-10", "2020-09-18", "Y",     "Gordon", True,  "not_received_in_time.html"),
-    ('ADP', "2020-09-10", "2020-09-17", "Y",     "Gordon", True,  "not_received_in_time.html"),
-    ('ADP', "2020-09-10", "2020-09-16", "Y",     "Gordon", True,  "application_accepted.html"),
-    ('ADP', "2020-09-10", "2020-09-11", "Y",     "Norris", True,  "last_name_mismatch.html"),
-    ('ADP', "2020-09-10", "2020-09-15", "Y",     "Gordon", True,  "application_accepted.html"),
-
-    ('UL',  "2020-09-10", "2020-09-18", "N",     "Gordon", True,  "application_accepted.html"),
-    ('UL',  "2020-09-10", "2020-09-11", "Y",     "Norris", True,  "last_name_mismatch.html"),
-
-]
+    if already_applied == "True":
+        data['data']['status']['applicationId'] = 'GUID-GUID-GUID-GUID'
+    return is_success, data
 
 
 @pytest.mark.parametrize(
-    "prohibition_type, date_served, today_is, seized, last_name, is_valid, template", vips_status_application_received)
+    "prohibition_type, date_served, today_is, seized, last_name, is_valid, is_applied, email_text", get_test_data())
 def test_application_form_received(
-        prohibition_type, date_served, today_is, seized, last_name, is_valid, template, monkeypatch):
+        prohibition_type, date_served, today_is, seized, last_name, is_valid, is_applied, email_text, monkeypatch):
 
     def mock_status_get(*args, **kwargs):
         print('inside mock_status_get()')
-        return status_gets(True, prohibition_type, date_served, last_name, seized, "N/A")
+        return status_gets(True, prohibition_type, date_served, last_name, seized, "N/A", is_applied)
 
-    def mock_send_email(*args):
+    def mock_send_email(*args, **kwargs):
         print('inside mock_send_email()')
+        assert "me@lost.com" in args[0]
+        print("Subject: {}".format(args[1]))
+        assert email_text in args[3]
         return True
 
     def mock_datetime_now(**args):
@@ -88,7 +70,7 @@ def test_application_form_received(
         print('inside mock_prohibition_exists()')
         vips_status = args.get('vips_status')
         args['vips_data'] = vips_status['data']['status']
-        return is_valid, args
+        return is_valid == "True", args
 
     def mock_add_to_hold(**args):
         print('inside mock_add_to_hold()')
@@ -107,5 +89,3 @@ def test_application_form_received(
                                   message=message_dict,
                                   config=Config,
                                   writer=None)
-    assert results.get('email_template') == template
-
