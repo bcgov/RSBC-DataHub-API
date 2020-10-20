@@ -1,0 +1,36 @@
+{% extends "email_alert_base.html" %}
+
+{% block primary_text_1 %}
+    Your driving prohibition {{ prohibition_number }} isn’t in our system
+    so your online application for review can’t go ahead.
+{% endblock %}
+
+{% block primary_text_2 %}
+    You will need to apply in-person for a review:
+    <ol>
+        <li>
+            Visit <a href="https://www.icbc.com/locators/Pages/default.aspx?type=1&subtype=0">ICBC</a>,
+            ServiceBC or an appointed agent right away
+            to meet the application deadline. Walk-in visits are limited so arrive early.
+        </li>
+        <li>
+            Take your Notice of Prohibition with you.
+        </li>
+        <li>
+            If your licence was not surrendered to police, bring it with you.
+        </li>
+        <li>
+            Complete an Application for a Review of a Driving Prohibition.
+        </li>
+    </ol>
+{% endblock %}
+
+{% block primary_3 %}{% endblock %}
+
+{% block primary_4 %}{% endblock %}
+
+{% block callout %}You must apply in-person within the next 3 days.{% endblock %}
+{% block timeline %}apply.png{% endblock %}
+{% block email_not_monitored %}{% include 'partials/call_appeals_registry.html' %}{% endblock %}
+
+

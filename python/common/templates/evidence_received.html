@@ -1,21 +1,16 @@
 {% extends "email_alert_base.html" %}
 
-{% block primary_message %}
-<tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
-    <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-       On [date], we received the evidence that will be considered for your review.
-    </td>
-</tr>
-<tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
-    <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-       You may visit [evidence.com] to provide additional evidence until 2 days before the review.
-    </td>
-</tr>
+{% block primary_text_1 %}
+   On [date], we received the evidence that will be considered for your review.
 {% endblock %}
 
-{% block timeline %}{% include 'partials/timeline_image.html' %}{% endblock %}
-{% block page_title %}{{ subject }}{% endblock %}
-{% block subject %}{% include 'partials/subject_row.html' %}{% endblock %}
-{% block salutation %}{% include 'partials/salutation_row.html' %}{% endblock %}
-{% block thank_you_road_safety %}{% include 'partials/thank_you_road_safety_row.html' %}{% endblock %}
+{% block primary_text_2 %}
+   You may visit [evidence.com] to provide additional evidence until 2 days before the review.
+{% endblock %}
+
+{% block timeline %}evidence.png{% endblock %}
 {% block email_not_monitored %}{% include 'partials/call_appeals_registry.html' %}{% endblock %}
+
+{% block primary_text_3 %}{% endblock %}
+{% block primary_text_4 %}{% endblock %}
+{% block callout_block %}{% endblock %}

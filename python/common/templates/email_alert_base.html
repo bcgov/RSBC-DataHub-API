@@ -3,7 +3,7 @@
 <head>
 <meta name="viewport" content="width=device-width" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>{% block page_title %}{% endblock %}</title>
+<title>{{ subject }}</title>
 
 
 <style type="text/css">
@@ -72,14 +72,81 @@ background-color: #f6f6f6;
 					</tr>
 					<tr style="font-family: 'Noto Sans',Verdana,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"><td class="content-wrap" style="font-family: 'Noto Sans',Verdana,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 20px;" valign="top">
 							<table width="100%" cellpadding="0" cellspacing="0" style="font-family: 'Noto Sans',Verdana,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
-								{% block subject %}{% endblock %}
-								{% block salutation %}{% endblock %}
-								{% block primary_message %}{% endblock %}
-								{% block callout %}{% endblock %}
-								{% block timeline %}{% endblock %}
-								{% block you_must_not_drive %}{% endblock %}
-								{% block thank_you_road_safety %}{% endblock %}
-								{% block email_not_monitored %}{% endblock %}
+								<tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+									<td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; font-weight: 700; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
+									{{ subject }}
+									</td>
+								</tr>
+								{% block salutation_block %}
+								<tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+									<td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
+										{% block salutation %}Dear {{ full_name }},{% endblock %}
+									</td>
+								</tr>
+								{% endblock %}
+								<tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+									<td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
+									{% block primary_text_1 %}{% endblock %}
+									</td>
+								</tr>
+								{% block primary_2 %}
+								<tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+									<td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
+									{% block primary_text_2 %}{% endblock %}
+									</td>
+								</tr>
+								{% endblock %}
+								{% block primary_3 %}
+								<tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+									<td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
+									{% block primary_text_3 %}{% endblock %}
+									</td>
+								</tr>
+								{% endblock %}
+								{% block primary_4 %}
+								<tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+									<td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
+									{% block primary_text_4 %}{% endblock %}
+									</td>
+								</tr>
+								{% endblock %}
+								{% block callout_block %}
+									<tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin-bottom: 20px;">
+										<td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 16px; background: #1A5A96; color: white; text-align: center; font-weight: 500; vertical-align: middle; margin: 0 0 20px 0; padding: 10px 10px 10px 10px;" valign="top">
+											{% block callout %}{% endblock %}
+										</td>
+									</tr>
+									<tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+										<td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; font-weight: 700; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
+										</td>
+									</tr>
+								{% endblock %}
+								{% block timeline_image %}
+									<tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+										<td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
+											<img src="https://raw.githubusercontent.com/bcgov/RSBC-DataHub-API/master/images/{% block timeline %}{% endblock %}" alt="timeline image" style="vertical-align: middle; padding: 0 0 0 0; margin: 0 0 0 0">
+										</td>
+									</tr>
+								{% endblock %}
+								{% block sign_off %}
+								<tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+									<td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
+										{% block thank_you_road_safety %}
+											Thank you,</br>
+											RoadSafetyBC
+										{% endblock %}
+									</td>
+								</tr>
+								{% endblock %}
+								<tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+									<td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
+										{% block email_not_monitored %}
+											<strong>Please do not respond to this email.</strong> We've sent it from account that doesn't
+											accept responses. If you have questions, call ICBC at 1-800-663-3051.
+										{% endblock %}
+									</td>
+								</tr>
+
 								</table></td>
 					</tr></table><div class="footer" style="font-family: 'Noto Sans',Verdana,Arial,sans-serif; box-sizing: border-box; font-size: 14px; width: 100%; clear: both; color: #999; margin: 0; padding: 20px;">
 					<table width="100%" style="font-family: 'Noto Sans',Verdana,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"><tr style="font-family: 'Noto Sans',Verdana,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">

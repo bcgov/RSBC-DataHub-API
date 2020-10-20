@@ -10,14 +10,14 @@ IRP,          ,2020-09-23,Y,Gordon,False,False,"issued on September 22, 2020 isn
 IRP,          ,2020-09-24,Y,Gordon,False,False,- Driving Prohibition Review 21999344
 ADP,          ,2020-09-23,Y,Gordon,False,False,Prohibition Not Found Yet - 
 ADP,          ,2020-09-24,Y,Gordon,False,False,Prohibition Not Found Yet - 
-UL,          ,2020-09-23,Y,Gordon,False,False,Prohibition Not Found Yet - 
-UL,          ,2020-09-24,Y,Gordon,False,False,Prohibition Not Found Yet - 
+UL,           ,2020-09-23,Y,Gordon,False,False,Prohibition Not Found Yet -
+UL,           ,2020-09-24,Y,Gordon,False,False,Prohibition Not Found Yet -
 IRP,          ,2020-09-25,Y,Gordon,False,False,Prohibition Not Found –
 ADP,          ,2020-09-25,Y,Gordon,False,False,Prohibition Not Found –
 UL,           ,2020-09-25,Y,Gordon,False,False,Prohibition Not Found –
 IRP,          ,2020-09-25,Y,Gordon,False,False,You must apply in-person within the next 3 days.
 ADP,          ,2020-09-25,Y,Gordon,False,False,You must apply in-person within the next 3 days.
-UL,           ,2020-09-25,Y,Gordon,False,False,You must apply in-person within the next 3 days.
+UL,           ,2020-09-25,Y,Gordon,False,False,You must apply in-person.
 ADP,2020-09-10,2020-09-11,Y,Norris,True,False,Prohibition Number or Name Don
 ADP,2020-09-10,2020-09-11,Y,Norris,True,False,You must re-apply within 7 days from the date of
 ADP,2020-09-10,2020-09-11,Y,Norris,True,False,Prohibition Number or Name Don

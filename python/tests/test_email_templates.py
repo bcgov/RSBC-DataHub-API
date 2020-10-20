@@ -14,7 +14,7 @@ def test_admin_notice_method():
 
 
 def test_application_accepted():
-    template = get_jinja2_env().get_template('application_accepted.html')
+    template = get_jinja2_env().get_template('IRP_application_accepted.html')
     full_name = 'Bob Smith'
     number = "201234567"
     subject = "Application received"
@@ -29,7 +29,7 @@ def test_application_accepted():
 
 
 def test_schedule_review_email():
-    template = get_jinja2_env().get_template('select_review_date.html')
+    template = get_jinja2_env().get_template('IRP_select_review_date.html')
     full_name = 'Bob Smith'
     number = "201234567"
     subject = "Re: Driving Prohibition Review - Select a Review Date {}".format(number)
@@ -45,7 +45,7 @@ def test_schedule_review_email():
 
 
 template_names = [
-    ("last_name_mismatch.html", "Prohibition Number or Name Don't Match - Driving Prohibition Review 9999"),
+    ("IRP_last_name_mismatch.html", "Prohibition Number or Name Don't Match - Driving Prohibition Review 9999"),
     ('template_does_not_exist.html', "Unknown template")
 ]
 

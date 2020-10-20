@@ -1,14 +1,4 @@
 {% extends "email_alert_base.html" %}
 
-{% block page_title %}{{ subject }}{% endblock %}
-{% block subject %}{% include 'partials/subject_row.html' %}{% endblock %}
-
-{% block primary_message %}
-{% include 'partials/primary_message_row.html' %}
-<tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
-    <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-        {{ message }}
-    </td>
-</tr>
-{% endblock %}
-{% block email_not_monitored %}{% include 'partials/call_ICBC.html' %}{% endblock %}
+{% block primary_text_1 %}{{ body }}{% endblock %}
+{% block email_not_monitored %}{% endblock %}

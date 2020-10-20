@@ -1,40 +1,30 @@
 {% extends "email_alert_base.html" %}
 
-{% block primary_message %}
-<tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
-    <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-        You're ineligible to apply online because your licence wasn’t
-        surrendered to the police. Apply in-person for a review by:
-        <ol>
-            <li>
-                Making an appointment online with ICBC or ServiceBC; or visiting an
-                appointed agent in-person within 7-days of the date the prohibition was issued.
-            </li>
-            <li>
-                Taking your Notice of Prohibition with you.
-            </li>
-            <li>
-                Surrendering your licence OR if your licence is lost or stolen,
-                completing a Statutory Declaration for a Lost or Stolen Licence.
-            </li>
-            <li>
-                Completing an Application for a Review of a Driving Prohibition.
-            </li>
-        </ol>
-    </td>
-</tr>
-<tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
-    <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-        <strong>Visit ICBC right away if you can't make an appointment in time to meet the
-            application deadline. Walk-in visits are limited so arrive early.</strong>
-    </td>
-</tr>
+{% block primary_text_1 %}
+    You're ineligible to apply online because your licence wasn’t
+    surrendered to the police. Apply in-person for a review by:
+    <ol>
+        <li>
+            Making an appointment online with ICBC or ServiceBC; or visiting an
+            appointed agent in-person within 7-days of the date the prohibition was issued.
+        </li>
+        <li>
+            Taking your Notice of Prohibition with you.
+        </li>
+        <li>
+            Surrendering your licence OR if your licence is lost or stolen,
+            completing a Statutory Declaration for a Lost or Stolen Licence.
+        </li>
+        <li>
+            Completing an Application for a Review of a Driving Prohibition.
+        </li>
+    </ol>
 {% endblock %}
 
-{% block callout %}{% include 'partials/callout.html' %}{% endblock %}
-{% block timeline %}{% include 'partials/timeline_image.html' %}{% endblock %}
-{% block page_title %}{{ subject }}{% endblock %}
-{% block subject %}{% include 'partials/subject_row.html' %}{% endblock %}
-{% block salutation %}{% include 'partials/salutation_row.html' %}{% endblock %}
-{% block thank_you_road_safety %}{% include 'partials/thank_you_road_safety_row.html' %}{% endblock %}
-{% block email_not_monitored %}{% include 'partials/call_ICBC.html' %}{% endblock %}
+{% block primary_text_2 %}
+   <strong>Visit ICBC right away if you can't make an appointment in time to meet the
+    application deadline. Walk-in visits are limited so arrive early.</strong>
+{% endblock %}
+
+{% block callout %}You must apply in-person for this review.{% endblock %}
+{% block timeline %}apply.png{% endblock %}

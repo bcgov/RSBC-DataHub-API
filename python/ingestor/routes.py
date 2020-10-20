@@ -138,8 +138,6 @@ def check():
                 full_name="Applicant Smith",
                 prohibition_number="99999999",
                 subject=content['subject'],
-                callout=content['callout'],
-                timeline=content['timeline'],
                 phone="2505551212",
                 friendly_review_time_slot="Friday, Nov 1 between 9:00am and 9:30am"
             )

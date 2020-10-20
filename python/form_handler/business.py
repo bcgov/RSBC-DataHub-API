@@ -103,7 +103,7 @@ def process_incoming_form() -> dict:
                             {"try": rsi_email.applicant_prohibition_not_found, "fail": []}
                         ]
                     },
-                    {"try": rsi_email.applicant_prohibition_not_yet_in_vips, "fail": []},
+                    {"try": rsi_email.applicant_prohibition_not_found_yet, "fail": []},
                     {"try": actions.add_hold_before_trying_vips_again, "fail": []},
                     {"try": actions.add_to_hold_queue, "fail": []}
                 ]
@@ -111,7 +111,7 @@ def process_incoming_form() -> dict:
             {
                 "try": middleware.application_not_previously_saved_to_vips,
                 "fail": [
-                    {"try": rsi_email.application_already_created, "fail": []},
+                    {"try": rsi_email.already_applied, "fail": []},
                 ]},
             {
                 "try": middleware.user_submitted_last_name_matches_vips,

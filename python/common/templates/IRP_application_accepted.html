@@ -1,0 +1,19 @@
+{% extends "email_alert_base.html" %}
+
+{% block primary_text_1 %}
+Your application for a review of driving prohibition {{ prohibition_number }} has been accepted.
+{% endblock %}
+
+{% block primary_text_2 %}
+Visit <a href="https://pay.gov.bc.ca">PayBC</a> to pay the application fee.
+{% endblock %}
+
+{% block primary_text_3 %}
+Once you've paid, we’ll send the link to schedule your review.
+{% endblock %}
+
+{% block primary_4 %}{% endblock %}
+
+{% block callout %}You must pay in full by credit card within 7 days of receiving your prohibition{% endblock %}
+{% block timeline %}pay.png{% endblock %}
+{% block email_not_monitored %}{% include 'partials/call_appeals_registry.html' %}{% endblock %}

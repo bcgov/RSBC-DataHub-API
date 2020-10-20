@@ -12,7 +12,8 @@ logging.basicConfig(level=Config.LOG_LEVEL)
 def application_accepted(**args):
     config = args.get('config')
     prohibition_number = args.get('prohibition_number')
-    t = "application_accepted.html"
+    vips_data = args.get('vips_data')
+    t = "{}_application_accepted.html".format(vips_data['noticeTypeCd'])
     args['email_template'] = t
     content = get_email_content(t, prohibition_number)
     template = get_jinja2_env().get_template(t)
@@ -22,8 +23,6 @@ def application_accepted(**args):
         config,
         template.render(
             full_name=args.get('driver_full_name'),
-            callout=content['callout'],
-            timeline=content['timeline'],
             prohibition_number=prohibition_number,
             subject=content["subject"])), args
 
@@ -96,15 +95,14 @@ def applicant_licence_not_seized(**args):
         template.render(
             full_name=args.get('driver_full_name'),
             prohibition_number=prohibition_number,
-            callout=content['callout'],
-            timeline=content['timeline'],
             subject=content["subject"])), args
 
 
 def applicant_prohibition_not_found(**args):
     config = args.get('config')
     prohibition_number = args.get('prohibition_number')
-    t = "application_not_found.html"
+    vips_data = args.get('vips_data')
+    t = "{}_prohibition_not_found.html".format(vips_data['noticeTypeCd'])
     args['email_template'] = t
     content = get_email_content(t, prohibition_number)
     template = get_jinja2_env().get_template(t)
@@ -115,8 +113,6 @@ def applicant_prohibition_not_found(**args):
         template.render(
             full_name=args.get('driver_full_name'),
             prohibition_number=prohibition_number,
-            callout=content['callout'],
-            timeline=content['timeline'],
             subject=content["subject"])), args
 
 
@@ -128,7 +124,8 @@ def applicant_to_schedule_review(**args):
     """
     config = args.get('config')
     vips_application = args.get('vips_application')
-    t = 'select_review_date.html'
+    vips_data = args.get('vips_data')
+    t = "{}_select_review_date.html".format(vips_data['noticeTypeCd'])
     args['email_template'] = t
     email_address = vips_application['email']
     full_name = "{} {}".format(vips_application['firstGivenNm'], vips_application['surnameNm'])
@@ -142,8 +139,6 @@ def applicant_to_schedule_review(**args):
         template.render(
             full_name=full_name,
             prohibition_number=prohibition_number,
-            callout=content['callout'],
-            timeline=content['timeline'],
             subject=content["subject"])), args
 
 
@@ -169,8 +164,6 @@ def applicant_schedule_confirmation(**args):
         template.render(
             full_name=args.get('applicant_name'),
             prohibition_number=prohibition_number,
-            callout=content['callout'],
-            timeline=content['timeline'],
             subject=content["subject"],
             phone=phone,
             human_friendly_time_slot=args.get('friendly_review_time_slot'))), args
@@ -183,7 +176,8 @@ def applicant_last_name_mismatch(**args):
     """
     config = args.get('config')
     prohibition_number = args.get('prohibition_number')
-    t = 'last_name_mismatch.html'
+    vips_data = args.get('vips_data')
+    t = "{}_last_name_mismatch.html".format(vips_data['noticeTypeCd'])
     args['email_template'] = t
     content = get_email_content(t, prohibition_number)
     template = get_jinja2_env().get_template(t)
@@ -194,18 +188,17 @@ def applicant_last_name_mismatch(**args):
         template.render(
             full_name=args.get('driver_full_name'),
             prohibition_number=prohibition_number,
-            callout=content['callout'],
-            timeline=content['timeline'],
             subject=content["subject"])), args
 
 
-def applicant_prohibition_not_yet_in_vips(**args):
+def applicant_prohibition_not_found_yet(**args):
     config = args.get('config')
     prohibition_number = args.get('prohibition_number')
     date_served_string = args.get('date_of_service')
     date_served = helper.localize_timezone(datetime.strptime(date_served_string, '%Y-%m-%d'))
     human_friendly_date_served = date_served.strftime("%B %d, %Y")
-    t = 'application_not_yet_in_vips.html'
+    vips_data = args.get('vips_data')
+    t = "{}_prohibition_not_found_yet.html".format(vips_data['noticeTypeCd'])
     args['email_template'] = t
     content = get_email_content(t, prohibition_number)
     template = get_jinja2_env().get_template(t)
@@ -220,12 +213,10 @@ def applicant_prohibition_not_yet_in_vips(**args):
             date_of_service=human_friendly_date_served,
             full_name=args.get('driver_full_name'),
             prohibition_number=prohibition_number,
-            callout=content['callout'],
-            timeline=content['timeline'],
             subject=content["subject"])), args
 
 
-def application_already_created(**args):
+def already_applied(**args):
     config = args.get('config')
     prohibition_number = args.get('prohibition_number')
     t = 'already_applied.html'
@@ -239,8 +230,6 @@ def application_already_created(**args):
         template.render(
             full_name=args.get('driver_full_name'),
             prohibition_number=prohibition_number,
-            callout=content['callout'],
-            timeline=content['timeline'],
             subject=content["subject"])), args
 
 
@@ -329,82 +318,96 @@ def get_email_content(template_name: str, prohibition_number: str):
 
 def content_data() -> dict:
     return dict({
-        "last_name_mismatch.html": {
+        "IRP_last_name_mismatch.html": {
             "raw_subject": "Prohibition Number or Name Don't Match - Driving Prohibition Review {}",
-            "callout": "You must re-apply within 7 days from the date of prohibition issue.",
-            "title": "Prohibition Number or Name Don’t Match",
-            "timeline": "apply.png"
+            "title": "IRP Prohibition Number or Name Don’t Match",
         },
-        "application_not_yet_in_vips.html": {
+        "ADP_last_name_mismatch.html": {
+            "raw_subject": "Prohibition Number or Name Don't Match - Driving Prohibition Review {}",
+            "title": "ADP Prohibition Number or Name Don’t Match",
+        },
+        "UL_last_name_mismatch.html": {
+            "raw_subject": "Prohibition Number or Name Don't Match - Driving Prohibition Review {}",
+            "title": "UL Prohibition Number or Name Don’t Match",
+        },
+        "IRP_prohibition_not_found_yet.html": {
             "raw_subject": "Prohibition Not Found Yet - Driving Prohibition Review {}",
-            "callout": "If prohibition can’t be found 3 days after the issue date, you will be notified.",
-            "title": "Not Entered Yet",
-            "timeline": "apply.png"
+            "title": "IRP Prohibition Not Found Yet",
+        },
+        "ADP_prohibition_not_found_yet.html": {
+            "raw_subject": "Prohibition Not Found Yet - Driving Prohibition Review {}",
+            "title": "ADP Prohibition Not Found Yet",
+        },
+        "UL_prohibition_not_found_yet.html": {
+            "raw_subject": "Prohibition Not Found Yet - Driving Prohibition Review {}",
+            "title": "UL Prohibition Not Found Yet",
         },
         "already_applied.html": {
             "raw_subject": "Already Applied – Driving Prohibition Review {}",
-            "callout": "You must call to make changes to your application.  ",
             "title": "Already Applied",
-            "timeline": "apply.png"
         },
         "review_date_confirmed_ORAL.html": {
             "raw_subject": "Review Date Confirmed - Driving Prohibition Review {}",
-            "callout": "Call us if you have not received the evidence 48 hours before your review.",
             "title": "Review Date Confirmed Oral",
-            "timeline": "disclosure.png"
         },
         "review_date_confirmed_WRIT.html": {
             "raw_subject": "Review Date Confirmed - Driving Prohibition Review {}",
-            "callout": "Call us if you have not received the evidence 48 hours before your review.",
             "title": "Review Date Confirmed Written",
-            "timeline": "disclosure.png"
         },
-        "select_review_date.html": {
+        "IRP_select_review_date.html": {
             "raw_subject": "Select Review Date - Driving Prohibition Review {}",
-            "callout": "You must have completed booking within 24 hours after payment.",
-            "title": "Select Review Date",
-            "timeline": "schedule.png"
+            "title": "IRP Select Review Date",
         },
-        "application_not_found.html": {
+        "ADP_select_review_date.html": {
+            "raw_subject": "Select Review Date - Driving Prohibition Review {}",
+            "title": "ADP Select Review Date",
+        },
+        "UL_select_review_date.html": {
+            "raw_subject": "Select Review Date - Driving Prohibition Review {}",
+            "title": "UL Select Review Date",
+        },
+        "IRP_prohibition_not_found.html": {
             "raw_subject": "Prohibition Not Found – Driving Prohibition Review {}",
-            "callout": "You must apply in-person within the next 3 days.",
-            "title": "Prohibition Not Found",
-            "timeline": "apply.png"
+            "title": "IRP Prohibition Not Found"
+        },
+        "ADP_prohibition_not_found.html": {
+            "raw_subject": "Prohibition Not Found – Driving Prohibition Review {}",
+            "title": "ADP Prohibition Not Found"
+        },
+        "UL_prohibition_not_found.html": {
+            "raw_subject": "Prohibition Not Found – Driving Prohibition Review {}",
+            "title": "UL Prohibition Not Found"
         },
         "licence_not_seized.html": {
             "raw_subject": "Licence Not Surrendered - Driving Prohibition Review {}",
-            "callout": "You must apply in-person for this review.",
             "title": "Licence Not Surrendered",
-            "timeline": "apply.png"
         },
         "not_received_in_time.html": {
             "raw_subject": "7-day Application Window Missed - Driving Prohibition Review {}",
-            "callout": "",
             "title": "7-day Application Window Missed",
-            "timeline": ""
         },
-        "application_accepted.html": {
+        "IRP_application_accepted.html": {
             "raw_subject": "Application Accepted - Driving Prohibition Review {}",
-            "callout": "You must pay in full by credit card within 7 days of receiving your prohibition",
-            "title": "Application Accepted",
-            "timeline": "pay.png"
+            "title": "IRP Application Accepted",
+        },
+        "ADP_application_accepted.html": {
+            "raw_subject": "Application Accepted - Driving Prohibition Review {}",
+            "title": "ADP Application Accepted",
+        },
+        "UL_application_accepted.html": {
+            "raw_subject": "Application Accepted - Driving Prohibition Review {}",
+            "title": "UL Application Accepted",
         },
         "send_disclosure_documents.html": {
             "raw_subject": "Disclosure Documents Attached - Driving Prohibition Review {}",
-            "callout": "",
             "title": "Send Disclosure",
-            "timeline": "send_disclosure_documents.png"
         },
         "send_evidence_instructions.html": {
             "raw_subject": "Submit Evidence - Driving Prohibition Review {}",
-            "callout": "You must finish providing evidence 2 days before your review.",
             "title": "Submit Evidence",
-            "timeline": "evidence.png"
         },
         "evidence_received.html": {
             "raw_subject": "Evidence Received - Driving Prohibition Review {}",
-            "callout": "",
             "title": "Evidence Received",
-            "timeline": "evidence.png"
         }
     })
