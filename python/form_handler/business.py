@@ -33,6 +33,7 @@ def process_incoming_form() -> dict:
                 {"try": actions.add_to_hold_queue, "fail": []}
             ]},
             {"try": middleware.retrieve_unsent_disclosure, "fail": []},
+            {"try": middleware.if_required_add_adp_disclosure, "fail": []},
             {"try": rsi_email.applicant_disclosure, "fail": [
                 # if send is not successful, add back to hold queue
             ]},

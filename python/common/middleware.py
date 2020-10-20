@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import python.common.calculating_blood_alcohol as static_file
 from python.common.vips_api import vips_str_to_datetime
 import python.common.helper as helper
 import python.common.prohibitions as pro
@@ -754,6 +755,19 @@ def retrieve_unsent_disclosure(**args) -> tuple:
     if error is True:
         return False, args
     args['disclosure_for_applicant'] = disclosure_for_applicant
+    return True, args
+
+
+def if_required_add_adp_disclosure(**args) -> tuple:
+    """
+    ADP's require a static PDF file to be included with all disclosure
+    that describes how blood alcohol values are calculated.
+    """
+    vips_data = args.get('vips_data')
+    if vips_data['noticeTypeCd'] == 'ADP':
+        disclosure_for_applicant = args.get('disclosure_for_applicant')
+        disclosure_for_applicant.append(static_file.superintendents_report_calculating_bac())
+        args['disclosure_for_applicant'] = disclosure_for_applicant
     return True, args
 
 
