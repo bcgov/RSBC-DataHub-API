@@ -85,5 +85,5 @@ def okay_to_submit_evidence() -> list:
         {"try": middleware.get_payment_status, "fail": []},
         {"try": middleware.received_valid_payment_status, "fail": []},
         {"try": middleware.application_has_been_paid, "fail": []},
-        # {"try": middleware.review_must_be_in_the_future, "fail": []}
+        {"try": middleware.is_review_in_the_future, "fail": []}
        ]
