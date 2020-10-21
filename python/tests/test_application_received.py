@@ -14,9 +14,10 @@ def get_test_data():
     test_data = list()
     with open('./python/tests/test_application_data.csv', newline='') as csvfile:
         data = csv.reader(csvfile, delimiter=',')
-        for row in data:
-            print(row)
-            test_data.append(row)
+        for row_number, row in enumerate(data):
+            # exclude the header row
+            if row_number != 0:
+                test_data.append(row)
     return test_data
 
 
@@ -48,7 +49,7 @@ def test_application_form_received(
 
     def mock_status_get(*args, **kwargs):
         print('inside mock_status_get()')
-        return status_gets(True, prohibition_type, date_served, last_name, seized, "N/A", is_applied)
+        return status_gets(is_valid == "True", prohibition_type, date_served, last_name, seized, "N/A", is_applied)
 
     def mock_send_email(*args, **kwargs):
         print('inside mock_send_email()')
@@ -66,12 +67,6 @@ def test_application_form_received(
         print('inside mock_application_save()')
         return True, args
 
-    def mock_prohibition_exists(**args):
-        print('inside mock_prohibition_exists()')
-        vips_status = args.get('vips_status')
-        args['vips_data'] = vips_status['data']['status']
-        return is_valid == "True", args
-
     def mock_add_to_hold(**args):
         print('inside mock_add_to_hold()')
         return True, args
@@ -79,7 +74,6 @@ def test_application_form_received(
     monkeypatch.setattr(actions, "add_to_hold_queue", mock_add_to_hold)
     monkeypatch.setattr(middleware, "determine_current_datetime", mock_datetime_now)
     monkeypatch.setattr(middleware, "save_application_to_vips", mock_application_save)
-    monkeypatch.setattr(middleware, "prohibition_exists_in_vips", mock_prohibition_exists)
     monkeypatch.setattr(vips, "status_get", mock_status_get)
     monkeypatch.setattr(common_email_services, "send_email", mock_send_email)
 
