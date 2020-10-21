@@ -13,6 +13,7 @@ def get_available_time_slots() -> list:
     return [
         {"try": middleware.create_correlation_id, "fail": []},
         {"try": middleware.determine_current_datetime, "fail": []},
+        {"try": middleware.clean_prohibition_number, "fail": []},
         {"try": middleware.validate_prohibition_number, "fail": []},
         {"try": middleware.get_vips_status, "fail": []},
         {"try": middleware.prohibition_exists_in_vips, "fail": []},
@@ -74,6 +75,7 @@ def okay_to_submit_evidence() -> list:
     return [
         {"try": middleware.create_correlation_id, "fail": []},
         {"try": middleware.determine_current_datetime, "fail": []},
+        {"try": middleware.clean_prohibition_number, "fail": []},
         {"try": middleware.validate_prohibition_number, "fail": []},
         {"try": middleware.get_vips_status, "fail": []},
         {"try": middleware.prohibition_exists_in_vips, "fail": []},
