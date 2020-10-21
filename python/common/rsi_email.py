@@ -101,8 +101,8 @@ def applicant_licence_not_seized(**args):
 def applicant_prohibition_not_found(**args):
     config = args.get('config')
     prohibition_number = args.get('prohibition_number')
-    vips_data = args.get('vips_data')
-    t = "{}_prohibition_not_found.html".format(vips_data['noticeTypeCd'])
+    notice_type = args.get('user_entered_notice_type')
+    t = "{}_prohibition_not_found.html".format(notice_type)
     args['email_template'] = t
     content = get_email_content(t, prohibition_number)
     template = get_jinja2_env().get_template(t)
@@ -197,8 +197,8 @@ def applicant_prohibition_not_found_yet(**args):
     date_served_string = args.get('date_of_service')
     date_served = helper.localize_timezone(datetime.strptime(date_served_string, '%Y-%m-%d'))
     human_friendly_date_served = date_served.strftime("%B %d, %Y")
-    vips_data = args.get('vips_data')
-    t = "{}_prohibition_not_found_yet.html".format(vips_data['noticeTypeCd'])
+    notice_type = args.get('user_entered_notice_type')
+    t = "{}_prohibition_not_found_yet.html".format(notice_type)
     args['email_template'] = t
     content = get_email_content(t, prohibition_number)
     template = get_jinja2_env().get_template(t)

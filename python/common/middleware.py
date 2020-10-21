@@ -46,6 +46,21 @@ def get_data_from_application_form(**args) -> tuple:
     return True, args
 
 
+def get_user_entered_notice_type_from_message(**args) -> tuple:
+    """
+    From the form, determine if the user has entered and IRP, ADP or UL prohibition
+    """
+    m = args.get('message')
+    event_type = m['event_type']
+    if m[event_type]['form']['prohibition-information']['control-is-adp'] == "true":
+        args['user_entered_notice_type'] = "ADP"
+    if m[event_type]['form']['prohibition-information']['control-is-irp'] == "true":
+        args['user_entered_notice_type'] = "IRP"
+    if m[event_type]['form']['prohibition-information']['control-is-ul'] == "true":
+        args['user_entered_notice_type'] = "UL"
+    return True, args
+
+
 def populate_driver_name_fields_if_null(**args) -> tuple:
     """
     When driver is also the applicant, Orbeon doesn't fill in the driver's first
