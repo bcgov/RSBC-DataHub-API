@@ -144,6 +144,11 @@ def process_incoming_form() -> dict:
                     {"try": rsi_email.admin_unable_to_save_to_vips, "fail": []}
                 ]
             },
-            {"try": rsi_email.application_accepted, "fail": []}
+            {"try": rsi_email.application_accepted, "fail": []},
+            {"try": middleware.is_applicant_ineligible_for_oral_review_but_requested_oral, "fail": [
+                # end of successful application process
+            ]},
+            {"try": middleware.transform_vips_cause_codes_to_prohibition_length, "fail": []},
+            {"try": rsi_email.applicant_review_type_change, "fail": []}
         ],
     }

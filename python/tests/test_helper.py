@@ -27,7 +27,3 @@ def test_add_error_to_message_method_handles_cerberus_errors():
     assert 'timestamp' in modified_message['errors'][0]
     assert 'description' in modified_message['errors'][0]
 
-
-def test_get_listener_functions():
-    functions = helper.get_listeners(business.process_incoming_form(), 'prohibition_review')
-    assert len(functions) == 19

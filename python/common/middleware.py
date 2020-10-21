@@ -687,6 +687,7 @@ def force_presentation_type_to_written_if_ineligible_for_oral(**args) -> tuple:
     presentation_type = args.get('presentation_type')
     prohibition = pro.prohibition_factory(vips_data['noticeTypeCd'])
     if not prohibition.is_eligible_for_oral_review(vips_data) and presentation_type == 'ORAL':
+        args['force_to_written_review'] = True
         args['presentation_type'] = 'WRIT'
         error = "Applicant has selected an oral review but they're not eligible. Changing the presentation_type to WRIT"
         logging.info(error)
@@ -847,3 +848,16 @@ def review_has_been_scheduled(**args) -> tuple:
     logging.info(error)
     args['error_string'] = error
     return False, args
+
+
+def is_applicant_ineligible_for_oral_review_but_requested_oral(**args) -> tuple:
+    if args.get('force_to_written_review'):
+        return True, args
+    return False, args
+
+
+def transform_vips_cause_codes_to_prohibition_length(**args) -> tuple:
+    vips_data = args.get('vips_data')
+    cause = vips_data['originalCause']
+    # TODO - REMOVE BEFORE FLIGHT - complete transformation of cause codes
+    return True, args

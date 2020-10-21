@@ -27,6 +27,23 @@ def application_accepted(**args):
             subject=content["subject"])), args
 
 
+def applicant_review_type_change(**args):
+    config = args.get('config')
+    prohibition_number = args.get('prohibition_number')
+    t = "review_type_change.html"
+    args['email_template'] = t
+    content = get_email_content(t, prohibition_number)
+    template = get_jinja2_env().get_template(t)
+    return common_email_services.send_email(
+        [args.get('applicant_email_address')],
+        content["subject"],
+        config,
+        template.render(
+            full_name=args.get('driver_full_name'),
+            prohibition_number=prohibition_number,
+            subject=content["subject"])), args
+
+
 def send_form_xml_to_admin(**args):
     xml = args.get('xml_base64', None)
     if xml:
@@ -409,5 +426,9 @@ def content_data() -> dict:
         "evidence_received.html": {
             "raw_subject": "Evidence Received - Driving Prohibition Review {}",
             "title": "Evidence Received",
+        },
+        "review_type_change.html": {
+            "raw_subject": "Review Type Change - Driving Prohibition Review {}",
+            "title": "Review Type Change",
         }
     })
