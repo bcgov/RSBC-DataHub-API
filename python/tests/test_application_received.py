@@ -1,5 +1,4 @@
 import pytest
-import csv
 import datetime
 import python.common.helper as helper
 import python.common.middleware as middleware
@@ -8,17 +7,6 @@ import python.form_handler.business as business
 from python.form_handler.config import Config
 import python.common.vips_api as vips
 import python.common.common_email_services as common_email_services
-
-
-def get_test_data():
-    test_data = list()
-    with open('./python/tests/test_application_data.csv', newline='') as csvfile:
-        data = csv.reader(csvfile, delimiter=',')
-        for row_number, row in enumerate(data):
-            # exclude the header row
-            if row_number != 0:
-                test_data.append(row)
-    return test_data
 
 
 def status_gets(is_success, prohibition_type, date_served, last_name, seized, cause, already_applied):
@@ -43,7 +31,8 @@ def status_gets(is_success, prohibition_type, date_served, last_name, seized, ca
 
 
 @pytest.mark.parametrize(
-    "prohibition_type, date_served, today_is, seized, last_name, is_valid, is_applied, email_text", get_test_data())
+    "prohibition_type, date_served, today_is, seized, last_name, is_valid, is_applied, email_text",
+    helper.get_csv_test_data('./python/tests/test_application_data.csv'))
 def test_application_form_received(
         prohibition_type, date_served, today_is, seized, last_name, is_valid, is_applied, email_text, monkeypatch):
 

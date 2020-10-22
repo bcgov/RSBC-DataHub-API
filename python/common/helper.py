@@ -1,4 +1,5 @@
 import json
+import csv
 import pytz
 import logging
 import datetime
@@ -11,6 +12,17 @@ def load_json_into_dict(file_name) -> dict:
     with open(file_name, 'r') as f:
         data = f.read()
     return json.loads(data)
+
+
+def get_csv_test_data(file_and_path):
+    test_data = list()
+    with open(file_and_path, newline='') as csvfile:
+        data = csv.reader(csvfile, delimiter=',')
+        for row_number, row in enumerate(data):
+            # exclude the header row
+            if row_number != 0:
+                test_data.append(row)
+    return test_data
 
 
 def load_xml_to_string(file_name) -> str:
