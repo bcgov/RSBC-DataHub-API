@@ -1,0 +1,3 @@
+prohibition_type, date_served, today_is, seized, last_name, is_valid, is_applied, expected_email_text
+ADP,2020-09-10,2020-09-16,Y,Gordon,True,True,Evidence Received - Driving Prohibition Review 21999999
+ADP,2020-09-10,2020-09-15,Y,Gordon,True,True,Dear Bob Gordon
