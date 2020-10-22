@@ -1,5 +1,7 @@
 import logging
 import pika
+import pika.exceptions
+import pika.adapters.utils.connection_workflow as workflow
 
 
 class RabbitMQ:
@@ -21,18 +23,23 @@ class RabbitMQ:
             retries,
             retry_delay
         )
-        logging.info(string)
+        logging.debug(string)
         return string
 
-    def consume(self, queue_name: str, callback ):
+    def consume(self, queue_name: str, callback):
         self._verify_or_create(queue_name)
         self.channel.basic_qos(prefetch_count=1)
         self.channel.basic_consume(queue=queue_name, on_message_callback=callback)
-        self.channel.start_consuming()
+        try:
+            self.channel.start_consuming()
+        except workflow.AMQPConnectorSocketConnectError as error:
+            logging.info('SocketConnectionError - expected')
+        except workflow.AMQPConnector as error:
+            logging.info('AMQPConnector error - expected')
 
     def publish(self, queue_name: str, payload: bytes):
-
         logging.info('publish to: ' + queue_name)
+        self._refresh_connection(queue_name)
         for tries in range(RabbitMQ.MaximumTriesAfterError):
             try:
                 self.channel.basic_publish(  
@@ -41,16 +48,18 @@ class RabbitMQ:
                     body=payload,
                     properties=pika.BasicProperties(delivery_mode=2, content_type='application/json'),
                     mandatory=True)
-
                 return True
 
             except Exception as error:
                 logging.warning("Could not publish message to queue ... trying to reestablish the connection")
-                self.connection = self._get_connection(self.amqp_connection)
-                self.channel = self._get_channel(self.connection)
-                self.channel.queue_declare(queue=queue_name, durable=True)
+                self._refresh_connection(queue_name)
         
         return False
+
+    def _refresh_connection(self, queue_name):
+        self.connection = self._get_connection(self.amqp_connection)
+        self.channel = self._get_channel(self.connection)
+        self.channel.queue_declare(queue=queue_name, durable=True)
 
     def _verify_or_create(self, queue_name: str):
        
@@ -58,7 +67,7 @@ class RabbitMQ:
         for tries in range(RabbitMQ.MaximumTriesAfterError):
             try:
                 self.channel.queue_declare(queue=queue_name, durable=True)
-                logging.info('Confirmed, there is a queue called: ' + queue_name )
+                logging.info('Confirmed, there is a queue called: ' + queue_name)
                 return True
 
             except Exception as error:
