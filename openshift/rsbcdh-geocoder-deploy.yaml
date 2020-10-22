@@ -13,9 +13,6 @@ parameters:
 - name: GEOCODE_BASIC_AUTH_USER
 - name: GEOCODE_BASIC_AUTH_PASS
 - name: DATA_BC_API_KEY
-- name: GOOGLE_FAIL_OVER_ENABLED
-  value: 'FALSE'
-- name: GOOGLE_API_KEY
 - name: LOG_LEVEL
   value: 'INFO'
 - name: FLASK_ENV
@@ -106,11 +103,6 @@ objects:
                 secretKeyRef:
                   name: ${NAME}${SUFFIX}
                   key: geocode-data-bc-api-key
-            - name: GOOGLE_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: ${NAME}${SUFFIX}
-                  key: geocode-google-api-key
             - name: LOG_LEVEL
               value: ${LOG_LEVEL}
             - name: AUTHLIB_INSECURE_TRANSPORT

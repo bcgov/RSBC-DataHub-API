@@ -17,6 +17,6 @@ class Config(BaseConfig):
 
     GOOGLE_FAIL_OVER_ENABLED    = os.getenv('GOOGLE_FAIL_OVER_ENABLED', 'FALSE')
     GOOGLE_API_ROOT_URL         = os.getenv('GOOGLE_API_ROOT_URL', 'https://maps.googleapis.com/maps/api/geocode/json')
-    GOOGLE_API_KEY              = os.getenv('GOOGLE_API_KEY')
+    GOOGLE_API_KEY              = os.getenv('GOOGLE_API_KEY', 'not-implemented-at-this-time')
 
 
