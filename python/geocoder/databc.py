@@ -2,7 +2,7 @@ import logging
 import requests
 from python.geocoder.config import Config
 
-logging.basicConfig(level=Config.LOG_LEVEL)
+logging.basicConfig(level=Config.LOG_LEVEL, format=Config.LOG_FORMAT)
 
 # Minimum acceptable score threshold from DataBC; if below
 # threshold, query will be sent to Google for processing

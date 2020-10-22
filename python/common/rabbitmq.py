@@ -8,20 +8,20 @@ class RabbitMQ:
 
     MaximumTriesAfterError = 5
 
-    def __init__(self, username, password, host_url, log_level, retries=5, retry_delay=30):
-        self.amqp_connection = self._get_connection_url(username, password, host_url, retries, retry_delay)
+    def __init__(self, config):
+        self.amqp_connection = self._get_connection_url(config)
         self.connection = self._get_connection(self.amqp_connection)
         self.channel = self._get_channel(self.connection)
-        logging.basicConfig(level=log_level)
+        logging.basicConfig(level=config.LOG_LEVEL, format=config.LOG_FORMAT)
 
     @staticmethod
-    def _get_connection_url(user: str, password: str, host: str, retries: int, retry_delay: int) -> str:
+    def _get_connection_url(config) -> str:
         string = "amqp://{}:{}@{}:5672/%2F?connection_attempts={}&retry_delay={}".format(
-            user,
-            password,
-            host,
-            retries,
-            retry_delay
+            config.RABBITMQ_USER,
+            config.RABBITMQ_PASS,
+            config.RABBITMQ_URL,
+            config.MAX_CONNECTION_RETRIES,
+            config.RETRY_DELAY
         )
         logging.debug(string)
         return string

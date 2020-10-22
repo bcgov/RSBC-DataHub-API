@@ -3,7 +3,7 @@ from python.geocoder.config import Config
 import requests
 
 
-logging.basicConfig(level=Config.LOG_LEVEL)
+logging.basicConfig(level=Config.LOG_LEVEL, format=Config.LOG_FORMAT)
 
 # Minimum acceptable score threshold from Google
 MIN_CONFIDENCE_SCORE = 55

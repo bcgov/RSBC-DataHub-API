@@ -4,7 +4,7 @@ from python.common.config import Config
 from python.common.helper import localize_timezone
 import pytz
 
-logging.basicConfig(level=Config.LOG_LEVEL)
+logging.basicConfig(level=Config.LOG_LEVEL, format=Config.LOG_FORMAT)
 
 
 def prohibition_factory(prohibition_type: str):

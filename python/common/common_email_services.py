@@ -4,7 +4,7 @@ import requests
 import json
 import logging
 
-logging.basicConfig(level=Config.LOG_LEVEL)
+logging.basicConfig(level=Config.LOG_LEVEL, format=Config.LOG_FORMAT)
 
 
 def send_email(to: list, subject: str, config, template, attachments=None) -> bool:

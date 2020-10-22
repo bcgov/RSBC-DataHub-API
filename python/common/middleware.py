@@ -16,7 +16,7 @@ import base64
 import zlib
 
 
-logging.basicConfig(level=Config.LOG_LEVEL)
+logging.basicConfig(level=Config.LOG_LEVEL, format=Config.LOG_FORMAT)
 
 
 def create_correlation_id(**args) -> tuple:

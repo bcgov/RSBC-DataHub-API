@@ -4,7 +4,7 @@ from python.writer.config import Config
 from python.writer.mapper import Mapper
 import python.common.message as msg
 
-logging.basicConfig(level=Config.LOG_LEVEL)
+logging.basicConfig(level=Config.LOG_LEVEL, format=Config.LOG_FORMAT)
 
 
 def write(**args):

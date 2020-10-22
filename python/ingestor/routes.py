@@ -12,19 +12,13 @@ import python.common.rsi_email as rsi_email
 
 application = FlaskAPI(__name__)
 application.secret = Config.FLASK_SECRET_KEY
-logging.basicConfig(level=Config.LOG_LEVEL)
+logging.basicConfig(level=Config.LOG_LEVEL, format=Config.LOG_FORMAT)
 logging.warning('*** flask initialized ***')
 
 
 @application.before_request
 def before_request_function():
-    g.writer = RabbitMQ(
-            Config.RABBITMQ_USER,
-            Config.RABBITMQ_PASS,
-            Config.RABBITMQ_URL,
-            Config.LOG_LEVEL,
-            Config.MAX_CONNECTION_RETRIES,
-            Config.RETRY_DELAY)
+    g.writer = RabbitMQ(Config())
 
 
 available_parameters = helper.load_json_into_dict('python/ingestor/' + Config.PARAMETERS_FILE)

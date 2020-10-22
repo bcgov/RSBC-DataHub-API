@@ -4,7 +4,7 @@ import logging
 import datetime
 from python.common.config import Config
 
-logging.basicConfig(level=Config.LOG_LEVEL)
+logging.basicConfig(level=Config.LOG_LEVEL, format=Config.LOG_FORMAT)
 
 
 def load_json_into_dict(file_name) -> dict:

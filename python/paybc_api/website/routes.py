@@ -6,7 +6,7 @@ from python.paybc_api.website.config import Config
 import logging
 import json
 
-logging.basicConfig(level=Config.LOG_LEVEL)
+logging.basicConfig(level=Config.LOG_LEVEL, format=Config.LOG_FORMAT)
 logging.warning('*** Pay BC API initialized ***')
 bp = Blueprint(__name__, 'home')
 

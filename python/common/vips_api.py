@@ -8,7 +8,7 @@ from unicodedata import normalize
 from python.common.config import Config
 import base64
 
-logging.basicConfig(level=Config.LOG_LEVEL)
+logging.basicConfig(level=Config.LOG_LEVEL, format=Config.LOG_FORMAT)
 
 
 def list_of_weekdays_dates_between(start: datetime, end: datetime) -> list:

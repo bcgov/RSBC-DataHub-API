@@ -6,7 +6,7 @@ import json
 import logging
 from jinja2 import Environment, select_autoescape, FileSystemLoader
 
-logging.basicConfig(level=Config.LOG_LEVEL)
+logging.basicConfig(level=Config.LOG_LEVEL, format=Config.LOG_FORMAT)
 
 
 def application_accepted(**args):

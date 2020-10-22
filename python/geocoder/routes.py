@@ -8,7 +8,7 @@ from functools import wraps
 
 application = Flask(__name__)
 application.secret = Config.GEOCODE_SECRET_KEY
-logging.basicConfig(level=Config.LOG_LEVEL)
+logging.basicConfig(level=Config.LOG_LEVEL, format=Config.LOG_FORMAT)
 logging.warning('*** geocoder initialized ***')
 
 

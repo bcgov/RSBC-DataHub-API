@@ -5,7 +5,7 @@ from python.common.rabbitmq import RabbitMQ
 from python.common.message import decode_message
 import logging
 
-logging.basicConfig(level=Config.LOG_LEVEL)
+logging.basicConfig(level=Config.LOG_LEVEL, format=Config.LOG_FORMAT)
 
 
 class Listener:
@@ -51,18 +51,6 @@ class Listener:
 if __name__ == "__main__":
     Listener(
         Config(),
-        RabbitMQ(
-            Config.RABBITMQ_USER,
-            Config.RABBITMQ_PASS,
-            Config.RABBITMQ_URL,
-            Config.LOG_LEVEL,
-            Config.MAX_CONNECTION_RETRIES,
-            Config.RETRY_DELAY),
-        RabbitMQ(
-            Config.RABBITMQ_USER,
-            Config.RABBITMQ_PASS,
-            Config.RABBITMQ_URL,
-            Config.LOG_LEVEL,
-            Config.MAX_CONNECTION_RETRIES,
-            Config.RETRY_DELAY)
+        RabbitMQ(Config()),
+        RabbitMQ(Config())
     ).main()

@@ -3,7 +3,7 @@ import re
 from python.geocoder.config import Config
 
 
-logging.basicConfig(level=Config.LOG_LEVEL)
+logging.basicConfig(level=Config.LOG_LEVEL, format=Config.LOG_FORMAT)
 
 
 def retrieve_address_data(**args) -> tuple:
