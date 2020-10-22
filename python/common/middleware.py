@@ -856,8 +856,14 @@ def is_applicant_ineligible_for_oral_review_but_requested_oral(**args) -> tuple:
     return False, args
 
 
-def transform_vips_cause_codes_to_prohibition_length(**args) -> tuple:
-    vips_data = args.get('vips_data')
-    cause = vips_data['originalCause']
-    # TODO - REMOVE BEFORE FLIGHT - complete transformation of cause codes
+def get_data_from_document_submission_form(**args) -> tuple:
+    """
+    Get key data from the Document_submission form.  We can be sure
+    the keys are in the message because the validator checks for
+    these message attributes.
+    """
+    m = args.get('message')
+    event_type = m['event_type']
+    args['prohibition_number'] = m[event_type]['form']['applicant-information-section']['control-prohibition-number']
+    args['driver_last_name'] = m[event_type]['form']['applicant-information-section']['control-driver-last-name']
     return True, args

@@ -1,7 +1,8 @@
 {% extends "email_alert_base.html" %}
 
 {% block primary_text_1 %}
-   On [date], we received the evidence that will be considered for your review.
+   On {{ today_date or '[ today's date and time ]'}},
+   we received the evidence that will be considered for your review.
 {% endblock %}
 
 {% block primary_text_2 %}

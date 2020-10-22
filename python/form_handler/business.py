@@ -47,8 +47,6 @@ def process_incoming_form() -> dict:
             {"try": middleware.determine_current_datetime, "fail": []},
             {"try": middleware.get_data_from_schedule_form, "fail": []},
             {"try": middleware.clean_prohibition_number, "fail": []},
-            {"try": middleware.validate_prohibition_number, "fail": []},
-            {"try": middleware.validate_drivers_last_name, "fail": []},
             {"try": middleware.get_vips_status, "fail": []},
             {"try": middleware.prohibition_exists_in_vips, "fail": []},
             {"try": middleware.user_submitted_last_name_matches_vips, "fail": []},
@@ -148,7 +146,20 @@ def process_incoming_form() -> dict:
             {"try": middleware.is_applicant_ineligible_for_oral_review_but_requested_oral, "fail": [
                 # end of successful application process
             ]},
-            {"try": middleware.transform_vips_cause_codes_to_prohibition_length, "fail": []},
             {"try": rsi_email.applicant_review_type_change, "fail": []}
         ],
+        "Document_submission": [
+            {"try": middleware.create_correlation_id, "fail": []},
+            {"try": middleware.determine_current_datetime, "fail": []},
+            {"try": middleware.get_data_from_document_submission_form, "fail": []},
+            {"try": middleware.clean_prohibition_number, "fail": []},
+            {"try": middleware.get_vips_status, "fail": []},
+            {"try": middleware.prohibition_exists_in_vips, "fail": []},
+            {"try": middleware.user_submitted_last_name_matches_vips, "fail": []},
+            {"try": middleware.application_has_been_paid, "fail": []},
+            {"try": middleware.review_has_been_scheduled, "fail": []},
+            {"try": middleware.get_application_details, "fail": []},
+            {"try": middleware.valid_application_received_from_vips, "fail": []},
+            {"try": rsi_email.applicant_evidence_received, "fail": []},
+        ]
     }

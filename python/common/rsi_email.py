@@ -264,8 +264,6 @@ def applicant_disclosure(**args) -> tuple:
         template.render(
             full_name=args.get('applicant_name'),
             prohibition_number=prohibition_number,
-            callout=content['callout'],
-            timeline=content['timeline'],
             subject=content["subject"]),
         args.get('disclosure_for_applicant')), args
 
@@ -284,8 +282,27 @@ def applicant_evidence_instructions(**args) -> tuple:
         template.render(
             full_name=args.get('applicant_name'),
             prohibition_number=prohibition_number,
-            callout=content['callout'],
-            timeline=content['timeline'],
+            subject=content["subject"])), args
+
+
+def applicant_evidence_received(**args) -> tuple:
+    config = args.get('config')
+    prohibition_number = args.get('prohibition_number')
+    vips_application = args.get('vips_application')
+    email_address = vips_application['email']
+    full_name = "{} {}".format(vips_application['firstGivenNm'], vips_application['surnameNm'])
+    t = 'evidence_received.html'
+    args['email_template'] = t
+    content = get_email_content(t, prohibition_number)
+    template = get_jinja2_env().get_template(t)
+    return common_email_services.send_email(
+        [email_address],
+        content["subject"],
+        config,
+        template.render(
+            today_date=helper.localize_timezone(datetime.now()).strftime("%B %d, %Y %H:%M:%S"),
+            full_name=full_name,
+            prohibition_number=prohibition_number,
             subject=content["subject"])), args
 
 

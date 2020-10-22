@@ -482,5 +482,50 @@
         }
       }
     }
+  },
+  "Document_submission": {
+    "allow_unknown": true,
+    "valid-queue": "DF.valid",
+    "invalid-queue": "DF.not-valid",
+    "cerberus_rules": {
+      "event_version": {
+        "type": "string",
+        "required": true,
+        "allowed": ["1.5"]
+      },
+      "event_type": {
+        "type": "string",
+        "required": true,
+        "allowed": [
+          "Document_submission"
+        ]
+      },
+      "Document_submission": {
+        "type": "dict",
+        "required": true,
+        "schema": {
+          "form": {
+            "type": "dict",
+            "required": true,
+            "schema": {
+              "applicant-information-section": {
+                "type": "dict",
+                "required": true,
+                "schema": {
+                  "control-prohibition-number": {
+                      "type": "string",
+                      "required": true
+                  },
+                  "control-driver-last-name": {
+                    "type": "string",
+                    "required": true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }

@@ -1,0 +1,36 @@
+<form>
+<before-you-begin-section>
+<help-image filename="info_reduced.png" mediatype="image/png">/fr/service/persistence/crud/gov-pssg/Document_submission/form/edb3e6f6f1f3c6899746e9fc5ab3887d278b10e4.bin</help-image>
+<help-text/>
+</before-you-begin-section>
+<applicant-information-section>
+<control-prohibition-number>21-999999</control-prohibition-number>
+<control-11/>
+<control-is-adp>false</control-is-adp>
+<control-is-irp>true</control-is-irp>
+<control-is-ul>false</control-is-ul>
+<prohibition-no-image filename="Combo prohibition no.png" mediatype="image/png">/fr/service/persistence/crud/gov-pssg/Document_submission/form/e91a38b43ecc3155b9696521176bb1636200847f.bin</prohibition-no-image>
+<control-driver-last-name>Smith</control-driver-last-name>
+<not-driver-text/>
+<contact-information-text-section/>
+</applicant-information-section>
+<guidelines-grounds-section>
+<review-guidelines-text-irp/>
+<review-guidelines-text-adp-ul/>
+<irp-grounds-text/>
+<ul-grounds-text/>
+<adp-grounds-text/>
+</guidelines-grounds-section>
+<evidence-section>
+<attachment-type-text/>
+<add-attachments-grid>
+<file-attachment filename="" mediatype="" size=""/>
+</add-attachments-grid>
+<statement-textbox><div>Statement ... here</div></statement-textbox>
+</evidence-section>
+<consent-section>
+<control-applicant-name>test</control-applicant-name>
+<date-signed>2020-10-22</date-signed>
+<control-5/>
+</consent-section>
+</form>
