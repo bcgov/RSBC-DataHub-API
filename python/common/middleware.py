@@ -471,7 +471,7 @@ def form_name_provided(**args) -> tuple:
 
 def validate_form_name(**args) -> tuple:
     form_name = args.get('form_name')
-    if re.match(r"^[a-z_]{3,30}$", form_name) is None:
+    if re.match(r"^[A-Za-z_]{3,30}$", form_name) is None:
         error = 'form_name failed validation: {}'.format(form_name)
         logging.info(error)
         args['error_string'] = error

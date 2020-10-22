@@ -276,6 +276,8 @@ def test_application_not_saved_to_vips(response_under_test, is_valid):
 
 
 form_names = [
+    ("Document_submission", True),
+    ("prohibtion_review", True),
     ("abc_dde", True),
     ("abcdefg", True),
     ("abc123", False),
