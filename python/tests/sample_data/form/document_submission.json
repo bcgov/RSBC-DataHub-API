@@ -12,6 +12,7 @@
       "control-is-irp": "true",
       "control-is-ul": "false",
       "control-prohibition-number": "21-999999",
+      "applicant-email-address": "me@lost.com",
       "not-driver-text": null,
       "prohibition-no-image": {
         "#text": "/fr/service/persistence/crud/gov-pssg/Document_submission/form/e91a38b43ecc3155b9696521176bb1636200847f.bin",

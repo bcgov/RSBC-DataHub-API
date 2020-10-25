@@ -1,5 +1,9 @@
 {% extends "email_alert_base.html" %}
 
+# Salutation block is removed because this email is sent to the email address collected on the form
+# and we don't collect the name of the form user
+{% block salutation_block %}{% endblock %}
+
 {% block primary_text_1 %}
    On {{ today_date or "[ today's date and time ]"}},
    we received the evidence that will be considered for your review.

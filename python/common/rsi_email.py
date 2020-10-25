@@ -288,9 +288,7 @@ def applicant_evidence_instructions(**args) -> tuple:
 def applicant_evidence_received(**args) -> tuple:
     config = args.get('config')
     prohibition_number = args.get('prohibition_number')
-    vips_application = args.get('vips_application')
-    email_address = vips_application['email']
-    full_name = "{} {}".format(vips_application['firstGivenNm'], vips_application['surnameNm'])
+    email_address = args.get('email_address')
     t = 'evidence_received.html'
     args['email_template'] = t
     content = get_email_content(t, prohibition_number)
@@ -301,7 +299,6 @@ def applicant_evidence_received(**args) -> tuple:
         config,
         template.render(
             today_date=helper.localize_timezone(datetime.now()).strftime("%B %d, %Y %H:%M:%S"),
-            full_name=full_name,
             prohibition_number=prohibition_number,
             subject=content["subject"])), args
 

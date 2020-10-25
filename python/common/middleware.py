@@ -866,4 +866,5 @@ def get_data_from_document_submission_form(**args) -> tuple:
     event_type = m['event_type']
     args['prohibition_number'] = m[event_type]['form']['applicant-information-section']['control-prohibition-number']
     args['driver_last_name'] = m[event_type]['form']['applicant-information-section']['control-driver-last-name']
+    args['email_address'] = m[event_type]['form']['applicant-information-section']['applicant-email-address']
     return True, args
