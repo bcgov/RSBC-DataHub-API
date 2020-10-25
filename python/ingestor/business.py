@@ -66,11 +66,13 @@ def ingest_form() -> list:
        ]
 
 
-def okay_to_submit_evidence() -> list:
+def prohibition_number_and_last_name_matches_vips() -> list:
     """
-    An applicant is ready for submit evidence when the application has
-    been submitted, paid and date selected for review.  Plus the review
-    date cannot be greater than today's date.
+    Preliminary check to determine the validity of a prohibition
+    number before a user submits evidence.  We could check more
+    business rules prior to accepting evidence, but decided that
+    it's better to check fewer rules as it allows the form to be
+    used by the business for other purposes.
     """
     return [
         {"try": middleware.create_correlation_id, "fail": []},
@@ -80,10 +82,4 @@ def okay_to_submit_evidence() -> list:
         {"try": middleware.get_vips_status, "fail": []},
         {"try": middleware.prohibition_exists_in_vips, "fail": []},
         {"try": middleware.user_submitted_last_name_matches_vips, "fail": []},
-        {"try": middleware.application_has_been_saved_to_vips, "fail": []},
-        {"try": middleware.review_has_been_scheduled, "fail": []},
-        {"try": middleware.get_payment_status, "fail": []},
-        {"try": middleware.received_valid_payment_status, "fail": []},
-        {"try": middleware.application_has_been_paid, "fail": []},
-        {"try": middleware.is_review_in_the_future, "fail": []}
        ]

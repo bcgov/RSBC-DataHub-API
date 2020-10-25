@@ -4,6 +4,12 @@ import python.common.rsi_email as rsi_email
 
 
 def process_incoming_form() -> dict:
+    """
+    This function lists the business rules required when processing
+    each form.  The Orbeon form name is used as the key.  For example,
+    the "send_disclosure" attributes below are used when processing the
+    "send_disclosure" Orbeon form.
+    """
     return {
         "unknown_event": [
             {"try": actions.add_unknown_event_error_to_message, "fail": []},
@@ -149,6 +155,7 @@ def process_incoming_form() -> dict:
             {"try": rsi_email.applicant_review_type_change, "fail": []}
         ],
         "Document_submission": [
+            # aka: evidence submission form
             {"try": middleware.create_correlation_id, "fail": []},
             {"try": middleware.determine_current_datetime, "fail": []},
             {"try": middleware.get_data_from_document_submission_form, "fail": []},
@@ -156,11 +163,7 @@ def process_incoming_form() -> dict:
             {"try": middleware.get_vips_status, "fail": []},
             {"try": middleware.prohibition_exists_in_vips, "fail": []},
             {"try": middleware.user_submitted_last_name_matches_vips, "fail": []},
-            {"try": middleware.application_has_been_paid, "fail": []},
-            {"try": middleware.review_has_been_scheduled, "fail": []},
-            {"try": middleware.is_review_in_the_future, "fail": []},
-            {"try": middleware.get_application_details, "fail": []},
-            {"try": middleware.valid_application_received_from_vips, "fail": []},
+
             {"try": rsi_email.applicant_evidence_received, "fail": []},
         ]
     }

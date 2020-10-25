@@ -107,13 +107,18 @@ def evidence():
     """
     if request.method == 'POST':
         # invoke middleware functions
-        args = helper.middle_logic(business.okay_to_submit_evidence(),
+        args = helper.middle_logic(business.prohibition_number_and_last_name_matches_vips(),
                                    prohibition_number=request.form['prohibition_number'],
                                    driver_last_name=request.form['last_name'],
                                    config=Config)
         if 'error_string' not in args:
             return jsonify(dict({"data": {"is_valid": True}}))
-        return jsonify(dict({"data": {"is_valid": False}}))
+        return jsonify(dict({
+            "data": {
+                "is_valid": False,
+                "error": args.get('error_string'),
+            }
+        }))
 
 
 @application.route('/check', methods=['GET'])
