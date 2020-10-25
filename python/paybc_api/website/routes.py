@@ -93,7 +93,7 @@ def receipt():
     After PayBC verifies that the payment has been approved, it submits
     a list of invoices that have been paid (a user can pay multiple
     payments simultaneously), we'll notify VIPS of the payment and
-    return the following to show that the receipt has been received.
+    acknowledge receipt of payment.
     """
     if request.method == 'POST':
         payload = request.json
@@ -103,13 +103,3 @@ def receipt():
                                    payload=payload,
                                    config=Config)
 
-        if not args.get('payment_success'):
-            # TODO - set the http response code from middleware
-            return make_response(dict({"status": "INCMP"}), 400)
-
-        return jsonify(dict({
-            "status": "APP",
-            "receipt_number": payload['receipt_number'],
-            "receipt_date ": payload['receipt_date'],
-            "receipt_amount": payload['receipt_amount']
-        }))
