@@ -443,19 +443,19 @@ def test_validate_driver_last_name(last_name, expected):
 
 presentation_types = [
     # type  cause     requested  gets
-    ("IRP", "IRP90",  "ORAL",    "ORAL"),
-    ("IRP", "IRP90",  "WRIT",    "WRIT"),
-    ("IRP", "IRP30",  "ORAL",    "ORAL"),
-    ("IRP", "IRP30",  "WRIT",    "WRIT"),
-    ("IRP", "IRP3",   "ORAL",    "WRIT"),
-    ("IRP", "IRP3",   "WRIT",    "WRIT"),
-    ("IRP", "IRP7",   "ORAL",    "WRIT"),
-    ("IRP", "IRP7",   "WRIT",    "WRIT"),
+    ("IRP", "IRP90FAIL",  "ORAL",    "ORAL"),
+    ("IRP", "IRP90FAIL",  "WRIT",    "WRIT"),
+    ("IRP", "IRP30WARN",  "ORAL",    "ORAL"),
+    ("IRP", "IRP30WARN",  "WRIT",    "WRIT"),
+    ("IRP", "IRP3",       "ORAL",    "WRIT"),
+    ("IRP", "IRP3",       "WRIT",    "WRIT"),
+    ("IRP", "IRP7",       "ORAL",    "WRIT"),
+    ("IRP", "IRP7",       "WRIT",    "WRIT"),
 
-    ("UL",  "",       "ORAL",    "WRIT"),
-    ("UL",  "",       "WRIT",    "WRIT"),
-    ("ADP", "BREATH", "ORAL",    "ORAL"),
-    ("ADP", "BREATH", "WRIT",    "WRIT"),
+    ("UL",  "",           "ORAL",    "WRIT"),
+    ("UL",  "",           "WRIT",    "WRIT"),
+    ("ADP", "BREATH",     "ORAL",    "ORAL"),
+    ("ADP", "BREATH",     "WRIT",    "WRIT"),
 
 ]
 
