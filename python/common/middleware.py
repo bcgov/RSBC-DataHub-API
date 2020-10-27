@@ -383,8 +383,6 @@ def save_payment_to_vips(**args) -> tuple:
                                              receipt_amount=payload['receipt_amount'],
                                              receipt_date=args.get('receipt_date'),
                                              receipt_number=payload['receipt_number'])
-    if is_successful:
-        args['payment_success'] = True
     return is_successful, args
 
 
@@ -867,4 +865,9 @@ def get_data_from_document_submission_form(**args) -> tuple:
     args['prohibition_number'] = m[event_type]['form']['applicant-information-section']['control-prohibition-number']
     args['driver_last_name'] = m[event_type]['form']['applicant-information-section']['control-driver-last-name']
     args['email_address'] = m[event_type]['form']['applicant-information-section']['applicant-email-address']
+    return True, args
+
+
+def payment_success(**args) -> tuple:
+    args['payment_success'] = True
     return True, args

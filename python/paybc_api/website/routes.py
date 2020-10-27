@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify, make_response
 from python.paybc_api.website.oauth2 import authorization, require_oauth
+import python.paybc_api.website.api_responses as api_responses
 import python.common.helper as helper
 import python.paybc_api.business as rules
 from python.paybc_api.website.config import Config
@@ -103,3 +104,7 @@ def receipt():
                                    payload=payload,
                                    config=Config)
 
+        if not args.get('payment_success'):
+            api_responses.payment_incomplete(**args)
+
+        return api_responses.payment_success(**args)
