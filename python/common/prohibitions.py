@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from python.common.config import Config
 from python.common.helper import localize_timezone
 import pytz
+import re
 
 logging.basicConfig(level=Config.LOG_LEVEL, format=Config.LOG_FORMAT)
 
@@ -99,8 +100,11 @@ class ImmediateRoadside(ProhibitionBase):
 
     @staticmethod
     def is_eligible_for_oral_review(vips_data: dict):
+        """
+        Only 30 and 90-day IRP Prohibitions are eligible for oral reviews
+        """
         if 'originalCause' in vips_data:
-            if vips_data['originalCause'] == 'IRP30' or vips_data['originalCause'] == 'IRP90':
+            if re.match(r"^(IRP90.|IRP30.)", vips_data['originalCause']) is not None:
                 return True
         return False
 

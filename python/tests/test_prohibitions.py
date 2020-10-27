@@ -66,13 +66,18 @@ def test_prohibition_unknown_factory():
 
 oral_eligible = [
 
-    # Type, originalCause Expected
-    ('IRP', "IRP90", True),
-    ('IRP', "IRP30", True),
-    ('IRP', "IRP7", False),
-    ('IRP', "IRP3", False),
-    ('ADP', "BREATHSAMP", True),
-    ('UL', "", False),
+    # Type, originalCause   Pass?
+    ('IRP', "IRP90ANY",     True),
+    ('IRP', "IRP90FAIL",    True),
+    ('IRP', "IRP90REFUSE",  True),
+    ('IRP', "IRP30ANY",     True),
+    ('IRP', "IRP30WARN",    True),
+    ('IRP', "IRP7",         False),
+    ('IRP', "IRP3",         False),
+    ('IRP', "IRP3ANY",      False),
+    ('IRP', "IRP7ANY",      False),
+    ('ADP', "BREATHSAMP",   True),
+    ('UL',  "",             False),
 ]
 
 
