@@ -69,6 +69,9 @@ def save_payment() -> list:
             # Likely PayBC didn't receive the initial successful response and is trying again
             {"try": api.payment_success, "fail": []},
         ]},
+        {"try": middleware.application_has_been_saved_to_vips, "fail": [
+            {"try": api.payment_incomplete, "fail": []}
+        ]},
         {"try": middleware.get_application_details, "fail": [
             {"try": api.payment_incomplete, "fail": []}
         ]},
