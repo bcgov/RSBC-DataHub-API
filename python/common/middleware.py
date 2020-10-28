@@ -478,12 +478,13 @@ def validate_form_name(**args) -> tuple:
 
 
 def create_form_payload(**args) -> tuple:
+    config = args.get('config')
     form_name = args.get('form_name')
     form_data = args.get('xml_as_dict')
     xml = args.get('xml_base64')
     form_data['xml'] = xml
     args['payload'] = dict({
-            "event_version": "1.5",
+            "event_version": config.PAYLOAD_VERSION_NUMBER,
             "event_date_time": datetime.now().isoformat(),
             "event_type": form_name,
             form_name: form_data
@@ -710,10 +711,11 @@ def create_disclosure_event(**args) -> tuple:
     that disclosure cannot be sent immediately, we use this method to
     create a disclosure event that's added to the hold queue.
     """
+    config = args.get('config')
     vips_application = args.get('vips_application')
     event_type = "send_disclosure"
     args['message'] = dict({
-        "event_version": "1.4",
+        "event_version": config.PAYLOAD_VERSION_NUMBER,
         "event_date_time": datetime.now().isoformat(),
         "event_type": event_type,
         event_type: {

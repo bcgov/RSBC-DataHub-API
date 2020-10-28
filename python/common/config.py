@@ -33,3 +33,7 @@ class Config:
     # OpenShift Environment (dev, test, prod)
     ENVIRONMENT                         = os.getenv('ENVIRONMENT', 'dev')
 
+    # Payload version number
+    # This number is used in the validation schema to determine which payload version are accepted
+    PAYLOAD_VERSION_NUMBER              = "1.5"
+
