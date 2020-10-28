@@ -175,6 +175,8 @@ objects:
                   key: bcc-email-addresses
             - name: LOG_LEVEL
               value: ${LOG_LEVEL}
+            - name: ENVIRONMENT
+              value: ${PHASE}
             - name: AUTHLIB_INSECURE_TRANSPORT
               value: "True"
           resources:

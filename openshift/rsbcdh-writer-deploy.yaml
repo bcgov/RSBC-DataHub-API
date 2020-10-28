@@ -127,6 +127,8 @@ objects:
               value: ${LOG_LEVEL}
             - name: PYTHONPATH
               value: ${PYTHONPATH}
+            - name: ENVIRONMENT
+              value: ${PHASE}
           resources:
             limits:
               cpu: 80m

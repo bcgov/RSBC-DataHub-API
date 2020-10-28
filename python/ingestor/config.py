@@ -18,4 +18,3 @@ class Config(BaseConfig):
 
     MAX_FORM_SUBMISSION_BYTES   = os.getenv('MAX_FORM_SUBMISSION_BYTES', 100000)
 
-    ENVIRONMENT                 = os.getenv('ENVIRONMENT')

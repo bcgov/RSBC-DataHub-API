@@ -107,6 +107,8 @@ objects:
               value: ${LOG_LEVEL}
             - name: AUTHLIB_INSECURE_TRANSPORT
               value: "True"
+            - name: ENVIRONMENT
+              value: ${PHASE}
           resources:
             limits:
               cpu: 80m
