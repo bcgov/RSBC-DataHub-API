@@ -300,7 +300,8 @@ payloads_test = [
 def test_create_payload(form_name, json_data, xml, is_valid):
     xml_as_dict = json.loads(json_data)
     assert isinstance(xml_as_dict, dict)
-    response, args = middleware.create_form_payload(form_name=form_name, xml_as_dict=xml_as_dict, xml_base64=xml)
+    response, args = middleware.create_form_payload(
+        form_name=form_name, xml_as_dict=xml_as_dict, xml_base64=xml, config=Config)
     assert args['payload']['event_type'] == form_name
     assert args['payload'][form_name]['xml'] == xml
     assert args['payload'][form_name] == xml_as_dict

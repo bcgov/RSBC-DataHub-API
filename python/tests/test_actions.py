@@ -14,9 +14,10 @@ class TestActions:
         modified_message = args.get('message')
         print(json.dumps(modified_message))
         today = datetime.today()
+        hold_hours = int(Config.HOURS_TO_HOLD_BEFORE_TRYING_VIPS)
         assert is_success
         assert 'hold_until' in modified_message
-        expected = (today + timedelta(hours=Config.HOURS_TO_HOLD_BEFORE_TRYING_VIPS)).isoformat()
+        expected = (today + timedelta(hours=hold_hours)).isoformat()
         assert modified_message['hold_until'][0:20] == expected[0:20]
 
     # set the hold_time to +x hours from now

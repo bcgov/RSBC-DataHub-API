@@ -28,7 +28,8 @@ def add_hold_before_trying_vips_again(**args) -> tuple:
     """
     message = args.get('message')
     config = args.get('config')
-    message['hold_until'] = (datetime.today() + timedelta(hours=config.HOURS_TO_HOLD_BEFORE_TRYING_VIPS)).isoformat()
+    hold_hours = int(config.HOURS_TO_HOLD_BEFORE_TRYING_VIPS)
+    message['hold_until'] = (datetime.today() + timedelta(hours=hold_hours)).isoformat()
     return True, args
 
 
@@ -38,7 +39,8 @@ def add_hold_before_sending_disclosure(**args) -> tuple:
     """
     message = args.get('message')
     config = args.get('config')
-    message['hold_until'] = (datetime.today() + timedelta(hours=config.HOURS_TO_HOLD_BEFORE_DISCLOSURE)).isoformat()
+    hold_hours = int(config.HOURS_TO_HOLD_BEFORE_DISCLOSURE)
+    message['hold_until'] = (datetime.today() + timedelta(hours=hold_hours)).isoformat()
     return True, args
 
 

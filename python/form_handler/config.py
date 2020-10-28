@@ -7,9 +7,9 @@ class Config(BaseConfig):
     HOLD_QUEUE                          = os.getenv('HOLD_QUEUE', 'DF.hold')
     FAIL_QUEUE                          = os.getenv('FAIL_QUEUE', 'DF.fail')
 
-    DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY   = os.getenv('DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY', 3)
-    HOURS_TO_HOLD_BEFORE_TRYING_VIPS    = os.getenv('HOURS_TO_HOLD_BEFORE_TRYING_VIPS', 4)
-    HOURS_TO_HOLD_BEFORE_DISCLOSURE     = os.getenv('HOURS_TO_HOLD_BEFORE_DISCLOSURE', 24)
+    DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY   = os.getenv('DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY', '3')
+    HOURS_TO_HOLD_BEFORE_TRYING_VIPS    = os.getenv('HOURS_TO_HOLD_BEFORE_TRYING_VIPS', '4')
+    HOURS_TO_HOLD_BEFORE_DISCLOSURE     = os.getenv('HOURS_TO_HOLD_BEFORE_DISCLOSURE', '24')
 
     VIPS_API_ROOT_URL                   = os.getenv('VIPS_API_ROOT_URL')
     VIPS_API_USERNAME                   = os.getenv('VIPS_API_USERNAME')
