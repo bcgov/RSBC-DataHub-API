@@ -1,18 +1,27 @@
 {% extends "email_alert_base.html" %}
 
 {% block primary_text_1 %}
-   Visit
-    <a href="https://forms2.qa.gov.bc.ca/forms/content?id=C88D6641F78A4D5FBC383CC50E641CE6">Upload Evidence and Statement</a>
-    to provide evidence for your review. You can use this link more than once.
+   You’ll need to show that one or more of the review grounds applies to your prohibition.
 {% endblock %}
 
 {% block primary_text_2 %}
+   Visit
+    <a href="https://forms2.qa.gov.bc.ca/forms/content?id=C88D6641F78A4D5FBC383CC50E641CE6">Upload Evidence and Statement</a>
+    to provide statements and evidence for your review. You can use this link more than once.
+{% endblock %}
+
+{% block primary_text_3 %}
     We <strong>only</strong> accept:
     <ul>
         <li>PDF, Word, Excel, text files</li>
-        <li>.png, .jpg and .gif image files, and</li>
-        <li>.mp3 audio and .mp4 and .mov video files</li>
+        <li>.png, .jpg and .gif image files</li>
+        <li>avi, .mp3 and .ts audio files</li>
+        <li>.mov .mp4, and .ts video files</li>
     </ul>
+{% endblock %}
+
+{% block primary_text_4 %}
+We will <strong>not</strong> accept cloud or Google docs for phone, audio or video evidence.
 {% endblock %}
 
 {% block callout %}You must finish providing evidence 2 days before your review.{% endblock %}
