@@ -648,7 +648,7 @@ def get_human_friendly_time_slot_string(**args) -> tuple:
     vips_application = args.get('vips_application')
     presentation_type = vips_application['presentationTypeCd']
     time_slot = args.get('requested_time_slot')
-    args['friendly_review_time_slot'] = vips.time_slot_to_friendly_string(time_slot, presentation_type)
+    args['friendly_review_time_slot'] = vips.time_slot_to_friendly_string(time_slot, presentation_type)['label']
     return True, args
 
 
