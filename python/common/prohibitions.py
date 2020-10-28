@@ -104,7 +104,7 @@ class ImmediateRoadside(ProhibitionBase):
         Only 30 and 90-day IRP Prohibitions are eligible for oral reviews
         """
         if 'originalCause' in vips_data:
-            if re.match(r"^(IRP90.|IRP30.)", vips_data['originalCause']) is not None:
+            if re.match(r"^(IRP90.*|IRP30.*)", vips_data['originalCause']) is not None:
                 return True
         return False
 

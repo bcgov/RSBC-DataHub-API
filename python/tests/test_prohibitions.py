@@ -71,6 +71,8 @@ oral_eligible = [
     ('IRP', "IRP90FAIL",    True),
     ('IRP', "IRP90REFUSE",  True),
     ('IRP', "IRP30ANY",     True),
+    ('IRP', "IRP90",        True),
+    ('IRP', "IRP30",        True),
     ('IRP', "IRP30WARN",    True),
     ('IRP', "IRP7",         False),
     ('IRP', "IRP3",         False),
