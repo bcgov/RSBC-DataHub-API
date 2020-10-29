@@ -163,7 +163,8 @@ def process_incoming_form() -> dict:
             {"try": middleware.get_vips_status, "fail": []},
             {"try": middleware.prohibition_exists_in_vips, "fail": []},
             {"try": middleware.user_submitted_last_name_matches_vips, "fail": []},
-
+            {"try": middleware.get_application_details, "fail": []},
+            {"try": middleware.valid_application_received_from_vips, "fail": []},
             {"try": rsi_email.applicant_evidence_received, "fail": []},
         ]
     }
