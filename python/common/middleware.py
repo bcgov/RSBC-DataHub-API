@@ -83,9 +83,8 @@ def populate_driver_name_fields_if_null(**args) -> tuple:
 def validate_prohibition_number(**args) -> tuple:
     prohibition_number = args.get('prohibition_number')
     if re.match(r"^\d{8}$", prohibition_number) is None:
-        error = 'prohibition number failed validation: {}'.format(prohibition_number)
-        logging.info(error)
-        args['error_string'] = error
+        logging.info('prohibition number failed validation: {}'.format(prohibition_number))
+        args['error_string'] = "You have entered an invalid prohibition number, please try again."
         return False, args
     return True, args
 
@@ -114,7 +113,7 @@ def get_vips_status(**args) -> tuple:
         args['vips_status'] = vips_status_data
         return True, args
     error = 'the VIPS get_status operation returned an invalid response'
-    args['error_string'] = error
+    args['error_string'] = "The system is down, please try again later."
     logging.info(error)
     return False, args
 
@@ -132,7 +131,7 @@ def get_application_details(**args) -> tuple:
         args['vips_application_data'] = vips_application_data
         return True, args
     error = 'the VIPS get_application operation returned an invalid response'
-    args['error_string'] = error
+    args['error_string'] = "The system is down, please try again later."
     logging.info(error)
     return False, args
 
@@ -148,7 +147,7 @@ def valid_application_received_from_vips(**args) -> tuple:
         return True, args
     logging.info(json.dumps(data))
     error = 'a valid application was not returned from VIPS'
-    args['error_string'] = error
+    args['error_string'] = "The system is down, please try again later."
     logging.info(error)
     return False, args
 
@@ -163,7 +162,7 @@ def prohibition_exists_in_vips(**args) -> tuple:
         args['vips_data'] = vips_status['data']['status']
         return True, args
     error = 'the prohibition does not exist in VIPS'
-    args['error_string'] = error
+    args['error_string'] = "The driving prohibition isn't in the system."
     logging.info(error)
     return False, args
 
@@ -179,7 +178,7 @@ def user_submitted_last_name_matches_vips(**args) -> tuple:
     if vips.is_last_name_match(vips_data, driver_last_name):
         return True, args
     error = 'the last name submitted does not match VIPS'
-    args['error_string'] = error
+    args['error_string'] = "The last name doesn’t match a driving prohibition in the system."
     logging.info(error)
     return False, args
 
@@ -193,7 +192,7 @@ def application_has_been_paid(**args) -> tuple:
         return True, args
     error = 'the application has not been paid'
     logging.info(error)
-    args['error_string'] = error
+    args['error_string'] = "The application review fee must be paid to continue."
     return False, args
 
 
@@ -206,7 +205,7 @@ def application_not_paid(**args) -> tuple:
         return True, args
     error = 'the application has previously been paid'
     logging.info(error)
-    args['error_string'] = error
+    args['error_string'] = "The application review fee has already been paid."
     return False, args
 
 
@@ -220,7 +219,7 @@ def application_has_been_saved_to_vips(**args) -> tuple:
         return True, args
     error = 'the application has not been submitted'
     logging.info(error)
-    args['error_string'] = error
+    args['error_string'] = "You must submit an application before you can pay."
     return False, args
 
 
@@ -233,7 +232,7 @@ def application_not_previously_saved_to_vips(**args) -> tuple:
         return True, args
     error = 'this prohibition already has an application on file'
     logging.info(error)
-    args['error_string'] = error
+    args['error_string'] = "An application to review this prohibition has already been submitted."
     return False, args
 
 
@@ -276,7 +275,7 @@ def date_served_not_older_than_one_week(**args) -> tuple:
         if (today.date() - date_served.date()).days < days_in_week:
             return True, args
         error = 'the prohibition is older than one week'
-        args['error_string'] = error
+        args['error_string'] = "The Notice of Prohibition was issued more than 7 days ago."
         logging.info(error)
         return False, args
     return True, args
@@ -293,7 +292,7 @@ def has_drivers_licence_been_seized(**args) -> tuple:
         if vips_data['driverLicenceSeizedYn'] == "Y":
             return True, args
         error = 'drivers licence has not been seized'
-        args['error_string'] = error
+        args['error_string'] = "You can't proceed as your driver's licence was not surrendered to police."
         logging.info(error)
         return False, args
     return True, args
@@ -306,7 +305,7 @@ def save_application_to_vips(**args) -> tuple:
         args['vips_application_data'] = vips_response
         return True, args
     error = 'the VIPS save_application operation returned an invalid response'
-    args['error_string'] = error
+    args['error_string'] = "The system is down, please try again later."
     logging.info(error)
     return False, args
 
@@ -566,7 +565,7 @@ def paid_not_more_than_24hrs_ago(**args) -> tuple:
     if (today_date - payment_date).days < 1:
         return True, args
     error = 'the payment is older than 24 hours'
-    args['error_string'] = error
+    args['error_string'] = "You are outside the 24-hour time allowed to schedule the review."
     logging.info(error)
     return False, args
 
@@ -584,7 +583,7 @@ def get_payment_status(**args) -> tuple:
         args['vips_payment_data'] = payment_data
         return True, args
     error = 'the VIPS payment_get operation returned an invalid response'
-    args['error_string'] = error
+    args['error_string'] = "The system is down, please try again later."
     logging.info(error)
     return False, args
 
@@ -599,7 +598,7 @@ def received_valid_payment_status(**args) -> tuple:
         args['payment_data'] = vips_payment_data['data']['transactionInfo']
         return True, args
     error = 'the payment does not exist in VIPS'
-    args['error_string'] = error
+    args['error_string'] = "You must pay before you can schedule a review"
     logging.info(error)
     return False, args
 
@@ -699,7 +698,7 @@ def save_schedule_to_vips(**args) -> tuple:
         args['vips_schedule_data'] = vips_response
         return True, args
     error = 'the VIPS save_schedule operation returned an invalid response'
-    args['error_string'] = error
+    args['error_string'] = "The system is down, please try again later."
     logging.info(error)
     return False, args
 
@@ -831,7 +830,7 @@ def review_has_not_been_scheduled(**args) -> tuple:
     vips_data = args.get('vips_data')
     if 'reviewStartDtm' not in vips_data:
         return True, args
-    error = 'A review has previously been scheduled'
+    error = 'A review has already been scheduled for this prohibition.'
     logging.info(error)
     args['error_string'] = error
     return False, args
@@ -846,7 +845,7 @@ def review_has_been_scheduled(**args) -> tuple:
         return True, args
     error = 'A review has not been scheduled'
     logging.info(error)
-    args['error_string'] = error
+    args['error_string'] = "You must book a review date before you can submit evidence for the review."
     return False, args
 
 

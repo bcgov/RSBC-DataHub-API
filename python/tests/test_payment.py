@@ -9,23 +9,23 @@ import python.common.vips_api as vips
 
 test_search_method_data = [
     # Type, ServiceDate   TodayIs       Paid     LastName  InVips  Error
-    ('IRP', "2020-09-10", "2020-09-15", False,   "Norris", True,  "the last name submitted does not match VIPS"),
-    ('IRP', "2020-09-10", "2020-09-17", False,   "Gordon", True,  "the prohibition is older than one week"),
+    ('IRP', "2020-09-10", "2020-09-15", False,   "Norris", True,  "The last name doesn’t match a driving prohibition in the system."),
+    ('IRP', "2020-09-10", "2020-09-17", False,   "Gordon", True,  "The Notice of Prohibition was issued more than 7 days ago."),
     ('IRP', "2020-09-10", "2020-09-16", False,   "Gordon", True,  None),
-    ('IRP', "2020-09-10", "2020-09-14", False,   "Gordon", False, "the prohibition does not exist in VIPS"),
-    ('IRP', "2020-09-10", "2020-09-14", True,    "Gordon", True,  "the application has previously been paid"),
+    ('IRP', "2020-09-10", "2020-09-14", False,   "Gordon", False, "The driving prohibition isn't in the system."),
+    ('IRP', "2020-09-10", "2020-09-14", True,    "Gordon", True,  "The application review fee has already been paid."),
     ('IRP', "2020-09-10", "2020-09-14", False,   "Gordon", True,  None),
 
-    ('ADP', "2020-09-10", "2020-09-15", False,   "Norris", True,  "the last name submitted does not match VIPS"),
-    ('ADP', "2020-09-10", "2020-09-17", False,   "Gordon", True,  "the prohibition is older than one week"),
+    ('ADP', "2020-09-10", "2020-09-15", False,   "Norris", True,  "The last name doesn’t match a driving prohibition in the system."),
+    ('ADP', "2020-09-10", "2020-09-17", False,   "Gordon", True,  "The Notice of Prohibition was issued more than 7 days ago."),
     ('ADP', "2020-09-10", "2020-09-16", False,   "Gordon", True,  None),
-    ('ADP', "2020-09-10", "2020-09-14", False,   "Gordon", False, "the prohibition does not exist in VIPS"),
-    ('ADP', "2020-09-10", "2020-09-14", True,    "Gordon", True,  "the application has previously been paid"),
+    ('ADP', "2020-09-10", "2020-09-14", False,   "Gordon", False, "The driving prohibition isn't in the system."),
+    ('ADP', "2020-09-10", "2020-09-14", True,    "Gordon", True,  "The application review fee has already been paid."),
     ('ADP', "2020-09-10", "2020-09-14", False,   "Gordon", True,  None),
 
-    ('UL',  "2020-09-10", "2020-09-15", False,   "Norris", True,  "the last name submitted does not match VIPS"),
-    ('UL',  "2020-09-10", "2020-09-14", False,   "Gordon", False, "the prohibition does not exist in VIPS"),
-    ('UL',  "2020-09-10", "2020-09-14", True,    "Gordon", True,  "the application has previously been paid"),
+    ('UL',  "2020-09-10", "2020-09-15", False,   "Norris", True,  "The last name doesn’t match a driving prohibition in the system."),
+    ('UL',  "2020-09-10", "2020-09-14", False,   "Gordon", False, "The driving prohibition isn't in the system."),
+    ('UL',  "2020-09-10", "2020-09-14", True,    "Gordon", True,  "The application review fee has already been paid."),
     ('UL',  "2020-09-10", "2020-09-14", False,   "Gordon", True,  None),
 ]
 
@@ -63,7 +63,7 @@ def test_search_method(
 test_show_method_data = [
     # Type, Application  Error
     ('IRP', True,        None),
-    ('IRP', False,       "the application has not been submitted"),
+    ('IRP', False,       "You must submit an application before you can pay."),
 
 ]
 
