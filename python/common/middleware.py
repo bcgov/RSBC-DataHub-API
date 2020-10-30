@@ -823,6 +823,28 @@ def is_review_in_the_future(**args) -> tuple:
     return today_date < review_start_datetime, args
 
 
+def is_review_more_than_48_hours_in_the_future(**args) -> tuple:
+    """
+    Get review date start time from VIPS and compare it with today's
+    date.  If the review is more than 48 hours in the future, return
+    True; otherwise False
+    """
+    seconds_in_an_hour = 60 * 60
+    vips_data = args.get('vips_data')
+    config = args.get('config')
+    review_start_datetime = vips_str_to_datetime(vips_data['reviewStartDtm'])
+    today_date = args.get('today_date')
+    difference_seconds = (review_start_datetime - today_date).total_seconds()
+    difference_hours = difference_seconds / seconds_in_an_hour
+    is_okay = difference_hours > int(config.HOURS_BEFORE_REVIEW_EVIDENCE_DUE)
+    if is_okay:
+        return True, args
+    error = "You can't submit evidence less than 48 hours before your review."
+    args['error_string'] = error
+    logging.info(error)
+    return False, args
+
+
 def review_has_not_been_scheduled(**args) -> tuple:
     """
     Check that review has not previously been scheduled

@@ -107,7 +107,7 @@ def evidence():
     """
     if request.method == 'POST':
         # invoke middleware functions
-        args = helper.middle_logic(business.prohibition_number_and_last_name_matches_vips(),
+        args = helper.middle_logic(business.is_okay_to_submit_evidence(),
                                    prohibition_number=request.form['prohibition_number'],
                                    driver_last_name=request.form['last_name'],
                                    config=Config)

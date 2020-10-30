@@ -5,6 +5,11 @@ import python.common.prohibitions as pro
 
 
 review_date_times = [
+    # Applicant applies on the same day as the date of service
+    # Type, ServiceDate   TodayIs       MinReviewDt   MaxReviewDt
+    ('IRP', "2020-09-10", "2020-09-10", "2020-09-17", "2020-09-26"),
+    ('ADP', "2020-09-10", "2020-09-10", "2020-09-17", "2020-09-26"),
+
     # Applicant applies the day after date of service
     # Type, ServiceDate   TodayIs       MinReviewDt   MaxReviewDt
     ('IRP', "2020-09-10", "2020-09-11", "2020-09-17", "2020-09-26"),
