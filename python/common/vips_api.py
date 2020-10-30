@@ -67,7 +67,8 @@ def payment_patch(prohibition_id: str, config, correlation_id: str, **args):
     return patch(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, payload, correlation_id)
 
 
-def disclosure_patch(document_id: str, config, correlation_id: str, **args):
+def disclosure_patch(document_id: str, correlation_id: str, **args):
+    config = args.get('config')
     logging.info('inside disclosure_patch()')
     endpoint = build_endpoint(config.VIPS_API_ROOT_URL, 'disclosure', correlation_id)
     payload = {

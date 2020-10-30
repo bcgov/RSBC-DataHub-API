@@ -793,7 +793,7 @@ def mark_disclosure_as_sent(**args) -> tuple:
     disclosure_for_applicant = list()
     error = False
     for disclosure in disclosures:
-        successful, data = vips.disclosure_patch(disclosure['documentId'], config, correlation_id, **args)
+        successful, data = vips.disclosure_patch(disclosure['documentId'], correlation_id, **args)
         if not successful:
             error = True
     if error is True:
