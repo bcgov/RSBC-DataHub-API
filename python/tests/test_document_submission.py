@@ -54,7 +54,7 @@ def application_get():
 
 @pytest.mark.parametrize(
     "prohibition_type, date_served, today_is, seized, last_name, is_valid, is_applied, email_text",
-    helper.get_csv_test_data('./python/tests/test_evidence_submission_data.csv'))
+    helper.get_csv_test_data('./python/tests/test_document_submission_data.csv'))
 def test_evidence_form_received(
         prohibition_type, date_served, today_is, seized, last_name, is_valid, is_applied, email_text, monkeypatch):
 
@@ -68,7 +68,7 @@ def test_evidence_form_received(
 
     def mock_send_email(*args, **kwargs):
         print('inside mock_send_email()')
-        assert "me@lost.com" in args[0]
+        assert "me@gov.bc.ca" in args[0]
         print("Subject: {}".format(args[1]))
         assert email_text in args[3]
         return True
@@ -90,4 +90,6 @@ def test_evidence_form_received(
                         config=Config,
                         writer=None)
 
+    if "error_string" in results:
+        print(results.get('error_string'))
     assert 'error_string' not in results

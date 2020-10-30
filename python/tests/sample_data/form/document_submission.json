@@ -4,6 +4,14 @@
   "event_version": "1.5",
   "Document_submission": {
     "form": {
+      "before-you-begin-section": {
+      "help-image": {
+        "#text": "/fr/service/persistence/crud/gov-pssg/Document_submission/form/edb3e6f6f1f3c6899746e9fc5ab3887d278b10e4.bin",
+        "@filename": "info_reduced.png",
+        "@mediatype": "image/png"
+      },
+      "help-text": null
+    },
     "applicant-information-section": {
       "contact-information-text-section": null,
       "control-11": null,
@@ -12,7 +20,7 @@
       "control-is-irp": "true",
       "control-is-ul": "false",
       "control-prohibition-number": "21-999999",
-      "applicant-email-address": "me@lost.com",
+      "applicant-email-address": "me@gov.bc.ca",
       "not-driver-text": null,
       "prohibition-no-image": {
         "#text": "/fr/service/persistence/crud/gov-pssg/Document_submission/form/e91a38b43ecc3155b9696521176bb1636200847f.bin",
@@ -20,14 +28,7 @@
         "@mediatype": "image/png"
       }
     },
-    "before-you-begin-section": {
-      "help-image": {
-        "#text": "/fr/service/persistence/crud/gov-pssg/Document_submission/form/edb3e6f6f1f3c6899746e9fc5ab3887d278b10e4.bin",
-        "@filename": "info_reduced.png",
-        "@mediatype": "image/png"
-      },
-      "help-text": null
-    },
+
     "consent-section": {
       "control-5": null,
       "control-applicant-name": "test",
