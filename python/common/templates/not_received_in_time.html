@@ -2,17 +2,21 @@
 
 {% block primary_text_1 %}
     Our records show your Notice of Prohibition was issued more than 7 days ago.
-    You have missed the window to apply for a review of a driving prohibition.
+    Under
+    <a href="https://www.bclaws.ca/civix/document/id/complete/statreg/96318_07">s.215.48</a>
+    or
+    <a href="https://www.bclaws.ca/civix/document/id/complete/statreg/96318_02#section94.6">s.94.4(1)</a>
+    a driver has 7 days to apply for a review of a driving prohibition.
 {% endblock %}
 
 {% block primary_text_2 %}
-    Your application for a review of driving prohibition {{ prohibition_number }} has been denied.
+Your application for a review of driving prohibition {{ prohibition_number }} can't be accepted.
 {% endblock %}
 
-{% block primary_text_3 %}
-    Our decision to deny your application cannot be appealed.
-{% endblock %}
+{% block primary_text_3 %}{% endblock %}
 
 {% block primary_text_4 %}{% endblock %}
 {% block callout_block %}{% endblock %}
 {% block timeline_image %}{% endblock %}
+
+{% block email_not_monitored %}{% endblock %}

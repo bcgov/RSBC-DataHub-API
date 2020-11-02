@@ -6,20 +6,22 @@
 {% endblock %}
 
 {% block primary_text_2 %}
-    Please return to the [Notice of Driving Prohibition Application] for Review and
-    re-enter the prohibition number and the driver’s name.
+    Please return to the
+    <a href="https://forms2.qa.gov.bc.ca/forms/content?id=FC005E942B274061A110A2CFC42C1EA2">
+        Notice of Driving Prohibition Application for Review</a>
+    and complete the form again with the correct prohibition number or last name.
     <ul>
         <li>
             The prohibition number can be found on the Notice of Driving Prohibition.
         </li>
         <li>
-            Enter your last name as it is on the driver’s licence.
+            Enter your last name as it is on your driver’s licence.
         </li>
     </ul>
 {% endblock %}
 
 {% block primary_text_3 %}
-    You can apply in-person for a review. Make an appointment online with
+    You can apply also in-person for a review. Make an appointment online with
     <a href="https://www.icbc.com/driver-licensing/visit-dl-office/Pages/Book-a-knowledge-test-and-other-services.aspx">ICBC</a>
     or <a href="https://appointments.servicebc.gov.bc.ca/appointment">ServiceBC</a>; or visit an
     appointed agent right away to meet the application deadline. Walk-in visits at ICBC are limited
@@ -30,4 +32,5 @@
 
 {% block callout %}You must re-apply within 7 days from the date of prohibition issue.{% endblock %}
 {% block timeline %}apply.png{% endblock %}
+{% block email_not_monitored %}{% include 'partials/call_appeals_registry.html' %}{% endblock %}
 

@@ -1,17 +1,16 @@
 {% extends "email_alert_base.html" %}
 
 {% block primary_text_1 %}
-    Your driving prohibition review has been scheduled for:<br />
+    Your oral review has been scheduled for:<br />
     <strong>{{ friendly_review_time_slot }}</strong>
 {% endblock %}
 
 {% block primary_text_2 %}
-    If you paid for an oral review, we’ll call you at {{phone}} which
-    is the number you provided.
+    We’ll call you at {{phone}}, which is the number you provided.
 {% endblock %}
 
 {% block primary_text_3 %}
-    Changes to the review date or time of will only be granted in special situations.
+    We can only change the review date or time in special situations.
     Call RoadSafetyBC’s Appeals Registry at 1-855-387-7747 and select option 5.
 {% endblock %}
 

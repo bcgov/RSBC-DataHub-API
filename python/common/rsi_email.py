@@ -355,99 +355,99 @@ def get_email_content(template_name: str, prohibition_number: str):
 def content_data() -> dict:
     return dict({
         "IRP_last_name_mismatch.html": {
-            "raw_subject": "Prohibition Number or Name Don't Match - Driving Prohibition Review {}",
+            "raw_subject": "Prohibition Number or Name Don't Match - Driving Prohibition {} Review",
             "title": "IRP Prohibition Number or Name Don’t Match",
         },
         "ADP_last_name_mismatch.html": {
-            "raw_subject": "Prohibition Number or Name Don't Match - Driving Prohibition Review {}",
+            "raw_subject": "Prohibition Number or Name Don't Match - Driving Prohibition {} Review",
             "title": "ADP Prohibition Number or Name Don’t Match",
         },
         "UL_last_name_mismatch.html": {
-            "raw_subject": "Prohibition Number or Name Don't Match - Driving Prohibition Review {}",
+            "raw_subject": "Prohibition Number or Name Don't Match - Driving Prohibition {} Review",
             "title": "UL Prohibition Number or Name Don’t Match",
         },
         "IRP_prohibition_not_found_yet.html": {
-            "raw_subject": "Prohibition Not Found Yet - Driving Prohibition Review {}",
+            "raw_subject": "Prohibition Not Found Yet - Driving Prohibition {} Review",
             "title": "IRP Prohibition Not Found Yet",
         },
         "ADP_prohibition_not_found_yet.html": {
-            "raw_subject": "Prohibition Not Found Yet - Driving Prohibition Review {}",
+            "raw_subject": "Prohibition Not Found Yet - Driving Prohibition {} Review",
             "title": "ADP Prohibition Not Found Yet",
         },
         "UL_prohibition_not_found_yet.html": {
-            "raw_subject": "Prohibition Not Found Yet - Driving Prohibition Review {}",
+            "raw_subject": "Prohibition Not Found Yet - Driving Prohibition {} Review",
             "title": "UL Prohibition Not Found Yet",
         },
         "already_applied.html": {
-            "raw_subject": "Already Applied – Driving Prohibition Review {}",
+            "raw_subject": "Already Applied – Driving Prohibition {} Review",
             "title": "Already Applied",
         },
         "review_date_confirmed_ORAL.html": {
-            "raw_subject": "Review Date Confirmed - Driving Prohibition Review {}",
+            "raw_subject": "Review Date Confirmed - Driving Prohibition {} Review",
             "title": "Review Date Confirmed Oral",
         },
         "review_date_confirmed_WRIT.html": {
-            "raw_subject": "Review Date Confirmed - Driving Prohibition Review {}",
+            "raw_subject": "Review Date Confirmed - Driving Prohibition {} Review",
             "title": "Review Date Confirmed Written",
         },
         "IRP_select_review_date.html": {
-            "raw_subject": "Select Review Date - Driving Prohibition Review {}",
+            "raw_subject": "Select Review Date - Driving Prohibition {} Review",
             "title": "IRP Select Review Date",
         },
         "ADP_select_review_date.html": {
-            "raw_subject": "Select Review Date - Driving Prohibition Review {}",
+            "raw_subject": "Select Review Date - Driving Prohibition {} Review",
             "title": "ADP Select Review Date",
         },
         "UL_select_review_date.html": {
-            "raw_subject": "Select Review Date - Driving Prohibition Review {}",
+            "raw_subject": "Select Review Date - Driving Prohibition {} Review",
             "title": "UL Select Review Date",
         },
         "IRP_prohibition_not_found.html": {
-            "raw_subject": "Prohibition Not Found – Driving Prohibition Review {}",
+            "raw_subject": "Prohibition Not Found – Driving Prohibition {} Review",
             "title": "IRP Prohibition Not Found"
         },
         "ADP_prohibition_not_found.html": {
-            "raw_subject": "Prohibition Not Found – Driving Prohibition Review {}",
+            "raw_subject": "Prohibition Not Found – Driving Prohibition {} Review",
             "title": "ADP Prohibition Not Found"
         },
         "UL_prohibition_not_found.html": {
-            "raw_subject": "Prohibition Not Found – Driving Prohibition Review {}",
+            "raw_subject": "Prohibition Not Found – Driving Prohibition {} Review",
             "title": "UL Prohibition Not Found"
         },
         "licence_not_seized.html": {
-            "raw_subject": "Licence Not Surrendered - Driving Prohibition Review {}",
+            "raw_subject": "Licence Not Surrendered - Driving Prohibition {} Review",
             "title": "Licence Not Surrendered",
         },
         "not_received_in_time.html": {
-            "raw_subject": "7-day Application Window Missed - Driving Prohibition Review {}",
+            "raw_subject": "7-day Application Window Missed - Driving Prohibition {} Review",
             "title": "7-day Application Window Missed",
         },
         "IRP_application_accepted.html": {
-            "raw_subject": "Application Accepted - Driving Prohibition Review {}",
+            "raw_subject": "Application Accepted - Driving Prohibition {} Review",
             "title": "IRP Application Accepted",
         },
         "ADP_application_accepted.html": {
-            "raw_subject": "Application Accepted - Driving Prohibition Review {}",
+            "raw_subject": "Application Accepted - Driving Prohibition {} Review",
             "title": "ADP Application Accepted",
         },
         "UL_application_accepted.html": {
-            "raw_subject": "Application Accepted - Driving Prohibition Review {}",
+            "raw_subject": "Application Accepted - Driving Prohibition {} Review",
             "title": "UL Application Accepted",
         },
         "send_disclosure_documents.html": {
-            "raw_subject": "Disclosure Documents Attached - Driving Prohibition Review {}",
+            "raw_subject": "Disclosure Documents Attached - Driving Prohibition {} Review",
             "title": "Send Disclosure",
         },
         "send_evidence_instructions.html": {
-            "raw_subject": "Submit Evidence - Driving Prohibition Review {}",
+            "raw_subject": "Submit Evidence - Driving Prohibition {} Review",
             "title": "Submit Evidence",
         },
         "evidence_received.html": {
-            "raw_subject": "Evidence Received - Driving Prohibition Review {}",
+            "raw_subject": "Evidence Received - Driving Prohibition {} Review",
             "title": "Evidence Received",
         },
         "review_type_change.html": {
-            "raw_subject": "Review Type Change - Driving Prohibition Review {}",
+            "raw_subject": "Review Type Change - Driving Prohibition {} Review",
             "title": "Review Type Change",
         }
     })
