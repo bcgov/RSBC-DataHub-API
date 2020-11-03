@@ -15,7 +15,7 @@ parameters:
 - name: HOST
 - name: CRON_SCHEDULE
   description: 'Cron schedule expression. Default: Every 5 minutes for testing'
-  value: '/5 * * * *'
+  value: '*/5 * * * *'
 - name: RABBITMQ_URL
   value: ${NAME}-rabbitmq${SUFFIX}
 - name: RABBITMQ_USER
