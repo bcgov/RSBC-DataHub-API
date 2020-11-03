@@ -16,6 +16,9 @@ parameters:
 - name: CRON_SCHEDULE
   description: 'Cron schedule expression. Default: Every hour at 5 past the hour'
   value: '5 * * * *'
+- name: RABBITMQ_URL
+- name: RABBITMQ_USER
+- name: RABBITMQ_PASS
 - name: URL_SUFFIX
   required: true
 - name: CPU_REQUEST
@@ -60,7 +63,7 @@ objects:
                       echo -e "amqp_uri: ${AMQP_URI}\n"
 
                       echo -e "URL: ${RABBITMQ_URL}\n"
-                      # echo -e "USER: ${RABBITMQ_USER}\n PASS: ${RABBITMQ_PASS}\n"
+                      echo -e "USER: ${RABBITMQ_USER}\n PASS: ${RABBITMQ_PASS}\n"
 
                       echo -e "moving messages from: ${SOURCE_QUEUE} to: ${DESTINATION_QUEUE}\n"
 
