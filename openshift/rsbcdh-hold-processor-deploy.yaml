@@ -16,18 +16,6 @@ parameters:
 - name: CRON_SCHEDULE
   description: 'Cron schedule expression. Default: Every 5 minutes for testing'
   value: '*/5 * * * *'
-- name: RABBITMQ_URL
-  value: ${NAME}-rabbitmq${SUFFIX}
-- name: RABBITMQ_USER
-  valueFrom:
-    secretKeyRef:
-      name: ${NAME}-${PHASE}
-      key: rabbitmq-username
-- name: RABBITMQ_PASS
-  valueFrom:
-    secretKeyRef:
-      name: ${NAME}-${PHASE}
-      key: rabbitmq-password
 - name: URL_SUFFIX
   required: true
 - name: CPU_REQUEST
@@ -69,6 +57,18 @@ objects:
                       cpu: 60m
                       memory: 64Mi
                   env:
+                    - name: RABBITMQ_URL
+                      value: ${NAME}-rabbitmq${SUFFIX}
+                    - name: RABBITMQ_USER
+                      valueFrom:
+                        secretKeyRef:
+                          name: ${NAME}-${PHASE}
+                          key: rabbitmq-username
+                    - name: RABBITMQ_PASS
+                      valueFrom:
+                        secretKeyRef:
+                          name: ${NAME}-${PHASE}
+                          key: rabbitmq-password
                     - name: SOURCE_QUEUE
                       value: 'DF.hold'
                     - name: DESTINATION_QUEUE
