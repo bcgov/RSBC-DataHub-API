@@ -126,7 +126,7 @@ def process_incoming_form() -> dict:
                 ]
             },
             {
-                "try": middleware.date_served_not_older_than_one_week,
+                "try": middleware.is_applicant_within_window_to_apply,
                 "fail": [
                     {"try": rsi_email.applicant_prohibition_served_more_than_7_days_ago, "fail": []}
                 ]

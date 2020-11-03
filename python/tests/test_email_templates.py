@@ -45,7 +45,7 @@ def test_schedule_review_email():
 
 
 template_names = [
-    ("IRP_last_name_mismatch.html", "Prohibition Number or Name Don't Match - Driving Prohibition Review 9999"),
+    ("IRP_last_name_mismatch.html", "Prohibition Number or Name Don't Match - Driving Prohibition 9999 Review"),
     ('template_does_not_exist.html', "Unknown template")
 ]
 

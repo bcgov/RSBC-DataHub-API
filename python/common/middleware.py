@@ -259,7 +259,7 @@ def prohibition_served_recently(**args) -> tuple:
     return False, args
 
 
-def date_served_not_older_than_one_week(**args) -> tuple:
+def is_applicant_within_window_to_apply(**args) -> tuple:
     """
     If the prohibition type is ADP or IRP then check
     that the date served is no older than 7 days.
@@ -267,18 +267,15 @@ def date_served_not_older_than_one_week(**args) -> tuple:
     """
     vips_data = args.get('vips_data')
     today = args.get('today_date')
+    date_served_string = vips_data['noticeServedDt']
+    date_served = vips_str_to_datetime(date_served_string)
     prohibition = pro.prohibition_factory(vips_data['noticeTypeCd'])
-    if prohibition.MUST_APPLY_FOR_REVIEW_WITHIN_7_DAYS:
-        days_in_week = 7
-        date_served_string = vips_data['noticeServedDt']
-        date_served = vips_str_to_datetime(date_served_string)
-        if (today.date() - date_served.date()).days < days_in_week:
-            return True, args
-        error = 'the prohibition is older than one week'
-        args['error_string'] = "The Notice of Prohibition was issued more than 7 days ago."
-        logging.info(error)
-        return False, args
-    return True, args
+    if prohibition.is_okay_to_apply(date_served, today):
+        return True, args
+    error = 'the prohibition is older than one week'
+    args['error_string'] = "The Notice of Prohibition was issued more than 7 days ago."
+    logging.info(error)
+    return False, args
 
 
 def has_drivers_licence_been_seized(**args) -> tuple:

@@ -11,36 +11,36 @@ from python.ingestor.routes import application
 
 
 date_served_data = [
-    ('IRP', "2020-09-10 20:59:45 -08:00", "2020-09-11 13:31:22", True),
-    ('IRP', "2020-09-10 20:59:45 -08:00", "2020-09-16 13:31:22", True),
-    ('IRP', "2020-09-10 00:00:00 -08:00", "2020-09-16 23:31:22", True),
-    ('IRP', "2020-09-10 20:59:45 -08:00", "2020-09-17 13:31:22", False),
-    ('IRP', "2020-09-10 20:59:45 -08:00", "2020-09-18 13:31:22", False),
-    ('IRP', "2020-09-10 20:59:45 -08:00", "2020-09-19 13:31:22", False),
+    ('IRP', "2020-09-10", "2020-09-11", True),
+    ('IRP', "2020-09-10", "2020-09-16", True),
+    ('IRP', "2020-09-10", "2020-09-16", True),
+    ('IRP', "2020-09-10", "2020-09-17", True),
+    ('IRP', "2020-09-10", "2020-09-18", False),
+    ('IRP', "2020-09-10", "2020-09-19", False),
 
-    ('UL', "2020-09-10 20:59:45 -08:00", "2020-09-11 13:31:22", True),
-    ('UL', "2020-09-10 20:59:45 -08:00", "2020-09-16 13:31:22", True),
-    ('UL', "2020-09-10 20:59:45 -08:00", "2020-09-17 13:31:22", True),
-    ('UL', "2020-09-10 20:59:45 -08:00", "2020-09-18 13:31:22", True),
-    ('UL', "2020-09-10 20:59:45 -08:00", "2020-09-19 13:31:22", True),
+    ('UL',  "2020-09-10", "2020-09-11", True),
+    ('UL',  "2020-09-10", "2020-09-16", True),
+    ('UL',  "2020-09-10", "2020-09-17", True),
+    ('UL',  "2020-09-10", "2020-09-18", True),
+    ('UL',  "2020-09-10", "2020-09-19", True),
 
-    ('ADP', "2020-09-10 20:59:45 -08:00", "2020-09-10 21:31:22", True),
-    ('ADP', "2020-09-10 20:59:45 -08:00", "2020-09-11 13:31:22", True),
-    ('ADP', "2020-09-10 20:59:45 -08:00", "2020-09-16 13:31:22", True),
-    ('ADP', "2020-09-10 20:59:45 -08:00", "2020-09-17 13:31:22", False),
-    ('ADP', "2020-09-10 20:59:45 -08:00", "2020-09-18 13:31:22", False),
-    ('ADP', "2020-09-10 20:59:45 -08:00", "2020-09-19 13:31:22", False),
+    ('ADP', "2020-09-10", "2020-09-10", True),
+    ('ADP', "2020-09-10", "2020-09-11", True),
+    ('ADP', "2020-09-10", "2020-09-16", True),
+    ('ADP', "2020-09-10", "2020-09-17", True),
+    ('ADP', "2020-09-10", "2020-09-18", False),
+    ('ADP', "2020-09-10", "2020-09-19", False),
 ]
 
 
 @pytest.mark.parametrize("prohibition_type, notice_serve_date, today_is, expected", date_served_data)
 def test_date_served_not_older_than_one_week_method(prohibition_type, notice_serve_date, today_is, expected):
-    today_unaware = datetime.strptime(today_is, "%Y-%m-%d %H:%M:%S")
+    today_unaware = datetime.strptime(today_is + " 00:00:00", "%Y-%m-%d %H:%M:%S")
     today_date = localize_timezone(today_unaware)
     vips_data = dict()
     vips_data['noticeTypeCd'] = prohibition_type
-    vips_data['noticeServedDt'] = notice_serve_date
-    (result, args) = middleware.date_served_not_older_than_one_week(vips_data=vips_data, today_date=today_date)
+    vips_data['noticeServedDt'] = notice_serve_date + " 00:00:00 -08:00"
+    (result, args) = middleware.is_applicant_within_window_to_apply(vips_data=vips_data, today_date=today_date)
     assert result is expected
 
 

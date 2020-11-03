@@ -22,14 +22,24 @@ def prohibition_factory(prohibition_type: str):
 class ProhibitionBase:
     WRITTEN_REVIEW_PRICE = 100
     ORAL_REVIEW_PRICE = 200
-    MUST_APPLY_FOR_REVIEW_WITHIN_7_DAYS = True
     DRIVERS_LICENCE_MUST_BE_SEIZED_BEFORE_APPLICATION_ACCEPTED = True
 
     # We can't schedule a review immediately, we have to give time for
     # an applicant to receive disclosure and submit their evidence
     MIN_DAYS_FROM_SCHEDULING_TO_REVIEW = 4
-    MIN_DAYS_FROM_SERVED_TO_REVIEW = 7
-    MAX_DAYS_FROM_SERVED_TO_REVIEW = 16
+    MIN_DAYS_FROM_SERVED_TO_REVIEW = 8
+    MAX_DAYS_FROM_SERVED_TO_REVIEW = 14
+
+    @staticmethod
+    def is_okay_to_apply(date_served: datetime, today: datetime) -> bool:
+        """
+        IRPs and ADPs can only be appealed within 7 days after a driver receives their
+        prohibition.
+        """
+        days_in_week = 7
+        if (today.date() - date_served.date()).days <= days_in_week:
+            return True
+        return False
 
     @staticmethod
     def get_min_max_review_dates(service_date: datetime, today=datetime.now()) -> tuple:
@@ -69,8 +79,14 @@ class ProhibitionBase:
 
 class UnlicencedDriver(ProhibitionBase):
     WRITTEN_REVIEW_PRICE = 50
-    MUST_APPLY_FOR_REVIEW_WITHIN_7_DAYS = False
     DRIVERS_LICENCE_MUST_BE_SEIZED_BEFORE_APPLICATION_ACCEPTED = False
+
+    @staticmethod
+    def is_okay_to_apply(date_served: datetime, today: datetime) -> bool:
+        """
+        UL Reviews are not restricted.  Applicants can apply anytime.
+        """
+        return True
 
     @staticmethod
     def get_min_max_review_dates(service_date: datetime, today=datetime.now()) -> tuple:
