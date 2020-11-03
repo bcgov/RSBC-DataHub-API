@@ -81,6 +81,9 @@ objects:
 
                       echo -e "endpoint: "http://${RABBITMQ_URL}:15672/api/parameters/shovel/%2F/hold" \n"
 
+                      data='{"value": {"src-protocol":"amqp091","src-uri":"amqp://'${RABBITMQ_USER}':'${RABBITMQ_PASS}'@'${RABBITMQ_URL}'","src-queue":"'${SOURCE_QUEUE}'","dest-protocol": "amqp091","dest-uri":"amqp://'${RABBITMQ_USER}':'${RABBITMQ_PASS}'@'${RABBITMQ_URL}'","dest-queue":"'${DESTINATION_QUEUE}'","src-delete-after": "queue-length"}}'
+                      echo -e "${data}\n"
+
                       echo -e "amqp_uri: ${AMQP_URI}\n"
 
                       echo -e "URL: ${RABBITMQ_URL}\n"
@@ -91,7 +94,7 @@ objects:
                       echo $(curl -v -X PUT "http://${RABBITMQ_URL}:15672/api/parameters/shovel/%2F/hold" \
                         --user "${RABBITMQ_USER}:${RABBITMQ_PASS}"  \
                         --header "Content-Type: application/json" \
-                        --data '{"value": {"src-protocol":"amqp091","src-uri":"amqp://'${RABBITMQ_USER}':'${RABBITMQ_PASS}'@'${RABBITMQ_URL}'","src-queue":"'${SOURCE_QUEUE}'","dest-protocol": "amqp091","dest-uri":"amqp://'${RABBITMQ_USER}':'${RABBITMQ_PASS}'@'${RABBITMQ_URL}'","dest-queue":"'${DESTINATION_QUEUE}'","src-delete-after": "queue-length"}}')
+                        --data $data)
 
                       echo -e "-------- CRON COMPLETE --------\n"
               restartPolicy: Never
