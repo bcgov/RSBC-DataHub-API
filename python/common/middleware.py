@@ -324,7 +324,8 @@ def get_invoice_details(**args) -> tuple:
 def calculate_schedule_window(**args) -> tuple:
     service_date = args.get('service_date')
     prohibition = args.get('prohibition')
-    args['min_review_date'], args['max_review_date'] = prohibition.get_min_max_review_dates(service_date)
+    today_date = args.get('today_date')
+    args['min_review_date'], args['max_review_date'] = prohibition.get_min_max_review_dates(service_date, today_date)
     return True, args
 
 

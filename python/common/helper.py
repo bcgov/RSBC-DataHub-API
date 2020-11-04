@@ -119,6 +119,7 @@ def get_listeners(listeners: dict, key: str) -> list:
 
 def localize_timezone(date_time: datetime) -> datetime:
     tz = pytz.timezone('America/Vancouver')
+    print(date_time.astimezone(tz))
     return date_time.astimezone(tz)
 
 

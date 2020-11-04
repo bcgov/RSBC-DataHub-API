@@ -75,7 +75,7 @@ served_recently_data = [
 def test_prohibition_served_recently_method(today_is, date_served, expected):
     tz = pytz.timezone('America/Vancouver')
     today_unaware = datetime.strptime(today_is, "%Y-%m-%d")
-    today_date = tz.localize(today_unaware, is_dst=False)
+    today_date = localize_timezone(today_unaware)
     result, args = middleware.prohibition_served_recently(
         today_date=today_date,
         date_of_service=date_served,
@@ -482,12 +482,12 @@ def test_decode_compress_encode_xml():
 
 
 inside_review_window = [
-    ("2020-09-05", "2020-09-11", "2020-09-04 23:59:22 -07:00", False),
-    ("2020-09-05", "2020-09-11", "2020-09-05 00:01:22 -07:00", True),
-    ("2020-09-05", "2020-09-11", "2020-09-06 13:31:22 -07:00", True),
-    ("2020-09-05", "2020-09-11", "2020-09-12 13:31:22 -07:00", False),
-    ("2020-09-05", "2020-09-11", "2020-09-05 00:15:22 -07:00", True),
-    ("2020-09-04", "2020-09-11", "2020-09-11 17:59:22 -07:00", True),
+    ("2020-09-05", "2020-09-11", "2020-09-04 23:59:22", False),
+    ("2020-09-05", "2020-09-11", "2020-09-05 00:01:22", True),
+    ("2020-09-05", "2020-09-11", "2020-09-06 13:31:22", True),
+    ("2020-09-05", "2020-09-11", "2020-09-12 13:31:22", False),
+    ("2020-09-05", "2020-09-11", "2020-09-05 00:15:22", True),
+    ("2020-09-04", "2020-09-11", "2020-09-11 17:59:22", True),
 ]
 
 
@@ -497,7 +497,7 @@ def test_is_requested_time_slot_okay(min_review_date, max_review_date, requested
     min_review = localize_timezone(datetime.strptime(min_review_date, iso))
     max_review = localize_timezone(datetime.strptime(max_review_date, iso))
     timeslot = dict({
-        "reviewStartDtm": requested_start_datetime,
+        "reviewStartDtm": requested_start_datetime + " -07:00",
         "reviewEndDtm": 'this attribute ignored in this test'
     })
     response, args = middleware.is_selected_timeslot_inside_schedule_window(
