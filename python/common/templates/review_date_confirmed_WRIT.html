@@ -1,5 +1,10 @@
 {% extends "review_date_confirmed_ORAL.html" %}
 
+{% block primary_text_1 %}
+    Your review has been scheduled for:<br />
+    <strong>{{ friendly_review_time_slot }}</strong>
+{% endblock %}
+
 {% block primary_text_2 %}
     We can only change the review date or time in special situations.
     Call RoadSafetyBC’s Appeals Registry at 1-855-387-7747 and select option 5.
