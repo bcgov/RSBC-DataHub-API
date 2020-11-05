@@ -563,3 +563,52 @@ def test_is_any_unsent_disclosure_method():
     response, args = middleware.is_any_unsent_disclosure(vips_data=vips_data)
     assert response is True
     assert len(args.get('disclosures')) == 2
+
+
+additional_review_times = [
+    ("2020-11-02", "2020-11-09", 3, 3, 0),
+    ("2020-11-02", "2020-11-09", 2, 3, 1),
+    ("2020-11-02", "2020-11-09", 1, 3, 2),
+]
+
+
+@pytest.mark.parametrize("min_review_date, max_review_date, initial_days_offered, expected_days, expected_time_slots",
+                         additional_review_times)
+def test_query_for_additional_review_times(min_review_date, max_review_date,
+                                           initial_days_offered, expected_days, expected_time_slots, monkeypatch):
+    iso = "%Y-%m-%d"
+    first_date = vips.next_business_date(datetime.strptime(max_review_date, iso))
+    end_date = vips.next_business_date(datetime.strptime(min_review_date, iso))
+
+    class MockConfig:
+        MIN_REVIEW_DAYS_OFFERED = 3
+        ADDITIONAL_DAYS_TO_QUERY = 4
+
+    def mock_schedule_get(*args) -> tuple:
+        return True, dict({
+            "time_slots": [
+                {
+                    "reviewStartDtm": first_date.strftime(iso) + " 09:00:00 -08:00",
+                    "reviewEndDtm": first_date.strftime(iso) + " 09:30:00 -08:00",
+                }
+            ],
+            "number_review_days_offered": 1
+        })
+
+    monkeypatch.setattr(vips, "schedule_get", mock_schedule_get)
+
+    is_success, args = middleware.query_for_additional_review_times(
+        correlation_id="abcde",
+        number_review_days_offered=initial_days_offered,
+        presentation_type="ORAL",
+        max_review_date=end_date,
+        min_review_date=first_date,
+        config=MockConfig,
+        vips_data={
+            "noticeTypeCd": "IRP"
+        },
+        time_slots=list()
+    )
+
+    assert args['number_review_days_offered'] == expected_days
+    assert len(args['time_slots']) == expected_time_slots

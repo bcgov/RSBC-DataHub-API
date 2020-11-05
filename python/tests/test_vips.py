@@ -164,6 +164,83 @@ class TestVips:
         is_success = vips.is_last_name_match(response_from_api['data']['status'], "Norris")
         assert is_success is True
 
+    dates_to_test = [
+        ("2020-11-02", "2020-11-03"),
+        ("2020-11-03", "2020-11-04"),
+        ("2020-11-06", "2020-11-09"),
+        ("2020-11-07", "2020-11-09"),
+        ("2020-11-08", "2020-11-09"),
+        ("2020-11-09", "2020-11-10"),
+    ]
+
+    @staticmethod
+    @pytest.mark.parametrize("date_under_test, next_business_date", dates_to_test)
+    def test_next_business_date(date_under_test, next_business_date):
+        iso = "%Y-%m-%d"
+        date_time = datetime.strptime(date_under_test, iso)
+        expected = datetime.strptime(next_business_date, iso)
+        assert vips.next_business_date(date_time) == expected
+
+    get_schedule_data = [
+        ("IRP", "ORAL", "2020-11-02", "2020-11-03", 2),
+        ("IRP", "ORAL", "2020-11-02", "2020-11-07", 5),
+        ("IRP", "ORAL", "2020-11-02", "2020-11-10", 7)
+    ]
+
+    @staticmethod
+    @pytest.mark.parametrize("prohibition_type, review_type, first_date, last_date, count_days", get_schedule_data)
+    def test_schedule_get_method(prohibition_type, review_type, first_date, last_date, count_days, monkeypatch):
+
+        correlation_id = 'abcdef'
+        iso = "%Y-%m-%d"
+
+        def mock_vips_get(*args):
+            endpoint_list = args[0].split("/")
+            query_date = endpoint_list[6]
+            print(query_date)
+
+            assert args[0] == vips.build_endpoint(
+                TestConfig.VIPS_API_ROOT_URL,
+                prohibition_type,
+                review_type,
+                query_date,
+                "review",
+                "availableTimeSlot",
+                correlation_id
+            )
+
+            endpoint_list = args[0].split("/")
+            print(endpoint_list)
+
+            return True, dict({
+                "resp": "success",
+                "data": {
+                    "timeSlots": [
+                        {
+                            "reviewStartDtm": query_date + " 09:00:00 -08:00",
+                            "reviewEndDtm": query_date + " 09:30:00 -08:00",
+                        }
+                    ]
+                }
+            })
+
+        first_datetime = datetime.strptime(first_date, iso)
+        last_datetime = datetime.strptime(last_date, iso)
+
+        monkeypatch.setattr(vips, "get", mock_vips_get)
+
+        is_successful, data = vips.schedule_get(
+            prohibition_type,
+            review_type,
+            first_datetime,
+            last_datetime,
+            TestConfig,
+            correlation_id)
+
+        assert is_successful
+        print(data)
+        assert data['number_review_days_offered'] == count_days
+
 
 def iso_date_string(date_time: datetime) -> str:
     return date_time.strftime("%Y-%m-%d")

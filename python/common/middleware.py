@@ -330,21 +330,52 @@ def calculate_schedule_window(**args) -> tuple:
 
 
 def query_review_times_available(**args) -> tuple:
+    correlation_id = args.get('correlation_id')
     vips_data = args.get('vips_data')
-    min_review_date = args.get('min_review_date')
-    max_review_date = args.get('max_review_date')
+    first_date = args.get('min_review_date')
+    last_date = args.get('max_review_date')
     review_type = args.get('presentation_type')
     config = args.get('config')
     logging.info('query review times available')
-    time_slots = list()
-    for query_date in vips.list_of_weekdays_dates_between(min_review_date, max_review_date):
-        query_date_string = query_date.strftime("%Y-%m-%d")
-        logging.info('check VIPS for time slots available on: {}'.format(query_date_string))
-        is_successful, data = vips.schedule_get(vips_data['noticeTypeCd'], review_type, query_date_string, config)
-        if data['resp'] == 'success' and len(data['data']['timeSlots']) > 0:
-            time_slots += vips.time_slots_to_friendly_times(data['data']['timeSlots'], review_type)
-    logging.debug(json.dumps(time_slots))
+    is_successful, data = vips.schedule_get(
+        vips_data['noticeTypeCd'],
+        review_type, first_date, last_date, config, correlation_id)
+    if not is_successful:
+        return False, args
+    logging.debug(json.dumps(data))
+    args['time_slots'] = data['time_slots']
+    args['number_review_days_offered'] = data['number_review_days_offered']
+    return True, args
+
+
+def does_applicant_have_enough_review_options(**args) -> tuple:
+    config = args.get('config')
+    number_review_days_offered = args.get('number_review_days_offered')
+    return number_review_days_offered >= config.MIN_REVIEW_DAYS_OFFERED, args
+
+
+def query_for_additional_review_times(**args) -> tuple:
+    query_count = 0
+    correlation_id = args.get('correlation_id')
+    config = args.get('config')
+    number_review_days_offered = args.get('number_review_days_offered')
+    vips_data = args.get('vips_data')
+    time_slots = args.get('time_slots')
+    last_date = args.get('max_review_date')
+    review_type = args.get('presentation_type')
+    while number_review_days_offered < config.MIN_REVIEW_DAYS_OFFERED and query_count <= config.ADDITIONAL_DAYS_TO_QUERY:
+        logging.info("Querying for additional review dates. Number offered so far: {}".format(number_review_days_offered))
+        datetime_to_query = vips.next_business_date(last_date)
+        query_count += 1
+        is_successful, data = vips.schedule_get(
+            vips_data['noticeTypeCd'],
+            review_type, datetime_to_query, datetime_to_query, config, correlation_id)
+        if not is_successful:
+            return False, args
+        number_review_days_offered += 1
+        time_slots.append(data['time_slots'])
     args['time_slots'] = time_slots
+    args['number_review_days_offered'] = number_review_days_offered
     return True, args
 
 

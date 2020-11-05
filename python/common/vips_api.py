@@ -23,6 +23,16 @@ def list_of_weekdays_dates_between(start: datetime, end: datetime) -> list:
     return results
 
 
+def next_business_date(date_time: datetime) -> datetime:
+    delta = timedelta(days=1)
+    next_day = date_time + delta
+    while True:
+        day_of_week = next_day.strftime("%a")
+        if not (day_of_week == "Sun" or day_of_week == "Sat"):
+            return next_day
+        next_day += delta
+
+
 def status_get(prohibition_id: str, config, correlation_id: str) -> tuple:
     """
     Call out to the VIPS API and return the prohibition status. Returns (True, data)
@@ -117,20 +127,35 @@ def application_update(guid: str, config, correlation_id: str):
     return get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
 
 
-def schedule_get(notice_type_code: str, review_type: str, review_date: str, config, correlation_id='abcd') -> tuple:
-    endpoint = build_endpoint(
-        config.VIPS_API_ROOT_URL,
-        notice_type_code,
-        review_type,
-        review_date,
-        'review',
-        'availableTimeSlot',
-        correlation_id)
-    is_successful, data = get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
-    if is_successful and 'resp' in data:
-        return True, data
-    logging.warning('Cannot GET VIPS schedule: {}'.format(json.dumps(data)))
-    return False, {}
+def schedule_get(notice_type: str, review_type: str, first_date: datetime, last_date: datetime, config, correlation_id):
+    time_slots = list()
+    number_review_days_offered = 0
+    is_successful = False
+    for query_date in list_of_weekdays_dates_between(first_date, last_date):
+        query_date_string = query_date.strftime("%Y-%m-%d")
+        endpoint = build_endpoint(
+            config.VIPS_API_ROOT_URL,
+            notice_type,
+            review_type,
+            query_date_string,
+            'review',
+            'availableTimeSlot',
+            correlation_id)
+        logging.info('check VIPS for time slots available on: {}'.format(query_date_string))
+        is_successful, data = get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
+        if is_successful:
+            if data['resp'] == 'success' and len(data['data']['timeSlots']) > 0:
+                number_review_days_offered += 1
+                time_slots += time_slots_to_friendly_times(data['data']['timeSlots'], review_type)
+        else:
+            logging.warning('Cannot GET VIPS schedule')
+            break
+    if is_successful:
+        return True, dict({
+            "time_slots": time_slots,
+            "number_review_days_offered": number_review_days_offered
+        })
+    return False, dict({})
 
 
 def schedule_create(**args):
