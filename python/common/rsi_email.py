@@ -22,6 +22,7 @@ def application_accepted(**args):
         content["subject"],
         config,
         template.render(
+            link_to_paybc=config.LINK_TO_PAYBC,
             full_name=args.get('driver_full_name'),
             prohibition_number=prohibition_number,
             subject=content["subject"])), args
@@ -48,8 +49,7 @@ def send_form_xml_to_admin(**args):
     xml = args.get('xml_base64', None)
     if xml:
         config = args.get('config')
-        prohibition_number = args.get('prohibition_number')
-        subject = 'DEBUG - Form XML attached - {}'.format(prohibition_number)
+        subject = 'DEBUG - Form XML attached'
         template = get_jinja2_env().get_template('admin_notice.html')
         return common_email_services.send_email(
             [config.ADMIN_EMAIL_ADDRESS],
@@ -110,6 +110,8 @@ def applicant_licence_not_seized(**args):
         content["subject"],
         config,
         template.render(
+            link_to_icbc=config.LINK_TO_ICBC,
+            link_to_service_bc=config.LINK_TO_SERVICE_BC,
             full_name=args.get('driver_full_name'),
             prohibition_number=prohibition_number,
             subject=content["subject"])), args
@@ -128,6 +130,8 @@ def applicant_prohibition_not_found(**args):
         content["subject"],
         config,
         template.render(
+            link_to_icbc=config.LINK_TO_ICBC,
+            link_to_service_bc=config.LINK_TO_SERVICE_BC,
             full_name=args.get('driver_full_name'),
             prohibition_number=prohibition_number,
             subject=content["subject"])), args
@@ -154,6 +158,7 @@ def applicant_to_schedule_review(**args):
         content["subject"],
         config,
         template.render(
+            link_to_schedule_form=config.LINK_TO_SCHEDULE_FORM,
             full_name=full_name,
             prohibition_number=prohibition_number,
             subject=content["subject"])), args
@@ -203,6 +208,9 @@ def applicant_last_name_mismatch(**args):
         content["subject"],
         config,
         template.render(
+            link_to_application_form=config.LINK_TO_APPLICATION_FORM,
+            link_to_icbc=config.LINK_TO_ICBC,
+            link_to_service_bc=config.LINK_TO_SERVICE_BC,
             full_name=args.get('driver_full_name'),
             prohibition_number=prohibition_number,
             subject=content["subject"])), args
@@ -227,6 +235,8 @@ def applicant_prohibition_not_found_yet(**args):
         content["subject"],
         config,
         template.render(
+            link_to_icbc=config.LINK_TO_ICBC,
+            link_to_service_bc=config.LINK_TO_SERVICE_BC,
             date_of_service=human_friendly_date_served,
             full_name=args.get('driver_full_name'),
             prohibition_number=prohibition_number,
@@ -282,6 +292,7 @@ def applicant_evidence_instructions(**args) -> tuple:
         content["subject"],
         config,
         template.render(
+            link_to_evidence_form=config.LINK_TO_EVIDENCE_FORM,
             full_name=args.get('applicant_name'),
             prohibition_number=prohibition_number,
             subject=content["subject"])), args
@@ -302,6 +313,7 @@ def applicant_evidence_received(**args) -> tuple:
         content["subject"],
         config,
         template.render(
+            link_to_evidence_form=config.LINK_TO_EVIDENCE_FORM,
             full_name=full_name,
             today_date=helper.localize_timezone(datetime.now()).strftime("%B %d, %Y %H:%M:%S"),
             prohibition_number=prohibition_number,

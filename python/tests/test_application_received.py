@@ -11,7 +11,6 @@ import python.common.common_email_services as common_email_services
 
 def status_gets(is_success, prohibition_type, date_served, last_name, seized, cause, already_applied):
     data = {
-            "resp": "success",
             "data": {
                 "status": {
                     "noticeTypeCd": prohibition_type,
@@ -27,7 +26,11 @@ def status_gets(is_success, prohibition_type, date_served, last_name, seized, ca
         }
     if already_applied == "True":
         data['data']['status']['applicationId'] = 'GUID-GUID-GUID-GUID'
-    return is_success, data
+    if is_success:
+        data['resp'] = "success"
+    else:
+        data['resp'] = 'error'
+    return True, data
 
 
 @pytest.mark.parametrize(
@@ -38,7 +41,10 @@ def test_application_form_received(
 
     def mock_status_get(*args, **kwargs):
         print('inside mock_status_get()')
-        return status_gets(is_valid == "True", prohibition_type, date_served, last_name, seized, "N/A", is_applied)
+        is_response_successful, data = status_gets(is_valid == "True", prohibition_type, date_served, last_name, seized, "N/A", is_applied)
+        if is_response_successful and 'resp' in data:
+            return True, data
+        return False, dict({})
 
     def mock_send_email(*args, **kwargs):
         print('inside mock_send_email()')
@@ -67,6 +73,12 @@ def test_application_form_received(
     monkeypatch.setattr(common_email_services, "send_email", mock_send_email)
 
     message_dict = helper.load_json_into_dict('python/tests/sample_data/form/irp_form_submission.json')
+
+    # For the prohibition_not_found and the prohibition_not_found_yet emails, we rely on users entering
+    # correct prohibition number prefix to determine the correct letter type.
+    if prohibition_type == "UL":
+        message_dict['prohibition_review']['form']['prohibition-information']['control-is-ul'] = "true"
+        message_dict['prohibition_review']['form']['prohibition-information']['control-is-irp'] = "false"
 
     results = helper.middle_logic(helper.get_listeners(business.process_incoming_form(), message_dict['event_type']),
                                   message=message_dict,

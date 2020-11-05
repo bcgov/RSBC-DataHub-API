@@ -7,7 +7,7 @@
 
 {% block primary_text_2 %}
     Please return to the
-    <a href="https://forms2.qa.gov.bc.ca/forms/content?id=FC005E942B274061A110A2CFC42C1EA2">
+    <a href="{{ link_to_application_form }}">
         Notice of Driving Prohibition Application for Review</a>
     and complete the form again with the correct prohibition number or last name.
     <ul>
@@ -22,8 +22,8 @@
 
 {% block primary_text_3 %}
     You can apply also in-person for a review. Make an appointment online with
-    <a href="https://www.icbc.com/driver-licensing/visit-dl-office/Pages/Book-a-knowledge-test-and-other-services.aspx">ICBC</a>
-    or <a href="https://appointments.servicebc.gov.bc.ca/appointment">ServiceBC</a>; or visit an
+    <a href="{{ link_to_icbc }}">ICBC</a>
+    or <a href="{{ link_to_service_bc }}">ServiceBC</a>; or visit an
     appointed agent right away to meet the application deadline. Walk-in visits at ICBC are limited
     so arrive early.
 {% endblock %}
