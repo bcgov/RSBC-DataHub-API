@@ -368,15 +368,15 @@ def content_data() -> dict:
     return dict({
         "IRP_last_name_mismatch.html": {
             "raw_subject": "Prohibition Number or Name Don't Match - Driving Prohibition {} Review",
-            "title": "IRP Prohibition Number or Name Don’t Match",
+            "title": "IRP Prohibition Number or Name Don't Match",
         },
         "ADP_last_name_mismatch.html": {
             "raw_subject": "Prohibition Number or Name Don't Match - Driving Prohibition {} Review",
-            "title": "ADP Prohibition Number or Name Don’t Match",
+            "title": "ADP Prohibition Number or Name Don't Match",
         },
         "UL_last_name_mismatch.html": {
             "raw_subject": "Prohibition Number or Name Don't Match - Driving Prohibition {} Review",
-            "title": "UL Prohibition Number or Name Don’t Match",
+            "title": "UL Prohibition Number or Name Don't Match",
         },
         "IRP_prohibition_not_found_yet.html": {
             "raw_subject": "Prohibition Not Found Yet - Driving Prohibition {} Review",

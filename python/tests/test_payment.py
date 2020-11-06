@@ -9,21 +9,21 @@ import python.common.vips_api as vips
 
 test_search_method_data = [
     # Type, ServiceDate   TodayIs       Paid     LastName  InVips  Error
-    ('IRP', "2020-09-10", "2020-09-15", False,   "Norris", True,  "The last name doesn’t match a driving prohibition in the system."),
+    ('IRP', "2020-09-10", "2020-09-15", False,   "Norris", True,  "The last name doesn't match a driving prohibition in the system."),
     ('IRP', "2020-09-10", "2020-09-18", False,   "Gordon", True,  "The Notice of Prohibition was issued more than 7 days ago."),
     ('IRP', "2020-09-10", "2020-09-16", False,   "Gordon", True,  None),
     ('IRP', "2020-09-10", "2020-09-14", False,   "Gordon", False, "The driving prohibition isn't in the system."),
     ('IRP', "2020-09-10", "2020-09-14", True,    "Gordon", True,  "The application review fee has already been paid."),
     ('IRP', "2020-09-10", "2020-09-14", False,   "Gordon", True,  None),
 
-    ('ADP', "2020-09-10", "2020-09-15", False,   "Norris", True,  "The last name doesn’t match a driving prohibition in the system."),
+    ('ADP', "2020-09-10", "2020-09-15", False,   "Norris", True,  "The last name doesn't match a driving prohibition in the system."),
     ('ADP', "2020-09-10", "2020-09-18", False,   "Gordon", True,  "The Notice of Prohibition was issued more than 7 days ago."),
     ('ADP', "2020-09-10", "2020-09-16", False,   "Gordon", True,  None),
     ('ADP', "2020-09-10", "2020-09-14", False,   "Gordon", False, "The driving prohibition isn't in the system."),
     ('ADP', "2020-09-10", "2020-09-14", True,    "Gordon", True,  "The application review fee has already been paid."),
     ('ADP', "2020-09-10", "2020-09-14", False,   "Gordon", True,  None),
 
-    ('UL',  "2020-09-10", "2020-09-15", False,   "Norris", True,  "The last name doesn’t match a driving prohibition in the system."),
+    ('UL',  "2020-09-10", "2020-09-15", False,   "Norris", True,  "The last name doesn't match a driving prohibition in the system."),
     ('UL',  "2020-09-10", "2020-09-14", False,   "Gordon", False, "The driving prohibition isn't in the system."),
     ('UL',  "2020-09-10", "2020-09-14", True,    "Gordon", True,  "The application review fee has already been paid."),
     ('UL',  "2020-09-10", "2020-09-14", False,   "Gordon", True,  None),

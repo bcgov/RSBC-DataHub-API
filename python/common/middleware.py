@@ -178,7 +178,7 @@ def user_submitted_last_name_matches_vips(**args) -> tuple:
     if vips.is_last_name_match(vips_data, driver_last_name):
         return True, args
     error = 'the last name submitted does not match VIPS'
-    args['error_string'] = "The last name doesn’t match a driving prohibition in the system."
+    args['error_string'] = "The last name doesn't match a driving prohibition in the system."
     logging.info(error)
     return False, args
 

@@ -1,7 +1,7 @@
 {% extends "email_alert_base.html" %}
 
 {% block primary_text_1 %}
-Your driving prohibition {{ prohibition_number }} issued on {{ date_of_service }} isn’t in our system yet.
+Your driving prohibition {{ prohibition_number }} issued on {{ date_of_service }} isn't in our system yet.
 {% endblock %}
 
 {% block primary_text_2 %}
@@ -12,11 +12,11 @@ Your driving prohibition {{ prohibition_number }} issued on {{ date_of_service }
        the date and prohibition number correctly.
    </li>
    <li>
-       When we find the prohibition, we’ll send you an email with the next step to continue
+       When we find the prohibition, we'll send you an email with the next step to continue
        the application process <strong>OR</strong>
    </li>
    <li>
-       If we don’t find it, we’ll send you an email advising you
+       If we don't find it, we'll send you an email advising you
        to apply in-person at
        <a href="{{ link_to_icbc }}">ICBC</a>,
        <a href="{{ link_to_service_bc }}">ServiceBC</a>
