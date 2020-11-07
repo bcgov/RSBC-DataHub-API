@@ -14,6 +14,6 @@ def payment_success(**args):
     return jsonify(dict({
         "status": "APP",
         "receipt_number": payload['receipt_number'],
-        "receipt_date ": payload['receipt_date'],
+        "receipt_date": payload['receipt_date'],
         "receipt_amount": payload['receipt_amount']
     }))
