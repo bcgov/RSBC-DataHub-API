@@ -75,5 +75,4 @@ def save_payment() -> list:
         {"try": middleware.save_payment_to_vips, "fail": []},
         {"try": middleware.payment_success, "fail": []},
         {"try": rsi_email.applicant_to_schedule_review, "fail": []},
-        {"try": api.payment_success, "fail": []},
     ]
