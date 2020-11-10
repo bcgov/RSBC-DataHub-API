@@ -65,8 +65,7 @@ def ingest_form() -> list:
         {"try": actions.add_to_rabbitmq_queue, "fail": [
             {"try": rest.server_error, "fail": []},
         ]},
-        # TODO - REMOVE BEFORE FLIGHT
-        {"try": rsi_email.send_form_xml_to_admin, "fail": []},
+        # Useful for debugging: {"try": rsi_email.send_form_xml_to_admin, "fail": []},
         {"try": rest.okay, "fail": []}
        ]
 
