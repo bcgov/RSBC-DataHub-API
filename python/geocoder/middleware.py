@@ -44,36 +44,6 @@ def is_google_api_key_provided(**args) -> tuple:
     return False, args
 
 
-def clean_up_address(**args) -> tuple:
-    address = args.get('address_raw')
-    logging.info('raw address {}'.format(address))
-    address = address.replace('\r\n', '\n')
-    address = address.replace('/', ' AND ')
-    address = address.replace('+', ' AND ')
-    address = address.replace('@', ' AND ')
-    address = address.replace(' AT ', ' AND ')
-    address = address.replace('#', '')
-    address = address.replace(' NB', '')
-    address = address.replace(' SB', '')
-    address = address.replace(' EB', '')
-    address = address.replace(' WB', '')
-    address = address.replace(' BLOCK', ' BLK')
-    address = address.replace('HIGHWAY', 'HWY')
-    address = address.replace('\bTRANS-CANADA\b', 'TRANS CANADA')
-    address = address.replace('TRANS CANADA HWY', 'BC-1')
-    address = address.replace('\bTRANS CANADA\b', 'BC-1')
-    address = address.replace('\bTCH', 'BC-1')
-    address = address.replace('ISLAND HWY', 'BC-1')
-    address = address.replace('PAT BAY HWY', 'PATRICIA BAY HWY')
-    address = address.replace('PATRICIA BAY HWY', 'BC-17')
-    address = re.sub(r'HWY\s(\d)', r'BC-\g<1>', address)
-    address = re.sub(r'[^\S\r\n]{2,}', ' ', address)
-    address = re.sub(r'^\s+', '', address)
-    logging.info('clean address {}'.format(address))
-    args['address_clean'] = address
-    return True, args
-
-
 def generate_data_bc_only_response(**args) -> tuple:
     args['response'] = dict({
         "is_success": True,

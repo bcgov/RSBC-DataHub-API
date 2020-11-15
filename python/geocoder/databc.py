@@ -47,8 +47,7 @@ def is_response_valid(**args) -> tuple:
 
 def is_confidence_too_low(**args) -> tuple:
     data_bc = args.get('data_bc')
+    logging.info('DataBC returned a score of: {}'.format(data_bc['score']))
     if data_bc['score'] < MIN_CONFIDENCE_SCORE:
-        logging.info('DataBC returned a score below the minimum threshold, calling alternative (if configured)')
         return True, args
-    logging.info('DataBC returned a score above the minimum threshold: {}'.format(data_bc['score']))
     return False, args

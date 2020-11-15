@@ -1,5 +1,6 @@
 from python.writer.config import Config
-from python.writer.database import write as database_writer
+import python.common.helper as helper
+import python.writer.business as business
 from python.common.rabbitmq import RabbitMQ
 from python.common.message import decode_message, encode_message
 import logging
@@ -33,10 +34,10 @@ class Listener:
         # convert body (in bytes) to string
         message_dict = decode_message(body, self.config.ENCRYPT_KEY)
 
-        is_success, args = database_writer(message=message_dict, config=Config)
-        if not is_success:
-            message_with_errors = args.get('message')
-            self.writer.publish(Config.FAIL_QUEUE, encode_message(message_with_errors, Config.ENCRYPT_KEY))
+        helper.middle_logic(helper.get_listeners(business.process_ekt_events(), message_dict['event_type']),
+                            message=message_dict,
+                            config=self.config,
+                            writer=self.writer)
 
         # Regardless of whether the write above is successful we need to
         # acknowledge receipt of the message to RabbitMQ. This acknowledgement

@@ -29,9 +29,9 @@ def insert(config, tables_to_be_inserted: list) -> tuple:
     # Connect to database
     logging.info('insert called')
     logging.info(config.DB_HOST)
-    connection_string = _get_database_connection_string(config)
+    connection_string = get_database_connection_string(config)
     logging.debug(connection_string)
-    connection = _get_database_connection(connection_string)
+    connection = get_database_connection(connection_string)
     cursor = connection.cursor()
 
     for table in tables_to_be_inserted:
@@ -57,7 +57,7 @@ def insert(config, tables_to_be_inserted: list) -> tuple:
     return True, {}
 
 
-def _get_database_connection(connection_string):
+def get_database_connection(connection_string):
     # Infinite loop until connection established
     while True:
         try:
@@ -68,7 +68,7 @@ def _get_database_connection(connection_string):
             logging.warning(str(error))
 
 
-def _get_database_connection_string(config):
+def get_database_connection_string(config):
     return "DRIVER={{{}}};SERVER={};DATABASE={};UID={};PWD={}".format(
         config.ODBC_DRIVER,
         config.DB_HOST, 

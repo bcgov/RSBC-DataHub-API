@@ -129,6 +129,19 @@ objects:
               value: ${PYTHONPATH}
             - name: ENVIRONMENT
               value: ${PHASE}
+            - name: GEOCODER_API_URI
+              value: ${NAME}-geocoder${SUFFIX}
+            - name: GEOCODE_BASIC_AUTH_USER
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}${SUFFIX}
+                  key: geocode-basic-auth-user
+            - name: GEOCODE_BASIC_AUTH_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}${SUFFIX}
+                  key: geocode-basic-auth-pass
+
           resources:
             limits:
               cpu: 80m
