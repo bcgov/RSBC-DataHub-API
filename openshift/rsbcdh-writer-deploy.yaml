@@ -17,6 +17,7 @@ parameters:
   required: true
 - name: DB_USERNAME
 - name: DB_PASSWORD
+- name: GEOCODER_API_URI
 - name: LOG_LEVEL
   value: 'WARNING'
 - name: ENCRYPT_KEY
@@ -130,7 +131,7 @@ objects:
             - name: ENVIRONMENT
               value: ${PHASE}
             - name: GEOCODER_API_URI
-              value: ${NAME}-geocoder${SUFFIX}
+              value: https://${NAME}-geocoder${SUFFIX}.pathfinder.gov.bc.ca/address
             - name: GEOCODE_BASIC_AUTH_USER
               valueFrom:
                 secretKeyRef:

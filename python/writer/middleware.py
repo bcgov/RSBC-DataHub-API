@@ -63,7 +63,7 @@ def build_payload_to_send_to_geocoder(**args) -> tuple:
 
 def callout_to_geocoder_api(**args) -> tuple:
     config = args.get('config')
-    endpoint = 'http://' + config.GEOCODER_API_URI + '/address'
+    endpoint = config.GEOCODER_API_URI
     payload = args.get('payload')
     logging.info('Geocoder endpoint: {}'.format(endpoint))
     try:
