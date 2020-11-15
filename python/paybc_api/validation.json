@@ -1,0 +1,61 @@
+{
+  "search": {
+    "allow_unknown": false,
+    "cerberus_rules": {
+      "invoice_number": {
+        "type": "string",
+        "required": true
+      },
+      "check_value": {
+        "type": "string",
+        "required": true
+      },
+      "pay_bc_reference": {
+        "type": "string",
+        "required": true
+      }
+    }
+  },
+  "receipt": {
+    "allow_unknown": true,
+      "cerberus_rules": {
+        "receipt_number": {
+          "type": "string",
+          "required": true
+        },
+        "receipt_date": {
+          "type": "string",
+          "required": true
+        },
+        "receipt_amount": {
+          "type": "float",
+          "required": true
+        },
+        "payment_method": {
+          "type": "string",
+          "required": true
+        },
+        "cardtype": {
+          "type": "string",
+          "required": true
+        },
+        "invoices": {
+          "type": "list",
+          "required": true,
+          "schema": {
+            "type": "dict",
+            "schema": {
+              "trx_number": {
+                "type": "string",
+                "required": true
+              },
+              "amount_to_apply": {
+                "type": "float",
+                "required": true
+              }
+            }
+          }
+        }
+      }
+  }
+}

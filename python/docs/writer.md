@@ -1,3 +1,4 @@
+
 # About the Writer
 
 The writer is a Python application that:

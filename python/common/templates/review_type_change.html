@@ -1,0 +1,17 @@
+{% extends "email_alert_base.html" %}
+
+{% block primary_text_1 %}
+    You're not eligible for an oral review of driving prohibition {{ prohibition_number }}.
+    Oral reviews are only available for 30 and 90-day prohibitions.
+{% endblock %}
+
+{% block primary_text_2 %}
+   You can continue with a written review. You can submit a statement and evidence, but you will
+   not be able to speak to a RoadSafetyBC adjudicator. The cost of a written review is $100.
+{% endblock %}
+
+{% block primary_text_3 %}{% endblock %}
+{% block primary_text_4 %}{% endblock %}
+
+{% block callout %}You're only eligible for a written review.{% endblock %}
+{% block timeline %}apply.png{% endblock %}

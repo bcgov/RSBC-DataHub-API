@@ -10,9 +10,25 @@ parameters:
 - name: VERSION
 - name: HOST
 - name: RABBITMQ_URL
-- name: INGEST_USER
-- name: INGEST_PASS
+- name: RABBITMQ_USER
+- name: RABBITMQ_PASS
+- name: VIPS_API_USERNAME
+- name: VIPS_API_PASSWORD
+- name: VIPS_API_ROOT_URL
+- name: COMM_SERV_AUTH_URL
+- name: COMM_SERV_API_ROOT_URL
+- name: COMM_SERV_REALM
+- name: COMM_SERV_CLIENT_ID
+- name: COMM_SERV_CLIENT_SECRET
+- name: ADMIN_EMAIL_ADDRESS
+- name: BCC_EMAIL_ADDRESSES
+- name: FLASK_BASIC_AUTH_USER
+- name: FLASK_BASIC_AUTH_PASS
 - name: SECRET_KEY
+- name: ENCRYPT_KEY
+- name: FLASK_SECRET_KEY
+- name: LOG_LEVEL
+  value: 'INFO'
 - name: FLASK_ENV
   value: 'development'
 - name: URL_SUFFIX
@@ -83,18 +99,92 @@ objects:
           env:
             - name: RABBITMQ_URL
               value: ${NAME}-rabbitmq${SUFFIX}
-            - name: INGEST_USER
+            - name: RABBITMQ_USER
               valueFrom:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
-                  key: username
-            - name: INGEST_PASS
+                  key: rabbitmq-username
+            - name: RABBITMQ_PASS
               valueFrom:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
-                  key: password
+                  key: rabbitmq-password
+            - name: VIPS_API_ROOT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: vips-api-root-url
+            - name: VIPS_API_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: vips-api-username
+            - name: VIPS_API_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: vips-api-password
+            - name: COMM_SERV_AUTH_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: comm-serv-auth-url
+            - name: COMM_SERV_API_ROOT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: comm-serv-api-root-url
+            - name: COMM_SERV_REALM
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: comm-serv-realm
+            - name: COMM_SERV_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: comm-serv-client-id
+            - name: COMM_SERV_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: comm-serv-client-secret
+            - name: ADMIN_EMAIL_ADDRESS
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: admin-email-address
+            - name: BCC_EMAIL_ADDRESSES
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: bcc-email-addresses
+            - name: FLASK_BASIC_AUTH_USER
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: flask-basic-auth-user
+            - name: FLASK_BASIC_AUTH_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: flask-basic-auth-pass
+            - name: ENCRYPT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: encrypt-key
+            - name: FLASK_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: ingestor-flask-secret
             - name: FLASK_ENV
               value: ${FLASK_ENV}
+            - name: LOG_LEVEL
+              value: ${LOG_LEVEL}
+            - name: ENVIRONMENT
+              value: ${PHASE}
           resources:
             limits:
               cpu: 80m

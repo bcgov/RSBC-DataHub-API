@@ -1,0 +1,28 @@
+{% extends "email_alert_base.html" %}
+
+{% block primary_text_1 %}
+   Visit
+    <a href="{{ link_to_evidence_form }}">Upload Evidence and Statement</a>
+    to provide statements and evidence for your review. You can use this link more than once.
+{% endblock %}
+
+{% block primary_text_2 %}
+    We <strong>only</strong> accept:
+    <ul>
+        <li>.pdf, .rtf, .doc, .docx, or .txt files</li>
+        <li>.csv, .xls, .xlsx files</li>
+        <li>.png, .jpg and .gif files</li>
+        <li>.avi, .mp3 or .ts audio files</li>
+        <li>.mov .mp4, or .ts video files</li>
+    </ul>
+{% endblock %}
+
+{% block primary_text_3 %}
+We will <strong>not</strong> accept cloud or Google docs for phone, audio or video evidence.
+{% endblock %}
+
+{% block primary_text_4 %}{% endblock %}
+
+{% block callout %}You must finish providing evidence 2 days before your review.{% endblock %}
+{% block timeline %}evidence.png{% endblock %}
+{% block email_not_monitored %}{% include 'partials/call_appeals_registry.html' %}{% endblock %}

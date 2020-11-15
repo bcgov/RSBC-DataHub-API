@@ -1,9 +1,14 @@
-from flask import Blueprint, request, session, url_for
-from flask import render_template, redirect, jsonify
+from flask import Blueprint, request, jsonify, make_response
 from python.paybc_api.website.oauth2 import authorization, require_oauth
+import python.paybc_api.website.api_responses as api_responses
+import python.common.helper as helper
+import python.paybc_api.business as rules
+from python.paybc_api.website.config import Config
 import logging
-import datetime
+import json
 
+logging.basicConfig(level=Config.LOG_LEVEL, format=Config.LOG_FORMAT)
+logging.warning('*** Pay BC API initialized ***')
 bp = Blueprint(__name__, 'home')
 
 
@@ -12,39 +17,74 @@ def issue_token():
     return authorization.create_token_response()
 
 
-@bp.route('/oauth/revoke', methods=['POST'])
-def revoke_token():
-    return authorization.create_endpoint_response('revocation')
+# *************  Revoke endpoint is disabled as we don't use it *************
+# @bp.route('/oauth/revoke', methods=['POST'])
+# def revoke_token():
+#     return authorization.create_endpoint_response('revocation')
 
 
 @bp.route('/api_v2/search', methods=['GET'])
 @require_oauth()
 def search():
     """
-    On the PayBC site, a user lookups an invoice to be paid. PayBC searches for
-    the invoice in our system using a GET request with an invoice number and a
-    check_value.  We return an array of items to be paid.
-    :return:
+    On the Pay_BC site, a user lookups an prohibition_number (invoice) to be paid.
+    PayBC searches for the invoice in our system using a GET request with an
+    invoice number and a check_value.  We return an array of items to be paid.
     """
     if request.method == 'GET':
-        return jsonify(search_for_invoice(
-            request.args.get('invoice_number', None),
-            request.args.get('pay_bc_reference', None),
-            request.args.get('check_value', None)
-        ))
+        # invoke middleware business logic
+        prohibition_number = request.args.get('invoice_number')
+        driver_last_name = request.args.get('check_value')
+        logging.info('inputs: {}, {}'.format(prohibition_number, driver_last_name))
+        args = helper.middle_logic(
+            rules.search_for_invoice(),
+            config=Config,
+            prohibition_number=prohibition_number,
+            driver_last_name=driver_last_name)
+        if 'error_string' not in args:
+            # TODO - http replaced with https for local development - REMOVE BEFORE FLIGHT!
+            host_url = request.host_url.replace('http', 'https')
+            return jsonify({
+                "items": [{"selected_invoice": {
+                       "$ref": host_url + 'api_v2/invoice/' + args.get('prohibition_number')}
+                    }
+                ]
+            })
+        return jsonify({"error": args.get('error_string')})
 
 
-@bp.route('/api_v2/invoice/<invoice_number>', methods=['GET'])
+@bp.route('/api_v2/invoice/<prohibition_number>', methods=['GET'])
 @require_oauth()
-def show(invoice_number):
+def show(prohibition_number):
     """
     PayBC requests details on the item to be paid from this endpoint.
-    :param invoice_number:
-    :return:
     """
     if request.method == 'GET':
-        # lookup the request using the VIPS API
-        return jsonify(get_invoice(invoice_number))
+        # invoke middleware business logic
+        args = helper.middle_logic(rules.generate_invoice(),
+                                   prohibition_number=prohibition_number,
+                                   config=Config)
+        if 'error_string' not in args:
+            presentation_type = args.get('presentation_type')
+            amount_due = args.get('amount_due')
+            service_date = args.get('service_date')
+            return jsonify(dict({
+                "invoice_number": args.get('prohibition_number'),
+                "pbc_ref_number": "10008",
+                "party_number": 0,
+                "party_name": "n/a",
+                "account_number": "n/a",
+                "site_number": "0",
+                "cust_trx_type": "Review Notice of Driving Prohibition",
+                "term_due_date": service_date.isoformat(),
+                "total": amount_due,
+                "amount_due": amount_due,
+                "attribute1": args.get('notice_type_verbose'),
+                "attribute2": service_date.strftime("%b %-d, %Y"),
+                "attribute3": presentation_type,
+                "amount": amount_due
+            }))
+        return jsonify({"error": args.get('error_string')})
 
 
 @bp.route('/api_v2/receipt', methods=['POST'])
@@ -54,67 +94,17 @@ def receipt():
     After PayBC verifies that the payment has been approved, it submits
     a list of invoices that have been paid (a user can pay multiple
     payments simultaneously), we'll notify VIPS of the payment and
-    return the following to show that the receipt has been received.
-    :return:
+    acknowledge receipt of payment.
     """
     if request.method == 'POST':
-        return jsonify(dict({
-            "status": "APP",
-            "receipt_number": "TEST_RECEIPT",
-            # "receipt_date ": "28-NOV-2017",
-            "receipt_date ": datetime.date.today().strftime('%d-%b-%Y'),
-            "receipt_amount": 200.00
-        }))
+        payload = request.json
+        # invoke middleware business logic
+        logging.info('receipt payload: {}'.format(json.dumps(payload)))
+        args = helper.middle_logic(rules.save_payment(),
+                                   payload=payload,
+                                   config=Config)
 
+        if not args.get('payment_success'):
+            api_responses.payment_incomplete(**args)
 
-def search_for_invoice(invoice_number, pay_bc_reference, check_value):
-    logging.warning('invoice_number: ' + invoice_number)
-    logging.warning('pay_bc_reference: ' + pay_bc_reference)
-    logging.warning('check_value: ' + check_value)
-    if invoice_number is not None and check_value is not None and pay_bc_reference is not None:
-
-        # TODO "request.host_url currently returns "http" (not https)
-        # As a temporary workaround replace http with https
-
-        # TODO - replace hard code data below with lookup from VIPS API
-        if invoice_number == "1234" and check_value == "Smith":
-            return dict({
-                "items": [
-                    {
-                        "selected_invoice": {
-                            "$ref": request.host_url.replace('http', 'https') + 'api_v2/invoice/1234'
-                        }
-                    }
-                ]
-            })
-        else:
-            return dict({
-                "Error": 'An invoice by that number is not found'
-            })
-    else:
-        return dict({
-            "Error": 'insufficient data supplied'
-        })
-
-
-def get_invoice(invoice_number):
-    if invoice_number == '1234':
-        return dict({
-            "invoice_number": "RSI_TEST_004",
-            "pbc_ref_number": "10008",
-            "party_number": 0,
-            "party_name": "RSI",
-            "account_number": "0",
-            "site_number": "0",
-            "cust_trx_type": "Review Notice of Driving Prohibition",
-            "term_due_date": "2017-03-03T08:00:00Z",
-            "total": 200.00,
-            "amount_due": 200.00,
-            "attribute1": "attribute one",
-            "attribute2": "attribute two",
-            "attribute3": "attribute three"
-        })
-    else:
-        return dict({
-            "error": 'We are unable to find invoice ' + invoice_number
-        })
+        return api_responses.payment_success(**args)

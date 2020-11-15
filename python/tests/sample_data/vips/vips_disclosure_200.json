@@ -1,0 +1,9 @@
+{
+    "resp":"success",
+    "data": {
+        "document": {
+            "mimeType":"application/pdf",
+            "document":"VGhpcyBpcyBzb21lIGRvY3VtZW50IGNvbnRlbnQ="
+        }
+    }
+}

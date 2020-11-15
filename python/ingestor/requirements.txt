@@ -1,4 +1,5 @@
 Click==7.0
+cryptography==2.9.2
 Flask==1.1.1
 Flask-API==2.0
 gunicorn==20.0.4
@@ -6,4 +7,10 @@ itsdangerous==1.1.0
 Jinja2==2.10.3
 MarkupSafe==1.1.1
 pika==1.1.0
+xmltodict==0.12.0
 Werkzeug==0.16.0
+requests==2.23.0
+iso8601==0.1.12
+pytz==2020.1
+Cerberus==1.3.2
+python-keycloak==0.22.0

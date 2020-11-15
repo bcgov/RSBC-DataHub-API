@@ -1,0 +1,19 @@
+{% extends "email_alert_base.html" %}
+
+{% block primary_text_1 %}
+   On {{ today_date or "[ today's date and time ]"}},
+   we received the evidence that will be considered for your review.
+{% endblock %}
+
+{% block primary_text_2 %}
+   You may visit
+   <a href="{{ link_to_evidence_form }}">Upload Evidence and Statement</a>
+   to provide additional evidence until 2 days before the review.
+{% endblock %}
+
+{% block timeline %}evidence.png{% endblock %}
+{% block email_not_monitored %}{% include 'partials/call_appeals_registry.html' %}{% endblock %}
+
+{% block primary_text_3 %}{% endblock %}
+{% block primary_text_4 %}{% endblock %}
+{% block callout_block %}{% endblock %}

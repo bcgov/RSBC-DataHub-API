@@ -1,6 +1,8 @@
 {
-  "basic_message_structure": {
+  "evt_issuance": {
     "allow_unknown": true,
+    "valid-queue": "ETK.valid",
+    "invalid-queue": "ETK.not-valid",
     "cerberus_rules": {
       "event_id": {
         "type": "integer",
@@ -8,7 +10,8 @@
       },
       "event_version": {
         "type": "string",
-        "required": true
+        "required": true,
+        "allowed": ["1.4","1.5"]
       },
       "event_date_time": {
         "type": "string",
@@ -18,19 +21,9 @@
         "type": "string",
         "required": true,
         "allowed": [
-          "evt_issuance",
-          "vt_query",
-          "vt_payment",
-          "vt_dispute",
-          "vt_dispute_status_update",
-          "vt_dispute_finding"
+          "evt_issuance"
         ]
-      }
-    }
-  },
-  "evt_issuance": {
-    "allow_unknown": true,
-    "cerberus_rules": {
+      },
       "evt_issuance": {
         "type": "dict",
         "required": true,
@@ -39,7 +32,7 @@
             "type": "string",
             "required": true
           },
-           "submit_date": {
+          "submit_date": {
             "type": "string",
             "required": true
           },
@@ -82,21 +75,25 @@
                   "required": true
                 },
                 "count_number": {
-                   "type": "integer",
-                   "required": true
-                 },
+                  "type": "integer",
+                  "required": true
+                },
                 "section_text": {
-                   "type": "string",
-                   "required": true
+                  "type": "string",
+                  "required": true
                 },
                 "section_desc": {
-                   "type": "string",
-                   "required": true,
-                   "empty": false
+                  "type": "string",
+                  "required": true,
+                  "empty": false
                 },
                 "fine_amount": {
-                   "type": "string",
-                   "required": true
+                  "type": "string",
+                  "required": true
+                },
+                "wording_nbr": {
+                  "type": "integer",
+                  "required": false
                 }
               }
             }
@@ -107,7 +104,27 @@
   },
   "vt_query": {
     "allow_unknown": true,
+    "valid-queue": "ETK.valid",
+    "invalid-queue": "ETK.not-valid",
     "cerberus_rules": {
+      "event_id": {
+        "type": "integer",
+        "required": true
+      },
+      "event_version": {
+        "type": "string",
+        "required": true,
+        "allowed": ["1.4","1.5"]
+      },
+      "event_date_time": {
+        "type": "string",
+        "required": true
+      },
+      "event_type": {
+        "type": "string",
+        "required": true,
+        "allowed": ["vt_query"]
+      },
       "vt_query": {
         "type": "dict",
         "required": true,
@@ -122,7 +139,27 @@
   },
   "vt_payment": {
     "allow_unknown": true,
+    "valid-queue": "ETK.valid",
+    "invalid-queue": "ETK.not-valid",
     "cerberus_rules": {
+      "event_id": {
+        "type": "integer",
+        "required": true
+      },
+      "event_version": {
+        "type": "string",
+        "required": true,
+        "allowed": ["1.4","1.5"]
+      },
+      "event_date_time": {
+        "type": "string",
+        "required": true
+      },
+      "event_type": {
+        "type": "string",
+        "required": true,
+        "allowed": ["vt_payment"]
+      },
       "vt_payment": {
         "type": "dict",
         "required": true,
@@ -133,6 +170,10 @@
            },
            "count_number": {
              "type": "integer",
+             "required": true
+           },
+           "transaction_id": {
+             "type": "string",
              "required": true
            },
            "payment_card_type": {
@@ -153,7 +194,27 @@
   },
   "vt_dispute": {
     "allow_unknown": true,
+    "valid-queue": "ETK.valid",
+    "invalid-queue": "ETK.not-valid",
     "cerberus_rules": {
+      "event_id": {
+        "type": "integer",
+        "required": true
+      },
+      "event_version": {
+        "type": "string",
+        "required": true,
+        "allowed": ["1.4","1.5"]
+      },
+      "event_date_time": {
+        "type": "string",
+        "required": true
+      },
+      "event_type": {
+        "type": "string",
+        "required": true,
+        "allowed": ["vt_dispute"]
+      },
       "vt_dispute": {
         "type": "dict",
         "required": true,
@@ -176,7 +237,27 @@
   },
   "vt_dispute_status_update": {
     "allow_unknown": true,
+    "valid-queue": "ETK.valid",
+    "invalid-queue": "ETK.not-valid",
     "cerberus_rules": {
+      "event_id": {
+        "type": "integer",
+        "required": true
+      },
+      "event_version": {
+        "type": "string",
+        "required": true,
+        "allowed": ["1.4","1.5"]
+      },
+      "event_date_time": {
+        "type": "string",
+        "required": true
+      },
+      "event_type": {
+        "type": "string",
+        "required": true,
+        "allowed": ["vt_dispute_status_update"]
+      },
       "vt_dispute_status_update": {
         "type": "dict",
         "required": true,
@@ -199,7 +280,27 @@
   },
   "vt_dispute_finding": {
     "allow_unknown": true,
+    "valid-queue": "ETK.valid",
+    "invalid-queue": "ETK.not-valid",
     "cerberus_rules": {
+      "event_id": {
+        "type": "integer",
+        "required": true
+      },
+      "event_version": {
+        "type": "string",
+        "required": true,
+        "allowed": ["1.4","1.5"]
+      },
+      "event_date_time": {
+        "type": "string",
+        "required": true
+      },
+      "event_type": {
+        "type": "string",
+        "required": true,
+        "allowed": ["vt_dispute_finding"]
+      },
       "vt_dispute_finding": {
         "type": "dict",
         "required": true,
@@ -223,6 +324,205 @@
           "finding_description": {
              "type": "string",
              "required": true
+          }
+        }
+      }
+    }
+  },
+  "prohibition_review": {
+    "allow_unknown": true,
+    "valid-queue": "DF.valid",
+    "invalid-queue": "DF.not-valid",
+      "cerberus_rules": {
+        "event_version": {
+          "type": "string",
+          "required": true,
+          "allowed": ["1.5"]
+        },
+        "event_type": {
+          "type": "string",
+          "required": true,
+          "allowed": ["prohibition_review"]
+        },
+        "prohibition_review": {
+          "type": "dict",
+          "required": true,
+          "schema": {
+            "form": {
+              "type": "dict",
+              "required": true,
+              "schema": {
+                "identification-information": {
+                  "type": "dict",
+                  "required": true,
+                  "schema": {
+                    "applicant-role": {
+                      "type": "string",
+                      "required": true,
+                      "allowed": ["driver", "lawyer", "advocate"]
+                    },
+                    "first-name-applicant": {
+                      "type": "string",
+                      "required": true
+                    },
+                    "last-name-applicant": {
+                      "type": "string",
+                      "required": true
+                    },
+                    "applicant-email-address": {
+                      "type": "string",
+                      "required": true
+                    }
+                  }
+                },
+                "prohibition-information": {
+                  "type": "dict",
+                  "required": true,
+                  "schema": {
+                    "control-prohibition-number": {
+                      "type": "string",
+                      "required": true
+                    },
+                    "prohibition-number-clean": {
+                      "type": "string",
+                      "required": true
+                    },
+                    "date-of-service": {
+                      "type": "string",
+                      "required": true
+                    },
+                    "licence-seized": {
+                      "type": "string",
+                      "required": true,
+                      "nullable": true
+                    },
+                    "licence-not-surrendered": {
+                      "type": "string",
+                      "required": true,
+                      "nullable": true
+                    },
+                    "licence-lost-or-stolen": {
+                      "type": "string",
+                      "required": true,
+                      "nullable": true
+                    },
+                    "licence-not-issued": {
+                      "type": "string",
+                      "required": true,
+                      "nullable": true
+                    }
+                  }
+                },
+                "review-information": {
+                  "type": "dict",
+                  "required": true,
+                  "schema": {
+                    "hearing-request-type": {
+                      "type": "string",
+                      "required": true,
+                      "nullable": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+  },
+  "review_schedule_picker": {
+    "allow_unknown": true,
+    "valid-queue": "DF.valid",
+    "invalid-queue": "DF.not-valid",
+    "cerberus_rules": {
+      "event_version": {
+        "type": "string",
+        "required": true,
+        "allowed": ["1.5"]
+      },
+      "event_type": {
+        "type": "string",
+        "required": true,
+        "allowed": [
+          "review_schedule_picker"
+        ]
+      },
+      "review_schedule_picker": {
+        "type": "dict",
+        "required": true,
+        "schema": {
+          "form": {
+            "type": "dict",
+            "required": true,
+            "schema": {
+              "schedule-review-section": {
+                "type": "dict",
+                "required": true,
+                "schema": {
+                  "prohibition-number": {
+                      "type": "string",
+                      "required": true
+                  },
+                  "prohibition-number-clean": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "last-name": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "timeslot-selected": {
+                    "type": "string",
+                    "required": true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "Document_submission": {
+    "allow_unknown": true,
+    "valid-queue": "DF.valid",
+    "invalid-queue": "DF.not-valid",
+    "cerberus_rules": {
+      "event_version": {
+        "type": "string",
+        "required": true,
+        "allowed": ["1.5"]
+      },
+      "event_type": {
+        "type": "string",
+        "required": true,
+        "allowed": [
+          "Document_submission"
+        ]
+      },
+      "Document_submission": {
+        "type": "dict",
+        "required": true,
+        "schema": {
+          "form": {
+            "type": "dict",
+            "required": true,
+            "schema": {
+              "applicant-information-section": {
+                "type": "dict",
+                "required": true,
+                "schema": {
+                  "control-prohibition-number": {
+                      "type": "string",
+                      "required": true
+                  },
+                  "control-driver-last-name": {
+                    "type": "string",
+                    "required": true
+                  }
+                }
+              }
+            }
           }
         }
       }

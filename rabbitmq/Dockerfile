@@ -23,7 +23,9 @@ RUN set -eux; \
 	' -- /plugins/rabbitmq_management-*.ez > /usr/local/bin/rabbitmqadmin; \
 	[ -s /usr/local/bin/rabbitmqadmin ]; \
 	chmod +x /usr/local/bin/rabbitmqadmin; \
-	apt-get update; apt-get install -y --no-install-recommends python; rm -rf /var/lib/apt/lists/*; \
+	apt-get update; apt-get install -y --no-install-recommends python3; rm -rf /var/lib/apt/lists/*; \
 	rabbitmqadmin --version
+
+RUN rabbitmq-plugins enable rabbitmq_shovel
 
 EXPOSE 15671 15672

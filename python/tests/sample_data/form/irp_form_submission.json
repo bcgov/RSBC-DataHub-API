@@ -1,0 +1,77 @@
+{
+  "event_version": "1.4",
+  "event_date_time": "2020-09-23T23:44:39.314934",
+  "event_type": "prohibition_review",
+  "prohibition_review": {
+    "form": {
+      "before-you-begin": {
+        "control-15": {
+          "@filename": "info_reduced.png",
+          "@mediatype": "image/png",
+          "#text": "/fr/service/persistence/crud/gov-pssg/prohibition_review/form/177ce3ac783dbc708641d34d68c4537610b2c88b.bin"},
+        "control-16": null
+      },
+      "prohibition-information": {
+        "control-prohibition-number": "21-9993445",
+        "control-11": null,
+        "control-is-adp": "false",
+        "control-is-irp": "true",
+        "control-is-ul": "false",
+        "control-13": {
+          "@filename": "Combo prohibition no.png",
+          "@mediatype": "image/png",
+          "#text": "/fr/service/persistence/crud/gov-pssg/prohibition_review/form/c1f5e74f6cbaec34574386b394d0141645faff1e.bin"
+        },
+        "licence-seized": "licence-seized",
+        "licence-not-surrendered": null,
+        "licence-lost-or-stolen": null,
+        "licence-not-issued": null,
+        "irp-prohibition-type-length": "7-days-warn",
+        "date-of-service": "2020-09-22"
+      },
+      "identification-information": {
+        "applicant-information-text": null,
+        "applicant-role": "driver",
+        "first-name-applicant": "John",
+        "last-name-applicant": "Gordon",
+        "control-4": null,
+        "applicant-phone-number": "6045551212",
+        "applicant-email-address": "me@lost.com",
+        "applicant-email-confirm": "me@lost.com",
+        "control-1": null,
+        "driver-first-name": "Bob",
+        "driver-last-name": "Smith",
+        "driver-bcdl": "12777777",
+        "control-2": null,
+        "street-address": "300 Main Road",
+        "control-driver-city-town": "Victoria",
+        "control-driver-province": "britishcolumbia",
+        "control-driver-postal-code": "V5M1W3"
+      },
+      "review-information": {
+        "control-10": null,
+        "ul-grounds": null,
+        "control-12": null,
+        "irp-grounds-list": "1",
+        "control-8": null,
+        "adp-grounds-alcohol": null,
+        "adp-grounds-drugs": null,
+        "adp-grounds-alcohol-drugs": null,
+        "adp-grounds-drug-expert": null,
+        "adp-grounds-refusal": null,
+        "control-6": "2",
+        "control-9": null,
+        "ui-review-information": null,
+        "hearing-request-type": null,
+        "control-7": null,
+        "oral-review-instructions": null
+      },
+      "consent-and-submission": {
+      "signature-applicant-name": "TESTING",
+      "date-signed": "2020-09-23",
+      "control-5": null
+      }
+    },
+    "xml": "YTM0NZomIzI2OTsmIzM0NTueYQ=="
+  }
+}

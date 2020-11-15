@@ -16,7 +16,10 @@ RUN [ "pwd" ]
 RUN [ "ls", "-R" ]
 
 COPY common/*.py ${APP_ROOT}/src/python/common/
+COPY common/templates/*.html ${APP_ROOT}/src/python/common/templates/
+COPY common/templates/partials/*.html ${APP_ROOT}/src/python/common/templates/partials/
 COPY ingestor/*.py ${APP_ROOT}/src/python/ingestor/
+COPY ingestor/*.json ${APP_ROOT}/src/python/ingestor/
 
 CMD [ "echo" , "python files copied" ]
 RUN [ "pwd" ]

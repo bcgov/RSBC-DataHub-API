@@ -1,0 +1,97 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: cronjob-template
+  annotations:
+    description: 'Template for a job that moves messages from the DF.hold queue to DF.valid'
+    tags: 'cronjob'
+parameters:
+- name: NAME
+- name: COMPONENT
+  value: cronjob-shovel-template
+- name: PHASE
+- name: SUFFIX
+- name: VERSION
+- name: HOST
+- name: CRON_SCHEDULE
+  description: 'Cron schedule expression. Default: Every 5 minutes for testing'
+  value: '*/5 * * * *'
+- name: URL_SUFFIX
+  required: true
+- name: CPU_REQUEST
+  displayName: Requested CPU
+  description: Requested CPU
+  required: true
+- name: CPU_LIMIT
+  displayName: CPU upper limit
+  description: CPU upper limit
+  required: true
+- name: MEMORY_REQUEST
+  displayName: Requested memory
+  description: Requested memory
+  required: true
+- name: MEMORY_LIMIT
+  displayName: Memory upper limit
+  description: Memory upper limit
+  required: true
+objects:
+  - apiVersion: batch/v1beta1
+    kind: CronJob
+    metadata:
+      name: ${COMPONENT}
+    spec:
+      schedule: ${CRON_SCHEDULE}
+      concurrencyPolicy: Forbid
+      jobTemplate:
+        spec:
+          template:
+            spec:
+              containers:
+                - name: ${COMPONENT}-job
+                  image: 'docker-registry.default.svc:5000/openshift/base-centos7:latest'
+                  resources:
+                    limits:
+                      cpu: 80m
+                      memory: 96Mi
+                    requests:
+                      cpu: 60m
+                      memory: 64Mi
+                  env:
+                    - name: RABBITMQ_URL
+                      value: ${NAME}-rabbitmq${SUFFIX}
+                    - name: RABBITMQ_USER
+                      valueFrom:
+                        secretKeyRef:
+                          name: ${NAME}-${PHASE}
+                          key: rabbitmq-username
+                    - name: RABBITMQ_PASS
+                      valueFrom:
+                        secretKeyRef:
+                          name: ${NAME}-${PHASE}
+                          key: rabbitmq-password
+                    - name: SOURCE_QUEUE
+                      value: 'DF.hold'
+                    - name: DESTINATION_QUEUE
+                      value: 'DF.valid'
+                  command:
+                    - 'bash'
+                    - '-c'
+                    - >-
+                      echo -e "-------- STARTING CRON --------\n"
+
+                      echo -e "endpoint: "http://${RABBITMQ_URL}:15672/api/parameters/shovel/%2F/hold" \n"
+
+                      echo -e "amqp_uri: ${AMQP_URI}\n"
+
+                      echo -e "URL: ${RABBITMQ_URL}\n"
+                      # echo -e "USER: ${RABBITMQ_USER} PASS: ${RABBITMQ_PASS}\n"
+
+                      echo -e "moving messages from: ${SOURCE_QUEUE} to: ${DESTINATION_QUEUE}\n"
+
+                      echo $(curl -v -X PUT "http://${RABBITMQ_URL}:15672/api/parameters/shovel/%2F/hold" \
+                        --user "${RABBITMQ_USER}:${RABBITMQ_PASS}"  \
+                        --header "Content-Type: application/json" \
+                        --data '{"value": {"src-protocol":"amqp091","src-uri":"amqp://'${RABBITMQ_USER}':'${RABBITMQ_PASS}'@'${RABBITMQ_URL}'","src-queue":"'${SOURCE_QUEUE}'","dest-protocol": "amqp091","dest-uri":"amqp://'${RABBITMQ_USER}':'${RABBITMQ_PASS}'@'${RABBITMQ_URL}'","dest-queue":"'${DESTINATION_QUEUE}'","src-delete-after": "queue-length"}}')
+
+                      echo -e "-------- CRON COMPLETE --------\n"
+              restartPolicy: Never

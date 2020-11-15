@@ -1,0 +1,49 @@
+{% extends "email_alert_base.html" %}
+
+{% block salutation_block %}{% endblock %}
+
+{% block primary_text_1 %}
+    <h3>Email Templates</h3>
+    <p>
+        Below is a list of email templates used to communicate with applicants of driving prohibition reviews.
+        These templates are used for debugging and only available in our development environment.
+    </p>
+    <ul>
+        <li>
+            IRP / ADP
+            <ul>
+             {% for template in templates %}
+                {% if template[:3] == "IRP" %}
+                    <li><a href="{{ '/check?template=%s'%template }}">{{ templates[template]['title'] }}</a></li>
+                {% endif %}
+             {% endfor %}
+            </ul>
+        </li>
+        <li>
+            Unlicenced Driver
+            <ul>
+             {% for template in templates %}
+                {% if template[:3] == "UL_" %}
+                    <li><a href="{{ '/check?template=%s'%template }}">{{ templates[template]['title'] }}</a></li>
+                {% endif %}
+             {% endfor %}
+            </ul>
+        </li>
+        <li>
+            Not Tailored to ULs and IRPs
+            <ul>
+             {% for template in templates %}
+                {% if template[:3] != "IRP" and template[:3] != "ADP" and template[:3] != "UL_" %}
+                    <li><a href="{{ '/check?template=%s'%template }}">{{ templates[template]['title'] }}</a></li>
+                {% endif %}
+             {% endfor %}
+            </ul>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block page_title %}RoadSafety Templates{% endblock %}
+{% block email_not_monitored %}{% endblock %}
+{% block callout_block %}{% endblock %}
+{% block sign_off %}{% endblock %}
+{% block timeline_image %}{% endblock %}

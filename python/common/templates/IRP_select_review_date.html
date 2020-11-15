@@ -1,0 +1,22 @@
+{% extends "email_alert_base.html" %}
+
+{% block primary_text_1 %}
+    We have received payment for your application for review fee.
+{% endblock %}
+
+{% block primary_text_2 %}
+    Visit
+    <a href="{{ link_to_schedule_form }}">Schedule Review</a>
+    to select a review date.
+{% endblock %}
+
+{% block primary_text_3 %}
+    Changes to the review date or time will only be granted in special situations.
+    Call RoadSafetyBC's Appeals Registry at 1-855-387-7747 and select option 5.
+{% endblock %}
+
+{% block primary_4 %}{% endblock %}
+
+{% block callout %}You must have completed booking within 24 hours after payment.{% endblock %}
+{% block timeline %}schedule.png{% endblock %}
+{% block email_not_monitored %}{% include 'partials/call_appeals_registry.html' %}{% endblock %}

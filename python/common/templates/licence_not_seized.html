@@ -1,0 +1,34 @@
+{% extends "email_alert_base.html" %}
+
+{% block primary_text_1 %}
+    You're ineligible to apply online because your licence wasn't
+    surrendered to the police. Apply in-person for a review by:
+    <ol>
+        <li>
+            Making an appointment online with
+            <a href="{{ link_to_icbc }}">ICBC</a>
+            or
+            <a href="{{ link_to_service_bc }}">ServiceBC</a>;
+            or visiting an
+            appointed agent in-person within <strong>7-days</strong> of the date the prohibition was issued.
+        </li>
+        <li>
+            Taking your Notice of Prohibition with you.
+        </li>
+        <li>
+            Surrendering your licence <strong>OR</strong> if your licence is lost or stolen,
+            completing a Statutory Declaration for a Lost or Stolen Licence.
+        </li>
+        <li>
+            Completing an Application for a Review of a Driving Prohibition.
+        </li>
+    </ol>
+{% endblock %}
+
+{% block primary_text_2 %}
+   <strong>Visit ICBC right away if you can't make an appointment in time to meet the
+    application deadline. Walk-in visits are limited so arrive early.</strong>
+{% endblock %}
+
+{% block callout %}You must apply in-person for this review.{% endblock %}
+{% block timeline %}timeline.png{% endblock %}

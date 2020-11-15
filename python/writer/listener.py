@@ -1,10 +1,11 @@
 from python.writer.config import Config
-from python.writer.database import MsSQL
-from python.writer.mapper import Mapper
+import python.common.helper as helper
+import python.writer.business as business
 from python.common.rabbitmq import RabbitMQ
-from python.common.helper import Helper
+from python.common.message import decode_message, encode_message
 import logging
-import json
+
+logging.basicConfig(level=Config.LOG_LEVEL, format=Config.LOG_FORMAT)
 
 
 class Listener:
@@ -16,13 +17,10 @@ class Listener:
          - finally passing a dict to the Database class for writing
     """
     
-    def __init__(self, config, database, mapper, rabbit_writer, rabbit_listener):
+    def __init__(self, config, rabbit_writer, rabbit_listener):
         self.config = config
-        self.database = database
-        self.mapper = mapper
         self.listener = rabbit_listener
         self.writer = rabbit_writer
-        logging.basicConfig(level=config.LOG_LEVEL)
         logging.warning('*** writer initialized ***')
 
     def main(self):
@@ -33,47 +31,25 @@ class Listener:
     def callback(self, ch, method, properties, body):
         logging.info('message received; callback invoked')
 
-        # convert body (in bytes) to string 
-        message = body.decode(self.config.RABBITMQ_MESSAGE_ENCODE)
-        message_dict = json.loads(message)
+        # convert body (in bytes) to string
+        message_dict = decode_message(body, self.config.ENCRYPT_KEY)
 
-        # The Mapper is responsible for converting the message into a 
-        # list of tables for insertion into a database.  Each table includes
-        # data record(s) to be inserted.
-        tables_for_insert = self.mapper.convert_to_tables(message_dict)
+        helper.middle_logic(helper.get_listeners(business.process_ekt_events(), message_dict['event_type']),
+                            message=message_dict,
+                            config=self.config,
+                            writer=self.writer)
 
-        # The database insert method is responsible for connecting to the 
-        # database, adding records to one or more tables and closing the 
-        # connection.
-        result = self.database.insert(tables_for_insert)
+        # Regardless of whether the write above is successful we need to
+        # acknowledge receipt of the message to RabbitMQ. This acknowledgement
+        # deletes it from the queue so the logic above must have saved or
+        # handled the message before we get here.
 
-        if result['isSuccessful']:
-            # acknowledge that the message was written to the database
-            # remove the message from RabbitMQs WRITE_WATCH_QUEUE
-            ch.basic_ack(delivery_tag=method.delivery_tag)
-        else:
-            message_with_errors_appended = Helper.add_error_to_message(message_dict, result)
-            if self.writer.publish(self.config.FAIL_QUEUE, json.dumps(message_with_errors_appended)):
-                ch.basic_ack(delivery_tag=method.delivery_tag)
+        ch.basic_ack(delivery_tag=method.delivery_tag)
 
 
 if __name__ == "__main__":
     Listener(
         Config(),
-        MsSQL(Config()),
-        Mapper(Config()),
-        RabbitMQ(
-            Config.MQ_WRITER_USER,
-            Config.MQ_WRITER_PASS,
-            Config.RABBITMQ_URL,
-            Config.LOG_LEVEL,
-            Config.MAX_CONNECTION_RETRIES,
-            Config.RETRY_DELAY),
-        RabbitMQ(
-            Config.MQ_WRITER_USER,
-            Config.MQ_WRITER_PASS,
-            Config.RABBITMQ_URL,
-            Config.LOG_LEVEL,
-            Config.MAX_CONNECTION_RETRIES,
-            Config.RETRY_DELAY)
+        RabbitMQ(Config()),
+        RabbitMQ(Config())
     ).main()

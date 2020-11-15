@@ -205,6 +205,56 @@
                         {
                             "json_name": "fine_amount",
                             "destination_name": "fine_amount"
+                        },
+                        {
+                            "json_name": "wording_nbr",
+                            "destination_name": "wording_number"
+                        }
+                    ]
+                },
+                {
+                    "name": "gis.geolocations",
+                    "relationship": "one-to-one",
+                    "fields": [
+                        {
+                            "json_name": "evt_issuance.geolocation.business_program",
+                            "destination_name": "business_program"
+                        },
+                        {
+                            "json_name": "evt_issuance.geolocation.business_type",
+                            "destination_name": "business_type"
+                        },
+                        {
+                            "json_name": "evt_issuance.geolocation.business_id",
+                            "destination_name": "business_id"
+                        },
+                        {
+                            "json_name": "evt_issuance.geolocation.long",
+                            "destination_name": "long"
+                        },
+                        {
+                            "json_name": "evt_issuance.geolocation.lat",
+                            "destination_name": "lat"
+                        },
+                        {
+                            "json_name": "evt_issuance.geolocation.requested_address",
+                            "destination_name": "requested_address"
+                        },
+                        {
+                            "json_name": "evt_issuance.geolocation.submitted_address",
+                            "destination_name": "submitted_address"
+                        },
+                        {
+                            "json_name": "evt_issuance.geolocation.databc_long",
+                            "destination_name": "databc_long"
+                        },
+                        {
+                            "json_name": "evt_issuance.geolocation.databc_lat",
+                            "destination_name": "databc_lat"
+                        },
+                        {
+                            "json_name": "evt_issuance.geolocation.databc_score",
+                            "destination_name": "databc_score"
                         }
                     ]
                 }
@@ -291,6 +341,10 @@
                         {
                             "json_name": "vt_payment.count_number",
                             "destination_name": "count_number"
+                        },
+                        {
+                            "json_name": "vt_payment.transaction_id",
+                            "destination_name": "transaction_id"
                         },
                         {
                             "json_name": "vt_payment.payment_card_type",
