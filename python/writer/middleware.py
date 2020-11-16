@@ -69,7 +69,6 @@ def callout_to_geocoder_api(**args) -> tuple:
     try:
         response = requests.post(endpoint,
                                  json=payload,
-                                 verify=False,
                                  auth=(config.GEOCODE_BASIC_AUTH_USER, config.GEOCODE_BASIC_AUTH_PASS))
     except requests.ConnectionError as error:
         logging.warning('no response from the Geocoder API: {}'.format(error))
