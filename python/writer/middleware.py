@@ -101,7 +101,7 @@ def transform_geocoder_response(**args) -> tuple:
         "long": geocoder['data_bc']['lon'],
         "lat": geocoder['data_bc']['lat'],
         "requested_address": geocoder['address_raw'],
-        "submitted_address": geocoder['address_clean'],
+        "submitted_address": args['address_clean'],
         "databc_long": geocoder['data_bc']['lon'],
         "databc_lat": geocoder['data_bc']['lat'],
         "databc_score": geocoder['data_bc']['score'],
