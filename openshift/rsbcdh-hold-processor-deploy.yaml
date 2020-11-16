@@ -79,7 +79,7 @@ objects:
                     - >-
                       echo -e "-------- STARTING CRON --------\n"
 
-                      echo -e "endpoint: "http://${RABBITMQ_URL}:15672/api/parameters/shovel/%2F/hold" \n"
+                      echo -e "endpoint: "http://${RABBITMQ_URL}:15672/api/parameters/shovel/%2F/hold-$(date +%s)" \n"
 
                       echo -e "amqp_uri: ${AMQP_URI}\n"
 
