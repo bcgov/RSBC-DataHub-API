@@ -81,7 +81,7 @@ def callout_to_geocoder_api(**args) -> tuple:
         return False, args
 
     data = response.json()
-    logging.info('VIPS API response: {}'.format(json.dumps(data)))
+    logging.info('Response from RSI Geocoder: {}'.format(json.dumps(data)))
     args['geocoder_response'] = data
     return True, args
 

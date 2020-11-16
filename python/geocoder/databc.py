@@ -14,7 +14,7 @@ def send_query(**args) -> tuple:
     try:
         # create query string and execute request
         # request's "params" url encodes the address string
-        params = {'addressString': args.get('address_clean')}
+        params = {'addressString': args.get('address_raw')}
         response = requests.get(config.DATA_BC_API_URL + '/addresses.geojson', params=params)
     except AssertionError as error:
         logging.warning('no response from the DataBC API')

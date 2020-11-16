@@ -48,7 +48,6 @@ def generate_data_bc_only_response(**args) -> tuple:
     args['response'] = dict({
         "is_success": True,
         "address_raw": args.get('address_raw'),
-        "address_clean": args.get('address_clean'),
         "data_bc": args.get('data_bc'),
     })
     return True, args
@@ -58,7 +57,6 @@ def generate_google_and_data_bc_response(**args) -> tuple:
     args['response'] = dict({
         "is_success": True,
         "address_raw": args.get('address_raw'),
-        "address_clean": args.get('address_clean'),
         "data_bc": args.get('data_bc'),
         "google": args.get('google')
     })
@@ -73,7 +71,6 @@ def generate_data_bc_revert_response(**args) -> tuple:
     args['response'] = dict({
         "is_success": True,
         "address_raw": args.get('address_raw'),
-        "address_clean": args.get('address_clean'),
         "data_bc": args.get('data_bc'),
         "google": args.get('google')
     })
