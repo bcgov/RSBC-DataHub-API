@@ -4,7 +4,7 @@ import python.common.helper as helper
 import python.common.middleware as middleware
 import python.common.actions as actions
 import python.form_handler.business as business
-from python.form_handler.config import Config
+from python.form_handler.config import Config as BaseConfig
 import python.common.vips_api as vips
 import python.common.common_email_services as common_email_services
 
@@ -84,3 +84,12 @@ def test_application_form_received(
                                   message=message_dict,
                                   config=Config,
                                   writer=None)
+
+
+class Config(BaseConfig):
+    LINK_TO_PAYBC = 'http://link-to-paybc'
+    LINK_TO_SCHEDULE_FORM = 'http://link-to-schedule-form'
+    LINK_TO_EVIDENCE_FORM = 'http://link-to-evidence-form'
+    LINK_TO_APPLICATION_FORM = 'http://link-to-application-form'
+    LINK_TO_ICBC ='http://link-to-icbc'
+    LINK_TO_SERVICE_BC = 'http://link-to-service-bc'
