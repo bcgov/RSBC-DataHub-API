@@ -23,6 +23,14 @@ parameters:
 - name: COMM_SERV_CLIENT_SECRET
 - name: ADMIN_EMAIL_ADDRESS
 - name: BCC_EMAIL_ADDRESSES
+- name: LINK_TO_PAYBC
+- name: LINK_TO_SCHEDULE_FORM
+- name: LINK_TO_EVIDENCE_FORM
+- name: LINK_TO_APPLICATION_FORM
+- name: LINK_TO_ICBC
+  value: 'https://www.icbc.com/driver-licensing/visit-dl-office/Pages/Book-a-knowledge-test-and-other-services.aspx'
+- name: LINK_TO_SERVICE_BC
+  value: 'https://appointments.servicebc.gov.bc.ca/appointment'
 - name: DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY
   value: '3'
 - name: LOG_LEVEL
@@ -162,6 +170,26 @@ objects:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
                   key: bcc-email-addresses
+            - name: LINK_TO_PAYBC
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: link-to-paybc
+            - name: LINK_TO_SCHEDULE_FORM
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: orbeon-prohibition-schedule-form
+            - name: LINK_TO_EVIDENCE_FORM
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: orbeon-prohibition-evidence-form
+            - name: LINK_TO_APPLICATION_FORM
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: orbeon-prohibition-application-form
             - name: DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY
               value: ${DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY}
             - name: LOG_LEVEL

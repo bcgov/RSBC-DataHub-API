@@ -22,6 +22,7 @@ parameters:
 - name: COMM_SERV_CLIENT_SECRET
 - name: ADMIN_EMAIL_ADDRESS
 - name: BCC_EMAIL_ADDRESSES
+- name: LINK_TO_SCHEDULE_FORM
 - name: AUTHLIB_INSECURE_TRANSPORT
 - name: LOG_LEVEL
   value: 'INFO'
@@ -173,6 +174,11 @@ objects:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
                   key: bcc-email-addresses
+            - name: LINK_TO_SCHEDULE_FORM
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: orbeon-prohibition-schedule-form
             - name: LOG_LEVEL
               value: ${LOG_LEVEL}
             - name: ENVIRONMENT
