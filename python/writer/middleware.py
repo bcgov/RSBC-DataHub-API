@@ -94,8 +94,8 @@ def transform_geocoder_response(**args) -> tuple:
     business_id = args.get('business_id')
     geocoder = args.get('geocoder_response')
     args['geolocation'] = dict({
-        "business_program": "BI",
-        "business_type": "ETK",
+        "business_program": "ETK",
+        "business_type": "violation",
         "business_id": business_id,
         "long": geocoder['data_bc']['lon'],
         "lat": geocoder['data_bc']['lat'],
