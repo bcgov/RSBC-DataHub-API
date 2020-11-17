@@ -46,7 +46,7 @@ def clean_up_address(**args) -> tuple:
     address = address.replace('ISLAND HWY', 'BC-1')
     address = address.replace('PAT BAY HWY', 'PATRICIA BAY HWY')
     address = address.replace('PATRICIA BAY HWY', 'BC-17')
-    address = re.sub(r'HWY\s(\d)', r'BC-\g<1>', address)
+    address = re.sub(r'HWY\s?(\d)', r'BC-\g<1>', address)
     address = re.sub(r'[^\S\r\n]{2,}', ' ', address)
     address = re.sub(r'^\s+', '', address)
     logging.info('clean address {}'.format(address))
@@ -63,13 +63,12 @@ def build_payload_to_send_to_geocoder(**args) -> tuple:
 
 def callout_to_geocoder_api(**args) -> tuple:
     config = args.get('config')
-    endpoint = 'http://' + config.GEOCODER_API_URI + '/address'
+    endpoint = config.GEOCODER_API_URI
     payload = args.get('payload')
     logging.info('Geocoder endpoint: {}'.format(endpoint))
     try:
         response = requests.post(endpoint,
                                  json=payload,
-                                 verify=False,
                                  auth=(config.GEOCODE_BASIC_AUTH_USER, config.GEOCODE_BASIC_AUTH_PASS))
     except requests.ConnectionError as error:
         logging.warning('no response from the Geocoder API: {}'.format(error))
@@ -82,7 +81,7 @@ def callout_to_geocoder_api(**args) -> tuple:
         return False, args
 
     data = response.json()
-    logging.info('VIPS API response: {}'.format(json.dumps(data)))
+    logging.info('Response from RSI Geocoder: {}'.format(json.dumps(data)))
     args['geocoder_response'] = data
     return True, args
 
@@ -95,16 +94,18 @@ def transform_geocoder_response(**args) -> tuple:
     business_id = args.get('business_id')
     geocoder = args.get('geocoder_response')
     args['geolocation'] = dict({
-        "business_program": "BI",
-        "business_type": "ETK",
+        "business_program": "ETK",
+        "business_type": "violation",
         "business_id": business_id,
         "long": geocoder['data_bc']['lon'],
         "lat": geocoder['data_bc']['lat'],
+        "precision": geocoder['data_bc']['precision'],
         "requested_address": geocoder['address_raw'],
-        "submitted_address": geocoder['address_clean'],
+        "submitted_address": args['address_clean'],
         "databc_long": geocoder['data_bc']['lon'],
         "databc_lat": geocoder['data_bc']['lat'],
         "databc_score": geocoder['data_bc']['score'],
+        "databc_precision": geocoder['data_bc']['precision']
     })
     return True, args
 

@@ -28,7 +28,8 @@ class TestMapper:
         assert table_names[0] == 'etk.events'
         assert table_names[1] == 'etk.issuances'
         assert table_names[2] == 'etk.violations'
-        assert len(table_names) == 3
+        assert table_names[3] == 'gis.geolocations'
+        assert len(table_names) == 4
 
     def test_event_issuance_message_creates_an_events_table(self):
         event = next(x for x in self.convert_to_tables('event_issuance.json') if x["table"] == 'etk.events')

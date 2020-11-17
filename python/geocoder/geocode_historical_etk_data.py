@@ -23,7 +23,8 @@ def main(config):
             print("---------------------------------------------------")
             print("processing ticket_number: {} with raw address of {}".format(etk_issuance[0], etk_issuance[1]))
             data['business_id'] = etk_issuance[0]  # ticket_number
-            data['raw_address'] = etk_issuance[1]
+            data['address_raw'] = etk_issuance[1]
+            is_okay, data = middleware.clean_up_address(**data)
             is_okay, data = build_payload_to_send_to_geocoder(**data)
             is_okay, data = middleware.callout_to_geocoder_api(**data)
             is_okay, data = middleware.transform_geocoder_response(**data)
@@ -70,8 +71,8 @@ def select_issuance_records_with_geolocation_data(connection) -> tuple:
 
 def build_payload_to_send_to_geocoder(**args) -> tuple:
     print("inside build_payload_to_send_to_geocoder()")
-    raw_address = args.get('raw_address')
-    args['payload'] = dict({"address": raw_address})
+    address_raw = args.get('address_raw')
+    args['payload'] = dict({"address": address_raw})
     return True, args
 
 

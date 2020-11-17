@@ -49,6 +49,7 @@ def process_incoming_form() -> dict:
 
         ],
         "review_schedule_picker": [
+            # aka: review scheduler
             {"try": middleware.create_correlation_id, "fail": []},
             {"try": middleware.determine_current_datetime, "fail": []},
             {"try": middleware.get_data_from_schedule_form, "fail": []},
@@ -82,6 +83,7 @@ def process_incoming_form() -> dict:
             {"try": actions.add_to_hold_queue, "fail": []}
         ],
         "prohibition_review": [
+            # aka: submit prohibition application
             {
                 "try": actions.is_not_on_hold,
                 "fail": [

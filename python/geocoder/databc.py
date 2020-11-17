@@ -14,7 +14,7 @@ def send_query(**args) -> tuple:
     try:
         # create query string and execute request
         # request's "params" url encodes the address string
-        params = {'addressString': args.get('address_clean')}
+        params = {'addressString': args.get('address_raw')}
         response = requests.get(config.DATA_BC_API_URL + '/addresses.geojson', params=params)
     except AssertionError as error:
         logging.warning('no response from the DataBC API')
@@ -34,6 +34,7 @@ def is_response_valid(**args) -> tuple:
         coordinates = data_bc_raw['features'][0]['geometry']['coordinates']
         args['data_bc'] = dict({
             "score": data_bc_raw['features'][0]['properties']['score'],
+            "precision": data_bc_raw['features'][0]['properties']['precisionPoints'],
             "lat": coordinates[1],
             "lon": coordinates[0]
         })

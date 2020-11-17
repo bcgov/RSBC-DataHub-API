@@ -15,18 +15,13 @@ class Config(BaseConfig):
     VIPS_API_USERNAME                   = os.getenv('VIPS_API_USERNAME')
     VIPS_API_PASSWORD                   = os.getenv('VIPS_API_PASSWORD')
 
-    LINK_TO_PAYBC                       = os.getenv('LINK_TO_PAYBC', 'https://paytest.gov.bc.ca')
-    LINK_TO_SCHEDULE_FORM               = os.getenv('LINK_TO_SCHEDULE_FORM',
-                                        'https://forms2.qa.gov.bc.ca/forms/content?id=34F8F542261449CBA35F220B74ADC393')
-    LINK_TO_EVIDENCE_FORM               = os.getenv('LINK_TO_EVIDENCE_FORM',
-                                        'https://forms2.qa.gov.bc.ca/forms/content?id=C88D6641F78A4D5FBC383CC50E641CE6')
-    LINK_TO_APPLICATION_FORM            = os.getenv('LINK_TO_APPLICATION_FORM',
-                                        'https://forms2.qa.gov.bc.ca/forms/content?id=FC005E942B274061A110A2CFC42C1EA2')
+    LINK_TO_PAYBC                       = os.getenv('LINK_TO_PAYBC', 'http://localhost')
+    LINK_TO_SCHEDULE_FORM               = os.getenv('LINK_TO_SCHEDULE_FORM', 'http://localhost')
+    LINK_TO_EVIDENCE_FORM               = os.getenv('LINK_TO_EVIDENCE_FORM', 'http://localhost')
+    LINK_TO_APPLICATION_FORM            = os.getenv('LINK_TO_APPLICATION_FORM', 'http://localhost')
 
-    LINK_TO_ICBC                        = os.getenv('LINK_TO_ICBC',
-            'https://www.icbc.com/driver-licensing/visit-dl-office/Pages/Book-a-knowledge-test-and-other-services.aspx')
+    LINK_TO_ICBC                        = os.getenv('LINK_TO_ICBC', 'http://localhost')
 
-    LINK_TO_SERVICE_BC                  = os.getenv('LINK_TO_SERVICE_BC',
-                                                    'https://appointments.servicebc.gov.bc.ca/appointment')
+    LINK_TO_SERVICE_BC                  = os.getenv('LINK_TO_SERVICE_BC', 'http://localhost')
 
 
