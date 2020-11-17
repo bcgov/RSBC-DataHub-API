@@ -17,12 +17,6 @@ def issue_token():
     return authorization.create_token_response()
 
 
-# *************  Revoke endpoint is disabled as we don't use it *************
-# @bp.route('/oauth/revoke', methods=['POST'])
-# def revoke_token():
-#     return authorization.create_endpoint_response('revocation')
-
-
 @bp.route('/api_v2/search', methods=['GET'])
 @require_oauth()
 def search():
@@ -42,7 +36,6 @@ def search():
             prohibition_number=prohibition_number,
             driver_last_name=driver_last_name)
         if 'error_string' not in args:
-            # TODO - http replaced with https for local development - REMOVE BEFORE FLIGHT!
             host_url = request.host_url.replace('http', 'https')
             return jsonify({
                 "items": [{"selected_invoice": {
@@ -92,9 +85,8 @@ def show(prohibition_number):
 def receipt():
     """
     After PayBC verifies that the payment has been approved, it submits
-    a list of invoices that have been paid (a user can pay multiple
-    payments simultaneously), we'll notify VIPS of the payment and
-    acknowledge receipt of payment.
+    the payment details of the invoice that was paid.  We'll save the
+    payment info to VIPS and acknowledge receipt of payment.
     """
     if request.method == 'POST':
         payload = request.json
