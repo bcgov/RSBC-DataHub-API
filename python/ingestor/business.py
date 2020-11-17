@@ -88,7 +88,7 @@ def is_okay_to_submit_evidence() -> list:
         {"try": middleware.prohibition_exists_in_vips, "fail": []},
         {"try": middleware.user_submitted_last_name_matches_vips, "fail": []},
         {"try": middleware.application_has_been_saved_to_vips, "fail": []},
-        {"try": middleware.review_has_been_scheduled, "fail": []},
         {"try": middleware.application_has_been_paid, "fail": []},
+        {"try": middleware.review_has_been_scheduled, "fail": []},
         {"try": middleware.is_review_more_than_48_hours_in_the_future, "fail": []}
        ]
