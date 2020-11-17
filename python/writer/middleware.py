@@ -46,7 +46,7 @@ def clean_up_address(**args) -> tuple:
     address = address.replace('ISLAND HWY', 'BC-1')
     address = address.replace('PAT BAY HWY', 'PATRICIA BAY HWY')
     address = address.replace('PATRICIA BAY HWY', 'BC-17')
-    address = re.sub(r'HWY\s(\d)', r'BC-\g<1>', address)
+    address = re.sub(r'HWY\s?(\d)', r'BC-\g<1>', address)
     address = re.sub(r'[^\S\r\n]{2,}', ' ', address)
     address = re.sub(r'^\s+', '', address)
     logging.info('clean address {}'.format(address))
@@ -99,11 +99,13 @@ def transform_geocoder_response(**args) -> tuple:
         "business_id": business_id,
         "long": geocoder['data_bc']['lon'],
         "lat": geocoder['data_bc']['lat'],
+        "precision": geocoder['data_bc']['precision'],
         "requested_address": geocoder['address_raw'],
         "submitted_address": args['address_clean'],
         "databc_long": geocoder['data_bc']['lon'],
         "databc_lat": geocoder['data_bc']['lat'],
         "databc_score": geocoder['data_bc']['score'],
+        "databc_precision": geocoder['data_bc']['precision']
     })
     return True, args
 

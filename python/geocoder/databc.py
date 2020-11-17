@@ -34,6 +34,7 @@ def is_response_valid(**args) -> tuple:
         coordinates = data_bc_raw['features'][0]['geometry']['coordinates']
         args['data_bc'] = dict({
             "score": data_bc_raw['features'][0]['properties']['score'],
+            "precision": data_bc_raw['features'][0]['properties']['precisionPoints'],
             "lat": coordinates[1],
             "lon": coordinates[0]
         })
