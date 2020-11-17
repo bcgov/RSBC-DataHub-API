@@ -190,6 +190,10 @@ objects:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
                   key: orbeon-prohibition-application-form
+            - name: LINK_TO_ICBC
+              value: ${LINK_TO_ICBC}
+            - name: LINK_TO_SERVICE_BC
+              value: ${LINK_TO_SERVICE_BC}
             - name: DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY
               value: ${DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY}
             - name: LOG_LEVEL
