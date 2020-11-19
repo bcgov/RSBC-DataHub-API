@@ -8,6 +8,9 @@ logging.basicConfig(level=Config.LOG_LEVEL, format=Config.LOG_FORMAT)
 
 
 def send_email(to: list, subject: str, config, template, attachments=None) -> bool:
+    """
+    Send email to the applicant and bcc Appeals Registry
+    """
     payload = {
         "bodyType": "html",
         "body": template,
@@ -20,6 +23,26 @@ def send_email(to: list, subject: str, config, template, attachments=None) -> bo
     if attachments is not None:
         payload['attachments'] = attachments
     logging.info('Sending email to: {} - {}'.format(to, subject))
+    return _send(payload, config)
+
+
+def send_to_business(subject: str, config, template) -> bool:
+    """
+    Send email to business without bcc'ing anybody else
+    """
+    payload = {
+        "bodyType": "html",
+        "body": template,
+        "from": config.REPLY_EMAIL_ADDRESS,
+        "encoding": "utf-8",
+        "subject": subject,
+        "to": config.BCC_EMAIL_ADDRESSES.split(',')
+    }
+    logging.info('Sending email to Appeals Registry - {}'.format(subject))
+    return _send(payload, config)
+
+
+def _send(payload, config) -> bool:
     token = get_common_services_access_token(config)
     auth_header = {"Authorization": "Bearer {}".format(token)}
     try:

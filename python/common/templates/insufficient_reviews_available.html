@@ -1,0 +1,21 @@
+{% extends "email_alert_base.html" %}
+
+{% block primary_text_1 %}
+We were unable to offer the applicant for driving prohibition {{ prohibition_number }} three review
+dates within 17 days after the date the notice of prohibition was served.
+{% endblock %}
+
+{% block primary_text_2 %}
+This email is not sent to the applicant.  It is sent to Appeals Registry to let you know there may
+be insufficient review dates in VIPS to meet demand.
+{% endblock %}
+
+{% block primary_text_3 %}{% endblock %}
+
+{% block primary_text_4 %}{% endblock %}
+{% block callout_block %}{% endblock %}
+{% block timeline_image %}{% endblock %}
+
+{% block sign_off %}{% endblock %}
+
+{% block email_not_monitored %}{% endblock %}

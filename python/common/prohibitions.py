@@ -28,7 +28,7 @@ class ProhibitionBase:
     # an applicant to receive disclosure and submit their evidence
     MIN_DAYS_FROM_SCHEDULING_TO_REVIEW = 4
     MIN_DAYS_FROM_SERVED_TO_REVIEW = 8
-    MAX_DAYS_FROM_SERVED_TO_REVIEW = 15
+    MAX_DAYS_FROM_SERVED_TO_REVIEW = 14
 
     @staticmethod
     def is_okay_to_apply(date_served: datetime, today: datetime) -> bool:
