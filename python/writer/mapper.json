@@ -255,6 +255,14 @@
                         {
                             "json_name": "evt_issuance.geolocation.databc_score",
                             "destination_name": "databc_score"
+                        },
+                        {
+                            "json_name": "evt_issuance.geolocation.full_address",
+                            "destination_name": "full_address"
+                        },
+                        {
+                            "json_name": "evt_issuance.geolocation.faults",
+                            "destination_name": "faults"
                         }
                     ]
                 }

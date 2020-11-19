@@ -105,7 +105,9 @@ def transform_geocoder_response(**args) -> tuple:
         "databc_long": geocoder['data_bc']['lon'],
         "databc_lat": geocoder['data_bc']['lat'],
         "databc_score": geocoder['data_bc']['score'],
-        "databc_precision": geocoder['data_bc']['precision']
+        "databc_precision": geocoder['data_bc']['precision'],
+        "full_address": geocoder['data_bc']['full_address'],
+        "faults": json.dumps(geocoder['data_bc']['faults'])
     })
     return True, args
 
