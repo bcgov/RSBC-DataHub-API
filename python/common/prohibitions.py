@@ -1,8 +1,6 @@
 import logging
 from datetime import datetime, timedelta
 from python.common.config import Config
-from python.common.helper import localize_timezone
-import pytz
 import re
 
 logging.basicConfig(level=Config.LOG_LEVEL, format=Config.LOG_FORMAT)
@@ -94,8 +92,8 @@ class UnlicencedDriver(ProhibitionBase):
         for ULs. Drivers have 14 days from today to schedule a
         review
         """
-        min_date = localize_timezone(today) + timedelta(days=UnlicencedDriver.MIN_DAYS_FROM_SCHEDULING_TO_REVIEW)
-        max_date = localize_timezone(today) + timedelta(days=UnlicencedDriver.MAX_DAYS_FROM_SERVED_TO_REVIEW)
+        min_date = today + timedelta(days=UnlicencedDriver.MIN_DAYS_FROM_SCHEDULING_TO_REVIEW)
+        max_date = today + timedelta(days=UnlicencedDriver.MAX_DAYS_FROM_SERVED_TO_REVIEW)
         return min_date, max_date
 
     @staticmethod

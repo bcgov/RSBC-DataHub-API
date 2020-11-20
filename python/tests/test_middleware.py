@@ -1,4 +1,5 @@
 import pytz
+import os
 from python.form_handler.config import Config
 import python.common.vips_api as vips
 from datetime import datetime
@@ -9,6 +10,7 @@ import flask
 import json
 from python.ingestor.routes import application
 
+os.environ['TZ'] = 'UTC'
 
 date_served_data = [
     ('IRP', "2020-09-10", "2020-09-11", True),
@@ -73,7 +75,6 @@ served_recently_data = [
 
 @pytest.mark.parametrize("today_is, date_served, expected", served_recently_data)
 def test_prohibition_served_recently_method(today_is, date_served, expected):
-    tz = pytz.timezone('America/Vancouver')
     today_unaware = datetime.strptime(today_is, "%Y-%m-%d")
     today_date = localize_timezone(today_unaware)
     result, args = middleware.prohibition_served_recently(
