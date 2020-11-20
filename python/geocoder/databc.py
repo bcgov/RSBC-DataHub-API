@@ -43,6 +43,7 @@ def is_response_valid(**args) -> tuple:
             "lat": coordinates[1],
             "lon": coordinates[0]
         })
+        logging.info("faults: {}".format(json.dumps(data_bc_raw['features'][0]['properties']['faults'])))
     except AttributeError as error:
         error_string = 'response from DataBC did not match expected format'
         args['error_string'] = error_string
@@ -53,7 +54,7 @@ def is_response_valid(**args) -> tuple:
 
 def is_confidence_too_low(**args) -> tuple:
     data_bc = args.get('data_bc')
-    logging.info('DataBC returned a score of: {}'.format(data_bc['score']))
+    logging.info('Sent DataBC: {} which returned a score of: {}'.format(args.get("address_raw"), data_bc['score']))
     if data_bc['score'] < MIN_CONFIDENCE_SCORE:
         return True, args
     return False, args

@@ -26,8 +26,9 @@ def get_address_from_message(**args) -> tuple:
 
 def clean_up_address(**args) -> tuple:
     address = args.get('address_raw')
-    logging.info('raw address {}'.format(address))
+    logging.debug('raw address {}'.format(address))
     address = address.replace('\r\n', '\n')
+    address = re.sub(r'^[NEWS]/B', '', address)
     address = address.replace('/', ' AND ')
     address = address.replace('+', ' AND ')
     address = address.replace('@', ' AND ')
@@ -37,7 +38,8 @@ def clean_up_address(**args) -> tuple:
     address = address.replace(' SB', '')
     address = address.replace(' EB', '')
     address = address.replace(' WB', '')
-    address = address.replace(' BLOCK ', ' BLK ')
+    address = address.replace(' BLOCK ', ' ')
+    address = address.replace(' BLK ', ' ')
     address = address.replace('HIGHWAY', 'HWY')
     address = address.replace('\bTRANS-CANADA\b', 'TRANS CANADA')
     address = address.replace('TRANS CANADA HWY', 'BC-1')
@@ -49,8 +51,8 @@ def clean_up_address(**args) -> tuple:
     address = re.sub(r'HWY\s?(\d)', r'BC-\g<1>', address)
     address = re.sub(r'[^\S\r\n]{2,}', ' ', address)
     address = re.sub(r'^\s+', '', address)
-    logging.info('clean address {}'.format(address))
-    args['address_clean'] = address
+    logging.debug('clean address {}'.format(address))
+    args['address_clean'] = address + ", BC"
     return True, args
 
 
@@ -65,7 +67,7 @@ def callout_to_geocoder_api(**args) -> tuple:
     config = args.get('config')
     endpoint = config.GEOCODER_API_URI
     payload = args.get('payload')
-    logging.info('Geocoder endpoint: {}'.format(endpoint))
+    logging.debug('Geocoder endpoint: {}'.format(endpoint))
     try:
         response = requests.post(endpoint,
                                  json=payload,
@@ -81,7 +83,7 @@ def callout_to_geocoder_api(**args) -> tuple:
         return False, args
 
     data = response.json()
-    logging.info('Response from RSI Geocoder: {}'.format(json.dumps(data)))
+    logging.debug('Response from RSI Geocoder: {}'.format(json.dumps(data)))
     args['geocoder_response'] = data
     return True, args
 
@@ -109,6 +111,10 @@ def transform_geocoder_response(**args) -> tuple:
         "full_address": geocoder['data_bc']['full_address'],
         "faults": json.dumps(geocoder['data_bc']['faults'])
     })
+    logging.info("DataBC score: {} precision: {}".format(
+        geocoder['data_bc']['score'],
+        geocoder['data_bc']['precision']
+    ))
     return True, args
 
 
