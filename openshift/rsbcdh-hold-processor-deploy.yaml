@@ -14,8 +14,8 @@ parameters:
 - name: VERSION
 - name: HOST
 - name: CRON_SCHEDULE
-  description: 'Cron schedule expression. Default: Every 5 minutes for testing'
-  value: '*/5 * * * *'
+  description: 'Cron schedule expression. Default: 5 minutes past the hour'
+  value: '5 * * * *'
 - name: URL_SUFFIX
   required: true
 - name: CPU_REQUEST
