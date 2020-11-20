@@ -263,6 +263,14 @@
                         {
                             "json_name": "evt_issuance.geolocation.faults",
                             "destination_name": "faults"
+                        },
+                        {
+                            "json_name": "evt_issuance.geolocation.precision",
+                            "destination_name": "precision"
+                        },
+                        {
+                            "json_name": "evt_issuance.geolocation.databc_precision",
+                            "destination_name": "databc_precision"
                         }
                     ]
                 }
