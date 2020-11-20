@@ -30,8 +30,8 @@ review_date_times = [
     # but there is no legislated max review date. As per business
     # rule, set max review date to two weeks from today.
     # Type, ServiceDate   TodayIs       MinReviewDt   MaxReviewDt
-    ('UL', "2020-09-10", "2020-09-11", "2020-09-15", "2020-09-25"),
-    ('UL', "2020-09-10", "2020-09-15", "2020-09-19", "2020-09-29"),
+    ('UL', "2020-09-10", "2020-09-11", "2020-09-19", "2020-09-25"),
+    ('UL', "2020-09-10", "2020-09-15", "2020-09-23", "2020-09-29"),
 ]
 
 
