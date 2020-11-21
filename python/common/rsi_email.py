@@ -68,6 +68,21 @@ def send_form_xml_to_admin(**args):
     logging.info('No XML to send')
 
 
+def insufficient_reviews_available(**args) -> tuple:
+    config = args.get('config')
+    prohibition_number = args.get('prohibition_number')
+    t = "insufficient_reviews_available.html"
+    args['email_template'] = t
+    content = get_email_content(t, prohibition_number)
+    template = get_jinja2_env().get_template(t)
+    return common_email_services.send_to_business(
+        content["subject"],
+        config,
+        template.render(
+            prohibition_number=prohibition_number,
+            subject=content["subject"])), args
+
+
 def send_email_to_admin(**args):
     subject = args.get('subject')
     config = args.get('config')
@@ -461,5 +476,9 @@ def content_data() -> dict:
         "review_type_change.html": {
             "raw_subject": "Review Type Change - Driving Prohibition {} Review",
             "title": "Review Type Change",
+        },
+        "insufficient_reviews_available.html": {
+            "raw_subject": "Insufficient Review Dates Available - Driving Prohibition {} Review",
+            "title": "Insufficient Review Dates Available",
         }
     })

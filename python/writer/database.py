@@ -27,8 +27,8 @@ def insert(config, tables_to_be_inserted: list) -> tuple:
     connection.
     """
     # Connect to database
-    logging.info('insert called')
-    logging.info(config.DB_HOST)
+    logging.debug('insert called')
+    logging.debug(config.DB_HOST)
     connection_string = get_database_connection_string(config)
     logging.debug(connection_string)
     connection = get_database_connection(connection_string)
@@ -40,8 +40,8 @@ def insert(config, tables_to_be_inserted: list) -> tuple:
                 ",".join(str(x) for x in table['columns']),
                 ",".join("?" for x in table['columns']))
 
-        logging.info(insert_statement)
-        logging.info(table['values'])
+        logging.debug(insert_statement)
+        logging.debug(table['values'])
 
         try:
             cursor.execute(insert_statement, table['values'])

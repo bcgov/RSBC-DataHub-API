@@ -145,6 +145,7 @@ services:
           GEOCODE_SECRET_KEY: "${GEOCODE_SECRET_KEY}"
           GEOCODE_BASIC_AUTH_USER: "${GEOCODE_BASIC_AUTH_USER}"
           GEOCODE_BASIC_AUTH_PASS: "${GEOCODE_BASIC_AUTH_PASS}"
+          DATA_BC_API_KEY: "${DATA_BC_API_KEY}"
 
         ports:
           - "5003:5003"

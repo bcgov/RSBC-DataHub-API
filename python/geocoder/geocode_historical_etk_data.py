@@ -13,19 +13,19 @@ def main(config):
     data = dict()
     data['config'] = config
     connection_string = database.get_database_connection_string(config)
-    print(connection_string)
-    print(config.GEOCODER_API_URI)
+    logging.debug(connection_string)
+    logging.debug(config.GEOCODER_API_URI)
     connection = database.get_database_connection(connection_string)
     is_success, records = select_issuance_records_with_geolocation_data(connection)
     if is_success and len(records) > 0:
         print('number of records found: {}'.format(len(records)))
         for etk_issuance in records:
-            print("---------------------------------------------------")
-            print("processing ticket_number: {} with raw address of {}".format(etk_issuance[0], etk_issuance[1]))
+            logging.info("---------------------------------------------------")
+            logging.info("processing ticket_number: {} with raw address of {}".format(etk_issuance[0], etk_issuance[1]))
             data['business_id'] = etk_issuance[0]  # ticket_number
             data['address_raw'] = etk_issuance[1]
             is_okay, data = middleware.clean_up_address(**data)
-            is_okay, data = build_payload_to_send_to_geocoder(**data)
+            is_okay, data = middleware.build_payload_to_send_to_geocoder(**data)
             is_okay, data = middleware.callout_to_geocoder_api(**data)
             is_okay, data = middleware.transform_geocoder_response(**data)
             is_okay, data = build_tables_to_insert(**data)
@@ -69,13 +69,6 @@ def select_issuance_records_with_geolocation_data(connection) -> tuple:
     return True, records
 
 
-def build_payload_to_send_to_geocoder(**args) -> tuple:
-    print("inside build_payload_to_send_to_geocoder()")
-    address_raw = args.get('address_raw')
-    args['payload'] = dict({"address": address_raw})
-    return True, args
-
-
 def build_tables_to_insert(**args) -> tuple:
     geolocation = args.get('geolocation')
     tables = list()
@@ -93,7 +86,7 @@ def build_tables_to_insert(**args) -> tuple:
 def write(**args) -> tuple:
     config = args.get('config')
     tables_for_insert = args.get('tables_for_insert')
-    logging.info(json.dumps(tables_for_insert))
+    logging.debug(json.dumps(tables_for_insert))
     is_successful, error = database.insert(config, tables_for_insert)
     if is_successful:
         return True, args

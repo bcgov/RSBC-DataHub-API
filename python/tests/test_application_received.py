@@ -1,4 +1,5 @@
 import pytest
+import os
 import datetime
 import python.common.helper as helper
 import python.common.middleware as middleware
@@ -7,6 +8,8 @@ import python.form_handler.business as business
 from python.form_handler.config import Config as BaseConfig
 import python.common.vips_api as vips
 import python.common.common_email_services as common_email_services
+
+os.environ['TZ'] = 'UTC'
 
 
 def status_gets(is_success, prohibition_type, date_served, last_name, seized, cause, already_applied):
@@ -79,6 +82,47 @@ def test_application_form_received(
     if prohibition_type == "UL":
         message_dict['prohibition_review']['form']['prohibition-information']['control-is-ul'] = "true"
         message_dict['prohibition_review']['form']['prohibition-information']['control-is-irp'] = "false"
+
+    results = helper.middle_logic(helper.get_listeners(business.process_incoming_form(), message_dict['event_type']),
+                                  message=message_dict,
+                                  config=Config,
+                                  writer=None)
+
+
+def test_an_applicant_that_was_served_recently_and_where_prohibition_is_not_in_vips_gets_not_yet_email(monkeypatch):
+
+    def mock_status_get(*args, **kwargs):
+        return True, dict({
+            "resp": "fail",
+            "error": {
+                "message": "Record not found",
+                "httpStatus": 404
+            }
+        })
+
+    def mock_send_email(*args, **kwargs):
+        template_content = args[3]
+        print('inside mock_send_email()')
+        assert "me@lost.com" in args[0]
+        print("Subject: {}".format(args[1]))
+        assert "issued on September 22, 2020 isn't in our" in template_content
+        return True
+
+    def mock_datetime_now(**args):
+        args['today_date'] = helper.localize_timezone(datetime.datetime.strptime("2020-09-23", "%Y-%m-%d"))
+        print('inside mock_datetime_now: {}'.format(args.get('today_date')))
+        return True, args
+
+    def mock_add_to_hold(**args):
+        print('inside mock_add_to_hold()')
+        return True, args
+
+    monkeypatch.setattr(actions, "add_to_hold_queue", mock_add_to_hold)
+    monkeypatch.setattr(middleware, "determine_current_datetime", mock_datetime_now)
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+    monkeypatch.setattr(common_email_services, "send_email", mock_send_email)
+
+    message_dict = helper.load_json_into_dict('python/tests/sample_data/form/irp_form_submission.json')
 
     results = helper.middle_logic(helper.get_listeners(business.process_incoming_form(), message_dict['event_type']),
                                   message=message_dict,
