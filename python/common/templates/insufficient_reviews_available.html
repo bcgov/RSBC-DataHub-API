@@ -1,5 +1,7 @@
 {% extends "email_alert_base.html" %}
 
+{% block salutation %}Appeals Registry,{% endblock %}
+
 {% block primary_text_1 %}
 We were unable to offer the applicant for driving prohibition {{ prohibition_number }} three review
 dates within 17 days after the date the notice of prohibition was served.
