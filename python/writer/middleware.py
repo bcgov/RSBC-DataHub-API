@@ -26,7 +26,7 @@ def get_address_from_message(**args) -> tuple:
 
 def clean_up_address(**args) -> tuple:
     address = args.get('address_raw')
-    logging.debug('raw address {}'.format(address))
+    logging.info('raw address {}'.format(address))
     address = address.replace('\r\n', '\n')
     address = re.sub(r'^[NEWS]/B', '', address)
     address = address.replace('/', ' AND ')
@@ -38,8 +38,8 @@ def clean_up_address(**args) -> tuple:
     address = address.replace(' SB', '')
     address = address.replace(' EB', '')
     address = address.replace(' WB', '')
-    address = address.replace(' BLOCK ', ' ')
-    address = address.replace(' BLK ', ' ')
+    address = re.sub(r'\s+BLK\s+', ' ', address)
+    address = re.sub(r'\s+BLOCK\s+', ' ', address)
     address = address.replace('HIGHWAY', 'HWY')
     address = address.replace('\bTRANS-CANADA\b', 'TRANS CANADA')
     address = address.replace('TRANS CANADA HWY', 'BC-1')
@@ -51,8 +51,9 @@ def clean_up_address(**args) -> tuple:
     address = re.sub(r'HWY\s?(\d)', r'BC-\g<1>', address)
     address = re.sub(r'[^\S\r\n]{2,}', ' ', address)
     address = re.sub(r'^\s+', '', address)
-    logging.debug('clean address {}'.format(address))
-    args['address_clean'] = address + ", BC"
+    address = address + ", BC"
+    logging.info('clean address {}'.format(address))
+    args['address_clean'] = address
     return True, args
 
 
@@ -111,9 +112,10 @@ def transform_geocoder_response(**args) -> tuple:
         "full_address": geocoder['data_bc']['full_address'],
         "faults": json.dumps(geocoder['data_bc']['faults'])
     })
-    logging.info("DataBC score: {} precision: {}".format(
+    logging.info("DataBC score: {} precision: {} faults: {}".format(
         geocoder['data_bc']['score'],
-        geocoder['data_bc']['precision']
+        geocoder['data_bc']['precision'],
+        geocoder['data_bc']['faults'],
     ))
     return True, args
 

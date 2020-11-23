@@ -21,7 +21,7 @@ def main(config):
         print('number of records found: {}'.format(len(records)))
         for etk_issuance in records:
             logging.info("---------------------------------------------------")
-            logging.info("processing ticket_number: {} with raw address of {}".format(etk_issuance[0], etk_issuance[1]))
+            logging.info("processing ticket_number: {}".format(etk_issuance[0]))
             data['business_id'] = etk_issuance[0]  # ticket_number
             data['address_raw'] = etk_issuance[1]
             is_okay, data = middleware.clean_up_address(**data)
@@ -49,7 +49,7 @@ def select_issuance_records_with_geolocation_data(connection) -> tuple:
     logging.info('getting database records')
     cursor = connection.cursor()
 
-    sql = "SELECT TOP 5 i.ticket_number, CONCAT(i.violation_highway_desc,', ',i.violation_city_name)" + \
+    sql = "SELECT TOP 500 i.ticket_number, CONCAT(i.violation_highway_desc,', ',i.violation_city_name)" + \
         " FROM etk.issuances i" + \
         " LEFT JOIN gis.geolocations g ON i.ticket_number = g.business_id" + \
         " WHERE g.business_id is NULL and i.violation_highway_desc IS NOT NULL" + \
