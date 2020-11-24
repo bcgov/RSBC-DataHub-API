@@ -290,8 +290,8 @@ def time_slot_to_friendly_string(time_slot: dict, presentation_type: str) -> dic
             vips_str_to_friendly_time(start_time),
             vips_str_to_friendly_time(end_time))
     elif presentation_type == "WRIT":
-        label = "{} at 9:30am".format(
-            # Friday, Sept 4, 2020 at 9:30am
+        label = "{} at 9:30AM".format(
+            # Friday, Sept 4, 2020 at 9:30AM
             vips_str_to_datetime(start_time).strftime("%a, %b %-d, %Y"))
     return {
         "label": label,
