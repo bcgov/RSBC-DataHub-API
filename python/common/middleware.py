@@ -43,6 +43,9 @@ def get_data_from_application_form(**args) -> tuple:
     args['prohibition_number'] = m[event_type]['form']['prohibition-information']['control-prohibition-number']
     args['date_of_service'] = m[event_type]['form']['prohibition-information']['date-of-service']
     args['hearing_request_type'] = m[event_type]['form']['review-information']['hearing-request-type']
+    args['applicant_full_name'] = "{} {}".format(
+        m[event_type]['form']['identification-information']['first-name-applicant'],
+        m[event_type]['form']['identification-information']['last-name-applicant'])
     return True, args
 
 
@@ -69,14 +72,11 @@ def populate_driver_name_fields_if_null(**args) -> tuple:
     m = args.get('message')
     event_type = m['event_type']
     if args.get('applicant_role_raw') == 'driver':
-        first_name = m[event_type]['form']['identification-information']['first-name-applicant']
         last_name = m[event_type]['form']['identification-information']['last-name-applicant']
     else:
         # applicant is either a lawyer or advocate
-        first_name = m[event_type]['form']['identification-information']['driver-first-name']
         last_name = m[event_type]['form']['identification-information']['driver-last-name']
     args['driver_last_name'] = last_name
-    args['driver_full_name'] = "{} {}".format(first_name, last_name)
     return True, args
 
 

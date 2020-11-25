@@ -54,6 +54,7 @@ def test_application_form_received(
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
         assert email_text in args[3]
+        assert "Dear John Gordon," in args[3]
         return True
 
     def mock_datetime_now(**args):

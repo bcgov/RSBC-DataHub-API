@@ -23,7 +23,7 @@ def application_accepted(**args):
         config,
         template.render(
             link_to_paybc=config.LINK_TO_PAYBC,
-            full_name=args.get('driver_full_name'),
+            full_name=args.get('applicant_full_name'),
             prohibition_number=prohibition_number,
             subject=content["subject"])), args
 
@@ -40,7 +40,7 @@ def applicant_review_type_change(**args):
         content["subject"],
         config,
         template.render(
-            full_name=args.get('driver_full_name'),
+            full_name=args.get('applicant_full_name'),
             prohibition_number=prohibition_number,
             subject=content["subject"])), args
 
@@ -108,7 +108,7 @@ def applicant_prohibition_served_more_than_7_days_ago(**args):
         content["subject"],
         config,
         template.render(
-            full_name=args.get('driver_full_name'),
+            full_name=args.get('applicant_full_name'),
             prohibition_number=prohibition_number,
             subject=content["subject"])), args
 
@@ -127,7 +127,7 @@ def applicant_licence_not_seized(**args):
         template.render(
             link_to_icbc=config.LINK_TO_ICBC,
             link_to_service_bc=config.LINK_TO_SERVICE_BC,
-            full_name=args.get('driver_full_name'),
+            full_name=args.get('applicant_full_name'),
             prohibition_number=prohibition_number,
             subject=content["subject"])), args
 
@@ -147,7 +147,7 @@ def applicant_prohibition_not_found(**args):
         template.render(
             link_to_icbc=config.LINK_TO_ICBC,
             link_to_service_bc=config.LINK_TO_SERVICE_BC,
-            full_name=args.get('driver_full_name'),
+            full_name=args.get('applicant_full_name'),
             prohibition_number=prohibition_number,
             subject=content["subject"])), args
 
@@ -226,7 +226,7 @@ def applicant_last_name_mismatch(**args):
             link_to_application_form=config.LINK_TO_APPLICATION_FORM,
             link_to_icbc=config.LINK_TO_ICBC,
             link_to_service_bc=config.LINK_TO_SERVICE_BC,
-            full_name=args.get('driver_full_name'),
+            full_name=args.get('applicant_full_name'),
             prohibition_number=prohibition_number,
             subject=content["subject"])), args
 
@@ -253,7 +253,7 @@ def applicant_prohibition_not_found_yet(**args):
             link_to_icbc=config.LINK_TO_ICBC,
             link_to_service_bc=config.LINK_TO_SERVICE_BC,
             date_of_service=human_friendly_date_served,
-            full_name=args.get('driver_full_name'),
+            full_name=args.get('applicant_full_name'),
             prohibition_number=prohibition_number,
             subject=content["subject"])), args
 
@@ -270,7 +270,7 @@ def already_applied(**args):
         content["subject"],
         config,
         template.render(
-            full_name=args.get('driver_full_name'),
+            full_name=args.get('applicant_full_name'),
             prohibition_number=prohibition_number,
             subject=content["subject"])), args
 
