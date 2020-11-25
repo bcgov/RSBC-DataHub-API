@@ -2,11 +2,13 @@ import logging
 import json
 import python.writer.database as database
 import python.writer.middleware as middleware
+from python.common.helper import middle_logic
 from python.writer.config import Config
 from pydash import objects
 
 
 logging.basicConfig(level=Config.LOG_LEVEL, format=Config.LOG_FORMAT)
+MAX_INSERT_RECORD_COUNT = 50
 
 
 def main(config):
@@ -19,24 +21,41 @@ def main(config):
     is_success, records = select_issuance_records_with_geolocation_data(connection)
     if is_success and len(records) > 0:
         print('number of records found: {}'.format(len(records)))
+        data['rows_to_insert'] = list()
         for etk_issuance in records:
             logging.info("---------------------------------------------------")
             logging.info("processing ticket_number: {}".format(etk_issuance[0]))
             data['business_id'] = etk_issuance[0]  # ticket_number
             data['address_raw'] = etk_issuance[1]
-            is_okay, data = middleware.clean_up_address(**data)
-            is_okay, data = middleware.build_payload_to_send_to_geocoder(**data)
-            is_okay, data = middleware.callout_to_geocoder_api(**data)
-            is_okay, data = middleware.transform_geocoder_response(**data)
-            is_okay, data = build_tables_to_insert(**data)
-            is_okay, data = write(**data)
+            data = middle_logic(business_rules(), **data)
             print(" ")
+        logging.info("end of loop")
+        is_okay, data = create_table_to_insert(**data)
+        if len(data.get('rows_to_insert')) > 0:
+            is_okay, data = write(**data)
+            logging.info('---- writing leftover records to the database ----')
+        else:
+            logging.info('---- no leftover records to write to database ----')
+        logging.info('---- success: end of script ----')
     else:
         print('---- no records found ----')
         return
-
-    print('---- success: end of script ----')
     return
+
+
+def business_rules():
+    return [
+        {"try": middleware.clean_up_address, "fail": []},
+        {"try": middleware.build_payload_to_send_to_geocoder, "fail": []},
+        {"try": middleware.callout_to_geocoder_api, "fail": []},
+        {"try": middleware.transform_geocoder_response, "fail": []},
+        {"try": add_row_to_list, "fail": []},
+        {"try": too_few_records_to_write_to_database, "fail": [
+            {"try": create_table_to_insert, "fail": []},
+            {"try": write, "fail": []},
+            {"try": delete_temporary_table, "fail": []},
+        ]},
+    ]
 
 
 def select_issuance_records_with_geolocation_data(connection) -> tuple:
@@ -52,8 +71,7 @@ def select_issuance_records_with_geolocation_data(connection) -> tuple:
     sql = "SELECT TOP 500 i.ticket_number, CONCAT(i.violation_highway_desc,', ',i.violation_city_name)" + \
         " FROM etk.issuances i" + \
         " LEFT JOIN gis.geolocations g ON i.ticket_number = g.business_id" + \
-        " WHERE g.business_id is NULL and i.violation_highway_desc IS NOT NULL" + \
-        " ORDER BY i.ticket_number;"
+        " WHERE g.business_id is NULL and i.violation_highway_desc IS NOT NULL;"
 
     try:
         cursor.execute(sql)
@@ -69,17 +87,42 @@ def select_issuance_records_with_geolocation_data(connection) -> tuple:
     return True, records
 
 
-def build_tables_to_insert(**args) -> tuple:
-    geolocation = args.get('geolocation')
+def too_few_records_to_write_to_database(**args) -> tuple:
+    row_count = len(args.get('rows_to_insert'))
+    return row_count < MAX_INSERT_RECORD_COUNT, args
+
+
+def create_table_to_insert(**args) -> tuple:
     tables = list()
-    table = {'columns': [], 'values': [], 'table': 'gis.geolocations'}
+    geolocation = args.get('geolocation')
+    table = {
+        'columns': [],
+        'values': args.get('rows_to_insert'),
+        'table': 'gis.geolocations'}
     for attribute in geolocation:
         value = objects.get(geolocation, attribute)
         if value:
             table['columns'].append(attribute)
-            table['values'].append(value)
     tables.append(table)
     args['tables_for_insert'] = tables
+    return True, args
+
+
+def add_row_to_list(**args) -> tuple:
+    rows_to_insert = args.get('rows_to_insert')
+    geolocation = args.get('geolocation')
+    values = list()
+    for attribute in geolocation:
+        value = objects.get(geolocation, attribute)
+        if value:
+            values.append(value)
+    rows_to_insert.append(values)
+    args['rows_to_insert'] = rows_to_insert
+    return True, args
+
+
+def delete_temporary_table(**args) -> tuple:
+    args['rows_to_insert'] = list()
     return True, args
 
 

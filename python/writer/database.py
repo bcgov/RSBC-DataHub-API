@@ -1,4 +1,5 @@
 import pyodbc as db
+import types
 import logging
 from python.writer.config import Config
 from python.writer.mapper import Mapper
@@ -35,16 +36,12 @@ def insert(config, tables_to_be_inserted: list) -> tuple:
     cursor = connection.cursor()
 
     for table in tables_to_be_inserted:
-        insert_statement = "INSERT INTO {} ({}) VALUES ({})".format(
-                table['table'], 
-                ",".join(str(x) for x in table['columns']),
-                ",".join("?" for x in table['columns']))
-
-        logging.debug(insert_statement)
-        logging.debug(table['values'])
-
+        insert_statement = create_insert_statement(table)
         try:
-            cursor.execute(insert_statement, table['values'])
+            if isinstance(table['values'][0], list):
+                cursor.executemany(insert_statement, table['values'])
+            else:
+                cursor.execute(insert_statement, table['values'])
         except Exception as error:
             error_string = error.__class__.__name__
             logging.warning("Write to db failed: " + error_string)
@@ -86,3 +83,15 @@ def _wrap_strings_with_quotes(value):
     if str(type(value)) == "<class 'str'>":
         return "'{}'".format(value)
     return str(value)
+
+
+def create_insert_statement(table: dict) -> str:
+
+    insert_statement = "INSERT INTO {} ({}) VALUES ({})".format(
+        table['table'],
+        ",".join(str(x) for x in table['columns']),
+        ",".join("?" for x in table['columns']))
+
+    logging.info(insert_statement)
+    logging.debug(table['values'])
+    return insert_statement
