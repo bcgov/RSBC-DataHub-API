@@ -255,7 +255,7 @@ def prohibition_served_recently(**args) -> tuple:
     error = 'prohibition not served within the past {} days'.format(delay_days)
     args['error_string'] = error
     logging.info(error)
-    print("date_served: {}, very_recently_served: {}".format(date_served, very_recently_served))
+    logging.debug("date_served: {}, very_recently_served: {}".format(date_served, very_recently_served))
     return False, args
 
 
@@ -444,7 +444,6 @@ def transform_hearing_request_type(**args) -> tuple:
     if hearing_request_type is None or hearing_request_type == '':
         args['presentation_type'] = "WRIT"
     else:
-        print('test: ' + hearing_request_type)
         args['presentation_type'] = hearing_request_type[:4].upper()
     return True, args
 
@@ -586,11 +585,9 @@ def content_length_within_bounds(**args) -> tuple:
 def paid_not_more_than_24hrs_ago(**args) -> tuple:
     today_date = args.get('today_date')
     payment_data = args.get('payment_data')
-    print(today_date)
     if 'paymentDate' not in payment_data:
         return True, args
     payment_date = vips_str_to_datetime(payment_data['paymentDate'])
-    print(payment_date)
     if (today_date - payment_date).days < 1:
         return True, args
     error = 'the payment is older than 24 hours'
