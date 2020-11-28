@@ -19,8 +19,8 @@ def main(config):
     logging.debug(config.GEOCODER_API_URI)
     connection = database.get_database_connection(connection_string)
     is_success, records = select_issuance_records_with_geolocation_data(connection)
-    if is_success and len(records) > 0:
-        print('number of records found: {}'.format(len(records)))
+    while is_success and len(records) > 0:
+        logging.info('number of records found: {}'.format(len(records)))
         data['rows_to_insert'] = list()
         for etk_issuance in records:
             logging.info("---------------------------------------------------")
@@ -29,17 +29,16 @@ def main(config):
             data['address_raw'] = etk_issuance[1]
             data = middle_logic(business_rules(), **data)
             print(" ")
-        logging.info("end of loop")
+        logging.info("---- no more records in this batch to geocode ----")
         is_okay, data = create_table_to_insert(**data)
         if len(data.get('rows_to_insert')) > 0:
+            logging.info('---- writing remaining records to the database ----')
             is_okay, data = write(**data)
-            logging.info('---- writing leftover records to the database ----')
-        else:
-            logging.info('---- no leftover records to write to database ----')
-        logging.info('---- success: end of script ----')
-    else:
-        print('---- no records found ----')
-        return
+        logging.info('---- getting a new batch of records ----')
+        connection = database.get_database_connection(connection_string)
+        is_success, records = select_issuance_records_with_geolocation_data(connection)
+    logging.info('---- success: end of script ----')
+    print('---- no records found ----')
     return
 
 
@@ -60,15 +59,13 @@ def business_rules():
 
 def select_issuance_records_with_geolocation_data(connection) -> tuple:
     """
-    The database insert method is responsible for connecting to the
-    database, adding records to one or more tables and closing the
-    connection.
+    Connect to the database and retrieve 200 records that require historical geocoding.
     """
     # Connect to database
     logging.info('getting database records')
     cursor = connection.cursor()
 
-    sql = "SELECT TOP 500 i.ticket_number, CONCAT(i.violation_highway_desc,', ',i.violation_city_name)" + \
+    sql = "SELECT TOP 200 i.ticket_number, CONCAT(i.violation_highway_desc,', ',i.violation_city_name)" + \
         " FROM etk.issuances i" + \
         " LEFT JOIN gis.geolocations g ON i.ticket_number = g.business_id" + \
         " WHERE g.business_id is NULL and i.violation_highway_desc IS NOT NULL;"
