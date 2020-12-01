@@ -330,7 +330,7 @@ def applicant_evidence_received(**args) -> tuple:
         template.render(
             link_to_evidence_form=config.LINK_TO_EVIDENCE_FORM,
             full_name=full_name,
-            today_date=args.get('today_date').strftime("%B %d, %Y %H:%M:%S"),
+            today_date=args.get('today_date').strftime("%B %d, %Y %H:%M"),
             prohibition_number=prohibition_number,
             subject=content["subject"])), args
 
