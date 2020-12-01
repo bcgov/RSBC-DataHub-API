@@ -483,31 +483,6 @@ def test_decode_compress_encode_xml():
     assert 'xml' in args
 
 
-inside_review_window = [
-    ("2020-09-05", "2020-09-11", "2020-09-04 23:59:22", False),
-    ("2020-09-05", "2020-09-11", "2020-09-05 00:01:22", True),
-    ("2020-09-05", "2020-09-11", "2020-09-06 13:31:22", True),
-    ("2020-09-05", "2020-09-11", "2020-09-12 13:31:22", False),
-    ("2020-09-05", "2020-09-11", "2020-09-05 00:15:22", True),
-    ("2020-09-04", "2020-09-11", "2020-09-11 17:59:22", True),
-]
-
-
-@pytest.mark.parametrize("min_review_date, max_review_date, requested_start_datetime, expected", inside_review_window)
-def test_is_requested_time_slot_okay(min_review_date, max_review_date, requested_start_datetime, expected):
-    iso = "%Y-%m-%d"
-    min_review = localize_timezone(datetime.strptime(min_review_date, iso))
-    max_review = localize_timezone(datetime.strptime(max_review_date, iso))
-    timeslot = dict({
-        "reviewStartDtm": requested_start_datetime + " -07:00",
-        "reviewEndDtm": 'this attribute ignored in this test'
-    })
-    response, args = middleware.is_selected_timeslot_inside_schedule_window(
-        min_review_date=min_review, max_review_date=max_review, requested_time_slot=timeslot)
-    print("{} | {} | {}".format(min_review.isoformat(), max_review.isoformat(), requested_start_datetime))
-    assert response is expected
-
-
 def test_get_human_friendly_time_slot_string_for_oral_review():
     time_slot = {
         "reviewStartDtm": "2020-09-04 10:00:00 -07:00",

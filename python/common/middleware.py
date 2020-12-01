@@ -688,19 +688,6 @@ def is_decoded_time_slot_valid(**args) -> tuple:
     return False, args
 
 
-def is_selected_timeslot_inside_schedule_window(**args) -> tuple:
-    requested_time_slot = args.get('requested_time_slot')
-    requested_date_time = vips.vips_str_to_datetime(requested_time_slot['reviewStartDtm'])
-    min_review_date = args['min_review_date']
-    max_review_date = args['max_review_date']
-    if min_review_date <= requested_date_time < max_review_date + timedelta(days=1):
-        return True, args
-    error = 'selected time slot not within schedule window'
-    logging.info(error)
-    args['error_string'] = error
-    return False, args
-
-
 def force_presentation_type_to_written_if_ineligible_for_oral(**args) -> tuple:
     """
     Only ADP and certain kinds of IRP prohibitions are eligible for an

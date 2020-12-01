@@ -69,7 +69,6 @@ def process_incoming_form() -> dict:
             {"try": middleware.get_invoice_details, "fail": []},
             {"try": middleware.calculate_schedule_window, "fail": []},
             {"try": middleware.decode_selected_timeslot, "fail": []},
-            {"try": middleware.is_selected_timeslot_inside_schedule_window, "fail": []},
             {"try": middleware.get_human_friendly_time_slot_string, "fail": []},
 
             {"try": middleware.save_schedule_to_vips, "fail": [
