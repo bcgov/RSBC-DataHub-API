@@ -42,7 +42,9 @@ def address():
         args = helper.middle_logic(business.geocode_address(),
                                    request=request,
                                    config=Config)
-        return args.get('response')
+        resp = jsonify(args.get('response'))
+        resp.status_code = args.get('status_code')
+        return resp
 
 
 if __name__ == "__main__":
