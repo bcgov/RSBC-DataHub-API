@@ -373,7 +373,7 @@ def query_for_additional_review_times(**args) -> tuple:
         if not is_successful:
             return False, args
         number_review_days_offered += 1
-        time_slots.append(data['time_slots'])
+        time_slots.append(data['time_slots'][0])
     args['time_slots'] = time_slots
     args['number_review_days_offered'] = number_review_days_offered
     return True, args

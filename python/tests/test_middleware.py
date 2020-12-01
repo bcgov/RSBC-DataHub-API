@@ -1,4 +1,5 @@
 import pytz
+import logging
 import os
 from python.form_handler.config import Config
 import python.common.vips_api as vips
@@ -567,9 +568,9 @@ def test_is_any_unsent_disclosure_method():
 
 
 additional_review_times = [
-    ("2020-11-02", "2020-11-09", 3, 3, 0),
-    ("2020-11-02", "2020-11-09", 2, 3, 1),
-    ("2020-11-02", "2020-11-09", 1, 3, 2),
+    ("2020-11-02", "2020-11-09", 3, 3, 2),
+    ("2020-11-02", "2020-11-09", 2, 3, 3),
+    ("2020-11-02", "2020-11-09", 1, 3, 4),
 ]
 
 
@@ -589,8 +590,8 @@ def test_query_for_additional_review_times(min_review_date, max_review_date,
         return True, dict({
             "time_slots": [
                 {
-                    "reviewStartDtm": first_date.strftime(iso) + " 09:00:00 -08:00",
-                    "reviewEndDtm": first_date.strftime(iso) + " 09:30:00 -08:00",
+                    "reviewStartDtm": end_date.strftime(iso) + " 09:00:00 -08:00",
+                    "reviewEndDtm": end_date.strftime(iso) + " 09:30:00 -08:00",
                 }
             ],
             "number_review_days_offered": 1
@@ -608,8 +609,22 @@ def test_query_for_additional_review_times(min_review_date, max_review_date,
         vips_data={
             "noticeTypeCd": "IRP"
         },
-        time_slots=list()
+        time_slots=list([
+            {
+                "reviewStartDtm": first_date.strftime(iso) + " 11:00:00 -08:00",
+                "reviewEndDtm": first_date.strftime(iso) + " 11:30:00 -08:00",
+            },
+            {
+                "reviewStartDtm": first_date.strftime(iso) + " 10:00:00 -08:00",
+                "reviewEndDtm": first_date.strftime(iso) + " 10:30:00 -08:00",
+            }
+        ])
     )
 
+    logging.info(json.dumps(args.get('time_slots')))
     assert args['number_review_days_offered'] == expected_days
     assert len(args['time_slots']) == expected_time_slots
+    for slot in args.get('time_slots'):
+        assert isinstance(slot, dict)
+        assert "reviewStartDtm" in slot
+        assert "reviewEndDtm" in slot
