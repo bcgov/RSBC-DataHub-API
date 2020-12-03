@@ -19,9 +19,9 @@ def search_for_invoice() -> list:
         {"try": middleware.get_vips_status, "fail": []},
         {"try": middleware.prohibition_exists_in_vips, "fail": []},
         {"try": middleware.user_submitted_last_name_matches_vips, "fail": []},
-        {"try": middleware.application_has_been_saved_to_vips, "fail": []},
         {"try": middleware.application_not_paid, "fail": []},
         {"try": middleware.is_applicant_within_window_to_apply, "fail": []},
+        {"try": middleware.application_has_been_saved_to_vips, "fail": []},
     ]
 
 

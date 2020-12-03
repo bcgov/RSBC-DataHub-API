@@ -1,5 +1,6 @@
 import pytest
 import datetime
+import logging
 import python.common.helper as helper
 import python.common.middleware as middleware
 import python.paybc_api.business as business
@@ -104,6 +105,98 @@ def test_pay_bc_generate_invoice_method(prohibition_type, application_created, e
     else:
         assert "error_string" in results
         assert results.get('error_string') == error
+
+
+def test_an_applicant_must_apply_for_a_review_before_paying_the_application_fee(monkeypatch):
+    is_in_vips = True
+    prohibition_type = "ADP"
+    last_name = "Gordon"
+    date_served = datetime.datetime.now().strftime("%Y-%m-%d")
+    application_created = False
+    is_paid = False
+    expected_error = "You must submit an application before you can pay."
+
+    def mock_status_get(*args, **kwargs):
+        return status_get(is_in_vips, prohibition_type, date_served, last_name, is_paid, application_created)
+
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+
+    results = helper.middle_logic(business.search_for_invoice(),
+                                  driver_last_name="Gordon",
+                                  prohibition_number="20-123456",
+                                  config=Config)
+    error = results.get('error_string')
+    logging.warning(error)
+    assert error == expected_error
+
+
+def test_an_applicant_must_enter_a_last_name_that_matches_vips(monkeypatch):
+    is_in_vips = True
+    prohibition_type = "ADP"
+    last_name = "Smith"
+    date_served = "2020-09-10"
+    application_created = True
+    is_paid = False
+    expected_error = "The last name doesn't match a driving prohibition in the system."
+
+    def mock_status_get(*args, **kwargs):
+        return status_get(is_in_vips, prohibition_type, date_served, last_name, is_paid, application_created)
+
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+
+    results = helper.middle_logic(business.search_for_invoice(),
+                                  driver_last_name="Gordon",
+                                  prohibition_number="20-123456",
+                                  config=Config)
+    error = results.get('error_string')
+    logging.warning(error)
+    assert error == expected_error
+
+
+def test_an_applicant_must_pay_before_application_window_has_expired(monkeypatch):
+    is_in_vips = True
+    prohibition_type = "IRP"
+    last_name = "Gordon"
+    date_served = (datetime.datetime.now() - datetime.timedelta(days=8)).strftime("%Y-%m-%d")
+    application_created = True
+    is_paid = False
+    expected_error = "The Notice of Prohibition was issued more than 7 days ago."
+
+    def mock_status_get(*args, **kwargs):
+        return status_get(is_in_vips, prohibition_type, date_served, last_name, is_paid, application_created)
+
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+
+    results = helper.middle_logic(business.search_for_invoice(),
+                                  driver_last_name="Gordon",
+                                  prohibition_number="20-123456",
+                                  config=Config)
+    error = results.get('error_string')
+    logging.warning(error)
+    assert error == expected_error
+
+
+def test_an_applicant_must_not_have_paid_previously(monkeypatch):
+    is_in_vips = True
+    prohibition_type = "IRP"
+    last_name = "Gordon"
+    date_served = datetime.datetime.now().strftime("%Y-%m-%d")
+    application_created = True
+    is_paid = True
+    expected_error = "The application review fee has already been paid."
+
+    def mock_status_get(*args, **kwargs):
+        return status_get(is_in_vips, prohibition_type, date_served, last_name, is_paid, application_created)
+
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+
+    results = helper.middle_logic(business.search_for_invoice(),
+                                  driver_last_name="Gordon",
+                                  prohibition_number="20-123456",
+                                  config=Config)
+    error = results.get('error_string')
+    logging.warning(error)
+    assert error == expected_error
 
 
 def status_get(is_success, prohibition_type, date_served, last_name, is_paid, application_saved):
