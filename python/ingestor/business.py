@@ -2,6 +2,7 @@ import python.common.middleware as middleware
 import python.common.actions as actions
 import python.common.rsi_email as rsi_email
 import python.common.rest as rest
+import python.ingestor.errors as errors
 
 
 def get_available_time_slots() -> list:
@@ -88,8 +89,12 @@ def is_okay_to_submit_evidence() -> list:
         {"try": middleware.get_vips_status, "fail": []},
         {"try": middleware.prohibition_exists_in_vips, "fail": []},
         {"try": middleware.user_submitted_last_name_matches_vips, "fail": []},
-        {"try": middleware.application_has_been_saved_to_vips, "fail": []},
-        {"try": middleware.application_has_been_paid, "fail": []},
+        {"try": middleware.application_has_been_saved_to_vips, "fail": [
+            {"try": errors.has_not_applied, "fail": []},
+        ]},
+        {"try": middleware.application_has_been_paid, "fail": [
+            {"try": errors.has_not_paid, "fail": []},
+        ]},
         {"try": middleware.review_has_been_scheduled, "fail": []},
         {"try": middleware.is_review_more_than_48_hours_in_the_future, "fail": []}
        ]
