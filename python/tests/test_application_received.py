@@ -1,5 +1,6 @@
 import pytest
 import os
+import pytz
 import datetime
 import python.common.helper as helper
 import python.common.middleware as middleware
@@ -202,7 +203,8 @@ def test_an_applicant_that_has_missed_the_window_to_apply_gets_appropriate_email
 
     def mock_status_get(*args, **kwargs):
         # (is_success, prohibition_type, date_served, last_name, seized, cause, already_applied):
-        date_served = (datetime.datetime.now() - datetime.timedelta(days=8)).strftime("%Y-%m-%d")
+        tz = pytz.timezone('America/Vancouver')
+        date_served = (datetime.datetime.now(tz) - datetime.timedelta(days=8)).strftime("%Y-%m-%d")
         return status_gets(True, prohib, date_served, "Gordon", "Y", "FAIL90", "False")
 
     def mock_send_email(*args, **kwargs):

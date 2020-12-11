@@ -1,4 +1,5 @@
 import pytest
+import pytz
 import datetime
 import logging
 import python.common.helper as helper
@@ -157,7 +158,8 @@ def test_an_applicant_must_pay_before_application_window_has_expired(monkeypatch
     is_in_vips = True
     prohibition_type = "IRP"
     last_name = "Gordon"
-    date_served = (datetime.datetime.now() - datetime.timedelta(days=8)).strftime("%Y-%m-%d")
+    tz = pytz.timezone('America/Vancouver')
+    date_served = (datetime.datetime.now(tz) - datetime.timedelta(days=8)).strftime("%Y-%m-%d")
     application_created = True
     is_paid = False
     expected_error = "The Notice of Prohibition was issued more than 7 days ago."

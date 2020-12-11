@@ -2,11 +2,14 @@ import pytest
 import datetime
 import base64
 import logging
+import os
+import pytz
 import python.common.rsi_email as rsi_email
 from python.ingestor.config import Config
 import python.common.vips_api as vips
 import python.ingestor.routes as routes
 
+os.environ['TZ'] = 'UTC'
 
 @pytest.fixture
 def client():
@@ -177,8 +180,9 @@ def test_an_applicant_cannot_submit_evidence_if_no_matching_prohibition_in_vips(
 
 def test_an_applicant_cannot_submit_evidence_if_the_review_date_is_less_than_48hrs_from_now(client, monkeypatch):
     iso_format = "%Y-%m-%d"
-    date_served = (datetime.datetime.now() - datetime.timedelta(days=7)).strftime(iso_format)
-    review_start_date = (datetime.datetime.now() + datetime.timedelta(days=2)).strftime(iso_format)
+    tz = pytz.timezone('America/Vancouver')
+    date_served = (datetime.datetime.now(tz) - datetime.timedelta(days=7)).strftime(iso_format)
+    review_start_date = (datetime.datetime.now(tz) + datetime.timedelta(days=2)).strftime(iso_format)
     logging.debug("datetimes: {} | {}".format(date_served, review_start_date))
 
     def mock_status_get(*args, **kwargs):
@@ -234,6 +238,157 @@ def test_an_applicant_can_submit_evidence_happy_path(client, monkeypatch):
     assert json_data['data']['is_valid'] is True
 
 
+def test_an_applicant_can_can_receive_schedule_options_happy_path(client, monkeypatch):
+    iso_format = "%Y-%m-%d"
+    date_served = (datetime.datetime.now() - datetime.timedelta(days=5)).strftime(iso_format)
+    payment_date = datetime.datetime.now().strftime(iso_format)
+
+    def mock_status_get(*args, **kwargs):
+        return status_gets(True, "IRP", date_served, True, "", "Gordon", True)
+
+    def mock_payment_get(*args, **kwargs):
+        return payment_get(payment_date)
+
+    def mock_application_get(*args, **kwargs):
+        return application_get()
+
+    def mock_schedule_get(*args, **kwargs):
+        return schedule_get()
+
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+    monkeypatch.setattr(vips, "payment_get", mock_payment_get)
+    monkeypatch.setattr(vips, "application_get", mock_application_get)
+    monkeypatch.setattr(vips, "schedule_get", mock_schedule_get)
+    monkeypatch.setattr(routes, "RabbitMQ", mock_rabbitmq)
+
+    response = client.post('/schedule',
+                           headers=get_basic_authentication_header(monkeypatch),
+                           data=get_evidence_form_data())
+    json_data = response.json
+    logging.warning(json_data)
+    assert response.status_code == 200
+    assert json_data['data']['is_valid'] is True
+    assert "time_slots" in json_data['data']
+
+
+def test_an_applicant_that_has_not_paid_cannot_schedule(client, monkeypatch):
+    iso_format = "%Y-%m-%d"
+    date_served = (datetime.datetime.now() - datetime.timedelta(days=5)).strftime(iso_format)
+    payment_date = datetime.datetime.now().strftime(iso_format)
+
+    def mock_status_get(*args, **kwargs):
+        return status_gets(True, "IRP", date_served, False, "", "Gordon", True)
+
+    def mock_payment_get(*args, **kwargs):
+        return payment_get(payment_date)
+
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+    monkeypatch.setattr(vips, "payment_get", mock_payment_get)
+    monkeypatch.setattr(routes, "RabbitMQ", mock_rabbitmq)
+
+    response = client.post('/schedule',
+                           headers=get_basic_authentication_header(monkeypatch),
+                           data=get_evidence_form_data())
+    json_data = response.json
+    logging.warning(json_data)
+    assert response.status_code == 200
+    assert json_data['data']['is_success'] is False
+    assert json_data['data']['error'] == "The application review fee must be paid to continue."
+
+
+def test_an_applicant_that_paid_more_than_24hrs_ago_cannot_schedule(client, monkeypatch):
+    iso_format = "%Y-%m-%d"
+    date_served = (datetime.datetime.now() - datetime.timedelta(days=5)).strftime(iso_format)
+    payment_date = (datetime.datetime.now() - datetime.timedelta(days=2)).strftime(iso_format)
+
+    def mock_status_get(*args, **kwargs):
+        return status_gets(True, "IRP", date_served, True, "", "Gordon", True)
+
+    def mock_payment_get(*args, **kwargs):
+        return payment_get(payment_date)
+
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+    monkeypatch.setattr(vips, "payment_get", mock_payment_get)
+    monkeypatch.setattr(routes, "RabbitMQ", mock_rabbitmq)
+
+    response = client.post('/schedule',
+                           headers=get_basic_authentication_header(monkeypatch),
+                           data=get_evidence_form_data())
+    json_data = response.json
+    logging.warning(json_data)
+    assert response.status_code == 200
+    assert json_data['data']['is_success'] is False
+    assert json_data['data']['error'] == "You are outside the 24-hour time allowed to schedule the review."
+
+
+def test_an_applicants_last_name_must_match_vips_to_schedule(client, monkeypatch):
+    iso_format = "%Y-%m-%d"
+    date_served = (datetime.datetime.now() - datetime.timedelta(days=5)).strftime(iso_format)
+    payment_date = (datetime.datetime.now() - datetime.timedelta(days=2)).strftime(iso_format)
+
+    def mock_status_get(*args, **kwargs):
+        return status_gets(True, "IRP", date_served, True, "", "Wrong-Name", True)
+
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+    monkeypatch.setattr(routes, "RabbitMQ", mock_rabbitmq)
+
+    response = client.post('/schedule',
+                           headers=get_basic_authentication_header(monkeypatch),
+                           data=get_evidence_form_data())
+    json_data = response.json
+    logging.warning(json_data)
+    assert response.status_code == 200
+    assert json_data['data']['is_success'] is False
+    assert json_data['data']['error'] == "The last name doesn't match a driving prohibition in the system."
+
+
+def test_an_applicant_must_have_applied_before_scheduling(client, monkeypatch):
+    iso_format = "%Y-%m-%d"
+    date_served = (datetime.datetime.now() - datetime.timedelta(days=5)).strftime(iso_format)
+    payment_date = (datetime.datetime.now() - datetime.timedelta(days=2)).strftime(iso_format)
+
+    def mock_status_get(*args, **kwargs):
+        return status_gets(True, "IRP", date_served, True, "", "Gordon", False)
+
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+    monkeypatch.setattr(routes, "RabbitMQ", mock_rabbitmq)
+
+    response = client.post('/schedule',
+                           headers=get_basic_authentication_header(monkeypatch),
+                           data=get_evidence_form_data())
+    json_data = response.json
+    logging.warning(json_data)
+    assert response.status_code == 200
+    assert json_data['data']['is_success'] is False
+    assert json_data['data']['error'] == "You must submit an application before you can schedule."
+
+
+def test_an_applicant_must_not_have_already_scheduled_a_review(client, monkeypatch):
+    iso_format = "%Y-%m-%d"
+    date_served = (datetime.datetime.now() - datetime.timedelta(days=5)).strftime(iso_format)
+    payment_date = datetime.datetime.now().strftime(iso_format)
+    review_date = (datetime.datetime.now() + datetime.timedelta(days=6)).strftime(iso_format)
+
+    def mock_status_get(*args, **kwargs):
+        return status_gets(True, "IRP", date_served, True, review_date, "Gordon", True)
+
+    def mock_payment_get(*args, **kwargs):
+        return payment_get(payment_date)
+
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+    monkeypatch.setattr(vips, "payment_get", mock_payment_get)
+    monkeypatch.setattr(routes, "RabbitMQ", mock_rabbitmq)
+
+    response = client.post('/schedule',
+                           headers=get_basic_authentication_header(monkeypatch),
+                           data=get_evidence_form_data())
+    json_data = response.json
+    logging.warning(json_data)
+    assert response.status_code == 200
+    assert json_data['data']['is_success'] is False
+    assert json_data['data']['error'] == 'A review has already been scheduled for this prohibition.'
+
+
 def get_basic_authentication_header(monkeypatch, username="name", password="secret") -> dict:
     monkeypatch.setattr(Config, "FLASK_BASIC_AUTH_USER", username)
     monkeypatch.setattr(Config, "FLASK_BASIC_AUTH_PASS", password)
@@ -284,3 +439,47 @@ def status_gets(is_success, prohibition_type, date_served, is_paid, review_start
         data['data']['status']['applicationId'] = 'GUID-GUID-GUID-GUID'
     return is_success, data
 
+
+def payment_get(payment_date) -> tuple:
+    return True, {
+            "resp": "success",
+            "data": {
+                "transactionInfo": {
+                    "paymentDate": payment_date + ' 09:30:00 -07:00'
+                }
+            }
+    }
+
+
+def application_get(presentation="ORAL", last_name="Gordon") -> tuple:
+    return True, {
+            "resp": "success",
+            "data": {
+                "applicationInfo": {
+                    "presentationTypeCd": presentation,
+                    "firstGivenNm": "Bob",
+                    "surnameNm": last_name,
+                }
+            }
+    }
+
+
+def schedule_get(days_offered=3) -> tuple:
+
+    return True, dict({
+        "time_slots": list([
+            {
+                "label": "Fri, Sep 4, 2020 - 10:00am to 11:30am",
+                "value": "ZGF0YSB0byBiZSBlbmNvZGVk"
+            },
+            {
+                "label": "Mon, Sep 7, 2020 - 10:00am to 11:30am",
+                "value": "ZGF0YSB0byBiZSBlbmNvZGVk"
+            },
+            {
+                "label": "Tue, Sep 8, 2020 - 10:00am to 11:30am",
+                "value": "ZGF0YSB0byBiZSBlbmNvZGVk"
+            }
+        ]),
+        "number_review_days_offered": days_offered
+    })

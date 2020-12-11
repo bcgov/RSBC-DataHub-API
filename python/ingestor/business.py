@@ -19,7 +19,9 @@ def get_available_time_slots() -> list:
         {"try": middleware.get_vips_status, "fail": []},
         {"try": middleware.prohibition_exists_in_vips, "fail": []},
         {"try": middleware.user_submitted_last_name_matches_vips, "fail": []},
-        {"try": middleware.application_has_been_saved_to_vips, "fail": []},
+        {"try": middleware.application_has_been_saved_to_vips, "fail": [
+            {"try": errors.has_not_applied_before_scheduling, "fail": []},
+        ]},
 
         {"try": middleware.get_payment_status, "fail": []},
         {"try": middleware.received_valid_payment_status, "fail": []},
@@ -90,10 +92,10 @@ def is_okay_to_submit_evidence() -> list:
         {"try": middleware.prohibition_exists_in_vips, "fail": []},
         {"try": middleware.user_submitted_last_name_matches_vips, "fail": []},
         {"try": middleware.application_has_been_saved_to_vips, "fail": [
-            {"try": errors.has_not_applied, "fail": []},
+            {"try": errors.has_not_applied_before_evidence, "fail": []},
         ]},
         {"try": middleware.application_has_been_paid, "fail": [
-            {"try": errors.has_not_paid, "fail": []},
+            {"try": errors.has_not_paid_before_evidence, "fail": []},
         ]},
         {"try": middleware.review_has_been_scheduled, "fail": []},
         {"try": middleware.is_review_more_than_48_hours_in_the_future, "fail": []}
