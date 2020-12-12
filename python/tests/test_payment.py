@@ -3,12 +3,10 @@ import pytz
 import datetime
 import logging
 import base64
-import python.common.helper as helper
-import python.common.middleware as middleware
-import python.paybc_api.business as business
 from python.paybc_api.website.config import Config
 import python.paybc_api.website.app as app
 import python.common.vips_api as vips
+import python.common.common_email_services as common_email
 
 
 @pytest.fixture
@@ -144,6 +142,251 @@ def test_successful_search_response_includes_url_to_invoice_endpoint(prohibition
     assert response.status_code == 200
 
 
+def test_invoice_endpoint_requires_an_access_token(token, client, monkeypatch):
+    response = client.get('/api_v2/invoice/20123456')
+    logging.warning("invoice: {}".format(response.json))
+    assert response.status_code == 401
+
+
+@pytest.mark.parametrize("prohibition_types", ['IRP', 'ADP', 'UL'])
+def test_applicant_invoice_returns_error_if_already_paid(prohibition_types, token, client, monkeypatch):
+
+    def mock_status_get(*args, **kwargs):
+        return status_get(True, prohibition_types, "2020-09-01", "Gordon", True, True)
+
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+
+    response = client.get('/api_v2/invoice/20123456', headers=get_oauth_auth_header(token))
+    logging.warning("invoice: {}".format(response.json))
+    assert "The application review fee has already been paid." in response.json['error']
+    assert response.status_code == 200
+
+
+@pytest.mark.parametrize("prohibition_types", ['IRP', 'ADP', 'UL'])
+def test_applicant_invoice_returns_error_if_not_found_in_vips(prohibition_types, token, client, monkeypatch):
+
+    def mock_status_get(*args, **kwargs):
+        return status_get(False, prohibition_types, "2020-09-01", "Gordon", True, True)
+
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+
+    response = client.get('/api_v2/invoice/20123456', headers=get_oauth_auth_header(token))
+    logging.warning("invoice: {}".format(response.json))
+    assert "The driving prohibition isn't in the system." in response.json['error']
+    assert response.status_code == 200
+
+
+@pytest.mark.parametrize("prohibition_type", ['IRP', 'ADP'])
+def test_applicant_invoice_returns_error_if_irp_or_adp_older_than_7_days(prohibition_type, token, client, monkeypatch):
+    iso_format = "%Y-%m-%d"
+    tz = pytz.timezone('America/Vancouver')
+    date_served = (datetime.datetime.now(tz) - datetime.timedelta(days=8)).strftime(iso_format)
+
+    def mock_status_get(*args, **kwargs):
+        return status_get(True, prohibition_type, date_served, "Gordon", False, True)
+
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+
+    response = client.get('/api_v2/invoice/20123456', headers=get_oauth_auth_header(token))
+    logging.warning("invoice: {}".format(response.json))
+    assert "The Notice of Prohibition was issued more than 7 days ago." in response.json['error']
+    assert response.status_code == 200
+
+
+def test_applicant_invoice_successful_if_a_ul_review_older_than_7_days(token, client, monkeypatch):
+    iso_format = "%Y-%m-%d"
+    tz = pytz.timezone('America/Vancouver')
+    date_served = (datetime.datetime.now(tz) - datetime.timedelta(days=8)).strftime(iso_format)
+
+    def mock_status_get(*args, **kwargs):
+        return status_get(True, "UL", date_served, "Gordon", False, True)
+
+    def mock_application_get(*args, **kwargs):
+        return application_get()
+
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+    monkeypatch.setattr(vips, "application_get", mock_application_get)
+
+    response = client.get('/api_v2/invoice/20123456', headers=get_oauth_auth_header(token))
+    logging.warning("invoice: {}".format(response.json))
+    assert "error" not in response.json
+    assert "20123456" == response.json["invoice_number"]
+    assert "10008" == response.json["pbc_ref_number"]
+    assert 50 == response.json["total"]
+    assert 50 == response.json["amount_due"]
+    assert 0 == response.json["party_number"]
+    assert response.status_code == 200
+
+
+@pytest.mark.parametrize("prohibition_type", ['IRP', 'ADP'])
+def test_successful_invoice_response_includes_url_to_invoice_endpoint(prohibition_type, token, client, monkeypatch):
+    iso_format = "%Y-%m-%d"
+    tz = pytz.timezone('America/Vancouver')
+    date_served = (datetime.datetime.now(tz) - datetime.timedelta(days=6)).strftime(iso_format)
+
+    def mock_status_get(*args, **kwargs):
+        return status_get(True, prohibition_type, date_served, "Gordon", False, True)
+
+    def mock_application_get(*args, **kwargs):
+        return application_get("ORAL")
+
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+    monkeypatch.setattr(vips, "application_get", mock_application_get)
+
+    response = client.get('/api_v2/invoice/20123456', headers=get_oauth_auth_header(token))
+    logging.warning("invoice: {}".format(response.json))
+    assert "error" not in response.json
+    assert "20123456" == response.json["invoice_number"]
+    assert "10008" == response.json["pbc_ref_number"]
+    assert 200 == response.json["total"]
+    assert 200 == response.json["amount_due"]
+    assert 0 == response.json["party_number"]
+    assert response.status_code == 200
+
+
+@pytest.mark.parametrize("presentation_type", [['ORAL', 200],  ['WRIT', 100]])
+def test_invoice_amount_is_determined_by_review_presentation_type(presentation_type, token, client, monkeypatch):
+    iso_format = "%Y-%m-%d"
+    tz = pytz.timezone('America/Vancouver')
+    date_served = (datetime.datetime.now(tz) - datetime.timedelta(days=6)).strftime(iso_format)
+
+    def mock_status_get(*args, **kwargs):
+        return status_get(True, "IRP", date_served, "Gordon", False, True)
+
+    def mock_application_get(*args, **kwargs):
+        return application_get(presentation_type[0])
+
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+    monkeypatch.setattr(vips, "application_get", mock_application_get)
+
+    response = client.get('/api_v2/invoice/20123456', headers=get_oauth_auth_header(token))
+    logging.warning("invoice: {}".format(response.json))
+    assert "error" not in response.json
+    assert "20123456" == response.json["invoice_number"]
+    assert "10008" == response.json["pbc_ref_number"]
+    assert presentation_type[1] == response.json["total"]
+    assert presentation_type[1] == response.json["amount_due"]
+    assert 0 == response.json["party_number"]
+    assert response.status_code == 200
+
+
+def test_receipt_endpoint_requires_an_access_token(token, client, monkeypatch):
+    response = client.post('/api_v2/receipt')
+    logging.warning("receipt: {}".format(response.json))
+    assert response.status_code == 401
+
+
+@pytest.mark.parametrize("prohibition_types", ['IRP', 'ADP', 'UL'])
+def test_receipt_endpoint_returns_error_if_prohibition_not_found(prohibition_types, token, client, monkeypatch):
+
+    def mock_status_get(*args, **kwargs):
+        return status_get(False, prohibition_types, "2020-09-01", "Gordon", True, False)
+
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+
+    response = client.post('/api_v2/receipt',
+                           headers=get_oauth_auth_header(token),
+                           json=get_receipt_payload())
+    logging.warning("receipt: {}".format(response.json))
+    assert "INCMP" in response.json['status']  # INCMP == INCOMPLETE
+    assert response.status_code == 400
+
+
+@pytest.mark.parametrize("prohibition_types", ['IRP', 'ADP', 'UL'])
+def test_receipt_endpoint_returns_error_if_application_not_saved(prohibition_types, token, client, monkeypatch):
+
+    def mock_status_get(*args, **kwargs):
+        return status_get(True, prohibition_types, "2020-09-01", "Gordon", False, False)
+
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+
+    response = client.post('/api_v2/receipt',
+                           headers=get_oauth_auth_header(token),
+                           json=get_receipt_payload())
+    logging.warning("receipt: {}".format(response.json))
+    assert "INCMP" in response.json['status']  # INCMP == INCOMPLETE
+    assert response.status_code == 400
+
+
+@pytest.mark.parametrize("prohibition_types", ['IRP', 'ADP', 'UL'])
+def test_receipt_endpoint_returns_error_if_application_data_not_returned(prohibition_types, token, client, monkeypatch):
+
+    def mock_status_get(*args, **kwargs):
+        return status_get(True, prohibition_types, "2020-09-01", "Gordon", False, False)
+
+    def mock_application_get(*args, **kwargs):
+        return False, dict()
+
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+    monkeypatch.setattr(vips, "application_get", mock_application_get)
+
+    response = client.post('/api_v2/receipt',
+                           headers=get_oauth_auth_header(token),
+                           json=get_receipt_payload())
+    logging.warning("receipt: {}".format(response.json))
+    assert "INCMP" in response.json['status']  # INCMP == INCOMPLETE
+    assert response.status_code == 400
+
+
+@pytest.mark.parametrize("prohibition_types", ['IRP', 'ADP', 'UL'])
+def test_receipt_endpoint_returns_success_if_prohibition_already_paid(prohibition_types, token, client, monkeypatch):
+    """
+    In the event that VIPS status says the application for review has already been paid, return a successful
+    response to PayBC.  If we don't send a successful response, PayBC will try again and again indefinitely.
+    PayBC likely didn't receive the initial successful response, so is trying again.
+    """
+
+    def mock_status_get(*args, **kwargs):
+        return status_get(True, prohibition_types, "2020-09-01", "Gordon", True, True)
+
+    def mock_application_get(*args, **kwargs):
+        return application_get()
+
+    def mock_send_email(*args, **kwargs):
+        return True
+
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+    monkeypatch.setattr(vips, "application_get", mock_application_get)
+    monkeypatch.setattr(common_email, "send_email", mock_send_email)
+
+    response = client.post('/api_v2/receipt',
+                           headers=get_oauth_auth_header(token),
+                           json=get_receipt_payload())
+    logging.warning("receipt: {}".format(response.json))
+    assert "APP" in response.json['status']  # APP == APPROVED
+    assert response.status_code == 200
+
+
+@pytest.mark.parametrize("prohibition_types", ['IRP', 'ADP', 'UL'])
+def test_receipt_endpoint_returns_success_and_sends_schedule_email(prohibition_types, token, client, monkeypatch):
+
+    def mock_status_get(*args, **kwargs):
+        return status_get(True, prohibition_types, "2020-09-01", "Gordon", False, True)
+
+    def mock_application_get(*args, **kwargs):
+        return application_get()
+
+    def mock_patch_payment(*args, **kwargs):
+        return True, dict({})
+
+    def mock_send_email(*args, **kwargs):
+        assert "applicant@gov.bc.ca" == args[0][0]
+        assert "Select Review Date - Driving Prohibition 12344 Review" == args[1]
+        return True
+
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+    monkeypatch.setattr(vips, "application_get", mock_application_get)
+    monkeypatch.setattr(vips, "payment_patch", mock_patch_payment)
+    monkeypatch.setattr(common_email, "send_email", mock_send_email)
+
+    response = client.post('/api_v2/receipt',
+                           headers=get_oauth_auth_header(token),
+                           json=get_receipt_payload())
+    logging.warning("receipt: {}".format(response.json))
+    assert "APP" in response.json['status']  # APP == APPROVED
+    assert response.status_code == 200
+
+
 def get_basic_authentication_header(config) -> dict:
     username = config.PAYBC_CLIENT_ID
     password = config.PAYBC_CLIENT_SECRET
@@ -163,57 +406,24 @@ def get_search_payload(prohibition_number="20-123456", last_name="Gordon") -> di
     })
 
 
+def get_receipt_payload(receipt_amount=200) -> dict:
+    return dict({
+        "receipt_number": "ABCD-1234",
+        "receipt_date": "2020-10-12T15:17:33Z",
+        "receipt_amount": receipt_amount,
+        "payment_method": "credit card",
+        "cardtype": "VISA",
+        "invoices": [
+            {
+                "trx_number": "12344",
+                "amount_to_apply": receipt_amount
+            }
+        ]
+    })
+
+
 def get_oauth_auth_header(token) -> dict:
     return dict({"Authorization": "Bearer {}".format(token)})
-
-
-test_show_method_data = [
-    # Type, Application  Error
-    ('IRP', True,        None),
-    ('IRP', False,       "You must submit an application before you can pay."),
-
-]
-
-
-@pytest.mark.parametrize("prohibition_type, application_created, error", test_show_method_data)
-def test_pay_bc_generate_invoice_method(prohibition_type, application_created, error, monkeypatch):
-    is_in_vips = True
-    prohibition_type = "ADP"
-    today_is = "2020-09-14"
-    last_name = "Gordon"
-    date_served = "2020-09-10"
-    is_paid = False
-
-    def mock_status_get(*args, **kwargs):
-        print('inside mock_status_get()')
-        return status_get(is_in_vips, prohibition_type, date_served, last_name, is_paid, application_created)
-
-    def mock_application_get(*args, **kwargs):
-        print('inside mock_application_get()')
-        return application_get()
-
-    def mock_datetime_now(**args):
-        args['today_date'] = helper.localize_timezone(datetime.datetime.strptime(today_is, "%Y-%m-%d"))
-        print('inside mock_datetime_now: {}'.format(args.get('today_date')))
-        return True, args
-
-    monkeypatch.setattr(middleware, "determine_current_datetime", mock_datetime_now)
-    monkeypatch.setattr(vips, "status_get", mock_status_get)
-    monkeypatch.setattr(vips, "application_get", mock_application_get)
-
-    results = helper.middle_logic(business.generate_invoice(),
-                                  prohibition_number="20-123456",
-                                  config=Config)
-
-    print(results.get('error_string'))
-    if error is None:
-        assert "error_string" not in results
-    else:
-        assert "error_string" in results
-        assert results.get('error_string') == error
-
-
-
 
 
 def status_get(is_success, prohibition_type, date_served, last_name, is_paid, application_saved):
@@ -248,17 +458,17 @@ def status_get(is_success, prohibition_type, date_served, last_name, is_paid, ap
                }
 
 
-def application_get():
+def application_get(presentation_type="ORAL"):
     return True, {
           "data": {
                 "applicationInfo": {
-                      "email": "string",
+                      "email": "applicant@gov.bc.ca",
                       "firstGivenNm": "string",
                       "manualEntryYN": "N",
                       "noticeSubjectCd": "string",
                       "noticeTypeCd": "string",
                       "phoneNo": "string",
-                      "presentationTypeCd": "string",
+                      "presentationTypeCd": presentation_type,
                       "prohibitionNoticeNo": "string",
                       "reviewApplnTypeCd": "string",
                       "reviewRoleTypeCd": "string",

@@ -63,9 +63,12 @@ def save_payment() -> list:
         {"try": middleware.application_not_paid, "fail": [
             # If VIPS says the application is paid, tell PayBC that the payment was successful.
             # Likely PayBC didn't receive the initial successful response and is trying again
-            # TODO - send email to applicant to schedule review
-            #  needs to be tested to make sure all information has been received for the email
+            {"try": middleware.application_has_been_saved_to_vips, "fail": []},
+            {"try": middleware.get_application_details, "fail": []},
+            {"try": middleware.valid_application_received_from_vips, "fail": []},
+            {"try": middleware.get_invoice_details, "fail": []},
             {"try": middleware.payment_success, "fail": []},
+            {"try": rsi_email.applicant_to_schedule_review, "fail": []},
         ]},
         {"try": middleware.application_has_been_saved_to_vips, "fail": []},
         {"try": middleware.get_application_details, "fail": []},

@@ -97,6 +97,6 @@ def receipt():
                                    config=Config)
 
         if not args.get('payment_success'):
-            api_responses.payment_incomplete(**args)
+            return api_responses.payment_incomplete(**args)
 
         return api_responses.payment_success(**args)
