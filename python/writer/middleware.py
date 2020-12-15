@@ -55,7 +55,6 @@ def clean_up_address(**args) -> tuple:
     address = re.sub(r'\s+BLOCK\s+', ' ', address)
     address = address.replace('HIGHWAY', 'HWY')
     address = address.replace('TRANS CANADA HWY', 'TRANS-CANADA HWY')
-    address = address.replace('ISLAND HWY', 'TRANS-CANADA HWY')
     address = address.replace('PAT BAY HWY', 'PATRICIA BAY HWY')
     address = re.sub(r'HWY\s+1([\s+|,])', r'TRANS-CANADA HWY\g<1>', address)
     address = re.sub(r'HWY\sONE([\s+|,])', r'TRANS-CANADA HWY\g<1>', address)
