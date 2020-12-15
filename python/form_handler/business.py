@@ -17,12 +17,9 @@ def process_incoming_form() -> dict:
             {"try": rsi_email.admin_unknown_event_type, "fail": []}
         ],
         "send_disclosure": [
-            {
-                "try": actions.is_not_on_hold,
-                "fail": [
-                    {"try": actions.add_to_hold_queue, "fail": []}
-                ]
-            },
+            {"try": actions.is_not_on_hold, "fail": [
+                {"try": actions.add_to_hold_queue, "fail": []}
+            ]},
             {"try": middleware.get_data_from_disclosure_event, "fail": []},
             {"try": middleware.determine_current_datetime, "fail": []},
 
