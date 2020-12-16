@@ -21,8 +21,6 @@ def process_incoming_form() -> dict:
                 {"try": actions.add_to_hold_queue, "fail": []}
             ]},
             {"try": middleware.get_data_from_disclosure_event, "fail": []},
-            {"try": middleware.determine_current_datetime, "fail": []},
-
             {"try": middleware.create_correlation_id, "fail": []},
             {"try": middleware.determine_current_datetime, "fail": []},
             {"try": middleware.get_vips_status, "fail": []},
@@ -44,6 +42,21 @@ def process_incoming_form() -> dict:
             {"try": actions.add_hold_before_sending_disclosure, "fail": []},
             {"try": actions.add_to_hold_queue, "fail": []}
 
+        ],
+        "verify_schedule": [
+            {"try": actions.is_not_on_hold, "fail": [
+                {"try": actions.add_to_hold_queue, "fail": []}
+            ]},
+            {"try": middleware.get_data_from_verify_schedule_event, "fail": []},
+            {"try": middleware.create_correlation_id, "fail": []},
+            {"try": middleware.determine_current_datetime, "fail": []},
+            {"try": middleware.get_vips_status, "fail": []},
+            {"try": middleware.prohibition_exists_in_vips, "fail": []},
+            {"try": middleware.review_has_been_scheduled, "fail": [
+                # if review has not been scheduled, notify Appeals Registry
+                {"try": rsi_email.applicant_did_not_schedule, "fail": []},
+            ]}
+            # If review has been scheduled, do nothing
         ],
         "review_schedule_picker": [
             # aka: review scheduler

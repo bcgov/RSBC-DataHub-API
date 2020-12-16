@@ -4,6 +4,7 @@ import python.paybc_api.website.api_responses as api_responses
 import python.common.helper as helper
 import python.paybc_api.business as rules
 from python.paybc_api.website.config import Config
+from python.common.rabbitmq import RabbitMQ
 import logging
 import json
 
@@ -94,7 +95,8 @@ def receipt():
         logging.info('receipt payload: {}'.format(json.dumps(payload)))
         args = helper.middle_logic(rules.save_payment(),
                                    payload=payload,
-                                   config=Config)
+                                   config=Config,
+                                   writer=RabbitMQ(Config))
 
         if not args.get('payment_success'):
             return api_responses.payment_incomplete(**args)

@@ -603,3 +603,54 @@ def test_query_for_additional_review_times(min_review_date, max_review_date,
         assert isinstance(slot, dict)
         assert "reviewStartDtm" in slot
         assert "reviewEndDtm" in slot
+
+
+def test_create_send_disclosure_method():
+    event_type_string = "send_disclosure"
+    class FakeConfig:
+        PAYLOAD_VERSION_NUMBER = "1.5"
+
+    data = dict({
+        "firstGivenNm": "First",
+        "surnameNm": "Last",
+        "email": "applicant@gov.bc.ca"
+    })
+    response, args = middleware.create_disclosure_event(
+        vips_application=data,
+        config=FakeConfig,
+        prohibition_number="20123456"
+    )
+    message_dict = args.get('message')
+    assert response is True
+    assert "1.5" in message_dict["event_version"]
+    assert event_type_string in message_dict["event_type"]
+    assert "First Last" in message_dict[event_type_string]["applicant_name"]
+    assert "applicant@gov.bc.ca" in message_dict[event_type_string]["email"]
+    assert "20123456" in message_dict[event_type_string]["prohibition_number"]
+
+
+def test_create_verify_schedule_method():
+    event_type_string = "verify_schedule"
+    tz = pytz.timezone("America/Vancouver")
+    class FakeConfig:
+        PAYLOAD_VERSION_NUMBER = "1.5"
+
+    data = dict({
+        "receipt_number": "ABC-123",
+        "receipt_amount": "50"
+    })
+    response, args = middleware.create_verify_schedule_event(
+        receipt_date=datetime.now(tz),
+        payload=data,
+        config=FakeConfig,
+        prohibition_number="20123456"
+    )
+    message_dict = args.get('message')
+    assert response is True
+    assert "1.5" in message_dict["event_version"]
+    assert event_type_string in message_dict["event_type"]
+    assert "ABC-123" in message_dict[event_type_string]["receipt_number"]
+    assert datetime.now(tz).strftime("%Y-%m-%d") in message_dict[event_type_string]["receipt_date"]
+    assert "50" in message_dict[event_type_string]["receipt_amount"]
+    assert "20123456" in message_dict[event_type_string]["prohibition_number"]
+

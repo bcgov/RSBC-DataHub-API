@@ -1,6 +1,6 @@
 import python.common.middleware as middleware
 import python.common.rsi_email as rsi_email
-import python.paybc_api.website.api_responses as api
+import python.common.actions as actions
 
 
 def search_for_invoice() -> list:
@@ -67,8 +67,13 @@ def save_payment() -> list:
             {"try": middleware.get_application_details, "fail": []},
             {"try": middleware.valid_application_received_from_vips, "fail": []},
             {"try": middleware.get_invoice_details, "fail": []},
+            {"try": middleware.transform_receipt_date_from_pay_bc_format, "fail": []},
             {"try": middleware.payment_success, "fail": []},
             {"try": rsi_email.applicant_to_schedule_review, "fail": []},
+            {"try": middleware.create_verify_schedule_event, "fail": []},
+            {"try": actions.add_hold_to_verify_schedule, "fail": []},
+
+            {"try": actions.add_to_hold_queue, "fail": []}
         ]},
         {"try": middleware.application_has_been_saved_to_vips, "fail": []},
         {"try": middleware.get_application_details, "fail": []},
@@ -78,4 +83,7 @@ def save_payment() -> list:
         {"try": middleware.save_payment_to_vips, "fail": []},
         {"try": middleware.payment_success, "fail": []},
         {"try": rsi_email.applicant_to_schedule_review, "fail": []},
+        {"try": middleware.create_verify_schedule_event, "fail": []},
+        {"try": actions.add_hold_to_verify_schedule, "fail": []},
+        {"try": actions.add_to_hold_queue, "fail": []}
     ]

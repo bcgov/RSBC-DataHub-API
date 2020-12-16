@@ -723,9 +723,9 @@ def create_disclosure_event(**args) -> tuple:
     that disclosure cannot be sent immediately, we use this method to
     create a disclosure event that's added to the hold queue.
     """
+    event_type = "send_disclosure"
     config = args.get('config')
     vips_application = args.get('vips_application')
-    event_type = "send_disclosure"
     args['message'] = dict({
         "event_version": config.PAYLOAD_VERSION_NUMBER,
         "event_date_time": datetime.now().isoformat(),
@@ -733,6 +733,30 @@ def create_disclosure_event(**args) -> tuple:
         event_type: {
             "applicant_name": "{} {}".format(vips_application['firstGivenNm'], vips_application['surnameNm']),
             "email": vips_application['email'],
+            "prohibition_number": args.get('prohibition_number'),
+        }
+    })
+    return True, args
+
+
+def create_verify_schedule_event(**args) -> tuple:
+    """
+    After prohibition review has been paid, we need to verify that the applicant
+    has scheduled their review within 24 hours.  This event is placed in the hold
+    queue and processed in 24 hours time.
+    """
+    event_type = "verify_schedule"
+    config = args.get('config')
+    payload = args.get('payload')
+    receipt_datetime_object = args.get('receipt_date')
+    args['message'] = dict({
+        "event_version": config.PAYLOAD_VERSION_NUMBER,
+        "event_date_time": datetime.now().isoformat(),
+        "event_type": event_type,
+        event_type: {
+            "receipt_amount": payload['receipt_amount'],
+            "receipt_number": payload['receipt_number'],
+            "receipt_date": receipt_datetime_object.strftime("%Y-%m-%d"),
             "prohibition_number": args.get('prohibition_number'),
         }
     })
@@ -819,6 +843,19 @@ def get_data_from_disclosure_event(**args) -> tuple:
     event_type = m['event_type']
     args['applicant_name'] = m[event_type]['applicant_name']
     args['applicant_email_address'] = m[event_type]['email']
+    args['prohibition_number'] = m[event_type]['prohibition_number']
+    return True, args
+
+
+def get_data_from_verify_schedule_event(**args) -> tuple:
+    """
+    verify_schedule and send_disclosure events are identical other than the event_type
+    """
+    m = args.get('message')
+    event_type = m['event_type']
+    args['receipt_amount'] = m[event_type]['receipt_amount']
+    args['receipt_number'] = m[event_type]['receipt_number']
+    args['receipt_date'] = m[event_type]['receipt_date']
     args['prohibition_number'] = m[event_type]['prohibition_number']
     return True, args
 

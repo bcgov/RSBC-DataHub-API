@@ -1,9 +1,11 @@
 import pytest
 import pytz
+import json
 import datetime
 import logging
 import base64
 from python.paybc_api.website.config import Config
+import python.paybc_api.website.routes as routes
 import python.paybc_api.website.app as app
 import python.common.vips_api as vips
 import python.common.common_email_services as common_email
@@ -282,7 +284,13 @@ def test_receipt_endpoint_returns_error_if_prohibition_not_found(prohibition_typ
     def mock_status_get(*args, **kwargs):
         return status_get(False, prohibition_types, "2020-09-01", "Gordon", True, False)
 
+    class MockRabbitMQ:
+
+        def __init__(self, config):
+            pass
+
     monkeypatch.setattr(vips, "status_get", mock_status_get)
+    monkeypatch.setattr(routes, "RabbitMQ", MockRabbitMQ)
 
     response = client.post('/api_v2/receipt',
                            headers=get_oauth_auth_header(token),
@@ -298,7 +306,13 @@ def test_receipt_endpoint_returns_error_if_application_not_saved(prohibition_typ
     def mock_status_get(*args, **kwargs):
         return status_get(True, prohibition_types, "2020-09-01", "Gordon", False, False)
 
+    class MockRabbitMQ:
+
+        def __init__(self, config):
+            pass
+
     monkeypatch.setattr(vips, "status_get", mock_status_get)
+    monkeypatch.setattr(routes, "RabbitMQ", MockRabbitMQ)
 
     response = client.post('/api_v2/receipt',
                            headers=get_oauth_auth_header(token),
@@ -317,7 +331,13 @@ def test_receipt_endpoint_returns_error_if_application_data_not_returned(prohibi
     def mock_application_get(*args, **kwargs):
         return False, dict()
 
+    class MockRabbitMQ:
+
+        def __init__(self, config):
+            pass
+
     monkeypatch.setattr(vips, "status_get", mock_status_get)
+    monkeypatch.setattr(routes, "RabbitMQ", MockRabbitMQ)
     monkeypatch.setattr(vips, "application_get", mock_application_get)
 
     response = client.post('/api_v2/receipt',
@@ -345,6 +365,17 @@ def test_receipt_endpoint_returns_success_if_prohibition_already_paid(prohibitio
     def mock_send_email(*args, **kwargs):
         return True
 
+    class MockRabbitMQ:
+
+        def __init__(self, config):
+            pass
+
+        @staticmethod
+        def publish(*args):
+            assert "DF.Hold" in args[0]
+            return True
+
+    monkeypatch.setattr(routes, "RabbitMQ", MockRabbitMQ)
     monkeypatch.setattr(vips, "status_get", mock_status_get)
     monkeypatch.setattr(vips, "application_get", mock_application_get)
     monkeypatch.setattr(common_email, "send_email", mock_send_email)
@@ -374,6 +405,17 @@ def test_receipt_endpoint_returns_success_and_sends_schedule_email(prohibition_t
         assert "Select Review Date - Driving Prohibition 12344 Review" == args[1]
         return True
 
+    class MockRabbitMQ:
+
+        def __init__(self, config):
+            pass
+
+        @staticmethod
+        def publish(*args):
+            assert "DF.Hold" in args[0]
+            return True
+
+    monkeypatch.setattr(routes, "RabbitMQ", MockRabbitMQ)
     monkeypatch.setattr(vips, "status_get", mock_status_get)
     monkeypatch.setattr(vips, "application_get", mock_application_get)
     monkeypatch.setattr(vips, "payment_patch", mock_patch_payment)

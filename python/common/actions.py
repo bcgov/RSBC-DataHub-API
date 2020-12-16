@@ -44,6 +44,17 @@ def add_hold_before_sending_disclosure(**args) -> tuple:
     return True, args
 
 
+def add_hold_to_verify_schedule(**args) -> tuple:
+    """
+    Adds a do not process until attribute to the message
+    """
+    message = args.get('message')
+    config = args.get('config')
+    hold_hours = config.HOURS_APPLICANT_HAS_TO_SCHEDULE
+    message['hold_until'] = (datetime.today() + timedelta(hours=hold_hours)).isoformat()
+    return True, args
+
+
 def add_to_failed_queue(**args) -> tuple:
     config = args.get('config')
     message = args.get('message')
