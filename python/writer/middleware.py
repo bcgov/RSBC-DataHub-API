@@ -30,8 +30,23 @@ def clean_up_address(**args) -> tuple:
     address_raw = args.get('address_raw')
     address = copy.copy(address_raw)
     logging.info('raw address {}'.format(address))
+    # ---- delete unhelpful text ----
     address = address.replace('\r\n', '\n')
-    address = re.sub(r'^[NEWS]/B', '', address)
+    address = re.sub(r'(\s|^)[NEWS](/)?B(,)?(\s)', ' ', address)
+    address = re.sub(r'(\s|^)(NORTH|EAST|SOUTH|WEST)(\s)?BOUND(,)?(\s)', ' ', address)
+    address = address.replace('#', ' ')
+
+    # move block number to beginning of address string
+    reg_ex = r',?(\s|\()?(\d+)(\s)?(BLK|BLOCK)(\))?,?(\s+)?(OF\s+)?'
+    block = re.findall(reg_ex, address)
+    if block:
+        address = re.sub(reg_ex, ' ', address)
+        address = block[0][1] + ' ' + address
+        address = re.sub(r'\s+$', '', address)
+
+    # ---- replace text that indicates an intersection of two roads
+    address = re.sub(r',\s(NORTH|EAST|SOUTH|WEST),\s+', ' AND ', address)
+    address = re.sub(r'\s+NEAR\s+', ' AND ', address)
     address = re.sub(r'&amp;', ' AND ', address)
     address = re.sub(r'\s+S/O\s+', ' AND ', address)
     address = re.sub(r'\s+SOUTH OF\s+', ' AND ', address)
@@ -41,25 +56,21 @@ def clean_up_address(**args) -> tuple:
     address = re.sub(r'\s+WEST OF\s+', ' AND ', address)
     address = re.sub(r'\s+E/O\s+', ' AND ', address)
     address = re.sub(r'\s+EAST OF\s+', ' AND ', address)
+    address = re.sub(r'(\s|^)(ON|OFF)(\s)?RAMP\s(TO|FROM)(,)?(\s)', ' AND ', address)
     address = address.replace('/', ' AND ')
     address = address.replace('+', ' AND ')
     address = address.replace('@', ' AND ')
     address = address.replace(' AT ', ' AND ')
-    address = address.replace('#', ' ')
+
     address = re.sub(r'\s+-\s+', ' AND ', address)
-    address = address.replace(' NB', '')
-    address = address.replace(' SB', '')
-    address = address.replace(' EB', '')
-    address = address.replace(' WB', '')
-    address = re.sub(r'\s+BLK\s+', ' ', address)
-    address = re.sub(r'\s+BLOCK\s+', ' ', address)
+
     address = address.replace('HIGHWAY', 'HWY')
     address = address.replace('TRANS CANADA HWY', 'TRANS-CANADA HWY')
     address = address.replace('PAT BAY HWY', 'PATRICIA BAY HWY')
     address = re.sub(r'HWY\s+1([\s+|,])', r'TRANS-CANADA HWY\g<1>', address)
     address = re.sub(r'HWY\sONE([\s+|,])', r'TRANS-CANADA HWY\g<1>', address)
     address = re.sub(r'HWY\s?(\d+)', r'HWY-\g<1>', address)
-    address = re.sub(r'HWY-(\d+)(\s?)(SOUTH|NORTH|EAST|WEST|[NEWS])', r'HWY-\g<1> ', address)
+    address = re.sub(r'HWY-(\d+)(\s?)(SOUTH|NORTH|EAST|WEST|[NEWS])(\s|,)', r'HWY-\g<1> ', address)
     address = re.sub(r'[^\S\r\n]{2,}', ' ', address)
     address = re.sub(r'^\s+', '', address)
     address = address + ", BC"
