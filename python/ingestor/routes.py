@@ -145,7 +145,7 @@ def check():
 @application.route('/check_templates', methods=['GET'])
 def check_templates():
     """
-    This endpoint returns a list links to available templates. It
+    This endpoint returns a page with links to available templates. It
     is used for testing / debugging and only available in the DEV environment.
     """
     if request.method == 'GET' and Config.ENVIRONMENT in ['pr', 'dev']:

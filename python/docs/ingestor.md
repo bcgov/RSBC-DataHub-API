@@ -1,8 +1,55 @@
 # About the Ingestor
 
-The ingestor is a Python Flask application that accepts POST requests in the form of a JSON payload and writes payload to a RabbitMQ queue for subsequent processing.  Endpoint:   
+The ingestor is a Python Flask API with the following endpoints:
+
+### E-Ticket
+
+Accepts POST requests in the form of a JSON payload and writes the payload to a RabbitMQ `ingested` queue for 
+subsequent processing.  Endpoint:   
  
-``` http://<host_name>/v1/publish/event ```
+``` http://<host_name>/v1/publish/event/ETK ```
+
+### Digital Forms
+
+Accepts POST requests in the form of an XML payload from Orbeon (a proprietary product hosted by GDX) 
+and writes the payload to a RabbitMQ `ingested` queue for subsequent processing. Endpoint:   
+ 
+``` http://<host_name>/v1/publish/event/form ```
+
+### Schedule
+
+Accepts POST requests with two form-url-encoded parameters (prohibition_number and last_name)
+and returns a JSON object that contains the available dates and times 
+that an applicant is eligible to book a review. The endpoint is protected with basic authentication. 
+The credentials are passed in as environment variables.
+ 
+``` http://<host_name>/schedule ```
+
+
+### Evidence
+
+Accepts POST requests with two form-url-encoded parameters (prohibition_number and last_name)
+and returns a JSON object that indicates if an applicant is eligible to upload evidence for their review.
+The endpoint is protected with basic authentication. The credentials are passed in as environment variables.
+ 
+``` http://<host_name>/evidence ```
+
+
+### List Email Templates (DEV only)
+
+Accepts GET requests and returns an HTML page with links to email templates automatically sent by the components. 
+This endpoint is only available in the DEV and PR environments.   
+ 
+``` http://<host_name>/check_templates ```
+
+
+### View Specific Email Template (DEV only)
+
+Accepts GET requests and returns an HTML page that shows the text and layout of the template requested. 
+This endpoint is only available in the DEV and PR environments.   
+ 
+``` http://<host_name>/check?template=<template_name> ```
+
 
  # Environment Variables
 
