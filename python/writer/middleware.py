@@ -30,10 +30,10 @@ def clean_up_address(**args) -> tuple:
     address_raw = args.get('address_raw')
     address = copy.copy(address_raw)
     logging.info('raw address {}'.format(address))
-    # ---- delete unhelpful text ----
+    # ---- delete text that confuses the geocoder ----
     address = address.replace('\r\n', '\n')
-    address = re.sub(r'(\s|^)[NEWS](/)?B(,)?(\s)', ' ', address)
-    address = re.sub(r'(\s|^)(NORTH|EAST|SOUTH|WEST)(\s)?BOUND(,)?(\s)', ' ', address)
+    address = re.sub(r'(\s|^|\()[NEWS](/)?B(,|\))?(\s)', ' ', address)
+    address = re.sub(r'(\s|^|\()(NORTH|EAST|SOUTH|WEST)(\s)?BOUND(,)?(\s)', r'\g<1>', address)
     address = address.replace('#', ' ')
 
     # move block number to beginning of address string
