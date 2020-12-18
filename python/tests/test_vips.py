@@ -232,7 +232,7 @@ class TestVips:
             correlation_id)
 
         assert is_successful
-        print(data)
+        logging.warning("Schedule data: " + json.dumps(data))
         assert data['number_review_days_offered'] == count_days
 
 

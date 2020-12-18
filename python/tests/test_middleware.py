@@ -603,3 +603,40 @@ def test_query_for_additional_review_times(min_review_date, max_review_date,
         assert isinstance(slot, dict)
         assert "reviewStartDtm" in slot
         assert "reviewEndDtm" in slot
+
+
+def test_query_on_a_stat_holiday(monkeypatch):
+    iso = "%Y-%m-%d"
+    first_date = vips.next_business_date(datetime.strptime("2020-12-28", iso))
+    end_date = vips.next_business_date(datetime.strptime("2020-12-28", iso))
+
+    from python.ingestor.config import Config as IngestorConfig
+
+    def mock_schedule_get(*args) -> tuple:
+        return True, dict({
+            "time_slots": [],
+            "number_review_days_offered": 0
+        })
+
+    monkeypatch.setattr(vips, "schedule_get", mock_schedule_get)
+
+    is_success, args = middleware.query_for_additional_review_times(
+        correlation_id="abcde",
+        number_review_days_offered=1,
+        presentation_type="ORAL",
+        max_review_date=end_date,
+        min_review_date=first_date,
+        config=IngestorConfig,
+        vips_data={
+            "noticeTypeCd": "IRP"
+        },
+        time_slots=list([])
+    )
+
+    logging.info(json.dumps(args.get('time_slots')))
+    assert args['number_review_days_offered'] == 1
+    assert args['time_slots'] == []
+    for slot in args.get('time_slots'):
+        assert isinstance(slot, dict)
+        assert "reviewStartDtm" in slot
+        assert "reviewEndDtm" in slot
