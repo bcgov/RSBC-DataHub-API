@@ -2,6 +2,7 @@ from python.common.message import encode_message
 from python.writer.config import Config
 import requests
 import logging
+import copy
 import re
 import json
 
@@ -25,34 +26,46 @@ def get_address_from_message(**args) -> tuple:
 
 
 def clean_up_address(**args) -> tuple:
-    address = args.get('address_raw')
-    logging.debug('raw address {}'.format(address))
+    # make a copy so we don't change the original
+    address_raw = args.get('address_raw')
+    address = copy.copy(address_raw)
+    logging.info('raw address {}'.format(address))
     address = address.replace('\r\n', '\n')
     address = re.sub(r'^[NEWS]/B', '', address)
+    address = re.sub(r'&amp;', ' AND ', address)
+    address = re.sub(r'\s+S/O\s+', ' AND ', address)
+    address = re.sub(r'\s+SOUTH OF\s+', ' AND ', address)
+    address = re.sub(r'\s+N/O\s+', ' AND ', address)
+    address = re.sub(r'\s+NORTH OF\s+', ' AND ', address)
+    address = re.sub(r'\s+W/O\s+', ' AND ', address)
+    address = re.sub(r'\s+WEST OF\s+', ' AND ', address)
+    address = re.sub(r'\s+E/O\s+', ' AND ', address)
+    address = re.sub(r'\s+EAST OF\s+', ' AND ', address)
     address = address.replace('/', ' AND ')
     address = address.replace('+', ' AND ')
     address = address.replace('@', ' AND ')
     address = address.replace(' AT ', ' AND ')
-    address = address.replace('#', '')
+    address = address.replace('#', ' ')
+    address = re.sub(r'\s+-\s+', ' AND ', address)
     address = address.replace(' NB', '')
     address = address.replace(' SB', '')
     address = address.replace(' EB', '')
     address = address.replace(' WB', '')
-    address = address.replace(' BLOCK ', ' ')
-    address = address.replace(' BLK ', ' ')
+    address = re.sub(r'\s+BLK\s+', ' ', address)
+    address = re.sub(r'\s+BLOCK\s+', ' ', address)
     address = address.replace('HIGHWAY', 'HWY')
-    address = address.replace('\bTRANS-CANADA\b', 'TRANS CANADA')
-    address = address.replace('TRANS CANADA HWY', 'BC-1')
-    address = address.replace('\bTRANS CANADA\b', 'BC-1')
-    address = address.replace('\bTCH', 'BC-1')
-    address = address.replace('ISLAND HWY', 'BC-1')
+    address = address.replace('TRANS CANADA HWY', 'TRANS-CANADA HWY')
+    address = address.replace('ISLAND HWY', 'TRANS-CANADA HWY')
     address = address.replace('PAT BAY HWY', 'PATRICIA BAY HWY')
-    address = address.replace('PATRICIA BAY HWY', 'BC-17')
-    address = re.sub(r'HWY\s?(\d)', r'BC-\g<1>', address)
+    address = re.sub(r'HWY\s+1([\s+|,])', r'TRANS-CANADA HWY\g<1>', address)
+    address = re.sub(r'HWY\sONE([\s+|,])', r'TRANS-CANADA HWY\g<1>', address)
+    address = re.sub(r'HWY\s?(\d+)', r'HWY-\g<1>', address)
+    address = re.sub(r'HWY-(\d+)(\s?)(SOUTH|NORTH|EAST|WEST|[NEWS])', r'HWY-\g<1> ', address)
     address = re.sub(r'[^\S\r\n]{2,}', ' ', address)
     address = re.sub(r'^\s+', '', address)
-    logging.debug('clean address {}'.format(address))
-    args['address_clean'] = address + ", BC"
+    address = address + ", BC"
+    logging.info('clean address {}'.format(address))
+    args['address_clean'] = address
     return True, args
 
 
@@ -99,21 +112,22 @@ def transform_geocoder_response(**args) -> tuple:
         "business_program": "ETK",
         "business_type": "violation",
         "business_id": business_id,
-        "long": geocoder['data_bc']['lon'],
-        "lat": geocoder['data_bc']['lat'],
+        "long": str(geocoder['data_bc']['lon']),
+        "lat": str(geocoder['data_bc']['lat']),
         "precision": geocoder['data_bc']['precision'],
-        "requested_address": geocoder['address_raw'],
+        "requested_address": args.get('address_raw'),
         "submitted_address": args['address_clean'],
-        "databc_long": geocoder['data_bc']['lon'],
-        "databc_lat": geocoder['data_bc']['lat'],
-        "databc_score": geocoder['data_bc']['score'],
+        "databc_long": str(geocoder['data_bc']['lon']),
+        "databc_lat": str(geocoder['data_bc']['lat']),
+        "databc_score": str(geocoder['data_bc']['score']),
         "databc_precision": geocoder['data_bc']['precision'],
         "full_address": geocoder['data_bc']['full_address'],
         "faults": json.dumps(geocoder['data_bc']['faults'])
     })
-    logging.info("DataBC score: {} precision: {}".format(
+    logging.info("DataBC score: {} precision: {} faults: {}".format(
         geocoder['data_bc']['score'],
-        geocoder['data_bc']['precision']
+        geocoder['data_bc']['precision'],
+        geocoder['data_bc']['faults'],
     ))
     return True, args
 

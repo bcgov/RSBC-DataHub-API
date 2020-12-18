@@ -1,4 +1,5 @@
 import python.common.vips_api as vips
+import logging
 import json
 from unittest.mock import MagicMock
 from python.common.helper import load_json_into_dict, localize_timezone
@@ -182,14 +183,17 @@ class TestVips:
         assert vips.next_business_date(date_time) == expected
 
     get_schedule_data = [
-        ("IRP", "ORAL", "2020-11-02", "2020-11-03", 2),
-        ("IRP", "ORAL", "2020-11-02", "2020-11-07", 5),
-        ("IRP", "ORAL", "2020-11-02", "2020-11-10", 7)
+        ("IRP", "ORAL", "2020-11-02", "2020-11-03", 1, 2),
+        ("IRP", "ORAL", "2020-11-02", "2020-11-07", 1, 5),
+        ("IRP", "ORAL", "2020-11-02", "2020-11-10", 2, 7),
+        ("IRP", "ORAL", "2020-11-02", "2020-11-08", 0, 0)
     ]
 
     @staticmethod
-    @pytest.mark.parametrize("prohibition_type, review_type, first_date, last_date, count_days", get_schedule_data)
-    def test_schedule_get_method(prohibition_type, review_type, first_date, last_date, count_days, monkeypatch):
+    @pytest.mark.parametrize(
+        "prohibition_type, review_type, first_date, last_date, get_time_slots, count_days", get_schedule_data)
+    def test_schedule_get_method(
+            prohibition_type, review_type, first_date, last_date, get_time_slots, count_days, monkeypatch):
 
         correlation_id = 'abcdef'
         iso = "%Y-%m-%d"
@@ -212,17 +216,7 @@ class TestVips:
             endpoint_list = args[0].split("/")
             print(endpoint_list)
 
-            return True, dict({
-                "resp": "success",
-                "data": {
-                    "timeSlots": [
-                        {
-                            "reviewStartDtm": query_date + " 09:00:00 -08:00",
-                            "reviewEndDtm": query_date + " 09:30:00 -08:00",
-                        }
-                    ]
-                }
-            })
+            return mock_schedule_get(get_time_slots, query_date)
 
         first_datetime = datetime.strptime(first_date, iso)
         last_datetime = datetime.strptime(last_date, iso)
@@ -244,3 +238,32 @@ class TestVips:
 
 def iso_date_string(date_time: datetime) -> str:
     return date_time.strftime("%Y-%m-%d")
+
+
+def mock_schedule_get(time_slots: int, query_date: str) -> tuple:
+    if time_slots == 0:
+        return False, dict({
+          "resp": "fail",
+          "error": {
+            "message": "Requested data not found",
+            "httpStatus": 404
+          }
+        })
+    elif 0 < time_slots < 7:
+        items = list()
+        for item in range(time_slots):
+            hour = str(time_slots + 9)
+            items.append({
+                "reviewStartDtm": query_date + ' ' + hour.zfill(2) + ":00:00 -08:00",
+                "reviewEndDtm": query_date + ' ' + hour.zfill(2) + ":30:00 -08:00",
+            })
+        logging.info("items: {}".format(json.dumps(items)))
+        return True, dict({
+            "resp": "success",
+            "data": {
+                "timeSlots": items
+            }
+        })
+    else:
+        logging.warning('too many time slots requested')
+        return True, dict()

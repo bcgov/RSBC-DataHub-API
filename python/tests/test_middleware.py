@@ -1,4 +1,5 @@
 import pytz
+import logging
 import os
 from python.form_handler.config import Config
 import python.common.vips_api as vips
@@ -482,31 +483,6 @@ def test_decode_compress_encode_xml():
     assert 'xml' in args
 
 
-inside_review_window = [
-    ("2020-09-05", "2020-09-11", "2020-09-04 23:59:22", False),
-    ("2020-09-05", "2020-09-11", "2020-09-05 00:01:22", True),
-    ("2020-09-05", "2020-09-11", "2020-09-06 13:31:22", True),
-    ("2020-09-05", "2020-09-11", "2020-09-12 13:31:22", False),
-    ("2020-09-05", "2020-09-11", "2020-09-05 00:15:22", True),
-    ("2020-09-04", "2020-09-11", "2020-09-11 17:59:22", True),
-]
-
-
-@pytest.mark.parametrize("min_review_date, max_review_date, requested_start_datetime, expected", inside_review_window)
-def test_is_requested_time_slot_okay(min_review_date, max_review_date, requested_start_datetime, expected):
-    iso = "%Y-%m-%d"
-    min_review = localize_timezone(datetime.strptime(min_review_date, iso))
-    max_review = localize_timezone(datetime.strptime(max_review_date, iso))
-    timeslot = dict({
-        "reviewStartDtm": requested_start_datetime + " -07:00",
-        "reviewEndDtm": 'this attribute ignored in this test'
-    })
-    response, args = middleware.is_selected_timeslot_inside_schedule_window(
-        min_review_date=min_review, max_review_date=max_review, requested_time_slot=timeslot)
-    print("{} | {} | {}".format(min_review.isoformat(), max_review.isoformat(), requested_start_datetime))
-    assert response is expected
-
-
 def test_get_human_friendly_time_slot_string_for_oral_review():
     time_slot = {
         "reviewStartDtm": "2020-09-04 10:00:00 -07:00",
@@ -522,7 +498,7 @@ def test_get_human_friendly_time_slot_string_for_written_review():
         "reviewEndDtm": "2020-09-04 10:30:00 -07:00"
     }
     friendly_string = vips.time_slot_to_friendly_string(time_slot, "WRIT")
-    assert friendly_string['label'] == 'Fri, Sep 4, 2020 at 9:30am'
+    assert friendly_string['label'] == 'Fri, Sep 4, 2020 at 9:30AM'
 
 
 review_date_in_the_future = [
@@ -567,9 +543,9 @@ def test_is_any_unsent_disclosure_method():
 
 
 additional_review_times = [
-    ("2020-11-02", "2020-11-09", 3, 3, 0),
-    ("2020-11-02", "2020-11-09", 2, 3, 1),
-    ("2020-11-02", "2020-11-09", 1, 3, 2),
+    ("2020-11-02", "2020-11-09", 3, 3, 2),
+    ("2020-11-02", "2020-11-09", 2, 3, 3),
+    ("2020-11-02", "2020-11-09", 1, 3, 4),
 ]
 
 
@@ -589,8 +565,8 @@ def test_query_for_additional_review_times(min_review_date, max_review_date,
         return True, dict({
             "time_slots": [
                 {
-                    "reviewStartDtm": first_date.strftime(iso) + " 09:00:00 -08:00",
-                    "reviewEndDtm": first_date.strftime(iso) + " 09:30:00 -08:00",
+                    "reviewStartDtm": end_date.strftime(iso) + " 09:00:00 -08:00",
+                    "reviewEndDtm": end_date.strftime(iso) + " 09:30:00 -08:00",
                 }
             ],
             "number_review_days_offered": 1
@@ -608,8 +584,22 @@ def test_query_for_additional_review_times(min_review_date, max_review_date,
         vips_data={
             "noticeTypeCd": "IRP"
         },
-        time_slots=list()
+        time_slots=list([
+            {
+                "reviewStartDtm": first_date.strftime(iso) + " 11:00:00 -08:00",
+                "reviewEndDtm": first_date.strftime(iso) + " 11:30:00 -08:00",
+            },
+            {
+                "reviewStartDtm": first_date.strftime(iso) + " 10:00:00 -08:00",
+                "reviewEndDtm": first_date.strftime(iso) + " 10:30:00 -08:00",
+            }
+        ])
     )
 
+    logging.info(json.dumps(args.get('time_slots')))
     assert args['number_review_days_offered'] == expected_days
     assert len(args['time_slots']) == expected_time_slots
+    for slot in args.get('time_slots'):
+        assert isinstance(slot, dict)
+        assert "reviewStartDtm" in slot
+        assert "reviewEndDtm" in slot

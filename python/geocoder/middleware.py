@@ -45,6 +45,7 @@ def is_google_api_key_provided(**args) -> tuple:
 
 
 def generate_data_bc_only_response(**args) -> tuple:
+    args['status_code'] = 200
     args['response'] = dict({
         "is_success": True,
         "address_raw": args.get('address_raw'),
@@ -54,6 +55,7 @@ def generate_data_bc_only_response(**args) -> tuple:
 
 
 def generate_google_and_data_bc_response(**args) -> tuple:
+    args['status_code'] = 200
     args['response'] = dict({
         "is_success": True,
         "address_raw": args.get('address_raw'),
@@ -68,11 +70,24 @@ def generate_data_bc_revert_response(**args) -> tuple:
     This response is used when Google response doesn't deliver
     a satisfactory score and we revert to the DataBC coordinates
     """
+    args['status_code'] = 200
     args['response'] = dict({
         "is_success": True,
         "address_raw": args.get('address_raw'),
         "data_bc": args.get('data_bc'),
         "google": args.get('google')
+    })
+    return True, args
+
+
+def generate_error_response(**args) -> tuple:
+    """
+    This response is used when an error has occurred
+    """
+    args['status_code'] = 400
+    args['response'] = dict({
+        "is_success": False,
+        "error": "DataBC is not responding"
     })
     return True, args
 

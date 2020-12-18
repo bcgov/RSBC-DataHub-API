@@ -12,8 +12,12 @@ def geocode_address() -> list:
     return [
         {"try": tools.content_type_is_json, "fail": [{"try": rest.failed_validation, "fail": []}]},
         {"try": middleware.retrieve_address_data, "fail": [{"try": rest.failed_validation, "fail": []}]},
-        {"try": databc.send_query, "fail": []},
-        {"try": databc.is_response_valid, "fail": []},
+        {"try": databc.send_query, "fail": [
+            {"try": middleware.generate_error_response, "fail": []}
+        ]},
+        {"try": databc.is_response_valid, "fail": [
+            {"try": middleware.generate_error_response, "fail": []}
+        ]},
         {"try": databc.is_confidence_too_low, "fail": [
             {"try": middleware.generate_data_bc_only_response, "fail": []},
         ]},

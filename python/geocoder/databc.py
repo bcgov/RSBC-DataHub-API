@@ -17,10 +17,16 @@ def send_query(**args) -> tuple:
         # request's "params" url encodes the address string
         headers = {'apikey': config.DATA_BC_API_KEY}
         params = {'addressString': args.get('address_raw')}
-        response = requests.get(config.DATA_BC_API_URL + '/addresses.geojson', params=params, headers=headers)
-    except AssertionError as error:
+        response = requests.get(config.DATA_BC_API_URL + '/addresses.geojson',
+                                params=params,
+                                headers=headers,
+                                timeout=5)
+    except requests.exceptions.ReadTimeout as error:
+        logging.warning('response from DataBC took too long')
+        return False, args
+    except requests.exceptions.ConnectionError as error:
         logging.warning('no response from the DataBC API')
-        return False, error
+        return False, args
     if response.status_code == 200:
         args['data_bc_raw'] = response.json()
         logging.debug('response headers: {}'.format(response.headers))

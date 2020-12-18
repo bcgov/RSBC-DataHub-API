@@ -2,15 +2,14 @@
 
 {% block primary_text_1 %}
     You're ineligible to apply online because your licence wasn't
-    surrendered to the police. Apply in-person for a review by:
+    surrendered to the police. <br />
+    Apply in-person for a review by:
     <ol>
         <li>
-            Making an appointment online with
-            <a href="{{ link_to_icbc }}">ICBC</a>
-            or
-            <a href="{{ link_to_service_bc }}">ServiceBC</a>;
-            or visiting an
-            appointed agent in-person within <strong>7-days</strong> of the date the prohibition was issued.
+            Visiting <a href="{{ link_to_icbc }}">ICBC</a>, select
+            <a href="{{ link_to_service_bc }}">ServiceBC</a>
+            locations, or an appointed agent in-person within <strong>7-days</strong>
+            of the date the prohibition was issued.
         </li>
         <li>
             Taking your Notice of Prohibition with you.
@@ -25,10 +24,10 @@
     </ol>
 {% endblock %}
 
-{% block primary_text_2 %}
-   <strong>Visit ICBC right away if you can't make an appointment in time to meet the
-    application deadline. Walk-in visits are limited so arrive early.</strong>
-{% endblock %}
+{% block primary_2 %}{% endblock %}
+{% block primary_3 %}{% endblock %}
+{% block primary_4 %}{% endblock %}
 
 {% block callout %}You must apply in-person for this review.{% endblock %}
 {% block timeline %}timeline.png{% endblock %}
+{% block email_not_monitored %}{% include 'partials/call_appeals_registry.html' %}{% endblock %}

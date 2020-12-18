@@ -130,7 +130,6 @@ def application_update(guid: str, config, correlation_id: str):
 def schedule_get(notice_type: str, review_type: str, first_date: datetime, last_date: datetime, config, correlation_id):
     time_slots = list()
     number_review_days_offered = 0
-    is_successful = False
     for query_date in list_of_weekdays_dates_between(first_date, last_date):
         query_date_string = query_date.strftime("%Y-%m-%d")
         endpoint = build_endpoint(
@@ -147,15 +146,10 @@ def schedule_get(notice_type: str, review_type: str, first_date: datetime, last_
             if data['resp'] == 'success' and len(data['data']['timeSlots']) > 0:
                 number_review_days_offered += 1
                 time_slots += time_slots_to_friendly_times(data['data']['timeSlots'], review_type)
-        else:
-            logging.warning('Cannot GET VIPS schedule')
-            break
-    if is_successful:
-        return True, dict({
-            "time_slots": time_slots,
-            "number_review_days_offered": number_review_days_offered
-        })
-    return False, dict({})
+    return True, dict({
+        "time_slots": time_slots,
+        "number_review_days_offered": number_review_days_offered
+    })
 
 
 def schedule_create(**args):
@@ -290,8 +284,8 @@ def time_slot_to_friendly_string(time_slot: dict, presentation_type: str) -> dic
             vips_str_to_friendly_time(start_time),
             vips_str_to_friendly_time(end_time))
     elif presentation_type == "WRIT":
-        label = "{} at 9:30am".format(
-            # Friday, Sept 4, 2020 at 9:30am
+        label = "{} at 9:30AM".format(
+            # Friday, Sept 4, 2020 at 9:30AM
             vips_str_to_datetime(start_time).strftime("%a, %b %-d, %Y"))
     return {
         "label": label,

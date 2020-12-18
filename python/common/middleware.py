@@ -43,6 +43,9 @@ def get_data_from_application_form(**args) -> tuple:
     args['prohibition_number'] = m[event_type]['form']['prohibition-information']['control-prohibition-number']
     args['date_of_service'] = m[event_type]['form']['prohibition-information']['date-of-service']
     args['hearing_request_type'] = m[event_type]['form']['review-information']['hearing-request-type']
+    args['applicant_full_name'] = "{} {}".format(
+        m[event_type]['form']['identification-information']['first-name-applicant'],
+        m[event_type]['form']['identification-information']['last-name-applicant'])
     return True, args
 
 
@@ -69,14 +72,11 @@ def populate_driver_name_fields_if_null(**args) -> tuple:
     m = args.get('message')
     event_type = m['event_type']
     if args.get('applicant_role_raw') == 'driver':
-        first_name = m[event_type]['form']['identification-information']['first-name-applicant']
         last_name = m[event_type]['form']['identification-information']['last-name-applicant']
     else:
         # applicant is either a lawyer or advocate
-        first_name = m[event_type]['form']['identification-information']['driver-first-name']
         last_name = m[event_type]['form']['identification-information']['driver-last-name']
     args['driver_last_name'] = last_name
-    args['driver_full_name'] = "{} {}".format(first_name, last_name)
     return True, args
 
 
@@ -255,7 +255,7 @@ def prohibition_served_recently(**args) -> tuple:
     error = 'prohibition not served within the past {} days'.format(delay_days)
     args['error_string'] = error
     logging.info(error)
-    print("date_served: {}, very_recently_served: {}".format(date_served, very_recently_served))
+    logging.debug("date_served: {}, very_recently_served: {}".format(date_served, very_recently_served))
     return False, args
 
 
@@ -373,7 +373,7 @@ def query_for_additional_review_times(**args) -> tuple:
         if not is_successful:
             return False, args
         number_review_days_offered += 1
-        time_slots.append(data['time_slots'])
+        time_slots.append(data['time_slots'][0])
     args['time_slots'] = time_slots
     args['number_review_days_offered'] = number_review_days_offered
     return True, args
@@ -444,7 +444,6 @@ def transform_hearing_request_type(**args) -> tuple:
     if hearing_request_type is None or hearing_request_type == '':
         args['presentation_type'] = "WRIT"
     else:
-        print('test: ' + hearing_request_type)
         args['presentation_type'] = hearing_request_type[:4].upper()
     return True, args
 
@@ -586,11 +585,9 @@ def content_length_within_bounds(**args) -> tuple:
 def paid_not_more_than_24hrs_ago(**args) -> tuple:
     today_date = args.get('today_date')
     payment_data = args.get('payment_data')
-    print(today_date)
     if 'paymentDate' not in payment_data:
         return True, args
     payment_date = vips_str_to_datetime(payment_data['paymentDate'])
-    print(payment_date)
     if (today_date - payment_date).days < 1:
         return True, args
     error = 'the payment is older than 24 hours'
@@ -686,19 +683,6 @@ def is_decoded_time_slot_valid(**args) -> tuple:
     if "reviewStartDtm" in requested_time_slot and "reviewEndDtm" in requested_time_slot:
         return True, args
     error = 'decoded time slot not in expected format'
-    logging.info(error)
-    args['error_string'] = error
-    return False, args
-
-
-def is_selected_timeslot_inside_schedule_window(**args) -> tuple:
-    requested_time_slot = args.get('requested_time_slot')
-    requested_date_time = vips.vips_str_to_datetime(requested_time_slot['reviewStartDtm'])
-    min_review_date = args['min_review_date']
-    max_review_date = args['max_review_date']
-    if min_review_date <= requested_date_time < max_review_date + timedelta(days=1):
-        return True, args
-    error = 'selected time slot not within schedule window'
     logging.info(error)
     args['error_string'] = error
     return False, args
