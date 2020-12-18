@@ -38,6 +38,7 @@ def test_schedule_review_email():
                            prohibition_number=number)
     print(html)
     assert "to select a review date" in html
+    assert "You must schedule your review within 24 hours." in html
     assert full_name in html
     assert subject in html
     assert number in html
