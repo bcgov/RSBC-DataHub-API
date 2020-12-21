@@ -642,9 +642,9 @@ def test_query_on_a_stat_holiday(monkeypatch):
 def test_query_for_additional_dates_method_checks_3_consecutive_dates(presentation_type, monkeypatch):
     iso = "%Y-%m-%d"
     first_date = datetime.strptime("2020-12-27", iso)
-    end_date = datetime.strptime("2020-12-29", iso)
+    end_date = datetime.strptime("2020-12-28", iso)
 
-    expected_dates_queried = ['2020-12-30', '2020-12-31', '2021-01-04']
+    expected_dates_queried = ['2020-12-29', '2020-12-30', '2020-12-31']
 
     from python.ingestor.config import Config as IngestorConfig
 
@@ -664,6 +664,45 @@ def test_query_for_additional_dates_method_checks_3_consecutive_dates(presentati
         correlation_id="abcde",
         number_review_days_offered=0,
         presentation_type=presentation_type,
+        max_review_date=end_date,
+        min_review_date=first_date,
+        config=IngestorConfig,
+        vips_data={
+            "noticeTypeCd": "IRP"
+        },
+        time_slots=list([])
+    )
+
+    assert len(expected_dates_queried) == 0
+    assert args['number_review_days_offered'] == 0
+    assert args['time_slots'] == []
+
+
+def test_query_for_additional_dates_method_counts_stat_holidays_in_maximum_days(monkeypatch):
+    iso = "%Y-%m-%d"
+    first_date = datetime.strptime("2020-12-27", iso)
+    end_date = datetime.strptime("2020-12-29", iso)
+
+    expected_dates_queried = ['2020-12-30', '2020-12-31']
+
+    from python.ingestor.config import Config as IngestorConfig
+
+    def mock_schedule_get(*args) -> tuple:
+        actual_date_string = args[2].strftime(iso)
+        expected_date_string = expected_dates_queried.pop(0)
+        assert actual_date_string == expected_date_string
+        assert args[1] == "ORAL"
+        return True, dict({
+            "time_slots": [],
+            "number_review_days_offered": 0
+        })
+
+    monkeypatch.setattr(vips, "schedule_get", mock_schedule_get)
+
+    is_success, args = middleware.query_for_additional_review_times(
+        correlation_id="abcde",
+        number_review_days_offered=0,
+        presentation_type="ORAL",
         max_review_date=end_date,
         min_review_date=first_date,
         config=IngestorConfig,

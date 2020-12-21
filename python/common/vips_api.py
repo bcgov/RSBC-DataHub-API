@@ -34,11 +34,23 @@ def next_business_date(date_time: datetime) -> datetime:
     one_day = timedelta(days=1)
     next_day = date_time + one_day
     while True:
-        day_of_week = next_day.strftime("%a")
-        if not (day_of_week == "Sun" or day_of_week == "Sat"):
-            if next_day not in holidays.CountryHoliday('CA', prov='BC'):
-                return next_day
+        if is_work_day(next_day):
+            return next_day
         next_day += one_day
+
+
+def is_work_day(date_time: datetime) -> bool:
+    """
+    Determine the if the date_time is a business day in BC.
+    Assumes Sat, Sun and all BC stat holidays are non-working days.
+
+    Requires 3rd party library: holidays==0.10.4 or better
+    """
+    day_of_week = date_time.strftime("%a")
+    if not (day_of_week == "Sun" or day_of_week == "Sat"):
+        if date_time not in holidays.CountryHoliday('CA', prov='BC'):
+            return True
+    return False
 
 
 def status_get(prohibition_id: str, config, correlation_id: str) -> tuple:
