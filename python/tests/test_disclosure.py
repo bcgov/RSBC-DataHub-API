@@ -2,15 +2,198 @@ import pytest
 import datetime
 import python.common.helper as helper
 import python.common.middleware as middleware
-import python.common.actions as actions
 import python.form_handler.business as business
 from python.form_handler.config import Config as BaseConfig
 import python.common.vips_api as vips
 import python.common.common_email_services as common_email_services
+from python.common.rabbitmq import RabbitMQ
 
 
 class Config(BaseConfig):
     VIPS_API_ROOT_URL = 'https://vips_url'
+
+
+def test_disclosure_that_has_not_reached_the_hold_until_datetime_is_placed_back_on_hold(monkeypatch):
+    message_dict = helper.load_json_into_dict('python/tests/sample_data/form/disclosure_payload.json')
+    message_dict['hold_until'] = (datetime.datetime.now() + datetime.timedelta(hours=1)).isoformat()
+
+    def mock_publish(queue_name: str, payload: bytes):
+        assert queue_name == "DF.hold"
+
+    monkeypatch.setattr(Config, "ENCRYPT_KEY", "something-secret")
+    monkeypatch.setattr(RabbitMQ, "publish", mock_publish)
+
+    results = helper.middle_logic(helper.get_listeners(business.process_incoming_form(), message_dict['event_type']),
+                                  message=message_dict,
+                                  config=Config,
+                                  writer=RabbitMQ)
+
+
+def test_when_an_applicants_review_has_concluded_the_disclosure_event_is_deleted(monkeypatch):
+    message_dict = helper.load_json_into_dict('python/tests/sample_data/form/disclosure_payload.json')
+    message_dict['hold_until'] = (datetime.datetime.now() - datetime.timedelta(hours=1)).isoformat()
+
+    def mock_status_get(*args, **kwargs):
+        review_start_date = (datetime.date.today() - datetime.timedelta(days=1)).strftime("%Y-%m-%d")
+        return status_gets(True, "IRP", review_start_date, "No")
+
+    def mock_any_disclosure(*args, **kwargs):
+        # We should never call this method
+        assert False
+
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+    monkeypatch.setattr(middleware, "is_any_unsent_disclosure", mock_any_disclosure)
+
+    results = helper.middle_logic(helper.get_listeners(business.process_incoming_form(), message_dict['event_type']),
+                                  message=message_dict,
+                                  config=Config,
+                                  writer=RabbitMQ)
+
+
+def test_if_no_disclosure_add_back_to_hold_queue(monkeypatch):
+    message_dict = helper.load_json_into_dict('python/tests/sample_data/form/disclosure_payload.json')
+    message_dict['hold_until'] = (datetime.datetime.now() - datetime.timedelta(hours=1)).isoformat()
+
+    def mock_status_get(*args, **kwargs):
+        review_start_date = (datetime.date.today() - datetime.timedelta(days=1)).strftime("%Y-%m-%d")
+        return status_gets(True, "IRP", review_start_date, "No")
+
+    def mock_publish(queue_name: str, payload: bytes):
+        assert queue_name == "DF.hold"
+
+    monkeypatch.setattr(Config, "ENCRYPT_KEY", "something-secret")
+    monkeypatch.setattr(RabbitMQ, "publish", mock_publish)
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+
+    results = helper.middle_logic(helper.get_listeners(business.process_incoming_form(), message_dict['event_type']),
+                                  message=message_dict,
+                                  config=Config,
+                                  writer=RabbitMQ)
+
+
+def test_disclosure_documents_marked_sent_are_not_sent_again(monkeypatch):
+    message_dict = helper.load_json_into_dict('python/tests/sample_data/form/disclosure_payload.json')
+    message_dict['hold_until'] = (datetime.datetime.now() - datetime.timedelta(hours=1)).isoformat()
+
+    def mock_status_get(*args, **kwargs):
+        review_start_date = (datetime.date.today() - datetime.timedelta(days=1)).strftime("%Y-%m-%d")
+        return status_gets(True, "IRP", review_start_date, "none-unsent")
+
+    def mock_publish(queue_name: str, payload: bytes):
+        assert queue_name == "DF.hold"
+
+    monkeypatch.setattr(Config, "ENCRYPT_KEY", "something-secret")
+    monkeypatch.setattr(RabbitMQ, "publish", mock_publish)
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+
+    results = helper.middle_logic(helper.get_listeners(business.process_incoming_form(), message_dict['event_type']),
+                                  message=message_dict,
+                                  config=Config,
+                                  writer=RabbitMQ)
+
+
+@pytest.mark.parametrize("document_count", ['1', '2'])
+def test_disclosure_documents_are_emailed_to_applicant(document_count, monkeypatch):
+    message_dict = helper.load_json_into_dict('python/tests/sample_data/form/disclosure_payload.json')
+    message_dict['hold_until'] = (datetime.datetime.now() - datetime.timedelta(hours=1)).isoformat()
+
+    def mock_status_get(*args, **kwargs):
+        review_start_date = (datetime.date.today() + datetime.timedelta(days=2)).strftime("%Y-%m-%d")
+        return status_gets(True, "IRP", review_start_date, document_count)
+
+    def mock_publish(queue_name: str, payload: bytes):
+        assert queue_name == "DF.hold"
+
+    def mock_send_email(*args, **kwargs):
+        print('inside mock_send_email()')
+        assert "me@gov.bc.ca" in args[0]
+        assert "Disclosure Documents Attached - Driving Prohibition 21258852 Review" in args[1]
+        assert int(document_count) == len(args[4])
+        return True
+
+    def mock_disclosure_get(*args):
+        print("inside mock_disclosure_get()")
+        data = dict({
+                "resp": "success",
+                "data": {
+                    "document": {
+                        "document": "base64_string_of_encoded_document",
+                        "mimeType": "application/pdf"
+                    }
+                }
+            })
+        return True, data
+
+    def mock_patch(*args):
+        return True, dict({})
+
+    monkeypatch.setattr(Config, "ENCRYPT_KEY", "something-secret")
+    monkeypatch.setattr(RabbitMQ, "publish", mock_publish)
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+    monkeypatch.setattr(vips, "patch", mock_patch)
+    monkeypatch.setattr(common_email_services, "send_email", mock_send_email)
+    monkeypatch.setattr(vips, "disclosure_get", mock_disclosure_get)
+
+    results = helper.middle_logic(helper.get_listeners(business.process_incoming_form(), message_dict['event_type']),
+                                  message=message_dict,
+                                  config=Config,
+                                  writer=RabbitMQ)
+
+
+adp_disclosure_test = [
+    ['1', 2],
+    ['2', 3],
+    ['previously_sent', 1]
+]
+
+
+@pytest.mark.parametrize("disclosure_string, expected_documents", adp_disclosure_test)
+def test_adp_disclosure_includes_blood_alcohol_pdf_document(disclosure_string, expected_documents, monkeypatch):
+    message_dict = helper.load_json_into_dict('python/tests/sample_data/form/disclosure_payload.json')
+    message_dict['hold_until'] = (datetime.datetime.now() - datetime.timedelta(hours=1)).isoformat()
+
+    def mock_status_get(*args, **kwargs):
+        review_start_date = (datetime.date.today() + datetime.timedelta(days=2)).strftime("%Y-%m-%d")
+        return status_gets(True, "ADP", review_start_date, disclosure_string)
+
+    def mock_publish(queue_name: str, payload: bytes):
+        assert queue_name == "DF.hold"
+
+    def mock_send_email(*args, **kwargs):
+        print('inside mock_send_email()')
+        assert "me@gov.bc.ca" in args[0]
+        assert "Disclosure Documents Attached - Driving Prohibition 21258852 Review" in args[1]
+        assert expected_documents == len(args[4])
+        return True
+
+    def mock_disclosure_get(*args):
+        print("inside mock_disclosure_get()")
+        data = dict({
+                "resp": "success",
+                "data": {
+                    "document": {
+                        "document": "base64_string_of_encoded_document",
+                        "mimeType": "application/pdf"
+                    }
+                }
+            })
+        return True, data
+
+    def mock_patch(*args):
+        return True, dict({})
+
+    monkeypatch.setattr(Config, "ENCRYPT_KEY", "something-secret")
+    monkeypatch.setattr(RabbitMQ, "publish", mock_publish)
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+    monkeypatch.setattr(vips, "patch", mock_patch)
+    monkeypatch.setattr(common_email_services, "send_email", mock_send_email)
+    monkeypatch.setattr(vips, "disclosure_get", mock_disclosure_get)
+
+    results = helper.middle_logic(helper.get_listeners(business.process_incoming_form(), message_dict['event_type']),
+                                  message=message_dict,
+                                  config=Config,
+                                  writer=RabbitMQ)
+
 
 def status_gets(is_success, prohibition_type, review_start_date, disclosure):
     data = {
@@ -44,10 +227,6 @@ def status_gets(is_success, prohibition_type, review_start_date, disclosure):
     elif disclosure == "1":
         data['data']['status']['disclosure'] = [
             {
-                "documentId": "1491",
-                "disclosedDtm": "some-date",
-            },
-            {
                 "documentId": "1490"
             }
         ]
@@ -62,78 +241,14 @@ def status_gets(is_success, prohibition_type, review_start_date, disclosure):
                 "disclosedDtm": "some-date",
             }
         ]
+    elif disclosure == "previously-sent":
+        data['data']['status']['disclosure'] = [
+            {
+                "documentId": "1491",
+                "disclosedDtm": "some-date",
+            },
+            {
+                "documentId": "1490"
+            }
+        ]
     return is_success, data
-
-
-disclosure_test_data = [
-    # Type   Today is     ReviewStartDt  IsValid   Disclosure     AttachmentsExpected
-    ["IRP", "2020-10-20", "2020-10-22", "True",    "none-unsent", 0],
-    ["IRP", "2020-10-20", "2020-10-22", "True",    "no",          0],
-    ["IRP", "2020-10-20", "2020-10-22", "True",    "1",           1],
-    ["IRP", "2020-10-20", "2020-10-22", "True",    "2",           2],
-
-    # ADP's include an additional static document as an attachment
-    ["ADP", "2020-10-20", "2020-10-22", "True",    "2",           3],
-
-]
-
-
-@pytest.mark.parametrize("prohibition_type, today_is, review_start_date, is_valid, disclosure, attachments_expected",
-                         disclosure_test_data)
-def test_disclosure_event_processing(
-        prohibition_type, today_is, review_start_date, is_valid, disclosure, attachments_expected, monkeypatch):
-
-    def mock_status_get(*args, **kwargs):
-        print('inside mock_status_get()')
-        return status_gets(is_valid == "True", prohibition_type, review_start_date, disclosure)
-
-    def mock_send_email(*args, **kwargs):
-        print('inside mock_send_email()')
-        assert "me@gov.bc.ca" in args[0]
-        print("Subject: {}".format(args[1]))
-        return True
-
-    def mock_datetime_now(**args):
-        args['today_date'] = helper.localize_timezone(datetime.datetime.strptime(today_is, "%Y-%m-%d"))
-        print('inside mock_datetime_now: {}'.format(args.get('today_date')))
-        return True, args
-
-    def mock_add_to_hold(**args):
-        print("inside mock_add_to_hold")
-        return True, args
-
-    def mock_disclosure_get(*args):
-        print("inside mock_disclosure_get()")
-        data = dict({
-                "resp": "success",
-                "data": {
-                    "document": {
-                        "document": "base64_string_of_encoded_document",
-                        "mimeType": "application/pdf"
-                    }
-                }
-            })
-        return True, data
-
-    def mock_patch(*args):
-        return True, dict({})
-
-    monkeypatch.setattr(middleware, "determine_current_datetime", mock_datetime_now)
-    monkeypatch.setattr(vips, "status_get", mock_status_get)
-    monkeypatch.setattr(vips, "patch", mock_patch)
-    monkeypatch.setattr(common_email_services, "send_email", mock_send_email)
-    monkeypatch.setattr(actions, "add_to_hold_queue", mock_add_to_hold)
-    monkeypatch.setattr(vips, "disclosure_get", mock_disclosure_get)
-
-    message_dict = helper.load_json_into_dict('python/tests/sample_data/form/disclosure_payload.json')
-
-    results = helper.middle_logic(helper.get_listeners(business.process_incoming_form(), message_dict['event_type']),
-                        message=message_dict,
-                        config=Config,
-                        writer=None)
-
-    if attachments_expected > 0:
-        assert 'disclosure_for_applicant' in results
-        assert len(results.get('disclosure_for_applicant')) == attachments_expected
-    else:
-        assert 'disclosure_for_applicant' not in results

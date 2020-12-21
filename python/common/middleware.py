@@ -361,19 +361,19 @@ def query_for_additional_review_times(**args) -> tuple:
     number_review_days_offered = args.get('number_review_days_offered')
     vips_data = args.get('vips_data')
     time_slots = args.get('time_slots')
-    last_date = args.get('max_review_date')
+    datetime_to_query = args.get('max_review_date')
     review_type = args.get('presentation_type')
-    while number_review_days_offered < config.MIN_REVIEW_DAYS_OFFERED and query_count <= config.ADDITIONAL_DAYS_TO_QUERY:
+    while number_review_days_offered < config.MIN_REVIEW_DAYS_OFFERED and query_count < config.ADDITIONAL_DAYS_TO_QUERY:
         logging.info("Querying for additional review dates. Number offered so far: {}".format(number_review_days_offered))
-        datetime_to_query = vips.next_business_date(last_date)
+        datetime_to_query = datetime_to_query + timedelta(days=1)
         query_count += 1
-        is_successful, data = vips.schedule_get(
-            vips_data['noticeTypeCd'],
-            review_type, datetime_to_query, datetime_to_query, config, correlation_id)
-        if not is_successful:
-            return False, args
-        number_review_days_offered += 1
-        time_slots.append(data['time_slots'][0])
+        if vips.is_work_day(datetime_to_query):
+            is_successful, data = vips.schedule_get(
+                vips_data['noticeTypeCd'],
+                review_type, datetime_to_query, datetime_to_query, config, correlation_id)
+            if len(data["time_slots"]) > 0:
+                number_review_days_offered += 1
+                time_slots.append(data['time_slots'][0])
     args['time_slots'] = time_slots
     args['number_review_days_offered'] = number_review_days_offered
     return True, args
@@ -745,10 +745,13 @@ def is_any_unsent_disclosure(**args) -> tuple:
     """
     vips_data = args.get('vips_data')
     unsent_disclosure = list()
+    args['subsequent_disclosure'] = False
     if 'disclosure' in vips_data:
         for item in vips_data['disclosure']:
             if 'disclosedDtm' not in item:
                 unsent_disclosure.append(item)
+            else:
+                args['subsequent_disclosure'] = True
         if len(unsent_disclosure) > 0:
             args['disclosures'] = unsent_disclosure
             return True, args
@@ -791,11 +794,12 @@ def retrieve_unsent_disclosure(**args) -> tuple:
 
 def if_required_add_adp_disclosure(**args) -> tuple:
     """
-    ADP's require a static PDF file to be included with all disclosure
-    that describes how blood alcohol values are calculated.
+    ADP's require a static PDF document to be included with all disclosure
+    that describes how Blood Alcohol is Calculated (BAC).  The BAC is only
+    sent with the initial disclosure documents -- not subsequent disclosure
     """
     vips_data = args.get('vips_data')
-    if vips_data['noticeTypeCd'] == 'ADP':
+    if vips_data['noticeTypeCd'] == 'ADP' and not args.get('subsequent_disclosure'):
         disclosure_for_applicant = args.get('disclosure_for_applicant')
         disclosure_for_applicant.append(static_file.superintendents_report_calculating_bac())
         args['disclosure_for_applicant'] = disclosure_for_applicant
