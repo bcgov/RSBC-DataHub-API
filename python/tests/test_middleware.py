@@ -638,12 +638,13 @@ def test_query_on_a_stat_holiday(monkeypatch):
     assert args['time_slots'] == []
 
 
-def test_query_for_additional_dates_method_checks_3_consecutive_dates(monkeypatch):
+@pytest.mark.parametrize("presentation_type", ["ORAL", "WRIT"])
+def test_query_for_additional_dates_method_checks_3_consecutive_dates(presentation_type, monkeypatch):
     iso = "%Y-%m-%d"
     first_date = datetime.strptime("2020-12-27", iso)
-    end_date = datetime.strptime("2020-12-28", iso)
+    end_date = datetime.strptime("2020-12-29", iso)
 
-    expected_dates_queried = ['2020-12-29', '2020-12-30', '2020-12-31']
+    expected_dates_queried = ['2020-12-30', '2020-12-31', '2021-01-04']
 
     from python.ingestor.config import Config as IngestorConfig
 
@@ -651,6 +652,7 @@ def test_query_for_additional_dates_method_checks_3_consecutive_dates(monkeypatc
         actual_date_string = args[2].strftime(iso)
         expected_date_string = expected_dates_queried.pop(0)
         assert actual_date_string == expected_date_string
+        assert args[1] == presentation_type
         return True, dict({
             "time_slots": [],
             "number_review_days_offered": 0
@@ -661,7 +663,7 @@ def test_query_for_additional_dates_method_checks_3_consecutive_dates(monkeypatc
     is_success, args = middleware.query_for_additional_review_times(
         correlation_id="abcde",
         number_review_days_offered=0,
-        presentation_type="ORAL",
+        presentation_type=presentation_type,
         max_review_date=end_date,
         min_review_date=first_date,
         config=IngestorConfig,
