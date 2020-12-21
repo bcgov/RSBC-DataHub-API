@@ -745,10 +745,13 @@ def is_any_unsent_disclosure(**args) -> tuple:
     """
     vips_data = args.get('vips_data')
     unsent_disclosure = list()
+    args['subsequent_disclosure'] = False
     if 'disclosure' in vips_data:
         for item in vips_data['disclosure']:
             if 'disclosedDtm' not in item:
                 unsent_disclosure.append(item)
+            else:
+                args['subsequent_disclosure'] = True
         if len(unsent_disclosure) > 0:
             args['disclosures'] = unsent_disclosure
             return True, args
@@ -791,11 +794,12 @@ def retrieve_unsent_disclosure(**args) -> tuple:
 
 def if_required_add_adp_disclosure(**args) -> tuple:
     """
-    ADP's require a static PDF file to be included with all disclosure
-    that describes how blood alcohol values are calculated.
+    ADP's require a static PDF document to be included with all disclosure
+    that describes how Blood Alcohol is Calculated (BAC).  The BAC is only
+    sent with the initial disclosure documents -- not subsequent disclosure
     """
     vips_data = args.get('vips_data')
-    if vips_data['noticeTypeCd'] == 'ADP':
+    if vips_data['noticeTypeCd'] == 'ADP' and not args.get('subsequent_disclosure'):
         disclosure_for_applicant = args.get('disclosure_for_applicant')
         disclosure_for_applicant.append(static_file.superintendents_report_calculating_bac())
         args['disclosure_for_applicant'] = disclosure_for_applicant
