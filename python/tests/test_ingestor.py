@@ -222,8 +222,9 @@ def test_an_applicant_cannot_submit_evidence_if_the_review_date_has_not_been_sch
 
 def test_an_applicant_can_submit_evidence_happy_path(client, monkeypatch):
     iso_format = "%Y-%m-%d"
-    date_served = (datetime.datetime.now() - datetime.timedelta(days=7)).strftime(iso_format)
-    review_start_date = (datetime.datetime.now() + datetime.timedelta(days=3)).strftime(iso_format)
+    tz = pytz.timezone('America/Vancouver')
+    date_served = (datetime.datetime.now(tz) - datetime.timedelta(days=7)).strftime(iso_format)
+    review_start_date = (datetime.datetime.now(tz) + datetime.timedelta(days=3)).strftime(iso_format)
 
     def mock_status_get(*args, **kwargs):
         return status_gets(True, "IRP", date_served, True, review_start_date, "Gordon", True)
@@ -241,8 +242,9 @@ def test_an_applicant_can_submit_evidence_happy_path(client, monkeypatch):
 
 def test_an_applicant_can_can_receive_schedule_options_happy_path(client, monkeypatch):
     iso_format = "%Y-%m-%d"
-    date_served = (datetime.datetime.now() - datetime.timedelta(days=5)).strftime(iso_format)
-    payment_date = datetime.datetime.now().strftime(iso_format)
+    tz = pytz.timezone('America/Vancouver')
+    date_served = (datetime.datetime.now(tz) - datetime.timedelta(days=5)).strftime(iso_format)
+    payment_date = datetime.datetime.now(tz).strftime(iso_format)
 
     def mock_status_get(*args, **kwargs):
         return status_gets(True, "IRP", date_served, True, "", "Gordon", True)
@@ -254,8 +256,8 @@ def test_an_applicant_can_can_receive_schedule_options_happy_path(client, monkey
         return application_get()
 
     def mock_schedule_get(*args, **kwargs):
-        from_date = (datetime.datetime.now() + datetime.timedelta(days=4)).strftime(iso_format)
-        to_date = (datetime.datetime.now() + datetime.timedelta(days=9)).strftime(iso_format)
+        from_date = (datetime.datetime.now(tz) + datetime.timedelta(days=4)).strftime(iso_format)
+        to_date = (datetime.datetime.now(tz) + datetime.timedelta(days=9)).strftime(iso_format)
         assert args[2].strftime(iso_format) == from_date
         assert args[3].strftime(iso_format) == to_date
         return schedule_get()
