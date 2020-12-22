@@ -125,11 +125,12 @@ def process_incoming_form() -> dict:
                     {"try": actions.add_to_hold_queue, "fail": []}
                 ]
             },
-            {
-                "try": middleware.application_not_previously_saved_to_vips,
-                "fail": [
+            {"try": middleware.application_not_previously_saved_to_vips, "fail": [
                     {"try": rsi_email.already_applied, "fail": []},
-                ]},
+            ]},
+            {"try": middleware.review_has_not_been_scheduled, "fail": [
+                {"try": rsi_email.already_applied, "fail": []},
+            ]},
             {
                 "try": middleware.user_submitted_last_name_matches_vips,
                 "fail": [

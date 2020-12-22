@@ -47,6 +47,27 @@ def status_gets(is_success, prohibition_type, date_served, last_name, seized, ca
     return True, data
 
 
+def get_status_with_review_booked(date_served):
+    data = {
+            "resp": "success",
+            "data": {
+                "status": {
+                    "noticeTypeCd": "IRP",
+                    "reviewStartDtm": "some-date",
+                    "reviewEndDtm": "some-date",
+                    "noticeServedDt": date_served + " 00:00:00 -07:00",
+                    "reviewFormSubmittedYn": "N",
+                    "reviewCreatedYn": "N",
+                    "originalCause": "IRP90FAIL",
+                    "surnameNm": "Gordon",
+                    "driverLicenceSeizedYn": "Y",
+                    "disclosure": []
+                }
+            }
+        }
+    return True, data
+
+
 irp_or_adp = ["IRP", "ADP"]
 
 
@@ -480,6 +501,33 @@ def test_an_unlicenced_successful_applicant_gets_an_application_accepted_email(m
 
     monkeypatch.setattr(vips, "status_get", mock_status_get)
     monkeypatch.setattr(vips, "application_create", mock_save)
+    monkeypatch.setattr(common_email_services, "send_email", mock_send_email)
+
+    message_dict = get_sample_application_submission("UL")
+
+    results = helper.middle_logic(helper.get_listeners(business.process_incoming_form(), message_dict['event_type']),
+                                  message=message_dict,
+                                  config=Config,
+                                  writer=None)
+
+
+def test_an_applicant_that_applies_at_icbc_get_already_applied_email(monkeypatch):
+
+    def mock_status_get(*args, **kwargs):
+        date_served = datetime.datetime.now().strftime("%Y-%m-%d")
+        return get_status_with_review_booked(date_served)
+
+    def mock_send_email(*args, **kwargs):
+        template_content = args[3]
+        print('inside mock_send_email()')
+        assert "me@lost.com" in args[0]
+        print("Subject: {}".format(args[1]))
+        assert "Already Applied – Driving Prohibition 21999344 Review" == args[1]
+        assert "An application to review prohibition 21999344 has already been submitted." in template_content
+        assert "You must call to make changes to your application." in template_content
+        return True
+
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
     monkeypatch.setattr(common_email_services, "send_email", mock_send_email)
 
     message_dict = get_sample_application_submission("UL")
