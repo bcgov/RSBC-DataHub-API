@@ -2,6 +2,7 @@ import requests
 import logging
 import json
 import uuid
+import holidays
 from datetime import datetime, timedelta
 from iso8601 import parse_date
 from unicodedata import normalize
@@ -24,13 +25,32 @@ def list_of_weekdays_dates_between(start: datetime, end: datetime) -> list:
 
 
 def next_business_date(date_time: datetime) -> datetime:
-    delta = timedelta(days=1)
-    next_day = date_time + delta
+    """
+    Determine the next working day in BC. Assumes Sat, Sun
+    and all BC stat holidays are non-working days.
+
+    Requires 3rd party library: holidays==0.10.4 or better
+    """
+    one_day = timedelta(days=1)
+    next_day = date_time + one_day
     while True:
-        day_of_week = next_day.strftime("%a")
-        if not (day_of_week == "Sun" or day_of_week == "Sat"):
+        if is_work_day(next_day):
             return next_day
-        next_day += delta
+        next_day += one_day
+
+
+def is_work_day(date_time: datetime) -> bool:
+    """
+    Determine the if the date_time is a business day in BC.
+    Assumes Sat, Sun and all BC stat holidays are non-working days.
+
+    Requires 3rd party library: holidays==0.10.4 or better
+    """
+    day_of_week = date_time.strftime("%a")
+    if not (day_of_week == "Sun" or day_of_week == "Sat"):
+        if date_time not in holidays.CountryHoliday('CA', prov='BC'):
+            return True
+    return False
 
 
 def status_get(prohibition_id: str, config, correlation_id: str) -> tuple:

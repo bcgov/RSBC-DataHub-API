@@ -139,15 +139,21 @@ def test_disclosure_documents_are_emailed_to_applicant(document_count, monkeypat
                                   config=Config,
                                   writer=RabbitMQ)
 
+adp_disclosure_test = [
+    ['1', 2],
+    ['2', 3],
+    ['previously_sent', 1]
+]
 
-@pytest.mark.parametrize("document_count", ['1', '2'])
-def test_adp_disclosure_includes_an_additional_static_document(document_count, monkeypatch):
+
+@pytest.mark.parametrize("disclosure_string, expected_documents", adp_disclosure_test)
+def test_adp_disclosure_includes_blood_alcohol_pdf_document(disclosure_string, expected_documents, monkeypatch):
     message_dict = helper.load_json_into_dict('python/tests/sample_data/form/disclosure_payload.json')
     message_dict['hold_until'] = (datetime.datetime.now() - datetime.timedelta(hours=1)).isoformat()
 
     def mock_status_get(*args, **kwargs):
         review_start_date = (datetime.date.today() + datetime.timedelta(days=2)).strftime("%Y-%m-%d")
-        return status_gets(True, "ADP", review_start_date, document_count)
+        return status_gets(True, "ADP", review_start_date, disclosure_string)
 
     def mock_publish(queue_name: str, payload: bytes):
         assert queue_name == "DF.hold"
@@ -156,7 +162,7 @@ def test_adp_disclosure_includes_an_additional_static_document(document_count, m
         print('inside mock_send_email()')
         assert "me@gov.bc.ca" in args[0]
         assert "Disclosure Documents Attached - Driving Prohibition 21258852 Review" in args[1]
-        assert int(document_count) + 1 == len(args[4])
+        assert expected_documents == len(args[4])
         return True
 
     def mock_disclosure_get(*args):
@@ -220,10 +226,6 @@ def status_gets(is_success, prohibition_type, review_start_date, disclosure):
     elif disclosure == "1":
         data['data']['status']['disclosure'] = [
             {
-                "documentId": "1491",
-                "disclosedDtm": "some-date",
-            },
-            {
                 "documentId": "1490"
             }
         ]
@@ -236,6 +238,16 @@ def status_gets(is_success, prohibition_type, review_start_date, disclosure):
             {
                 "documentId": "1490",
                 "disclosedDtm": "some-date",
+            }
+        ]
+    elif disclosure == "previously-sent":
+        data['data']['status']['disclosure'] = [
+            {
+                "documentId": "1491",
+                "disclosedDtm": "some-date",
+            },
+            {
+                "documentId": "1490"
             }
         ]
     return is_success, data

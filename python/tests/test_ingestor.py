@@ -7,6 +7,7 @@ import pytz
 import python.common.rsi_email as rsi_email
 from python.ingestor.config import Config
 import python.common.vips_api as vips
+import python.common.middleware as middleware
 import python.ingestor.routes as routes
 
 os.environ['TZ'] = 'UTC'
@@ -221,8 +222,9 @@ def test_an_applicant_cannot_submit_evidence_if_the_review_date_has_not_been_sch
 
 def test_an_applicant_can_submit_evidence_happy_path(client, monkeypatch):
     iso_format = "%Y-%m-%d"
-    date_served = (datetime.datetime.now() - datetime.timedelta(days=7)).strftime(iso_format)
-    review_start_date = (datetime.datetime.now() + datetime.timedelta(days=3)).strftime(iso_format)
+    tz = pytz.timezone('America/Vancouver')
+    date_served = (datetime.datetime.now(tz) - datetime.timedelta(days=7)).strftime(iso_format)
+    review_start_date = (datetime.datetime.now(tz) + datetime.timedelta(days=3)).strftime(iso_format)
 
     def mock_status_get(*args, **kwargs):
         return status_gets(True, "IRP", date_served, True, review_start_date, "Gordon", True)
@@ -240,6 +242,44 @@ def test_an_applicant_can_submit_evidence_happy_path(client, monkeypatch):
 
 def test_an_applicant_can_can_receive_schedule_options_happy_path(client, monkeypatch):
     iso_format = "%Y-%m-%d"
+    tz = pytz.timezone('America/Vancouver')
+    date_served = (datetime.datetime.now(tz) - datetime.timedelta(days=5)).strftime(iso_format)
+    payment_date = datetime.datetime.now(tz).strftime(iso_format)
+
+    def mock_status_get(*args, **kwargs):
+        return status_gets(True, "IRP", date_served, True, "", "Gordon", True)
+
+    def mock_payment_get(*args, **kwargs):
+        return payment_get(payment_date)
+
+    def mock_application_get(*args, **kwargs):
+        return application_get()
+
+    def mock_schedule_get(*args, **kwargs):
+        from_date = (datetime.datetime.now(tz) + datetime.timedelta(days=4)).strftime(iso_format)
+        to_date = (datetime.datetime.now(tz) + datetime.timedelta(days=9)).strftime(iso_format)
+        assert args[2].strftime(iso_format) == from_date
+        assert args[3].strftime(iso_format) == to_date
+        return schedule_get()
+
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+    monkeypatch.setattr(vips, "payment_get", mock_payment_get)
+    monkeypatch.setattr(vips, "application_get", mock_application_get)
+    monkeypatch.setattr(vips, "schedule_get", mock_schedule_get)
+    monkeypatch.setattr(routes, "RabbitMQ", mock_rabbitmq)
+
+    response = client.post('/schedule',
+                           headers=get_basic_authentication_header(monkeypatch),
+                           data=get_evidence_form_data())
+    json_data = response.json
+    logging.warning(json_data)
+    assert response.status_code == 200
+    assert json_data['data']['is_valid'] is True
+    assert "time_slots" in json_data['data']
+
+
+def test_system_queries_for_additional_time_slots_if_insufficient_review_date_available(client, monkeypatch):
+    iso_format = "%Y-%m-%d"
     date_served = (datetime.datetime.now() - datetime.timedelta(days=5)).strftime(iso_format)
     payment_date = datetime.datetime.now().strftime(iso_format)
 
@@ -252,13 +292,29 @@ def test_an_applicant_can_can_receive_schedule_options_happy_path(client, monkey
     def mock_application_get(*args, **kwargs):
         return application_get()
 
+    def mock_query_review_times(**args):
+        """
+        This method only returns only 2 review dates.  This is insufficient according
+        to business rules so mock schedule get is queried for additional review dates.
+        """
+        args['time_slots'] = []
+        args['number_review_days_offered'] = 2
+        return True, args
+
     def mock_schedule_get(*args, **kwargs):
-        return schedule_get()
+        # assert that we're querying for additional review time slots one day at a time
+        assert args[2] == args[3]
+
+    def mock_insufficient_dates_email(**args):
+        # send email to Appeals to let them know to add more dates
+        return True, args
 
     monkeypatch.setattr(vips, "status_get", mock_status_get)
     monkeypatch.setattr(vips, "payment_get", mock_payment_get)
     monkeypatch.setattr(vips, "application_get", mock_application_get)
+    monkeypatch.setattr(middleware, "query_review_times_available", mock_query_review_times)
     monkeypatch.setattr(vips, "schedule_get", mock_schedule_get)
+    monkeypatch.setattr(rsi_email, "insufficient_reviews_available", mock_insufficient_dates_email)
     monkeypatch.setattr(routes, "RabbitMQ", mock_rabbitmq)
 
     response = client.post('/schedule',

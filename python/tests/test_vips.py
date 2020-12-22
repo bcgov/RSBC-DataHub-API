@@ -172,6 +172,7 @@ class TestVips:
         ("2020-11-07", "2020-11-09"),
         ("2020-11-08", "2020-11-09"),
         ("2020-11-09", "2020-11-10"),
+        ("2020-11-10", "2020-11-12"),  # Nov-11 is a stat holiday in BC
     ]
 
     @staticmethod
@@ -232,7 +233,7 @@ class TestVips:
             correlation_id)
 
         assert is_successful
-        print(data)
+        logging.warning("Schedule data: " + json.dumps(data))
         assert data['number_review_days_offered'] == count_days
 
 
