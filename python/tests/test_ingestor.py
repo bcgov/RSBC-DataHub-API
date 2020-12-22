@@ -279,9 +279,17 @@ def test_an_applicant_can_can_receive_schedule_options_happy_path(client, monkey
 
 
 def test_system_queries_for_additional_time_slots_if_insufficient_review_date_available(client, monkeypatch):
+    date_served = "2020-12-02"
+    payment_date = "2020-12-05"
     iso_format = "%Y-%m-%d"
-    date_served = (datetime.datetime.now() - datetime.timedelta(days=5)).strftime(iso_format)
-    payment_date = datetime.datetime.now().strftime(iso_format)
+
+    expected_query_dates = ['2020-12-17']
+
+    def mock_today_date(**args):
+        tz = pytz.timezone('America/Vancouver')
+        local_time = datetime.datetime.now(tz)
+        args['today_date'] = local_time.replace(year=2020, month=12, day=5)
+        return True, args
 
     def mock_status_get(*args, **kwargs):
         return status_gets(True, "IRP", date_served, True, "", "Gordon", True)
@@ -303,15 +311,21 @@ def test_system_queries_for_additional_time_slots_if_insufficient_review_date_av
 
     def mock_schedule_get(*args, **kwargs):
         # assert that we're querying for additional review time slots one day at a time
-        assert args[2] == args[3]
+        assert args[2].strftime(iso_format) == expected_query_dates.pop(0)
         return schedule_get()
+
+    def mock_insufficient_dates_email(**args):
+        # send email to Appeals to let them know to add more dates
+        return True, args
 
     monkeypatch.setattr(vips, "status_get", mock_status_get)
     monkeypatch.setattr(vips, "payment_get", mock_payment_get)
     monkeypatch.setattr(vips, "application_get", mock_application_get)
     monkeypatch.setattr(middleware, "query_review_times_available", mock_query_review_times)
+    monkeypatch.setattr(middleware, "determine_current_datetime", mock_today_date)
     monkeypatch.setattr(vips, "schedule_get", mock_schedule_get)
     monkeypatch.setattr(routes, "RabbitMQ", mock_rabbitmq)
+    monkeypatch.setattr(rsi_email, "insufficient_reviews_available", mock_insufficient_dates_email)
 
     response = client.post('/schedule',
                            headers=get_basic_authentication_header(monkeypatch),
@@ -322,6 +336,7 @@ def test_system_queries_for_additional_time_slots_if_insufficient_review_date_av
     assert json_data['data']['is_valid'] is True
     assert "time_slots" in json_data['data']
     assert isinstance(json_data['data']['time_slots'], list)
+    assert len(expected_query_dates) == 0
 
 
 def test_an_applicant_that_has_not_paid_cannot_schedule(client, monkeypatch):
