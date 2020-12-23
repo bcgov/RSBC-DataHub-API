@@ -5,10 +5,6 @@ from python.geocoder.config import Config
 
 logging.basicConfig(level=Config.LOG_LEVEL, format=Config.LOG_FORMAT)
 
-# Minimum acceptable score threshold from DataBC; if below
-# threshold, query will be sent to Google for processing
-MIN_CONFIDENCE_SCORE = 55
-
 
 def send_query(**args) -> tuple:
     config = args.get('config')
@@ -59,8 +55,9 @@ def is_response_valid(**args) -> tuple:
 
 
 def is_confidence_too_low(**args) -> tuple:
+    config = args.get('config')
     data_bc = args.get('data_bc')
     logging.info('Sent DataBC: {} which returned a score of: {}'.format(args.get("address_raw"), data_bc['score']))
-    if data_bc['score'] < MIN_CONFIDENCE_SCORE:
+    if data_bc['score'] < config.MIN_CONFIDENCE_SCORE:
         return True, args
     return False, args

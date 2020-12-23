@@ -15,6 +15,10 @@ class Config(BaseConfig):
     DATA_BC_API_URL             = os.getenv('DATA_BC_API_URL', 'https://geocoder.api.gov.bc.ca')
     DATA_BC_API_KEY             = os.getenv('DATA_BC_API_KEY')
 
+    # Minimum acceptable score threshold from DataBC; if below
+    # threshold, query will be sent to Google for processing
+    MIN_CONFIDENCE_SCORE        = int(os.getenv('MIN_CONFIDENCE_SCORE', '55'))
+
     GOOGLE_FAIL_OVER_ENABLED    = os.getenv('GOOGLE_FAIL_OVER_ENABLED', 'FALSE')
     GOOGLE_API_ROOT_URL         = os.getenv('GOOGLE_API_ROOT_URL', 'https://maps.googleapis.com/maps/api/geocode/json')
     GOOGLE_API_KEY              = os.getenv('GOOGLE_API_KEY', 'not-implemented-at-this-time')
