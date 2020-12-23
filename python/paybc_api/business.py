@@ -72,7 +72,6 @@ def save_payment() -> list:
             {"try": rsi_email.applicant_to_schedule_review, "fail": []},
             {"try": middleware.create_verify_schedule_event, "fail": []},
             {"try": actions.add_hold_to_verify_schedule, "fail": []},
-
             {"try": actions.add_to_hold_queue, "fail": []}
         ]},
         {"try": middleware.application_has_been_saved_to_vips, "fail": []},

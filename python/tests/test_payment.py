@@ -402,6 +402,7 @@ def test_receipt_endpoint_returns_success_and_sends_schedule_email(prohibition_t
 
     def mock_send_email(*args, **kwargs):
         assert "applicant@gov.bc.ca" == args[0][0]
+        assert "Dear Charlie Brown," in args[3]
         assert "Select Review Date - Driving Prohibition 12344 Review" == args[1]
         return True
 
@@ -412,6 +413,8 @@ def test_receipt_endpoint_returns_success_and_sends_schedule_email(prohibition_t
 
         @staticmethod
         def publish(*args):
+            message = args[1].decode("utf-8")
+            assert "Charlie Brown" in message
             assert "DF.Hold" in args[0]
             return True
 
@@ -505,7 +508,7 @@ def application_get(presentation_type="ORAL"):
           "data": {
                 "applicationInfo": {
                       "email": "applicant@gov.bc.ca",
-                      "firstGivenNm": "string",
+                      "firstGivenNm": "Charlie",
                       "manualEntryYN": "N",
                       "noticeSubjectCd": "string",
                       "noticeTypeCd": "string",
@@ -515,7 +518,7 @@ def application_get(presentation_type="ORAL"):
                       "reviewApplnTypeCd": "string",
                       "reviewRoleTypeCd": "string",
                       "secondGivenNm": "string",
-                      "surnameNm": "string"
+                      "surnameNm": "Brown"
                 }
           },
           "resp": "success"

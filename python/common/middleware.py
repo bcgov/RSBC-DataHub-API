@@ -754,6 +754,7 @@ def create_verify_schedule_event(**args) -> tuple:
         "event_date_time": datetime.now().isoformat(),
         "event_type": event_type,
         event_type: {
+            "applicant_name": args.get('applicant_name'),
             "receipt_amount": payload['receipt_amount'],
             "receipt_number": payload['receipt_number'],
             "receipt_date": receipt_datetime_object.strftime("%Y-%m-%d"),
@@ -861,6 +862,7 @@ def get_data_from_verify_schedule_event(**args) -> tuple:
     args['receipt_number'] = m[event_type]['receipt_number']
     args['receipt_date'] = m[event_type]['receipt_date']
     args['prohibition_number'] = m[event_type]['prohibition_number']
+    args['applicant_name'] = m[event_type]['applicant_name']
     return True, args
 
 

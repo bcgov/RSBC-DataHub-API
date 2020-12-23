@@ -35,7 +35,9 @@ def test_verify_schedule_event_sends_email_to_business_if_applicant_has_not_sche
 
     def mock_send_business_email(*args, **kwargs):
         assert "Did Not Schedule - Driving Prohibition 21258852 Review" in args[0]
-        assert " did not schedule their review within 24 hours of payment." in args[2]
+        assert "Appeals Registry," in args[2]
+        assert "Charlie Brown, the applicant of prohibition 21258852," in args[2]
+        assert "did not schedule the review within 24 hours of payment." in args[2]
         assert "Number: ABCD-1234" in args[2]
         assert "Amount: 50.00" in args[2]
         assert "Date: 2020-10-22" in args[2]
@@ -130,6 +132,7 @@ def get_verify_schedule_event(hold_until_date_time: datetime) -> dict:
           "event_date_time": "2020-10-28T04:50:35.202805",
           "event_type": "verify_schedule",
           "verify_schedule": {
+            "applicant_name": "Charlie Brown",
             "receipt_date": "2020-10-22",
             "receipt_amount": "50.00",
             "receipt_number": "ABCD-1234",

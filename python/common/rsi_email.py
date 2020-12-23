@@ -94,6 +94,7 @@ def applicant_did_not_schedule(**args) -> tuple:
         content["subject"],
         config,
         template.render(
+            full_name=args.get('applicant_name'),
             receipt_number=args.get('receipt_number'),
             receipt_amount=args.get('receipt_amount'),
             receipt_date=args.get('receipt_date'),

@@ -35,7 +35,7 @@ def add_hold_before_trying_vips_again(**args) -> tuple:
 
 def add_hold_before_sending_disclosure(**args) -> tuple:
     """
-    Adds a do not process until attribute to the message
+    Adds a hold_until attribute to the message appropriate for disclosure
     """
     message = args.get('message')
     config = args.get('config')
@@ -46,7 +46,7 @@ def add_hold_before_sending_disclosure(**args) -> tuple:
 
 def add_hold_to_verify_schedule(**args) -> tuple:
     """
-    Adds a do not process until attribute to the message
+    Adds a hold_until attribute to the message appropriate for verify_schedule
     """
     message = args.get('message')
     config = args.get('config')
