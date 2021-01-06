@@ -34,7 +34,7 @@ def test_verify_schedule_event_sends_email_to_business_if_applicant_has_not_sche
         return status_gets_success("")
 
     def mock_send_business_email(*args, **kwargs):
-        assert "Did Not Schedule - Driving Prohibition 21258852 Review" in args[0]
+        assert "Did Not Schedule - Driving Prohibition 21-258852 Review" in args[0]
         assert "Appeals Registry," in args[2]
         assert "Charlie Brown, the applicant of prohibition 21258852," in args[2]
         assert "did not schedule the review within 24 hours of payment." in args[2]

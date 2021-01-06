@@ -386,7 +386,7 @@ def get_email_content(template_name: str, prohibition_number: str):
     content = content_data()
     if template_name in content:
         email_content = content[template_name]
-        email_content['subject'] = email_content['raw_subject'].format(prohibition_number)
+        email_content['subject'] = email_content['raw_subject'].format(_hyphenate(prohibition_number))
         logging.info(email_content)
         return email_content
     return dict({
@@ -396,6 +396,10 @@ def get_email_content(template_name: str, prohibition_number: str):
             "title": "Unknown Template",
             "timeline": ""
         })
+
+
+def _hyphenate(prohibition_number: str) -> str:
+    return "{}-{}".format(prohibition_number[0:2], prohibition_number[2:8])
 
 
 def content_data() -> dict:

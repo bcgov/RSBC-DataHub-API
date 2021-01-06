@@ -79,7 +79,7 @@ def test_an_applicant_that_was_served_recently_but_not_in_vips_gets_not_yet_emai
         print('inside mock_send_email()')
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
-        assert "Prohibition Not Found Yet - Driving Prohibition 21999344" in args[1]
+        assert "Prohibition Not Found Yet - Driving Prohibition 21-999344" in args[1]
         assert "issued on September 22, 2020 isn't in our" in template_content
         assert "check for 3 days from the date the prohibition was served" in template_content
         assert "http://link-to-icbc" in template_content
@@ -120,7 +120,7 @@ def test_an_applicant_without_a_valid_prohibition_gets_appropriate_email(prohib,
         print('inside mock_send_email()')
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
-        assert "Prohibition Not Found – Driving Prohibition 21999344 Review" in args[1]
+        assert "Prohibition Not Found – Driving Prohibition 21-999344 Review" in args[1]
         assert "You must apply in-person within 7 days from the date of issue." in template_content
         return True
 
@@ -147,7 +147,7 @@ def test_an_applicant_that_applies_using_incorrect_last_name_gets_appropriate_em
         print('inside mock_send_email()')
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
-        assert "Prohibition Number or Name Don't Match - Driving Prohibition 21999344 Review" == args[1]
+        assert "Prohibition Number or Name Don't Match - Driving Prohibition 21-999344 Review" == args[1]
         assert "You must re-apply within 7 days from the date of prohibition issue." in template_content
         return True
 
@@ -175,7 +175,7 @@ def test_an_applicant_that_has_not_surrendered_their_licence_gets_appropriate_em
         print('inside mock_send_email()')
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
-        assert "Licence Not Surrendered - Driving Prohibition 21999344 Review" == args[1]
+        assert "Licence Not Surrendered - Driving Prohibition 21-999344 Review" == args[1]
         assert "You're ineligible to apply online because your licence wasn't surrendered" in template_content
         return True
 
@@ -203,7 +203,7 @@ def test_an_applicant_that_has_previously_applied_gets_appropriate_email(prohib,
         print('inside mock_send_email()')
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
-        assert "Already Applied – Driving Prohibition 21999344 Review" == args[1]
+        assert "Already Applied – Driving Prohibition 21-999344 Review" == args[1]
         assert "An application to review prohibition 21999344 has already been submitted." in template_content
         assert "You must call to make changes to your application." in template_content
         return True
@@ -233,7 +233,7 @@ def test_an_applicant_that_has_missed_the_window_to_apply_gets_appropriate_email
         print('inside mock_send_email()')
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
-        assert "7-day Application Window Missed - Driving Prohibition 21999344 Review" == args[1]
+        assert "7-day Application Window Missed - Driving Prohibition 21-999344 Review" == args[1]
         assert "Your application for a review of driving prohibition 21999344 can't be accepted." in template_content
         assert "Our records show your Notice of Prohibition was issued more than 7 days ago." in template_content
         return True
@@ -262,7 +262,7 @@ def test_a_successful_applicant_gets_an_application_accepted_email(prohib, monke
         print('inside mock_send_email()')
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
-        assert "Application Accepted - Driving Prohibition 21999344 Review" == args[1]
+        assert "Application Accepted - Driving Prohibition 21-999344 Review" == args[1]
         assert "Your application for a review of driving prohibition 21999344 has been accepted." in template_content
         assert "You must pay in full by credit card within 7 days of receiving your prohibition" in template_content
         assert "http://link-to-paybc" in template_content
@@ -292,7 +292,7 @@ def test_a_unlicenced_applicant_that_was_served_recently_but_not_in_vips_gets_no
         print('inside mock_send_email()')
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
-        assert "Prohibition Not Found Yet - Driving Prohibition 21999344" in args[1]
+        assert "Prohibition Not Found Yet - Driving Prohibition 21-999344" in args[1]
         assert "issued on September 22, 2020 isn't in our" in template_content
         assert "check for 3 days from the date the prohibition was served" in template_content
         assert "http://link-to-icbc" in template_content
@@ -341,7 +341,7 @@ def test_an_unlicenced_applicant_without_a_valid_prohibition_gets_appropriate_em
         print('inside mock_send_email()')
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
-        assert "Prohibition Not Found – Driving Prohibition 21999344 Review" in args[1]
+        assert "Prohibition Not Found – Driving Prohibition 21-999344 Review" in args[1]
         assert "You must apply in-person." in template_content
         return True
 
@@ -367,7 +367,7 @@ def test_an_unlicenced_applicant_that_applies_using_incorrect_last_name_gets_app
         print('inside mock_send_email()')
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
-        assert "Prohibition Number or Name Don't Match - Driving Prohibition 21999344 Review" == args[1]
+        assert "Prohibition Number or Name Don't Match - Driving Prohibition 21-999344 Review" == args[1]
         assert "You can re-apply at any time." in template_content
         return True
 
@@ -394,7 +394,7 @@ def test_an_unlicenced_applicant_has_no_licence_to_surrender_get_accepted_email(
         print('inside mock_send_email()')
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
-        assert "Application Accepted - Driving Prohibition 21999344 Review" == args[1]
+        assert "Application Accepted - Driving Prohibition 21-999344 Review" == args[1]
         assert "Your application for a review of driving prohibition 21999344 has been accepted." in template_content
         return True
 
@@ -427,7 +427,7 @@ def test_an_unlicenced_applicant_that_has_previously_applied_gets_appropriate_em
         print('inside mock_send_email()')
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
-        assert "Already Applied – Driving Prohibition 21999344 Review" == args[1]
+        assert "Already Applied – Driving Prohibition 21-999344 Review" == args[1]
         assert "An application to review prohibition 21999344 has already been submitted." in template_content
         assert "You must call to make changes to your application." in template_content
         return True
@@ -455,7 +455,7 @@ def test_an_unlicenced_applicant_can_apply_anytime_and_get_application_accepted_
         print('inside mock_send_email()')
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
-        assert "Application Accepted - Driving Prohibition 21999344 Review" == args[1]
+        assert "Application Accepted - Driving Prohibition 21-999344 Review" == args[1]
         assert "Your application for a review of driving prohibition 21999344 has been accepted." in template_content
         return True
 
@@ -488,7 +488,7 @@ def test_an_unlicenced_successful_applicant_gets_an_application_accepted_email(m
         print('inside mock_send_email()')
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
-        assert "Application Accepted - Driving Prohibition 21999344 Review" == args[1]
+        assert "Application Accepted - Driving Prohibition 21-999344 Review" == args[1]
         assert "Your application for a review of driving prohibition 21999344 has been accepted." in template_content
         assert "You must pay in full by credit card within 7 days of applying for this review." in template_content
         assert "http://link-to-paybc" in template_content
@@ -522,7 +522,7 @@ def test_an_applicant_that_applies_at_icbc_get_already_applied_email(monkeypatch
         print('inside mock_send_email()')
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
-        assert "Already Applied – Driving Prohibition 21999344 Review" == args[1]
+        assert "Already Applied – Driving Prohibition 21-999344 Review" == args[1]
         assert "An application to review prohibition 21999344 has already been submitted." in template_content
         assert "You must call to make changes to your application." in template_content
         return True

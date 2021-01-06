@@ -403,7 +403,7 @@ def test_receipt_endpoint_returns_success_and_sends_schedule_email(prohibition_t
     def mock_send_email(*args, **kwargs):
         assert "applicant@gov.bc.ca" == args[0][0]
         assert "Dear Charlie Brown," in args[3]
-        assert "Select Review Date - Driving Prohibition 12344 Review" == args[1]
+        assert "Select Review Date - Driving Prohibition 21-123456 Review" == args[1]
         return True
 
     class MockRabbitMQ:
@@ -460,7 +460,7 @@ def get_receipt_payload(receipt_amount=200) -> dict:
         "cardtype": "VISA",
         "invoices": [
             {
-                "trx_number": "12344",
+                "trx_number": "21123456",
                 "amount_to_apply": receipt_amount
             }
         ]

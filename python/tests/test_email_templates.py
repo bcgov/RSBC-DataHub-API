@@ -46,12 +46,12 @@ def test_schedule_review_email():
 
 
 template_names = [
-    ("IRP_last_name_mismatch.html", "Prohibition Number or Name Don't Match - Driving Prohibition 9999 Review"),
+    ("IRP_last_name_mismatch.html", "Prohibition Number or Name Don't Match - Driving Prohibition 21-999999 Review"),
     ('template_does_not_exist.html', "Unknown template")
 ]
 
 
 @pytest.mark.parametrize("template_name, subject_string", template_names)
 def test_get_email_content(template_name, subject_string):
-    content = get_email_content(template_name, '9999')
+    content = get_email_content(template_name, '21999999')
     assert content['subject'] == subject_string

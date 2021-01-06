@@ -107,7 +107,7 @@ def test_disclosure_documents_are_emailed_to_applicant(document_count, monkeypat
     def mock_send_email(*args, **kwargs):
         print('inside mock_send_email()')
         assert "me@gov.bc.ca" in args[0]
-        assert "Disclosure Documents Attached - Driving Prohibition 21258852 Review" in args[1]
+        assert "Disclosure Documents Attached - Driving Prohibition 21-258852 Review" in args[1]
         assert int(document_count) == len(args[4])
         return True
 
@@ -161,7 +161,7 @@ def test_adp_disclosure_includes_blood_alcohol_pdf_document(disclosure_string, e
     def mock_send_email(*args, **kwargs):
         print('inside mock_send_email()')
         assert "me@gov.bc.ca" in args[0]
-        assert "Disclosure Documents Attached - Driving Prohibition 21258852 Review" in args[1]
+        assert "Disclosure Documents Attached - Driving Prohibition 21-258852 Review" in args[1]
         assert expected_documents == len(args[4])
         return True
 
