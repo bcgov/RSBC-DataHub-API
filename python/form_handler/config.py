@@ -24,4 +24,4 @@ class Config(BaseConfig):
 
     LINK_TO_SERVICE_BC                  = os.getenv('LINK_TO_SERVICE_BC', 'http://localhost')
 
-
+    LINK_TO_GET_DRIVING_RECORD          = os.getenv('LINK_TO_GET_DRIVING_RECORD', 'http://localhost')

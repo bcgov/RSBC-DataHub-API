@@ -103,11 +103,9 @@ def test_disclosure_documents_are_emailed_to_applicant(document_count, monkeypat
 
     def mock_publish(queue_name: str, payload: bytes):
         assert queue_name == "DF.hold"
+        return True
 
     def mock_send_email(*args, **kwargs):
-        print('inside mock_send_email()')
-        assert "me@gov.bc.ca" in args[0]
-        assert "Disclosure Documents Attached - Driving Prohibition 21-258852 Review" in args[1]
         assert int(document_count) == len(args[4])
         return True
 
@@ -138,6 +136,106 @@ def test_disclosure_documents_are_emailed_to_applicant(document_count, monkeypat
                                   message=message_dict,
                                   config=Config,
                                   writer=RabbitMQ)
+
+
+@pytest.mark.parametrize("prohibition_type", ['IRP', 'ADP'])
+def test_disclosure_email_template_has_unique_text_for_irp_and_adp_prohibitions(prohibition_type, monkeypatch):
+    message_dict = helper.load_json_into_dict('python/tests/sample_data/form/disclosure_payload.json')
+    message_dict['hold_until'] = (datetime.datetime.now() - datetime.timedelta(hours=1)).isoformat()
+
+    def mock_status_get(*args, **kwargs):
+        review_start_date = (datetime.date.today() + datetime.timedelta(days=2)).strftime("%Y-%m-%d")
+        return status_gets(True, prohibition_type, review_start_date, "1")
+
+    def mock_publish(queue_name: str, payload: bytes):
+        assert queue_name == "DF.hold"
+        return True
+
+    def mock_send_email(*args, **kwargs):
+        print('inside mock_send_email()')
+        assert "me@gov.bc.ca" in args[0]
+        assert "Disclosure Documents Attached - Driving Prohibition 21-258852 Review" in args[1]
+        assert "Attached is the police evidence the adjudicator will consider in your review." in args[3]
+        assert "Make sure you can open the attachments." in args[3]
+        return True
+
+    def mock_disclosure_get(*args):
+        print("inside mock_disclosure_get()")
+        data = dict({
+                "resp": "success",
+                "data": {
+                    "document": {
+                        "document": "base64_string_of_encoded_document",
+                        "mimeType": "application/pdf"
+                    }
+                }
+            })
+        return True, data
+
+    def mock_patch(*args):
+        return True, dict({})
+
+    monkeypatch.setattr(Config, "ENCRYPT_KEY", "something-secret")
+    monkeypatch.setattr(RabbitMQ, "publish", mock_publish)
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+    monkeypatch.setattr(vips, "patch", mock_patch)
+    monkeypatch.setattr(common_email_services, "send_email", mock_send_email)
+    monkeypatch.setattr(vips, "disclosure_get", mock_disclosure_get)
+
+    results = helper.middle_logic(helper.get_listeners(business.process_incoming_form(), message_dict['event_type']),
+                                  message=message_dict,
+                                  config=Config,
+                                  writer=RabbitMQ)
+
+
+def test_disclosure_email_template_has_unique_text_for_ul_prohibitions(monkeypatch):
+    message_dict = helper.load_json_into_dict('python/tests/sample_data/form/disclosure_payload.json')
+    message_dict['hold_until'] = (datetime.datetime.now() - datetime.timedelta(hours=1)).isoformat()
+
+    def mock_status_get(*args, **kwargs):
+        review_start_date = (datetime.date.today() + datetime.timedelta(days=2)).strftime("%Y-%m-%d")
+        return status_gets(True, "UL", review_start_date, "2")
+
+    def mock_publish(queue_name: str, payload: bytes):
+        assert queue_name == "DF.hold"
+        return True
+
+    def mock_send_email(*args, **kwargs):
+        print('inside mock_send_email()')
+        assert "me@gov.bc.ca" in args[0]
+        assert "Disclosure Documents Attached - Driving Prohibition 21-258852 Review" in args[1]
+        assert "Attached is the police evidence the RoadSafetyBC adjudicator will consider in your review." in args[3]
+        assert '<a href="http://localhost">get a copy from ICBC</a>' in args[3]
+        return True
+
+    def mock_disclosure_get(*args):
+        print("inside mock_disclosure_get()")
+        data = dict({
+                "resp": "success",
+                "data": {
+                    "document": {
+                        "document": "base64_string_of_encoded_document",
+                        "mimeType": "application/pdf"
+                    }
+                }
+            })
+        return True, data
+
+    def mock_patch(*args):
+        return True, dict({})
+
+    monkeypatch.setattr(Config, "ENCRYPT_KEY", "something-secret")
+    monkeypatch.setattr(RabbitMQ, "publish", mock_publish)
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+    monkeypatch.setattr(vips, "patch", mock_patch)
+    monkeypatch.setattr(common_email_services, "send_email", mock_send_email)
+    monkeypatch.setattr(vips, "disclosure_get", mock_disclosure_get)
+
+    results = helper.middle_logic(helper.get_listeners(business.process_incoming_form(), message_dict['event_type']),
+                                  message=message_dict,
+                                  config=Config,
+                                  writer=RabbitMQ)
+
 
 adp_disclosure_test = [
     ['1', 2],

@@ -297,7 +297,8 @@ def already_applied(**args):
 def applicant_disclosure(**args) -> tuple:
     config = args.get('config')
     prohibition_number = args.get('prohibition_number')
-    t = 'send_disclosure_documents.html'
+    vips_data = args.get('vips_data')
+    t = '{}_send_disclosure.html'.format(vips_data['noticeTypeCd'])
     args['email_template'] = t
     content = get_email_content(t, prohibition_number)
     template = get_jinja2_env().get_template(t)
@@ -306,6 +307,7 @@ def applicant_disclosure(**args) -> tuple:
         content["subject"],
         config,
         template.render(
+            link_to_get_driving_record=config.LINK_TO_GET_DRIVING_RECORD,
             full_name=args.get('applicant_name'),
             prohibition_number=prohibition_number,
             subject=content["subject"]),
@@ -484,7 +486,15 @@ def content_data() -> dict:
             "raw_subject": "Application Accepted - Driving Prohibition {} Review",
             "title": "UL Application Accepted",
         },
-        "send_disclosure_documents.html": {
+        "IRP_send_disclosure.html": {
+            "raw_subject": "Disclosure Documents Attached - Driving Prohibition {} Review",
+            "title": "Send Disclosure",
+        },
+        "ADP_send_disclosure.html": {
+            "raw_subject": "Disclosure Documents Attached - Driving Prohibition {} Review",
+            "title": "Send Disclosure",
+        },
+        "UL_send_disclosure.html": {
             "raw_subject": "Disclosure Documents Attached - Driving Prohibition {} Review",
             "title": "Send Disclosure",
         },

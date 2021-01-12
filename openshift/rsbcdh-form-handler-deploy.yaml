@@ -31,6 +31,8 @@ parameters:
   value: 'https://www.icbc.com/driver-licensing/visit-dl-office/Pages/Book-a-knowledge-test-and-other-services.aspx'
 - name: LINK_TO_SERVICE_BC
   value: 'https://appointments.servicebc.gov.bc.ca/appointment'
+- name: LINK_TO_GET_DRIVING_RECORD
+  value: 'https://www.icbc.com/driver-licensing/getting-licensed/Pages/Your-driving-record.aspx'
 - name: DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY
   value: '3'
 - name: LOG_LEVEL
@@ -194,6 +196,8 @@ objects:
               value: ${LINK_TO_ICBC}
             - name: LINK_TO_SERVICE_BC
               value: ${LINK_TO_SERVICE_BC}
+            - name: LINK_TO_GET_DRIVING_RECORD
+              value: ${LINK_TO_GET_DRIVING_RECORD}
             - name: DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY
               value: ${DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY}
             - name: LOG_LEVEL
