@@ -9,7 +9,7 @@ class Config(BaseConfig):
     OAUTH2_USER                     = os.getenv('OAUTH2_USER', 'admin')
 
     HOURS_APPLICANT_HAS_TO_SCHEDULE = int(os.getenv('HOURS_APPLICANT_HAS_TO_SCHEDULE', '24'))
-    HOLD_QUEUE                      = os.getenv('HOLD_QUEUE', 'DF.Hold')
+    HOLD_QUEUE                      = os.getenv('HOLD_QUEUE', 'DF.hold')
 
     VIPS_API_ROOT_URL               = os.getenv('VIPS_API_ROOT_URL')
     VIPS_API_USERNAME               = os.getenv('VIPS_API_USERNAME')

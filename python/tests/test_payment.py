@@ -372,7 +372,7 @@ def test_receipt_endpoint_returns_success_if_prohibition_already_paid(prohibitio
 
         @staticmethod
         def publish(*args):
-            assert "DF.Hold" in args[0]
+            assert "DF.hold" in args[0]
             return True
 
     monkeypatch.setattr(routes, "RabbitMQ", MockRabbitMQ)
@@ -415,7 +415,7 @@ def test_receipt_endpoint_returns_success_and_sends_schedule_email(prohibition_t
         def publish(*args):
             message = args[1].decode("utf-8")
             assert "Charlie Brown" in message
-            assert "DF.Hold" in args[0]
+            assert "DF.hold" in args[0]
             return True
 
     monkeypatch.setattr(routes, "RabbitMQ", MockRabbitMQ)
