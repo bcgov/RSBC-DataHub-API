@@ -134,10 +134,11 @@ def check():
         if content['subject'] is not None:
             template = rsi_email.get_jinja2_env().get_template(t)
             return template.render(
-                full_name="Applicant Smith",
-                prohibition_number="99999999",
+                full_name="[applicant name]",
+                prohibition_number="[99-999999]",
+                date_of_service="[December 29, 2020]",
                 subject=content['subject'],
-                phone="2505551212",
+                phone="[2505551212]",
                 friendly_review_time_slot="Friday, Nov 1 between 9:00am and 9:30am"
             )
 

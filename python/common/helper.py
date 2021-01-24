@@ -120,7 +120,7 @@ def get_listeners(listeners: dict, key: str) -> list:
 def localize_timezone(date_time: datetime) -> datetime:
     tz = pytz.timezone('America/Vancouver')
     localized = tz.localize(date_time)
-    print("localized datetime: {}".format(localized))
+    logging.debug("localized datetime: {}".format(localized))
     return localized
 
 

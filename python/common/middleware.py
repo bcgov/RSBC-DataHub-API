@@ -236,14 +236,30 @@ def application_not_previously_saved_to_vips(**args) -> tuple:
     return False, args
 
 
-def prohibition_served_recently(**args) -> tuple:
+def prohibition_served_within_past_week(**args) -> tuple:
     """
-    Returns TRUE if the prohibition was served within the previous 3 days;
+    Returns TRUE if the prohibition was served within the previous 7 days;
     otherwise returns FALSE
     """
-    date_served_string = args.get('date_of_service')
     config = args.get('config')
     delay_days = int(config.DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY)
+    return _recently_served(delay_days, **args)
+
+
+def applicant_has_more_than_one_day_to_apply(**args) -> tuple:
+    """
+    Returns TRUE if the prohibition was served within the previous 6 days;
+    otherwise returns FALSE
+    """
+    config = args.get('config')
+    delay_days = int(config.DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY) - 1
+    if delay_days < 1:
+        logging.critical("Delay days should not be less than 1")
+    return _recently_served(delay_days, **args)
+
+
+def _recently_served(delay_days: int, **args) -> tuple:
+    date_served_string = args.get('date_of_service')
 
     # Note: we have to rely on the date_served as submitted by the user -- not the date in VIPS
     # Check to see if enough time has elapsed to enter the prohibition into VIPS

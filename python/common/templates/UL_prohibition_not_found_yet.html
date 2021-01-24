@@ -1,3 +1,38 @@
 {% extends "IRP_prohibition_not_found_yet.html" %}
 
+{% block primary_text_2 %}
+<ol>
+   <li>We'll check every 12 hours for 7 days from the prohibition issued date entered in the application.</li>
+   <li>
+       If we find the prohibition by day 7, we’ll email you the link to complete payment.
+       <ul>
+           <li>Payment must be completed by day 7.</li>
+       </ul>
+   </li>
+   <li>
+       Or, if we don't find the prohibition by day 7, we'll email to notify you it wasn't found,
+       and you will need to apply in-person.
+   </li>
+</ol>
+{% endblock %}
+
+{% block primary_text_3 %}
+You may choose not to wait and apply in-person for a review by:
+<ol>
+    <li>
+       Visiting <a href="{{ link_to_icbc }}">ICBC</a>, select <a href="{{ link_to_service_bc }}">ServiceBC</a>
+        locations, or an appointed agent to meet the application deadline.
+        <ul>
+            <li>They can take your application even if your prohibition isn’t in the system.</li>
+        </ul>
+    </li>
+    <li>Taking your Notice of Prohibition with you.</li>
+    <li>Completing an Application for Review of a Driving Prohibition.</li>
+</ol>
+{% endblock %}
+
+{% block callout %}We'll send you an email each time we check.{% endblock %}
+
+{% block primary_4 %}{% endblock %}
+
 {% block timeline %}apply_ul.png{% endblock %}

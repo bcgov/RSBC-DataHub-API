@@ -6,29 +6,42 @@ Your driving prohibition {{ prohibition_number }} issued on {{ date_of_service }
 
 {% block primary_text_2 %}
 <ol>
+   <li>We'll check every 12 hours for 7 days from the prohibition issued date entered in the application.</li>
    <li>
-      We'll check for 3 days from the date the prohibition was served. The date we check is the
-       one you entered in the prohibition review application. Please be sure you entered
-       the date and prohibition number correctly.
+       If we find the prohibition by day 7, we’ll email you the link to complete payment.
+       <ul>
+           <li>Payment must be completed by day 7.</li>
+       </ul>
    </li>
    <li>
-       When we find the prohibition, we'll send you an email with the next step to continue
-       the application process <strong>OR</strong>
-   </li>
-   <li>
-       If we don't find it, we'll send you an email advising you
-       to apply in-person at <a href="{{ link_to_icbc }}">ICBC</a>, select
-       <a href="{{ link_to_service_bc }}">ServiceBC</a> locations, or an appointed agent.
+       Or, if we don't find the prohibition by day 7, we'll email to notify you it wasn't found,
+       and the 7-day application for review window is closed.
    </li>
 </ol>
 {% endblock %}
 
-{% block primary_3 %}{% endblock %}
-{% block primary_4 %}{% endblock %}
-
-{% block callout %}
-You'll be notified if the prohibition can't be found.
+{% block primary_text_3 %}
+You may choose not to wait and apply in-person for a review by:
+<ol>
+    <li>
+       Visiting <a href="{{ link_to_icbc }}">ICBC</a>, select <a href="{{ link_to_service_bc }}">ServiceBC</a>
+        locations, or an appointed agent to meet the application deadline.
+        <ul>
+            <li>They can take your application even if your prohibition isn't in the system.</li>
+        </ul>
+    </li>
+    <li>Taking your Notice of Prohibition with you.</li>
+    <li>Bringing your licence with you if you didn't surrender it to police.</li>
+</ol>
 {% endblock %}
+
+{% block primary_text_4 %}
+<strong>
+    You can't get a review extension if you miss the deadline while waiting for the prohibition to appear in our system.
+</strong>
+{% endblock %}
+
+{% block callout %}We'll send you an email each time we check.{% endblock %}
 
 {% block timeline %}apply.png{% endblock %}
 {% block email_not_monitored %}{% include 'partials/call_appeals_registry.html' %}{% endblock %}

@@ -69,19 +69,21 @@ served_recently_data = [
     ["2020-09-11", "2020-09-11", True],
     ["2020-09-11", "2020-09-10", True],
     ["2020-09-11", "2020-09-09", True],
-    ["2020-09-11", "2020-09-08", False],
-    ["2020-09-11", "2020-09-07", False],
+    ["2020-09-11", "2020-09-08", True],
+    ["2020-09-11", "2020-09-07", True],
+    ["2020-09-11", "2020-09-06", True],
+    ["2020-09-11", "2020-09-05", True],
+    ["2020-09-11", "2020-09-04", False],
+    ["2020-09-11", "2020-09-03", False],
 ]
 
 
 @pytest.mark.parametrize("today_is, date_served, expected", served_recently_data)
-def test_prohibition_served_recently_method(today_is, date_served, expected):
+def test_prohibition_served_within_past_week_method(today_is, date_served, expected):
     today_unaware = datetime.strptime(today_is, "%Y-%m-%d")
     today_date = localize_timezone(today_unaware)
-    result, args = middleware.prohibition_served_recently(
-        today_date=today_date,
-        date_of_service=date_served,
-        config=Config)
+    result, args = middleware.prohibition_served_within_past_week(today_date=today_date, date_of_service=date_served,
+                                                                  config=Config)
     assert result is expected
 
 

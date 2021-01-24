@@ -1,0 +1,27 @@
+{% extends "IRP_prohibition_not_found_yet.html" %}
+
+{% block primary_text_1 %}
+Your driving prohibition {{ prohibition_number }} isn't in our system yet.
+If it's not in our system by the next time we check, your online application for review won't go ahead.
+{% endblock %}
+
+{% block primary_2 %}{% endblock %}
+
+{% block primary_text_3 %}
+You can apply in-person now:
+<ol>
+    <li>
+       Visiting <a href="{{ link_to_icbc }}">ICBC</a>, select <a href="{{ link_to_service_bc }}">ServiceBC</a>
+        locations, or an appointed agent to meet the application deadline.
+        <ul>
+            <li>They can take your application even if your prohibition isn't in the system.</li>
+        </ul>
+    </li>
+    <li>Taking your Notice of Prohibition with you.</li>
+    <li>Bringing your licence with you if you didn't surrender it to police.</li>
+    <li>Completing an Application for Review of a Driving Prohibition.</li>
+</ol>
+{% endblock %}
+
+{% block callout %}You have 1 business day left to apply in-person{% endblock %}
+

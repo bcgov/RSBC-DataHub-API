@@ -72,16 +72,15 @@ irp_or_adp = ["IRP", "ADP"]
 
 
 @pytest.mark.parametrize("prohib", irp_or_adp)
-def test_an_applicant_that_was_served_recently_but_not_in_vips_gets_not_yet_email(prohib, monkeypatch):
+def test_an_applicant_that_was_served_yesterday_but_not_in_vips_gets_not_yet_email(prohib, monkeypatch):
 
     def mock_send_email(*args, **kwargs):
         template_content = args[3]
-        print('inside mock_send_email()')
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
-        assert "Prohibition Not Found Yet - Driving Prohibition 21-999344" in args[1]
+        assert "Prohibition Not Yet Found - Driving Prohibition 21-999344" in args[1]
         assert "issued on September 22, 2020 isn't in our" in template_content
-        assert "check for 3 days from the date the prohibition was served" in template_content
+        assert "We'll check every 12 hours for 7 days from the prohibition issued date" in template_content
         assert "http://link-to-icbc" in template_content
         assert "http://link-to-service-bc" in template_content
         return True
@@ -109,21 +108,30 @@ def test_an_applicant_that_was_served_recently_but_not_in_vips_gets_not_yet_emai
 
 
 @pytest.mark.parametrize("prohib", irp_or_adp)
-def test_an_applicant_without_a_valid_prohibition_gets_appropriate_email(prohib, monkeypatch):
-    """
-    Applicant gets the "Not Found" email if the date served (as entered by the applicant)
-    has allowed sufficient time for the prohibition to be entered into VIPS
-    """
+def test_an_applicant_that_was_served_6_days_ago_but_not_in_vips_gets_still_not_found_email(prohib, monkeypatch):
 
     def mock_send_email(*args, **kwargs):
         template_content = args[3]
-        print('inside mock_send_email()')
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
-        assert "Prohibition Not Found – Driving Prohibition 21-999344 Review" in args[1]
-        assert "You must apply in-person within 7 days from the date of issue." in template_content
+        assert "Prohibition Still Not Found - Driving Prohibition 21-999344" in args[1]
+        assert "If it's not in our system by the next time we check, your online" in template_content
+        assert "You can't get a review extension if you miss the deadline" in template_content
+        assert "http://link-to-icbc" in template_content
+        assert "http://link-to-service-bc" in template_content
         return True
 
+    def mock_datetime_now(**args):
+        args['today_date'] = helper.localize_timezone(datetime.datetime.strptime("2020-09-28", "%Y-%m-%d"))
+        print('inside mock_datetime_now: {}'.format(args.get('today_date')))
+        return True, args
+
+    def mock_add_to_hold(**args):
+        print('inside mock_add_to_hold()')
+        return True, args
+
+    monkeypatch.setattr(actions, "add_to_hold_queue", mock_add_to_hold)
+    monkeypatch.setattr(middleware, "determine_current_datetime", mock_datetime_now)
     monkeypatch.setattr(vips, "status_get", mock_status_not_found)
     monkeypatch.setattr(common_email_services, "send_email", mock_send_email)
 
@@ -136,6 +144,36 @@ def test_an_applicant_without_a_valid_prohibition_gets_appropriate_email(prohib,
 
 
 @pytest.mark.parametrize("prohib", irp_or_adp)
+def test_an_applicant_without_a_valid_prohibition_gets_appropriate_email(prohib, monkeypatch):
+    """
+    Applicant gets the "Not Found" email if the date served (as entered by the applicant)
+    has allowed sufficient time for the prohibition to be entered into VIPS
+    """
+    global email_sent
+    email_sent = False
+
+    def mock_send_email(*args, **kwargs):
+        template_content = args[3]
+        assert "me@lost.com" in args[0]
+        assert "Prohibition Not Found and 7-day Application Window Missed - Driving Prohibition 21-999344 Review" in args[1]
+        assert "Your application for a review of the prohibition can't be accepted." in template_content
+        global email_sent
+        email_sent = True
+        return True
+
+    monkeypatch.setattr(vips, "status_get", mock_status_not_found)
+    monkeypatch.setattr(common_email_services, "send_email", mock_send_email)
+
+    message_dict = get_sample_application_submission(prohib)
+
+    results = helper.middle_logic(helper.get_listeners(business.process_incoming_form(), message_dict['event_type']),
+                                  message=message_dict,
+                                  config=Config,
+                                  writer=None)
+    assert email_sent
+
+
+@pytest.mark.parametrize("prohib", irp_or_adp)
 def test_an_applicant_that_applies_using_incorrect_last_name_gets_appropriate_email(prohib, monkeypatch):
 
     def mock_status_get(*args, **kwargs):
@@ -144,7 +182,6 @@ def test_an_applicant_that_applies_using_incorrect_last_name_gets_appropriate_em
 
     def mock_send_email(*args, **kwargs):
         template_content = args[3]
-        print('inside mock_send_email()')
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
         assert "Prohibition Number or Name Don't Match - Driving Prohibition 21-999344 Review" == args[1]
@@ -172,7 +209,6 @@ def test_an_applicant_that_has_not_surrendered_their_licence_gets_appropriate_em
 
     def mock_send_email(*args, **kwargs):
         template_content = args[3]
-        print('inside mock_send_email()')
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
         assert "Licence Not Surrendered - Driving Prohibition 21-999344 Review" == args[1]
@@ -200,7 +236,6 @@ def test_an_applicant_that_has_previously_applied_gets_appropriate_email(prohib,
 
     def mock_send_email(*args, **kwargs):
         template_content = args[3]
-        print('inside mock_send_email()')
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
         assert "Already Applied – Driving Prohibition 21-999344 Review" == args[1]
@@ -230,7 +265,6 @@ def test_an_applicant_that_has_missed_the_window_to_apply_gets_appropriate_email
 
     def mock_send_email(*args, **kwargs):
         template_content = args[3]
-        print('inside mock_send_email()')
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
         assert "7-day Application Window Missed - Driving Prohibition 21-999344 Review" == args[1]
@@ -259,7 +293,6 @@ def test_a_successful_applicant_gets_an_application_accepted_email(prohib, monke
 
     def mock_send_email(*args, **kwargs):
         template_content = args[3]
-        print('inside mock_send_email()')
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
         assert "Application Accepted - Driving Prohibition 21-999344 Review" == args[1]
@@ -285,16 +318,14 @@ def test_a_successful_applicant_gets_an_application_accepted_email(prohib, monke
                                   writer=None)
 
 
-def test_a_unlicenced_applicant_that_was_served_recently_but_not_in_vips_gets_not_yet_email(monkeypatch):
+def test_a_unlicenced_applicant_that_was_served_yesterday_but_not_in_vips_gets_not_yet_email(monkeypatch):
 
     def mock_send_email(*args, **kwargs):
         template_content = args[3]
-        print('inside mock_send_email()')
         assert "me@lost.com" in args[0]
-        print("Subject: {}".format(args[1]))
-        assert "Prohibition Not Found Yet - Driving Prohibition 21-999344" in args[1]
+        assert "Prohibition Not Yet Found - Driving Prohibition 21-999344" in args[1]
         assert "issued on September 22, 2020 isn't in our" in template_content
-        assert "check for 3 days from the date the prohibition was served" in template_content
+        assert "We'll check every 12 hours for 7 days" in template_content
         assert "http://link-to-icbc" in template_content
         assert "http://link-to-service-bc" in template_content
         return True
@@ -321,7 +352,41 @@ def test_a_unlicenced_applicant_that_was_served_recently_but_not_in_vips_gets_no
                                   writer=None)
 
 
-def test_an_unlicenced_applicant_without_a_valid_prohibition_gets_appropriate_email(monkeypatch):
+def test_a_unlicenced_applicant_that_was_served_6_days_ago_but_not_in_vips_gets_still_not_found_email(monkeypatch):
+
+    def mock_send_email(*args, **kwargs):
+        template_content = args[3]
+        assert "me@lost.com" in args[0]
+        assert "Prohibition Still Not Found - Driving Prohibition 21-999344" in args[1]
+        assert "If it's not in our system by the next time we check, your online application" in template_content
+        assert "You may need to apply in-person." in template_content
+        assert "http://link-to-icbc" in template_content
+        assert "http://link-to-service-bc" in template_content
+        return True
+
+    def mock_datetime_now(**args):
+        args['today_date'] = helper.localize_timezone(datetime.datetime.strptime("2020-09-28", "%Y-%m-%d"))
+        print('inside mock_datetime_now: {}'.format(args.get('today_date')))
+        return True, args
+
+    def mock_add_to_hold(**args):
+        print('inside mock_add_to_hold()')
+        return True, args
+
+    monkeypatch.setattr(actions, "add_to_hold_queue", mock_add_to_hold)
+    monkeypatch.setattr(middleware, "determine_current_datetime", mock_datetime_now)
+    monkeypatch.setattr(vips, "status_get", mock_status_not_found)
+    monkeypatch.setattr(common_email_services, "send_email", mock_send_email)
+
+    message_dict = get_sample_application_submission("UL")
+
+    results = helper.middle_logic(helper.get_listeners(business.process_incoming_form(), message_dict['event_type']),
+                                  message=message_dict,
+                                  config=Config,
+                                  writer=None)
+
+
+def test_an_unlicenced_applicant_without_a_valid_prohibition_gets_not_found_email(monkeypatch):
     """
     Applicant gets the "Not Found" email if the date served (as entered by the applicant)
     has allowed sufficient time for the prohibition to be entered into VIPS
@@ -338,7 +403,6 @@ def test_an_unlicenced_applicant_without_a_valid_prohibition_gets_appropriate_em
 
     def mock_send_email(*args, **kwargs):
         template_content = args[3]
-        print('inside mock_send_email()')
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
         assert "Prohibition Not Found – Driving Prohibition 21-999344 Review" in args[1]
@@ -364,7 +428,6 @@ def test_an_unlicenced_applicant_that_applies_using_incorrect_last_name_gets_app
 
     def mock_send_email(*args, **kwargs):
         template_content = args[3]
-        print('inside mock_send_email()')
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
         assert "Prohibition Number or Name Don't Match - Driving Prohibition 21-999344 Review" == args[1]
@@ -391,7 +454,6 @@ def test_an_unlicenced_applicant_has_no_licence_to_surrender_get_accepted_email(
 
     def mock_send_email(*args, **kwargs):
         template_content = args[3]
-        print('inside mock_send_email()')
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
         assert "Application Accepted - Driving Prohibition 21-999344 Review" == args[1]
@@ -424,7 +486,6 @@ def test_an_unlicenced_applicant_that_has_previously_applied_gets_appropriate_em
 
     def mock_send_email(*args, **kwargs):
         template_content = args[3]
-        print('inside mock_send_email()')
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
         assert "Already Applied – Driving Prohibition 21-999344 Review" == args[1]
@@ -452,7 +513,6 @@ def test_an_unlicenced_applicant_can_apply_anytime_and_get_application_accepted_
 
     def mock_send_email(*args, **kwargs):
         template_content = args[3]
-        print('inside mock_send_email()')
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
         assert "Application Accepted - Driving Prohibition 21-999344 Review" == args[1]
@@ -485,7 +545,6 @@ def test_an_unlicenced_successful_applicant_gets_an_application_accepted_email(m
 
     def mock_send_email(*args, **kwargs):
         template_content = args[3]
-        print('inside mock_send_email()')
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
         assert "Application Accepted - Driving Prohibition 21-999344 Review" == args[1]
@@ -519,7 +578,6 @@ def test_an_applicant_that_applies_at_icbc_get_already_applied_email(monkeypatch
 
     def mock_send_email(*args, **kwargs):
         template_content = args[3]
-        print('inside mock_send_email()')
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
         assert "Already Applied – Driving Prohibition 21-999344 Review" == args[1]
@@ -559,3 +617,4 @@ class Config(BaseConfig):
     LINK_TO_APPLICATION_FORM = 'http://link-to-application-form'
     LINK_TO_ICBC ='http://link-to-icbc'
     LINK_TO_SERVICE_BC = 'http://link-to-service-bc'
+    DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY = '7'

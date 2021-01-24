@@ -277,6 +277,33 @@ def applicant_prohibition_not_found_yet(**args):
             subject=content["subject"])), args
 
 
+def applicant_prohibition_still_not_found(**args) -> tuple:
+    config = args.get('config')
+    prohibition_number = args.get('prohibition_number')
+    date_served_string = args.get('date_of_service')
+    date_served = helper.localize_timezone(datetime.strptime(date_served_string, '%Y-%m-%d'))
+    human_friendly_date_served = date_served.strftime("%B %d, %Y")
+    notice_type = args.get('user_entered_notice_type')
+    t = "{}_prohibition_still_not_found.html".format(notice_type)
+    args['email_template'] = t
+    content = get_email_content(t, prohibition_number)
+    template = get_jinja2_env().get_template(t)
+
+    # Note: we rely on the date_served as submitted by the user -- not the date in VIPS
+    # Check to see if enough time has elapsed to enter the prohibition into VIPS
+    return common_email_services.send_email(
+        [args.get('applicant_email_address')],
+        content["subject"],
+        config,
+        template.render(
+            link_to_icbc=config.LINK_TO_ICBC,
+            link_to_service_bc=config.LINK_TO_SERVICE_BC,
+            date_of_service=human_friendly_date_served,
+            full_name=args.get('applicant_full_name'),
+            prohibition_number=prohibition_number,
+            subject=content["subject"])), args
+
+
 def already_applied(**args):
     config = args.get('config')
     prohibition_number = args.get('prohibition_number')
@@ -419,16 +446,28 @@ def content_data() -> dict:
             "title": "UL Prohibition Number or Name Don't Match",
         },
         "IRP_prohibition_not_found_yet.html": {
-            "raw_subject": "Prohibition Not Found Yet - Driving Prohibition {} Review",
-            "title": "IRP Prohibition Not Found Yet",
+            "raw_subject": "Prohibition Not Yet Found - Driving Prohibition {} Review",
+            "title": "IRP Prohibition Not Yet Found",
         },
         "ADP_prohibition_not_found_yet.html": {
-            "raw_subject": "Prohibition Not Found Yet - Driving Prohibition {} Review",
-            "title": "ADP Prohibition Not Found Yet",
+            "raw_subject": "Prohibition Not Yet Found - Driving Prohibition {} Review",
+            "title": "ADP Prohibition Not Yet Found",
         },
         "UL_prohibition_not_found_yet.html": {
-            "raw_subject": "Prohibition Not Found Yet - Driving Prohibition {} Review",
-            "title": "UL Prohibition Not Found Yet",
+            "raw_subject": "Prohibition Not Yet Found - Driving Prohibition {} Review",
+            "title": "UL Prohibition Not Yet Found",
+        },
+        "IRP_prohibition_still_not_found.html": {
+            "raw_subject": "Prohibition Still Not Found - Driving Prohibition {} Review",
+            "title": "IRP Prohibition Still Not Found",
+        },
+        "ADP_prohibition_still_not_found.html": {
+            "raw_subject": "Prohibition Still Not Found - Driving Prohibition {} Review",
+            "title": "ADP Prohibition Still Not Found",
+        },
+        "UL_prohibition_still_not_found.html": {
+            "raw_subject": "Prohibition Still Not Found - Driving Prohibition {} Review",
+            "title": "UL Prohibition Still Not Found",
         },
         "already_applied.html": {
             "raw_subject": "Already Applied – Driving Prohibition {} Review",
@@ -455,11 +494,11 @@ def content_data() -> dict:
             "title": "UL Select Review Date",
         },
         "IRP_prohibition_not_found.html": {
-            "raw_subject": "Prohibition Not Found – Driving Prohibition {} Review",
+            "raw_subject": "Prohibition Not Found and 7-day Application Window Missed - Driving Prohibition {} Review",
             "title": "IRP Prohibition Not Found"
         },
         "ADP_prohibition_not_found.html": {
-            "raw_subject": "Prohibition Not Found – Driving Prohibition {} Review",
+            "raw_subject": "Prohibition Not Found and 7-day Application Window Missed - Driving Prohibition {} Review",
             "title": "ADP Prohibition Not Found"
         },
         "UL_prohibition_not_found.html": {
