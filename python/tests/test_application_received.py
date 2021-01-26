@@ -2,6 +2,7 @@ import pytest
 import os
 import pytz
 import datetime
+import logging
 import python.common.helper as helper
 import python.common.middleware as middleware
 import python.common.actions as actions
@@ -370,7 +371,6 @@ def test_a_unlicenced_applicant_that_was_served_6_days_ago_but_not_in_vips_gets_
         return True, args
 
     def mock_add_to_hold(**args):
-        print('inside mock_add_to_hold()')
         return True, args
 
     monkeypatch.setattr(actions, "add_to_hold_queue", mock_add_to_hold)

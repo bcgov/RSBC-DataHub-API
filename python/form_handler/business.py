@@ -111,7 +111,7 @@ def process_incoming_form() -> dict:
                 ]},
                 {"try": middleware.applicant_has_more_than_one_day_to_apply, "fail": [
                     {"try": rsi_email.applicant_prohibition_still_not_found, "fail": []},
-                    {"try": actions.add_hold_before_trying_vips_again, "fail": []},
+                    {"try": actions.add_24_hour_hold_until, "fail": []},
                     {"try": actions.add_to_hold_queue, "fail": []}
                 ]},
                 {"try": rsi_email.applicant_prohibition_not_found_yet, "fail": []},

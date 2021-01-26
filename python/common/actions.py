@@ -33,6 +33,17 @@ def add_hold_before_trying_vips_again(**args) -> tuple:
     return True, args
 
 
+def add_24_hour_hold_until(**args) -> tuple:
+    """
+    Adds a 24 hour hold until attribute to the message
+    """
+    message = args.get('message')
+    config = args.get('config')
+    hold_hours = 24
+    message['hold_until'] = (datetime.today() + timedelta(hours=hold_hours)).isoformat()
+    return True, args
+
+
 def add_hold_before_sending_disclosure(**args) -> tuple:
     """
     Adds a hold_until attribute to the message appropriate for disclosure
