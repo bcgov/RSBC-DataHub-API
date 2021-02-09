@@ -2,17 +2,19 @@
 
 {% block primary_text_1 %}
     An application to review prohibition {{ prohibition_number }} has already been submitted.
-    It cannot be changed by submitting another one.
 {% endblock %}
 
 {% block primary_text_2 %}
-    To change it, call RoadSafetyBC's Appeals Registry at 1-855-387-7747 and select option 5.
+    If you need to change it, call RoadSafetyBC's Appeals Registry at 1-855-387-7747 and select option 5.
 {% endblock %}
 
-{% block primary_text_3 %}{% endblock %}
+{% block primary_text_3 %}
+    Disregard this email if you applied in person after submitting your online application.
+{% endblock %}
+
 {% block primary_text_4 %}{% endblock %}
 
 {% block callout %}You must call to make changes to your application.{% endblock %}
-{% block timeline %}apply.png{% endblock %}
+{% block timeline_image %}{% endblock %}
 {% block email_not_monitored %}{% include 'partials/call_appeals_registry.html' %}{% endblock %}
 

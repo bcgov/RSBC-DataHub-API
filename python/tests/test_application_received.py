@@ -583,6 +583,7 @@ def test_an_applicant_that_applies_at_icbc_get_already_applied_email(monkeypatch
         assert "Already Applied – Driving Prohibition 21-999344 Review" == args[1]
         assert "An application to review prohibition 21999344 has already been submitted." in template_content
         assert "You must call to make changes to your application." in template_content
+        assert "Disregard this email if you applied in person after submitting your online application." in template_content
         return True
 
     monkeypatch.setattr(vips, "status_get", mock_status_get)
