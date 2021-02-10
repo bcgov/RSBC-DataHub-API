@@ -1,4 +1,4 @@
-cryptography==3.2
+cryptography==3.3.2
 requests==2.23.0
 python-keycloak==0.22.0
 pytz==2020.1
