@@ -1,5 +1,5 @@
 Click==7.0
-cryptography==3.2
+cryptography==3.3.2
 Flask==1.1.1
 Flask-API==2.0
 gunicorn==20.0.4
