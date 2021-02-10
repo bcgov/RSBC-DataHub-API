@@ -109,7 +109,7 @@ def test_an_applicant_that_was_served_yesterday_but_not_in_vips_gets_not_yet_ema
 
 
 @pytest.mark.parametrize("prohib", irp_or_adp)
-def test_an_applicant_that_was_served_6_days_ago_but_not_in_vips_gets_still_not_found_email(prohib, monkeypatch):
+def test_an_applicant_that_was_served_7_days_ago_but_not_in_vips_gets_still_not_found_email(prohib, monkeypatch):
 
     def mock_send_email(*args, **kwargs):
         template_content = args[3]
@@ -123,7 +123,7 @@ def test_an_applicant_that_was_served_6_days_ago_but_not_in_vips_gets_still_not_
         return True
 
     def mock_datetime_now(**args):
-        args['today_date'] = helper.localize_timezone(datetime.datetime.strptime("2020-09-28", "%Y-%m-%d"))
+        args['today_date'] = helper.localize_timezone(datetime.datetime.strptime("2020-09-29", "%Y-%m-%d"))
         print('inside mock_datetime_now: {}'.format(args.get('today_date')))
         return True, args
 
@@ -353,7 +353,7 @@ def test_a_unlicenced_applicant_that_was_served_yesterday_but_not_in_vips_gets_n
                                   writer=None)
 
 
-def test_a_unlicenced_applicant_that_was_served_6_days_ago_but_not_in_vips_gets_still_not_found_email(monkeypatch):
+def test_a_unlicenced_applicant_that_was_served_7_days_ago_but_not_in_vips_gets_still_not_found_email(monkeypatch):
 
     def mock_send_email(*args, **kwargs):
         template_content = args[3]
@@ -366,7 +366,7 @@ def test_a_unlicenced_applicant_that_was_served_6_days_ago_but_not_in_vips_gets_
         return True
 
     def mock_datetime_now(**args):
-        args['today_date'] = helper.localize_timezone(datetime.datetime.strptime("2020-09-28", "%Y-%m-%d"))
+        args['today_date'] = helper.localize_timezone(datetime.datetime.strptime("2020-09-29", "%Y-%m-%d"))
         print('inside mock_datetime_now: {}'.format(args.get('today_date')))
         return True, args
 
@@ -618,4 +618,3 @@ class Config(BaseConfig):
     LINK_TO_APPLICATION_FORM = 'http://link-to-application-form'
     LINK_TO_ICBC ='http://link-to-icbc'
     LINK_TO_SERVICE_BC = 'http://link-to-service-bc'
-    DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY = '7'

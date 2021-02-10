@@ -3,7 +3,7 @@ import logging
 import os
 from python.form_handler.config import Config
 import python.common.vips_api as vips
-from datetime import datetime
+from datetime import datetime, timedelta
 import python.common.middleware as middleware
 from python.common.helper import load_json_into_dict, load_xml_to_string, localize_timezone
 import pytest
@@ -65,25 +65,53 @@ def test_user_submitted_last_name_matches_vips_method(user_entered_last_name, la
     assert result is expected
 
 
-served_recently_data = [
-    ["2020-09-11", "2020-09-11", True],
-    ["2020-09-11", "2020-09-10", True],
-    ["2020-09-11", "2020-09-09", True],
-    ["2020-09-11", "2020-09-08", True],
-    ["2020-09-11", "2020-09-07", True],
-    ["2020-09-11", "2020-09-06", True],
-    ["2020-09-11", "2020-09-05", True],
-    ["2020-09-11", "2020-09-04", False],
-    ["2020-09-11", "2020-09-03", False],
+served_within_past_week = [
+    [0, True],
+    [1, True],
+    [2, True],
+    [3, True],
+    [4, True],
+    [5, True],
+    [6, True],
+    [7, True],
+    [8, False]
 ]
 
 
-@pytest.mark.parametrize("today_is, date_served, expected", served_recently_data)
-def test_prohibition_served_within_past_week_method(today_is, date_served, expected):
-    today_unaware = datetime.strptime(today_is, "%Y-%m-%d")
+@pytest.mark.parametrize("number_of_days_before_today, expected", served_within_past_week)
+def test_prohibition_served_within_past_week_method(number_of_days_before_today, expected):
+    today_unaware = datetime.strptime("2021-02-11", "%Y-%m-%d")
+    date_served = (today_unaware - timedelta(days=number_of_days_before_today)).strftime("%Y-%m-%d")
     today_date = localize_timezone(today_unaware)
-    result, args = middleware.prohibition_served_within_past_week(today_date=today_date, date_of_service=date_served,
-                                                                  config=Config)
+    result, args = middleware.prohibition_served_within_past_week(
+        today_date=today_date,
+        date_of_service=date_served,
+        config=Config)
+    assert result is expected
+
+
+has_more_than_one_day_to_apply = [
+    [0, True],
+    [1, True],
+    [2, True],
+    [3, True],
+    [4, True],
+    [5, True],
+    [6, True],
+    [7, False],
+    [8, False]
+]
+
+
+@pytest.mark.parametrize("number_of_days_before_today, expected", has_more_than_one_day_to_apply)
+def test_applicant_has_more_than_one_day_to_apply(number_of_days_before_today, expected):
+    today_unaware = datetime.strptime("2021-02-11", "%Y-%m-%d")
+    date_served = (today_unaware - timedelta(days=number_of_days_before_today)).strftime("%Y-%m-%d")
+    today_date = localize_timezone(today_unaware)
+    result, args = middleware.applicant_has_more_than_one_day_to_apply(
+        today_date=today_date,
+        date_of_service=date_served,
+        config=Config)
     assert result is expected
 
 
