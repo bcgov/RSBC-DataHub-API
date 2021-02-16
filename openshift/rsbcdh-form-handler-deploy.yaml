@@ -33,8 +33,6 @@ parameters:
   value: 'https://appointments.servicebc.gov.bc.ca/appointment'
 - name: LINK_TO_GET_DRIVING_RECORD
   value: 'https://www.icbc.com/driver-licensing/getting-licensed/Pages/Your-driving-record.aspx'
-- name: DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY
-  value: '3'
 - name: LOG_LEVEL
   value: 'INFO'
 - name: PYTHONPATH
@@ -198,8 +196,6 @@ objects:
               value: ${LINK_TO_SERVICE_BC}
             - name: LINK_TO_GET_DRIVING_RECORD
               value: ${LINK_TO_GET_DRIVING_RECORD}
-            - name: DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY
-              value: ${DAYS_TO_DELAY_FOR_VIPS_DATA_ENTRY}
             - name: LOG_LEVEL
               value: ${LOG_LEVEL}
             - name: PYTHONPATH
