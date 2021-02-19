@@ -307,7 +307,8 @@ def applicant_prohibition_still_not_found(**args) -> tuple:
 def already_applied(**args):
     config = args.get('config')
     prohibition_number = args.get('prohibition_number')
-    t = 'already_applied.html'
+    vips_data = args.get('vips_data')
+    t = "{}_already_applied.html".format(vips_data['noticeTypeCd'])
     args['email_template'] = t
     content = get_email_content(t, prohibition_number)
     template = get_jinja2_env().get_template(t)
@@ -469,9 +470,17 @@ def content_data() -> dict:
             "raw_subject": "Prohibition Still Not Found - Driving Prohibition {} Review",
             "title": "UL Prohibition Still Not Found",
         },
-        "already_applied.html": {
+        "IRP_already_applied.html": {
             "raw_subject": "Already Applied – Driving Prohibition {} Review",
-            "title": "Already Applied",
+            "title": "IRP Already Applied",
+        },
+        "ADP_already_applied.html": {
+            "raw_subject": "Already Applied – Driving Prohibition {} Review",
+            "title": "ADP Already Applied",
+        },
+        "UL_already_applied.html": {
+            "raw_subject": "Previous Review on File – Driving Prohibition {} Review",
+            "title": "UL Already Applied",
         },
         "review_date_confirmed_ORAL.html": {
             "raw_subject": "Review Date Confirmed - Driving Prohibition {} Review",

@@ -48,12 +48,12 @@ def status_gets(is_success, prohibition_type, date_served, last_name, seized, ca
     return True, data
 
 
-def get_status_with_review_booked(date_served):
+def get_status_with_review_booked(date_served, prohibition_type):
     data = {
             "resp": "success",
             "data": {
                 "status": {
-                    "noticeTypeCd": "IRP",
+                    "noticeTypeCd": prohibition_type,
                     "reviewStartDtm": "some-date",
                     "reviewEndDtm": "some-date",
                     "noticeServedDt": date_served + " 00:00:00 -07:00",
@@ -477,7 +477,7 @@ def test_an_unlicenced_applicant_has_no_licence_to_surrender_get_accepted_email(
                                   writer=None)
 
 
-def test_an_unlicenced_applicant_that_has_previously_applied_gets_appropriate_email(monkeypatch):
+def test_an_unlicenced_applicant_that_has_previously_applied_gets_already_applied_email(monkeypatch):
 
     def mock_status_get(*args, **kwargs):
         # (is_success, prohibition_type, date_served, last_name, seized, cause, already_applied):
@@ -488,9 +488,10 @@ def test_an_unlicenced_applicant_that_has_previously_applied_gets_appropriate_em
         template_content = args[3]
         assert "me@lost.com" in args[0]
         print("Subject: {}".format(args[1]))
-        assert "Already Applied – Driving Prohibition 21-999344 Review" == args[1]
-        assert "An application to review prohibition 21999344 has already been submitted." in template_content
-        assert "You must call to make changes to your application." in template_content
+        assert "Previous Review on File – Driving Prohibition 21-999344 Review" == args[1]
+        assert "You're unable to apply online because there is a previous review on file" in template_content
+        assert "You'll need to apply in person for a review." in template_content
+        assert "You must apply in person." in template_content
         return True
 
     monkeypatch.setattr(vips, "status_get", mock_status_get)
@@ -570,11 +571,38 @@ def test_an_unlicenced_successful_applicant_gets_an_application_accepted_email(m
                                   writer=None)
 
 
-def test_an_applicant_that_applies_at_icbc_get_already_applied_email(monkeypatch):
+def test_a_ul_applicant_that_applies_at_icbc_gets_already_applied_email(monkeypatch):
 
     def mock_status_get(*args, **kwargs):
         date_served = datetime.datetime.now().strftime("%Y-%m-%d")
-        return get_status_with_review_booked(date_served)
+        return get_status_with_review_booked(date_served, "UL")
+
+    def mock_send_email(*args, **kwargs):
+        template_content = args[3]
+        assert "me@lost.com" in args[0]
+        print("Subject: {}".format(args[1]))
+        assert "Previous Review on File – Driving Prohibition 21-999344 Review" == args[1]
+        assert "You're unable to apply online because there is a previous review on file" in template_content
+        assert "You'll need to apply in person for a review." in template_content
+        assert "You must apply in person." in template_content
+        return True
+
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+    monkeypatch.setattr(common_email_services, "send_email", mock_send_email)
+
+    message_dict = get_sample_application_submission("UL")
+
+    results = helper.middle_logic(helper.get_listeners(business.process_incoming_form(), message_dict['event_type']),
+                                  message=message_dict,
+                                  config=Config,
+                                  writer=None)
+
+
+def test_an_irp_applicant_that_applies_at_icbc_gets_already_applied_email(monkeypatch):
+
+    def mock_status_get(*args, **kwargs):
+        date_served = datetime.datetime.now().strftime("%Y-%m-%d")
+        return get_status_with_review_booked(date_served, "IRP")
 
     def mock_send_email(*args, **kwargs):
         template_content = args[3]
@@ -589,7 +617,7 @@ def test_an_applicant_that_applies_at_icbc_get_already_applied_email(monkeypatch
     monkeypatch.setattr(vips, "status_get", mock_status_get)
     monkeypatch.setattr(common_email_services, "send_email", mock_send_email)
 
-    message_dict = get_sample_application_submission("UL")
+    message_dict = get_sample_application_submission("IRP")
 
     results = helper.middle_logic(helper.get_listeners(business.process_incoming_form(), message_dict['event_type']),
                                   message=message_dict,

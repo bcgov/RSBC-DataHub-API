@@ -1,0 +1,10 @@
+{% extends "email_alert_base.html" %}
+
+{% block primary_text_1 %}
+You're unable to apply online because there is a previous review on file for this prohibition.
+You'll need to apply in person for a review.
+{% endblock %}
+
+{% block callout %}You must apply in person.{% endblock %}
+{% block timeline_image %}{% endblock %}
+{% block email_not_monitored %}{% include 'partials/call_appeals_registry.html' %}{% endblock %}
