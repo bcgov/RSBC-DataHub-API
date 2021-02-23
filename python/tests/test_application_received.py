@@ -298,7 +298,8 @@ def test_a_successful_applicant_gets_an_application_accepted_email(prohib, monke
         print("Subject: {}".format(args[1]))
         assert "Application Accepted - Driving Prohibition 21-999344 Review" == args[1]
         assert "Your application for a review of driving prohibition 21999344 has been accepted." in template_content
-        assert "You must pay in full by credit card within 7 days of receiving your prohibition" in template_content
+        assert "Your application for a review of driving prohibition 21999344 has been accepted." in template_content
+        assert "If you don't pay within the 7 days, your review will not go ahead." in template_content
         assert "http://link-to-paybc" in template_content
         return True
 
