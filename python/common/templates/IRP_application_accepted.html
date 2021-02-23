@@ -6,7 +6,7 @@ Your application for a review of driving prohibition {{ prohibition_number }} ha
 
 {% block primary_text_2 %}
 For the review to continue you must visit <a href="{{ link_to_paybc }}">PayBC</a> to pay the application fee.
-If you don't pay within the 7 days, your review will not go ahead.
+If you don't pay by {{ deadline_date_string }}, your review will not go ahead.
 {% endblock %}
 
 {% block primary_text_3 %}
@@ -15,6 +15,6 @@ Once you've paid, we'll send the link to schedule your review.
 
 {% block primary_4 %}{% endblock %}
 
-{% block callout %}You must pay in full by credit card within 7 days of receiving your prohibition{% endblock %}
+{% block callout %}You must pay in full by credit card by {{ deadline_date_string }}{% endblock %}
 {% block timeline %}pay.png{% endblock %}
 {% block email_not_monitored %}{% include 'partials/call_appeals_registry.html' %}{% endblock %}

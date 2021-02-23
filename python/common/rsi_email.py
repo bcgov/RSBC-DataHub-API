@@ -22,6 +22,7 @@ def application_accepted(**args):
         content["subject"],
         config,
         template.render(
+            deadline_date_string=args.get('deadline_date_string'),
             link_to_paybc=config.LINK_TO_PAYBC,
             full_name=args.get('applicant_full_name'),
             prohibition_number=prohibition_number,

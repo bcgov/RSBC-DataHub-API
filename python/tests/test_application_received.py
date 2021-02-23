@@ -287,9 +287,13 @@ def test_an_applicant_that_has_missed_the_window_to_apply_gets_appropriate_email
 @pytest.mark.parametrize("prohib", irp_or_adp)
 def test_a_successful_applicant_gets_an_application_accepted_email(prohib, monkeypatch):
 
+    def mock_datetime_now(**args):
+        args['today_date'] = helper.localize_timezone(datetime.datetime.strptime("2021-02-23", "%Y-%m-%d"))
+        return True, args
+
     def mock_status_get(*args, **kwargs):
         # (is_success, prohibition_type, date_served, last_name, seized, cause, already_applied):
-        date_served = (datetime.datetime.now() - datetime.timedelta(days=6)).strftime("%Y-%m-%d")
+        date_served = "2021-02-19"
         return status_gets(True, prohib, date_served, "Gordon", "Y", "FAIL90", "False")
 
     def mock_send_email(*args, **kwargs):
@@ -298,8 +302,8 @@ def test_a_successful_applicant_gets_an_application_accepted_email(prohib, monke
         print("Subject: {}".format(args[1]))
         assert "Application Accepted - Driving Prohibition 21-999344 Review" == args[1]
         assert "Your application for a review of driving prohibition 21999344 has been accepted." in template_content
-        assert "Your application for a review of driving prohibition 21999344 has been accepted." in template_content
-        assert "If you don't pay within the 7 days, your review will not go ahead." in template_content
+        assert "You must pay in full by credit card by February 27, 2021" in template_content
+        assert "If you don't pay by February 27, 2021, your review will not go ahead." in template_content
         assert "http://link-to-paybc" in template_content
         return True
 
@@ -311,6 +315,7 @@ def test_a_successful_applicant_gets_an_application_accepted_email(prohib, monke
     monkeypatch.setattr(vips, "status_get", mock_status_get)
     monkeypatch.setattr(vips, "application_create", mock_save)
     monkeypatch.setattr(common_email_services, "send_email", mock_send_email)
+    monkeypatch.setattr(middleware, "determine_current_datetime", mock_datetime_now)
 
     message_dict = get_sample_application_submission(prohib)
 

@@ -40,6 +40,14 @@ class ProhibitionBase:
         return False
 
     @staticmethod
+    def get_deadline_date_string(date_served: datetime) -> str:
+        """
+        IRPs and ADPs have 7 days to apply
+        """
+        days_to_apply = 8
+        return (date_served.date() + timedelta(days=days_to_apply)).strftime("%B %-d, %Y")
+
+    @staticmethod
     def get_min_max_review_dates(service_date: datetime, today: datetime) -> tuple:
         """
         IRP and ADP prohibition reviews must be scheduled within
@@ -105,6 +113,13 @@ class UnlicencedDriver(ProhibitionBase):
     @staticmethod
     def type_verbose() -> str:
         return "Unlicensed driver prohibition"
+
+    @staticmethod
+    def get_deadline_date_string(date_served: datetime) -> str:
+        """
+        ULs have no deadline to apply. This method should not be called by ULs.
+        """
+        return "Not applicable"
 
 
 class ImmediateRoadside(ProhibitionBase):
