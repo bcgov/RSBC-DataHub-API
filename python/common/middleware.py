@@ -296,6 +296,28 @@ def is_applicant_within_window_to_apply(**args) -> tuple:
     return False, args
 
 
+def is_applicant_within_window_to_pay(**args) -> tuple:
+    """
+    If the prohibition type is ADP or IRP then check
+    that the date served is no older than 8 days.
+    Prohibitions may not be appealed after 7 days,
+    but we allow a one-day grace period to pay.
+    """
+    vips_data = args.get('vips_data')
+    today = args.get('today_date')
+    date_served_string = vips_data['noticeServedDt']
+    date_served = vips_str_to_datetime(date_served_string)
+    prohibition = pro.prohibition_factory(vips_data['noticeTypeCd'])
+    args['deadline_date_string'] = prohibition.get_deadline_date_string(date_served)
+    logging.warning('deadline date string: ' + args.get('deadline_date_string'))
+    if prohibition.is_okay_to_pay(date_served, today):
+        return True, args
+    error = 'the prohibition is older than eight days'
+    args['error_string'] = "The Notice of Prohibition was issued more than 7 days ago."
+    logging.info(error)
+    return False, args
+
+
 def has_drivers_licence_been_seized(**args) -> tuple:
     """
     Returns TRUE if VIPS indicates the driver's licence has been seized

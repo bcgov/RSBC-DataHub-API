@@ -27,6 +27,8 @@ class ProhibitionBase:
     MIN_DAYS_FROM_SCHEDULING_TO_REVIEW = 4
     MIN_DAYS_FROM_SERVED_TO_REVIEW = 8
     MAX_DAYS_FROM_SERVED_TO_REVIEW = 14
+    DAYS_TO_APPLY = 7
+    DAYS_TO_PAY = DAYS_TO_APPLY + 1
 
     @staticmethod
     def is_okay_to_apply(date_served: datetime, today: datetime) -> bool:
@@ -34,18 +36,28 @@ class ProhibitionBase:
         IRPs and ADPs can only be appealed within 7 days after a driver receives their
         prohibition.
         """
-        days_in_week = 7
-        if (today.date() - date_served.date()).days <= days_in_week:
+        if (today.date() - date_served.date()).days <= ProhibitionBase.DAYS_TO_APPLY:
+            return True
+        return False
+
+    @staticmethod
+    def is_okay_to_pay(date_served: datetime, today: datetime) -> bool:
+        """
+        IRPs and ADPs have only 8 days to pay for their prohibition review
+        after a driver receives their prohibition.
+        """
+        if (today.date() - date_served.date()).days <= ProhibitionBase.DAYS_TO_PAY:
             return True
         return False
 
     @staticmethod
     def get_deadline_date_string(date_served: datetime) -> str:
         """
-        IRPs and ADPs have 7 days to apply
+        IRPs and ADPs have 7 days to apply. Returns deadline date string
+        in the format:  September 7, 2020
         """
-        days_to_apply = 8
-        return (date_served.date() + timedelta(days=days_to_apply)).strftime("%B %-d, %Y")
+        deadline_days = ProhibitionBase.DAYS_TO_APPLY + 1
+        return (date_served.date() + timedelta(days=deadline_days)).strftime("%B %-d, %Y")
 
     @staticmethod
     def get_min_max_review_dates(service_date: datetime, today: datetime) -> tuple:
@@ -92,6 +104,13 @@ class UnlicencedDriver(ProhibitionBase):
     def is_okay_to_apply(date_served: datetime, today: datetime) -> bool:
         """
         UL Reviews are not restricted.  Applicants can apply anytime.
+        """
+        return True
+
+    @staticmethod
+    def is_okay_to_pay(date_served: datetime, today: datetime) -> bool:
+        """
+        UL Reviews are not restricted.  Applicants can pay anytime.
         """
         return True
 

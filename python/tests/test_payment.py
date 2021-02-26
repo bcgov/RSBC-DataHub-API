@@ -90,10 +90,10 @@ def test_applicant_search_returns_error_if_not_found_in_vips(prohibition_types, 
 
 
 @pytest.mark.parametrize("prohibition_type", ['IRP', 'ADP'])
-def test_applicant_search_returns_error_if_irp_or_adp_older_than_7_days(prohibition_type, token, client, monkeypatch):
+def test_applicant_search_returns_error_if_irp_or_adp_older_than_8_days(prohibition_type, token, client, monkeypatch):
     iso_format = "%Y-%m-%d"
     tz = pytz.timezone('America/Vancouver')
-    date_served = (datetime.datetime.now(tz) - datetime.timedelta(days=8)).strftime(iso_format)
+    date_served = (datetime.datetime.now(tz) - datetime.timedelta(days=9)).strftime(iso_format)
 
     def mock_status_get(*args, **kwargs):
         return status_get(True, prohibition_type, date_served, "Gordon", False, True)
@@ -106,10 +106,28 @@ def test_applicant_search_returns_error_if_irp_or_adp_older_than_7_days(prohibit
     assert response.status_code == 200
 
 
-def test_applicant_search_successful_if_a_ul_review_older_than_7_days(token, client, monkeypatch):
+@pytest.mark.parametrize("prohibition_type", ['IRP', 'ADP'])
+def test_applicant_search_successful_if_irp_or_adp_7_days_old(prohibition_type, token, client, monkeypatch):
     iso_format = "%Y-%m-%d"
     tz = pytz.timezone('America/Vancouver')
     date_served = (datetime.datetime.now(tz) - datetime.timedelta(days=8)).strftime(iso_format)
+
+    def mock_status_get(*args, **kwargs):
+        return status_get(True, prohibition_type, date_served, "Gordon", False, True)
+
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+
+    response = client.get('/api_v2/search', query_string=get_search_payload(), headers=get_oauth_auth_header(token))
+    logging.warning("search: {}".format(response.json))
+    assert "error" not in response.json
+    assert "https://localhost/api_v2/invoice/20123456" in response.json['items'][0]['selected_invoice']['$ref']
+    assert response.status_code == 200
+
+
+def test_applicant_search_successful_if_a_ul_review_older_than_8_days(token, client, monkeypatch):
+    iso_format = "%Y-%m-%d"
+    tz = pytz.timezone('America/Vancouver')
+    date_served = (datetime.datetime.now(tz) - datetime.timedelta(days=9)).strftime(iso_format)
 
     def mock_status_get(*args, **kwargs):
         return status_get(True, "UL", date_served, "Gordon", False, True)
@@ -179,10 +197,10 @@ def test_applicant_invoice_returns_error_if_not_found_in_vips(prohibition_types,
 
 
 @pytest.mark.parametrize("prohibition_type", ['IRP', 'ADP'])
-def test_applicant_invoice_returns_error_if_irp_or_adp_older_than_7_days(prohibition_type, token, client, monkeypatch):
+def test_applicant_invoice_returns_error_if_irp_or_adp_older_than_8_days(prohibition_type, token, client, monkeypatch):
     iso_format = "%Y-%m-%d"
     tz = pytz.timezone('America/Vancouver')
-    date_served = (datetime.datetime.now(tz) - datetime.timedelta(days=8)).strftime(iso_format)
+    date_served = (datetime.datetime.now(tz) - datetime.timedelta(days=9)).strftime(iso_format)
 
     def mock_status_get(*args, **kwargs):
         return status_get(True, prohibition_type, date_served, "Gordon", False, True)
@@ -195,10 +213,10 @@ def test_applicant_invoice_returns_error_if_irp_or_adp_older_than_7_days(prohibi
     assert response.status_code == 200
 
 
-def test_applicant_invoice_successful_if_a_ul_review_older_than_7_days(token, client, monkeypatch):
+def test_applicant_invoice_successful_if_a_ul_review_older_than_8_days(token, client, monkeypatch):
     iso_format = "%Y-%m-%d"
     tz = pytz.timezone('America/Vancouver')
-    date_served = (datetime.datetime.now(tz) - datetime.timedelta(days=8)).strftime(iso_format)
+    date_served = (datetime.datetime.now(tz) - datetime.timedelta(days=9)).strftime(iso_format)
 
     def mock_status_get(*args, **kwargs):
         return status_get(True, "UL", date_served, "Gordon", False, True)
@@ -224,7 +242,7 @@ def test_applicant_invoice_successful_if_a_ul_review_older_than_7_days(token, cl
 def test_successful_invoice_response_includes_url_to_invoice_endpoint(prohibition_type, token, client, monkeypatch):
     iso_format = "%Y-%m-%d"
     tz = pytz.timezone('America/Vancouver')
-    date_served = (datetime.datetime.now(tz) - datetime.timedelta(days=6)).strftime(iso_format)
+    date_served = (datetime.datetime.now(tz) - datetime.timedelta(days=7)).strftime(iso_format)
 
     def mock_status_get(*args, **kwargs):
         return status_get(True, prohibition_type, date_served, "Gordon", False, True)
