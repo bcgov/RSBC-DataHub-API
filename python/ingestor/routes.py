@@ -21,7 +21,11 @@ def before_request_function():
     g.writer = RabbitMQ(Config())
 
 
-available_parameters = helper.load_json_into_dict('python/ingestor/' + Config.PARAMETERS_FILE)
+available_parameters = {
+      "expected_format": "application/xml",
+      "encrypt_at_rest": False,
+      "queue": "ingested"
+    }
 
 
 def basic_auth_required(f):
@@ -41,25 +45,13 @@ def basic_auth_required(f):
     return decorated
 
 
-@application.route('/v1/publish/event/ETK', methods=["POST"])
-@application.route('/v1/publish/event', methods=["POST"])
-def ingest_etk():
-    if request.method == 'POST' and request.content_type == 'application/json':
-        payload = request.json
-        encoded_message = encode_message(payload, Config.ENCRYPT_KEY)
-        if payload is not None and g.writer.publish(available_parameters['form']['queue'], encoded_message):
-            return jsonify(payload), 200
-        else:
-            return Response('Unavailable', 500, mimetype='application/json')
-
-
 @application.route('/v1/publish/event/form', methods=["POST"])
 def ingest_form():
     if request.method == 'POST':
         # invoke middleware functions
         args = helper.middle_logic(business.ingest_form(),
                                    writer=g.writer,
-                                   form_parameters=available_parameters['form'],
+                                   form_parameters=available_parameters,
                                    request=request,
                                    config=Config)
 
