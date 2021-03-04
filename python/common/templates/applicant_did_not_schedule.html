@@ -1,6 +1,4 @@
-{% extends "email_alert_base.html" %}
-
-{% block salutation %}Appeals Registry,{% endblock %}
+{% extends "appeals_registry_base.html" %}
 
 {% block primary_text_1 %}
 {{ full_name }}, the applicant of prohibition {{ prohibition_number }},
@@ -15,15 +13,3 @@ did not schedule the review within 24 hours of payment.
     <li>Date: {{ receipt_date }}</li>
 </ul>
 {% endblock %}
-
-{% block primary_text_3 %}
-We have not sent this email to the applicant.
-{% endblock %}
-
-{% block primary_text_4 %}{% endblock %}
-{% block callout_block %}{% endblock %}
-{% block timeline_image %}{% endblock %}
-
-{% block sign_off %}{% endblock %}
-
-{% block email_not_monitored %}{% endblock %}

@@ -122,7 +122,7 @@ def process_incoming_form() -> dict:
                 {"try": rsi_email.already_applied, "fail": []},
             ]},
             {"try": middleware.review_has_not_been_scheduled, "fail": [
-                {"try": rsi_email.already_applied, "fail": []},
+                {"try": rsi_email.applicant_applied_at_icbc, "fail": []},
             ]},
             {"try": middleware.user_submitted_last_name_matches_vips, "fail": [
                 {"try": rsi_email.applicant_last_name_mismatch, "fail": []}

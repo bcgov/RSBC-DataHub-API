@@ -584,17 +584,14 @@ def test_a_ul_applicant_that_applies_at_icbc_gets_already_applied_email(monkeypa
         return get_status_with_review_booked(date_served, "UL")
 
     def mock_send_email(*args, **kwargs):
-        template_content = args[3]
-        assert "me@lost.com" in args[0]
-        print("Subject: {}".format(args[1]))
-        assert "Previous Review on File – Driving Prohibition 21-999344 Review" == args[1]
-        assert "You're unable to apply online because there is a previous review on file" in template_content
-        assert "You'll need to apply in person for a review." in template_content
-        assert "You must apply in person." in template_content
+        template_content = args[2]
+        assert "Appeals Registry," in template_content
+        assert "Applied at ICBC - Driving Prohibition 21-999344 Review" == args[0]
+        assert "has applied, paid and scheduled the review at ICBC" in template_content
         return True
 
     monkeypatch.setattr(vips, "status_get", mock_status_get)
-    monkeypatch.setattr(common_email_services, "send_email", mock_send_email)
+    monkeypatch.setattr(common_email_services, "send_to_business", mock_send_email)
 
     message_dict = get_sample_application_submission("UL")
 
@@ -611,17 +608,14 @@ def test_an_irp_applicant_that_applies_at_icbc_gets_already_applied_email(monkey
         return get_status_with_review_booked(date_served, "IRP")
 
     def mock_send_email(*args, **kwargs):
-        template_content = args[3]
-        assert "me@lost.com" in args[0]
-        print("Subject: {}".format(args[1]))
-        assert "Already Applied – Driving Prohibition 21-999344 Review" == args[1]
-        assert "An application to review prohibition 21999344 has already been submitted." in template_content
-        assert "You must call to make changes to your application." in template_content
-        assert "Disregard this email if you applied in person after submitting your online application." in template_content
+        template_content = args[2]
+        assert "Appeals Registry," in template_content
+        assert "Applied at ICBC - Driving Prohibition 21-999344 Review" == args[0]
+        assert "has applied, paid and scheduled the review at ICBC" in template_content
         return True
 
     monkeypatch.setattr(vips, "status_get", mock_status_get)
-    monkeypatch.setattr(common_email_services, "send_email", mock_send_email)
+    monkeypatch.setattr(common_email_services, "send_to_business", mock_send_email)
 
     message_dict = get_sample_application_submission("IRP")
 
@@ -646,6 +640,7 @@ def get_sample_application_submission(prohibition_type: str = "IRP") -> dict:
 
 
 class Config(BaseConfig):
+    BCC_EMAIL_ADDRESSES = "someone@gov.bc.ca, another@gov.bc.ca"
     LINK_TO_PAYBC = 'http://link-to-paybc'
     LINK_TO_SCHEDULE_FORM = 'http://link-to-schedule-form'
     LINK_TO_EVIDENCE_FORM = 'http://link-to-evidence-form'

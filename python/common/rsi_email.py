@@ -103,6 +103,25 @@ def applicant_did_not_schedule(**args) -> tuple:
             subject=content["subject"])), args
 
 
+def applicant_applied_at_icbc(**args) -> tuple:
+    config = args.get('config')
+    prohibition_number = args.get('prohibition_number')
+    t = "applicant_applied_at_icbc.html"
+    args['email_template'] = t
+    content = get_email_content(t, prohibition_number)
+    template = get_jinja2_env().get_template(t)
+    return common_email_services.send_to_business(
+        content["subject"],
+        config,
+        template.render(
+            full_name=args.get('applicant_name'),
+            receipt_number=args.get('receipt_number'),
+            receipt_amount=args.get('receipt_amount'),
+            receipt_date=args.get('receipt_date'),
+            prohibition_number=prohibition_number,
+            subject=content["subject"])), args
+
+
 def send_email_to_admin(**args):
     subject = args.get('subject')
     config = args.get('config')
@@ -566,5 +585,9 @@ def content_data() -> dict:
         "applicant_did_not_schedule.html": {
             "raw_subject": "Did Not Schedule - Driving Prohibition {} Review",
             "title": "Applicant Did Not Schedule",
+        },
+        "applicant_applied_at_icbc.html": {
+            "raw_subject": "Applied at ICBC - Driving Prohibition {} Review",
+            "title": "Applied at ICBC",
         }
     })
