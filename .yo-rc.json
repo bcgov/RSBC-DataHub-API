@@ -5,17 +5,17 @@
         "jenkins": {
           "path": ".jenkins",
           "name": "jenkins",
-          "namespace": "iowaey-tools",
+          "namespace": "be78d6-tools",
           "version": "1.0.0",
           "environments": {
             "build": {
-              "namespace": "iowaey-tools"
+              "namespace": "be78d6-tools"
             },
             "dev": {
-              "namespace": "iowaey-tools"
+              "namespace": "be78d6-tools"
             },
             "prod": {
-              "namespace": "iowaey-tools"
+              "namespace": "be78d6-tools"
             }
           },
           "jenkinsJobName": "_jenkins",
@@ -30,16 +30,16 @@
           "path": ".",
           "environments": {
             "build": {
-              "namespace": "iowaey-tools"
+              "namespace": "be78d6-tools"
             },
             "dev": {
-              "namespace": "iowaey-dev"
+              "namespace": "be78d6-dev"
             },
             "test": {
-              "namespace": "iowaey-test"
+              "namespace": "be78d6-test"
             },
             "prod": {
-              "namespace": "iowaey-prod"
+              "namespace": "be78d6-prod"
             }
           }
         },

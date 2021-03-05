@@ -5,7 +5,7 @@ const name = 'rsbc-dh'
 const url_suffix = '.pathfinder.gov.bc.ca'
 
 const phases = {
-  build: {namespace:'iowaey-tools',
+  build: {namespace:'be78d6-tools',
     name: `${name}`,
     phase: 'build',
     transient: 'true', // auto clean build
@@ -16,7 +16,7 @@ const phases = {
     tag:`build-${changeId}`,
     url_suffix: `${url_suffix}`
   },
-  pr: {namespace:'iowaey-dev',
+  pr: {namespace:'be78d6-dev',
     name: `${name}`,
     phase: 'pr',
     transient: 'true', // auto clean build
@@ -33,7 +33,7 @@ const phases = {
     memory_request: '256Mi',
     memory_limit: '512Mi'
   },
-  dev: {namespace:'iowaey-dev',
+  dev: {namespace:'be78d6-dev',
     name: `${name}`,
     phase: 'dev',
     transient: 'true', // auto clean build
@@ -50,7 +50,7 @@ const phases = {
     memory_request: '256Mi',
     memory_limit: '512Mi'
   },
-  test: {namespace:'iowaey-test',
+  test: {namespace:'be78d6-test',
     name: `${name}`, phase: 'test',
     changeId:changeId, suffix: `-test`,
     suffix: `-test`,
@@ -65,7 +65,7 @@ const phases = {
     memory_request: '256Mi',
     memory_limit: '512Mi'
   },
-  prod: {namespace:'iowaey-prod',
+  prod: {namespace:'be78d6-prod',
     name: `${name}`,
     phase: 'prod',
     changeId:changeId,
