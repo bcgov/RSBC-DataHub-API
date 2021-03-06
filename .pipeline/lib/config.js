@@ -2,7 +2,7 @@
 const options= require('@bcgov/pipeline-cli').Util.parseArguments()
 const changeId = options.pr //aka pull-request
 const name = 'rsbc-dh'
-const url_suffix = '.pathfinder.gov.bc.ca'
+const url_suffix = '.apps.silver.devops.gov.bc.ca'
 
 const phases = {
   build: {namespace:'be78d6-tools',

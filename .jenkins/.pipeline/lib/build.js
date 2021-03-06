@@ -1,5 +1,5 @@
 'use strict';
-const {OpenShiftClientX} = require('@bcgov/pipeline-cli')
+const {OpenShiftClientX} = require('pipeline-cli')
 const path = require('path');
 
 module.exports = (settings)=>{
