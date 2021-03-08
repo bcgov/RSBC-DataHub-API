@@ -611,7 +611,8 @@ def test_an_irp_applicant_that_applies_at_icbc_gets_already_applied_email(monkey
         template_content = args[2]
         assert "Appeals Registry," in template_content
         assert "Applied at ICBC - Driving Prohibition 21-999344 Review" == args[0]
-        assert "has applied, paid and scheduled the review at ICBC" in template_content
+        assert "The applicant of prohibition 21999344, has applied, paid and" in template_content
+        assert "scheduled the review at ICBC." in template_content
         return True
 
     monkeypatch.setattr(vips, "status_get", mock_status_get)
