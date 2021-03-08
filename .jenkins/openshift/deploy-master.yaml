@@ -41,13 +41,14 @@ objects:
   kind: PersistentVolumeClaim
   metadata:
     name: ${NAME}${SUFFIX}
+    labels:
+      shared: "true"
   spec:
     accessModes:
-    - ReadWriteOnce
-    storageClassName: netapp-file-standard
+    - ReadWriteMany
     resources:
       requests:
-        storage: 1Gi
+        storage: 30Gi
 - apiVersion: v1
   kind: ServiceAccount
   metadata:
@@ -143,8 +144,8 @@ objects:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           volumeMounts:
-          - mountPath: /var/lib/jenkins/jobs
-            name: jenkins-jobs
+          - mountPath: /var/jenkins-data
+            name: jenkins-data
             readOnly: false
           - mountPath: /var/run/pod
             name: pod-metadata
@@ -162,7 +163,7 @@ objects:
         serviceAccountName: ${NAME}${SUFFIX}
         terminationGracePeriodSeconds: 30
         volumes:
-        - name: jenkins-jobs
+        - name: jenkins-data
           persistentVolumeClaim:
             claimName: ${NAME}${SUFFIX}
         - downwardAPI:

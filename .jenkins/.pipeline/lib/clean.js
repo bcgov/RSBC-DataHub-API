@@ -1,5 +1,5 @@
 "use strict";
-const { OpenShiftClientX } = require("@bcgov/pipeline-cli");
+const { OpenShiftClientX } = require("pipeline-cli");
 
 const getTargetPhases = (env, phases) => {
   let target_phase = [];
