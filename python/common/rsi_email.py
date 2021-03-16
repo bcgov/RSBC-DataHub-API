@@ -110,14 +110,13 @@ def applicant_applied_at_icbc(**args) -> tuple:
     args['email_template'] = t
     content = get_email_content(t, prohibition_number)
     template = get_jinja2_env().get_template(t)
-    return common_email_services.send_to_business(
+    return common_email_services.send_email(
+        [args.get('applicant_email_address')],
         content["subject"],
         config,
         template.render(
-            full_name=args.get('applicant_name'),
-            receipt_number=args.get('receipt_number'),
-            receipt_amount=args.get('receipt_amount'),
-            receipt_date=args.get('receipt_date'),
+            link_to_paybc=config.LINK_TO_PAYBC,
+            full_name="Applicant",
             prohibition_number=prohibition_number,
             subject=content["subject"])), args
 
