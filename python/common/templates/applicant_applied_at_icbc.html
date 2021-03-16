@@ -1,5 +1,10 @@
-{% extends "appeals_registry_base.html" %}
+{% extends "email_alert_base.html" %}
 
 {% block primary_text_1 %}
-The applicant of prohibition {{ prohibition_number }}, has applied, paid and scheduled the review at ICBC.
+    Our records show that an application to review prohibition {{ prohibition_number }}
+    has been paid and scheduled at ICBC.
 {% endblock %}
+
+{% block primary_text_4 %}{% endblock %}
+
+{% block email_not_monitored %}{% include 'partials/call_appeals_registry.html' %}{% endblock %}
