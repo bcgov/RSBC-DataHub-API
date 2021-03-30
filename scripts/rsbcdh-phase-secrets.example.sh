@@ -28,7 +28,7 @@ while getopts e:p:h FLAG; do
   esac
 done
 
-PROJECT="iowaey-${PF_ENV}"
+PROJECT="be78d6-${PF_ENV}"
 echo "Connecting to $PROJECT"
 oc project ${PROJECT}
 

@@ -48,7 +48,7 @@ objects:
             spec:
               containers:
                 - name: ${COMPONENT}-job
-                  image: 'docker-registry.default.svc:5000/openshift/base-centos7:latest'
+                  image: 'registry.access.redhat.com/ubi8/python-36'
                   resources:
                     limits:
                       cpu: 80m
