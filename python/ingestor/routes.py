@@ -45,7 +45,8 @@ def basic_auth_required(f):
     return decorated
 
 
-@application.route('/v1/publish/event/form', methods=["POST"])
+@application.route('/v1/publish/event/form_intake', methods=["POST"])
+@basic_auth_required
 def ingest_form():
     if request.method == 'POST':
         # invoke middleware functions
@@ -56,6 +57,14 @@ def ingest_form():
                                    config=Config)
 
         return args.get('response')
+
+
+@application.route('/v1/publish/event/form', methods=["POST"])
+def ingest_form_deprecated():
+    """
+    DEPRECATED - USE "form_take" endpoint instead
+    """
+    return ingest_form()
 
 
 @application.route('/schedule', methods=['POST'])

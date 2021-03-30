@@ -3,6 +3,7 @@ const options= require('@bcgov/pipeline-cli').Util.parseArguments()
 const changeId = options.pr //aka pull-request
 const name = 'rsbc-dh'
 const url_suffix = '.apps.silver.devops.gov.bc.ca'
+const bcgov_suffix = '.apps.silver.devops.bcgov'
 
 const phases = {
   build: {namespace:'be78d6-tools',
@@ -26,6 +27,7 @@ const phases = {
     version:`pr`,
     tag:`pr-${changeId}`,
     url_suffix: `${url_suffix}`,
+    bcgov_suffix: `${bcgov_suffix}`,
     db_host: 'subside.idir.bcgov',
     db_name: 'rsbcodw',
     cpu_request: '100m',
@@ -43,6 +45,7 @@ const phases = {
     version:`dev`,
     tag:`dev-${changeId}`,
     url_suffix: `${url_suffix}`,
+    bcgov_suffix: `${bcgov_suffix}`,
     db_host: 'subside.idir.bcgov',
     db_name: 'rsbcodw',
     cpu_request: '100m',
@@ -52,12 +55,13 @@ const phases = {
   },
   test: {namespace:'be78d6-test',
     name: `${name}`, phase: 'test',
-    changeId:changeId, suffix: `-test`,
+    changeId:changeId,
     suffix: `-test`,
     instance: `${name}-test`,
     version:`test`,
     tag:`test`,
     url_suffix: `${url_suffix}`,
+    bcgov_suffix: `${bcgov_suffix}`,
     db_host: 'subside.idir.bcgov',
     db_name: 'rsbcodw',
     cpu_request: '100m',
@@ -74,6 +78,7 @@ const phases = {
     version:`prod`,
     tag:`prod`,
     url_suffix: `${url_suffix}`,
+    bcgov_suffix: `${bcgov_suffix}`,
     db_host: 'burden.idir.bcgov',
     db_name: 'rsbcodw',
     cpu_request: '100m',

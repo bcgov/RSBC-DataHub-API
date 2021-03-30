@@ -33,6 +33,10 @@ parameters:
   displayName: "Application url suffix"
   description: "Application url suffix"
   required: true
+- name: BCGOV_SUFFIX
+  displayName: "Internal .bcgov url suffix"
+  description: "Internal .bcgov url suffix"
+  required: true
 - name: CPU_REQUEST
   displayName: "CPU Request"
   description: "Requested amount of CPU the container can use."
@@ -144,7 +148,6 @@ objects:
     selector:
       app: ${NAME}-${COMPONENT}${SUFFIX}
     sessionAffinity: None
-
 - kind: Route
   apiVersion: v1
   metadata:
@@ -153,7 +156,7 @@ objects:
     annotations:
       openshift.io/host.generated: 'true'
   spec:
-    host: ${NAME}-${COMPONENT}-http${SUFFIX}${URL_SUFFIX}
+    host: ${NAME}-${COMPONENT}-http${SUFFIX}${BCGOV_SUFFIX}
     to:
       kind: Service
       name: ${NAME}-${COMPONENT}${SUFFIX}
@@ -165,25 +168,6 @@ objects:
       termination: edge
     wildcardPolicy: None
   status: {}
-
-- kind: Route
-  apiVersion: v1
-  metadata:
-    name: ${NAME}-${COMPONENT}-amqp${SUFFIX}
-    creationTimestamp:
-    annotations:
-      openshift.io/host.generated: 'true'
-  spec:
-    host: ${NAME}-${COMPONENT}-amqp${SUFFIX}${URL_SUFFIX}
-    to:
-      kind: Service
-      name: ${NAME}-${COMPONENT}${SUFFIX}
-      weight: 100
-    port:
-      targetPort: amqp 
-    wildcardPolicy: None
-  status: {}
-
 - apiVersion: apps/v1
   kind: StatefulSet
   metadata:
