@@ -1,7 +1,6 @@
 import python.common.helper as helper
 from python.ingestor.config import Config
 from python.common.rabbitmq import RabbitMQ
-from python.common.message import encode_message
 import python.ingestor.business as business
 from flask import request, jsonify, Response, g
 from flask_api import FlaskAPI
@@ -64,7 +63,15 @@ def ingest_form_deprecated():
     """
     DEPRECATED - USE "form_take" endpoint instead
     """
-    return ingest_form()
+    if request.method == 'POST':
+        # invoke middleware functions
+        args = helper.middle_logic(business.ingest_form(),
+                                   writer=g.writer,
+                                   form_parameters=available_parameters,
+                                   request=request,
+                                   config=Config)
+
+        return args.get('response')
 
 
 @application.route('/schedule', methods=['POST'])
