@@ -17,6 +17,8 @@ logging.warning('*** flask initialized ***')
 
 @application.before_request
 def before_request_function():
+    logging.info("Remote address: {}".format(request.remote_addr))
+    logging.debug("Data: {}".format(request.remote_addr, request.get_data()))
     g.writer = RabbitMQ(Config())
 
 
@@ -36,6 +38,7 @@ def basic_auth_required(f):
         auth = request.authorization
         if not auth or not helper.check_credentials(
                 Config.FLASK_BASIC_AUTH_USER, Config.FLASK_BASIC_AUTH_PASS, auth.username, auth.password):
+            logging.warning("Request denied - unauthorized - IP Address: {}".format(request.remote_addr))
             message = {'error': 'Unauthorized'}
             resp = jsonify(message)
             resp.status_code = 401
