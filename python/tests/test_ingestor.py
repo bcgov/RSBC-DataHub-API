@@ -23,6 +23,89 @@ def mock_rabbitmq(*args):
     print("mocking RabbitMQ")
 
 
+def test_form_endpoint_rejects_json_payload(client, monkeypatch):
+    monkeypatch.setattr(routes, "RabbitMQ", mock_rabbitmq)
+    payload = dict({"data": "json"})
+    response = client.post('/v1/publish/event/form', json=payload)
+    json_data = response.json
+
+    assert "received content type is not XML" in json_data['error']
+    assert response.status_code == 422
+
+
+def test_form_endpoint_rejects_payloads_that_exceed_max_length(client, monkeypatch):
+    monkeypatch.setattr(routes, "RabbitMQ", mock_rabbitmq)
+
+    payload = "<xml>" + "long_string" * 10000 + "</xml>"
+    header = dict({"Content-Type": "application/xml"})
+    response = client.post('/v1/publish/event/form', data=payload, headers=header)
+    logging.warning(response.json)
+    assert response.status_code == 422
+
+
+def test_form_endpoint_rejects_submissions_with_incorrect_query_parameter(client, monkeypatch):
+    monkeypatch.setattr(routes, "RabbitMQ", mock_rabbitmq)
+
+    payload = "<xml>" + "long_string" * 100 + "</xml>"
+    header = dict({"Content-Type": "application/xml"})
+    params = dict({"form_name": "prohibition_review"})
+    response = client.post('/v1/publish/event/form', data=payload, headers=header, query_string=params)
+    logging.warning(response.json)
+    json_data = response.json
+    assert "missing key query parameter: form" in json_data['error']
+    assert response.status_code == 422
+
+
+def test_form_endpoint_rejects_submissions_with_bad_xml_payload(client, monkeypatch):
+    monkeypatch.setattr(routes, "RabbitMQ", mock_rabbitmq)
+    bad_payload = "<xml>" + "long_string" * 100
+    header = dict({"Content-Type": "application/xml"})
+    params = dict({"form": "prohibition_review"})
+    response = client.post('/v1/publish/event/form', data=bad_payload, headers=header, query_string=params)
+    logging.warning(response.json)
+    json_data = response.json
+    assert "something went wrong" in json_data['error']
+    assert response.status_code == 500
+
+
+def test_form_endpoint_returns_500_when_rabbitmq_not_available(client, monkeypatch):
+
+    class RabbitMQ:
+        def __init__(self, *args):
+            pass
+
+        def publish(*args):
+            return False
+
+    monkeypatch.setattr(routes, "RabbitMQ", RabbitMQ)
+
+    payload = "<xml>" + "long_string" * 100 + "</xml>"
+    header = dict({"Content-Type": "application/xml"})
+    params = dict({"form": "prohibition_review"})
+    response = client.post('/v1/publish/event/form', data=payload, headers=header, query_string=params)
+    logging.warning(response.json)
+    assert response.status_code == 500
+
+
+def test_form_endpoint_saves_submissions_to_rabbitmq(client, monkeypatch):
+
+    class RabbitMQ:
+        def __init__(self, *args):
+            pass
+
+        def publish(*args):
+            return True
+
+    monkeypatch.setattr(routes, "RabbitMQ", RabbitMQ)
+
+    payload = "<xml>" + "long_string" * 100 + "</xml>"
+    header = dict({"Content-Type": "application/xml"})
+    params = dict({"form": "prohibition_review"})
+    response = client.post('/v1/publish/event/form', data=payload, headers=header, query_string=params)
+    logging.warning(response.json)
+    assert response.status_code == 200
+
+
 def test_check_templates_endpoint(client, monkeypatch):
 
     monkeypatch.setattr(Config, "ENVIRONMENT", "dev")
