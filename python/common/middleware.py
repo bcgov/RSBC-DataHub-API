@@ -900,7 +900,6 @@ def get_data_from_verify_schedule_event(**args) -> tuple:
     m = args.get('message')
     event_type = m['event_type']
     verify_schedule_data = m[event_type]
-    logging.warning(json.dumps(verify_schedule_data))
     args['receipt_amount'] = verify_schedule_data.get('receipt_amount')
     args['receipt_number'] = verify_schedule_data.get('receipt_number')
     args['receipt_date'] = verify_schedule_data.get('receipt_date')

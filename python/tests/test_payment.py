@@ -433,7 +433,6 @@ def test_receipt_endpoint_returns_success_and_sends_schedule_email(prohibition_t
         def publish(*args):
             message_string = args[1].decode("utf-8")
             message = json.loads(message_string)
-            logging.warning(message_string)
             assert "verify_schedule" in message
             assert message['verify_schedule']['order_number'] == "1002581"
             assert message['verify_schedule']['applicant_name'] == "Charlie Brown"
