@@ -797,6 +797,7 @@ def create_verify_schedule_event(**args) -> tuple:
             "applicant_name": args.get('applicant_name'),
             "receipt_amount": payload['receipt_amount'],
             "receipt_number": payload['receipt_number'],
+            "order_number": payload.get('transaction_id'),
             "receipt_date": receipt_datetime_object.strftime("%Y-%m-%d"),
             "prohibition_number": args.get('prohibition_number'),
         }
@@ -898,11 +899,14 @@ def get_data_from_verify_schedule_event(**args) -> tuple:
     """
     m = args.get('message')
     event_type = m['event_type']
-    args['receipt_amount'] = m[event_type]['receipt_amount']
-    args['receipt_number'] = m[event_type]['receipt_number']
-    args['receipt_date'] = m[event_type]['receipt_date']
-    args['prohibition_number'] = m[event_type]['prohibition_number']
-    args['applicant_name'] = m[event_type]['applicant_name']
+    verify_schedule_data = m[event_type]
+    logging.warning(json.dumps(verify_schedule_data))
+    args['receipt_amount'] = verify_schedule_data.get('receipt_amount')
+    args['receipt_number'] = verify_schedule_data.get('receipt_number')
+    args['receipt_date'] = verify_schedule_data.get('receipt_date')
+    args['prohibition_number'] = verify_schedule_data.get('prohibition_number')
+    args['order_number'] = verify_schedule_data.get('order_number')
+    args['applicant_name'] = verify_schedule_data.get('applicant_name')
     return True, args
 
 

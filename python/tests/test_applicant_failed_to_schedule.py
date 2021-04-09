@@ -1,4 +1,3 @@
-import pytest
 import datetime
 import python.common.helper as helper
 import python.form_handler.business as business
@@ -41,6 +40,7 @@ def test_verify_schedule_event_sends_email_to_business_if_applicant_has_not_sche
         assert "Number: ABCD-1234" in args[2]
         assert "Amount: 50.00" in args[2]
         assert "Date: 2020-10-22" in args[2]
+        assert "Order Number: 1010100" in args[2]
         return True
 
     monkeypatch.setattr(BaseConfig, "BCC_EMAIL_ADDRESSES", business_email_address)
@@ -132,11 +132,12 @@ def get_verify_schedule_event(hold_until_date_time: datetime) -> dict:
           "event_date_time": "2020-10-28T04:50:35.202805",
           "event_type": "verify_schedule",
           "verify_schedule": {
-            "applicant_name": "Charlie Brown",
-            "receipt_date": "2020-10-22",
-            "receipt_amount": "50.00",
-            "receipt_number": "ABCD-1234",
-            "prohibition_number": "21258852"
+              "applicant_name": "Charlie Brown",
+              "receipt_date": "2020-10-22",
+              "receipt_amount": "50.00",
+              "receipt_number": "ABCD-1234",
+              "prohibition_number": "21258852",
+              "order_number": "1010100"
           },
           "hold_until": hold_until_date_time.isoformat()
     }

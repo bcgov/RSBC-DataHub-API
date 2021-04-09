@@ -99,6 +99,7 @@ def applicant_did_not_schedule(**args) -> tuple:
             receipt_number=args.get('receipt_number'),
             receipt_amount=args.get('receipt_amount'),
             receipt_date=args.get('receipt_date'),
+            order_number=args.get('order_number'),
             prohibition_number=prohibition_number,
             subject=content["subject"])), args
 

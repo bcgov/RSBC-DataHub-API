@@ -431,8 +431,12 @@ def test_receipt_endpoint_returns_success_and_sends_schedule_email(prohibition_t
 
         @staticmethod
         def publish(*args):
-            message = args[1].decode("utf-8")
-            assert "Charlie Brown" in message
+            message_string = args[1].decode("utf-8")
+            message = json.loads(message_string)
+            logging.warning(message_string)
+            assert "verify_schedule" in message
+            assert message['verify_schedule']['order_number'] == "1002581"
+            assert message['verify_schedule']['applicant_name'] == "Charlie Brown"
             assert "DF.hold" in args[0]
             return True
 
@@ -476,6 +480,7 @@ def get_receipt_payload(receipt_amount=200) -> dict:
         "receipt_amount": receipt_amount,
         "payment_method": "credit card",
         "cardtype": "VISA",
+        "transaction_id": "1002581",
         "invoices": [
             {
                 "trx_number": "21123456",
