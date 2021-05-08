@@ -1,0 +1,14 @@
+FROM node:14
+
+RUN useradd --create-home appuser
+WORKDIR /home/appuser
+
+COPY . /home/appuser/web_app
+
+WORKDIR /home/appuser/web_app
+
+RUN npm install
+
+EXPOSE 8080
+
+CMD ["npm", "run", "serve"]
