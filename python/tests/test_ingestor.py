@@ -1,4 +1,5 @@
 import pytest
+import json
 import datetime
 import base64
 import logging
@@ -183,7 +184,7 @@ def test_an_applicant_cannot_submit_evidence_with_prohibition_number_that_is_too
 def test_an_applicant_cannot_submit_evidence_after_their_review_has_concluded(client, monkeypatch):
 
     def mock_status_get(*args, **kwargs):
-        return status_gets(True, "IRP", "2020-09-01", True, "2020-09-15", "Gordon", True)
+        return status_gets(True, "IRP", "2020-09-01", True, "2020-09-15 09:30:00 -07:00", "Gordon", True)
 
     monkeypatch.setattr(vips, "status_get", mock_status_get)
     monkeypatch.setattr(routes, "RabbitMQ", mock_rabbitmq)
@@ -200,7 +201,7 @@ def test_an_applicant_cannot_submit_evidence_after_their_review_has_concluded(cl
 def test_an_applicant_cannot_submit_evidence_if_they_have_not_applied(client, monkeypatch):
 
     def mock_status_get(*args, **kwargs):
-        return status_gets(True, "IRP", "2020-09-01", True, "2020-09-15", "Gordon", False)
+        return status_gets(True, "IRP", "2020-09-01", True, "2020-09-15 09:30:00 -07:00", "Gordon", False)
 
     monkeypatch.setattr(vips, "status_get", mock_status_get)
     monkeypatch.setattr(routes, "RabbitMQ", mock_rabbitmq)
@@ -217,7 +218,7 @@ def test_an_applicant_cannot_submit_evidence_if_they_have_not_applied(client, mo
 def test_an_applicant_cannot_submit_evidence_if_they_have_not_paid(client, monkeypatch):
 
     def mock_status_get(*args, **kwargs):
-        return status_gets(True, "IRP", "2020-09-01", False, "2020-09-15", "Gordon", True)
+        return status_gets(True, "IRP", "2020-09-01", False, "2020-09-15 09:30:00 -07:00", "Gordon", True)
 
     monkeypatch.setattr(vips, "status_get", mock_status_get)
     monkeypatch.setattr(routes, "RabbitMQ", mock_rabbitmq)
@@ -234,7 +235,7 @@ def test_an_applicant_cannot_submit_evidence_if_they_have_not_paid(client, monke
 def test_an_applicant_cannot_submit_evidence_if_their_last_name_does_not_match_vips(client, monkeypatch):
 
     def mock_status_get(*args, **kwargs):
-        return status_gets(True, "IRP", "2020-09-01", True, "2020-09-15", "Wrong-Name", True)
+        return status_gets(True, "IRP", "2020-09-01", True, "2020-09-15 09:30:00 -07:00", "Wrong-Name", True)
 
     monkeypatch.setattr(vips, "status_get", mock_status_get)
     monkeypatch.setattr(routes, "RabbitMQ", mock_rabbitmq)
@@ -266,8 +267,7 @@ def test_an_applicant_cannot_submit_evidence_if_the_review_date_is_less_than_48h
     iso_format = "%Y-%m-%d"
     tz = pytz.timezone('America/Vancouver')
     date_served = (datetime.datetime.now(tz) - datetime.timedelta(days=7)).strftime(iso_format)
-    review_start_date = (datetime.datetime.now(tz) + datetime.timedelta(days=2)).strftime(iso_format)
-    logging.debug("datetimes: {} | {}".format(date_served, review_start_date))
+    review_start_date = vips.vips_datetime(datetime.datetime.now(tz) + datetime.timedelta(hours=47))
 
     def mock_status_get(*args, **kwargs):
         return status_gets(True, "IRP", date_served, True, review_start_date, "Gordon", True)
@@ -279,6 +279,7 @@ def test_an_applicant_cannot_submit_evidence_if_the_review_date_is_less_than_48h
                            headers=get_basic_authentication_header(monkeypatch),
                            data=get_evidence_form_data())
     json_data = response.json
+    logging.warning("review start date and time: {}".format(review_start_date))
     assert response.status_code == 200
     assert "You can't submit evidence less than 48 hours before your review." in json_data['data']['error']
     assert json_data['data']['is_valid'] is False
@@ -307,7 +308,7 @@ def test_an_applicant_can_submit_evidence_happy_path(client, monkeypatch):
     iso_format = "%Y-%m-%d"
     tz = pytz.timezone('America/Vancouver')
     date_served = (datetime.datetime.now(tz) - datetime.timedelta(days=7)).strftime(iso_format)
-    review_start_date = (datetime.datetime.now(tz) + datetime.timedelta(days=3)).strftime(iso_format)
+    review_start_date = vips.vips_datetime(datetime.datetime.now(tz) + datetime.timedelta(days=3))
 
     def mock_status_get(*args, **kwargs):
         return status_gets(True, "IRP", date_served, True, review_start_date, "Gordon", True)
@@ -584,11 +585,12 @@ def status_gets(is_success, prohibition_type, date_served, is_paid, review_start
             }
         }
     if len(review_start_date) > 0:
-        data['data']['status']['reviewStartDtm'] = review_start_date + ' 09:30:00 -07:00'
+        data['data']['status']['reviewStartDtm'] = review_start_date
     if is_paid:
         data['data']['status']['receiptNumberTxt'] = 'AAABBB123'
     if is_applied:
         data['data']['status']['applicationId'] = 'GUID-GUID-GUID-GUID'
+    logging.warning("status_gets data: {}".format(json.dumps(data)))
     return is_success, data
 
 
