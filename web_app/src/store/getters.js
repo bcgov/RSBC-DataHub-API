@@ -49,6 +49,16 @@ export default {
         return root[id];
     },
 
+    checkBoxStatus: state => (id, value) => {
+        let prohibition_index = state.currently_editing_prohibition_index
+        let root = state.edited_forms[prohibition_index].data;
+        if (!(id in root)) {
+            return false;
+        }
+        return root[id].includes(value);
+    },
+
+
     getArrayOfBCCityNames: state => {
         return state.bc_city_names.city_names;
     },
@@ -116,7 +126,10 @@ export default {
     driverIsNotRegisteredOwner: state => {
         let prohibition_index = state.currently_editing_prohibition_index
         let root = state.edited_forms[prohibition_index].data;
-        return root['driver_is_owner'] === "No"
+        if( ! root['driver_is_owner']) {
+            return false;
+        }
+        return ! root['driver_is_owner'].includes("Registered owner is the driver")
     },
 
 }

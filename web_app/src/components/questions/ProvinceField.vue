@@ -4,7 +4,7 @@
     <label v-if="show_label" class="small" :for="id"><slot></slot>
       <span v-if="required" class="text-danger"> *</span>
     </label>
-    <select class="form-control form-control-sm" :id="id" @input="updateFormField">
+    <select :disabled="disabled" class="form-control form-control-sm" :id="id" @input="updateFormField">
       <option v-for="(province, key) in getArrayOfProvinces"
               :key="key"
               :selected="province === getAttributeValue(id)">
