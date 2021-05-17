@@ -126,10 +126,19 @@ export default {
     driverIsNotRegisteredOwner: state => {
         let prohibition_index = state.currently_editing_prohibition_index
         let root = state.edited_forms[prohibition_index].data;
-        if( ! root['driver_is_owner']) {
+        if( ! root['owner_is_driver']) {
             return false;
         }
-        return ! root['driver_is_owner'].includes("Registered owner is the driver")
+        return ! root['owner_is_driver'].includes("Driver is the vehicle owner")
+    },
+
+    corporateOwner: state => {
+        let prohibition_index = state.currently_editing_prohibition_index
+        let root = state.edited_forms[prohibition_index].data;
+        if( ! root['corporate_owner']) {
+            return false;
+        }
+        return root['corporate_owner'].includes("Owned by corporate entity")
     },
 
 }

@@ -17,7 +17,7 @@ import PrintConfirmationModal from "@/components/PrintConfirmationModal";
 import RadioField from "@/components/questions/RadioField";
 import CheckField from "@/components/questions/CheckField";
 import ShadowBox from "@/components/forms/ShadowBox";
-import DriverCard from "@/components/forms/DriverCard";
+import VehicleOwnerCard from "@/components/forms/VehicleOwnerCard";
 import { mapGetters } from "vuex";
 
 
@@ -54,7 +54,7 @@ export default {
     CheckField,
     DateField,
     ShadowBox,
-    DriverCard
+    VehicleOwnerCard
   }
 }
 </script>

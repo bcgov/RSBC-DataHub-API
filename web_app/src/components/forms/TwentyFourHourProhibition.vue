@@ -6,26 +6,31 @@
         <plate-number id="plate_number" fg_class="col-sm-6">Plate Number</plate-number>
       </form-row>
     </form-card>
-    <form-card title="Registered Owner">
+
+
+    <form-card title="Vehicle information">
       <form-row>
-        <text-field id="owners_last_name" fg_class="col-sm-6">Owner's Last Name</text-field>
-        <text-field id="owners_first_name" fg_class="col-sm-6">Owner's First Name</text-field>
+        <text-field id="plate_year" fg_class="col-sm-4">Plate Year</text-field>
+        <text-field id="plate_val_tag" input_type="number" fg_class="col-sm-4">Plate Val Tag</text-field>
+        <text-field id="registration_number" fg_class="col-sm-4">Registration Number</text-field>
       </form-row>
       <form-row>
-        <text-field id="owners_address1" fg_class="col-sm-12" placeholder="Address" rules="required">Address Line 1</text-field>
+        <text-field id="vehicle_year" fg_class="col-sm-3">Vehicle Year</text-field>
+        <text-field id="vehicle_make" input_type="number" fg_class="col-sm-3">Vehicle Make</text-field>
+        <text-field id="vehicle_model" fg_class="col-sm-3">Vehicle Model</text-field>
+        <text-field id="vehicle_color" fg_class="col-sm-3">Vehicle Colour</text-field>
       </form-row>
       <form-row>
-        <text-field id="owners_address2" fg_class="col-sm-12" placeholder="Address">Address Line 2</text-field>
+        <text-field id="vin_number" fg_class="col-sm-12">VIN Number</text-field>
       </form-row>
       <form-row>
-        <type-ahead-field id="owners_city" fg_class="col-sm-4" :suggestions="getArrayOfBCCityNames" rules="required">City</type-ahead-field>
-        <province-field id="owners_province" fg_class="col-sm-2">Province</province-field>
-        <text-field id="owners_postal" fg_class="col-sm-2">Postal</text-field>
-        <phone-field id="owners_phone" fg_class="col-sm-4" rules="phone">Phone</phone-field>
+        <text-field id="puj_code" fg_class="col-sm-5">PUJ Code</text-field>
+        <text-field id="nsc_number" fg_class="col-sm-7">NSC Number</text-field>
       </form-row>
+
     </form-card>
 
-    <driver-card title="Driver's Information">
+    <form-card title="Driver's Information">
 <!--      <form-row>-->
 <!--        <check-field :show_label="false" id="driver_is_owner" fg_class="col-sm-12"-->
 <!--                       :options='["Registered owner is the driver"]'></check-field>-->
@@ -50,29 +55,33 @@
         <province-field id="province" fg_class="col-sm-2">Province</province-field>
         <text-field id="postal" fg_class="col-sm-4">Postal</text-field>
       </form-row>
-    </driver-card>
-
-    <form-card title="Vehicle information">
-      <form-row>
-        <text-field id="plate_year" fg_class="col-sm-4">Plate Year</text-field>
-        <text-field id="plate_val_tag" input_type="number" fg_class="col-sm-4">Plate Val Tag</text-field>
-        <text-field id="registration_number" fg_class="col-sm-4">Registration Number</text-field>
-      </form-row>
-      <form-row>
-        <text-field id="vehicle_year" fg_class="col-sm-3">Vehicle Year</text-field>
-        <text-field id="vehicle_make" input_type="number" fg_class="col-sm-3">Vehicle Make</text-field>
-        <text-field id="vehicle_model" fg_class="col-sm-3">Vehicle Model</text-field>
-        <text-field id="vehicle_color" fg_class="col-sm-3">Vehicle Colour</text-field>
-      </form-row>
-      <form-row>
-        <text-field id="vin_number" fg_class="col-sm-12">VIN Number</text-field>
-      </form-row>
-      <form-row>
-        <text-field id="puj_code" fg_class="col-sm-5">PUJ Code</text-field>
-        <text-field id="nsc_number" fg_class="col-sm-7">NSC Number</text-field>
-      </form-row>
-
     </form-card>
+
+    <vehicle-owner-card title="Registered Owner">
+      <div v-if="driverIsNotRegisteredOwner">
+        <form-row>
+          <check-field fg_class="col-sm-12" :show_label="false" id="corporate_owner" :options="['Owned by corporate entity']" >Corporation</check-field>
+        </form-row>
+        <form-row>
+          <text-field v-if="corporateOwner" id="owners_corporation" fg_class="col-sm-12">Corporation Name</text-field>
+          <text-field v-if="!corporateOwner" id="owners_last_name" fg_class="col-sm-6">Owner's Last Name</text-field>
+          <text-field v-if="!corporateOwner" id="owners_first_name" fg_class="col-sm-6">Owner's First Name</text-field>
+        </form-row>
+        <form-row>
+          <text-field id="owners_address1" fg_class="col-sm-12" placeholder="Address" rules="required">Address Line 1</text-field>
+        </form-row>
+        <form-row>
+          <text-field id="owners_address2" fg_class="col-sm-12" placeholder="Address">Address Line 2</text-field>
+        </form-row>
+        <form-row>
+          <type-ahead-field id="owners_city" fg_class="col-sm-4" :suggestions="getArrayOfBCCityNames" rules="required">City</type-ahead-field>
+          <province-field id="owners_province" fg_class="col-sm-2">Province</province-field>
+          <text-field id="owners_postal" fg_class="col-sm-2">Postal</text-field>
+          <phone-field id="owners_phone" fg_class="col-sm-4" rules="phone">Phone</phone-field>
+        </form-row>
+      </div>
+
+    </vehicle-owner-card>
 
     <form-card title="Vehicle Impoundment or Disposition">
       <form-row>
@@ -233,7 +242,7 @@ export default {
   components: {CheckField},
   mixins: [FormsCommon],
   computed: {
-    ...mapGetters(["getAttributeValue", "isPlateJurisdictionBC", "driverIsNotRegisteredOwner"]),
+    ...mapGetters(["getAttributeValue", "isPlateJurisdictionBC", "driverIsNotRegisteredOwner", "corporateOwner"]),
     showVehicleImpounded() {
       return this.getAttributeValue('vehicle_impounded') === "Yes";
     },
