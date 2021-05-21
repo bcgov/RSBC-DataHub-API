@@ -12,6 +12,7 @@ export default {
         Vue.set( root.data, "served", false);
         Vue.set( root.data, "submitted", false);
         Vue.set( root.data, "prohibition_number", ulid().substr(0,12))
+        Vue.set( root.data, "owner_is_driver", ["Driver is the vehicle owner"])
         state.currently_editing_prohibition_index = new_index;
         console.log("check edited_forms: " + JSON.stringify(state.edited_forms));
     },
@@ -111,9 +112,9 @@ export default {
         let prohibition_index = state.currently_editing_prohibition_index;
         console.log("inside mutations.js populateFromICBCPlateLookup(): " + prohibition_index)
         populateDriver(state,prohibition_index);
-        populateRegisteredOwner(state,prohibition_index);
         populateVehicleInfo(state,prohibition_index);
-    }
+    },
+
 }
 
 function populateVehicleInfo(state, prohibition_index) {
@@ -127,19 +128,8 @@ function populateVehicleInfo(state, prohibition_index) {
 }
 
 
-function populateRegisteredOwner(state,prohibition_index) {
-    Vue.set(state.edited_forms[prohibition_index].data, "owners_drivers_number", "1234567");
-    Vue.set(state.edited_forms[prohibition_index].data, "owners_last_name", "Smith");
-    Vue.set(state.edited_forms[prohibition_index].data, "owners_first_name", "Fictitious");
-    Vue.set(state.edited_forms[prohibition_index].data, "owners_address1", "123 Imaginary Street");
-    Vue.set(state.edited_forms[prohibition_index].data, "owners_city", "Vanderhoof");
-    Vue.set(state.edited_forms[prohibition_index].data, "owners_province", "BC");
-    Vue.set(state.edited_forms[prohibition_index].data, "owners_postal", "V8R 5A5");
-    Vue.set(state.edited_forms[prohibition_index].data, "drivers_number", "1234567");
-}
-
-
 function populateDriver(state, prohibition_index) {
+    Vue.set(state.edited_forms[prohibition_index].data, "drivers_number", "1234567");
     Vue.set(state.edited_forms[prohibition_index].data, "last_name", "Smith");
     Vue.set(state.edited_forms[prohibition_index].data, "first_name", "Fictitious");
     Vue.set(state.edited_forms[prohibition_index].data, "address1", "123 Imaginary Street");

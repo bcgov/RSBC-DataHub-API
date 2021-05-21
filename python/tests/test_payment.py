@@ -407,6 +407,50 @@ def test_receipt_endpoint_returns_success_if_prohibition_already_paid(prohibitio
 
 
 @pytest.mark.parametrize("prohibition_types", ['IRP', 'ADP', 'UL'])
+def test_receipt_endpoint_returns_success_creates_verify_schedule_event(prohibition_types, token, client, monkeypatch):
+
+    def mock_status_get(*args, **kwargs):
+        return status_get(True, prohibition_types, "2020-09-01", "Gordon", False, True)
+
+    def mock_application_get(*args, **kwargs):
+        return application_get()
+
+    def mock_patch_payment(*args, **kwargs):
+        return True, dict({})
+
+    def mock_send_email(*args, **kwargs):
+        return True
+
+    class MockRabbitMQ:
+
+        def __init__(self, config):
+            pass
+
+        @staticmethod
+        def publish(*args):
+            message_string = args[1].decode("utf-8")
+            message = json.loads(message_string)
+            assert "verify_schedule" in message
+            assert message['verify_schedule']['order_number'] == "1002581"
+            assert message['verify_schedule']['applicant_name'] == "Charlie Brown"
+            assert "DF.hold" in args[0]
+            return True
+
+    monkeypatch.setattr(routes, "RabbitMQ", MockRabbitMQ)
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+    monkeypatch.setattr(vips, "application_get", mock_application_get)
+    monkeypatch.setattr(vips, "payment_patch", mock_patch_payment)
+    monkeypatch.setattr(common_email, "send_email", mock_send_email)
+
+    response = client.post('/api_v2/receipt',
+                           headers=get_oauth_auth_header(token),
+                           json=get_receipt_payload())
+    logging.warning("receipt: {}".format(response.json))
+    assert "APP" in response.json['status']  # APP == APPROVED
+    assert response.status_code == 200
+
+
+@pytest.mark.parametrize("prohibition_types", ['IRP', 'ADP', 'UL'])
 def test_receipt_endpoint_returns_success_and_sends_schedule_email(prohibition_types, token, client, monkeypatch):
 
     def mock_status_get(*args, **kwargs):
@@ -431,12 +475,47 @@ def test_receipt_endpoint_returns_success_and_sends_schedule_email(prohibition_t
 
         @staticmethod
         def publish(*args):
-            message_string = args[1].decode("utf-8")
-            message = json.loads(message_string)
-            assert "verify_schedule" in message
-            assert message['verify_schedule']['order_number'] == "1002581"
-            assert message['verify_schedule']['applicant_name'] == "Charlie Brown"
-            assert "DF.hold" in args[0]
+            return True
+
+    monkeypatch.setattr(routes, "RabbitMQ", MockRabbitMQ)
+    monkeypatch.setattr(vips, "status_get", mock_status_get)
+    monkeypatch.setattr(vips, "application_get", mock_application_get)
+    monkeypatch.setattr(vips, "payment_patch", mock_patch_payment)
+    monkeypatch.setattr(common_email, "send_email", mock_send_email)
+
+    response = client.post('/api_v2/receipt',
+                           headers=get_oauth_auth_header(token),
+                           json=get_receipt_payload())
+    logging.warning("receipt: {}".format(response.json))
+    assert "APP" in response.json['status']  # APP == APPROVED
+    assert response.status_code == 200
+
+
+def test_receipt_endpoint_sends_adp_select_review_date_with_order_number(token, client, monkeypatch):
+
+    def mock_status_get(*args, **kwargs):
+        return status_get(True, "ADP", "2020-09-01", "Gordon", False, True)
+
+    def mock_application_get(*args, **kwargs):
+        return application_get()
+
+    def mock_patch_payment(*args, **kwargs):
+        return True, dict({})
+
+    def mock_send_email(*args, **kwargs):
+        assert "applicant@gov.bc.ca" == args[0][0]
+        assert "Dear Charlie Brown," in args[3]
+        assert "Select Review Date - Driving Prohibition 21-123456 Review" == args[1]
+        assert "Order number: 1002581" in args[3]
+        return True
+
+    class MockRabbitMQ:
+
+        def __init__(self, config):
+            pass
+
+        @staticmethod
+        def publish(*args):
             return True
 
     monkeypatch.setattr(routes, "RabbitMQ", MockRabbitMQ)

@@ -198,6 +198,7 @@ def applicant_to_schedule_review(**args):
     first name handy, this email is addressed to the applicant.
     """
     config = args.get('config')
+    payload = args.get('payload')
     vips_application = args.get('vips_application')
     vips_data = args.get('vips_data')
     t = "{}_select_review_date.html".format(vips_data['noticeTypeCd'])
@@ -213,6 +214,7 @@ def applicant_to_schedule_review(**args):
         config,
         template.render(
             link_to_schedule_form=config.LINK_TO_SCHEDULE_FORM,
+            order_number=payload.get('transaction_id'),
             full_name=full_name,
             prohibition_number=prohibition_number,
             subject=content["subject"])), args

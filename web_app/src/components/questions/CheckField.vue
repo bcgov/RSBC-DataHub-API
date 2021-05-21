@@ -4,7 +4,9 @@
 <!--      <span v-if="required" class="text-danger"> *</span>-->
     </label>
     <div class="form-check small" v-for="(option) in options" :key="option">
-      <input class="form-check-input" :id="id" @change="updateCheckBox" type="checkbox" :value="option" :name="id" :disabled="disabled">
+      <input class="form-check-input" :id="id" @change="updateCheckBox" type="checkbox"
+             :checked="checkBoxStatus(id,option)"
+             :value="option" :name="id" :disabled="disabled">
       <label class="form-check-label" :for="option">{{ option }}</label>
     </div>
 <!--    <div class="small text-danger">{{ errors[0] }}</div>-->
@@ -14,7 +16,7 @@
 <script>
 
 import FieldCommon from "@/components/questions/FieldCommon";
-import {mapMutations} from 'vuex';
+import {mapGetters, mapMutations} from 'vuex';
 
 export default {
   name: "CheckField",
@@ -25,6 +27,9 @@ export default {
   },
   methods: {
     ...mapMutations(["updateCheckBox"])
+  },
+  computed: {
+    ...mapGetters(["checkBoxStatus"])
   }
 }
 </script>

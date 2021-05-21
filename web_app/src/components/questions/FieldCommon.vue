@@ -4,7 +4,10 @@ export default {
   name: "FieldCommon",
   props: {
     id: String,
-    disabled: Boolean,
+    disabled: {
+      type: Boolean,
+      default: false
+    },
     show_label: {
       type: Boolean,
       default: true

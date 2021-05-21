@@ -8,6 +8,7 @@
     </label>
     <div class="col-xs-10">
       <input type="text"
+           :disabled="disabled"
            :id="id"
            class="form-control form-control-sm"
            placeholder="YYYY-MM-DD"

@@ -6,28 +6,8 @@
         <plate-number id="plate_number" fg_class="col-sm-6">Plate Number</plate-number>
       </form-row>
     </form-card>
-    <form-card title="Registered Owner">
-      <form-row>
-        <radio-field id="driver_is_owner" fg_class="col-sm-6" :options='["Yes", "No"]'>Driver is registered owner?</radio-field>
-        <text-field v-if="isPlateJurisdictionBC" id="owners_drivers_number">Owner's Licence Number (BC only)</text-field>
-      </form-row>
-      <form-row>
-        <text-field id="owners_last_name" fg_class="col-sm-6">Owner's Last Name</text-field>
-        <text-field id="owners_first_name" fg_class="col-sm-6">Owner's First Name</text-field>
-      </form-row>
-      <form-row>
-        <text-field id="owners_address1" fg_class="col-sm-12" placeholder="Address" rules="required">Address Line 1</text-field>
-      </form-row>
-      <form-row>
-        <text-field id="owners_address2" fg_class="col-sm-12" placeholder="Address">Address Line 2</text-field>
-      </form-row>
-      <form-row>
-        <type-ahead-field id="owners_city" fg_class="col-sm-4" :suggestions="getArrayOfBCCityNames" rules="required">City</type-ahead-field>
-        <province-field id="owners_province" fg_class="col-sm-2">Province</province-field>
-        <text-field id="owners_postal" fg_class="col-sm-2">Postal</text-field>
-        <phone-field id="owners_phone" fg_class="col-sm-4" rules="phone">Phone</phone-field>
-      </form-row>
-    </form-card>
+
+
     <form-card title="Vehicle information">
       <form-row>
         <text-field id="plate_year" fg_class="col-sm-4">Plate Year</text-field>
@@ -41,13 +21,20 @@
         <text-field id="vehicle_color" fg_class="col-sm-3">Vehicle Colour</text-field>
       </form-row>
       <form-row>
+        <text-field id="vin_number" fg_class="col-sm-12">VIN Number</text-field>
+      </form-row>
+      <form-row>
         <text-field id="puj_code" fg_class="col-sm-5">PUJ Code</text-field>
         <text-field id="nsc_number" fg_class="col-sm-7">NSC Number</text-field>
       </form-row>
 
     </form-card>
 
-    <form-card title="Driver's Information" v-if="driverIsNotRegisteredOwner">
+    <form-card title="Driver's Information">
+<!--      <form-row>-->
+<!--        <check-field :show_label="false" id="driver_is_owner" fg_class="col-sm-12"-->
+<!--                       :options='["Registered owner is the driver"]'></check-field>-->
+<!--      </form-row>-->
       <form-row>
         <province-field id="drivers_licence_jurisdiction" fg_class="col-sm-2">Jurisdiction</province-field>
         <driver-licence-number id="drivers_number">Driver's Licence Number</driver-licence-number>
@@ -65,10 +52,37 @@
       </form-row>
       <form-row>
         <type-ahead-field id="city" fg_class="col-sm-6" :suggestions="getArrayOfBCCityNames" rules="required">City</type-ahead-field>
-        <province-field id="province" fg_class="col-sm-4">Province</province-field>
-        <text-field id="postal" fg_class="col-sm-2">Postal</text-field>
+        <province-field id="province" fg_class="col-sm-2">Province</province-field>
+        <text-field id="postal" fg_class="col-sm-4">Postal</text-field>
       </form-row>
     </form-card>
+
+    <vehicle-owner-card title="Registered Owner">
+      <div v-if="driverIsNotRegisteredOwner">
+        <form-row>
+          <check-field fg_class="col-sm-12" :show_label="false" id="corporate_owner" :options="['Owned by corporate entity']" >Corporation</check-field>
+        </form-row>
+        <form-row>
+          <text-field v-if="corporateOwner" id="owners_corporation" fg_class="col-sm-12">Corporation Name</text-field>
+          <text-field v-if="!corporateOwner" id="owners_last_name" fg_class="col-sm-6">Owner's Last Name</text-field>
+          <text-field v-if="!corporateOwner" id="owners_first_name" fg_class="col-sm-6">Owner's First Name</text-field>
+        </form-row>
+        <form-row>
+          <text-field id="owners_address1" fg_class="col-sm-12" placeholder="Address" rules="required">Address Line 1</text-field>
+        </form-row>
+        <form-row>
+          <text-field id="owners_address2" fg_class="col-sm-12" placeholder="Address">Address Line 2</text-field>
+        </form-row>
+        <form-row>
+          <type-ahead-field id="owners_city" fg_class="col-sm-4" :suggestions="getArrayOfBCCityNames" rules="required">City</type-ahead-field>
+          <province-field id="owners_province" fg_class="col-sm-2">Province</province-field>
+          <text-field id="owners_postal" fg_class="col-sm-2">Postal</text-field>
+          <phone-field id="owners_phone" fg_class="col-sm-4" rules="phone">Phone</phone-field>
+        </form-row>
+      </div>
+
+    </vehicle-owner-card>
+
     <form-card title="Vehicle Impoundment or Disposition">
       <form-row>
         <radio-field id="vehicle_impounded" fg_class="col-sm-6" :options='["Yes", "No"]'>Vehicle Impounded?</radio-field>
@@ -105,9 +119,19 @@
       </form-row>
       <div v-if="isProhibitionTypeSelected">
         <form-row>
+          <date-time id="prohibition_start_time" fg_class="col-sm-7">
+            Time of driving, care or control
+          </date-time>
+        </form-row>
+        <form-row>
           <text-field id="offence_address" fg_class="col-sm-8">Intersection or Address of Offence</text-field>
           <type-ahead-field id="offence_city" fg_class="col-sm-4" :suggestions="getArrayOfBCCityNames" rules="required">City</type-ahead-field>
         </form-row>
+        <form-row>
+          <text-field id="agency" fg_class="col-sm-2">Agency</text-field>
+          <text-field id="file_number" fg_class="col-sm-3">File Number</text-field>
+        </form-row>
+
         <form-row>
           <radio-field id="operating_grounds" fg_class="col-sm-12"
                        :options='["Witnessed by officer", "Admission by driver", "Independent witness", "Other"]'>
@@ -142,8 +166,11 @@
         <form-row>
           <check-field :show_label="false"  id="test_administered" fg_class="col-sm-6"
                        :options='["Approved Instrument"]'></check-field>
-          <check-field v-if="isTestAdministeredApprovedInstrument" id="result_alcohol_approved_instrument" fg_class="col-sm-12"
+        </form-row>
+        <form-row>
+          <check-field v-if="isTestAdministeredApprovedInstrument" id="result_alcohol_approved_instrument" fg_class="col-sm-2"
                        :options='["BAC"]'>Result</check-field>
+          <text-field v-if="isTestAdministeredApprovedInstrument" id="test_result_bac" fg_class="col-sm-10"></text-field>
         </form-row>
       </shadow-box>
       <shadow-box v-if="isProhibitionTypeDrugs">
@@ -154,7 +181,7 @@
         </form-row>
         <form-row>
           <check-field v-if="isTestAdministeredADSE" id="positive_adse" fg_class="col-sm-6"
-                       :options='["THC", "Cocaine"]'>Result - roadside</check-field>
+                       :options='["THC", "Cocaine"]'>Test result</check-field>
           <date-time v-if="isTestAdministeredADSE" id="time_of_physical_test_adse" fg_class="col-sm-6">Time of test</date-time>
         </form-row>
       </shadow-box>
@@ -165,10 +192,6 @@
           </check-field>
           <date-time v-if="isTestAdministeredSFST" id="time_of_physical_test_sfst" fg_class="col-sm-6">Time of test</date-time>
         </form-row>
-        <form-row v-if="isTestAdministeredSFST">
-          <check-field id="result_drug_sfst" fg_class="col-sm-12"
-                       :options='["Ability to drive affected by a drug"]'>Result</check-field>
-        </form-row>
       </shadow-box>
       <shadow-box v-if="isProhibitionTypeDrugs && isPrescribedTestUsed">
         <form-row>
@@ -178,19 +201,19 @@
         </form-row>
         <form-row v-if="isTestAdministeredDRE">
           <radio-field id="result_dre_affected" fg_class="col-sm-6"
-                       :options='["affected", "impaired"]'>Opinion of evaluator</radio-field>
+                       :options='["Affected", "Impaired"]'>Opinion of evaluator</radio-field>
           <date-time id="start_time_of_physical_test_dre" fg_class="col-sm-6">Time of opinion</date-time>
           <text-field id="positive_dre" fg_class="col-sm-12">Notes (expand to 3 lines)</text-field>
 
         </form-row>
-        <form-row v-if="isTestAdministeredDRE">
-          <check-field id="result_drug_sfst" fg_class="col-sm-12"
-                       :options='["Ability to drive affected by a drug"]'>Result</check-field>
-        </form-row>
       </shadow-box>
+      <form-row v-if="isPrescribedTestUsed && isProhibitionTypeDrugs">
+          <check-field id="result_drug_sfst" fg_class="col-sm-12"
+                       :options='["Ability to drive affected by a drug"]'><strong>Result</strong></check-field>
+        </form-row>
     </form-card>
 
-    <form-card title="Driver's licence">
+    <form-card title="Return of driver's licence">
       <form-row>
         <radio-field id="licence_surrendered" fg_class="col-sm-12" :options='["Yes", "No"]'>Licence surrendered at roadside?</radio-field>
       </form-row>
@@ -203,19 +226,6 @@
       </form-row>
     </form-card>
 
-
-    <form-card title="Miscellaneous">
-
-      <form-row>
-        <text-field id="agency" fg_class="col-sm-2">Agency</text-field>
-        <text-field id="file_number" fg_class="col-sm-3">File Number</text-field>
-        <date-time id="prohibition_start_time" fg_class="col-sm-7">
-          Time of driving, care or control
-        </date-time>
-      </form-row>
-
-
-    </form-card>
     <form-submission-buttons></form-submission-buttons>
     <print-confirmation-modal id="printConfirmationModal" title="printConfirmation"></print-confirmation-modal>
   </form-container>
@@ -232,7 +242,7 @@ export default {
   components: {CheckField},
   mixins: [FormsCommon],
   computed: {
-    ...mapGetters(["getAttributeValue", "isPlateJurisdictionBC", "driverIsNotRegisteredOwner"]),
+    ...mapGetters(["getAttributeValue", "isPlateJurisdictionBC", "driverIsNotRegisteredOwner", "corporateOwner"]),
     showVehicleImpounded() {
       return this.getAttributeValue('vehicle_impounded') === "Yes";
     },

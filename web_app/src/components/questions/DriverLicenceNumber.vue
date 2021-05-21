@@ -5,14 +5,14 @@
         <span v-if="required" class="text-danger"> *</span>
       </label>
       <div class="input-group mb-3">
-        <input type=text
+        <input :disabled="disabled" type=text
              class="form-control form-control-sm"
              :id="id"
              placeholder="Driver's Licence Number"
              :value="getAttributeValue(id)"
              @input="updateFormField">
         <div class="input-group-append" v-if="isLicenceJurisdictionBC">
-          <button @click="populateDriversFromICBC(getCurrentlyEditedProhibitionIndex)"
+          <button :disabled="disabled" @click="populateDriversFromICBC(getCurrentlyEditedProhibitionIndex)"
                   class="btn-sm btn-primary text-white">ICBC Lookup
           </button>
         </div>
