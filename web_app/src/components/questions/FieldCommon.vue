@@ -18,8 +18,29 @@ export default {
     },
     fg_class: String,
     display_validation_errors: Boolean,
-    rules: Object(),
-    errors: Array()
+    rules: String
+  },
+  computed: {
+    attribute: {
+      get() {
+        return this.getAttributeValue(this.id)
+      },
+      set(value) {
+        const payload = {
+          target: {
+            id: this.id,
+            value: value
+          }
+        }
+        return this.updateFormField(payload)
+      }
+    },
+    glowClass() {
+      if (this.errors) {
+        return "form-control border-danger"
+      }
+      return 'form-control'
+    }
   }
 }
 </script>

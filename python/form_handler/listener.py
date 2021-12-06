@@ -4,8 +4,10 @@ import python.form_handler.business as business
 from python.common.rabbitmq import RabbitMQ
 from python.common.message import decode_message
 import logging
+import logging.config
+import json
 
-logging.basicConfig(level=Config.LOG_LEVEL, format=Config.LOG_FORMAT)
+logging.config.dictConfig(Config.LOGGING)
 
 
 class Listener:
@@ -29,12 +31,10 @@ class Listener:
         self.listener.consume(self.config.WATCH_QUEUE, self.callback)
 
     def callback(self, ch, method, properties, body):
-        logging.info('message received; callback invoked')
-
         # convert body (in bytes) to string
         message_dict = decode_message(body, self.config.ENCRYPT_KEY)
 
-        # invoke listener functions
+        logging.info("callback() invoked: {}".format(json.dumps(message_dict)))
         helper.middle_logic(helper.get_listeners(business.process_incoming_form(), message_dict['event_type']),
                             message=message_dict,
                             config=self.config,
@@ -42,7 +42,7 @@ class Listener:
 
         # Regardless of whether the process above follows the happy path or not,
         # we need to acknowledge receipt of the message to RabbitMQ below. This
-        # acknowledgement deletes it from the WATCH queue. The logic above
+        # acknowledgement deletes it from the queue. The logic above
         # must have saved / handled the message before we get here.
 
         ch.basic_ack(delivery_tag=method.delivery_tag)

@@ -1,30 +1,19 @@
-/**
- * Welcome to your Workbox-powered service worker!
- *
- * You'll need to register this file in your web app and you should
- * disable HTTP caching for this file too.
- * See https://goo.gl/nhQhGp
- *
- * The rest of the code is auto-generated. Please don't update this file
- * directly; instead, make changes to your Workbox build configuration
- * and re-run your build process.
- * See https://goo.gl/2aRDsh
- */
+importScripts("/precache-manifest.a4b46c1c55827c586a4a8e6ae1614257.js", "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
-importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
-importScripts(
-  "/precache-manifest.b780827d835c7578d1801eb1ecf387be.js"
-);
 
-workbox.core.setCacheNameDetails({prefix: "prohibition_web_app"});
+self.addEventListener("message", msg => {
+    if (msg.data.action === 'SKIP_WAITING') self.skipWaiting();
+})
 
-workbox.core.skipWaiting();
 
-/**
- * The workboxSW.precacheAndRoute() method efficiently caches and responds to
- * requests for URLs in the manifest.
- * See https://goo.gl/S9QRab
- */
-self.__precacheManifest = [].concat(self.__precacheManifest || []);
-workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
+// Remove all service workers
+self.addEventListener("activate", function() {
+    self.registration.unregister()
+        .then(function() {
+            return self.clients.matchAll(); })
+        .then(function(clients) {
+            clients.forEach(client => client.navigate(client.url));
+        });
+});
+

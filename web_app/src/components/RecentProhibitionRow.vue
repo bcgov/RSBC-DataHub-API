@@ -5,20 +5,20 @@
       {{ prohibition.data.first_name }}
       ({{ prohibition.data.drivers_number }})
     </td>
-    <td>{{ prohibition.short_name }}</td>
-    <td>{{ getServedStatus(prohibition_index) }}</td>
-    <td><span class="text-muted text-secondary small">{{ prohibition.data.prohibition_number }}</span></td>
+    <td>{{ prohibition.form_type }}</td>
+    <td>{{ getServedStatus(prohibition) }}</td>
+    <td><span class="text-muted text-secondary">{{ prohibition.form_id }}</span></td>
     <td>
-      <h6>
-        <b-icon-trash v-if="isFormEditable(prohibition_index)" variant="danger" @click="deleteSpecificForm(prohibition_index)"></b-icon-trash>&nbsp;
-        <b-icon-pen v-if="isFormEditable(prohibition_index)" variant="primary" @click="editExistingForm(prohibition_index)"></b-icon-pen>
-
-
-        <span v-if=" ! isFormEditable(prohibition_index)" class="text-muted text-secondary">
-          <b-icon-clock variant="primary" @click="deleteSpecificForm(prohibition_index)"></b-icon-clock>
-          <span class="small"> Sending ...</span>
-        </span>
+      <h6 v-if="isFormEditable(prohibition)">
+        <b-icon-trash variant="danger" @click="deleteSpecificForm(prohibition)"></b-icon-trash>&nbsp;
+        <router-link :to="{ name: prohibition.form_type, params: { id: prohibition.form_id}}">
+          <b-icon-pen variant="primary"></b-icon-pen>
+        </router-link>
       </h6>
+      <div v-if="! isFormEditable(prohibition)" @click="triggerPrint" class="btn btn-primary small">
+        Print again
+        <b-spinner v-if="display_spinner" small label="Loading..."></b-spinner>
+      </div>
     </td>
   </tr>
 </template>
@@ -30,15 +30,31 @@ import { mapMutations, mapGetters, mapActions } from 'vuex';
 export default {
   name: "RecentProhibitionRow",
   props: {
-    prohibition_index: null,
     prohibition: {}
+  },
+  data() {
+    return {
+      display_spinner: false
+    }
   },
   computed: {
     ...mapGetters(["isFormEditable", "getServedStatus"])
   },
   methods: {
     ...mapMutations(["editExistingForm"]),
-    ...mapActions(["deleteSpecificForm"])
+    ...mapActions(["deleteSpecificForm", "saveFormAndGeneratePDF"]),
+    triggerPrint() {
+      console.log('inside triggerPrint()', this.display_spinner, this.getFormObject);
+      this.display_spinner = true;
+      this.saveFormAndGeneratePDF(this.prohibition)
+          .then(() => {
+            this.display_spinner = false;
+          })
+          .catch(() => {
+            this.display_spinner = false;
+          })
+
+    }
   }
 }
 </script>

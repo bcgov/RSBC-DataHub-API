@@ -27,6 +27,8 @@ parameters:
 - name: LINK_TO_SCHEDULE_FORM
 - name: LINK_TO_EVIDENCE_FORM
 - name: LINK_TO_APPLICATION_FORM
+- name: SPLUNK_HOST
+- name: SPLUNK_TOKEN
 - name: LINK_TO_ICBC
   value: 'https://www.icbc.com/driver-licensing/visit-dl-office/Pages/Book-a-knowledge-test-and-other-services.aspx'
 - name: LINK_TO_SERVICE_BC
@@ -190,6 +192,16 @@ objects:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
                   key: orbeon-prohibition-application-form
+            - name: SPLUNK_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: splunk-host
+            - name: SPLUNK_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: splunk-token
             - name: LINK_TO_ICBC
               value: ${LINK_TO_ICBC}
             - name: LINK_TO_SERVICE_BC

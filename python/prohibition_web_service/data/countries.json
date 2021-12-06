@@ -1,0 +1,26 @@
+[
+  {
+    "objectCd": "CAN",
+    "objectDsc": "Canada",
+    "activeYN": "Y",
+    "internalYN": null
+  },
+  {
+    "objectCd": "MEX",
+    "objectDsc": "MEXICO",
+    "activeYN": "Y",
+    "internalYN": null
+  },
+  {
+    "objectCd": "OTH",
+    "objectDsc": "Other",
+    "activeYN": "Y",
+    "internalYN": null
+  },
+  {
+    "objectCd": "USA",
+    "objectDsc": "United States",
+    "activeYN": "Y",
+    "internalYN": null
+  }
+]

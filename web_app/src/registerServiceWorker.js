@@ -12,6 +12,7 @@ if (process.env.NODE_ENV === 'production') {
     },
     registered () {
       console.log('Service worker has been registered.')
+
     },
     cached () {
       console.log('Content has been cached for offline use.')
@@ -19,9 +20,12 @@ if (process.env.NODE_ENV === 'production') {
     updatefound () {
       console.log('New content is downloading.')
     },
-    updated () {
-      console.log('New content is available; refreshing automatically')
-      window.location.reload(true)
+    updated (registration) {
+      console.log('New version of app is available - reloading app automatically')
+      document.dispatchEvent(
+          new CustomEvent('swUpdated', { detail: registration })
+      )
+      // TODO - causes endless loop - window.location.reload()
     },
     offline () {
       console.log('No internet connection found. App is running in offline mode.')

@@ -4,6 +4,7 @@ from python.common.vips_api import vips_str_to_datetime
 import python.common.helper as helper
 import python.common.prohibitions as pro
 import logging
+import logging.config
 from cerberus import Validator as Cerberus
 from python.common.config import Config
 import python.common.vips_api as vips
@@ -15,15 +16,7 @@ import xmltodict
 import base64
 import zlib
 
-
-logging.basicConfig(level=Config.LOG_LEVEL, format=Config.LOG_FORMAT)
-
-
-def create_correlation_id(**args) -> tuple:
-    correlation_id = vips.generate_correlation_id()
-    args['correlation_id'] = correlation_id
-    logging.info('CorrelationID: {}'.format(correlation_id))
-    return True, args
+logging.config.dictConfig(Config.LOGGING)
 
 
 def get_data_from_application_form(**args) -> tuple:
@@ -107,8 +100,7 @@ def get_vips_status(**args) -> tuple:
     """
     config = args.get('config')
     prohibition_number = args.get('prohibition_number')
-    correlation_id = args.get('correlation_id')
-    is_api_callout_successful, vips_status_data = vips.status_get(prohibition_number, config, correlation_id)
+    is_api_callout_successful, vips_status_data = vips.status_get(prohibition_number, config, prohibition_number)
     if is_api_callout_successful:
         args['vips_status'] = vips_status_data
         return True, args
@@ -124,9 +116,9 @@ def get_application_details(**args) -> tuple:
     Further middleware required to determine if the application is valid
     """
     config = args.get('config')
-    correlation_id = args.get('correlation_id')
     guid = args.get('application_id')
-    is_api_callout_successful, vips_application_data = vips.application_get(guid, config, correlation_id)
+    prohibition_number = args.get('prohibition_number')
+    is_api_callout_successful, vips_application_data = vips.application_get(guid, config, prohibition_number)
     if is_api_callout_successful:
         args['vips_application_data'] = vips_application_data
         return True, args
@@ -188,8 +180,9 @@ def application_has_been_paid(**args) -> tuple:
     Check that application has been paid
     """
     vips_data = args.get('vips_data')
-    if 'receiptNumberTxt' in vips_data:
-        return True, args
+    if len(vips_data['reviews']) > 0:
+        if 'receiptNumberTxt' in vips_data['reviews'][0]:
+            return True, args
     error = 'the application has not been paid'
     logging.info(error)
     args['error_string'] = "The application review fee must be paid to continue."
@@ -201,8 +194,11 @@ def application_not_paid(**args) -> tuple:
     Check that application has NOT been paid
     """
     vips_data = args.get('vips_data')
-    if 'receiptNumberTxt' not in vips_data:
+    if len(vips_data['reviews']) == 0:
         return True, args
+    if len(vips_data['reviews']) > 0:
+        if 'receiptNumberTxt' not in vips_data['reviews'][0]:
+            return True, args
     error = 'the application has previously been paid'
     logging.info(error)
     args['error_string'] = "The application review fee has already been paid."
@@ -214,25 +210,41 @@ def application_has_been_saved_to_vips(**args) -> tuple:
     Check that application has been saved to VIPS
     """
     vips_data = args.get('vips_data')
-    if 'applicationId' in vips_data:
-        args['application_id'] = vips_data['applicationId']
-        return True, args
+    if len(vips_data['reviews']) > 0:
+        if 'applicationId' in vips_data['reviews'][0]:
+            args['application_id'] = vips_data['reviews'][0]['applicationId']
+            return True, args
     error = 'the application has not been submitted'
     logging.info(error)
     args['error_string'] = "You must submit an application before you can pay."
     return False, args
 
 
-def application_not_previously_saved_to_vips(**args) -> tuple:
-    """
-    Check that application has NOT been saved to VIPS
-    """
-    vips_data = args.get('vips_data')
-    if 'applicationId' not in vips_data:
+def applicant_has_not_applied_previously(**args) -> tuple:
+    result, args = application_has_been_saved_to_vips(**args)
+    if not result:
         return True, args
     error = 'this prohibition already has an application on file'
     logging.info(error)
     args['error_string'] = "An application to review this prohibition has already been submitted."
+    return False, args
+
+
+def applicant_is_eligible_to_reapply(**args) -> tuple:
+    """
+    Check that an applicant is eligible to (re)apply. IRP and ADP prohibitions cannot reapply.
+    For UL prohibitions, applicants can reapply if the previous review is complete and wasn't successful.
+    """
+    failed_list = ['unknown', 'cancelled', 'unsuccessful']
+    vips_data = args.get('vips_data')
+    prohibition = pro.prohibition_factory(vips_data['noticeTypeCd'])
+    if prohibition.CAN_APPLY_FOR_REVIEW_MORE_THAN_ONCE:
+        if 'status' in vips_data['reviews'][0]:
+            # if the previous review was unsuccessful, the UL applicant is eligible to apply again
+            return vips_data['reviews'][0]['status'] in failed_list, args
+    error = 'the applicant not eligible to reapply'
+    logging.info(error)
+    args['error_string'] = "The applicant is not eligible to reapply"
     return False, args
 
 
@@ -287,7 +299,7 @@ def is_applicant_within_window_to_apply(**args) -> tuple:
     date_served = vips_str_to_datetime(date_served_string)
     prohibition = pro.prohibition_factory(vips_data['noticeTypeCd'])
     args['deadline_date_string'] = prohibition.get_deadline_date_string(date_served)
-    logging.warning('deadline date string: ' + args.get('deadline_date_string'))
+    logging.info('deadline date string: ' + args.get('deadline_date_string'))
     if prohibition.is_okay_to_apply(date_served, today):
         return True, args
     error = 'the prohibition is older than one week'
@@ -309,7 +321,7 @@ def is_applicant_within_window_to_pay(**args) -> tuple:
     date_served = vips_str_to_datetime(date_served_string)
     prohibition = pro.prohibition_factory(vips_data['noticeTypeCd'])
     args['deadline_date_string'] = prohibition.get_deadline_date_string(date_served)
-    logging.warning('deadline date string: ' + args.get('deadline_date_string'))
+    logging.info('deadline date string: ' + args.get('deadline_date_string'))
     if prohibition.is_okay_to_pay(date_served, today):
         return True, args
     error = 'the prohibition is older than eight days'
@@ -370,16 +382,16 @@ def calculate_schedule_window(**args) -> tuple:
 
 
 def query_review_times_available(**args) -> tuple:
-    correlation_id = args.get('correlation_id')
     vips_data = args.get('vips_data')
     first_date = args.get('min_review_date')
     last_date = args.get('max_review_date')
     review_type = args.get('presentation_type')
+    prohibition_number = args.get('prohibition_number')
     config = args.get('config')
     logging.info('query review times available')
     is_successful, data = vips.schedule_get(
         vips_data['noticeTypeCd'],
-        review_type, first_date, last_date, config, correlation_id)
+        review_type, first_date, last_date, config, prohibition_number)
     if not is_successful:
         return False, args
     logging.debug(json.dumps(data))
@@ -396,9 +408,9 @@ def does_applicant_have_enough_review_options(**args) -> tuple:
 
 def query_for_additional_review_times(**args) -> tuple:
     query_count = 0
-    correlation_id = args.get('correlation_id')
     config = args.get('config')
     number_review_days_offered = args.get('number_review_days_offered')
+    prohibition_number = args.get('prohibition_number')
     vips_data = args.get('vips_data')
     time_slots = args.get('time_slots')
     datetime_to_query = args.get('max_review_date')
@@ -410,7 +422,7 @@ def query_for_additional_review_times(**args) -> tuple:
         if vips.is_work_day(datetime_to_query):
             is_successful, data = vips.schedule_get(
                 vips_data['noticeTypeCd'],
-                review_type, datetime_to_query, datetime_to_query, config, correlation_id)
+                review_type, datetime_to_query, datetime_to_query, config, prohibition_number)
             if len(data["time_slots"]) > 0:
                 number_review_days_offered += 1
                 time_slots.append(data['time_slots'][0])
@@ -437,16 +449,17 @@ def transform_receipt_date_from_pay_bc_format(**args) -> tuple:
 
 
 def save_payment_to_vips(**args) -> tuple:
+    logging.debug("inside save_payment_to_vips()")
     payload = args.get('payload')
     config = args.get('config')
     # PayBC has the ability to pay multiple invoices in a single transaction
     # however we can assume there is only one transaction because this API only
     # returns a single invoice per prohibition number.
+    application_id = args.get('application_id')
     prohibition_number = args.get('prohibition_number')
-    correlation_id = args.get('correlation_id')
-    is_successful, data = vips.payment_patch(prohibition_number,
+    is_successful, data = vips.payment_patch(application_id,
                                              config,
-                                             correlation_id,
+                                             prohibition_number,
                                              card_type=payload['cardtype'],
                                              receipt_amount=payload['receipt_amount'],
                                              receipt_date=args.get('receipt_date'),
@@ -642,9 +655,9 @@ def get_payment_status(**args) -> tuple:
     Further middleware required to determine if the query found a prohibition
     """
     config = args.get('config')
+    application_id = args.get('application_id')
     prohibition_number = args.get('prohibition_number')
-    correlation_id = args.get('correlation_id')
-    is_api_callout_successful, payment_data = vips.payment_get(prohibition_number, config, correlation_id)
+    is_api_callout_successful, payment_data = vips.payment_get(application_id, config, prohibition_number)
     if is_api_callout_successful:
         args['vips_payment_data'] = payment_data
         return True, args
@@ -810,11 +823,15 @@ def is_any_unsent_disclosure(**args) -> tuple:
     Returns True if there is unsent disclosure to send to applicant
     """
     vips_data = args.get('vips_data')
+    config = args.get('config')
+    today = args.get('today_date')
     unsent_disclosure = list()
     args['subsequent_disclosure'] = False
     if 'disclosure' in vips_data:
         for item in vips_data['disclosure']:
             if 'disclosedDtm' not in item:
+                unsent_disclosure.append(item)
+            elif (today - vips.vips_str_to_datetime(item['disclosedDtm'])).days > config.DAYS_ELAPSED_TO_RESEND_DISCLOSURE:
                 unsent_disclosure.append(item)
             else:
                 args['subsequent_disclosure'] = True
@@ -830,13 +847,13 @@ def retrieve_unsent_disclosure(**args) -> tuple:
     in a format for the Common Services API.
     """
     disclosures = args.get('disclosures')
-    correlation_id = args.get('correlation_id')
+    prohibition_number = args.get('prohibition_number')
     config = args.get('config')
     disclosure_for_applicant = list()
     successfully_retrieved_document_ids = list()
     error = False
     for disclosure in disclosures:
-        is_successful, data = vips.disclosure_get(disclosure['documentId'], config, correlation_id)
+        is_successful, data = vips.disclosure_get(disclosure['documentId'], config, prohibition_number)
         if is_successful and data['resp'] == "success" and 'data' in data:
             successfully_retrieved_document_ids.append(disclosure['documentId'])
             mine_type = data['data']['document']['mimeType']
@@ -916,9 +933,12 @@ def is_review_in_the_future(**args) -> tuple:
     False
     """
     vips_data = args.get('vips_data')
-    review_start_datetime = vips_str_to_datetime(vips_data['reviewStartDtm'])
-    today_date = args.get('today_date')
-    return today_date < review_start_datetime, args
+    if len(vips_data['reviews']) > 0:
+        if 'reviewStartDtm' in vips_data['reviews'][0]:
+            review_start_datetime = vips_str_to_datetime(vips_data['reviews'][0]['reviewStartDtm'])
+            today_date = args.get('today_date')
+            return today_date < review_start_datetime, args
+    return False, args
 
 
 def is_review_more_than_48_hours_in_the_future(**args) -> tuple:
@@ -930,7 +950,7 @@ def is_review_more_than_48_hours_in_the_future(**args) -> tuple:
     seconds_in_an_hour = 60 * 60
     vips_data = args.get('vips_data')
     config = args.get('config')
-    review_start_datetime = vips_str_to_datetime(vips_data['reviewStartDtm'])
+    review_start_datetime = vips_str_to_datetime(vips_data['reviews'][0]['reviewStartDtm'])
     today_date = args.get('today_date')
     difference_seconds = (review_start_datetime - today_date).total_seconds()
     difference_hours = difference_seconds / seconds_in_an_hour
@@ -948,12 +968,13 @@ def review_has_not_been_scheduled(**args) -> tuple:
     Check that review has not previously been scheduled
     """
     vips_data = args.get('vips_data')
-    if 'reviewStartDtm' not in vips_data:
-        return True, args
-    error = 'A review has already been scheduled for this prohibition.'
-    logging.info(error)
-    args['error_string'] = error
-    return False, args
+    if len(vips_data['reviews']) > 0:
+        if 'reviewStartDtm' in vips_data['reviews'][0]:
+            error = 'A review has already been scheduled for this prohibition.'
+            logging.info(error)
+            args['error_string'] = error
+            return False, args
+    return True, args
 
 
 def review_has_been_scheduled(**args) -> tuple:
@@ -961,8 +982,9 @@ def review_has_been_scheduled(**args) -> tuple:
     Check that review has been scheduled
     """
     vips_data = args.get('vips_data')
-    if 'reviewStartDtm' in vips_data:
-        return True, args
+    if len(vips_data['reviews']) > 0:
+        if 'reviewStartDtm' in vips_data['reviews'][0]:
+            return True, args
     error = 'A review has not been scheduled'
     logging.info(error)
     args['error_string'] = "You must book a review date before you can submit evidence for the review."

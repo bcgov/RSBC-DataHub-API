@@ -12,7 +12,6 @@ def get_available_time_slots() -> list:
         - the window to schedule the review has not elapsed
     """
     return [
-        {"try": middleware.create_correlation_id, "fail": []},
         {"try": middleware.determine_current_datetime, "fail": []},
         {"try": middleware.clean_prohibition_number, "fail": []},
         {"try": middleware.validate_prohibition_number, "fail": []},
@@ -84,7 +83,6 @@ def is_okay_to_submit_evidence() -> list:
      - the review date must be at 24 hours in the future
     """
     return [
-        {"try": middleware.create_correlation_id, "fail": []},
         {"try": middleware.determine_current_datetime, "fail": []},
         {"try": middleware.clean_prohibition_number, "fail": []},
         {"try": middleware.validate_prohibition_number, "fail": []},

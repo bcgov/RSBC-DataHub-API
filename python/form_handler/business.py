@@ -1,6 +1,7 @@
 import python.common.middleware as middleware
 import python.common.actions as actions
 import python.common.rsi_email as rsi_email
+import python.common.splunk as splunk
 
 
 def process_incoming_form() -> dict:
@@ -21,7 +22,6 @@ def process_incoming_form() -> dict:
                 {"try": actions.add_to_hold_queue, "fail": []}
             ]},
             {"try": middleware.get_data_from_disclosure_event, "fail": []},
-            {"try": middleware.create_correlation_id, "fail": []},
             {"try": middleware.determine_current_datetime, "fail": []},
             {"try": middleware.get_vips_status, "fail": []},
             {"try": middleware.prohibition_exists_in_vips, "fail": []},
@@ -39,6 +39,7 @@ def process_incoming_form() -> dict:
                 # if send is not successful, add back to hold queue
             ]},
             {"try": middleware.mark_disclosure_as_sent, "fail": []},
+            {"try": splunk.disclosure_sent, "fail": []},
             {"try": actions.add_hold_before_sending_disclosure, "fail": []},
             {"try": actions.add_to_hold_queue, "fail": []}
 
@@ -48,7 +49,6 @@ def process_incoming_form() -> dict:
                 {"try": actions.add_to_hold_queue, "fail": []}
             ]},
             {"try": middleware.get_data_from_verify_schedule_event, "fail": []},
-            {"try": middleware.create_correlation_id, "fail": []},
             {"try": middleware.determine_current_datetime, "fail": []},
             {"try": middleware.get_vips_status, "fail": []},
             {"try": middleware.prohibition_exists_in_vips, "fail": []},
@@ -60,7 +60,6 @@ def process_incoming_form() -> dict:
         ],
         "review_schedule_picker": [
             # aka: review scheduler
-            {"try": middleware.create_correlation_id, "fail": []},
             {"try": middleware.determine_current_datetime, "fail": []},
             {"try": middleware.get_data_from_schedule_form, "fail": []},
             {"try": middleware.clean_prohibition_number, "fail": []},
@@ -85,6 +84,7 @@ def process_incoming_form() -> dict:
                 # Consider sending a message to the applicant in the unlikely
                 # event that the schedule save operation is unsuccessful
             ]},
+            {"try": splunk.review_scheduled, "fail": []},
             {"try": rsi_email.applicant_schedule_confirmation, "fail": []},
             {"try": rsi_email.applicant_evidence_instructions, "fail": []},
             {"try": middleware.create_disclosure_event, "fail": []},
@@ -92,7 +92,7 @@ def process_incoming_form() -> dict:
             {"try": actions.add_to_hold_queue, "fail": []}
         ],
         "prohibition_review": [
-            # aka: submit prohibition application
+            # aka: prohibition application received
             {"try": actions.is_not_on_hold, "fail": [
                 {"try": actions.add_to_hold_queue, "fail": []}
             ]},
@@ -100,7 +100,6 @@ def process_incoming_form() -> dict:
             {"try": middleware.get_user_entered_notice_type_from_message, "fail": []},
             {"try": middleware.clean_prohibition_number, "fail": []},
             {"try": middleware.populate_driver_name_fields_if_null, "fail": []},
-            {"try": middleware.create_correlation_id, "fail": []},
             {"try": middleware.determine_current_datetime, "fail": []},
             {"try": middleware.get_vips_status, "fail": [
                 {"try": actions.add_to_hold_queue, "fail": []}
@@ -118,8 +117,33 @@ def process_incoming_form() -> dict:
                 {"try": actions.add_hold_before_trying_vips_again, "fail": []},
                 {"try": actions.add_to_hold_queue, "fail": []}
             ]},
-            {"try": middleware.application_not_previously_saved_to_vips, "fail": [
-                {"try": rsi_email.already_applied, "fail": []},
+            {"try": middleware.applicant_has_not_applied_previously, "fail": [
+                {"try": middleware.applicant_is_eligible_to_reapply, "fail": [
+                    {"try": rsi_email.already_applied, "fail": []},
+                ]},
+                {"try": middleware.user_submitted_last_name_matches_vips, "fail": [
+                    {"try": rsi_email.applicant_last_name_mismatch, "fail": []}
+                ]},
+                {"try": middleware.is_applicant_within_window_to_apply, "fail": [
+                    {"try": rsi_email.applicant_prohibition_served_more_than_7_days_ago, "fail": []}
+                ]},
+                {"try": middleware.has_drivers_licence_been_seized, "fail": [
+                    {"try": rsi_email.applicant_licence_not_seized, "fail": []}
+                ]},
+                {"try": middleware.transform_hearing_request_type, "fail": []},
+                {"try": middleware.force_presentation_type_to_written_if_ineligible_for_oral, "fail": []},
+                {"try": middleware.transform_applicant_role_type, "fail": []},
+                {"try": middleware.compress_form_data_xml, "fail": []},
+                {"try": middleware.save_application_to_vips, "fail": [
+                    {"try": actions.add_to_failed_queue, "fail": []},
+                    {"try": rsi_email.admin_unable_to_save_to_vips, "fail": []}
+                ]},
+                {"try": splunk.application_accepted, "fail": []},
+                {"try": rsi_email.application_accepted, "fail": []},
+                {"try": middleware.is_applicant_ineligible_for_oral_review_but_requested_oral, "fail": [
+                    # end of successful application process
+                ]},
+                {"try": rsi_email.applicant_review_type_change, "fail": []}
             ]},
             {"try": middleware.review_has_not_been_scheduled, "fail": [
                 {"try": rsi_email.applicant_applied_at_icbc, "fail": []},
@@ -141,6 +165,7 @@ def process_incoming_form() -> dict:
                 {"try": actions.add_to_failed_queue, "fail": []},
                 {"try": rsi_email.admin_unable_to_save_to_vips, "fail": []}
             ]},
+            {"try": splunk.application_accepted, "fail": []},
             {"try": rsi_email.application_accepted, "fail": []},
             {"try": middleware.is_applicant_ineligible_for_oral_review_but_requested_oral, "fail": [
                 # end of successful application process
@@ -149,7 +174,6 @@ def process_incoming_form() -> dict:
         ],
         "Document_submission": [
             # aka: evidence submission form
-            {"try": middleware.create_correlation_id, "fail": []},
             {"try": middleware.determine_current_datetime, "fail": []},
             {"try": middleware.get_data_from_document_submission_form, "fail": []},
             {"try": middleware.clean_prohibition_number, "fail": []},
@@ -160,5 +184,6 @@ def process_incoming_form() -> dict:
             {"try": middleware.get_application_details, "fail": []},
             {"try": middleware.valid_application_received_from_vips, "fail": []},
             {"try": rsi_email.applicant_evidence_received, "fail": []},
+            {"try": splunk.evidence_received, "fail": []},
         ]
     }

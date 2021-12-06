@@ -1,0 +1,554 @@
+{
+    "data_types": [
+        {
+            "name": "evt_issuance",
+            "tables": [
+                {
+                    "name": "etk.events",
+                    "relationship": "one-to-one",
+                    "fields": [
+                        {
+                            "json_name": "event_id",
+                            "destination_name": "id"
+                        },
+                        {
+                            "json_name": "event_date_time",
+                            "destination_name": "date_time"
+                        },
+                        {
+                            "json_name": "event_version",
+                            "destination_name": "version"
+                        },
+                        {
+                            "json_name": "event_type",
+                            "destination_name": "type"
+                        }
+                    ]
+                },
+                {
+                    "name": "etk.issuances",
+                    "relationship": "one-to-one",
+                    "fields": [
+                        {
+                            "json_name": "event_id",
+                            "destination_name": "event_id"
+                        },
+                        {
+                            "json_name": "evt_issuance.ticket_number",
+                            "destination_name": "ticket_number"
+                        },
+                        {
+                            "json_name": "evt_issuance.drivers_licence_province_code",
+                            "destination_name": "drivers_licence_province_code"
+                        },
+                        {
+                            "json_name": "evt_issuance.vehicle_nsc_puj_code",
+                            "destination_name": "vehicle_nsj_puj_cd"
+                        },
+                        {
+                            "json_name": "evt_issuance.person_gender_code",
+                            "destination_name": "person_gender_code"
+                        },
+                        {
+                            "json_name": "evt_issuance.person_residence_city_name",
+                            "destination_name": "person_residence_city_name"
+                        },
+                        {
+                            "json_name": "evt_issuance.person_residence_province_code",
+                            "destination_name": "person_residence_province_code"
+                        },
+                        {
+                            "json_name": "evt_issuance.young_person_yn",
+                            "destination_name": "young_person_yn"
+                        },
+                        {
+                            "json_name": "evt_issuance.offender_type_name",
+                            "destination_name": "offender_type_code"
+                        },
+                        {
+                            "json_name": "evt_issuance.vehicle_province_code",
+                            "destination_name": "vehicle_province_code"
+                        },
+                        {
+                            "json_name": "evt_issuance.vehicle_nsj_puj_cd",
+                            "destination_name": "vehicle_nsj_puj_cd"
+                        },
+                        {
+                            "json_name": "evt_issuance.vehicle_make_code",
+                            "destination_name": "vehicle_make_code"
+                        },
+                        {
+                            "json_name": "evt_issuance.vehicle_year",
+                            "destination_name": "vehicle_year"
+                        },
+                        {
+                            "json_name": "evt_issuance.violation_date",
+                            "destination_name": "violation_date"
+                        },
+                        {
+                            "json_name": "evt_issuance.violation_time",
+                            "destination_name": "violation_time"
+                        },
+                        {
+                            "json_name": "evt_issuance.submit_date",
+                            "destination_name": "submit_date"
+                        },
+                        {
+                            "json_name": "evt_issuance.sent_time",
+                            "destination_name": "sent_time"
+                        },
+                        {
+                            "json_name": "evt_issuance.vehicle_make_name",
+                            "destination_name": "vehicle_make_code"
+                        },
+                        {
+                            "json_name": "evt_issuance.vehicle_type_code",
+                            "destination_name": "vehicle_type_code"
+                        },
+                        {
+                            "json_name": "evt_issuance.violation_city_name",
+                            "destination_name": "violation_city_name"
+                        },
+                        {
+                            "json_name": "evt_issuance.violation_city_code",
+                            "destination_name": "violation_city_code"
+                        },
+                        {
+                            "json_name": "evt_issuance.violation_highway_desc",
+                            "destination_name": "violation_highway_desc"
+                        },
+                        {
+                            "json_name": "evt_issuance.accident_yn",
+                            "destination_name": "accident_yn"
+                        },
+                        {
+                            "json_name": "evt_issuance.dispute_address_text",
+                            "destination_name": "dispute_address_text"
+                        },
+                        {
+                            "json_name": "evt_issuance.court_location_code",
+                            "destination_name": "court_location_code"
+                        },
+                        {
+                            "json_name": "evt_issuance.mre_agency_text",
+                            "destination_name": "mre_agency_text"
+                        },
+                        {
+                            "json_name": "evt_issuance.certificate_of_service_date",
+                            "destination_name": "certificate_of_service_date"
+                        },
+                        {
+                            "json_name": "evt_issuance.certificate_of_service_number",
+                            "destination_name": "certificate_of_service_number"
+                        },
+                        {
+                            "json_name": "evt_issuance.e_violation_form_number",
+                            "destination_name": "e_violation_form_number"
+                        },
+                        {
+                            "json_name": "evt_issuance.enforcement_jurisdiction_name",
+                            "destination_name": "enforcement_jurisdiction_name"
+                        },
+                        {
+                            "json_name": "evt_issuance.mre_minor_version_text",
+                            "destination_name": "mre_minor_version_text"
+                        },
+                        {
+                            "json_name": "evt_issuance.sent_date",
+                            "destination_name": "sent_date"
+                        },
+                        {
+                            "json_name": "evt_issuance.enforcement_jurisdiction_code",
+                            "destination_name": "enforcement_jurisdiction_code"
+                        },
+                        {
+                            "json_name": "evt_issuance.enforcement_officer_number",
+                            "destination_name": "enforcement_officer_number"
+                        },
+                        {
+                            "json_name": "evt_issuance.enforcement_officer_name",
+                            "destination_name": "enforcement_officer_name"
+                        },
+                        {
+                            "json_name": "evt_issuance.count_quantity",
+                            "destination_name": "count_quantity"
+                        }
+                    ]
+                },
+                {
+                    "name": "etk.violations",
+                    "relationship": "one-to-many",
+                    "many_details": {
+                        "iterate_on": "evt_issuance.counts",
+                        "key_field": {
+                            "json_name": "evt_issuance.ticket_number",
+                            "destination_name": "ticket_number"
+                        }
+                    },
+                    "fields": [
+                        {
+                            "json_name": "count_number",
+                            "destination_name": "count_number"
+                        },
+                        {
+                            "json_name": "act_code",
+                            "destination_name": "act_code"
+                        },
+                        {
+                            "json_name": "section_text",
+                            "destination_name": "section_text"
+                        },
+                        {
+                            "json_name": "section_desc",
+                            "destination_name": "section_desc"
+                        },
+                        {
+                            "json_name": "fine_amount",
+                            "destination_name": "fine_amount"
+                        },
+                        {
+                            "json_name": "wording_nbr",
+                            "destination_name": "wording_number"
+                        }
+                    ]
+                },
+                {
+                    "name": "gis.geolocations",
+                    "relationship": "one-to-one",
+                    "fields": [
+                        {
+                            "json_name": "evt_issuance.geolocation.business_program",
+                            "destination_name": "business_program"
+                        },
+                        {
+                            "json_name": "evt_issuance.geolocation.business_type",
+                            "destination_name": "business_type"
+                        },
+                        {
+                            "json_name": "evt_issuance.geolocation.business_id",
+                            "destination_name": "business_id"
+                        },
+                        {
+                            "json_name": "evt_issuance.geolocation.long",
+                            "destination_name": "long"
+                        },
+                        {
+                            "json_name": "evt_issuance.geolocation.lat",
+                            "destination_name": "lat"
+                        },
+                        {
+                            "json_name": "evt_issuance.geolocation.requested_address",
+                            "destination_name": "requested_address"
+                        },
+                        {
+                            "json_name": "evt_issuance.geolocation.submitted_address",
+                            "destination_name": "submitted_address"
+                        },
+                        {
+                            "json_name": "evt_issuance.geolocation.databc_long",
+                            "destination_name": "databc_long"
+                        },
+                        {
+                            "json_name": "evt_issuance.geolocation.databc_lat",
+                            "destination_name": "databc_lat"
+                        },
+                        {
+                            "json_name": "evt_issuance.geolocation.databc_score",
+                            "destination_name": "databc_score"
+                        },
+                        {
+                            "json_name": "evt_issuance.geolocation.full_address",
+                            "destination_name": "full_address"
+                        },
+                        {
+                            "json_name": "evt_issuance.geolocation.faults",
+                            "destination_name": "faults"
+                        },
+                        {
+                            "json_name": "evt_issuance.geolocation.precision",
+                            "destination_name": "precision"
+                        },
+                        {
+                            "json_name": "evt_issuance.geolocation.databc_precision",
+                            "destination_name": "databc_precision"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "vt_query",
+            "tables": [
+                {
+                    "name": "etk.events",
+                    "relationship": "one-to-one",
+                    "fields": [
+                        {
+                            "json_name": "event_id",
+                            "destination_name": "id"
+                        },
+                        {
+                            "json_name": "event_date_time",
+                            "destination_name": "date_time"
+                        },
+                        {
+                            "json_name": "event_version",
+                            "destination_name": "version"
+                        },
+                        {
+                            "json_name": "event_type",
+                            "destination_name": "type"
+                        }
+                    ]
+                },
+                {
+                    "name": "etk.queries",
+                    "relationship": "one-to-one",
+                    "fields": [
+                        {
+                            "json_name": "event_id",
+                            "destination_name": "event_id"
+                        },
+                        {
+                            "json_name": "vt_query.ticket_number",
+                            "destination_name": "ticket_number"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "vt_payment",
+            "tables": [
+                {
+                    "name": "etk.events",
+                    "relationship": "one-to-one",
+                    "fields": [
+                        {
+                            "json_name": "event_id",
+                            "destination_name": "id"
+                        },
+                        {
+                            "json_name": "event_date_time",
+                            "destination_name": "date_time"
+                        },
+                        {
+                            "json_name": "event_version",
+                            "destination_name": "version"
+                        },
+                        {
+                            "json_name": "event_type",
+                            "destination_name": "type"
+                        }
+                    ]
+                },
+                {
+                    "name": "etk.payments",
+                    "relationship": "one-to-one",
+                    "fields": [
+                        {
+                            "json_name": "event_id",
+                            "destination_name": "event_id"
+                        },
+                        {
+                            "json_name": "vt_payment.ticket_number",
+                            "destination_name": "ticket_number"
+                        },
+                        {
+                            "json_name": "vt_payment.count_number",
+                            "destination_name": "count_number"
+                        },
+                        {
+                            "json_name": "vt_payment.transaction_id",
+                            "destination_name": "transaction_id"
+                        },
+                        {
+                            "json_name": "vt_payment.payment_card_type",
+                            "destination_name": "payment_card_type"
+                        },
+                        {
+                            "json_name": "vt_payment.payment_ticket_type_code",
+                            "destination_name": "payment_ticket_type_code"
+                        },
+                        {
+                            "json_name": "vt_payment.payment_amount",
+                            "destination_name": "payment_amount"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "vt_dispute",
+            "tables": [
+                {
+                    "name": "etk.events",
+                    "relationship": "one-to-one",
+                    "fields": [
+                        {
+                            "json_name": "event_id",
+                            "destination_name": "id"
+                        },
+                        {
+                            "json_name": "event_date_time",
+                            "destination_name": "date_time"
+                        },
+                        {
+                            "json_name": "event_version",
+                            "destination_name": "version"
+                        },
+                        {
+                            "json_name": "event_type",
+                            "destination_name": "type"
+                        }
+                    ]
+                },
+                {
+                    "name": "etk.disputes",
+                    "relationship": "one-to-one",
+                    "fields": [
+                        {
+                            "json_name": "event_id",
+                            "destination_name": "event_id"
+                        },
+                        {
+                            "json_name": "vt_dispute.ticket_number",
+                            "destination_name": "ticket_number"
+                        },
+                        {
+                            "json_name": "vt_dispute.count_number",
+                            "destination_name": "count_number"
+                        },
+                        {
+                            "json_name": "vt_dispute.dispute_action_date",
+                            "destination_name": "dispute_action_date"
+                        },
+                        {
+                            "json_name": "vt_dispute.dispute_type_code",
+                            "destination_name": "dispute_type_code"
+                        },
+                        {
+                            "json_name": "vt_dispute.count_act_regulation",
+                            "destination_name": "count_act_regulation"
+                        },
+                        {
+                            "json_name": "vt_dispute.compressed_section",
+                            "destination_name": "compressed_section"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "vt_dispute_status_update",
+            "tables": [
+                {
+                    "name": "etk.events",
+                    "relationship": "one-to-one",
+                    "fields": [
+                        {
+                            "json_name": "event_id",
+                            "destination_name": "id"
+                        },
+                        {
+                            "json_name": "event_date_time",
+                            "destination_name": "date_time"
+                        },
+                        {
+                            "json_name": "event_version",
+                            "destination_name": "version"
+                        },
+                        {
+                            "json_name": "event_type",
+                            "destination_name": "type"
+                        }
+                    ]
+                },
+                {
+                    "name": "etk.dispute_status_updates",
+                    "relationship": "one-to-one",
+                    "fields": [
+                        {
+                            "json_name": "event_id",
+                            "destination_name": "event_id"
+                        },
+                        {
+                            "json_name": "vt_dispute_status_update.ticket_number",
+                            "destination_name": "ticket_number"
+                        },
+                        {
+                            "json_name": "vt_dispute_status_update.count_number",
+                            "destination_name": "count_number"
+                        },
+                        {
+                            "json_name": "vt_dispute_status_update.dispute_action_date",
+                            "destination_name": "dispute_action_date"
+                        },
+                        {
+                            "json_name": "vt_dispute_status_update.dispute_action_code",
+                            "destination_name": "dispute_action_code"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "vt_dispute_finding",
+            "tables": [
+                {
+                    "name": "etk.events",
+                    "relationship": "one-to-one",
+                    "fields": [
+                        {
+                            "json_name": "event_id",
+                            "destination_name": "id"
+                        },
+                        {
+                            "json_name": "event_date_time",
+                            "destination_name": "date_time"
+                        },
+                        {
+                            "json_name": "event_version",
+                            "destination_name": "version"
+                        },
+                        {
+                            "json_name": "event_type",
+                            "destination_name": "type"
+                        }
+                    ]
+                },
+                {
+                    "name": "etk.dispute_findings",
+                    "relationship": "one-to-one",
+                    "fields": [
+                        {
+                            "json_name": "event_id",
+                            "destination_name": "event_id"
+                        },
+                        {
+                            "json_name": "vt_dispute_finding.ticket_number",
+                            "destination_name": "ticket_number"
+                        },
+                        {
+                            "json_name": "vt_dispute_finding.count_number",
+                            "destination_name": "count_number"
+                        },
+                        {
+                            "json_name": "vt_dispute_finding.finding_date",
+                            "destination_name": "finding_date"
+                        },
+                        {
+                            "json_name": "vt_dispute_finding.finding_code",
+                            "destination_name": "finding_code"
+                        },
+                        {
+                            "json_name": "vt_dispute_finding.finding_description",
+                            "destination_name": "finding_description"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+        
+}

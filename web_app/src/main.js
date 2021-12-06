@@ -3,15 +3,16 @@ import Vuex from 'vuex'
 import App from './App.vue'
 import { BootstrapVue, BootstrapVueIcons, ModalPlugin } from 'bootstrap-vue'
 import { ValidationProvider } from 'vee-validate';
+import VueKeyCloak from '@dsb-norge/vue-keycloak-js'
+import router from '@/router'
+
 
 import "@/config/custom_stylesheet.scss";
-import getters from "@/store/getters.js"
-import mutations from "@/store/mutations";
-import actions from "@/store/actions";
-import form_schemas from "@/config/form_schemas.json";
-import bc_city_names from "@/config/cities.json";
-import car_colors from "@/config/car_colors.json"
+import {store} from "@/store/store.js"
+
 import './registerServiceWorker'
+import constants from "@/config/constants";
+
 
 Vue.use(Vuex)
 
@@ -20,29 +21,44 @@ Vue.use(BootstrapVue)
 Vue.use(ModalPlugin)
 Vue.use(BootstrapVueIcons)
 
+
 // import custom validation rules
 require("@/helpers/validators");
 Vue.component('ValidationProvider', ValidationProvider);
 
 Vue.config.productionTip = false
 
-const store = new Vuex.Store({
-  state: {
-    provinces: ["BC", "AB"],
-    isOnline: null,
-    bc_city_names: bc_city_names,
-    car_colors: car_colors,
-    edited_forms: Array(),
-    currently_editing_prohibition_index: null,
-    form_schemas: form_schemas
+
+Vue.use(VueKeyCloak, {
+  init: {
+    onLoad: 'check-sso',
   },
-  mutations: mutations,
-  getters: getters,
-  actions: actions
-})
+  config: constants.API_ROOT_URL + '/api/v1/keycloak',
+  onReady: () => {
+    store.commit("setKeycloak", Vue.prototype.$keycloak)
+    // TODO - get lookup tables from cache because we don't have an access token yet
+    store.dispatch("downloadLookupTables")
+  }
+});
+
 
 new Vue({
+  router,
   store: store,
-  beforeCreate() { this.$store.commit("retrieveFormsFromLocalStorage")},
+  async created() {
+
+    await store.dispatch("getAllFormsFromDB");
+    await store.dispatch("downloadLookupTables")
+
+    this.$store.subscribe((mutation) => {
+      if (mutation.type === 'setKeycloak') {
+        store.dispatch("fetchStaticLookupTables", "user_roles")
+      }
+    });
+
+  },
   render: h => h(App),
 }).$mount('#app')
+
+
+

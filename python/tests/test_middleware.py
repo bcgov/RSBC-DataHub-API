@@ -1,5 +1,6 @@
 import pytz
 import logging
+import logging.config
 import os
 from python.form_handler.config import Config
 import python.common.vips_api as vips
@@ -57,7 +58,7 @@ last_name_match_data = [
 
 @pytest.mark.parametrize("user_entered_last_name, last_name_from_vips, expected", last_name_match_data)
 def test_user_submitted_last_name_matches_vips_method(user_entered_last_name, last_name_from_vips, expected):
-    vips_status = load_json_into_dict("python/tests/sample_data/vips/vips_query_200.json")
+    vips_status = load_json_into_dict("python/common/tests/sample_data/vips/vips_query_200.json")
     vips_status['data']['status']['surnameNm'] = last_name_from_vips
     result, args = middleware.user_submitted_last_name_matches_vips(
         driver_last_name=user_entered_last_name,
@@ -123,7 +124,7 @@ exists_in_vips_data = [
 
 @pytest.mark.parametrize("response_from_vips, expected", exists_in_vips_data)
 def test_prohibition_exists_in_vips_method(response_from_vips, expected):
-    vips_status = load_json_into_dict("python/tests/sample_data/vips/{}".format(response_from_vips))
+    vips_status = load_json_into_dict("python/common/tests/sample_data/vips/{}".format(response_from_vips))
     result, data = middleware.prohibition_exists_in_vips(vips_status=vips_status)
     assert result is expected
     if result:
@@ -142,8 +143,8 @@ licence_seized = [
 
 @pytest.mark.parametrize("prohibition_type, test_condition, expected", licence_seized)
 def test_has_drivers_licence_been_seized_method(prohibition_type, test_condition, expected):
-    sample_data = load_json_into_dict('python/tests/sample_data/form/irp_form_submission.json')
-    response_from_api = load_json_into_dict('python/tests/sample_data/vips/vips_query_200.json')
+    sample_data = load_json_into_dict('python/common/tests/sample_data/form/irp_form_submission.json')
+    response_from_api = load_json_into_dict('python/common/tests/sample_data/vips/vips_query_200.json')
     response_from_api['data']['status']['driverLicenceSeizedYn'] = test_condition
     response_from_api['data']['status']['noticeTypeCd'] = prohibition_type
     vips_data = response_from_api['data']['status']
@@ -187,7 +188,7 @@ def test_transform_hearing_request_types(hearing_type, expected):
 
 def test_null_json_values_convert_to_none_types():
     # check that json attributes with null values are converted to None type
-    sample_data = load_json_into_dict('python/tests/sample_data/form/irp_form_submission.json')
+    sample_data = load_json_into_dict('python/common/tests/sample_data/form/irp_form_submission.json')
     assert sample_data['prohibition_review']['form']['review-information']['ul-grounds'] is None
 
 
@@ -204,12 +205,6 @@ def test_transform_applicant_role_types(role_type, expected, is_success):
     response, args = middleware.transform_applicant_role_type(applicant_role_raw=role_type)
     assert response is is_success
     assert args['applicant_role'] == expected
-
-
-def test_create_correlation_id():
-    response, args = middleware.create_correlation_id()
-    assert 'correlation_id' in args
-    assert len(args['correlation_id']) == 36
 
 
 prohibition_numbers = [
@@ -268,10 +263,10 @@ def test_validate_application_received_from_vips(response_under_test, is_valid):
 
 
 prohibitions_paid = [
-    ({"receiptNumberTxt": "1234"}, True),
-    ({"receiptNumberTxt": ""}, True),
-    ({"otherAttribute": "1234"}, False),
-    ({}, False),
+    ({"reviews": [{"receiptNumberTxt": "1234"}]}, True),
+    ({"reviews": [{"receiptNumberTxt": ""}]}, True),
+    ({"reviews": [{"otherAttribute": "1234"}]}, False),
+    ({"reviews": []}, False),
 ]
 
 
@@ -288,10 +283,10 @@ def test_application_not_paid(response_under_test, is_valid):
 
 
 status_responses = [
-    ({"applicationId": "1234"}, True),
-    ({"applicationId": ""}, True),
-    ({"otherAttribute": "1234"}, False),
-    ({}, False),
+    ({"reviews": [{"applicationId": "1234"}]}, True),
+    ({"reviews": [{"applicationId": ""}]}, True),
+    ({"reviews": [{"otherAttribute": "1234"}]}, False),
+    ({"reviews": []}, False),
 ]
 
 
@@ -303,7 +298,7 @@ def test_application_saved_to_vips(response_under_test, is_valid):
 
 @pytest.mark.parametrize("response_under_test, is_valid", status_responses)
 def test_application_not_saved_to_vips(response_under_test, is_valid):
-    response, args = middleware.application_not_previously_saved_to_vips(vips_data=response_under_test)
+    response, args = middleware.applicant_has_not_applied_previously(vips_data=response_under_test)
     assert response is not is_valid
 
 
@@ -452,7 +447,7 @@ def test_paid_not_more_than_24hrs_ago(payment_date, current_time_is, expected):
 
 def test_get_data_from_schedule_form():
     # check that json attributes with null values are converted to None type
-    sample_data = load_json_into_dict('python/tests/sample_data/form/schedule_picker_submission.json')
+    sample_data = load_json_into_dict('python/common/tests/sample_data/form/schedule_picker_submission.json')
     response, args = middleware.get_data_from_schedule_form(message=sample_data)
     assert args.get('requested_time_code') == 'MjAyMC0xMC0wNyAwOTozMDowMCAtMDc6MDB8MjAyMC0xMC0wNyAxMDowMDowMCAtMDc6MDA='
     assert args.get('prohibition_number') == '21-900040'
@@ -506,7 +501,7 @@ def test_change_presentation_type_to_written_if_not_eligible(notice_type, cause,
 
 
 def test_decode_compress_encode_xml():
-    string_under_test = load_xml_to_string('python/tests/sample_data/form/form_submission.xml')
+    string_under_test = load_xml_to_string('python/common/tests/sample_data/form/form_submission.xml')
     bytes_under_test = string_under_test.encode()
     response, args = middleware.base_64_encode_xml(xml_bytes=bytes_under_test)
     response, args = middleware.compress_form_data_xml(xml_base64=args['xml_base64'])
@@ -519,7 +514,7 @@ def test_get_human_friendly_time_slot_string_for_oral_review():
         "reviewEndDtm": "2020-09-04 10:30:00 -07:00"
     }
     friendly_string = vips.time_slot_to_friendly_string(time_slot, "ORAL")
-    assert friendly_string['label'] == 'Fri, Sep 4, 2020 - 10:00AM to 10:30AM'
+    assert friendly_string['label'] == 'Fri, Sep 4, 2020 - 10:00AM to 10:30AM (Pacific Time)'
 
 
 def test_get_human_friendly_time_slot_string_for_written_review():
@@ -528,7 +523,7 @@ def test_get_human_friendly_time_slot_string_for_written_review():
         "reviewEndDtm": "2020-09-04 10:30:00 -07:00"
     }
     friendly_string = vips.time_slot_to_friendly_string(time_slot, "WRIT")
-    assert friendly_string['label'] == 'Fri, Sep 4, 2020 at 9:30AM'
+    assert friendly_string['label'] == 'Fri, Sep 4, 2020 at 9:30AM (Pacific Time)'
 
 
 review_date_in_the_future = [
@@ -539,7 +534,7 @@ review_date_in_the_future = [
 
 @pytest.mark.parametrize("review_date, current_time_is, expected", review_date_in_the_future)
 def test_review_date_in_the_future(review_date, current_time_is, expected):
-    vips_data = dict({'reviewStartDtm': review_date})
+    vips_data = dict({"reviews": [{'reviewStartDtm': review_date}]})
     tz = pytz.timezone('America/Vancouver')
     today_unaware = datetime.strptime(current_time_is, "%Y-%m-%d %H:%M:%S")
     today_date = tz.localize(today_unaware, is_dst=False)
@@ -564,10 +559,18 @@ disclosure_data = [
 
 
 def test_is_any_unsent_disclosure_method():
+
+    class MockConfig:
+        DAYS_ELAPSED_TO_RESEND_DISCLOSURE = 3
+
+    tz = pytz.timezone('America/Vancouver')
+    today_unaware = datetime.strptime("2020-09-11 20:59:45", "%Y-%m-%d %H:%M:%S")
+    today_date = tz.localize(today_unaware, is_dst=False)
     vips_data = dict({
         "disclosure": disclosure_data
     })
-    response, args = middleware.is_any_unsent_disclosure(vips_data=vips_data)
+    response, args = middleware.is_any_unsent_disclosure(
+        vips_data=vips_data, today_date=today_date, config=MockConfig)
     assert response is True
     assert len(args.get('disclosures')) == 2
 

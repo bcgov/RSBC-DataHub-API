@@ -1,48 +1,58 @@
-import xfdf from "@/helpers/xfdf_generator"
+import moment from "moment";
+import constants from "../config/constants";
 
-export default {
+
+export const getters = {
 
     getAllAvailableForms: state => {
-      return state.form_schemas.forms;
+        return state.form_schemas.forms;
     },
 
-    getAllEditedProhibitions: state => {
-        return state.edited_forms;
-    },
-
-    isFormBeingEdited: state => {
-        return state.currently_editing_prohibition_index !== null
-    },
-
-    getCurrentlyEditedProhibitionIndex: state => {
-        return state.currently_editing_prohibition_index;
-    },
-
-    getCurrentlyEditedProhibitionNumber: state => {
-        return state.edited_forms[state.currently_editing_prohibition_index].data.prohibition_number;
-    },
-
-    getSelectedFormComponent: state => {
-        let prohibition_index = state.currently_editing_prohibition_index;
-        if (prohibition_index == null) {
-            return null;
+    getArrayOfAllFormNames: state => {
+        let formNames = [];
+        for (let form in state.form_schemas.forms) {
+            formNames.push(form)
         }
-        console.log("check edited_forms: " + JSON.stringify(state.edited_forms))
-        return state.edited_forms[prohibition_index].component;
+        return formNames
     },
 
-    getCurrentlyEditedForm: state => {
-        console.log('inside getCurrentlyEditedForm')
-        let prohibition_index = state.currently_editing_prohibition_index;
-        if (prohibition_index == null) {
-            return null;
+    getAppVersion: state => {
+      return state.version;
+    },
+
+    getAllEditedForms: state => {
+        let edited_forms = Array();
+        for (let form_type in state.forms) {
+            for (let form_id in state.forms[form_type]) {
+                if ("data" in state.forms[form_type][form_id]) {
+                    edited_forms.push(state.forms[form_type][form_id])
+                }
+            }
         }
-        return state.edited_forms[prohibition_index];
+        return edited_forms;
+    },
+
+    getCurrentlyEditedFormObject: state => {
+        return state.currently_editing_form_object;
+    },
+
+    getCurrentlyEditedFormId: state => {
+        return state.currently_editing_form_object.form_id;
+    },
+
+    getFormData: state => (form_type, form_id) => {
+        return state.forms[form_type][form_id].data;
+    },
+
+    getCurrentlyEditedFormData: state => {
+        let form_object = state.currently_editing_form_object;
+        let root = state.forms[form_object.form_type][form_object.form_id]
+        return root.data;
     },
 
     getAttributeValue: state => id => {
-        let prohibition_index = state.currently_editing_prohibition_index
-        let root = state.edited_forms[prohibition_index].data;
+        let form_object = state.currently_editing_form_object;
+        let root = state.forms[form_object.form_type][form_object.form_id].data;
         if (!(id in root)) {
             return '';
         }
@@ -50,107 +60,369 @@ export default {
     },
 
     checkBoxStatus: state => (id, value) => {
-        let prohibition_index = state.currently_editing_prohibition_index
-        let root = state.edited_forms[prohibition_index].data;
+        let form_object = state.currently_editing_form_object;
+        let root = state.forms[form_object.form_type][form_object.form_id].data;
         if (!(id in root)) {
             return false;
         }
         return root[id].includes(value);
     },
 
-
     getArrayOfBCCityNames: state => {
-        return state.bc_city_names.city_names;
+        return state.cities;
+    },
+
+    getArrayOfAgencies: state => {
+        return state.agencies;
     },
 
     getArrayOfCommonCarColors: state => {
-        return state.car_colors.car_colors;
+        return state.colors;
+    },
+
+    getArrayOfVehicleYears: () => {
+        const start = constants.MIN_VEHICLE_YEAR;
+        const end = constants.MAX_VEHICLE_YEAR;
+        return Array( end - start + 1).fill().map((_, idx) => start + idx)
+    },
+
+    getArrayOfVehicleMakes: state => {
+        return state.vehicles.map(v => v.make).filter(_onlyUnique);
+    },
+
+    getArrayOfVehicleModels: state => {
+        let form_object = state.currently_editing_form_object;
+        let make = state.forms[form_object.form_type][form_object.form_id].data.vehicle_make
+        let results = state.vehicles.filter( v => v.make === make);
+        if (results.length > 0) {
+            return results.map( v => v.model )
+        } else {
+            return []
+        }
+    },
+
+    getArrayOfVehicleStyles: state => {
+        return state.vehicle_styles;
     },
 
     isRecentProhibitions: state => {
-        return state.edited_forms.length > 0;
-    },
-
-    getSpecificForm: state => prohibition_index => {
-        return state.edited_forms[prohibition_index];
-    },
-
-    isNetworkOnline: state => {
-        return state.isOnline;
-    },
-
-    isFormEditable: state => prohibition_index => {
-        return state.edited_forms[prohibition_index].data.served === false;
-    },
-
-    getServedStatus: state => prohibition_index => {
-        if (state.edited_forms[prohibition_index].data.served) {
-            return "Served";
+        for (let form_type in state.forms) {
+            // console.log('form_type', form_type)
+            for (let form_object in state.forms[form_type]) {
+                if("data" in state.forms[form_type][form_object]) {
+                    // the 'data' attribute is added when the form is first edited
+                    return true
+                }
+            }
         }
-        return "Not Served"
+        return false
     },
 
-    generateXFDF: state => prohibition_index => {
-        let key_value_pairs = getKeyValuePairs(state, prohibition_index);
-        let pdf_template_name = state.edited_forms[prohibition_index].pdf_template;
-        let xml_file = xfdf.generate(pdf_template_name, key_value_pairs)
-        console.log('xfdf_xml', xml_file)
-        return xml_file
+    isFormEditable: state => form_object => {
+        return ! (state.forms[form_object.form_type][form_object.form_id].printed_timestamp)
     },
 
-    getXdfFileName: state => prohibition_index => {
-        let file_extension = ".xdp"
-        let last_name = state.edited_forms[prohibition_index].data.last_name;
-        let prohibition_number = state.edited_forms[prohibition_index].data.prohibition_number;
-        let file_name = last_name + "_" + prohibition_number + file_extension;
-        console.log('filename', file_name)
-        return file_name
+    getServedStatus: state => form_object => {
+        if (state.forms[form_object.form_type][form_object.form_id].printed_timestamp) {
+            return "Printed";
+        }
+        return "Not Printed"
+    },
+
+    getRoadSafetyEmailAddress: state => {
+        return state.ROADSAFETY_EMAIL;
+    },
+
+    getPdfFileNameString: state => (form_object, document_type) => {
+        let file_extension = ".pdf"
+        let root = state.forms[form_object.form_type][form_object.form_id]
+        let last_name = root.data.last_name;
+        let form_id = root.form_id;
+        return last_name + "_" + form_id + "_" + document_type + file_extension;
+    },
+
+    getPDFTemplateFileName: state => document_type => {
+        let form_object = state.currently_editing_form_object;
+        return state.form_schemas.forms[form_object.form_type].documents[document_type].pdf;
+    },
+
+    getPagesToPrint: (state, getters) => form_object => {
+        let variantList = state.form_schemas.forms[form_object.form_type].documents['all'].variants;
+        if ( ! getters.isVehicleImpounded(form_object)) {
+            // remove page for impound lot operator if vehicle not impounded
+            const index = variantList.indexOf("ilo");
+            if (index > -1) {
+              variantList.splice(index, 1);
+            }
+            return variantList
+        }
+        return variantList
+    },
+
+    isVehicleImpounded: state => form_object => {
+        return state.forms[form_object.form_type][form_object.form_id].data.vehicle_impounded === "Yes"
+    },
+
+    getArrayOfJurisdictions: state => {
+        return state.jurisdictions;
     },
 
     getArrayOfProvinces: state => {
         return state.provinces;
     },
 
-    isPlateJurisdictionBC: state => {
-        let prohibition_index = state.currently_editing_prohibition_index
-        let root = state.edited_forms[prohibition_index].data;
-        return root['plate_province'] === "BC"
+    getArrayOfImpoundLotOperators: state => {
+        return state.impound_lot_operators.map( o => o.name + ", " + o.lot_address + ", " + o.city + ", " + o.phone);
     },
 
-    isLicenceJurisdictionBC: state => {
-        let prohibition_index = state.currently_editing_prohibition_index
-        let root = state.edited_forms[prohibition_index].data;
-        return root['drivers_licence_jurisdiction'] === "BC"
+    getArrayOfPickupLocations: state => {
+        return state.pickup_locations.map( o => o.address + ", " + o.city);
     },
 
-    driverIsNotRegisteredOwner: state => {
-        let prohibition_index = state.currently_editing_prohibition_index
-        let root = state.edited_forms[prohibition_index].data;
-        if( ! root['owner_is_driver']) {
-            return false;
-        }
-        return ! root['owner_is_driver'].includes("Driver is the vehicle owner")
+    isDisplayIcbcPlateLookup: (state, getters) => {
+        let form_object = state.currently_editing_form_object;
+        let root = state.forms[form_object.form_type][form_object.form_id].data;
+        return root['plate_province'] === "British Columbia" && getters.isUserAuthenticated && state.isOnline
+    },
+
+    isDisplayIcbcLicenceLookup: (state, getters) => {
+        return getters.isLicenceJurisdictionBC && getters.isUserAuthenticated && state.isOnline;
+    },
+
+    isLicenceJurisdictionBC: (state) => {
+        let form_object = state.currently_editing_form_object;
+        let root = state.forms[form_object.form_type][form_object.form_id].data;
+        return root['drivers_licence_jurisdiction'] === "British Columbia"
     },
 
     corporateOwner: state => {
-        let prohibition_index = state.currently_editing_prohibition_index
-        let root = state.edited_forms[prohibition_index].data;
+        let form_object = state.currently_editing_form_object;
+        let root = state.forms[form_object.form_type][form_object.form_id].data;
         if( ! root['corporate_owner']) {
             return false;
         }
         return root['corporate_owner'].includes("Owned by corporate entity")
     },
 
+    areNewUniqueIdsRequiredByType: (state, getters) => form_type => {
+        console.log("inside areNewUniqueIdsRequiredByType", form_type)
+        // Business rules state that X number of forms must be available to use offline
+        if (getters.getFormTypeCount[form_type] < constants.MINIMUM_NUMBER_OF_UNIQUE_IDS_PER_TYPE) {
+            return true;
+        }
+        return false
+    },
+
+    getFormTypeCount: state => {
+        let FormTypeCount = {}
+        for (let form_type in state.forms) {
+            FormTypeCount[form_type] = 0;
+            for (let form_id in state.forms[form_type]) {
+                if ( ! ("data" in state.forms[form_type][form_id])) {
+                    FormTypeCount[form_type]++
+                }
+
+            }
+        }
+        return FormTypeCount;
+    },
+
+    getNextAvailableUniqueIdByType: state => form_type => {
+        console.log("inside getNextAvailableUniqueIdByType()", form_type)
+        for (let form_id in state.forms[form_type]) {
+            if( ! ("data" in state.forms[form_type][form_id])) {
+                return form_id
+            }
+        }
+    },
+
+    arrayOfFormsRequiringRenewal: state => {
+        let forms = Array();
+        for (let form_type in state.forms) {
+            for (let form_id in state.forms[form_type]) {
+                let form_object = state.forms[form_type][form_id]
+                let days_to_expiry = moment(form_object.lease_expiry).diff(moment(), 'days')
+                if (! form_object.printed_timestamp && days_to_expiry < constants.UNIQUE_ID_REFRESH_DAYS) {
+                    forms.push(form_object)
+                }
+            }
+        }
+        return forms
+    },
+
+    apiHeader: state => {
+        const headers = new Headers();
+        headers.set('Content-Type', 'application/json')
+        if (state.keycloak.token) {
+            headers.set('Authorization', 'Bearer ' + state.keycloak.token)
+        }
+        return headers
+    },
+
+    getKeycloakUsername: state => {
+        if (state.keycloak) {
+            return state.keycloak.userName;
+        }
+        return ''
+    },
+
+    getFormPrintValue: state => (form_object, attribute) => {
+        let root = state.forms[form_object.form_type][form_object.form_id].data;
+        if (!(attribute in root)) {
+            return '';
+        }
+        return root[attribute];
+    },
+
+    getFormPrintRadioValue: state => (form_object, attribute, checked_value) => {
+        let root = state.forms[form_object.form_type][form_object.form_id].data;
+        if (!(attribute in root)) {
+            return false;
+        }
+        return (root[attribute] === checked_value);
+    },
+
+    getFormPrintCheckedValue: state => (form_object, attribute, checked_value) => {
+        let root = state.forms[form_object.form_type][form_object.form_id].data;
+        if (!(attribute in root)) {
+            return '';
+        }
+        return (root[attribute].includes(checked_value))
+    },
+
+    getFormPrintJurisdiction: state => (form_object, attribute) => {
+        let root = state.forms[form_object.form_type][form_object.form_id].data;
+        if (!(attribute in root)) {
+            return '';
+        }
+        let filteredObject = state.jurisdictions.filter( j => j['objectDsc'] === root[attribute]);
+        console.log('filteredObject', filteredObject)
+        return filteredObject[0]['objectCd']
+    },
+
+    isUserAnAdmin: state => {
+        if (Array.isArray(state.user_roles)) {
+            for (const role of state.user_roles) {
+                if ('role_name' in role) {
+                    if (role.role_name === 'administrator') {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    },
+
+    isUserAuthenticated: state => {
+        return state.keycloak.authenticated && state.keycloak.ready
+    },
+
+    isUserAuthorized: state => {
+        if (Array.isArray(state.user_roles)) {
+            for (const role of state.user_roles) {
+                if ('approved_dt' in role) {
+                    if (role.approved_dt) {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    },
+
+    getAllUsers: state => {
+        return state.users
+    },
+
+
+    hasUserApplied: state => {
+        if (Array.isArray(state.user_roles)) {
+            if (state.user_roles[0].approved_dt === null) {
+                return true
+            }
+        }
+        return false
+    },
+
+    isAppAvailableToWorkOffline: (state, getters) => {
+        return getters.isUserHasAtLeastOneFormId && getters.getArrayOfCommonCarColors.length > 0;
+    },
+
+    isUserHasAtLeastOneFormId: (state, getters) => {
+        const form_types = getters.getFormTypeCount;
+        for (let row in form_types) {
+                if (form_types[row] > 0) {
+                    return true
+                }
+            }
+        return false
+    },
+
+    isDisplayUserNotAuthorizedBanner: (state, getters) => {
+        return getters.isUserAuthenticated && ! getters.isUserAuthorized && state.keycloak.ready;
+    },
+
+    isDisplayIssueProhibitions: (state, getters) => {
+        return getters.isUserAuthorized || getters.isAppAvailableToWorkOffline;
+    },
+
+    isDisplayFeedbackBanner: (state, getters) => {
+        return getters.isUserAuthorized;
+    },
+
+    isDisplayNotLoggedInBanner: (state, getters) => {
+        return ! getters.isUserAuthenticated && state.isOnline && getters.isAppAvailableToWorkOffline;
+    },
+
+    isDisplaySearchRecentProhibition: (state, getters) => {
+        return getters.isUserAuthorized;
+    },
+
+    isDisplayWelcomeLoginCard: (state, getters) => {
+        return ! getters.isAppAvailableToWorkOffline && ! getters.isUserAuthenticated && state.keycloak.ready;
+    },
+
+    isTestAdministeredADSE: (state, getters) => {
+      const root = getters.getAttributeValue('test_administered_adse')
+      if (Array.isArray(root)) {
+        return root.includes("Approved Drug Screening Equipment")
+      }
+      return false;
+    },
+    isTestAdministeredSFST: (state, getters) => {
+      const root = getters.getAttributeValue('test_administered_sfst')
+      if (Array.isArray(root)) {
+        return root.includes("Prescribed Physical Coordination Test (SFST)")
+      }
+      return false;
+    },
+    isTestAdministeredDRE: (state, getters) => {
+      const root = getters.getAttributeValue('test_administered_dre')
+      if (Array.isArray(root)) {
+        return root.includes("Prescribed Physical Coordination Test (DRE)")
+      }
+      return false;
+    },
+
+    isTestAdministeredASD: (state, getters) => {
+      const root = getters.getAttributeValue('test_administered_asd')
+      if (Array.isArray(root)) {
+        return root.includes("Alco-Sensor FST (ASD)")
+      }
+      return false;
+    },
+    isTestAdministeredApprovedInstrument: (state, getters) => {
+      const root = getters.getAttributeValue('test_administered_instrument')
+      if (Array.isArray(root)) {
+        return root.includes("Approved Instrument")
+      }
+      return false;
+    }
+
+
 }
 
-function getKeyValuePairs (state, prohibition_index) {
-    console.log("getKeyValuePairs(): ", prohibition_index)
-    let form_data = state.edited_forms[prohibition_index].data;
-    console.log("getFormKeyValuePairs()", form_data)
-    let key_value_pairs = Array();
-    for( let object in form_data) {
-        key_value_pairs[object] = form_data[object];
-    }
-    console.log('getKeyValuePairs()', key_value_pairs)
-    return key_value_pairs;
+function _onlyUnique(value, index, self) {
+  return self.indexOf(value) === index;
 }
+

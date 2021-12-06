@@ -1,5 +1,6 @@
 from flask import jsonify
 import logging
+import logging.config
 
 
 def failed_validation(**args) -> tuple:

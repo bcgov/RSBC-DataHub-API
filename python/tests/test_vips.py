@@ -1,5 +1,6 @@
 import python.common.vips_api as vips
 import logging
+import logging.config
 import json
 from unittest.mock import MagicMock
 from python.common.helper import load_json_into_dict, localize_timezone
@@ -28,7 +29,7 @@ class TestVips:
 
     @staticmethod
     def test_health_check_method():
-        response = load_json_into_dict('python/tests/sample_data/vips/vips_health_check_200.json')
+        response = load_json_into_dict('python/common/tests/sample_data/vips/vips_health_check_200.json')
         vips.get = MagicMock(return_value=(True, response))
         endpoint = TestConfig.VIPS_API_ROOT_URL + '/api/utility/ping'
         vips.get(endpoint, TestConfig.VIPS_API_USERNAME, TestConfig.VIPS_API_PASSWORD)
@@ -40,7 +41,7 @@ class TestVips:
 
     @staticmethod
     def test_query_get_method_success():
-        response_from_api = load_json_into_dict('python/tests/sample_data/vips/vips_query_200.json')
+        response_from_api = load_json_into_dict('python/common/tests/sample_data/vips/vips_query_200.json')
         vips.get = MagicMock(return_value=(True, response_from_api))
         endpoint = TestConfig.VIPS_API_ROOT_URL + '/12345/status/' + TestVips.CORRELATION_ID
         vips.get(endpoint, TestConfig.VIPS_API_USERNAME, TestConfig.VIPS_API_PASSWORD)
@@ -58,7 +59,7 @@ class TestVips:
 
     @staticmethod
     def test_query_get_method_failure():
-        response_from_api = load_json_into_dict('python/tests/sample_data/vips/vips_query_404.json')
+        response_from_api = load_json_into_dict('python/common/tests/sample_data/vips/vips_query_404.json')
         vips.get = MagicMock(return_value=(True, response_from_api))
         endpoint = TestConfig.VIPS_API_ROOT_URL + '/12345/status/' + TestVips.CORRELATION_ID
         vips.get(endpoint, TestConfig.VIPS_API_USERNAME, TestConfig.VIPS_API_PASSWORD)
@@ -89,7 +90,7 @@ class TestVips:
 
     @staticmethod
     def test_disclosure_get_method():
-        response_from_api = load_json_into_dict('python/tests/sample_data/vips/vips_disclosure_200.json')
+        response_from_api = load_json_into_dict('python/common/tests/sample_data/vips/vips_disclosure_200.json')
         vips.get = MagicMock(return_value=(True, response_from_api))
         endpoint = TestConfig.VIPS_API_ROOT_URL + '/1234/disclosure/' + TestVips.CORRELATION_ID
         vips.get(endpoint, TestConfig.VIPS_API_USERNAME, TestConfig.VIPS_API_PASSWORD)
@@ -104,7 +105,7 @@ class TestVips:
 
     @staticmethod
     def test_payment_get_method():
-        response_from_api = load_json_into_dict('python/tests/sample_data/vips/vips_payment_200.json')
+        response_from_api = load_json_into_dict('python/common/tests/sample_data/vips/vips_payment_200.json')
         vips.get = MagicMock(return_value=(True, response_from_api))
         endpoint = TestConfig.VIPS_API_ROOT_URL + '/1234/payment/status/' + TestVips.CORRELATION_ID
         vips.get(endpoint, TestConfig.VIPS_API_USERNAME, TestConfig.VIPS_API_PASSWORD)
@@ -140,14 +141,16 @@ class TestVips:
 
     @staticmethod
     def test_transform_schedule_to_local_friendly_times():
-        vips_response = load_json_into_dict('python/tests/sample_data/vips/vips_schedule_200.json')
+        vips_response = load_json_into_dict('python/common/tests/sample_data/vips/vips_schedule_200.json')
         time_slots = vips_response['data']['timeSlots']
         print(json.dumps(time_slots[0]))
         print(str(type(time_slots[0])))
         friendly_times_list = vips.time_slots_to_friendly_times(time_slots, "ORAL")
-        expected = list(["Fri, Sep 4, 2020 - 9:00AM to 9:30AM", "Fri, Sep 4, 2020 - 10:00AM to 10:30AM",
-                         "Fri, Sep 4, 2020 - 11:00AM to 11:30AM", "Fri, Sep 4, 2020 - 12:00PM to 12:30PM",
-                         "Fri, Sep 4, 2020 - 1:00PM to 1:30PM"])
+        expected = list(["Fri, Sep 4, 2020 - 9:00AM to 9:30AM (Pacific Time)",
+                         "Fri, Sep 4, 2020 - 10:00AM to 10:30AM (Pacific Time)",
+                         "Fri, Sep 4, 2020 - 11:00AM to 11:30AM (Pacific Time)",
+                         "Fri, Sep 4, 2020 - 12:00PM to 12:30PM (Pacific Time)",
+                         "Fri, Sep 4, 2020 - 1:00PM to 1:30PM (Pacific Time)"])
         for index, item in enumerate(expected):
             assert friendly_times_list[index]['label'] == item
 
@@ -161,7 +164,7 @@ class TestVips:
 
     @staticmethod
     def test_last_name_match():
-        response_from_api = load_json_into_dict('python/tests/sample_data/vips/vips_query_200.json')
+        response_from_api = load_json_into_dict('python/common/tests/sample_data/vips/vips_query_200.json')
         is_success = vips.is_last_name_match(response_from_api['data']['status'], "Norris")
         assert is_success is True
 

@@ -27,6 +27,8 @@ parameters:
 - name: SECRET_KEY
 - name: ENCRYPT_KEY
 - name: FLASK_SECRET_KEY
+- name: SPLUNK_HOST
+- name: SPLUNK_TOKEN
 - name: LOG_LEVEL
   value: 'INFO'
 - name: FLASK_ENV
@@ -179,6 +181,16 @@ objects:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
                   key: ingestor-flask-secret
+            - name: SPLUNK_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: splunk-host
+            - name: SPLUNK_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: splunk-token
             - name: FLASK_ENV
               value: ${FLASK_ENV}
             - name: LOG_LEVEL

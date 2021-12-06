@@ -3,8 +3,9 @@ from python.validator.validate import Validate
 from python.common.rabbitmq import RabbitMQ
 from python.common.message import encode_message, decode_message, add_error_to_message
 import logging
+import logging.config
 
-logging.basicConfig(level=Config.LOG_LEVEL, format=Config.LOG_FORMAT)
+logging.config.dictConfig(Config.LOGGING)
 
 
 class Listener:

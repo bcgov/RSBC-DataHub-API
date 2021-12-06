@@ -1,11 +1,11 @@
 <template>
 <div class="form-group" :class="form_group_class">
-  <label class="small" :for="form_group.id">{{ form_group.label }}
+  <label :for="form_group.id">{{ form_group.label }}
     <span v-if="isFieldRequired" class="text-danger">*</span>
   </label>
   <select :type="form_group.input_type"
          :class="errorClass"
-         class="form-control form-control-sm"
+         class="form-control"
          :id="form_group.id"
          :placeholder="form_group.placeholder"
           :value="form_group.value"

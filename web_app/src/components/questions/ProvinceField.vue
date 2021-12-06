@@ -1,14 +1,14 @@
 <template>
 <div v-if="visible" class="form-group" :class="fg_class">
   <validation-provider :rules="rules" :name="id" v-slot="{ errors, required }">
-    <label v-if="show_label" class="small" :for="id"><slot></slot>
+    <label v-if="show_label" :for="id"><slot></slot>
       <span v-if="required" class="text-danger"> *</span>
     </label>
-    <select :disabled="disabled" class="form-control form-control-sm" :id="id" @input="updateFormField">
-      <option v-for="(province, key) in getArrayOfProvinces"
-              :key="key"
-              :selected="province === getAttributeValue(id)">
-        {{ province }}
+    <select :disabled="disabled" class="form-control" :id="id" @input="updateFormField">
+      <option v-for="province in getArrayOfProvinces"
+              :key="province.objectCd"
+              :selected="province.objectCd === getAttributeValue(id)">
+        {{ province.objectCd }}
       </option>
     </select>
     <div class="small text-danger">{{ errors[0] }}</div>

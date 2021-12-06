@@ -1,60 +1,73 @@
 <script>
-import FormContainer from "@/components/forms/FormContainer";
-import FormCard from "@/components/forms/FormCard";
-import FormRow from "@/components/forms/FormRow";
-import FormSubmissionButtons from "@/components/forms/FormSubmissionButtons";
-import TextField from "@/components/questions/TextField";
-import ProvinceField from "@/components/questions/ProvinceField";
+import CheckField from "@/components/questions/CheckField";
+import DateField from "@/components/questions/DateField";
+import DateTime from "@/components/questions/DateTime";
+import DobField from "@/components/questions/DoBField";
 import DriverLicenceNumber from "@/components/questions/DriverLicenceNumber";
-import TypeAheadField from "@/components/questions/TypeAheadField";
+import FormCard from "@/components/forms/FormCard";
+import FormContainer from "@/components/forms/FormContainer";
+import FormRow from "@/components/forms/FormRow";
+import FormStep from "@/components/forms/FormStep";
 import GenderField from "@/components/questions/GenderField";
 import PhoneField from "@/components/questions/PhoneField";
-import DateTime from "@/components/questions/DateTime";
-import DateField from "@/components/questions/DateField";
-import DobField from "@/components/questions/DoBField";
 import PlateNumber from "@/components/questions/PlateNumber";
-import PrintConfirmationModal from "@/components/PrintConfirmationModal";
+import ProvinceField from "@/components/questions/ProvinceField";
 import RadioField from "@/components/questions/RadioField";
-import CheckField from "@/components/questions/CheckField";
 import ShadowBox from "@/components/forms/ShadowBox";
-import VehicleOwnerCard from "@/components/forms/VehicleOwnerCard";
-import { mapGetters } from "vuex";
+import TextField from "@/components/questions/TextField";
+import TypeAheadField from "@/components/questions/TypeAheadField";
+import { ValidationObserver } from 'vee-validate';
+import {mapGetters, mapMutations} from "vuex";
 
 
 export default {
   name: "FormsCommon",
     props: {
-      data: {},
-      name: null
+      name: {
+        type: String
+      },
+      id: {},
   },
   data() {
     return {
-      xml_file: null
+      data: {},
+      isMounted: false,
+      display_spinner: false,
+      isNotValid: false,
+      rerender: 1
     }
   },
   computed: {
-    ...mapGetters(["getArrayOfBCCityNames"]),
+    ...mapGetters(["getArrayOfBCCityNames", "getFormData"]),
+    getFormObject() {
+      return {
+        form_id: this.id,
+        form_type: this.name
+      }
+    }
+  },
+  methods: {
+    ...mapMutations(["editExistingForm", "setNewFormDefaults"])
   },
   components: {
-    FormContainer,
-    FormCard,
-    FormRow,
-    FormSubmissionButtons,
-    DobField,
-    TextField,
-    ProvinceField,
-    DriverLicenceNumber,
-    TypeAheadField,
-    GenderField,
-    PhoneField,
-    DateTime,
-    PrintConfirmationModal,
-    PlateNumber,
-    RadioField,
     CheckField,
     DateField,
+    DateTime,
+    DobField,
+    DriverLicenceNumber,
+    FormCard,
+    FormContainer,
+    FormRow,
+    FormStep,
+    GenderField,
+    PhoneField,
+    PlateNumber,
+    ProvinceField,
+    RadioField,
     ShadowBox,
-    VehicleOwnerCard
+    TextField,
+    TypeAheadField,
+    ValidationObserver
   }
 }
 </script>

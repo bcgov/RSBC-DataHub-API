@@ -2,10 +2,11 @@ import json
 import csv
 import pytz
 import logging
+import logging.config
 import datetime
 from python.common.config import Config
 
-logging.basicConfig(level=Config.LOG_LEVEL, format=Config.LOG_FORMAT)
+logging.config.dictConfig(Config.LOGGING)
 
 
 def load_json_into_dict(file_name) -> dict:
@@ -96,12 +97,11 @@ def middle_logic(functions: list, **args):
         try_fail_node = functions.pop(0)
         logging.debug('calling try function: ' + try_fail_node['try'].__name__)
         flag, args = try_fail_node['try'](**args)
-        logging.info("result from {} is {}".format(try_fail_node['try'].__name__, flag))
+        logging.debug("result from {} is {}".format(try_fail_node['try'].__name__, flag))
         if flag:
-            logging.debug('calling middleware logic recursively')
             args = middle_logic(functions, **args)
         else:
-            logging.debug('calling failure functions recursively')
+            logging.debug('calling try function: ' + try_fail_node['try'].__name__)
             args = middle_logic(try_fail_node['fail'], **args)
     return args
 
