@@ -12,10 +12,10 @@
              v-model="attribute">
         <div class="input-group-append">
           <button type="button" :disabled="! isDisplayIcbcLicenceLookup" @click="triggerDriversLookup"
-                  class="btn-sm btn-secondary text-white">Driver's Lookup
+                  class="btn-sm btn-secondary text-white font-weight-bold">Driver's Lookup
             <b-spinner v-if="display_spinner" small label="Loading..."></b-spinner>
           </button>
-          <div type="button" :disabled=true class="btn-sm btn-secondary text-white ml-2">Scan DL</div>
+          <button type="button" :disabled=true class="btn-sm btn-secondary text-white ml-2 font-weight-bold">Scan DL</button>
         </div>
       </div>
       <div class="small text-danger">{{ errors[0] }}
@@ -70,7 +70,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

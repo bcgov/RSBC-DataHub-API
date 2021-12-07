@@ -182,11 +182,11 @@ export const getters = {
     isDisplayIcbcPlateLookup: (state, getters) => {
         let form_object = state.currently_editing_form_object;
         let root = state.forms[form_object.form_type][form_object.form_id].data;
-        return root['plate_province'] === "British Columbia" && getters.isUserAuthenticated && state.isOnline
+        return root['plate_province'] === "British Columbia" && getters.isUserAuthorized
     },
 
     isDisplayIcbcLicenceLookup: (state, getters) => {
-        return getters.isLicenceJurisdictionBC && getters.isUserAuthenticated && state.isOnline;
+        return getters.isLicenceJurisdictionBC && getters.isUserAuthorized;
     },
 
     isLicenceJurisdictionBC: (state) => {

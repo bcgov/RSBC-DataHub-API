@@ -11,8 +11,9 @@
              placeholder="Plate"
              :value="getAttributeValue(id)"
              @input="updateFormField">
-        <div class="input-group-append" v-if="isDisplayIcbcPlateLookup">
-          <button type="button" @click="triggerPlateLookup" class="btn-sm btn-secondary">
+        <div class="input-group-append">
+          <button type="button" @click="triggerPlateLookup" class="btn-sm btn-secondary font-weight-bold"
+                  :disabled="! isDisplayIcbcPlateLookup">
             ICBC Lookup
             <b-spinner v-if="display_spinner" small label="Loading..."></b-spinner>
           </button>
