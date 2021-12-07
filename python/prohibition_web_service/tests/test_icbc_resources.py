@@ -47,13 +47,14 @@ def test_authorized_user_can_get_driver(as_guest, monkeypatch, roles):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
 
-    responses.add(responses.POST, "{}:{}/services/collector".format(
-        Config.SPLUNK_HOST, Config.SPLUNK_PORT), status=200)
-
     responses.add(responses.GET,
                   '{}/drivers/{}'.format(Config.ICBC_API_ROOT, "5120503"),
                   json=_sample_driver_response(),
                   status=200)
+
+    responses.add(responses.POST, "{}:{}/services/collector".format(
+        Config.SPLUNK_HOST, Config.SPLUNK_PORT), status=200)
+
     resp = as_guest.get("/api/v1/icbc/drivers/5120503",
                         follow_redirects=True,
                         content_type="application/json",
@@ -61,7 +62,7 @@ def test_authorized_user_can_get_driver(as_guest, monkeypatch, roles):
     assert resp.status_code == 200
     assert 'dlNumber' in resp.json
     assert resp.json['dlNumber'] == "5120503"
-    assert responses.calls[1].request.headers['loginUserId'] == 'larry@idir'
+    assert responses.calls[0].request.headers['loginUserId'] == 'larry@idir'
 
 
 def test_unauthorized_user_cannot_get_driver(as_guest, monkeypatch, roles):
@@ -88,13 +89,13 @@ def test_authorized_user_gets_driver_not_found(as_guest, monkeypatch, roles):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
 
-    responses.add(responses.POST, "{}:{}/services/collector".format(
-        Config.SPLUNK_HOST, Config.SPLUNK_PORT), status=200)
-
     responses.add(responses.GET,
                    '{}/drivers/{}'.format(Config.ICBC_API_ROOT, "1234"),
                   json=_driver_not_found(),
                   status=400)
+
+    responses.add(responses.POST, "{}:{}/services/collector".format(
+        Config.SPLUNK_HOST, Config.SPLUNK_PORT), status=200)
 
     resp = as_guest.get("/api/v1/icbc/drivers/1234",
                         follow_redirects=True,
@@ -104,7 +105,7 @@ def test_authorized_user_gets_driver_not_found(as_guest, monkeypatch, roles):
     assert 'error' in resp.json
     assert resp.json['error']['message'] == "Not Found"
     assert resp.json['error']['description'] == "The resource specified in the request was not found"
-    assert responses.calls[1].request.headers['loginUserId'] == 'larry@idir'
+    assert responses.calls[0].request.headers['loginUserId'] == 'larry@idir'
 
 
 @responses.activate
@@ -112,13 +113,14 @@ def test_authorized_user_gets_vehicle_not_found(as_guest, monkeypatch, roles):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
 
-    responses.add(responses.POST, "{}:{}/services/collector".format(
-        Config.SPLUNK_HOST, Config.SPLUNK_PORT), status=200)
-
     responses.add(responses.GET,
                   '{}/vehicles?plateNumber={}'.format(Config.ICBC_API_ROOT, "AAAAA"),
                   json=_vehicle_not_found(),
                   status=400)
+
+    responses.add(responses.POST, "{}:{}/services/collector".format(
+        Config.SPLUNK_HOST, Config.SPLUNK_PORT), status=200)
+
     resp = as_guest.get("/api/v1/icbc/vehicles/AAAAA",
                         follow_redirects=True,
                         content_type="application/json",
@@ -128,7 +130,7 @@ def test_authorized_user_gets_vehicle_not_found(as_guest, monkeypatch, roles):
     assert 'error' in resp.json
     assert resp.json['error']['message'] == "Not Found"
     assert resp.json['error']['description'] == "vehicle not found"
-    assert responses.calls[1].request.headers['loginUserId'] == 'larry@idir'
+    assert responses.calls[0].request.headers['loginUserId'] == 'larry@idir'
 
 
 @responses.activate
@@ -136,13 +138,14 @@ def test_authorized_user_gets_vehicle(as_guest, monkeypatch, roles):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
 
-    responses.add(responses.POST, "{}:{}/services/collector".format(
-        Config.SPLUNK_HOST, Config.SPLUNK_PORT), status=200)
-
     responses.add(responses.GET,
                   '{}/vehicles?plateNumber={}'.format(Config.ICBC_API_ROOT, "LD626J"),
                   json=sample_vehicle_response(),
                   status=200)
+
+    responses.add(responses.POST, "{}:{}/services/collector".format(
+        Config.SPLUNK_HOST, Config.SPLUNK_PORT), status=200)
+
     resp = as_guest.get("/api/v1/icbc/vehicles/LD626J",
                         follow_redirects=True,
                         content_type="application/json",
@@ -150,7 +153,7 @@ def test_authorized_user_gets_vehicle(as_guest, monkeypatch, roles):
     assert resp.status_code == 200
     assert 'plateNumber' in resp.json[0]
     assert resp.json[0]['plateNumber'] == "LD626J"
-    assert responses.calls[1].request.headers['loginUserId'] == 'larry@idir'
+    assert responses.calls[0].request.headers['loginUserId'] == 'larry@idir'
 
 
 @responses.activate
@@ -158,13 +161,14 @@ def test_request_for_licence_plate_using_lowercase_automatically_converted_to_up
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
 
-    responses.add(responses.POST, "{}:{}/services/collector".format(
-        Config.SPLUNK_HOST, Config.SPLUNK_PORT), status=200)
-
     responses.add(responses.GET,
                   '{}/vehicles?plateNumber={}'.format(Config.ICBC_API_ROOT, "LD626J"),
                   json=sample_vehicle_response(),
                   status=200)
+
+    responses.add(responses.POST, "{}:{}/services/collector".format(
+        Config.SPLUNK_HOST, Config.SPLUNK_PORT), status=200)
+
     resp = as_guest.get("/api/v1/icbc/vehicles/ld626j",
                         follow_redirects=True,
                         content_type="application/json",
@@ -172,7 +176,7 @@ def test_request_for_licence_plate_using_lowercase_automatically_converted_to_up
     assert resp.status_code == 200
     assert 'plateNumber' in resp.json[0]
     assert resp.json[0]['plateNumber'] == "LD626J"
-    assert responses.calls[1].request.headers['loginUserId'] == 'larry@idir'
+    assert responses.calls[0].request.headers['loginUserId'] == 'larry@idir'
 
 
 def test_unauthorized_user_cannot_get_vehicle(as_guest, monkeypatch, roles):

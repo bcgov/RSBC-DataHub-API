@@ -9,10 +9,10 @@ def get_driver() -> list:
         {"try": icbc_middleware.get_icbc_api_authorization_header, "fail": [
             {"try": http_responses.server_error_response, "fail": []},
         ]},
-        {"try": splunk.icbc_get_driver, "fail": []},
         {"try": icbc_middleware.get_icbc_driver, "fail": [
             {"try": http_responses.server_error_response, "fail": []},
-        ]}
+        ]},
+        {"try": splunk.icbc_get_driver, "fail": []},
     ]
 
 
@@ -24,8 +24,8 @@ def get_vehicle() -> list:
         {"try": icbc_middleware.is_request_not_seeking_test_plate, "fail": [
             {"try": http_responses.respond_test_vehicle, "fail": []},
         ]},
-        {"try": splunk.icbc_get_vehicle, "fail": []},
         {"try": icbc_middleware.get_icbc_vehicle, "fail": [
             {"try": http_responses.server_error_response, "fail": []},
-        ]}
+        ]},
+        {"try": splunk.icbc_get_vehicle, "fail": []}
     ]
