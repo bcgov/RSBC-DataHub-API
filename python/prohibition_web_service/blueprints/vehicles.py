@@ -31,7 +31,7 @@ def get(vehicle_id):
     Get a specific vehicle
     """
     if request.method == 'GET':
-        return make_response({"error: method not implemented"}, 405)
+        return make_response({"error": "method not implemented"}, 405)
 
 
 @bp.route('/vehicles', methods=['POST'])
@@ -40,7 +40,7 @@ def create():
     Save a new vehicle
     """
     if request.method == 'POST':
-        return make_response({"error: method not implemented"}, 405)
+        return make_response({"error": "method not implemented"}, 405)
 
 
 @bp.route('/vehicles/<string:vehicle_id>', methods=['PATCH'])
@@ -49,7 +49,7 @@ def update(vehicle_id):
     Update a vehicle
     """
     if request.method == 'PATCH':
-        return make_response({"error: method not implemented"}, 405)
+        return make_response({"error": "method not implemented"}, 405)
 
 
 

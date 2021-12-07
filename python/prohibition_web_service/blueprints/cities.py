@@ -29,7 +29,7 @@ def get(city_id):
     Get a specific city
     """
     if request.method == 'GET':
-        return make_response({"error: method not implemented"}, 405)
+        return make_response({"error": "method not implemented"}, 405)
 
 
 @bp.route('/cities', methods=['POST'])
@@ -38,7 +38,7 @@ def create():
     Save a new city
     """
     if request.method == 'POST':
-        return make_response({"error: method not implemented"}, 405)
+        return make_response({"error": "method not implemented"}, 405)
 
 
 @bp.route('/cities/<string:city_id>', methods=['PATCH'])
@@ -47,7 +47,7 @@ def update(city_id):
     Update a city
     """
     if request.method == 'PATCH':
-        return make_response({"error: method not implemented"}, 405)
+        return make_response({"error": "method not implemented"}, 405)
 
 
 

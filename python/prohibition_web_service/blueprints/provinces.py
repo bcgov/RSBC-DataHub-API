@@ -29,7 +29,7 @@ def get(province_id):
     Get a specific province
     """
     if request.method == 'GET':
-        return make_response({"error: method not implemented"}, 405)
+        return make_response({"error": "method not implemented"}, 405)
 
 
 @bp.route('/provinces', methods=['POST'])
@@ -38,7 +38,7 @@ def create():
     Save a new province
     """
     if request.method == 'POST':
-        return make_response({"error: method not implemented"}, 405)
+        return make_response({"error": "method not implemented"}, 405)
 
 
 @bp.route('/provinces/<string:province_id>', methods=['PATCH'])
@@ -47,7 +47,7 @@ def update(province_id):
     Update an province
     """
     if request.method == 'PATCH':
-        return make_response({"error: method not implemented"}, 405)
+        return make_response({"error": "method not implemented"}, 405)
 
 
 

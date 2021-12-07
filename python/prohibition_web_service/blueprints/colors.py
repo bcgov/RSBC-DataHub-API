@@ -29,7 +29,7 @@ def get(color_id):
     Get a specific color
     """
     if request.method == 'GET':
-        return make_response({"error: method not implemented"}, 405)
+        return make_response({"error": "method not implemented"}, 405)
 
 
 @bp.route('/colors', methods=['POST'])
@@ -38,7 +38,7 @@ def create():
     Save a new color
     """
     if request.method == 'POST':
-        return make_response({"error: method not implemented"}, 405)
+        return make_response({"error": "method not implemented"}, 405)
 
 
 @bp.route('/colors/<string:color_id>', methods=['PATCH'])
@@ -47,7 +47,7 @@ def update(color_id):
     Update an color
     """
     if request.method == 'PATCH':
-        return make_response({"error: method not implemented"}, 405)
+        return make_response({"error": "method not implemented"}, 405)
 
 
 

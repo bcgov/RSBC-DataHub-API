@@ -30,7 +30,7 @@ def get(agency_id):
     Get a specific color
     """
     if request.method == 'GET':
-        return make_response({"error: method not implemented"}, 405)
+        return make_response({"error": "method not implemented"}, 405)
 
 
 @bp.route('/agencies', methods=['POST'])
@@ -39,7 +39,7 @@ def create():
     Save a new color
     """
     if request.method == 'POST':
-        return make_response({"error: method not implemented"}, 405)
+        return make_response({"error": "method not implemented"}, 405)
 
 
 @bp.route('/agencies/<string:agency_id>', methods=['PATCH'])
@@ -48,7 +48,7 @@ def update(agency_id):
     Update an color
     """
     if request.method == 'PATCH':
-        return make_response({"error: method not implemented"}, 405)
+        return make_response({"error": "method not implemented"}, 405)
 
 
 

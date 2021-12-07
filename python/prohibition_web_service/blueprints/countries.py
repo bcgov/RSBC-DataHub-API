@@ -29,7 +29,7 @@ def get(country_id):
     Get a specific country
     """
     if request.method == 'GET':
-        return make_response({"error: method not implemented"}, 405)
+        return make_response({"error": "method not implemented"}, 405)
 
 
 @bp.route('/countries', methods=['POST'])
@@ -38,7 +38,7 @@ def create():
     Save a new country
     """
     if request.method == 'POST':
-        return make_response({"error: method not implemented"}, 405)
+        return make_response({"error": "method not implemented"}, 405)
 
 
 @bp.route('/countries/<string:country_id>', methods=['PATCH'])
@@ -47,7 +47,7 @@ def update(country_id):
     Update an country
     """
     if request.method == 'PATCH':
-        return make_response({"error: method not implemented"}, 405)
+        return make_response({"error": "method not implemented"}, 405)
 
 
 

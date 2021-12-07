@@ -29,7 +29,7 @@ def get(form_type, ilo_id):
     Get a specific impound lot operator
     """
     if request.method == 'GET':
-        return make_response({"error: method not implemented"}, 405)
+        return make_response({"error": "method not implemented"}, 405)
 
 
 @bp.route('/impound_lot_operators', methods=['POST'])
@@ -38,7 +38,7 @@ def create():
     Save a new impound lot operators
     """
     if request.method == 'POST':
-        return make_response({"error: method not implemented"}, 405)
+        return make_response({"error": "method not implemented"}, 405)
 
 
 @bp.route('/impound_lot_operators/<string:ilo_id>', methods=['PATCH'])
@@ -47,7 +47,7 @@ def update(ilo_id):
     Update an existing impound lot operator
     """
     if request.method == 'PATCH':
-        return make_response({"error: method not implemented"}, 405)
+        return make_response({"error": "method not implemented"}, 405)
 
 
 
