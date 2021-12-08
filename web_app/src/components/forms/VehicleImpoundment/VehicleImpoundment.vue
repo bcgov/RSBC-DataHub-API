@@ -1,7 +1,7 @@
 <template>
   <form-container title="Vehicle Impoundment" v-if="isMounted">
-    <validation-observer v-slot="{handleSubmit, valid}">
-      <form @submit.prevent="handleSubmit(onSubmit(valid))">
+    <validation-observer v-slot="{handleSubmit, invalid}">
+      <form @submit.prevent="handleSubmit(onSubmit(invalid))">
         <drivers-information-card></drivers-information-card>
         <vehicle-information-card></vehicle-information-card>
         <vehicle-owner-card></vehicle-owner-card>
@@ -10,7 +10,7 @@
         <officer-details-card></officer-details-card>
         <form-card title="Generate PDF for Printing">
           <div class="d-flex justify-content-between">
-            <button type="submit" class="btn btn-primary">PDF
+            <button type="submit" class="btn btn-primary" :disabled="invalid">PDF
               <b-spinner v-if="display_spinner" small label="Loading..."></b-spinner>
             </button>
           </div>
@@ -79,9 +79,9 @@ export default {
   methods: {
     ...mapMutations(["setFormAsPrinted"]),
     ...mapActions(["saveFormAndGeneratePDF"]),
-    async onSubmit (valid) {
-      console.log('inside onSubmit()', valid);
-      if(valid) {
+    async onSubmit (invalid) {
+      console.log('inside onSubmit()', invalid);
+      if(! invalid) {
         this.display_spinner = true;
         await this.saveFormAndGeneratePDF(this.getFormObject)
             .then(() => {
