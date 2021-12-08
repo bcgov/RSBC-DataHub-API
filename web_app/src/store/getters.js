@@ -417,7 +417,23 @@ export const getters = {
         return root.includes("Approved Instrument")
       }
       return false;
-    }
+    },
+
+    locationOfVehicle: state => (form_object) => {
+        let root = state.forms[form_object.form_type][form_object.form_id].data;
+        if (!("vehicle_impounded" in root)) {
+            return '';
+        }
+        if (root["vehicle_impounded"] === 'Yes') {
+            return "Impounded"
+        }
+        if (root["vehicle_impounded"] === 'No') {
+            if ("reason_for_not_impounding" in root) {
+                return root['reason_for_not_impounding']
+            }
+            return ''
+        }
+    },
 
 
 }

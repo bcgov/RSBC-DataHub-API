@@ -341,6 +341,8 @@ export const actions = {
                 key_value_pairs['IMPOUNDED_PHONE_NUMBER'] = ilo[3].substr(4)
             }
 
+            key_value_pairs['RELEASE_LOCATION_VEHICLE'] = context.getters.locationOfVehicle(form_object)
+
             key_value_pairs['RELEASE_LOCATION_KEYS'] = context.getters.getFormPrintValue(form_object, 'location_of_keys')
             key_value_pairs['RELEASE_PERSON'] = context.getters.getFormPrintValue(form_object, 'vehicle_released_to')
 
@@ -448,7 +450,6 @@ export const actions = {
 
 
             }
-
             resolve(key_value_pairs);
 
         })
