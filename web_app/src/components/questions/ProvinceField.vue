@@ -4,10 +4,9 @@
     <label v-if="show_label" :for="id"><slot></slot>
       <span v-if="required" class="text-danger"> *</span>
     </label>
-    <select :disabled="disabled" class="form-control" :id="id" @input="updateFormField">
+    <select :disabled="disabled" class="form-control" :id="id" v-model="attribute">
       <option v-for="province in getArrayOfProvinces"
-              :key="province.objectCd"
-              :selected="province.objectCd === getAttributeValue(id)">
+              :key="province.objectCd">
         {{ province.objectCd }}
       </option>
     </select>
