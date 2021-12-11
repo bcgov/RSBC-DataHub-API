@@ -6,7 +6,6 @@ from python.prohibition_web_service.config import Config
 from python.prohibition_web_service.blueprints import impound_lot_operators, jurisdictions, forms, admin_forms, agencies
 from python.prohibition_web_service.blueprints import provinces, countries, cities, colors, vehicles, icbc, keycloak
 from python.prohibition_web_service.blueprints import vehicle_styles, user_roles, admin_user_roles, admin_users
-from python.prohibition_web_service.blueprints import static_assets
 
 
 application = FlaskAPI(__name__)
@@ -30,7 +29,6 @@ application.register_blueprint(provinces.bp)
 application.register_blueprint(user_roles.bp)
 application.register_blueprint(vehicle_styles.bp)
 application.register_blueprint(vehicles.bp)
-application.register_blueprint(static_assets.bp)
 
 
 db.init_app(application)
