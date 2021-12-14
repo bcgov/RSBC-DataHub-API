@@ -1,8 +1,11 @@
+const { InjectManifest } = require('workbox-webpack-plugin')
+
 module.exports = {
-    pwa: {
-        workboxPluginMode: "InjectManifest",
-        workboxOptions: {
-            swSrc: "src/service-worker.js"
-        }
-    }
+  configureWebpack: {
+    plugins: [
+      new InjectManifest({
+        swSrc: './src/service-worker.js'
+      })
+    ]
+  }
 }

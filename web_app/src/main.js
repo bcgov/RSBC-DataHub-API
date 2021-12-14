@@ -36,8 +36,6 @@ Vue.use(VueKeyCloak, {
   config: constants.API_ROOT_URL + '/api/v1/keycloak',
   onReady: () => {
     store.commit("setKeycloak", Vue.prototype.$keycloak)
-    // TODO - get lookup tables from cache because we don't have an access token yet
-    store.dispatch("downloadLookupTables")
   }
 });
 
