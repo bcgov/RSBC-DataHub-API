@@ -85,18 +85,29 @@ export default {
         })
     },
 
-    // async fetchBackgroundImageFromCache(filename) {
+    // async downloadImage(imageUrl) {
+    //     return await new Promise( (resolve) => {
+    //         console.log("URL_pathname", imageUrl.pathname + imageUrl.search)
+    //         const image = new Image();
+    //         image.src = imageUrl.pathname + imageUrl.search;
+    //         image.onload = function() {
+    //             resolve(image);
+    //         }
+    //     })
+    // },
+    //
+    // async fetchCacheName(filename) {
     //     return await new Promise( (resolve) => {
     //         const xml_request = new XMLHttpRequest();
     //         try {
     //             xml_request.open("GET", filename, true);
     //             xml_request.onload = function () {
+    //                 console.log("fetchCacheName() - about to resolve")
     //                 resolve(xml_request);
     //             }
     //             xml_request.send();
     //         }
     //         catch(error) {
-    //
     //             console.log("catch error", error)
     //         }
     //     })
@@ -111,7 +122,6 @@ export default {
                 resolve(image);
             }
             catch(error) {
-
                 console.log("catch error", error)
             }
         })
