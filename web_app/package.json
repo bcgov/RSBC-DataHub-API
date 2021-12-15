@@ -1,6 +1,6 @@
 {
   "name": "prohibition_web_app",
-  "version": "0.1.59",
+  "version": "0.1.61",
   "private": true,
   "scripts": {
     "test": "jest src/test/test_*.spec.js",
@@ -22,6 +22,13 @@
     "vue-router": "^3.5.2",
     "vue-typeahead-bootstrap": "^2.11.0",
     "vuex": "^3.6.2",
+    "workbox-cacheable-response": "^4.3.1",
+    "workbox-core": "^4.3.1",
+    "workbox-expiration": "^4.3.1",
+    "workbox-precaching": "^4.3.1",
+    "workbox-routing": "^4.3.1",
+    "workbox-strategies": "^4.3.1",
+    "workbox-webpack-plugin": "^4.3.1",
     "xmlbuilder2": "^2.4.1"
   },
   "devDependencies": {

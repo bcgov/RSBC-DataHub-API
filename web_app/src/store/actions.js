@@ -1,8 +1,8 @@
 import constants from "@/config/constants";
 import persistence from "@/helpers/persistence";
-import pdfMerge from "@/helpers/pdfMerge";
 import print_layout from "@/config/print_layout.json";
 import moment from "moment";
+import pdfMerge from "@/helpers/pdfMerge";
 
 
 export const actions = {
@@ -177,68 +177,23 @@ export const actions = {
                 })
     },
 
-    // async fetchStaticLookupTwo(context, type) {
-    //     const admin = type === 'users' ? 'admin/' : ''
-    //     const url = constants.API_ROOT_URL + "/api/v1/" + admin + type
-    //     // Try to get the response from a cache.
-    //     const cachedResponse = await caches.match(url);
-    //     // Return if we found one.
-    //     const cachedData = response ? await cachedResponse.json() : undefined
-    //     if (cachedData) {
-    //         console.log(`[Service Worker] Using cached resource: ${url}`);
-    //         context.commit("populateStaticLookupTables", { "type": type, "data": cachedData })
-    //     }
-    //     console.log(`[Service Worker] Fetching resource: ${url}`);
-    //     const response = await fetch(url, {
-    //                 "method": 'GET',
-    //                 "headers": context.getters.apiHeader});
-    //     // response may be used only once
-    //     // we need to save clone to put one copy in cache and serve second one
-    //     // const responseClone = response.clone();
-    //     // const cache = await caches.open("cacheName");
-    //     // console.log(`[Service Worker] Caching new resource: ${url}`);
-    //     // await cache.put(url, responseClone)
-    //     const data = response ? await response.json() : undefined
-    //     if (data) {
-    //         context.commit("populateStaticLookupTables", { "type": type, "data": data })
-    //     }
-    // },
-
     async fetchStaticLookupTables(context, type) {
         const admin = type === 'users' ? 'admin/' : ''
         const url = constants.API_ROOT_URL + "/api/v1/" + admin + type
         console.log("fetchStaticLookupTables()", url)
-
-        let networkDataReceived = false;
-
-        let networkUpdate = fetch(url, {
-                    "method": 'GET',
-                    "headers": context.getters.apiHeader})
-                    .then( response => {
-                        return response.json()
-                    })
-                    .then( data => {
-                        networkDataReceived = true;
-                        context.commit("populateStaticLookupTables", { "type": type, "data": data })
-                    })
-                    .catch(() => {
-                        console.log("fetchStaticLookupTables network fetch failed")
-                    })
-
-        caches.match(url)
+        fetch(url, {
+            "method": 'GET',
+            "headers": context.getters.apiHeader})
             .then( response => {
-                return response.json();
+                return response.json()
             })
-            .then ( data => {
-                // don't overwrite newer network data
-                if(!networkDataReceived) {
-                    context.commit("populateStaticLookupTables", { "type": type, "data": data })
-                }
+            .then( data => {
+                context.commit("populateStaticLookupTables", { "type": type, "data": data })
             })
-            .catch( function() {
-                // we didn't get cached data, get the data from the network
-                return networkUpdate
+            .catch(() => {
+                console.log("fetchStaticLookupTables network fetch failed")
             })
+
     },
 
     async deleteFormFromDB(context, form_id) {
@@ -261,17 +216,20 @@ export const actions = {
     },
 
     async createPDF (context, payload) {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             console.log("inside createPDF()", payload)
             context.dispatch("getPrintMappings", payload.form_object)
             .then((key_value_pairs) => {
-                resolve(pdfMerge.generatePDF(print_layout[payload.form_object.form_type],
-                       payload.variants,
-                       key_value_pairs,
-                       payload.filename))
+                resolve(pdfMerge.generatePDF(
+                    print_layout[payload.form_object.form_type],
+                    payload.variants,
+                    key_value_pairs,
+                    payload.filename
+                ))
             })
         })
     },
+
 
     // the print templates use different field names from the form
     // TODO - refactor this method.  Suggest calling appropriate getters from print_layout.json

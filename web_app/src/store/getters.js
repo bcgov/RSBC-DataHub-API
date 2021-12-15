@@ -83,7 +83,11 @@ export const getters = {
     getArrayOfVehicleYears: () => {
         const start = constants.MIN_VEHICLE_YEAR;
         const end = constants.MAX_VEHICLE_YEAR;
-        return Array( end - start + 1).fill().map((_, idx) => start + idx)
+        let years = []
+        for (var i = start; i <= end; i++) {
+            years.push(String(i))
+        }
+        return years;
     },
 
     getArrayOfVehicleMakes: state => {
@@ -95,7 +99,7 @@ export const getters = {
         let make = state.forms[form_object.form_type][form_object.form_id].data.vehicle_make
         let results = state.vehicles.filter( v => v.make === make);
         if (results.length > 0) {
-            return results.map( v => v.model )
+            return results.map( v => String(v.model) )
         } else {
             return []
         }
