@@ -22,5 +22,5 @@ safety==1.10.3
 six==1.16.0
 sql==0.4.0
 toml==0.10.2
-urllib3==1.25.11
+urllib3==1.26.5
 xmltodict==0.12.0
