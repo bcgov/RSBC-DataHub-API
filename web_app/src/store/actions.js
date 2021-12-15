@@ -61,8 +61,8 @@ export const actions = {
         const url = constants.API_ROOT_URL + "/api/v1/forms/" + form_type
         return await fetch(url, {
             "method": "POST",
-            headers: context.getters.apiHeader,
-            credentials: "same-origin"})
+            "headers": context.getters.apiHeader,
+            "credentials": "same-origin"})
             .then(response => response.json())
             .then(data => {
                 return {
@@ -82,8 +82,8 @@ export const actions = {
         const url = constants.API_ROOT_URL + "/api/v1/forms/" + form_type + "/" + form_id
         return await fetch(url, {
             "method": "PATCH",
-            headers: context.getters.apiHeader,
-            credentials: "same-origin"})
+            "headers": context.getters.apiHeader,
+            "credentials": "same-origin"})
             .then(response => response.json())
             .then(data => {
                 return {
@@ -105,8 +105,8 @@ export const actions = {
         return await new Promise((resolve, reject) => {
             fetch(url, {
                 "method": "PATCH",
-                headers: context.getters.apiHeader,
-                credentials: "same-origin",
+                "headers": context.getters.apiHeader,
+                "credentials": "same-origin",
                 body: JSON.stringify(context.state.forms[payload.form_type][payload.form_id])})
                 .then(response => response.json())
                 .then((data) => {
@@ -493,9 +493,9 @@ export const actions = {
         const payload = {"role_name": "administrator"}
         return await new Promise((resolve, reject) => {
             fetch(url, {
-                method: 'POST',
-                body: JSON.stringify(payload),
-                headers: context.getters.apiHeader,
+                "method": 'POST',
+                "body": JSON.stringify(payload),
+                "headers": context.getters.apiHeader,
                 })
                     .then(response => {
                         return response.json()
@@ -554,7 +554,5 @@ export const actions = {
         } else {
             context.commit('removeItemFromCheckboxList', payload)
         }
-
-
     },
 }
