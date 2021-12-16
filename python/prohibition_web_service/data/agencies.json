@@ -1,614 +1,630 @@
 [
- {
-   "id": "1005",
-   "agency": "BC Integrated Gang Task Force"
- },
- {
-   "id": "2100",
-   "agency": "Southeast District RCMP"
- },
- {
-   "id": "2101",
-   "agency": "Kelowna RCMP"
- },
- {
-   "id": "2102",
-   "agency": "Penticton RCMP"
- },
- {
-   "id": "2103",
-   "agency": "Summerland RCMP"
- },
- {
-   "id": "2104",
-   "agency": "South Okanagan RCMP"
- },
- {
-   "id": "2105",
-   "agency": "Keremeos RCMP"
- },
- {
-   "id": "2106",
-   "agency": "Princeton RCMP"
- },
- {
-   "id": "2110",
-   "agency": "Kelowna OCC"
- },
- {
-   "id": "2111",
-   "agency": "North Okanagan RCMP"
- },
- {
-   "id": "2112",
-   "agency": "Salmon Arm RCMP"
- },
- {
-   "id": "2113",
-   "agency": "Sicamous RCMP"
- },
- {
-   "id": "2114",
-   "agency": "Revelstoke RCMP"
- },
- {
-   "id": "2201",
-   "agency": "Kamloops City RCMP"
- },
- {
-   "id": "2203",
-   "agency": "Chase RCMP"
- },
- {
-   "id": "2204",
-   "agency": "Barriere RCMP"
- },
- {
-   "id": "2205",
-   "agency": "Clearwater RCMP"
- },
- {
-   "id": "2206",
-   "agency": "Logan Lake RCMP"
- },
- {
-   "id": "2207",
-   "agency": "Merritt RCMP"
- },
- {
-   "id": "2208",
-   "agency": "Ashcroft RCMP"
- },
- {
-   "id": "2209",
-   "agency": "Lillooet RCMP"
- },
- {
-   "id": "2210",
-   "agency": "Lytton RCMP"
- },
- {
-   "id": "2211",
-   "agency": "Clinton RCMP"
- },
- {
-   "id": "2212",
-   "agency": "STL'ATL'IMX Police FNAPS"
- },
- {
-   "id": "2301",
-   "agency": "Central Kootenay RCMP"
- },
- {
-   "id": "2303",
-   "agency": "Castlegar RCMP"
- },
- {
-   "id": "2304",
-   "agency": "Trail & Greater District RCMP"
- },
- {
-   "id": "2305",
-   "agency": "Boundary RCMP"
- },
- {
-   "id": "2401",
-   "agency": "Cranbrook/Kimberley RCMP"
- },
- {
-   "id": "2403",
-   "agency": "Elk Valley RCMP"
- },
- {
-   "id": "2404",
-   "agency": "Creston RCMP"
- },
- {
-   "id": "2405",
-   "agency": "Columbia Valley RCMP"
- },
- {
-   "id": "2406",
-   "agency": "Golden RCMP"
- },
- {
-   "id": "3100",
-   "agency": "North District RCMP"
- },
- {
-   "id": "3101",
-   "agency": "Prince George RCMP"
- },
- {
-   "id": "3102",
-   "agency": "McBride RCMP"
- },
- {
-   "id": "3103",
-   "agency": "Valemount RCMP"
- },
- {
-   "id": "3104",
-   "agency": "Mackenzie RCMP"
- },
- {
-   "id": "3105",
-   "agency": "Tsay Keh Dene RCMP"
- },
- {
-   "id": "3111",
-   "agency": "Nort District OCC"
- },
- {
-   "id": "3201",
-   "agency": "Vanderhoof RCMP"
- },
- {
-   "id": "3202",
-   "agency": "Fort St. James RCMP"
- },
- {
-   "id": "3203",
-   "agency": "Takla Landing RCMP"
- },
- {
-   "id": "3204",
-   "agency": "Fraser Lake RCMP"
- },
- {
-   "id": "3205",
-   "agency": "Burns Lake RCMP"
- },
- {
-   "id": "3301",
-   "agency": "Quesnel RCMP"
- },
- {
-   "id": "3303",
-   "agency": "100 Mile House RCMP"
- },
- {
-   "id": "3304",
-   "agency": "Williams Lake RCMP"
- },
- {
-   "id": "3305",
-   "agency": "Alexis Creek RCMP"
- },
- {
-   "id": "3306",
-   "agency": "Anahim Lake RCMP"
- },
- {
-   "id": "3307",
-   "agency": "Bella Coola RCMP"
- },
- {
-   "id": "3308",
-   "agency": "Bella Bella RCMP"
- },
- {
-   "id": "3401",
-   "agency": "Fort St. John RCMP"
- },
- {
-   "id": "3402",
-   "agency": "Northern Rockies RCMP"
- },
- {
-   "id": "3403",
-   "agency": "Dawson Creek RCMP"
- },
- {
-   "id": "3404",
-   "agency": "Tumbler Ridge RCMP"
- },
- {
-   "id": "3405",
-   "agency": "Chetwynd RCMP"
- },
- {
-   "id": "3406",
-   "agency": "Hudson's Hope RCMP"
- },
- {
-   "id": "3501",
-   "agency": "Terrace RCMP"
- },
- {
-   "id": "3502",
-   "agency": "Kitimat RCMP"
- },
- {
-   "id": "3503",
-   "agency": "Houston RCMP"
- },
- {
-   "id": "3505",
-   "agency": "Smithers RCMP"
- },
- {
-   "id": "3506",
-   "agency": "New Hazelton RCMP"
- },
- {
-   "id": "3601",
-   "agency": "Prince Rupert RCMP"
- },
- {
-   "id": "3602",
-   "agency": "Lisims/Nass Valley RCMP"
- },
- {
-   "id": "3603",
-   "agency": "Stewart RCMP"
- },
- {
-   "id": "3604",
-   "agency": "Dease Lake RCMP"
- },
- {
-   "id": "3606",
-   "agency": "Masset RCMP"
- },
- {
-   "id": "3607",
-   "agency": "Queen Charlotte RCMP"
- },
- {
-   "id": "3608",
-   "agency": "Atlin RCMP"
- },
- {
-   "id": "6002",
-   "agency": "CFSEU NSE"
- },
- {
-   "id": "II",
-   "agency": "Independent Investigations"
- },
- {
-   "id": "XN",
-   "agency": "NSE X - Server Access"
- },
- {
-   "id": "4100",
-   "agency": "Island District RCMP"
- },
- {
-   "id": "4105",
-   "agency": "West Shore RCMP"
- },
- {
-   "id": "4106",
-   "agency": "North Saanich/Sidney RCMP"
- },
- {
-   "id": "4107",
-   "agency": "Sooke RCMP"
- },
- {
-   "id": "4108",
-   "agency": "Salt Spring Island RCMP"
- },
- {
-   "id": "4109",
-   "agency": "Outer Gulf Islands"
- },
- {
-   "id": "4110",
-   "agency": "IRSU - Capital Regional District"
- },
- {
-   "id": "4111",
-   "agency": "Victoria OCC"
- },
- {
-   "id": "4201",
-   "agency": "Nanaimo RCMP"
- },
- {
-   "id": "4202",
-   "agency": "Gabriola Island RCMP"
- },
- {
-   "id": "4203",
-   "agency": "Ladysmith RCMP"
- },
- {
-   "id": "4204",
-   "agency": "North Cowichan/Duncan RCMP"
- },
- {
-   "id": "4205",
-   "agency": "Shawnigan Lake RCMP"
- },
- {
-   "id": "4206",
-   "agency": "South Island Traffic RCMP"
- },
- {
-   "id": "4207",
-   "agency": "West Coast Marine RCMP"
- },
- {
-   "id": "4208",
-   "agency": "Lake Cowichan RCMP"
- },
- {
-   "id": "4211",
-   "agency": "Naniamo OCC"
- },
- {
-   "id": "4301",
-   "agency": "Comox Valley RMCP"
- },
- {
-   "id": "4302",
-   "agency": "Oceanside RCMP"
- },
- {
-   "id": "4303",
-   "agency": "Port Alberni RCMP"
- },
- {
-   "id": "4304",
-   "agency": "Tofino RCMP "
- },
- {
-   "id": "4305",
-   "agency": "Ucluelet RCMP"
- },
- {
-   "id": "4306",
-   "agency": "Powell River RCMP"
- },
- {
-   "id": "4307",
-   "agency": "Central Island Traffic RCMP"
- },
- {
-   "id": "4308",
-   "agency": "IRSU - North Island"
- },
- {
-   "id": "4311",
-   "agency": "Courtenay OCC"
- },
- {
-   "id": "4315",
-   "agency": "Campbell River RCMP"
- },
- {
-   "id": "4316",
-   "agency": "Quadra Island RCMP"
- },
- {
-   "id": "4317",
-   "agency": "Nootka Sound RCMP"
- },
- {
-   "id": "4318",
-   "agency": "Sayward RCMP"
- },
- {
-   "id": "4319",
-   "agency": "Port Hardy RCMP"
- },
- {
-   "id": "4320",
-   "agency": "Port McNeill RCMP"
- },
- {
-   "id": "4321",
-   "agency": "Port Alice RCMP"
- },
- {
-   "id": "4322",
-   "agency": "Alert Bay RCMP"
- },
- {
-   "id": "4323",
-   "agency": "North Island Traffic RCMP"
- },
- {
-   "id": "5001",
-   "agency": "E Div (VIR) RCMP"
- },
- {
-   "id": "6001",
-   "agency": "CFSEU Island"
- },
- {
-   "id": "9001",
-   "agency": "VIR RCMP CTU"
- },
- {
-   "id": "CS",
-   "agency": "Central Saanich PD"
- },
- {
-   "id": "II ",
-   "agency": "Independent Investigations"
- },
- {
-   "id": "OB",
-   "agency": "Oak Bay PD"
- },
- {
-   "id": "RC",
-   "agency": "CRD Regional Crime Unit"
- },
- {
-   "id": "SA",
-   "agency": "Saanich PD"
- },
- {
-   "id": "VI",
-   "agency": "Victoria PD"
- },
- {
-   "id": "XV",
-   "agency": "VIR X-Server Access"
- },
- {
-   "id": "1002",
-   "agency": "Lower Mainland District RCMP"
- },
- {
-   "id": "1003",
-   "agency": "Port Mann Traffic RCMP"
- },
- {
-   "id": "1004",
-   "agency": "Deas Island Traffic RCMP"
- },
- {
-   "id": "1101",
-   "agency": "North Vancouver RCMP"
- },
- {
-   "id": "1103",
-   "agency": "Bowen Island RCMP"
- },
- {
-   "id": "1104",
-   "agency": "Squamish RCMP"
- },
- {
-   "id": "1105",
-   "agency": "Whistler/Pemberton RCMP"
- },
- {
-   "id": "1106",
-   "agency": "Sunshine Coast RCMP"
- },
- {
-   "id": "1107",
-   "agency": "STL'ATL'IMX' Police FNAPS"
- },
- {
-   "id": "1202",
-   "agency": "Burnaby RCMP"
- },
- {
-   "id": "1203",
-   "agency": "Coquitlam RCMP"
- },
- {
-   "id": "1206",
-   "agency": "Ridge Meadows RCMP"
- },
- {
-   "id": "1207",
-   "agency": "IRSU - Greater Vancouver"
- },
- {
-   "id": "1301",
-   "agency": "Surrey RCMP"
- },
- {
-   "id": "1303",
-   "agency": "Langley RCMP"
- },
- {
-   "id": "1304",
-   "agency": "White Rock RCMP"
- },
- {
-   "id": "1305",
-   "agency": "IRSU - Fraser Valley"
- },
- {
-   "id": "1401",
-   "agency": "Richmond RCMP"
- },
- {
-   "id": "1402",
-   "agency": "University RCMP"
- },
- {
-   "id": "1501",
-   "agency": "Upper Fraser Valley REG RCMP"
- },
- {
-   "id": "1503",
-   "agency": "Mission RCMP"
- },
- {
-   "id": "1510",
-   "agency": "Upper Fraser Valley OCC"
- },
- {
-   "id": "5000",
-   "agency": "E DIV (LMD) RCMP"
- },
- {
-   "id": "6000",
-   "agency": "CFSEU"
- },
- {
-   "id": "9000",
-   "agency": "LMD RCMP CTU"
- },
- {
-   "id": "AB",
-   "agency": "Abbotsford PD"
- },
- {
-   "id": "DE",
-   "agency": "Delta PD"
- },
- {
-   "id": "E",
-   "agency": "ECOMM OCC"
- },
- {
-   "id": "GV",
-   "agency": "SCBCTAPS - Transit Police"
- },
- {
-   "id": "II",
-   "agency": "Independent Investigations"
- },
- {
-   "id": "NP",
-   "agency": "Nelson PD"
- },
- {
-   "id": "NW ",
-   "agency": "New Westminster PD"
- },
- {
-   "id": "PO ",
-   "agency": "Port Moody PD"
- },
- {
-   "id": "VA",
-   "agency": "Vancouver PD"
- },
- {
-   "id": "WV",
-   "agency": "West Vancouver PD"
- }
+  {
+    "id": "1002",
+    "agency": "LOWER MAINLAND DISTRICT RCMP"
+  },
+  {
+    "id": "1003",
+    "agency": "BCHP - BURNABY"
+  },
+  {
+    "id": "1004",
+    "agency": "BCHP - DEAS ISLAND"
+  },
+  {
+    "id": "1005",
+    "agency": "BC INTEGRATED GANG TASK FORCE"
+  },
+  {
+    "id": "1101",
+    "agency": "NORTH VANCOUVER RCMP"
+  },
+  {
+    "id": "1103",
+    "agency": "BOWEN ISLAND RCMP"
+  },
+  {
+    "id": "1104",
+    "agency": "SQUAMISH RCMP"
+  },
+  {
+    "id": "1105",
+    "agency": "WHISTLER/PEMBERTON RCMP"
+  },
+  {
+    "id": "1106",
+    "agency": "SUNSHINE COAST RCMP"
+  },
+  {
+    "id": "1107",
+    "agency": "STL' ATL' IMX POLICE FNAPS"
+  },
+  {
+    "id": "1202",
+    "agency": "BURNABY RCMP"
+  },
+  {
+    "id": "1203",
+    "agency": "COQUITLAM RCMP"
+  },
+  {
+    "id": "1206",
+    "agency": "RIDGE MEADOWS RCMP"
+  },
+  {
+    "id": "1207",
+    "agency": "IRSU - GREATER VANCOUVER"
+  },
+  {
+    "id": "1301",
+    "agency": "SURREY RCMP"
+  },
+  {
+    "id": "1303",
+    "agency": "LANGLEY RCMP"
+  },
+  {
+    "id": "1304",
+    "agency": "WHITE ROCK RCMP"
+  },
+  {
+    "id": "1305",
+    "agency": "BCHP - FRASER COAST IRSU"
+  },
+  {
+    "id": "1401",
+    "agency": "RICHMOND RCMP"
+  },
+  {
+    "id": "1402",
+    "agency": "UNIVERSITY RCMP"
+  },
+  {
+    "id": "1501",
+    "agency": "UPPER FRASER VALLEY REG RCMP"
+  },
+  {
+    "id": "1503",
+    "agency": "MISSION RCMP"
+  },
+  {
+    "id": "1510",
+    "agency": "RCMP EHQ OCC"
+  },
+  {
+    "id": "2100",
+    "agency": "SOUTHEAST DISTRICT RCMP"
+  },
+  {
+    "id": "2101",
+    "agency": "KELOWNA RCMP"
+  },
+  {
+    "id": "2102",
+    "agency": "PENTICTON RCMP"
+  },
+  {
+    "id": "2103",
+    "agency": "SUMMERLAND RCMP"
+  },
+  {
+    "id": "2104",
+    "agency": "SOUTH OKANAGAN RCMP"
+  },
+  {
+    "id": "2105",
+    "agency": "KEREMEOS RCMP"
+  },
+  {
+    "id": "2106",
+    "agency": "PRINCETON RCMP"
+  },
+  {
+    "id": "2109",
+    "agency": "NORTH OKANAGAN RURAL"
+  },
+  {
+    "id": "2110",
+    "agency": "KELOWNA OCC"
+  },
+  {
+    "id": "2111",
+    "agency": "NORTH OKANAGAN RCMP"
+  },
+  {
+    "id": "2112",
+    "agency": "SALMON ARM RCMP"
+  },
+  {
+    "id": "2113",
+    "agency": "SICAMOUS RCMP"
+  },
+  {
+    "id": "2114",
+    "agency": "REVELSTOKE RCMP"
+  },
+  {
+    "id": "2201",
+    "agency": "KAMLOOPS CITY RCMP"
+  },
+  {
+    "id": "2203",
+    "agency": "CHASE RCMP"
+  },
+  {
+    "id": "2204",
+    "agency": "BARRIERE RCMP"
+  },
+  {
+    "id": "2205",
+    "agency": "CLEARWATER RCMP"
+  },
+  {
+    "id": "2206",
+    "agency": "LOGAN LAKE RCMP"
+  },
+  {
+    "id": "2207",
+    "agency": "MERRITT RCMP"
+  },
+  {
+    "id": "2208",
+    "agency": "ASHCROFT RCMP"
+  },
+  {
+    "id": "2209",
+    "agency": "LILLOOET RCMP"
+  },
+  {
+    "id": "2210",
+    "agency": "LYTTON RCMP"
+  },
+  {
+    "id": "2211",
+    "agency": "CLINTON RCMP"
+  },
+  {
+    "id": "2212",
+    "agency": "STL' ATL' IMX POLICE FNAPS"
+  },
+  {
+    "id": "2301",
+    "agency": "CENTRAL KOOTENAY RCMP"
+  },
+  {
+    "id": "2303",
+    "agency": "CASTLEGAR RCMP"
+  },
+  {
+    "id": "2304",
+    "agency": "TRAIL AND GREATER DIST RCMP"
+  },
+  {
+    "id": "2305",
+    "agency": "BOUNDARY RCMP"
+  },
+  {
+    "id": "2401",
+    "agency": "CRANBROOK/KIMBERLEY RCMP"
+  },
+  {
+    "id": "2403",
+    "agency": "ELK VALLEY RCMP"
+  },
+  {
+    "id": "2404",
+    "agency": "CRESTON RCMP"
+  },
+  {
+    "id": "2405",
+    "agency": "COLUMBIA VALLEY RCMP"
+  },
+  {
+    "id": "2406",
+    "agency": "GOLDEN RCMP"
+  },
+  {
+    "id": "3100",
+    "agency": "NORTH DISTRICT RCMP"
+  },
+  {
+    "id": "3101",
+    "agency": "PRINCE GEORGE RCMP"
+  },
+  {
+    "id": "3102",
+    "agency": "MCBRIDE RCMP"
+  },
+  {
+    "id": "3103",
+    "agency": "VALEMOUNT RCMP"
+  },
+  {
+    "id": "3104",
+    "agency": "MACKENZIE RCMP"
+  },
+  {
+    "id": "3105",
+    "agency": "TSAY KEH DENE RCMP"
+  },
+  {
+    "id": "3111",
+    "agency": "NORTH DISTRICT OCC"
+  },
+  {
+    "id": "3201",
+    "agency": "VANDERHOOF RCMP"
+  },
+  {
+    "id": "3202",
+    "agency": "FORT ST. JAMES RCMP"
+  },
+  {
+    "id": "3203",
+    "agency": "TAKLA LANDING RCMP"
+  },
+  {
+    "id": "3204",
+    "agency": "FRASER LAKE RCMP"
+  },
+  {
+    "id": "3205",
+    "agency": "BURNS LAKE RCMP"
+  },
+  {
+    "id": "3301",
+    "agency": "QUESNEL RCMP"
+  },
+  {
+    "id": "3303",
+    "agency": "100 MILE HOUSE RCMP"
+  },
+  {
+    "id": "3304",
+    "agency": "WILLIAMS LAKE RCMP"
+  },
+  {
+    "id": "3305",
+    "agency": "ALEXIS CREEK RCMP"
+  },
+  {
+    "id": "3306",
+    "agency": "ANAHIM LAKE RCMP"
+  },
+  {
+    "id": "3307",
+    "agency": "BELLA COOLA RCMP"
+  },
+  {
+    "id": "3308",
+    "agency": "BELLA BELLA RCMP"
+  },
+  {
+    "id": "3401",
+    "agency": "FORT ST. JOHN RCMP"
+  },
+  {
+    "id": "3402",
+    "agency": "NORTHERN ROCKIES RCMP"
+  },
+  {
+    "id": "3403",
+    "agency": "DAWSON CREEK RCMP"
+  },
+  {
+    "id": "3404",
+    "agency": "TUMBLER RIDGE RCMP"
+  },
+  {
+    "id": "3405",
+    "agency": "CHETWYND RCMP"
+  },
+  {
+    "id": "3406",
+    "agency": "HUDSON'S HOPE RCMP"
+  },
+  {
+    "id": "3501",
+    "agency": "TERRACE RCMP"
+  },
+  {
+    "id": "3502",
+    "agency": "KITIMAT RCMP"
+  },
+  {
+    "id": "3503",
+    "agency": "HOUSTON RCMP"
+  },
+  {
+    "id": "3505",
+    "agency": "SMITHERS RCMP"
+  },
+  {
+    "id": "3506",
+    "agency": "NEW HAZELTON RCMP"
+  },
+  {
+    "id": "3601",
+    "agency": "PRINCE RUPERT RCMP"
+  },
+  {
+    "id": "3602",
+    "agency": "LISIMS/NASS VALLEY RCMP"
+  },
+  {
+    "id": "3603",
+    "agency": "STEWART RCMP"
+  },
+  {
+    "id": "3604",
+    "agency": "DEASE LAKE RCMP"
+  },
+  {
+    "id": "3606",
+    "agency": "MASSET RCMP"
+  },
+  {
+    "id": "3607",
+    "agency": "QUEEN CHARLOTTE RCMP"
+  },
+  {
+    "id": "3608",
+    "agency": "ATLIN RCMP"
+  },
+  {
+    "id": "3609",
+    "agency": "DO NOT USE (EX NM VJUR)"
+  },
+  {
+    "id": "4100",
+    "agency": "ISLAND DISTRICT RCMP"
+  },
+  {
+    "id": "4105",
+    "agency": "WEST SHORE RCMP"
+  },
+  {
+    "id": "4106",
+    "agency": "SIDNEY/NORTH SAANICH RCMP"
+  },
+  {
+    "id": "4107",
+    "agency": "SOOKE RCMP"
+  },
+  {
+    "id": "4108",
+    "agency": "SALT SPRING ISLAND RCMP"
+  },
+  {
+    "id": "4109",
+    "agency": "OUTER GULF ISLANDS RCMP"
+  },
+  {
+    "id": "4110",
+    "agency": "BCHP - CRD IRSU"
+  },
+  {
+    "id": "4111",
+    "agency": "DO NOT USE (EX VO VJUR)"
+  },
+  {
+    "id": "4201",
+    "agency": "NANAIMO RCMP"
+  },
+  {
+    "id": "4202",
+    "agency": "GABRIOLA ISLAND RCMP"
+  },
+  {
+    "id": "4203",
+    "agency": "LADYSMITH RCMP"
+  },
+  {
+    "id": "4204",
+    "agency": "NORTH COWICHAN/DUNCAN RCMP"
+  },
+  {
+    "id": "4205",
+    "agency": "SHAWNIGAN LAKE RCMP"
+  },
+  {
+    "id": "4206",
+    "agency": "BCHP - CHEMAINUS"
+  },
+  {
+    "id": "4207",
+    "agency": "WEST COAST MARINE RCMP"
+  },
+  {
+    "id": "4208",
+    "agency": "LAKE COWICHAN RCMP"
+  },
+  {
+    "id": "4211",
+    "agency": "DO NOT USE (EX NN VJUR)"
+  },
+  {
+    "id": "4301",
+    "agency": "COMOX VALLEY RCMP"
+  },
+  {
+    "id": "4302",
+    "agency": "OCEANSIDE RCMP"
+  },
+  {
+    "id": "4303",
+    "agency": "PORT ALBERNI RCMP"
+  },
+  {
+    "id": "4304",
+    "agency": "TOFINO RCMP (AHOUSAHT)"
+  },
+  {
+    "id": "4305",
+    "agency": "UCLUELET RCMP"
+  },
+  {
+    "id": "4306",
+    "agency": "POWELL RIVER RCMP"
+  },
+  {
+    "id": "4307",
+    "agency": "BCHP - PARKSVILLE"
+  },
+  {
+    "id": "4308",
+    "agency": "BCHP - ISLAND IRSU"
+  },
+  {
+    "id": "4311",
+    "agency": "NORTH ISLAND OCC"
+  },
+  {
+    "id": "4315",
+    "agency": "CAMPBELL RIVER RCMP"
+  },
+  {
+    "id": "4316",
+    "agency": "QUADRA ISLAND RCMP"
+  },
+  {
+    "id": "4317",
+    "agency": "NOOTKA SOUND RCMP"
+  },
+  {
+    "id": "4318",
+    "agency": "SAYWARD RCMP"
+  },
+  {
+    "id": "4319",
+    "agency": "PORT HARDY RCMP"
+  },
+  {
+    "id": "4320",
+    "agency": "PORT MCNEILL RCMP"
+  },
+  {
+    "id": "4321",
+    "agency": "PORT ALICE RCMP"
+  },
+  {
+    "id": "4322",
+    "agency": "ALERT BAY RCMP"
+  },
+  {
+    "id": "4323",
+    "agency": "BCHP - CAMPBELL RIVER"
+  },
+  {
+    "id": "5000",
+    "agency": "E DIV (LMD) RCMP"
+  },
+  {
+    "id": "5001",
+    "agency": "E DIV (VIR) RCMP"
+  },
+  {
+    "id": "5002",
+    "agency": "DO NOT USE (EX ED VJUR)"
+  },
+  {
+    "id": "6000",
+    "agency": "CFSEU - LMD 6000"
+  },
+  {
+    "id": "6001",
+    "agency": "CFSEU ISLAND"
+  },
+  {
+    "id": "6002",
+    "agency": "CFSEU NSE"
+  },
+  {
+    "id": "9000",
+    "agency": "LMD RCMP CTU"
+  },
+  {
+    "id": "9001",
+    "agency": "VIR RCMP CTU"
+  },
+  {
+    "id": "9002",
+    "agency": "NSE RCMP CTU"
+  },
+  {
+    "id": "AB",
+    "agency": "ABBOTSFORD POLICE DEPARTMENT"
+  },
+  {
+    "id": "CS",
+    "agency": "CENTRAL SAANICH POLICE SERVICE"
+  },
+  {
+    "id": "DE",
+    "agency": "DELTA POLICE DEPARTMENT"
+  },
+  {
+    "id": "E",
+    "agency": "ECOMM OCC"
+  },
+  {
+    "id": "GV",
+    "agency": "SCBCTAPS - TRANSIT POLICE"
+  },
+  {
+    "id": "II",
+    "agency": "INDEPENDENT INVESTIGATIONS"
+  },
+  {
+    "id": "NP",
+    "agency": "NELSON POLICE DEPARTMENT"
+  },
+  {
+    "id": "NW",
+    "agency": "NEW WESTMINSTER POLICE DEPT"
+  },
+  {
+    "id": "OB",
+    "agency": "OAK BAY POLICE DEPARTMENT"
+  },
+  {
+    "id": "PO",
+    "agency": "PORT MOODY POLICE DEPARTMENT"
+  },
+  {
+    "id": "RC",
+    "agency": "DO NOT USE (EX CRD RCU)"
+  },
+  {
+    "id": "SA",
+    "agency": "SAANICH POLICE DEPARTMENT"
+  },
+  {
+    "id": "VA",
+    "agency": "VANCOUVER POLICE DEPARTMENT"
+  },
+  {
+    "id": "VI",
+    "agency": "VICTORIA POLICE DEPARTMENT"
+  },
+  {
+    "id": "WV",
+    "agency": "WEST VANCOUVER POLICE DEPT."
+  },
+  {
+    "id": "XL",
+    "agency": "LMD X-SERVER ACCESS"
+  },
+  {
+    "id": "XN",
+    "agency": "NSE X-SERVER ACCESS"
+  },
+  {
+    "id": "XV",
+    "agency": "VIR X-SERVER ACCESS"
+  },
+  {
+    "id": "ZZ",
+    "agency": "PRIMECORP"
+  }
 ]
