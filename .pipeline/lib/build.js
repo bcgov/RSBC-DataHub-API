@@ -82,7 +82,7 @@ module.exports = settings => {
       'SOURCE_CONTEXT_DIR': 'web_app'
     }
   }))
-  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-prohibition-web-service-build.yaml`, {
+  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-prohibition-web-svc-build.yaml`, {
     'param':{
       'NAME': phases[phase].name,
       'SUFFIX': phases[phase].suffix,

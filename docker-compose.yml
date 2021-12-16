@@ -122,10 +122,10 @@ services:
             - "8080:5000"
 
 
-    prohibition_web_service:
+    prohibition_web_svc:
       build:
         context: python
-        dockerfile: prohibition_web_service/Dockerfile-local
+        dockerfile: prohibition_web_svc/Dockerfile-local
       environment:
         FLASK_SECRET_KEY: "${FLASK_SECRET_KEY}"
         ICBC_API_ROOT: "${ICBC_API_ROOT}"
