@@ -16,17 +16,17 @@ CORS(bp, resources={"/api/v1/vehicle_styles": {"origins": Config.ACCESS_CONTROL_
 @bp.route('/vehicle_styles', methods=['GET'])
 def index():
     """
-    List all cities
+    List all styles
     """
     if request.method == 'GET':
         data = helper.load_json_into_dict('python/prohibition_web_service/data/vehicle_styles.json')
         return make_response(data, 200)
 
 
-@bp.route('/vehicle_styles/<string:city_id>', methods=['GET'])
-def get(city_id):
+@bp.route('/vehicle_styles/<string:style_id>', methods=['GET'])
+def get(style_id):
     """
-    Get a specific city
+    Get a specific style
     """
     if request.method == 'GET':
         return make_response({"error": "method not implemented"}, 405)
@@ -35,16 +35,16 @@ def get(city_id):
 @bp.route('/vehicle_styles', methods=['POST'])
 def create():
     """
-    Save a new city
+    Save a new style
     """
     if request.method == 'POST':
         return make_response({"error": "method not implemented"}, 405)
 
 
-@bp.route('/vehicle_styles/<string:city_id>', methods=['PATCH'])
-def update(city_id):
+@bp.route('/vehicle_styles/<string:style_id>', methods=['PATCH'])
+def update(style_id):
     """
-    Update a city
+    Update a style
     """
     if request.method == 'PATCH':
         return make_response({"error": "method not implemented"}, 405)
