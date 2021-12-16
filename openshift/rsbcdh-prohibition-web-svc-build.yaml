@@ -88,7 +88,7 @@ parameters:
   required: true
   value: rsbc-dh
 - name: COMPONENT
-  value: prohibition-web-service
+  value: prohibition-web-svc
 - name: SUFFIX
   description: A suffix appended to all objects
   displayName: Name Suffix

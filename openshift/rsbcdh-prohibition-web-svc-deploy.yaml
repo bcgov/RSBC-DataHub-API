@@ -4,7 +4,7 @@ metadata: {}
 parameters:
 - name: NAME
 - name: COMPONENT
-  value: prohibition-web-service
+  value: prohibition-web-svc
 - name: PHASE
 - name: SUFFIX
 - name: VERSION
