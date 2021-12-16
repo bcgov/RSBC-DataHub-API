@@ -203,7 +203,7 @@ objects:
     annotations:
       openshift.io/generated-by: OpenShiftNewApp
     creationTimestamp: null
-    name: ${NAME}-${COMPONENT}${SUFFIX}${URL_SUFFIX}
+    name: ${NAME}-${COMPONENT}
   spec:
     ports:
     - name: 5000-tcp
@@ -211,7 +211,7 @@ objects:
       protocol: TCP
       targetPort: 5000
     selector:
-      deploymentconfig: ${NAME}-${COMPONENT}${SUFFIX}${URL_SUFFIX}
+      deploymentconfig: ${NAME}-${COMPONENT}${SUFFIX}
   status:
     loadBalancer: {}
 - apiVersion: v1
