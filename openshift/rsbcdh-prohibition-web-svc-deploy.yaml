@@ -4,13 +4,26 @@ metadata: {}
 parameters:
 - name: NAME
 - name: COMPONENT
-  value: prohibition-web-app
+  value: prohibition-web-svc
 - name: PHASE
 - name: SUFFIX
 - name: VERSION
 - name: HOST
+- name: FLASK_SECRET_KEY
+- name: DATABASE_URI
+- name: ICBC_API_ROOT
+- name: ICBC_API_USERNAME
+- name: ICBC_API_PASSWORD
+- name: ADMIN_USERNAME
+- name: KEYCLOAK_REALM
+- name: KEYCLOAK_AUTH_URL
+- name: KEYCLOAK_CLIENT_ID
+- name: FLASK_BASIC_AUTH_USER
+- name: FLASK_BASIC_AUTH_PASS
 - name: LOG_LEVEL
-  value: 'WARNING'
+  value: 'INFO'
+- name: FLASK_ENV
+  value: 'development'
 - name: URL_SUFFIX
   required: true
 - name: CPU_REQUEST
@@ -69,6 +82,10 @@ objects:
         labels:
           deploymentconfig: ${NAME}-${COMPONENT}${SUFFIX}
       spec:
+        volumes:
+        - name: "${NAME}-data"
+          persistentVolumeClaim:
+            claimName: "${NAME}-${COMPONENT}${SUFFIX}"
         containers:
         - image: " "
           name: app
@@ -77,10 +94,67 @@ objects:
             - containerPort: 8080
               protocol: TCP
           env:
+            - name: FLASK_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}${SUFFIX}
+                  key: prohibition-flask-secret
+            - name: ICBC_API_ROOT
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}${SUFFIX}
+                  key: icbc-api-root
+            - name: ICBC_API_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}${SUFFIX}
+                  key: icbc-api-username
+            - name: ICBC_API_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}${SUFFIX}
+                  key: icbc-api-password
+            - name: ADMIN_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}${SUFFIX}
+                  key: prohibition-admin-username
+            - name: DATABASE_URI
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}${SUFFIX}
+                  key: prohibition-database-uri
+            - name: KEYCLOAK_REALM
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}${SUFFIX}
+                  key: keycloak-realm
+            - name: KEYCLOAK_AUTH_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}${SUFFIX}
+                  key: keycloak-auth-url
+            - name: KEYCLOAK_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}${SUFFIX}
+                  key: keycloak-client-id
+            - name: FLASK_BASIC_AUTH_USER
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}${SUFFIX}
+                  key: flask-basic-auth-user
+            - name: FLASK_BASIC_AUTH_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}${SUFFIX}
+                  key: flask-basic-auth-pass
             - name: LOG_LEVEL
               value: ${LOG_LEVEL}
             - name: ENVIRONMENT
               value: ${PHASE}
+            - name: AUTHLIB_INSECURE_TRANSPORT
+              value: "True"
           resources:
             limits:
               cpu: 80m
@@ -88,6 +162,9 @@ objects:
             requests:
               cpu: 60m
               memory: 64Mi
+          volumeMounts:
+          - name: "${NAME}-data"
+            mountPath: "/var/lib/sqlite"
     test: false
     triggers:
     - type: ConfigChange
@@ -126,7 +203,7 @@ objects:
     annotations:
       openshift.io/generated-by: OpenShiftNewApp
     creationTimestamp: null
-    name: ${NAME}-${COMPONENT}${SUFFIX}
+    name: ${NAME}-${COMPONENT}
   spec:
     ports:
     - name: 5000-tcp
@@ -138,36 +215,16 @@ objects:
   status:
     loadBalancer: {}
 - apiVersion: v1
-  kind: Route
+  kind: PersistentVolumeClaim
   metadata:
-    creationTimestamp: null
-    name: ${NAME}-${COMPONENT}${SUFFIX}
+    name: "${NAME}-${COMPONENT}${SUFFIX}"
+  labels:
+    name: "${NAME}-${COMPONENT}${SUFFIX}"
+    template: "${NAME}-persistent-template"
   spec:
-    host: ${NAME}-${COMPONENT}${SUFFIX}${URL_SUFFIX}
-    path: ""
-    port:
-      targetPort: 5000-tcp
-    tls:
-      termination: edge
-    to:
-      kind: Service
-      name: ${NAME}-${COMPONENT}${SUFFIX}
-      weight: 100
-    wildcardPolicy: None
-- apiVersion: v1
-  kind: Route
-  metadata:
-    creationTimestamp: null
-    name: ${NAME}-${COMPONENT}${SUFFIX}-api
-  spec:
-    host: ${NAME}-${COMPONENT}${SUFFIX}${URL_SUFFIX}
-    path: "/api/"
-    port:
-      targetPort: 5000-tcp
-    tls:
-      termination: edge
-    to:
-      kind: Service
-      name: ${NAME}-prohibition-web-svc{SUFFIX}
-      weight: 100
-    wildcardPolicy: None
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: "20Mi"
+
