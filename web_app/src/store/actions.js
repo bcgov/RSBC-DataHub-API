@@ -533,7 +533,6 @@ export const actions = {
 
     async downloadLookupTables(context) {
 
-        await context.dispatch("getMoreFormsFromApiIfNecessary")
         await context.dispatch("fetchStaticLookupTables", "agencies")
         await context.dispatch("fetchStaticLookupTables", "impound_lot_operators")
         await context.dispatch("fetchStaticLookupTables", "countries")
@@ -544,7 +543,6 @@ export const actions = {
         await context.dispatch("fetchStaticLookupTables", "vehicles")
         await context.dispatch("fetchStaticLookupTables", "vehicle_styles")
 
-        // TODO - await store.dispatch("renewFormLeasesFromApiIfNecessary")
     },
 
     updateRichCheckBox (context, payload) {

@@ -50,6 +50,8 @@ new Vue({
 
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'setKeycloak') {
+        store.dispatch("getMoreFormsFromApiIfNecessary")
+        // TODO - store.dispatch("renewFormLeasesFromApiIfNecessary")
         store.dispatch("fetchStaticLookupTables", "user_roles")
       }
     });
