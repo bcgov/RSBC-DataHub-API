@@ -28,8 +28,6 @@ parameters:
 - name: BCC_EMAIL_ADDRESSES
 - name: LINK_TO_SCHEDULE_FORM
 - name: AUTHLIB_INSECURE_TRANSPORT
-- name: SPLUNK_HOST
-- name: SPLUNK_TOKEN
 - name: LOG_LEVEL
   value: 'INFO'
 - name: FLASK_ENV
@@ -202,16 +200,6 @@ objects:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
                   key: orbeon-prohibition-schedule-form
-            - name: SPLUNK_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: ${NAME}-${PHASE}
-                  key: splunk-host
-            - name: SPLUNK_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: ${NAME}-${PHASE}
-                  key: splunk-token
             - name: LOG_LEVEL
               value: ${LOG_LEVEL}
             - name: ENVIRONMENT

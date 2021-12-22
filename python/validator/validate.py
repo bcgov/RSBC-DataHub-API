@@ -1,10 +1,9 @@
 import logging
-import logging.config
 from python.common.config import Config
 from python.common.helper import load_json_into_dict
 from cerberus import Validator as Cerberus
 
-logging.config.dictConfig(Config.LOGGING)
+logging.basicConfig(level=Config.LOG_LEVEL, format=Config.LOG_FORMAT)
 
 
 class Validate:

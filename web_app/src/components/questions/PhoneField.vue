@@ -1,11 +1,11 @@
 <template>
 <div class="form-group" :class="fg_class">
   <validation-provider :rules="rules" :name="id" v-slot="{ errors, required }">
-    <label v-if="show_label" :for="id"><slot></slot>
+    <label v-if="show_label" class="small" :for="id"><slot></slot>
       <span v-if="required" class="text-danger"> *</span>
     </label>
     <input type="text"
-           class="form-control"
+           class="form-control form-control-sm"
            :id="id"
            :placeholder="placeholder"
             :value="getAttributeValue(id)"

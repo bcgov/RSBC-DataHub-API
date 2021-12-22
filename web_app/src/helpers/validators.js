@@ -18,54 +18,28 @@ extend('required', {
 });
 
 extend('validDt', {
-  validate: value => moment(value, "YYYYMMDD", true).isValid(),
+  validate: value => moment(value, "YYYY-MM-DD", true).isValid(),
   message: "That's not a valid date"
 });
 
 extend('validDtTime', {
-  validate: value => moment(value, "YYYYMMDD HHmm", true).isValid(),
+  validate: value => moment(value, "YYYY-MM-DD HH:mm", true).isValid(),
   message: "That's not a valid date time"
 });
 
 extend('notExpired', {
-  validate: value => moment().diff(moment(value, 'YYYYMMDD', true), 'days') < 0,
+  validate: value => moment().diff(moment(value, 'YYYY-MM-DD', true), 'days') < 0,
   message: "Expired"
-});
-
-extend('notFutureDt', {
-  validate(value) {
-    return {
-      required: true,
-      valid: moment().diff(moment(value), 'minutes') > 0,
-    };
-  },
-  message: "Cannot be future dated",
-  computesRequired: true
-});
-
-// digits 8
-extend('dig8', {
-  validate(value) {
-    let result = false;
-    const regexMatch = value.match("^[0-9]{4}[0-9]{2}[0-9]{2}$")
-    if (Array.isArray(regexMatch)) {
-       result = regexMatch[0] === value;
-    }
-    return {
-      valid: result
-    };
-  },
-  message: "DOB must have 8 digits",
 });
 
 extend('dob', {
   validate(value) {
     return {
       required: true,
-      valid: moment().diff(moment(value), 'years') > 0,
+      valid: moment().diff(moment(value), 'years') > 5,
     };
   },
-  message: "DOB cannot be future dated",
+  message: "That's not a valid date-of-birth",
   computesRequired: true
 });
 
@@ -73,7 +47,7 @@ extend('dob', {
 extend('phone', {
   validate(value) {
     let result = false;
-    const regexMatch = value.match("^[0-9]{10}$")
+    const regexMatch = value.match("^[0-9]{3}-[0-9]{3}-[0-9]{4}$")
     if (Array.isArray(regexMatch)) {
        result = regexMatch[0] === value;
     }
@@ -81,45 +55,8 @@ extend('phone', {
       valid: result
     };
   },
-  message: "Phone number format ##########"
+  message: "That's not a valid phone number"
 });
 
-
-extend('lt25', {
-  validate(value) {
-    return {
-      valid: value.length <= 25,
-    };
-  },
-  message: "too long; must be less 25 chars",
-});
-
-
-extend('lt5', {
-  validate(value) {
-    return {
-      valid: value.length <= 5,
-    };
-  },
-  message: "Value must be less than 5 chars",
-});
-
-extend('lt3', {
-  validate(value) {
-    return {
-      valid: value.length < 3,
-    };
-  },
-  message: "Value must be less than 3 chars",
-});
-
-extend('lt4', {
-  validate(value) {
-    return {
-      valid: value.length < 5,
-    };
-  },
-  message: "Value must be than 5 chars",
-});
 
 

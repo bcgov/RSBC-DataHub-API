@@ -1,46 +1,68 @@
 <template>
-  <div id="app" class="card border-0 ml-4 mr-4">
-    <div id="roadsafety-header" class="card-header">
-      <div class="d-flex justify-content-between">
-        <a href="/"><img width="300px" src="/assets/BCID_RoadSafetyBC_logo_transparent.png" ></a>
-        <div class="d-flex align-items-end flex-column">
-          <div class="font-weight-bold text-warning">
-            DRAFT <span class="text-light small">{{ getAppVersion }}</span>
+  <div id="app" class="container">
+    <div class="row">
+      <div id="header" class="card w-100">
+          <div class="card-title">
+            <div class="d-flex flex-row pt-3 pl-3 pr-3">
+              <img width="300px" src="@/assets/BCID_RoadSafetyBC_logo_transparent.png" >
+            </div>
           </div>
-
-          <div class="mt-auto small">
-            <router-link to="/admin" v-if="isUserAnAdmin" class="text-white font-weight-bold">
-              <span>Admin</span>
-            </router-link>
-            <span v-if="! isUserAnAdmin && isUserAuthenticated">User</span> {{ getKeycloakUsername }}
-          </div>
-        </div>
       </div>
+    </div>
+    <offline-banner v-if="isNetworkOnline"></offline-banner>
+    <component v-if="isFormBeingEdited" :data="getCurrentlyEditedForm.data"
+               :is="getSelectedFormComponent" :name="getCurrentlyEditedForm.short_name">
+    </component>
+    <recent-prohibitions v-if="isRecentProhibitions && ! isFormBeingEdited"></recent-prohibitions>
+    <issue-prohibitions v-if=" ! isFormBeingEdited"></issue-prohibitions>
+    <prohibition-search v-if=" ! isFormBeingEdited"></prohibition-search>
+    <feedback-welcome v-if=" ! isFormBeingEdited"></feedback-welcome>
 
-    </div>
-    <not-logged-in-banner v-if="isDisplayNotLoggedInBanner"></not-logged-in-banner>
-    <div class="card-body">
-      <offline-banner v-if="! $store.state.isOnline"></offline-banner>
-      <router-view></router-view>
-      <debug-component></debug-component>
-    </div>
+
   </div>
 </template>
 
 <script>
 
-import {mapGetters} from 'vuex';
-import NotLoggedInBanner from "@/components/NotLoggedInBanner";
-import OfflineBanner from '@/components/OfflineBanner'
-import DebugComponent from "@/components/debugComponent";
+import OfflineBanner from "./components/OffineBanner.vue"
+import IssueProhibitions from "@/components/IssueProhibitions";
+import TwelveHourProhibition from "@/components/forms/TwelveHourProhibition";
+import TwentyFourHourProhibition from "@/components/forms/TwentyFourHourProhibition";
+import ImmediateRoadsideProhibition from "@/components/forms/ImmediateRoadsideProhibition";
+import FeedbackWelcome from "@/components/FeedbackWelcome";
+import ProhibitionSearch from "@/components/ProhibitionSearch";
+import RecentProhibitions from "@/components/RecentProhibitions";
+import { mapGetters, mapMutations } from 'vuex';
 
 export default {
   name: 'App',
-  components: {DebugComponent, NotLoggedInBanner, OfflineBanner},
-  computed: {
-    ...mapGetters(['getAppVersion', "getKeycloakUsername", "isUserAnAdmin", "isUserAuthenticated",
-    "isDisplayNotLoggedInBanner"]),
+  components: {
+    RecentProhibitions,
+    ProhibitionSearch,
+    FeedbackWelcome,
+    OfflineBanner,
+    IssueProhibitions,
+    TwelveHourProhibition,
+    TwentyFourHourProhibition,
+    ImmediateRoadsideProhibition
   },
+  computed: {
+    ...mapGetters(['isFormBeingEdited',"getSelectedFormComponent","getCurrentlyEditedForm","isRecentProhibitions","isNetworkOnline"]),
+  },
+
+  methods: {
+    ...mapMutations(["networkOffline","networkBackOnline"])
+  },
+
+  // created: function () {
+  //     window.addEventListener('offline', this.offline);
+  //     window.addEventListener('online', this.online);
+  // },
+  //
+  // destroyed: function () {
+  //     window.removeEventListener('offline', this.offline);
+  //     window.removeEventListener('online', this.online);
+  // }
 
 }
 </script>
@@ -48,7 +70,6 @@ export default {
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  font-size: large;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -56,35 +77,7 @@ export default {
   margin-top: 60px;
 }
 
-.form-check {
-    display: flex;
-    align-items: center;
-}
-.form-check-label {
-    margin-left: 10px;
-}
-.form-check .form-check-input[type=checkbox] {
-    border-radius: .25em;
-    height: 1.3em;
-    width: 1.3em;
-}
-.form-check .form-check-input[type=radio] {
-    border-radius: 25%;
-    height: 1.3em;
-    width: 1.3em;
-}
-.form-switch .form-check-input[type=checkbox] {
-    border-radius: 1.3em;
-    height: 1.3em;
-    width: 1.3em;
-}
-
-.form-group label {
-  font-size: medium;
-  color: #343a40;
-}
-
-#roadsafety-header {
+#header.card {
   background-color: #003366;
 
 }

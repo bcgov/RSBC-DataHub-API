@@ -4,10 +4,9 @@ import python.common.common_email_services as common_email_services
 from datetime import datetime
 import json
 import logging
-import logging.config
 from jinja2 import Environment, select_autoescape, FileSystemLoader
 
-logging.config.dictConfig(Config.LOGGING)
+logging.basicConfig(level=Config.LOG_LEVEL, format=Config.LOG_FORMAT)
 
 
 def application_accepted(**args):
@@ -27,8 +26,7 @@ def application_accepted(**args):
             link_to_paybc=config.LINK_TO_PAYBC,
             full_name=args.get('applicant_full_name'),
             prohibition_number=prohibition_number,
-            subject=content["subject"]),
-        prohibition_number), args
+            subject=content["subject"])), args
 
 
 def applicant_review_type_change(**args):
@@ -45,8 +43,7 @@ def applicant_review_type_change(**args):
         template.render(
             full_name=args.get('applicant_full_name'),
             prohibition_number=prohibition_number,
-            subject=content["subject"]),
-        prohibition_number), args
+            subject=content["subject"])), args
 
 
 def send_form_xml_to_admin(**args):
@@ -84,8 +81,7 @@ def insufficient_reviews_available(**args) -> tuple:
         config,
         template.render(
             prohibition_number=prohibition_number,
-            subject=content["subject"]),
-        prohibition_number), args
+            subject=content["subject"])), args
 
 
 def applicant_did_not_schedule(**args) -> tuple:
@@ -105,8 +101,7 @@ def applicant_did_not_schedule(**args) -> tuple:
             receipt_date=args.get('receipt_date'),
             order_number=args.get('order_number'),
             prohibition_number=prohibition_number,
-            subject=content["subject"]),
-        prohibition_number), args
+            subject=content["subject"])), args
 
 
 def applicant_applied_at_icbc(**args) -> tuple:
@@ -124,8 +119,7 @@ def applicant_applied_at_icbc(**args) -> tuple:
             link_to_paybc=config.LINK_TO_PAYBC,
             full_name="Applicant",
             prohibition_number=prohibition_number,
-            subject=content["subject"]),
-        prohibition_number), args
+            subject=content["subject"])), args
 
 
 def send_email_to_admin(**args):
@@ -138,7 +132,7 @@ def send_email_to_admin(**args):
         [config.ADMIN_EMAIL_ADDRESS],
         subject,
         config,
-        template.render(subject=subject, body=body, message=json.dumps(message)), 'admin'), args
+        template.render(subject=subject, body=body, message=json.dumps(message))), args
 
 
 def applicant_prohibition_served_more_than_7_days_ago(**args):
@@ -155,8 +149,7 @@ def applicant_prohibition_served_more_than_7_days_ago(**args):
         template.render(
             full_name=args.get('applicant_full_name'),
             prohibition_number=prohibition_number,
-            subject=content["subject"]),
-        prohibition_number), args
+            subject=content["subject"])), args
 
 
 def applicant_licence_not_seized(**args):
@@ -175,8 +168,7 @@ def applicant_licence_not_seized(**args):
             link_to_service_bc=config.LINK_TO_SERVICE_BC,
             full_name=args.get('applicant_full_name'),
             prohibition_number=prohibition_number,
-            subject=content["subject"]),
-        prohibition_number), args
+            subject=content["subject"])), args
 
 
 def applicant_prohibition_not_found(**args):
@@ -196,8 +188,7 @@ def applicant_prohibition_not_found(**args):
             link_to_service_bc=config.LINK_TO_SERVICE_BC,
             full_name=args.get('applicant_full_name'),
             prohibition_number=prohibition_number,
-            subject=content["subject"]),
-        prohibition_number), args
+            subject=content["subject"])), args
 
 
 def applicant_to_schedule_review(**args):
@@ -226,8 +217,7 @@ def applicant_to_schedule_review(**args):
             order_number=payload.get('transaction_id'),
             full_name=full_name,
             prohibition_number=prohibition_number,
-            subject=content["subject"]),
-        prohibition_number), args
+            subject=content["subject"])), args
 
 
 def applicant_schedule_confirmation(**args):
@@ -254,8 +244,7 @@ def applicant_schedule_confirmation(**args):
             prohibition_number=prohibition_number,
             subject=content["subject"],
             phone=phone,
-            friendly_review_time_slot=args.get('friendly_review_time_slot')),
-        prohibition_number), args
+            friendly_review_time_slot=args.get('friendly_review_time_slot'))), args
 
 
 def applicant_last_name_mismatch(**args):
@@ -280,8 +269,7 @@ def applicant_last_name_mismatch(**args):
             link_to_service_bc=config.LINK_TO_SERVICE_BC,
             full_name=args.get('applicant_full_name'),
             prohibition_number=prohibition_number,
-            subject=content["subject"]),
-        prohibition_number), args
+            subject=content["subject"])), args
 
 
 def applicant_prohibition_not_found_yet(**args):
@@ -308,8 +296,7 @@ def applicant_prohibition_not_found_yet(**args):
             date_of_service=human_friendly_date_served,
             full_name=args.get('applicant_full_name'),
             prohibition_number=prohibition_number,
-            subject=content["subject"]),
-        prohibition_number), args
+            subject=content["subject"])), args
 
 
 def applicant_prohibition_still_not_found(**args) -> tuple:
@@ -336,8 +323,7 @@ def applicant_prohibition_still_not_found(**args) -> tuple:
             date_of_service=human_friendly_date_served,
             full_name=args.get('applicant_full_name'),
             prohibition_number=prohibition_number,
-            subject=content["subject"]),
-        prohibition_number), args
+            subject=content["subject"])), args
 
 
 def already_applied(**args):
@@ -355,8 +341,7 @@ def already_applied(**args):
         template.render(
             full_name=args.get('applicant_full_name'),
             prohibition_number=prohibition_number,
-            subject=content["subject"]),
-        prohibition_number), args
+            subject=content["subject"])), args
 
 
 def applicant_disclosure(**args) -> tuple:
@@ -376,7 +361,6 @@ def applicant_disclosure(**args) -> tuple:
             full_name=args.get('applicant_name'),
             prohibition_number=prohibition_number,
             subject=content["subject"]),
-        prohibition_number,
         args.get('disclosure_for_applicant')), args
 
 
@@ -397,8 +381,7 @@ def applicant_evidence_instructions(**args) -> tuple:
             link_to_evidence_form=config.LINK_TO_EVIDENCE_FORM,
             full_name=args.get('applicant_name'),
             prohibition_number=prohibition_number,
-            subject=content["subject"]),
-        prohibition_number), args
+            subject=content["subject"])), args
 
 
 def applicant_evidence_received(**args) -> tuple:
@@ -420,8 +403,7 @@ def applicant_evidence_received(**args) -> tuple:
             full_name=full_name,
             today_date=args.get('today_date').strftime("%B %d, %Y %H:%M"),
             prohibition_number=prohibition_number,
-            subject=content["subject"]),
-        prohibition_number), args
+            subject=content["subject"])), args
 
 
 def admin_unable_to_save_to_vips(**args) -> tuple:
@@ -444,8 +426,8 @@ def admin_unknown_event_type(**args) -> tuple:
     return send_email_to_admin(config=config, title=title, body=body_text), args
 
 
-def get_jinja2_env(path="./python/common/templates"):
-    template_loader = FileSystemLoader(searchpath=path)
+def get_jinja2_env():
+    template_loader = FileSystemLoader(searchpath="./python/common/templates")
     return Environment(
         loader=template_loader,
         autoescape=select_autoescape(['html', 'xml'])

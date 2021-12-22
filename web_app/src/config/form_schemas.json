@@ -1,0 +1,28 @@
+{
+  "forms": {
+    "12Hour": {
+      "component": "TwelveHourProhibition",
+      "last_updated": "2021-04-14",
+      "description": "Notice of 12-hour Licence Suspension Motor Vehicle Act (Section 90.3) MV2906 (12/2009)",
+      "short_name": "12Hour",
+      "full_name": "12 Hour Driving Suspension",
+      "pdf_template": "MV2906_12h_Suspension_2021-04-27.pdf"
+    },
+    "24Hour": {
+      "component": "TwentyFourHourProhibition",
+      "last_updated": "2021-04-28",
+      "short_name": "24Hour",
+      "full_name": "24-Hour Prohibition",
+      "description": "Notice of 24-hour Prohibition and Report to ICBC MV2634 (10/2018)",
+      "pdf_template": "MV2906_12h_Suspension_2021-04-27.pdf"
+    },
+    "IRP": {
+      "component": "ImmediateRoadsideProhibition",
+      "last_updated": "2021-05-02",
+      "short_name": "IRP",
+      "full_name": "Immediate Roadside Prohibition",
+      "description": "Notice of Prohibition and Report to ICBC",
+      "pdf_template": "MV2906_12h_Suspension_2021-04-27.pdf"
+    }
+  }
+}

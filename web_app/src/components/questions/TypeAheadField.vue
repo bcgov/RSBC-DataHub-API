@@ -1,11 +1,7 @@
 <template>
 <div v-if="visible" class="form-group" :class="fg_class">
-  <validation-provider :rules="rules" :name="id" v-slot="{ errors, required }">
-    <label :for="id"><slot></slot></label>
-    <span v-if="required" class="small text-danger"> *</span>
-    <vue-typeahead-bootstrap :input-class="errors.length > 0 ? 'border-danger bg-warning' : ''" @input="typeAheadUpdate" :value="getAttributeValue(id)" :data=suggestions :disabled="disabled" />
-    <div class="small text-danger">{{ errors[0] }}</div>
-  </validation-provider>
+  <label class="small" :for="id"><slot></slot></label>
+  <vue-typeahead-bootstrap @input="typeAheadUpdate" :value="getAttributeValue(id)" size="sm" :data=suggestions :disabled="disabled" />
 </div>
 </template>
 
@@ -19,8 +15,11 @@ export default {
   name: "TypeAheadField",
   mixins: [FieldCommon],
   props: {
-    suggestions: {
-      default: Array
+    suggestions: null
+  },
+  data() {
+    return {
+      city: '',
     }
   },
   computed: {
@@ -28,6 +27,7 @@ export default {
   },
   methods: {
     typeAheadUpdate(e) {
+      console.log('inside TypeAheadField typeAheadUpdate(): ' + JSON.stringify(e))
       const payload = {target: {value: e, id: this.id }}
       this.$store.commit("updateFormField", payload)
     }

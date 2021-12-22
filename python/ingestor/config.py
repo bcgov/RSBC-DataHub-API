@@ -11,9 +11,9 @@ class Config(BaseConfig):
     FLASK_BASIC_AUTH_USER               = os.getenv('FLASK_BASIC_AUTH_USER')
     FLASK_BASIC_AUTH_PASS               = os.getenv('FLASK_BASIC_AUTH_PASS')
 
-    VIPS_API_ROOT_URL                   = os.getenv('VIPS_API_ROOT_URL', 'http://localhost')
-    VIPS_API_USERNAME                   = os.getenv('VIPS_API_USERNAME', 'user')
-    VIPS_API_PASSWORD                   = os.getenv('VIPS_API_PASSWORD', 'password')
+    VIPS_API_ROOT_URL                   = os.getenv('VIPS_API_ROOT_URL')
+    VIPS_API_USERNAME                   = os.getenv('VIPS_API_USERNAME')
+    VIPS_API_PASSWORD                   = os.getenv('VIPS_API_PASSWORD')
 
     MAX_FORM_SUBMISSION_BYTES           = int(os.getenv('MAX_FORM_SUBMISSION_BYTES', '100000'))
 

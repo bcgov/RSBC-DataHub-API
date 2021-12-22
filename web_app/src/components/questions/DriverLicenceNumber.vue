@@ -1,26 +1,23 @@
 <template>
   <div v-if="visible" class="form-group">
     <validation-provider :rules="rules" :name="id" v-slot="{ errors, required }">
-      <label v-if="show_label" :for="id"><slot></slot>
+      <label v-if="show_label" class="small" :for="id"><slot></slot>
         <span v-if="required" class="text-danger"> *</span>
       </label>
       <div class="input-group mb-3">
         <input :disabled="disabled" type=text
-             class="form-control"
+             class="form-control form-control-sm"
              :id="id"
              placeholder="Driver's Licence Number"
-             v-model="attribute">
-        <div class="input-group-append">
-          <button type="button" :disabled="! isDisplayIcbcLicenceLookup" @click="triggerDriversLookup"
-                  class="btn-sm btn-secondary text-white">Driver's Lookup
-            <b-spinner v-if="display_spinner" small label="Loading..."></b-spinner>
+             :value="getAttributeValue(id)"
+             @input="updateFormField">
+        <div class="input-group-append" v-if="isLicenceJurisdictionBC">
+          <button :disabled="disabled" @click="populateDriversFromICBC(getCurrentlyEditedProhibitionIndex)"
+                  class="btn-sm btn-primary text-white">ICBC Lookup
           </button>
-          <div type="button" :disabled=true class="btn-sm btn-secondary text-white ml-2">Scan DL</div>
         </div>
       </div>
-      <div class="small text-danger">{{ errors[0] }}
-        <fade-text v-if="fetch_error" show-seconds=3000>{{ fetch_error }}</fade-text>
-      </div>
+      <div class="small text-danger">{{ errors[0] }}</div>
     </validation-provider>
   </div>
 </template>
@@ -28,45 +25,19 @@
 <script>
 
 import FieldCommon from "@/components/questions/FieldCommon";
-import {mapGetters, mapMutations, mapActions} from 'vuex';
-import FadeText from "@/components/FadeText";
+import {mapGetters, mapMutations} from 'vuex';
 
 export default {
   name: "DriversLicenceNumber",
-  components: {FadeText},
   mixins: [FieldCommon],
-  data() {
-    return {
-      display_spinner: false,
-      fetch_error: ''
-    }
-  },
   computed: {
-    icbcPayload() {
-      return {
-        "dlNumber": this.getAttributeValue(this.id),
-        "form_object": this.getCurrentlyEditedFormObject
-      }
-    },
-    ...mapGetters(['getCurrentlyEditedFormObject', "getAttributeValue", "isDisplayIcbcLicenceLookup"]),
+    ...mapGetters(['getCurrentlyEditedProhibitionIndex', "getAttributeValue", "isLicenceJurisdictionBC"]),
+    isNumberTheCorrectLength() {
+      return this.getAttributeValue(this.id) === 7
+    }
   },
   methods: {
-    ...mapMutations(['updateFormField']),
-    ...mapActions(['lookupDriverFromICBC']),
-    triggerDriversLookup() {
-      console.log("inside triggerDriversLookup()")
-      this.fetch_error = ''
-      this.display_spinner = true;
-      this.lookupDriverFromICBC(this.icbcPayload)
-        .then(() => {
-          this.display_spinner = false;
-        })
-        .catch( error => {
-          console.log("error", error)
-          this.display_spinner = false;
-          this.fetch_error = error.description;
-        })
-    }
+    ...mapMutations(['populateDriversFromICBC', 'updateFormField']),
   }
 }
 </script>

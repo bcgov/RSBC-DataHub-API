@@ -1,30 +1,28 @@
 <template>
 <div v-if="visible" class="form-group" :class="fg_class">
   <validation-provider :rules="rules" :name="id" v-slot="{ errors, required }">
-    <label :for="id"><slot></slot>
+    <label class="small" :for="id"><slot></slot>
       <span v-if="required" class="text-danger"> *</span>
-      <span class="text-muted" v-if="displayTimeAgoString"> ({{ timeAgoString }})</span>
-      <span v-if="displayNotValidWarning" class="text-danger"> (date and/or time not valid)</span>
+      <span class="text-muted" v-if="isValidDate"> ({{ timeAgoString }})</span>
     </label>
     <div class="col-xs-10">
-      <div class="input-group">
+      <div class="input-group mb-3">
         <input type="text"
-           class="form-control"
-           :class="errors.length > 0 ? 'border-danger bg-warning' : ''"
-           :disabled="disabled"
-           placeholder="YYYYMMDD"
+           class="form-control form-control-sm" :disabled="disabled"
+               placeholder="YYYY-MM-DD"
            :id="id"
            :value="dateSegment"
            @input="updateDateSegment">
         <input type="text"
-           class="form-control"
-           :class="errors.length > 0 ? 'border-danger bg-warning' : ''"
-           :disabled="disabled"
-            placeholder="HHMM"
+           class="form-control form-control-sm" :disabled="disabled"
+            placeholder="HH:MM"
             :value="timeSegment"
             @input="updateTimeSegment">
+        <div class="input-group-append">
+          <button @click="setCurrentDateTime" class="btn btn-sm btn-secondary" type="button">Now</button>
+        </div>
       </div>
-      <div class="small text-danger ml-1">{{ errors[0] }}</div>
+      <div class="small text-danger">{{ errors[0] }}</div>
     </div>
   </validation-provider>
 </div>
@@ -58,14 +56,21 @@ export default {
 
   methods: {
     ...mapMutations(["updateFormField"]),
+    setCurrentDateTime() {
+      this.setDateTime(this.getCurrentTime());
+    },
     setDateTime(isoDateTimeString) {
       const payload = {target: {id: this.id, value: isoDateTimeString }}
+      console.log('inside DateTime.vue setCurrentDateTime()', payload)
       this.$store.commit("updateFormField", payload)
     },
     timeAgo() {
       if(this.isValidDate) {
         this.timeAgoString = moment(this.getAttributeValue(this.id)).fromNow()
       }
+    },
+    getCurrentTime() {
+      return moment().format("YYYY-MM-DD HH:mm");
     },
     updateTimeSegment(e) {
       const timeString = e.target.value;
@@ -82,30 +87,11 @@ export default {
     isValidDate() {
       return moment(this.getAttributeValue(this.id)).isValid()
     },
-    isFutureDate() {
-      return moment().diff(this.getAttributeValue(this.id), "millisecond") < 0
-    },
     dateSegment() {
       return this.getAttributeValue(this.id).split(' ')[0];
     },
     timeSegment() {
-      let timeArray = this.getAttributeValue(this.id).split(' ');
-      if (timeArray.length > 1) {
-        return timeArray[1]
-      } else {
-        return ''
-      }
-    },
-    displayNotValidWarning() {
-      let dateTimeArray = this.getAttributeValue(this.id).split(' ');
-      if (this.getAttributeValue(this.id).length === 0) {
-        return false;
-      } else {
-        return ! (dateTimeArray[0].length === 8 && dateTimeArray[1].length === 4)
-      }
-    },
-    displayTimeAgoString() {
-      return this.isValidDate && ! this.displayNotValidWarning;
+      return this.getAttributeValue(this.id).split(' ')[1];
     }
   }
 

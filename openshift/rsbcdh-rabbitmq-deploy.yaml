@@ -216,13 +216,13 @@ objects:
               memory: 512Mi
           livenessProbe:
             exec:
-              command: ["rabbitmq-diagnostics", "-q", "ping"]
+              command: ["rabbitmqctl", "status"]
             failureThreshold: 10
             initialDelaySeconds: 240
             timeoutSeconds: 30
           readinessProbe:
             exec:
-              command: ["rabbitmq-diagnostics", "-q", "ping"]
+              command: ["rabbitmqctl", "status"]
             failureThreshold: 10
             initialDelaySeconds: 80
             timeoutSeconds: 30

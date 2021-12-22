@@ -6,9 +6,11 @@
       <div class="card-body text-left pb-1">
         <table class="table table-striped">
           <tbody>
-            <recent-prohibition-row v-for="(prohibition, index) in getAllEditedForms"
+            <recent-prohibition-row v-for="(prohibition, index) in getAllEditedProhibitions"
                                     :key="index"
-                                    :prohibition="prohibition">
+                                    :prohibition="prohibition"
+                                    :prohibition_number="prohibition.data.prohibition_number"
+                                    :prohibition_index="index">
             </recent-prohibition-row>
           </tbody>
         </table>
@@ -24,7 +26,7 @@ import {mapGetters} from 'vuex';
 export default {
   name: "RecentProhibitions",
   computed: {
-    ...mapGetters(["getAllEditedForms"]),
+    ...mapGetters(["getAllEditedProhibitions", "getSpecificForm"]),
   },
   components: {
     RecentProhibitionRow

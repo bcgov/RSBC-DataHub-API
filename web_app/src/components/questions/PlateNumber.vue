@@ -1,26 +1,20 @@
 <template>
   <div v-if="visible" class="form-group" :class="fg_class">
     <validation-provider :rules="rules" :name="id" v-slot="{ errors, required }">
-      <label v-if="show_label" :for="id"><slot></slot>
+      <label v-if="show_label" class="small" :for="id"><slot></slot>
         <span v-if="required" class="text-danger"> *</span>
       </label>
       <div class="input-group mb-3">
         <input type=text
-             class="form-control"
+             class="form-control form-control-sm"
              :id="id"
              placeholder="Plate"
              :value="getAttributeValue(id)"
              @input="updateFormField">
-        <div class="input-group-append" v-if="isDisplayIcbcPlateLookup">
-          <button type="button" @click="triggerPlateLookup" class="btn-sm btn-secondary">
-            ICBC Lookup
-            <b-spinner v-if="display_spinner" small label="Loading..."></b-spinner>
-          </button>
+        <div class="input-group-append" v-if="isPlateJurisdictionBC">
+          <button @click="populateFromICBCPlateLookup" class="btn-sm btn-primary">ICBC Lookup</button>
         </div>
-      </div>
-      <div class="small text-danger">
-        {{ errors[0] }}
-        <fade-text v-if="fetch_error" :show-seconds=3000>{{ fetch_error }}</fade-text>
+        <div class="small text-danger">{{ errors[0] }}</div>
       </div>
     </validation-provider>
   </div>
@@ -29,46 +23,26 @@
 <script>
 
 import FieldCommon from "@/components/questions/FieldCommon";
-import {mapGetters, mapMutations, mapActions} from "vuex";
-import FadeText from "@/components/FadeText";
+import {mapGetters, mapMutations} from "vuex";
 
 export default {
   name: "PlateNumber",
   mixins: [FieldCommon],
-  data() {
-    return {
-      display_spinner: false,
-      fetch_error: ''
-    }
-  },
   computed: {
-    ...mapGetters(["getAttributeValue", "isDisplayIcbcPlateLookup", "getCurrentlyEditedFormId"]),
-    icbcPayload() {
-      return {
-        "plateNumber": this.getAttributeValue(this.id)
-      }
+    ...mapGetters(["getAttributeValue", "isPlateJurisdictionBC"]),
+    isNumberTheCorrectLength() {
+      return this.getAttributeValue(this.id) >= 3
     },
+    icbcLookupButtonClass() {
+      if (this.isNumberTheCorrectLength) {
+        return " btn-primary text-white "
+      } else {
+        return " btn-secondary text-muted "
+      }
+    }
   },
   methods: {
-    ...mapMutations(["updateFormField"]),
-    ...mapActions(["lookupPlateFromICBC"]),
-    triggerPlateLookup() {
-      console.log("inside triggerPlateLookup()")
-      this.fetch_error = ''
-      this.display_spinner = true;
-      this.lookupPlateFromICBC(this.icbcPayload)
-          .then( () => {
-            this.display_spinner = false
-          })
-          .catch( error => {
-            console.log("error", error)
-            this.display_spinner = false
-            this.fetch_error = error.description;
-          })
-    }
-  },
-  components: {
-    FadeText
+    ...mapMutations(["populateFromICBCPlateLookup", "updateFormField"])
   }
 }
 </script>

@@ -1,5 +1,4 @@
 import logging
-import logging.config
 
 
 def has_not_applied_before_evidence(**args) -> tuple:

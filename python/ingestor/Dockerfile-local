@@ -9,10 +9,8 @@ RUN useradd --create-home appuser
 WORKDIR /home/appuser
 USER appuser
 
-COPY common /home/appuser/python/common
-COPY ingestor /home/appuser/python/ingestor
-
-RUN ["python", "-m", "pytest"]
+COPY common/ /home/appuser/python/common/
+COPY ingestor/ /home/appuser/python/ingestor/
 
 #TODO - Add worker processes to gunicorn below 
 CMD [ "gunicorn", "--bind", "0.0.0.0:5000", "--pythonpath", "/home/appuser/python/ingestor", "wsgi" ]

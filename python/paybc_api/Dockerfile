@@ -15,14 +15,16 @@ CMD [ "echo" , "requirements installed" ]
 RUN [ "pwd" ]
 RUN [ "ls", "-R" ]
 
-COPY common ${APP_ROOT}/src/python/common
-COPY paybc_api ${APP_ROOT}/src/python/paybc_api
+COPY common/*.py ${APP_ROOT}/src/python/common/
+COPY common/templates/*.html ${APP_ROOT}/src/python/common/templates/
+COPY common/templates/partials/*.html ${APP_ROOT}/src/python/common/templates/partials/
+COPY paybc_api/*.py ${APP_ROOT}/src/python/paybc_api/
+COPY paybc_api/*.json ${APP_ROOT}/src/python/paybc_api/
+COPY paybc_api/website/*.py ${APP_ROOT}/src/python/paybc_api/website/
 
 CMD [ "echo" , "python files copied" ]
 RUN [ "pwd" ]
 RUN [ "ls", "-R" ]
-
-RUN ["python", "-m", "pytest", "python/paybc_api"]
 
 CMD [ "gunicorn", "--bind", "0.0.0.0:5000", "--pythonpath", "python/paybc_api", "wsgi:create_app()" ]
 

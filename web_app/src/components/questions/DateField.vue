@@ -1,18 +1,18 @@
 <template>
 <div v-if="visible" class="form-group" :class="fg_class">
   <validation-provider :rules="rules" :name="id" v-slot="{ errors, required }">
-    <label :for="id"><slot></slot>
+    <label class="small" :for="id"><slot></slot>
       <span v-if="required" class="text-danger"> *</span>
       <span class="text-muted" v-if="isValidDate"> ({{ timeAgo }})</span>
     </label>
     <div class="col-xs-10">
       <div class="input-group mb-1">
         <input type="text"
-           class="form-control " :disabled="disabled"
-           placeholder="YYYYMMDD"
+           class="form-control form-control-sm " :disabled="disabled"
+           placeholder="YYYY-MM-DD"
            :id="id"
            :value="getAttributeValue(id)"
-           @input="setDateTime">
+           @input="updateFormField">
       </div>
       <div class="small text-danger ml-1">{{ errors[0] }}</div>
     </div>
@@ -32,17 +32,21 @@ export default {
 
   methods: {
     ...mapMutations(["updateFormField"]),
-    setDateTime(e) {
-      const isoDate = e.target.value;
-      const payload = {target: {id: this.id, value: isoDate }}
+    setCurrentDateTime() {
+      const payload = {id: this.id, value: this.getCurrentTime() }
+      console.log('inside DateField setCurrentDateTime()')
       this.$store.commit("updateFormField", payload)
+    },
+
+    getCurrentTime() {
+      return moment().format("YYYY-MM-DD")
     },
   },
 
   computed: {
     ...mapGetters(["getAttributeValue"]),
     dateObject() {
-      return moment(this.getAttributeValue(this.id), 'YYYYMMDD', true);
+      return moment(this.getAttributeValue(this.id), 'YYYY-MM-DD', true);
     },
     isValidDate() {
       return this.dateObject.isValid()

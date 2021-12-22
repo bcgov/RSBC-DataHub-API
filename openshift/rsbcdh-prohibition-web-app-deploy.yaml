@@ -154,20 +154,3 @@ objects:
       name: ${NAME}-${COMPONENT}${SUFFIX}
       weight: 100
     wildcardPolicy: None
-- apiVersion: v1
-  kind: Route
-  metadata:
-    creationTimestamp: null
-    name: ${NAME}-${COMPONENT}${SUFFIX}-api
-  spec:
-    host: ${NAME}-${COMPONENT}${SUFFIX}${URL_SUFFIX}
-    path: "/api/"
-    port:
-      targetPort: 5000-tcp
-    tls:
-      termination: edge
-    to:
-      kind: Service
-      name: ${NAME}-prohibition-web-service${SUFFIX}
-      weight: 100
-    wildcardPolicy: None

@@ -11,9 +11,9 @@ class Config(BaseConfig):
     HOURS_APPLICANT_HAS_TO_SCHEDULE = int(os.getenv('HOURS_APPLICANT_HAS_TO_SCHEDULE', '24'))
     HOLD_QUEUE                      = os.getenv('HOLD_QUEUE', 'DF.hold')
 
-    VIPS_API_ROOT_URL               = os.getenv('VIPS_API_ROOT_URL', 'http://localhost')
-    VIPS_API_USERNAME               = os.getenv('VIPS_API_USERNAME', 'user')
-    VIPS_API_PASSWORD               = os.getenv('VIPS_API_PASSWORD', 'password')
+    VIPS_API_ROOT_URL               = os.getenv('VIPS_API_ROOT_URL')
+    VIPS_API_USERNAME               = os.getenv('VIPS_API_USERNAME')
+    VIPS_API_PASSWORD               = os.getenv('VIPS_API_PASSWORD')
 
     SCHEMA_PATH                     = os.getenv('SCHEMA_PATH', 'python/paybc_api/')
     SCHEMA_FILENAME                 = os.getenv('SCHEMA_FILENAME', 'validation.json')

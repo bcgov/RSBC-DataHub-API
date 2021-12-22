@@ -15,14 +15,14 @@ CMD [ "echo" , "requirements installed" ]
 RUN [ "pwd" ]
 RUN [ "ls", "-R" ]
 
-COPY common ${APP_ROOT}/src/python/common
-COPY ingestor ${APP_ROOT}/src/python/ingestor
+COPY common/*.py ${APP_ROOT}/src/python/common/
+COPY common/templates/*.html ${APP_ROOT}/src/python/common/templates/
+COPY common/templates/partials/*.html ${APP_ROOT}/src/python/common/templates/partials/
+COPY ingestor/*.py ${APP_ROOT}/src/python/ingestor/
 
 CMD [ "echo" , "python files copied" ]
 RUN [ "pwd" ]
 RUN [ "ls", "-R" ]
-
-RUN ["python", "-m", "pytest", "python/ingestor"]
 
 #TODO - Add worker processes to gunicorn below
 CMD [ "gunicorn", "--error-logfile", "-", "--bind", "0.0.0.0:5000", "--pythonpath", "python/ingestor", "wsgi" ]

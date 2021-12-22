@@ -1,5 +1,4 @@
 import logging
-import logging.config
 import pika
 import pika.exceptions
 import pika.adapters.utils.connection_workflow as workflow

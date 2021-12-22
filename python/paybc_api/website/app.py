@@ -1,6 +1,5 @@
 import time
 import logging
-import logging.config
 from flask import Flask
 from python.paybc_api.website.models import db, User, OAuth2Client
 from python.paybc_api.website.oauth2 import config_oauth
@@ -57,7 +56,7 @@ def setup_app(app, config):
             db.session.add(client)
             db.session.commit()
         else:
-            logging.info("database already exists - no need to recreate")
+            logging.warning("database already exists - no need to recreate")
 
     db.init_app(app)
     config_oauth(app)

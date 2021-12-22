@@ -5,7 +5,7 @@
       </div>
       <div class="card-header mt-0 mb-0 pt-2 pb-0 text-dark">
         <p class="text-right pb-0 mb-2">
-          <span class="prohibition_number">{{ getCurrentlyEditedFormId }} </span>
+          <span class="prohibition_number">{{ getCurrentlyEditedProhibitionNumber }} </span>
           <b-icon-question-circle></b-icon-question-circle>
         </p>
       </div>
@@ -23,7 +23,7 @@ export default {
     title: String
   },
   computed: {
-    ...mapGetters(['getCurrentlyEditedFormId'])
+    ...mapGetters(['getCurrentlyEditedProhibitionNumber'])
   }
 }
 </script>

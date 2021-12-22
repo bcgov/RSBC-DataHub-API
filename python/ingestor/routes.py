@@ -1,23 +1,24 @@
 import python.common.helper as helper
 from python.ingestor.config import Config
 from python.common.rabbitmq import RabbitMQ
-from python.common.message import encode_message
 import python.ingestor.business as business
-from flask import request, jsonify, Response, g, Flask
+from flask import request, jsonify, Response, g
+from flask_api import FlaskAPI
 import logging
-import logging.config
 from functools import wraps
 import python.common.rsi_email as rsi_email
 
 
-application = Flask(__name__)
+application = FlaskAPI(__name__)
 application.secret = Config.FLASK_SECRET_KEY
-logging.config.dictConfig(Config.LOGGING)
+logging.basicConfig(level=Config.LOG_LEVEL, format=Config.LOG_FORMAT)
 logging.warning('*** flask initialized ***')
 
 
 @application.before_request
 def before_request_function():
+    logging.info("Remote address: {}".format(request.remote_addr))
+    logging.debug("Data: {}".format(request.remote_addr, request.get_data()))
     g.writer = RabbitMQ(Config())
 
 
@@ -46,27 +47,33 @@ def basic_auth_required(f):
     return decorated
 
 
+@application.route('/v1/publish/event/form_intake', methods=["POST"])
 @basic_auth_required
-@application.route('/v1/publish/event/etk', methods=["POST"])
-def ingest_e_ticket_event():
-    if request.method == 'POST' and request.content_type == 'application/json':
-        payload = request.json
-        encoded_message = encode_message(payload, Config.ENCRYPT_KEY)
-        if payload is not None and g.writer.publish('ingested', encoded_message):
-            return jsonify(payload), 200
-        else:
-            return Response({'error': 'Unavailable'}, 500, mimetype='application/json')
-
-
-@application.route('/v1/publish/event/form', methods=["POST"])
-def ingest_orbeon_form():
+def ingest_form():
     if request.method == 'POST':
-        logging.info("ingest_form_deprecated() invoked: {} | {}".format(request.remote_addr, request.get_data()))
+        # invoke middleware functions
         args = helper.middle_logic(business.ingest_form(),
                                    writer=g.writer,
                                    form_parameters=available_parameters,
                                    request=request,
                                    config=Config)
+
+        return args.get('response')
+
+
+@application.route('/v1/publish/event/form', methods=["POST"])
+def ingest_form_deprecated():
+    """
+    DEPRECATED - USE "form_take" endpoint instead
+    """
+    if request.method == 'POST':
+        # invoke middleware functions
+        args = helper.middle_logic(business.ingest_form(),
+                                   writer=g.writer,
+                                   form_parameters=available_parameters,
+                                   request=request,
+                                   config=Config)
+
         return args.get('response')
 
 
@@ -80,7 +87,7 @@ def schedule():
     special characters from Orbeon.
     """
     if request.method == 'POST':
-        logging.info("schedule() invoked: {} | {}".format(request.remote_addr, request.get_data()))
+        # invoke middleware functions
         args = helper.middle_logic(business.get_available_time_slots(),
                                    prohibition_number=request.form['prohibition_number'],
                                    driver_last_name=request.form['last_name'],
@@ -110,7 +117,7 @@ def evidence():
     applicant business rules satisfied to submit evidence.
     """
     if request.method == 'POST':
-        logging.info("evidence() invoked: {} | {}".format(request.remote_addr, request.get_data()))
+        # invoke middleware functions
         args = helper.middle_logic(business.is_okay_to_submit_evidence(),
                                    prohibition_number=request.form['prohibition_number'],
                                    driver_last_name=request.form['last_name'],

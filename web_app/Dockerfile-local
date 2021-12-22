@@ -4,7 +4,7 @@ RUN useradd --create-home appuser
 RUN ["mkdir", "/app"]
 WORKDIR /app
 
-COPY nginx-local.conf /app/nginx.conf
+COPY nginx.conf /app/nginx.conf
 COPY dist /app/dist
 
 CMD ["nginx-debug", "-c", "/app/nginx.conf",  "-g", "daemon off;"]
