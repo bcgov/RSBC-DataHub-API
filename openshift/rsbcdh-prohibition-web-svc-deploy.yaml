@@ -203,7 +203,7 @@ objects:
     annotations:
       openshift.io/generated-by: OpenShiftNewApp
     creationTimestamp: null
-    name: ${NAME}-${COMPONENT}
+    name: ${NAME}-${COMPONENT}${SUFFIX}
   spec:
     ports:
     - name: 5000-tcp
