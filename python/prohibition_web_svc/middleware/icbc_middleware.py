@@ -1,5 +1,6 @@
 import logging
 import requests
+from datetime import datetime
 from flask import jsonify, make_response
 import base64
 from python.prohibition_web_svc.config import Config
@@ -30,7 +31,12 @@ def get_icbc_driver(**kwargs) -> tuple:
 
 
 def get_icbc_vehicle(**kwargs) -> tuple:
-    url = "{}/vehicles?plateNumber={}".format(Config.ICBC_API_ROOT, kwargs.get('plate_number'))
+    url = "{}/vehicles?plateNumber={}&effectiveDate={}".format(
+        Config.ICBC_API_ROOT,
+        kwargs.get('plate_number'),
+        datetime.now().astimezone().replace(microsecond=0).isoformat()
+    )
+    logging.debug("icbc url:" + url)
     try:
         icbc_response = requests.get(url, headers=kwargs.get('icbc_header'))
         kwargs['response'] = make_response(icbc_response.json(), icbc_response.status_code)
