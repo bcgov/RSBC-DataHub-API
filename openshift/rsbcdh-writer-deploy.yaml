@@ -199,20 +199,3 @@ objects:
       deploymentconfig: ${NAME}-${COMPONENT}${SUFFIX}
   status:
     loadBalancer: {}
-- apiVersion: v1
-  kind: Route
-  metadata:
-    creationTimestamp: null
-    name: ${NAME}-${COMPONENT}${SUFFIX}
-  spec:
-    host: ${NAME}-${COMPONENT}${SUFFIX}${URL_SUFFIX}
-    path: ""
-    port:
-      targetPort: 5000-tcp
-    tls:
-      termination: edge
-    to:
-      kind: Service
-      name: ${NAME}-${COMPONENT}${SUFFIX}
-      weight: 100
-    wildcardPolicy: None
