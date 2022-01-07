@@ -1,4 +1,4 @@
-importScripts("/precache-manifest.469fabe61154ce55c93d36e245d94582.js", "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
+importScripts("/precache-manifest.e124bc40986bdb1e6dc48e548a70a01c.js", "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 
 // The precaching code provided by Workbox

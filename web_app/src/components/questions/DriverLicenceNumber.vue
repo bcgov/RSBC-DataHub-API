@@ -15,12 +15,29 @@
                   class="btn-sm btn-secondary text-white font-weight-bold">Driver's Lookup
             <b-spinner v-if="display_spinner" small label="Loading..."></b-spinner>
           </button>
-          <button type="button" :disabled=true class="btn-sm btn-secondary text-white ml-2 font-weight-bold">Scan DL</button>
+          <button type="button" @click="launchDlScanner" class="btn-sm btn-secondary text-white ml-2 font-weight-bold">Scan DL</button>
         </div>
       </div>
       <div class="small text-danger">{{ errors[0] }}
         <fade-text v-if="fetch_error" show-seconds=3000>{{ fetch_error }}</fade-text>
       </div>
+      <b-modal id="dl-scanner" hide-footer>
+        <template #modal-title>
+          Driver's Licence Scanner
+        </template>
+        <div class="d-block text-center">
+            <div class="alert-success" v-if="scanner_opened">
+                Please scan the BC Driver's licence ...
+            </div>
+            <div class="alert-warning pt-2 pb-2" v-if=" ! scanner_opened">
+              <div>Sorry, we can't read from the scanner</div>
+              <div class="small">
+                {{ scanner_message }}
+              </div>
+            </div>
+          <b-button v-if=" ! scanner_opened" class="mt-3" block @click="$bvModal.hide('dl-scanner')">Close</b-button>
+        </div>
+      </b-modal>
     </validation-provider>
   </div>
 </template>
@@ -30,6 +47,7 @@
 import FieldCommon from "@/components/questions/FieldCommon";
 import {mapGetters, mapMutations, mapActions} from 'vuex';
 import FadeText from "@/components/FadeText";
+import dlScanner from "@/helpers/dlScanner";
 
 export default {
   name: "DriversLicenceNumber",
@@ -38,7 +56,9 @@ export default {
   data() {
     return {
       display_spinner: false,
-      fetch_error: ''
+      fetch_error: '',
+      scanner_opened: false,
+      scanner_message: ''
     }
   },
   computed: {
@@ -66,7 +86,39 @@ export default {
           this.display_spinner = false;
           this.fetch_error = error.description;
         })
-    }
+    },
+    async launchDlScanner() {
+      console.log('inside launchDlScanner')
+      this.$bvModal.show('dl-scanner')
+
+      let scanner = await dlScanner.getScanner();
+
+      console.log("opended?", scanner.opened )
+      let opened_scanner = await scanner.open()
+          .then( scanner => {
+              this.scanner_opened = true;
+              return scanner
+          })
+          .catch( error => {
+              this.scanner_opened = false;
+              this.scanner_message = error;
+              return null;
+          });
+
+      if (opened_scanner) {
+         await dlScanner.readFromScanner(opened_scanner)
+          .then( magStripe => {
+              return dlScanner.parseAAMVA2009(magStripe)
+          })
+          .then( data => {
+              console.log('scanned data()', data)
+
+              this.$bvModal.hide('dl-scanner')
+          });
+      }
+
+    },
+
   }
 }
 </script>
