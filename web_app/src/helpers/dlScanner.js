@@ -26,16 +26,11 @@ export default {
     // asynchronously get the scanner
     async getScanner() {
 
-        return await this.searchForScanner()
-            .then( scanner => {
-                return scanner;
-            })
-            .catch( () => {
-                return this.connectToScanner();
-            })
-            .catch( () => {
-                return null;
-            });
+        let scanner = await this.searchForScanner();
+        if (! scanner ) {
+            scanner = await this.connectToScanner();
+        }
+        return scanner;
     },
     
     async readFromScanner(scanner) {
@@ -47,7 +42,7 @@ export default {
             }) => {
                 console.log(`readDataFromScanner(): Received input report ${reportId} from ${device.productName}`);
                 var magStripe = String.fromCharCode.apply(null, new Uint8Array(data.buffer)); // convert BufferSource into string
-                console.log("readDataFromScanner(): Data: " + magStripe);
+                console.log("mag stripe: " + magStripe);
                 return magStripe;
             };
         } catch (error) {
