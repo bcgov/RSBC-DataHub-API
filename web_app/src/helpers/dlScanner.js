@@ -24,57 +24,36 @@ export default {
     },
 
     // asynchronously get the scanner
-    async getScanner() {
-
+    async openScanner() {
         let scanner = await this.searchForScanner();
         if (! scanner ) {
             scanner = await this.connectToScanner();
         }
-        return scanner;
+
+        if (scanner.opened) {
+            return scanner;
+        } else {
+            await scanner.open()
+            return scanner;
+        }
     },
     
-    async readFromScanner(scanner) {
-        try {
-            scanner.oninputreport = ({
-                device,
-                reportId,
-                data
-            }) => {
-                console.log(`readDataFromScanner(): Received input report ${reportId} from ${device.productName}`);
-                var magStripe = String.fromCharCode.apply(null, new Uint8Array(data.buffer)); // convert BufferSource into string
-                console.log("mag stripe: " + magStripe);
-                return magStripe;
-            };
-        } catch (error) {
-            console.error("readDataFromScanner(): failed", error);
-        }
+    async readFromScanner(device, reportId, data) {
+        console.log(`readDataFromScanner(): Received input report ${reportId} from ${device.productName}`);
+        var magStripe = String.fromCharCode.apply(null, new Uint8Array(data.buffer)); // convert BufferSource into string
+        return this.parseAAMVA2009(magStripe)
     },
 
     // parse AAMVA 2009 data (NB: no track 3 support - not required for RSI Digital Forms project)
     parseAAMVA2009(magStripe) {
 
-        // remove new lines from data
-        magStripe = magStripe.replace(/\n/, "");
-
-        // replace all whitespace characters (e.g. tabs) with regular space
-        magStripe = magStripe.replace(/\s/g, " ");
-
-        // try parsing for three tracks
-        var tracks = magStripe.match(/%(.+)\?.*;(.+)\?.*%(.+)\?/);
-
-        if (tracks) {
-            tracks = magStripe.match(/%(.+)\?.*;(.+)\?/);
-        }
+        let tracks = magStripe.split("?")
 
         // province, city, name: [surname, given name], address: [street, city, province, postal code]
-        var track1 = tracks[1].match(/([A-Z]{2})([^^]{0,13})\^?([^^]{0,35})\^?([^^]{0,74})/);
+        const track1 = tracks[0].match(/%([A-Z]{2})([^^]{0,13})\^?([^^]{0,35})\^?([^^]{0,74})?/);
 
         // ISO Issuer Identification Number, DL number, DL expiration, date of birth
-        var track2 = tracks[2].match(/(\d{6})(\d{0,13})(=)(\d{4})(\d{8})(\d{0,5})/);
-
-        //	console.log("track1: >>>" + tracks[1] + "<<<");
-        //	console.log("track2: >>>" + tracks[2] + "<<<");
-        //	console.log("track3: >>>" + tracks[3] + "<<<");
+        var track2 = tracks[1].match(/;(\d{6})(\d{0,13})(=)(\d{4})(\d{8})(\d{0,5})?/);
 
         var province = track1[1];
         var city = track1[2];

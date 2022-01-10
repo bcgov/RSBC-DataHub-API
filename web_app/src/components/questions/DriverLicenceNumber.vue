@@ -26,8 +26,10 @@
           Driver's Licence Scanner
         </template>
         <div class="d-block text-center">
-            <div class="alert-success" v-if="scanner_opened">
-                Please scan the BC Driver's licence ...
+            <div v-if="scanner_opened">
+              <div>Please scan the BC Driver's licence</div>
+              <br />
+              <b-spinner></b-spinner>
             </div>
             <div class="alert-warning pt-2 pb-2" v-if=" ! scanner_opened">
               <div>Sorry, we can't read from the scanner</div>
@@ -71,7 +73,7 @@ export default {
     ...mapGetters(['getCurrentlyEditedFormObject', "getAttributeValue", "isDisplayIcbcLicenceLookup"]),
   },
   methods: {
-    ...mapMutations(['updateFormField']),
+    ...mapMutations(['updateFormField', "populateDriverFromBarCode"]),
     ...mapActions(['lookupDriverFromICBC']),
     triggerDriversLookup() {
       console.log("inside triggerDriversLookup()")
@@ -87,35 +89,26 @@ export default {
           this.fetch_error = error.description;
         })
     },
+
+    handledScannedBarCode(event) {
+      const { data, device, reportId } = event;
+      dlScanner.readFromScanner(device, reportId, data)
+      .then( dl_data => {
+        this.populateDriverFromBarCode(dl_data)
+        this.$bvModal.hide('dl-scanner')
+      })
+    },
+
+
     async launchDlScanner() {
       console.log('inside launchDlScanner')
       this.$bvModal.show('dl-scanner')
 
-      let scanner = await dlScanner.getScanner();
+      let scanner = await dlScanner.openScanner();
 
-      console.log("opended?", scanner.opened )
-      let opened_scanner = await scanner.open()
-          .then( scanner => {
-              this.scanner_opened = true;
-              return scanner
-          })
-          .catch( error => {
-              this.scanner_opened = false;
-              this.scanner_message = error;
-              return null;
-          });
+      scanner.addEventListener("inputreport", this.handledScannedBarCode);
 
-      if (opened_scanner) {
-         await dlScanner.readFromScanner(opened_scanner)
-          .then( magStripe => {
-              return dlScanner.parseAAMVA2009(magStripe)
-          })
-          .then( data => {
-              console.log('scanned data()', data)
-
-              this.$bvModal.hide('dl-scanner')
-          });
-      }
+      this.scanner_opened = !!scanner.opened;
 
     },
 
