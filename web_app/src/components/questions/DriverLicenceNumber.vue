@@ -30,14 +30,15 @@
               <div>Please scan the BC Driver's licence</div>
               <br />
               <b-spinner></b-spinner>
+
             </div>
             <div class="alert-warning pt-2 pb-2" v-if=" ! scanner_opened">
-              <div>Sorry, we can't read from the scanner</div>
+              <div>Requesting access to the scanner</div>
               <div class="small">
                 {{ scanner_message }}
               </div>
             </div>
-          <b-button v-if=" ! scanner_opened" class="mt-3" block @click="$bvModal.hide('dl-scanner')">Close</b-button>
+          <b-button class="mt-3 btn btn-primary" @click="$bvModal.hide('dl-scanner')">Cancel</b-button>
         </div>
       </b-modal>
     </validation-provider>

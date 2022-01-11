@@ -1,23 +1,22 @@
-const vendorId = 0x0801; // MagTek
-const productId = 0x0002; // USB Swipe Reader
+const supportedScanners = [
+    {vendorId: 0x0801, productId: 0x0002},  // MagTek - USB Swipe Reader
+    {vendorId: 0x0980, productId: 0x91f0}   // Posh Manufacturing - MX5-K9
+]
 
 export default {
 
-    async searchForScanner() {
-        // get scanner from list of devices user has granted us access
+    async getScanner() {
+        // get scanner from list of scanners user has granted us access
         console.log("inside searchForScanner()")
         const device_list = await navigator.hid.getDevices();
-        return device_list.find(d => d.vendorId === vendorId && d.productId === productId);
+        return device_list[0];
     },
 
-    async connectToScanner() {
+    async requestAccessToScanner() {
         // ask user for permission to access hardware scanner
         console.log("inside connectToScanner()")
         let devices = await navigator.hid.requestDevice({
-            filters: [{
-                vendorId,
-                productId
-            }],
+            filters: supportedScanners,
         });
         console.log("openDevice(): device list", devices);
         return devices[0];
@@ -25,9 +24,9 @@ export default {
 
     // asynchronously get the scanner
     async openScanner() {
-        let scanner = await this.searchForScanner();
+        let scanner = await this.getScanner();
         if (! scanner ) {
-            scanner = await this.connectToScanner();
+            scanner = await this.requestAccessToScanner();
         }
 
         if (scanner.opened) {
@@ -45,6 +44,7 @@ export default {
     },
 
     // parse AAMVA 2009 data (NB: no track 3 support - not required for RSI Digital Forms project)
+    // See: https://www2.gov.bc.ca/assets/gov/health/practitioner-pro/medical-services-plan/teleplan-ch4.pdf
     parseAAMVA2009(magStripe) {
 
         let tracks = magStripe.split("?")
