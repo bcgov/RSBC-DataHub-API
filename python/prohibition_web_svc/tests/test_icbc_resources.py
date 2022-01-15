@@ -1,5 +1,6 @@
 import pytest
 import responses
+import urllib
 from datetime import datetime
 import python.prohibition_web_svc.middleware.keycloak_middleware as middleware
 from python.prohibition_web_svc.models import db, UserRole
@@ -114,11 +115,13 @@ def test_authorized_user_gets_vehicle_not_found(as_guest, monkeypatch, roles):
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
 
     responses.add(responses.GET,
-                  '{}/vehicles?plateNumber={}&effectiveDate={}'.format(
+                  '{}/vehicles?{}'.format(
                       Config.ICBC_API_ROOT,
-                      "AAAAA",
-                      datetime.now().astimezone().replace(microsecond=0).isoformat()
-                  ),
+                      urllib.parse.urlencode({
+                          "plateNumber": "AAAAA",
+                          "effectiveDate": datetime.now().astimezone().replace(microsecond=0).isoformat()
+                      })
+                    ),
                   json=_vehicle_not_found(),
                   status=400)
 
@@ -143,10 +146,12 @@ def test_authorized_user_gets_vehicle(as_guest, monkeypatch, roles):
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
 
     responses.add(responses.GET,
-                  '{}/vehicles?plateNumber={}&effectiveDate={}'.format(
+                  '{}/vehicles?{}'.format(
                       Config.ICBC_API_ROOT,
-                      "LD626J",
-                      datetime.now().astimezone().replace(microsecond=0).isoformat()
+                      urllib.parse.urlencode({
+                          "plateNumber": "LD626J",
+                          "effectiveDate": datetime.now().astimezone().replace(microsecond=0).isoformat()
+                      })
                   ),
                   json=sample_vehicle_response(),
                   status=200)
@@ -170,10 +175,12 @@ def test_request_for_licence_plate_using_lowercase_automatically_converted_to_up
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
 
     responses.add(responses.GET,
-                  '{}/vehicles?plateNumber={}&effectiveDate={}'.format(
+                  '{}/vehicles?{}'.format(
                       Config.ICBC_API_ROOT,
-                      "LD626J",
-                      datetime.now().astimezone().replace(microsecond=0).isoformat()
+                      urllib.parse.urlencode({
+                          "plateNumber": "LD626J",
+                          "effectiveDate": datetime.now().astimezone().replace(microsecond=0).isoformat()
+                      })
                   ),
                   json=sample_vehicle_response(),
                   status=200)

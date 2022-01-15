@@ -237,8 +237,7 @@ export const actions = {
         return new Promise(resolve => {
             let key_value_pairs = Array();
 
-            const violation_number = form_object.form_id.split("-")
-            key_value_pairs['VIOLATION_NUMBER'] = violation_number[1]
+            key_value_pairs['VIOLATION_NUMBER'] = form_object.form_id
 
             key_value_pairs['REASON_ALCOHOL_215'] = context.getters.getFormPrintRadioValue(form_object, 'prohibition_type', 'Alcohol 215(2)')
             key_value_pairs['REASON_DRUGS_215'] = context.getters.getFormPrintRadioValue(form_object, 'prohibition_type', 'Drugs 215(3)')
