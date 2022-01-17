@@ -1,6 +1,6 @@
 {
   "name": "prohibition_web_app",
-  "version": "0.1.69",
+  "version": "0.1.70",
   "private": true,
   "scripts": {
     "test": "jest src/test/test_*.spec.js",
