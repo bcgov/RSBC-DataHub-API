@@ -7,11 +7,12 @@ export default {
     async generatePDF(print_definitions, document_types_to_print, form_data, filename) {
         return await new Promise((resolve) => {
           console.log("inside generatePDF()", filename)
-          let doc = new jsPDF(
-              print_definitions['orientation'],
-              print_definitions['units'],
-              print_definitions['dimensions'],
-              true);
+          let doc = new jsPDF({
+              orientation: print_definitions['orientation'],
+              units: print_definitions['units'],
+              format: print_definitions['format'],
+              putOnlyUsedFonts: true
+          });
           let page_index = 0
           this.buildPdfVariants(doc, document_types_to_print, print_definitions, page_index, form_data)
               .then( (doc) => {
