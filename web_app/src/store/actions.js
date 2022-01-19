@@ -323,6 +323,8 @@ export const actions = {
                 form_object, 'operating_grounds', "Independent witness")
             key_value_pairs['DRIVER_ADMISSION_BY_DRIVER'] = context.getters.getFormPrintCheckedValue(
                 form_object, 'operating_grounds', "Admission by driver")
+            key_value_pairs['VIDEO_SURVEILLANCE'] = context.getters.getFormPrintCheckedValue(
+                form_object, 'operating_grounds', "Video surveillance")
 
             let operating_grounds_other = context.getters.getFormPrintCheckedValue(
                 form_object, 'operating_grounds', "Other")
@@ -339,6 +341,9 @@ export const actions = {
                 form_object, 'prescribed_device', "Yes")
             key_value_pairs['REASONABLE_GROUNDS_NO'] = context.getters.getFormPrintCheckedValue(
                 form_object, 'prescribed_device', "No")
+
+            key_value_pairs['REASON_PRESCRIBED_TEST_NOT_USED'] = context.getters.getFormPrintValue(
+                    form_object, 'reason_prescribed_test_not_used')
 
 
             // Alcohol - 215
