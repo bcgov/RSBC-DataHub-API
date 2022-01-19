@@ -40,7 +40,7 @@
         "field_type": "text",
         "font_size": 14,
         "start": {
-          "x": 78.3,
+          "x": 80,
           "y": 65.2
         }
       },
@@ -54,7 +54,7 @@
       },
       "DRIVER_ADDRESS": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 10,
         "start": {
           "x": 33.2,
           "y": 73.4
@@ -857,7 +857,7 @@
       },
       "DRIVER_ADDRESS": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 10,
         "start": {
           "x": 33.2,
           "y": 70.1
