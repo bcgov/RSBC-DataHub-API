@@ -1,0 +1,19 @@
+FROM python:3.7.3-stretch
+
+COPY prohibition_web_svc/requirements.txt /tmp/
+
+RUN pip install -U pip
+RUN pip install -r /tmp/requirements.txt
+
+RUN useradd --create-home appuser
+WORKDIR /home/appuser
+USER appuser
+
+COPY common /home/appuser/python/common
+COPY prohibition_web_svc /home/appuser/python/prohibition_web_svc
+
+ENV PYTHONPATH /home/appuser/
+
+RUN ["python", "-m", "pytest"]
+
+CMD [ "gunicorn", "--bind", "0.0.0.0:5000", "--pythonpath", "/home/appuser/python/prohibition_web_svc", "app:create_app()" ]

@@ -14,6 +14,7 @@ RUN ACCEPT_EULA=Y apt-get -y install msodbcsql17
 RUN ACCEPT_EULA=Y apt-get -y install mssql-tools
 RUN apt-get -y install unixodbc-dev
 
+RUN pip install -U pip
 RUN pip install -r /tmp/requirements.txt
 
 RUN useradd --create-home appuser

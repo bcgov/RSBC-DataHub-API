@@ -12,15 +12,35 @@
              v-model="attribute">
         <div class="input-group-append">
           <button type="button" :disabled="! isDisplayIcbcLicenceLookup" @click="triggerDriversLookup"
-                  class="btn-sm btn-secondary text-white">Driver's Lookup
+                  class="btn-sm btn-secondary text-white font-weight-bold">Driver's Lookup
             <b-spinner v-if="display_spinner" small label="Loading..."></b-spinner>
           </button>
-          <div type="button" :disabled=true class="btn-sm btn-secondary text-white ml-2">Scan DL</div>
+          <button type="button" @click="launchDlScanner" class="btn-sm btn-secondary text-white ml-2 font-weight-bold">Scan DL</button>
         </div>
       </div>
       <div class="small text-danger">{{ errors[0] }}
         <fade-text v-if="fetch_error" show-seconds=3000>{{ fetch_error }}</fade-text>
       </div>
+      <b-modal id="dl-scanner" hide-footer>
+        <template #modal-title>
+          Driver's Licence Scanner
+        </template>
+        <div class="d-block text-center">
+            <div v-if="scanner_opened">
+              <div>Please scan the BC Driver's licence</div>
+              <br />
+              <b-spinner></b-spinner>
+
+            </div>
+            <div class="alert-warning pt-2 pb-2" v-if=" ! scanner_opened">
+              <div>Requesting access to the scanner</div>
+              <div class="small">
+                {{ scanner_message }}
+              </div>
+            </div>
+          <b-button class="mt-3 btn btn-primary" @click="$bvModal.hide('dl-scanner')">Cancel</b-button>
+        </div>
+      </b-modal>
     </validation-provider>
   </div>
 </template>
@@ -30,6 +50,7 @@
 import FieldCommon from "@/components/questions/FieldCommon";
 import {mapGetters, mapMutations, mapActions} from 'vuex';
 import FadeText from "@/components/FadeText";
+import dlScanner from "@/helpers/dlScanner";
 
 export default {
   name: "DriversLicenceNumber",
@@ -38,7 +59,9 @@ export default {
   data() {
     return {
       display_spinner: false,
-      fetch_error: ''
+      fetch_error: '',
+      scanner_opened: false,
+      scanner_message: ''
     }
   },
   computed: {
@@ -51,7 +74,7 @@ export default {
     ...mapGetters(['getCurrentlyEditedFormObject', "getAttributeValue", "isDisplayIcbcLicenceLookup"]),
   },
   methods: {
-    ...mapMutations(['updateFormField']),
+    ...mapMutations(['updateFormField', "populateDriverFromBarCode"]),
     ...mapActions(['lookupDriverFromICBC']),
     triggerDriversLookup() {
       console.log("inside triggerDriversLookup()")
@@ -66,11 +89,30 @@ export default {
           this.display_spinner = false;
           this.fetch_error = error.description;
         })
-    }
+    },
+
+    handledScannedBarCode(event) {
+      const { data, device, reportId } = event;
+      dlScanner.readFromScanner(device, reportId, data)
+      .then( dl_data => {
+        this.populateDriverFromBarCode(dl_data)
+        this.$bvModal.hide('dl-scanner')
+      })
+    },
+
+
+    async launchDlScanner() {
+      console.log('inside launchDlScanner')
+      this.$bvModal.show('dl-scanner')
+
+      let scanner = await dlScanner.openScanner();
+
+      scanner.addEventListener("inputreport", this.handledScannedBarCode);
+
+      this.scanner_opened = !!scanner.opened;
+
+    },
+
   }
 }
 </script>
-
-<style scoped>
-
-</style>

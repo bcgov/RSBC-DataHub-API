@@ -117,15 +117,17 @@ services:
         build:
           context: web_app
           dockerfile: Dockerfile-local
+        depends_on:
+          - prohibition_web_svc
 
         ports:
             - "8080:5000"
 
 
-    prohibition_web_service:
+    prohibition_web_svc:
       build:
         context: python
-        dockerfile: prohibition_web_service/Dockerfile-local
+        dockerfile: prohibition_web_svc/Dockerfile-local
       environment:
         FLASK_SECRET_KEY: "${FLASK_SECRET_KEY}"
         ICBC_API_ROOT: "${ICBC_API_ROOT}"
@@ -140,9 +142,6 @@ services:
         ADMIN_USERNAME: "${ADMIN_USERNAME}"
         FLASK_BASIC_AUTH_USER: "${FLASK_BASIC_AUTH_USER}"
         FLASK_BASIC_AUTH_PASS: "${FLASK_BASIC_AUTH_PASS}"
-        SPLUNK_HOST: "${SPLUNK_HOST}"
-        SPLUNK_PORT: "${SPLUNK_PORT}"
-        SPLUNK_TOKEN: "${SPLUNK_TOKEN}"
 
 
       ports:

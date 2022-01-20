@@ -103,4 +103,9 @@ export default {
   color: red;
 }
 
+.btn-sm.btn-secondary[disabled] {
+  background-color: darkgray;
+  border-color: white;
+}
+
 </style>

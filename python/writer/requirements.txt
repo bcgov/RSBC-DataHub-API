@@ -1,6 +1,7 @@
 certifi==2021.10.8
 cffi==1.15.0
 chardet==3.0.4
+charset-normalizer==2.0.9
 click==8.0.3
 cryptography==3.3.2
 dparse==0.5.1
@@ -17,10 +18,10 @@ pyparsing==3.0.6
 python-json-logger==2.0.1
 pytz==2020.1
 PyYAML==6.0
-requests==2.23.0
+requests==2.26.0
 safety==1.10.3
 six==1.16.0
 sql==0.4.0
 toml==0.10.2
-urllib3==1.25.11
+urllib3==1.26.7
 xmltodict==0.12.0

@@ -1,8 +1,8 @@
 import constants from "@/config/constants";
 import persistence from "@/helpers/persistence";
-import pdfMerge from "@/helpers/pdfMerge";
 import print_layout from "@/config/print_layout.json";
 import moment from "moment";
+import pdfMerge from "@/helpers/pdfMerge";
 
 
 export const actions = {
@@ -61,8 +61,8 @@ export const actions = {
         const url = constants.API_ROOT_URL + "/api/v1/forms/" + form_type
         return await fetch(url, {
             "method": "POST",
-            headers: context.getters.apiHeader,
-            credentials: "same-origin"})
+            "headers": context.getters.apiHeader,
+            "credentials": "same-origin"})
             .then(response => response.json())
             .then(data => {
                 return {
@@ -82,8 +82,8 @@ export const actions = {
         const url = constants.API_ROOT_URL + "/api/v1/forms/" + form_type + "/" + form_id
         return await fetch(url, {
             "method": "PATCH",
-            headers: context.getters.apiHeader,
-            credentials: "same-origin"})
+            "headers": context.getters.apiHeader,
+            "credentials": "same-origin"})
             .then(response => response.json())
             .then(data => {
                 return {
@@ -105,8 +105,8 @@ export const actions = {
         return await new Promise((resolve, reject) => {
             fetch(url, {
                 "method": "PATCH",
-                headers: context.getters.apiHeader,
-                credentials: "same-origin",
+                "headers": context.getters.apiHeader,
+                "credentials": "same-origin",
                 body: JSON.stringify(context.state.forms[payload.form_type][payload.form_id])})
                 .then(response => response.json())
                 .then((data) => {
@@ -177,68 +177,23 @@ export const actions = {
                 })
     },
 
-    // async fetchStaticLookupTwo(context, type) {
-    //     const admin = type === 'users' ? 'admin/' : ''
-    //     const url = constants.API_ROOT_URL + "/api/v1/" + admin + type
-    //     // Try to get the response from a cache.
-    //     const cachedResponse = await caches.match(url);
-    //     // Return if we found one.
-    //     const cachedData = response ? await cachedResponse.json() : undefined
-    //     if (cachedData) {
-    //         console.log(`[Service Worker] Using cached resource: ${url}`);
-    //         context.commit("populateStaticLookupTables", { "type": type, "data": cachedData })
-    //     }
-    //     console.log(`[Service Worker] Fetching resource: ${url}`);
-    //     const response = await fetch(url, {
-    //                 "method": 'GET',
-    //                 "headers": context.getters.apiHeader});
-    //     // response may be used only once
-    //     // we need to save clone to put one copy in cache and serve second one
-    //     // const responseClone = response.clone();
-    //     // const cache = await caches.open("cacheName");
-    //     // console.log(`[Service Worker] Caching new resource: ${url}`);
-    //     // await cache.put(url, responseClone)
-    //     const data = response ? await response.json() : undefined
-    //     if (data) {
-    //         context.commit("populateStaticLookupTables", { "type": type, "data": data })
-    //     }
-    // },
-
     async fetchStaticLookupTables(context, type) {
         const admin = type === 'users' ? 'admin/' : ''
         const url = constants.API_ROOT_URL + "/api/v1/" + admin + type
         console.log("fetchStaticLookupTables()", url)
-
-        let networkDataReceived = false;
-
-        let networkUpdate = fetch(url, {
-                    "method": 'GET',
-                    "headers": context.getters.apiHeader})
-                    .then( response => {
-                        return response.json()
-                    })
-                    .then( data => {
-                        networkDataReceived = true;
-                        context.commit("populateStaticLookupTables", { "type": type, "data": data })
-                    })
-                    .catch(() => {
-                        console.log("fetchStaticLookupTables network fetch failed")
-                    })
-
-        caches.match(url)
+        fetch(url, {
+            "method": 'GET',
+            "headers": context.getters.apiHeader})
             .then( response => {
-                return response.json();
+                return response.json()
             })
-            .then ( data => {
-                // don't overwrite newer network data
-                if(!networkDataReceived) {
-                    context.commit("populateStaticLookupTables", { "type": type, "data": data })
-                }
+            .then( data => {
+                context.commit("populateStaticLookupTables", { "type": type, "data": data })
             })
-            .catch( function() {
-                // we didn't get cached data, get the data from the network
-                return networkUpdate
+            .catch(() => {
+                console.log("fetchStaticLookupTables network fetch failed")
             })
+
     },
 
     async deleteFormFromDB(context, form_id) {
@@ -261,17 +216,20 @@ export const actions = {
     },
 
     async createPDF (context, payload) {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             console.log("inside createPDF()", payload)
             context.dispatch("getPrintMappings", payload.form_object)
             .then((key_value_pairs) => {
-                resolve(pdfMerge.generatePDF(print_layout[payload.form_object.form_type],
-                       payload.variants,
-                       key_value_pairs,
-                       payload.filename))
+                resolve(pdfMerge.generatePDF(
+                    print_layout[payload.form_object.form_type],
+                    payload.variants,
+                    key_value_pairs,
+                    payload.filename
+                ))
             })
         })
     },
+
 
     // the print templates use different field names from the form
     // TODO - refactor this method.  Suggest calling appropriate getters from print_layout.json
@@ -279,8 +237,7 @@ export const actions = {
         return new Promise(resolve => {
             let key_value_pairs = Array();
 
-            const violation_number = form_object.form_id.split("-")
-            key_value_pairs['VIOLATION_NUMBER'] = violation_number[1]
+            key_value_pairs['VIOLATION_NUMBER'] = form_object.form_id
 
             key_value_pairs['REASON_ALCOHOL_215'] = context.getters.getFormPrintRadioValue(form_object, 'prohibition_type', 'Alcohol 215(2)')
             key_value_pairs['REASON_DRUGS_215'] = context.getters.getFormPrintRadioValue(form_object, 'prohibition_type', 'Drugs 215(3)')
@@ -341,6 +298,8 @@ export const actions = {
                 key_value_pairs['IMPOUNDED_PHONE_NUMBER'] = ilo[3].substr(4)
             }
 
+            key_value_pairs['RELEASE_LOCATION_VEHICLE'] = context.getters.locationOfVehicle(form_object)
+
             key_value_pairs['RELEASE_LOCATION_KEYS'] = context.getters.getFormPrintValue(form_object, 'location_of_keys')
             key_value_pairs['RELEASE_PERSON'] = context.getters.getFormPrintValue(form_object, 'vehicle_released_to')
 
@@ -364,6 +323,8 @@ export const actions = {
                 form_object, 'operating_grounds', "Independent witness")
             key_value_pairs['DRIVER_ADMISSION_BY_DRIVER'] = context.getters.getFormPrintCheckedValue(
                 form_object, 'operating_grounds', "Admission by driver")
+            key_value_pairs['VIDEO_SURVEILLANCE'] = context.getters.getFormPrintCheckedValue(
+                form_object, 'operating_grounds', "Video surveillance")
 
             let operating_grounds_other = context.getters.getFormPrintCheckedValue(
                 form_object, 'operating_grounds', "Other")
@@ -380,6 +341,9 @@ export const actions = {
                 form_object, 'prescribed_device', "Yes")
             key_value_pairs['REASONABLE_GROUNDS_NO'] = context.getters.getFormPrintCheckedValue(
                 form_object, 'prescribed_device', "No")
+
+            key_value_pairs['REASON_PRESCRIBED_TEST_NOT_USED'] = context.getters.getFormPrintValue(
+                    form_object, 'reason_prescribed_test_not_used')
 
 
             // Alcohol - 215
@@ -448,7 +412,6 @@ export const actions = {
 
 
             }
-
             resolve(key_value_pairs);
 
         })
@@ -534,9 +497,9 @@ export const actions = {
         const payload = {"role_name": "administrator"}
         return await new Promise((resolve, reject) => {
             fetch(url, {
-                method: 'POST',
-                body: JSON.stringify(payload),
-                headers: context.getters.apiHeader,
+                "method": 'POST',
+                "body": JSON.stringify(payload),
+                "headers": context.getters.apiHeader,
                 })
                     .then(response => {
                         return response.json()
@@ -574,7 +537,6 @@ export const actions = {
 
     async downloadLookupTables(context) {
 
-        await context.dispatch("getMoreFormsFromApiIfNecessary")
         await context.dispatch("fetchStaticLookupTables", "agencies")
         await context.dispatch("fetchStaticLookupTables", "impound_lot_operators")
         await context.dispatch("fetchStaticLookupTables", "countries")
@@ -585,7 +547,6 @@ export const actions = {
         await context.dispatch("fetchStaticLookupTables", "vehicles")
         await context.dispatch("fetchStaticLookupTables", "vehicle_styles")
 
-        // TODO - await store.dispatch("renewFormLeasesFromApiIfNecessary")
     },
 
     updateRichCheckBox (context, payload) {
@@ -595,7 +556,5 @@ export const actions = {
         } else {
             context.commit('removeItemFromCheckboxList', payload)
         }
-
-
     },
 }

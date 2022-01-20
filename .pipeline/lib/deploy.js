@@ -144,7 +144,7 @@ module.exports = settings => {
         'MEMORY_LIMIT': phases[phase].memory_limit
       }
     }))
-    objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-prohibition-web-service-deploy.yaml`, {
+    objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-prohibition-web-svc-deploy.yaml`, {
       'param': {
         'NAME': phases[phase].name,
         'SUFFIX': phases[phase].suffix,

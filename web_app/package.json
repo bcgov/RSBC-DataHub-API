@@ -1,6 +1,6 @@
 {
   "name": "prohibition_web_app",
-  "version": "0.1.58",
+  "version": "0.1.73",
   "private": true,
   "scripts": {
     "test": "jest src/test/test_*.spec.js",
@@ -22,6 +22,13 @@
     "vue-router": "^3.5.2",
     "vue-typeahead-bootstrap": "^2.11.0",
     "vuex": "^3.6.2",
+    "workbox-cacheable-response": "^4.3.1",
+    "workbox-core": "^4.3.1",
+    "workbox-expiration": "^4.3.1",
+    "workbox-precaching": "^4.3.1",
+    "workbox-routing": "^4.3.1",
+    "workbox-strategies": "^4.3.1",
+    "workbox-webpack-plugin": "^4.3.1",
     "xmlbuilder2": "^2.4.1"
   },
   "devDependencies": {
@@ -33,10 +40,8 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
-    "jest": "^27.2.0",
-    "node-sass": "^5.0.0",
-    "sass-loader": "^10.0.5",
-    "vue-template-compiler": "^2.6.11"
+    "node-sass": "^6.0.1",
+    "sass-loader": "^10.0.5"
   },
   "eslintConfig": {
     "root": true,

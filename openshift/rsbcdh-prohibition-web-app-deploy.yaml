@@ -168,6 +168,6 @@ objects:
       termination: edge
     to:
       kind: Service
-      name: ${NAME}-prohibition-web-service${SUFFIX}
+      name: ${NAME}-prohibition-web-svc${SUFFIX}
       weight: 100
     wildcardPolicy: None

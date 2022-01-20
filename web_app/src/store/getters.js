@@ -83,7 +83,11 @@ export const getters = {
     getArrayOfVehicleYears: () => {
         const start = constants.MIN_VEHICLE_YEAR;
         const end = constants.MAX_VEHICLE_YEAR;
-        return Array( end - start + 1).fill().map((_, idx) => start + idx)
+        let years = []
+        for (var i = start; i <= end; i++) {
+            years.push(String(i))
+        }
+        return years;
     },
 
     getArrayOfVehicleMakes: state => {
@@ -95,7 +99,7 @@ export const getters = {
         let make = state.forms[form_object.form_type][form_object.form_id].data.vehicle_make
         let results = state.vehicles.filter( v => v.make === make);
         if (results.length > 0) {
-            return results.map( v => v.model )
+            return results.map( v => String(v.model) )
         } else {
             return []
         }
@@ -182,11 +186,11 @@ export const getters = {
     isDisplayIcbcPlateLookup: (state, getters) => {
         let form_object = state.currently_editing_form_object;
         let root = state.forms[form_object.form_type][form_object.form_id].data;
-        return root['plate_province'] === "British Columbia" && getters.isUserAuthenticated && state.isOnline
+        return root['plate_province'] === "British Columbia" && getters.isUserAuthorized
     },
 
     isDisplayIcbcLicenceLookup: (state, getters) => {
-        return getters.isLicenceJurisdictionBC && getters.isUserAuthenticated && state.isOnline;
+        return getters.isLicenceJurisdictionBC && getters.isUserAuthorized;
     },
 
     isLicenceJurisdictionBC: (state) => {
@@ -417,7 +421,23 @@ export const getters = {
         return root.includes("Approved Instrument")
       }
       return false;
-    }
+    },
+
+    locationOfVehicle: state => (form_object) => {
+        let root = state.forms[form_object.form_type][form_object.form_id].data;
+        if (!("vehicle_impounded" in root)) {
+            return '';
+        }
+        if (root["vehicle_impounded"] === 'Yes') {
+            return "Impounded"
+        }
+        if (root["vehicle_impounded"] === 'No') {
+            if ("reason_for_not_impounding" in root) {
+                return root['reason_for_not_impounding']
+            }
+            return ''
+        }
+    },
 
 
 }
