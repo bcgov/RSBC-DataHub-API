@@ -1,0 +1,12 @@
+# Use `allow` to specify which dependencies to maintain
+
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/web_app"
+    schedule:
+      interval: "daily"
+    allow:
+      - dependency-type: "direct"
+    ignore:
+      - dependency-type: "development"
