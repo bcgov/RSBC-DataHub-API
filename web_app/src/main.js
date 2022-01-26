@@ -32,6 +32,7 @@ Vue.config.productionTip = false
 Vue.use(VueKeyCloak, {
   init: {
     onLoad: 'check-sso',
+    pkceMethod: "S256",
   },
   config: constants.API_ROOT_URL + '/api/v1/keycloak',
   onReady: () => {
