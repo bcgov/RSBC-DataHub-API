@@ -1,6 +1,6 @@
 {
   "name": "prohibition_web_app",
-  "version": "0.1.73",
+  "version": "0.1.74",
   "private": true,
   "scripts": {
     "test": "jest src/test/test_*.spec.js",
@@ -32,6 +32,7 @@
     "xmlbuilder2": "^2.4.1"
   },
   "devDependencies": {
+    "@vue/cli": "^4.5.15",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-pwa": "~4.5.0",
