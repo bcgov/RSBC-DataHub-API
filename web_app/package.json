@@ -26,7 +26,7 @@
     "workbox-core": "^4.3.1",
     "workbox-expiration": "^4.3.1",
     "workbox-precaching": "^4.3.1",
-    "workbox-routing": "^4.3.1",
+    "workbox-routing": "^6.4.2",
     "workbox-strategies": "^4.3.1",
     "workbox-webpack-plugin": "^4.3.1",
     "xmlbuilder2": "^2.4.1"
