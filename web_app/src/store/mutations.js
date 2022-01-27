@@ -178,7 +178,20 @@ export const mutations = {
 
     networkIsOffline(state) {
         Vue.set(state, "isOnline", false)
-    }
+    },
+
+    populateDriverFromBarCode(state, data) {
+        console.log("inside populateDriverFromBarCode()", data)
+        let form_object = state.currently_editing_form_object
+        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "drivers_number", data['number']);
+        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "address1", data['address']['street']);
+        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "city", data['address']['city']);
+        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "province", data['address']['province']);
+        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "postal", data['address']['postalCode']);
+        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "dob", data['dob']);
+        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "first_name", data['name']['given']);
+        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "last_name", data['name']['surname']);
+    },
 }
 
 

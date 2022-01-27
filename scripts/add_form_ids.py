@@ -38,8 +38,8 @@ def add_form_ids(form_type: str, form_id: str) -> dict:
 
 def form_prefix(form_type: str) -> str:
     prefix = {
-        "12Hour": "J",
-        "24Hour": "V",
+        "12Hour": "JA",  # a 'JZ' prefix denotes a test number
+        "24Hour": "VA",  # a 'VZ' prefix denotes a test number
         "IRP": "20",
         "VI": "22"
     }

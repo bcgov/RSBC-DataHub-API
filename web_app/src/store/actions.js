@@ -237,8 +237,7 @@ export const actions = {
         return new Promise(resolve => {
             let key_value_pairs = Array();
 
-            const violation_number = form_object.form_id.split("-")
-            key_value_pairs['VIOLATION_NUMBER'] = violation_number[1]
+            key_value_pairs['VIOLATION_NUMBER'] = form_object.form_id
 
             key_value_pairs['REASON_ALCOHOL_215'] = context.getters.getFormPrintRadioValue(form_object, 'prohibition_type', 'Alcohol 215(2)')
             key_value_pairs['REASON_DRUGS_215'] = context.getters.getFormPrintRadioValue(form_object, 'prohibition_type', 'Drugs 215(3)')
@@ -324,6 +323,8 @@ export const actions = {
                 form_object, 'operating_grounds', "Independent witness")
             key_value_pairs['DRIVER_ADMISSION_BY_DRIVER'] = context.getters.getFormPrintCheckedValue(
                 form_object, 'operating_grounds', "Admission by driver")
+            key_value_pairs['VIDEO_SURVEILLANCE'] = context.getters.getFormPrintCheckedValue(
+                form_object, 'operating_grounds', "Video surveillance")
 
             let operating_grounds_other = context.getters.getFormPrintCheckedValue(
                 form_object, 'operating_grounds', "Other")
@@ -340,6 +341,9 @@ export const actions = {
                 form_object, 'prescribed_device', "Yes")
             key_value_pairs['REASONABLE_GROUNDS_NO'] = context.getters.getFormPrintCheckedValue(
                 form_object, 'prescribed_device', "No")
+
+            key_value_pairs['REASON_PRESCRIBED_TEST_NOT_USED'] = context.getters.getFormPrintValue(
+                    form_object, 'reason_prescribed_test_not_used')
 
 
             // Alcohol - 215

@@ -57,18 +57,18 @@ def initialize_app(app):
 
 
 def _seed_forms_for_development(database):
-    # TODO - Remove before flight
-    seed_records = []
-    prefix = ["J", "V", "40", "22"]
-    for idx, form_type in enumerate(["12Hour", "24Hour", "IRP", "VI"]):
-        for x in range(100000, 100100):
-            unique_id = '{}-{}'.format(prefix[idx], str(x))
-            seed_records.append(Form(
-                form_id=unique_id,
-                form_type=form_type))
-    database.session.bulk_save_objects(seed_records)
-    database.session.commit()
-    logging.warning("seed temporary unique form_ids")
+    if Config.ENVIRONMENT in ('dev', 'pr'):
+        seed_records = []
+        prefix = ["JZ", "VZ", "40", "22"]
+        for idx, form_type in enumerate(["12Hour", "24Hour", "IRP", "VI"]):
+            for x in range(100000, 100100):
+                unique_id = '{}{}'.format(prefix[idx], str(x))
+                seed_records.append(Form(
+                    form_id=unique_id,
+                    form_type=form_type))
+        database.session.bulk_save_objects(seed_records)
+        database.session.commit()
+        logging.warning("seed temporary unique form_ids")
     return
 
 

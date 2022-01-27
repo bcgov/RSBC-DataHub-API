@@ -7,11 +7,12 @@ export default {
     async generatePDF(print_definitions, document_types_to_print, form_data, filename) {
         return await new Promise((resolve) => {
           console.log("inside generatePDF()", filename)
-          let doc = new jsPDF(
-              print_definitions['orientation'],
-              print_definitions['units'],
-              print_definitions['dimensions'],
-              true);
+          let doc = new jsPDF({
+              orientation: print_definitions['orientation'],
+              units: print_definitions['units'],
+              format: print_definitions['format'],
+              putOnlyUsedFonts: true
+          });
           let page_index = 0
           this.buildPdfVariants(doc, document_types_to_print, print_definitions, page_index, form_data)
               .then( (doc) => {
@@ -61,24 +62,26 @@ export default {
                             )
                 })
                 .then((doc) => {
-                     page['fields'].forEach( field => {
-                        if (field['field_type'] === 'label') {
-                            doc.text(field['name'], field['start']['x'], field['start']['y']);
+                     page['show_fields'].forEach( field => {
+                         let field_definition = print_definitions['fields'][field]
+                         console.log("field_definition", field_definition, field)
+                        if (field_definition['field_type'] === 'label') {
+                            doc.text(field, field_definition['start']['x'], field_definition['start']['y']);
                         }
-                        if (form_data[field['name']]) {
+                        if (form_data[field]) {
                             doc.setTextColor(FONT_COLOR);
-                            doc.setFontSize(field['font_size'])
-                            if (field['field_type'] === 'text') {
-                                doc.text(form_data[field['name']], field['start']['x'], field['start']['y']);
+                            doc.setFontSize(field_definition['font_size'])
+                            if (field_definition['field_type'] === 'text') {
+                                doc.text(form_data[field], field_definition['start']['x'], field_definition['start']['y']);
                             }
-                            if (field['field_type'] === 'checkbox') {
-                                if (form_data[field['name']] === true) {
-                                    doc.text("X", field['start']['x'], field['start']['y']);
+                            if (field_definition['field_type'] === 'checkbox') {
+                                if (form_data[field] === true) {
+                                    doc.text("X", field_definition['start']['x'], field_definition['start']['y']);
                                 }
                             }
-                            if (field['field_type'] === 'memo') {
-                                doc.text(form_data[field['name']], field['start']['x'], field['start']['y'], {
-                                    maxWidth: field['max_width'],
+                            if (field_definition['field_type'] === 'memo') {
+                                doc.text(form_data[field], field_definition['start']['x'], field_definition['start']['y'], {
+                                    maxWidth: field_definition['max_width'],
                                     align: 'justify'
                                 });
                             }
