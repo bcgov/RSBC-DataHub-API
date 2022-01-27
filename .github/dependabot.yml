@@ -10,4 +10,3 @@ updates:
       - dependency-type: "direct"
     ignore:
       - dependency-type: "development"
-    open-pull-requests-limit: 0
