@@ -11,7 +11,7 @@ export default {
               orientation: print_definitions['orientation'],
               units: print_definitions['units'],
               format: print_definitions['format'],
-              putOnlyUsedFonts: true
+              compress: true
           });
           let page_index = 0
           this.buildPdfVariants(doc, document_types_to_print, print_definitions, page_index, form_data)
@@ -58,7 +58,8 @@ export default {
                                 page['image']['offset_y'],
                                 page['image']['width'],
                                 page['image']['height'],
-                                null
+                                '',
+                                'FAST'
                             )
                 })
                 .then((doc) => {
