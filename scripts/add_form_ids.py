@@ -17,32 +17,45 @@ def main():
     parser.add_argument('--form-type', required=True, choices=['12Hour', '24Hour', 'IRP', 'VI'])
     parser.add_argument('--start', required=True, help='starting number')
     parser.add_argument('--end', required=True, help='ending number')
+    parser.add_argument('--dev', default=True, help='if true, use test prefix')
     args = parser.parse_args()
 
     for form_number in range(int(args.start), int(args.end)):
-        form_id = "{}-{}".format(form_prefix(args.form_type), form_number)
+        form_id = "{}{}".format(form_prefix(args.form_type, args.dev), form_number)
         logging.warning("adding form_id: " + form_id)
         add_form_ids(args.form_type, form_id)
 
 
-def add_form_ids(form_type: str, form_id: str) -> dict:
+def add_form_ids(form_type: str, form_id: str):
     payload = {
         "form_id": form_id,
         "form_type": form_type
     }
     r = requests.post(BASE_URL + '/api/v1/admin/forms', json=payload, auth=HTTPBasicAuth(FLASK_USER, FLASK_PASS))
     if r.status_code != 201:
-        return r.json()
-    return {}
+        logging.warning(str(payload))
+        logging.warning(r.url)
+        logging.warning(r.text)
+    else:
+        logging.warning("success: " + r.text)
+    return
 
 
-def form_prefix(form_type: str) -> str:
-    prefix = {
-        "12Hour": "JA",  # a 'JZ' prefix denotes a test number
-        "24Hour": "VA",  # a 'VZ' prefix denotes a test number
-        "IRP": "20",
-        "VI": "22"
-    }
+def form_prefix(form_type: str, is_development: bool) -> str:
+    if is_development:
+        prefix = {
+            "12Hour": "JZ",  # a 'JZ' prefix denotes a test number
+            "24Hour": "VZ",  # a 'VZ' prefix denotes a test number
+            "IRP": "20",
+            "VI": "22"
+        }
+    else:
+        prefix = {
+            "12Hour": "JA",
+            "24Hour": "VA",
+            "IRP": "20",
+            "VI": "22"
+        }
     return prefix.get(form_type)
 
 
