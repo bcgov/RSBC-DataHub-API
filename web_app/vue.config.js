@@ -1,7 +1,7 @@
 const { InjectManifest } = require('workbox-webpack-plugin')
 
 module.exports = {
-  publicPath: '/roadside-forms/',
+  publicPath: './',
   configureWebpack: {
     plugins: [
       new InjectManifest({

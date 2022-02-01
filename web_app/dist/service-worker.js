@@ -1,4 +1,4 @@
-importScripts("/roadside-forms/precache-manifest.87756e6cbd11f04d5077ee5afae80af4.js", "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
+importScripts("precache-manifest.deaaa3eb7831f4b26576209076a00c24.js", "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 
 // The precaching code provided by Workbox
