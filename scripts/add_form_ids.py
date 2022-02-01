@@ -36,8 +36,6 @@ def add_form_ids(form_type: str, form_id: str):
         logging.warning(str(payload))
         logging.warning(r.url)
         logging.warning(r.text)
-    else:
-        logging.warning("success: " + r.text)
     return
 
 

@@ -161,7 +161,7 @@ objects:
     name: ${NAME}-${COMPONENT}${SUFFIX}-api
   spec:
     host: ${NAME}-${COMPONENT}${SUFFIX}${URL_SUFFIX}
-    path: "/api/"
+    path: "/roadside-forms/api/"
     port:
       targetPort: 5000-tcp
     tls:
