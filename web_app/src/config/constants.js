@@ -1,7 +1,7 @@
 import moment from "moment";
 export default {
 
-    API_ROOT_URL: process.env.NODE_ENV === 'development' ? "http://localhost:5002/roadside-forms" : '',
+    API_ROOT_URL: process.env.NODE_ENV === 'development' ? "http://localhost:5002/roadside-forms" : '/roadside-forms',
     // API_ROOT_URL: "http://localhost:5002",
 
     // Number of days before this app will refresh unique prohibition ids.  The unique

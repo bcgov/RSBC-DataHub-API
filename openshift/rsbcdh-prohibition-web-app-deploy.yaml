@@ -11,8 +11,6 @@ parameters:
 - name: HOST
 - name: LOG_LEVEL
   value: 'WARNING'
-- name: ROOT_DIR
-  value: '/roadside-forms/'
 - name: URL_SUFFIX
   required: true
 - name: CPU_REQUEST
@@ -146,7 +144,7 @@ objects:
     name: ${NAME}-${COMPONENT}${SUFFIX}
   spec:
     host: ${NAME}-${COMPONENT}${SUFFIX}${URL_SUFFIX}
-    path: ${ROOT_DIR}
+    path:
     port:
       targetPort: 5000-tcp
     tls:
@@ -163,7 +161,7 @@ objects:
     name: ${NAME}-${COMPONENT}${SUFFIX}-api
   spec:
     host: ${NAME}-${COMPONENT}${SUFFIX}${URL_SUFFIX}
-    path: ${ROOT_DIR}api/
+    path: /roadside-forms/api/
     port:
       targetPort: 5000-tcp
     tls:
