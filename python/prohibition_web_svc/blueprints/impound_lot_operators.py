@@ -24,7 +24,7 @@ def index():
 
 
 @bp.route('/impound_lot_operators/<string:ilo_id>', methods=['GET'])
-def get(form_type, ilo_id):
+def get(ilo_id):
     """
     Get a specific impound lot operator
     """

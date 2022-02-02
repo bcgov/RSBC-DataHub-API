@@ -3,63 +3,66 @@ version: '3'
 services:
  
     rabbitmq:
-        build: ./rabbitmq
-        environment:
-            # The RABBITMQ_DEFAULT_USER is used
-            # to connect to the web admin
-            RABBITMQ_DEFAULT_USER: "${RABBITMQ_USER}"
-            RABBITMQ_DEFAULT_PASS: "${RABBITMQ_PASS}"
-            RABBITMQ_LOGS: "WARNING"
-        ports:
-            - "15672:15672" # Web admin port
-            - "5672:5672"   # Do not expose this port in production
+      build: ./rabbitmq
+      environment:
+          # The RABBITMQ_DEFAULT_USER is used
+          # to connect to the web admin
+          RABBITMQ_DEFAULT_USER: "${RABBITMQ_USER}"
+          RABBITMQ_DEFAULT_PASS: "${RABBITMQ_PASS}"
+          RABBITMQ_LOGS: "WARNING"
+      networks:
+        - docker-network
+      ports:
+          - "15672:15672" # Web admin port
+          - "5672:5672"   # Do not expose this port in production
 
     ingestor:
-        build: 
-          context: python
-          dockerfile: ingestor/Dockerfile-local
-        depends_on:
-          - rabbitmq
-        environment:
-          RABBITMQ_URL: "${RABBITMQ_URL}"
-          # The RABBITMQ_USER is used to submit 
-          # events for processing
-          RABBITMQ_USER: "${RABBITMQ_USER}"
-          RABBITMQ_PASS: "${RABBITMQ_PASS}"
-          LOG_LEVEL: "INFO"
-          SECRET_KEY: "${SECRET_KEY}"
-          ENCRYPT_KEY: "${ENCRYPT_KEY}"
-          FLASK_BASIC_AUTH_USER: "${FLASK_BASIC_AUTH_USER}"
-          FLASK_BASIC_AUTH_PASS: "${FLASK_BASIC_AUTH_PASS}"
-          VIPS_API_USERNAME: "${VIPS_API_USERNAME}"
-          VIPS_API_PASSWORD: "${VIPS_API_PASSWORD}"
-          VIPS_API_ROOT_URL: "${VIPS_API_ROOT_URL}"
-          COMM_SERV_AUTH_URL: "${COMM_SERV_AUTH_URL}"
-          COMM_SERV_API_ROOT_URL: "${COMM_SERV_API_ROOT_URL}"
-          COMM_SERV_REALM: "${COMM_SERV_REALM}"
-          COMM_SERV_CLIENT_ID: "${COMM_SERV_CLIENT_ID}"
-          COMM_SERV_CLIENT_SECRET: "${COMM_SERV_CLIENT_SECRET}"
-          ADMIN_EMAIL_ADDRESS: "${ADMIN_EMAIL_ADDRESS}"
-          BCC_EMAIL_ADDRESSES: "${BCC_EMAIL_ADDRESSES}"
-          ENVIRONMENT: "${ENVIRONMENT}"
-
-        ports:
-            - "5000:5000"
+      build:
+        context: python
+        dockerfile: ingestor/Dockerfile-local
+      depends_on:
+        - rabbitmq
+      environment:
+        RABBITMQ_URL: "${RABBITMQ_URL}"
+        # The RABBITMQ_USER is used to submit
+        # events for processing
+        RABBITMQ_USER: "${RABBITMQ_USER}"
+        RABBITMQ_PASS: "${RABBITMQ_PASS}"
+        LOG_LEVEL: "INFO"
+        SECRET_KEY: "${SECRET_KEY}"
+        ENCRYPT_KEY: "${ENCRYPT_KEY}"
+        FLASK_BASIC_AUTH_USER: "${FLASK_BASIC_AUTH_USER}"
+        FLASK_BASIC_AUTH_PASS: "${FLASK_BASIC_AUTH_PASS}"
+        VIPS_API_USERNAME: "${VIPS_API_USERNAME}"
+        VIPS_API_PASSWORD: "${VIPS_API_PASSWORD}"
+        VIPS_API_ROOT_URL: "${VIPS_API_ROOT_URL}"
+        COMM_SERV_AUTH_URL: "${COMM_SERV_AUTH_URL}"
+        COMM_SERV_API_ROOT_URL: "${COMM_SERV_API_ROOT_URL}"
+        COMM_SERV_REALM: "${COMM_SERV_REALM}"
+        COMM_SERV_CLIENT_ID: "${COMM_SERV_CLIENT_ID}"
+        COMM_SERV_CLIENT_SECRET: "${COMM_SERV_CLIENT_SECRET}"
+        ADMIN_EMAIL_ADDRESS: "${ADMIN_EMAIL_ADDRESS}"
+        BCC_EMAIL_ADDRESSES: "${BCC_EMAIL_ADDRESSES}"
+        ENVIRONMENT: "${ENVIRONMENT}"
+      networks:
+        - docker-network
+      ports:
+          - "5000:5000"
     
     validator:
-        build: 
-          context: python
-          dockerfile: validator/Dockerfile-local
-        depends_on:
-          - rabbitmq
-        environment:
-          RABBITMQ_URL: "${RABBITMQ_URL}"
-          # The RABBITMQ_USER is used to watch for submitted
-          # events and validate them
-          RABBITMQ_USER: "${RABBITMQ_USER}"
-          RABBITMQ_PASS: "${RABBITMQ_PASS}"
-          LOG_LEVEL: "WARNING"
-          ENCRYPT_KEY: "${ENCRYPT_KEY}"
+      build:
+        context: python
+        dockerfile: validator/Dockerfile-local
+      depends_on:
+        - rabbitmq
+      environment:
+        RABBITMQ_URL: "${RABBITMQ_URL}"
+        # The RABBITMQ_USER is used to watch for submitted
+        # events and validate them
+        RABBITMQ_USER: "${RABBITMQ_USER}"
+        RABBITMQ_PASS: "${RABBITMQ_PASS}"
+        LOG_LEVEL: "WARNING"
+        ENCRYPT_KEY: "${ENCRYPT_KEY}"
 
     paybc-api:
       build:
@@ -84,44 +87,45 @@ services:
         COMM_SERV_CLIENT_SECRET: "${COMM_SERV_CLIENT_SECRET}"
         ADMIN_EMAIL_ADDRESS: "${ADMIN_EMAIL_ADDRESS}"
         BCC_EMAIL_ADDRESSES: "${BCC_EMAIL_ADDRESSES}"
-
-
-        ports:
-            "5001:5001"
+      networks:
+        - docker-network
+      ports:
+         - "5001:5001"
 
     form_handler:
-        build:
-          context: python
-          dockerfile: form_handler/Dockerfile-local
-        depends_on:
-          - rabbitmq
-        environment:
-          RABBITMQ_URL: "${RABBITMQ_URL}"
-          RABBITMQ_USER: "${RABBITMQ_USER}"
-          RABBITMQ_PASS: "${RABBITMQ_PASS}"
-          VIPS_API_USERNAME: "${VIPS_API_USERNAME}"
-          VIPS_API_PASSWORD: "${VIPS_API_PASSWORD}"
-          VIPS_API_ROOT_URL: "${VIPS_API_ROOT_URL}"
-          COMM_SERV_AUTH_URL: "${COMM_SERV_AUTH_URL}"
-          COMM_SERV_API_ROOT_URL: "${COMM_SERV_API_ROOT_URL}"
-          COMM_SERV_REALM: "${COMM_SERV_REALM}"
-          COMM_SERV_CLIENT_ID: "${COMM_SERV_CLIENT_ID}"
-          COMM_SERV_CLIENT_SECRET: "${COMM_SERV_CLIENT_SECRET}"
-          ADMIN_EMAIL_ADDRESS: "${ADMIN_EMAIL_ADDRESS}"
-          BCC_EMAIL_ADDRESSES: "${BCC_EMAIL_ADDRESSES}"
-          LOG_LEVEL: "INFO"
-          ENCRYPT_KEY: "${ENCRYPT_KEY}"
+      build:
+        context: python
+        dockerfile: form_handler/Dockerfile-local
+      depends_on:
+        - rabbitmq
+      environment:
+        RABBITMQ_URL: "${RABBITMQ_URL}"
+        RABBITMQ_USER: "${RABBITMQ_USER}"
+        RABBITMQ_PASS: "${RABBITMQ_PASS}"
+        VIPS_API_USERNAME: "${VIPS_API_USERNAME}"
+        VIPS_API_PASSWORD: "${VIPS_API_PASSWORD}"
+        VIPS_API_ROOT_URL: "${VIPS_API_ROOT_URL}"
+        COMM_SERV_AUTH_URL: "${COMM_SERV_AUTH_URL}"
+        COMM_SERV_API_ROOT_URL: "${COMM_SERV_API_ROOT_URL}"
+        COMM_SERV_REALM: "${COMM_SERV_REALM}"
+        COMM_SERV_CLIENT_ID: "${COMM_SERV_CLIENT_ID}"
+        COMM_SERV_CLIENT_SECRET: "${COMM_SERV_CLIENT_SECRET}"
+        ADMIN_EMAIL_ADDRESS: "${ADMIN_EMAIL_ADDRESS}"
+        BCC_EMAIL_ADDRESSES: "${BCC_EMAIL_ADDRESSES}"
+        LOG_LEVEL: "INFO"
+        ENCRYPT_KEY: "${ENCRYPT_KEY}"
 
 
     web_app:
-        build:
-          context: web_app
-          dockerfile: Dockerfile-local
-        depends_on:
-          - prohibition_web_svc
-
-        ports:
-            - "8080:5000"
+      build:
+        context: web_app
+        dockerfile: Dockerfile-local
+      depends_on:
+        - prohibition_web_svc
+      networks:
+        - docker-network
+      ports:
+        - "8080:5000"
 
 
     prohibition_web_svc:
@@ -142,41 +146,44 @@ services:
         ADMIN_USERNAME: "${ADMIN_USERNAME}"
         FLASK_BASIC_AUTH_USER: "${FLASK_BASIC_AUTH_USER}"
         FLASK_BASIC_AUTH_PASS: "${FLASK_BASIC_AUTH_PASS}"
-
-
+      networks:
+        - docker-network
       ports:
         - "5002:5000"
 
 
     geocoder:
-        build:
-          context: python
-          dockerfile: geocodersvc/Dockerfile-local
-        environment:
-          LOG_LEVEL: "WARNING"
-          ENCRYPT_KEY: "${ENCRYPT_KEY}"
+      build:
+        context: python
+        dockerfile: geocodersvc/Dockerfile-local
+      environment:
+        LOG_LEVEL: "WARNING"
+        ENCRYPT_KEY: "${ENCRYPT_KEY}"
 
     writer:
-        build:
-          context: python
-          dockerfile: writer/Dockerfile-local
-        depends_on:
-          - rabbitmq
-        environment:
-          RABBITMQ_URL: "${RABBITMQ_URL}"
-          # The RABBITMQ_USER is used to watch for validated
-          # events and write them to the database
-          RABBITMQ_USER: "${RABBITMQ_USER}"
-          RABBITMQ_PASS: "${RABBITMQ_PASS}"
-          LOG_LEVEL: "INFO"
-          DB_HOST: "${DB_HOST}"
-          DB_NAME: "${DB_NAME}"
-          DB_USERNAME: "${DB_USERNAME}"
-          DB_PASSWORD: "${DB_PASSWORD}"
-          VIPS_API_USERNAME: "${VIPS_API_USERNAME}"
-          VIPS_API_PASSWORD: "${VIPS_API_PASSWORD}"
-          VIPS_API_ROOT_URL: "${VIPS_API_ROOT_URL}"
-          GEOCODER_API_URI: "${GEOCODER_URL}"
-          GEOCODE_BASIC_AUTH_USER: "${GEOCODE_BASIC_AUTH_USER}"
-          GEOCODE_BASIC_AUTH_PASS: "${GEOCODE_BASIC_AUTH_PASS}"
+      build:
+        context: python
+        dockerfile: writer/Dockerfile-local
+      depends_on:
+        - rabbitmq
+      environment:
+        RABBITMQ_URL: "${RABBITMQ_URL}"
+        # The RABBITMQ_USER is used to watch for validated
+        # events and write them to the database
+        RABBITMQ_USER: "${RABBITMQ_USER}"
+        RABBITMQ_PASS: "${RABBITMQ_PASS}"
+        LOG_LEVEL: "INFO"
+        DB_HOST: "${DB_HOST}"
+        DB_NAME: "${DB_NAME}"
+        DB_USERNAME: "${DB_USERNAME}"
+        DB_PASSWORD: "${DB_PASSWORD}"
+        VIPS_API_USERNAME: "${VIPS_API_USERNAME}"
+        VIPS_API_PASSWORD: "${VIPS_API_PASSWORD}"
+        VIPS_API_ROOT_URL: "${VIPS_API_ROOT_URL}"
+        GEOCODER_API_URI: "${GEOCODER_URL}"
+        GEOCODE_BASIC_AUTH_USER: "${GEOCODE_BASIC_AUTH_USER}"
+        GEOCODE_BASIC_AUTH_PASS: "${GEOCODE_BASIC_AUTH_PASS}"
 
+
+networks:
+  docker-network:
