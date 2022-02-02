@@ -44,7 +44,7 @@ def forms(database):
 
 
 def test_an_administrator_can_list_all_forms_by_type(as_guest, monkeypatch, forms):
-    resp = as_guest.get("/api/v1/admin/forms?type=24Hour",
+    resp = as_guest.get(Config.URL_PREFIX + "/api/v1/admin/forms?type=24Hour",
                         content_type="application/json",
                         headers=get_basic_authentication_header(monkeypatch))
     assert resp.status_code == 200
@@ -53,14 +53,14 @@ def test_an_administrator_can_list_all_forms_by_type(as_guest, monkeypatch, form
 
 
 def test_a_non_administrator_cannot_list_forms_by_type(as_guest, monkeypatch, forms):
-    resp = as_guest.get("/api/v1/admin/forms?type=24Hour",
+    resp = as_guest.get(Config.URL_PREFIX + "/api/v1/admin/forms?type=24Hour",
                         content_type="application/json")
     assert resp.status_code == 401
 
 
 def test_an_administrator_can_add_a_12hour_form_id(as_guest, monkeypatch, forms, database):
     payload = {'form_type': '12Hour', 'form_id': 'J-100999'}
-    resp = as_guest.post("/api/v1/admin/forms",
+    resp = as_guest.post(Config.URL_PREFIX + "/api/v1/admin/forms",
                          json=payload,
                          content_type="application/json",
                          headers=get_basic_authentication_header(monkeypatch))
@@ -74,7 +74,7 @@ def test_an_administrator_can_add_a_12hour_form_id(as_guest, monkeypatch, forms,
 
 def test_an_administrator_cannot_add_form_without_known_form_type(as_guest, monkeypatch, forms):
     payload = {'form_type': 'bad_type', 'form_id': 'J-100999'}
-    resp = as_guest.post("/api/v1/admin/forms",
+    resp = as_guest.post(Config.URL_PREFIX + "/api/v1/admin/forms",
                          json=payload,
                          content_type="application/json",
                          headers=get_basic_authentication_header(monkeypatch))
@@ -83,7 +83,7 @@ def test_an_administrator_cannot_add_form_without_known_form_type(as_guest, monk
 
 def test_an_administrator_cannot_add_form_with_emtpy_form_id(as_guest, monkeypatch, forms):
     payload = {'form_type': '12Hour', 'form_id': None}
-    resp = as_guest.post("/api/v1/admin/forms",
+    resp = as_guest.post(Config.URL_PREFIX + "/api/v1/admin/forms",
                          json=payload,
                          content_type="application/json",
                          headers=get_basic_authentication_header(monkeypatch))
@@ -92,7 +92,7 @@ def test_an_administrator_cannot_add_form_with_emtpy_form_id(as_guest, monkeypat
 
 def test_an_administrator_cannot_add_form_without_form_id(as_guest, monkeypatch, forms):
     payload = {'form_type': '12Hour'}
-    resp = as_guest.post("/api/v1/admin/forms",
+    resp = as_guest.post(Config.URL_PREFIX + "/api/v1/admin/forms",
                          json=payload,
                          content_type="application/json",
                          headers=get_basic_authentication_header(monkeypatch))

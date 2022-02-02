@@ -9,8 +9,8 @@ import python.prohibition_web_svc.business.roles_logic as rules
 logging.config.dictConfig(Config.LOGGING)
 logging.info('*** user_roles blueprint loaded ***')
 
-bp = Blueprint('user_roles', __name__, url_prefix='/api/v1')
-CORS(bp, resources={"/api/v1/user_roles/*": {"origins": Config.ACCESS_CONTROL_ALLOW_ORIGIN}})
+bp = Blueprint('user_roles', __name__, url_prefix=Config.URL_PREFIX + '/api/v1')
+CORS(bp, resources={Config.URL_PREFIX + "/api/v1/user_roles/*": {"origins": Config.ACCESS_CONTROL_ALLOW_ORIGIN}})
 
 
 @bp.route('/user_roles', methods=['GET'])

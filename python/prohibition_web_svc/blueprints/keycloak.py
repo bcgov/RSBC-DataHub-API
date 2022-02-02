@@ -8,8 +8,8 @@ import logging.config
 logging.config.dictConfig(Config.LOGGING)
 logging.info('*** keycloak blueprint loaded ***')
 
-bp = Blueprint('keycloak', __name__, url_prefix='/api/v1')
-CORS(bp, resources={"/api/v1/keycloak": {"origins": Config.ACCESS_CONTROL_ALLOW_ORIGIN}})
+bp = Blueprint('keycloak', __name__, url_prefix=Config.URL_PREFIX + '/api/v1')
+CORS(bp, resources={Config.URL_PREFIX + "/api/v1/keycloak": {"origins": Config.ACCESS_CONTROL_ALLOW_ORIGIN}})
 
 
 @bp.route('/keycloak', methods=['GET'])

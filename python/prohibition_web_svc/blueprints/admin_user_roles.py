@@ -9,11 +9,11 @@ import python.prohibition_web_svc.business.roles_logic as rules
 logging.config.dictConfig(Config.LOGGING)
 logging.info('*** admin/users_roles blueprint loaded ***')
 
-bp = Blueprint('admin_users_roles', __name__, url_prefix='/api/v1/admin')
-CORS(bp, resources={"/api/v1/admin/users/*": {"origins": Config.ACCESS_CONTROL_ALLOW_ORIGIN}})
+bp = Blueprint('admin_users_roles', __name__, url_prefix=Config.URL_PREFIX + '/api/v1')
+CORS(bp, resources={Config.URL_PREFIX + "/api/v1/admin/users/*": {"origins": Config.ACCESS_CONTROL_ALLOW_ORIGIN}})
 
 
-@bp.route('/users/<string:username>/roles', methods=['GET'])
+@bp.route('/admin/users/<string:username>/roles', methods=['GET'])
 def index(username):
     """
     List all roles for the currently logged-in user
@@ -27,7 +27,7 @@ def index(username):
         return kwargs.get('response')
 
 
-@bp.route('/users/<string:username>/roles/<string:role_name>', methods=['PATCH'])
+@bp.route('/admin/users/<string:username>/roles/<string:role_name>', methods=['PATCH'])
 def update(username, role_name):
     """
     Update an existing role
@@ -42,7 +42,7 @@ def update(username, role_name):
         return kwargs.get('response')
 
 
-@bp.route('/users/<string:username>/roles/<string:role_name>', methods=['DELETE'])
+@bp.route('/admin/users/<string:username>/roles/<string:role_name>', methods=['DELETE'])
 def delete(username, role_name):
     """
     Delete a specific role
@@ -57,7 +57,7 @@ def delete(username, role_name):
         return kwargs.get('response')
 
 
-@bp.route('/users/<string:username>/roles', methods=['POST'])
+@bp.route('/admin/users/<string:username>/roles', methods=['POST'])
 def create(username):
     if request.method == 'POST':
         kwargs = helper.middle_logic(rules.admin_create_a_role(),
@@ -68,7 +68,7 @@ def create(username):
         return kwargs.get('response')
 
 
-@bp.route('/users/<string:username>/roles/<string:role_name>', methods=['GET'])
+@bp.route('/admin/users/<string:username>/roles/<string:role_name>', methods=['GET'])
 def get(username, role_name):
     if request.method == 'GET':
         return make_response({"error": "method not implemented"}, 405)

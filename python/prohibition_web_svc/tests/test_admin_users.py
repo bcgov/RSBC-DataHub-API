@@ -47,7 +47,7 @@ def test_administrator_can_get_all_users(as_guest, monkeypatch, roles):
     monkeypatch.setattr(Config, 'ADMIN_USERNAME', 'administrator@idir')
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_administrative_user)
-    resp = as_guest.get("/api/v1/admin/users",
+    resp = as_guest.get(Config.URL_PREFIX + "/api/v1/admin/users",
                          follow_redirects=True,
                          content_type="application/json",
                          headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
@@ -61,7 +61,7 @@ def test_non_administrators_cannot_get_all_users(as_guest, monkeypatch, roles):
     monkeypatch.setattr(Config, 'ADMIN_USERNAME', 'administrator@idir')
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
-    resp = as_guest.get("/api/v1/admin/users",
+    resp = as_guest.get(Config.URL_PREFIX + "/api/v1/admin/users",
                          follow_redirects=True,
                          content_type="application/json",
                          headers=_get_keycloak_auth_header(_get_keycloak_access_token()))

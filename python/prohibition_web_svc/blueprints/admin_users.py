@@ -9,11 +9,11 @@ import python.prohibition_web_svc.business.roles_logic as rules
 logging.config.dictConfig(Config.LOGGING)
 logging.info('*** admin/users blueprint loaded ***')
 
-bp = Blueprint('admin_users', __name__, url_prefix='/api/v1/admin')
-CORS(bp, resources={"/api/v1/admin/users": {"origins": Config.ACCESS_CONTROL_ALLOW_ORIGIN}})
+bp = Blueprint('admin_users', __name__, url_prefix=Config.URL_PREFIX + '/api/v1')
+CORS(bp, resources={Config.URL_PREFIX + "/api/v1/admin/users": {"origins": Config.ACCESS_CONTROL_ALLOW_ORIGIN}})
 
 
-@bp.route('/users', methods=['GET'])
+@bp.route('/admin/users', methods=['GET'])
 def index():
     """
     List all authorized users
@@ -26,25 +26,25 @@ def index():
         return kwargs.get('response')
 
 
-@bp.route('/users/<string:username>', methods=['PATCH'])
+@bp.route('/admin/users/<string:username>', methods=['PATCH'])
 def update(username):
     if request.method == 'PATCH':
         return make_response({"error": "method not implemented"}, 405)
 
 
-@bp.route('/users/<string:username>', methods=['DELETE'])
+@bp.route('/admin/users/<string:username>', methods=['DELETE'])
 def delete(username):
     if request.method == 'DELETE':
         return make_response({"error": "method not implemented"}, 405)
 
 
-@bp.route('/users', methods=['POST'])
+@bp.route('/admin/users', methods=['POST'])
 def create():
     if request.method == 'POST':
         return make_response({"error": "method not implemented"}, 405)
 
 
-@bp.route('/users/<string:username>', methods=['GET'])
+@bp.route('/admin/users/<string:username>', methods=['GET'])
 def get(username):
     if request.method == 'GET':
         return make_response({"error": "method not implemented"}, 405)

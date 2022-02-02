@@ -9,8 +9,8 @@ from flask import jsonify
 logging.config.dictConfig(Config.LOGGING)
 logging.info('*** colors blueprint loaded ***')
 
-bp = Blueprint('colors', __name__, url_prefix='/api/v1')
-CORS(bp, resources={"/api/v1/colors": {"origins": Config.ACCESS_CONTROL_ALLOW_ORIGIN}})
+bp = Blueprint('colors', __name__, url_prefix=Config.URL_PREFIX + '/api/v1')
+CORS(bp, resources={Config.URL_PREFIX + "/api/v1/colors": {"origins": Config.ACCESS_CONTROL_ALLOW_ORIGIN}})
 
 
 @bp.route('/colors', methods=['GET'])

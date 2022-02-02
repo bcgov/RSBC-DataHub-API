@@ -9,8 +9,8 @@ import python.common.helper as helper
 logging.config.dictConfig(Config.LOGGING)
 logging.info('*** impound lot operators blueprint loaded ***')
 
-bp = Blueprint('impound_lot_operators', __name__, url_prefix='/api/v1')
-CORS(bp, resources={"/api/v1/impound_lot_operators": {"origins": Config.ACCESS_CONTROL_ALLOW_ORIGIN}})
+bp = Blueprint('impound_lot_operators', __name__, url_prefix=Config.URL_PREFIX + '/api/v1')
+CORS(bp, resources={Config.URL_PREFIX + "/api/v1/impound_lot_operators": {"origins": Config.ACCESS_CONTROL_ALLOW_ORIGIN}})
 
 
 @bp.route('/impound_lot_operators', methods=['GET'])
