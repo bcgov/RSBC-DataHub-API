@@ -35,10 +35,6 @@
                    rules="required|notFutureDt"
                    fg_class="col-sm-6">Time of test</date-time>
       </form-row>
-      <form-row v-if="isTestAdministeredDRE">
-        <wait-for-icbc-field id="positive_dre" fg_class="col-sm-12">Notes</wait-for-icbc-field>
-        <!-- make this a memo field above -->
-      </form-row>
     </shadow-box>
     <form-row>
         <check-field id="result_drug" fg_class="col-sm-12"
