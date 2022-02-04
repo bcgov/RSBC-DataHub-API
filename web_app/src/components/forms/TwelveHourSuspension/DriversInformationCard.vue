@@ -2,8 +2,8 @@
 <form-card title="Driver's Information">
   <div>
     <form-row>
-      <jurisdiction-field id="drivers_licence_jurisdiction" fg_class="col-sm-3">Prov / State / International</jurisdiction-field>
       <driver-licence-number id="drivers_number">Driver's Licence Number</driver-licence-number>
+      <jurisdiction-field id="drivers_licence_jurisdiction" fg_class="col-sm-3">Prov / State / International</jurisdiction-field>
     </form-row>
     <form-row>
       <text-field id="last_name" fg_class="col-sm-4" placeholder="Last Name" rules="required">Last Name</text-field>
