@@ -15,7 +15,7 @@
     <form-row>
       <type-ahead-field id="city" fg_class="col-sm-6" :suggestions="getArrayOfBCCityNames" rules="required">City</type-ahead-field>
       <province-field id="province" fg_class="col-sm-2" rules="required">Province</province-field>
-      <text-field id="postal" fg_class="col-sm-4">Postal</text-field>
+      <text-field id="postal" fg_class="col-sm-4">Postal / Zip</text-field>
     </form-row>
 </form-card>
 </template>
