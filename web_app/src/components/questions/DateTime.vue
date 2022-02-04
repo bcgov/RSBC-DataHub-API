@@ -1,28 +1,38 @@
 <template>
 <div v-if="visible" class="form-group" :class="fg_class">
   <validation-provider :rules="rules" :name="id" v-slot="{ errors, required }">
-    <label :for="id"><slot></slot>
-      <span v-if="required" class="text-danger"> *</span>
-      <span class="text-muted" v-if="displayTimeAgoString"> ({{ timeAgoString }})</span>
-      <span v-if="displayNotValidWarning" class="text-danger"> (date and/or time not valid)</span>
-    </label>
     <div class="col-xs-10">
-      <div class="input-group">
-        <input type="text"
-           class="form-control"
-           :class="errors.length > 0 ? 'border-danger bg-warning' : ''"
-           :disabled="disabled"
-           placeholder="YYYYMMDD"
-           :id="id"
-           :value="dateSegment"
-           @input="updateDateSegment">
-        <input type="text"
-           class="form-control"
-           :class="errors.length > 0 ? 'border-danger bg-warning' : ''"
-           :disabled="disabled"
-            placeholder="HHMM"
-            :value="timeSegment"
-            @input="updateTimeSegment">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label :for="id"><slot></slot>
+            <span class="small text-muted"> (YYYYMMDD)</span>
+            <span v-if="required" class="text-danger"> *</span>
+            <span class="badge badge-success ml-3" v-if="displayTimeAgoString"> {{ timeAgoString }}</span>
+            <span v-if="displayNotValidWarning" class="text-danger"> (date and/or time not valid)</span>
+          </label>
+          <input type="text"
+             class="form-control"
+             :class="errors.length > 0 ? 'border-danger bg-warning' : ''"
+             :disabled="disabled"
+             placeholder="YYYYMMDD"
+             :id="id"
+             :value="dateSegment"
+             @input="updateDateSegment">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="time">
+            <span class="small text-muted"> (HHMM)</span>
+          </label>
+          <input type="text"
+             id="time"
+             class="form-control"
+             :class="errors.length > 0 ? 'border-danger bg-warning' : ''"
+             :disabled="disabled"
+              placeholder="HHMM"
+              :value="timeSegment"
+              @input="updateTimeSegment">
+        </div>
+
       </div>
       <div class="small text-danger ml-1">{{ errors[0] }}</div>
     </div>
