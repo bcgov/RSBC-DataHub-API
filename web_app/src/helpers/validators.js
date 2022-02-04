@@ -22,10 +22,16 @@ extend('validDt', {
   message: "That's not a valid date"
 });
 
-extend('validDtTime', {
-  validate: value => moment(value, "YYYYMMDD HHmm", true).isValid(),
-  message: "That's not a valid date time"
-});
+// extend('validDtTime', {
+//   validate(value) {
+//     console.log("validDtTime " + value)
+//     return {
+//       required: true,
+//       valid: moment(value, "YYYYMMDD HHmm", true).isValid()
+//     };
+//   },
+//   message: "That's not a valid date time"
+// });
 
 extend('notExpired', {
   validate: value => moment().diff(moment(value, 'YYYYMMDD', true), 'days') < 0,
@@ -44,7 +50,7 @@ extend('notFutureDt', {
 });
 
 // digits 8
-extend('dig8', {
+extend('dob8', {
   validate(value) {
     let result = false;
     const regexMatch = value.match("^[0-9]{4}[0-9]{2}[0-9]{2}$")

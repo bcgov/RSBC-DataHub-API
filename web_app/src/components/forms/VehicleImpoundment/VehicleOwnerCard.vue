@@ -23,7 +23,7 @@
           </form-row>
           <form-row>
             <text-field id="owners_address1" fg_class="col-sm-8" placeholder="Address" rules="lt25">Address Line 1</text-field>
-            <dob-field id="owner_dob" fg_class="col-sm-4" rules="dig8|dob">Date of Birth</dob-field>
+            <dob-field id="owner_dob" fg_class="col-sm-4" rules="dob8|dob">Date of Birth</dob-field>
           </form-row>
           <form-row>
             <type-ahead-field id="owners_city" fg_class="col-sm-4" :suggestions="getArrayOfBCCityNames">City</type-ahead-field>

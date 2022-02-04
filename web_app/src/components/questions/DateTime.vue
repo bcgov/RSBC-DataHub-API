@@ -1,14 +1,14 @@
 <template>
-<div v-if="visible" class="form-group" :class="fg_class">
+<div v-if="visible" class="form-group border" :class="fg_class">
   <validation-provider :rules="rules" :name="id" v-slot="{ errors, required }">
     <div class="col-xs-10">
       <div class="form-row">
         <div class="form-group col-md-6">
           <label :for="id"><slot></slot>
-            <span class="small text-muted"> (YYYYMMDD)</span>
+            <span class="small text-muted"> YYYYMMDD</span>
             <span v-if="required" class="text-danger"> *</span>
             <span class="badge badge-success ml-3" v-if="displayTimeAgoString"> {{ timeAgoString }}</span>
-            <span v-if="displayNotValidWarning" class="text-danger"> (date and/or time not valid)</span>
+            <span v-if="displayDateNotValid" class="text-danger"> (date not valid)</span>
           </label>
           <input type="text"
              class="form-control"
@@ -21,7 +21,8 @@
         </div>
         <div class="form-group col-md-6">
           <label for="time">
-            <span class="small text-muted"> (HHMM)</span>
+            <span class="small text-muted"> HHMM in Pacific Time</span>
+            <span v-if="displayTimeNotValid" class="text-danger"> (time not valid)</span>
           </label>
           <input type="text"
              id="time"
@@ -106,16 +107,24 @@ export default {
         return ''
       }
     },
-    displayNotValidWarning() {
+    displayDateNotValid() {
       let dateTimeArray = this.getAttributeValue(this.id).split(' ');
       if (this.getAttributeValue(this.id).length === 0) {
         return false;
       } else {
-        return ! (dateTimeArray[0].length === 8 && dateTimeArray[1].length === 4)
+        return ! (dateTimeArray[0].length === 8)
+      }
+    },
+    displayTimeNotValid() {
+      let dateTimeArray = this.getAttributeValue(this.id).split(' ');
+      if (this.getAttributeValue(this.id).length === 0) {
+        return false;
+      } else {
+        return ! (dateTimeArray[1].length === 4)
       }
     },
     displayTimeAgoString() {
-      return this.isValidDate && ! this.displayNotValidWarning;
+      return this.isValidDate && ! this.displayDateNotValid && ! this.displayTimeNotValid;
     }
   }
 

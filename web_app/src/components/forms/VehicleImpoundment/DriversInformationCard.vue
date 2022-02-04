@@ -7,7 +7,7 @@
     <form-row>
       <text-field id="last_name" fg_class="col-sm-4" placeholder="Last Name" rules="required|lt25">Last Name</text-field>
       <text-field id="first_name" fg_class="col-sm-4" placeholder="First Name" rules="lt25">First Name</text-field>
-      <dob-field id="dob" fg_class="col-sm-4" rules="dig8|dob">Date of Birth</dob-field>
+      <dob-field id="dob" fg_class="col-sm-4" rules="dob8|dob">Date of Birth</dob-field>
     </form-row>
     <form-row>
       <text-field id="expiry_year" fg_class="col-sm-4" rules="lt5">Expiry Year</text-field>
