@@ -10,7 +10,7 @@
     <text-field id="registration_number" fg_class="col-sm-4">Registration Number</text-field>
   </form-row>
   <form-row>
-    <type-ahead-field :suggestions="getArrayOfVehicleYears" id="vehicle_year" fg_class="col-sm-2">Vehicle Year</type-ahead-field>
+    <text-field id="vehicle_year" rules="vehicleYear" fg_class="col-sm-2">Vehicle Year</text-field>
     <type-ahead-field :suggestions="getArrayOfVehicleMakes" id="vehicle_make" input_type="number" fg_class="col-sm-3">Vehicle Make</type-ahead-field>
     <type-ahead-field :suggestions="getArrayOfVehicleModels" id="vehicle_model" fg_class="col-sm-3">Vehicle Model</type-ahead-field>
     <type-ahead-field :suggestions="getArrayOfVehicleStyles" id="vehicle_type" fg_class="col-sm-2">Vehicle Type</type-ahead-field>

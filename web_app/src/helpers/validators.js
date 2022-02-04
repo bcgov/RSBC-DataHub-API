@@ -42,7 +42,7 @@ extend('notFutureDt', {
   validate(value) {
     return {
       required: true,
-      valid: moment().diff(moment(value), 'minutes') > 0,
+      valid: moment().diff(moment(value, 'YYYYMMDD HHmm', true), 'minutes') > 0,
     };
   },
   message: "Cannot be future dated",
@@ -126,6 +126,27 @@ extend('lt4', {
     };
   },
   message: "Value must be than 5 chars",
+});
+
+extend('vehicleYear', {
+  validate(value) {
+    return {
+      required: true,
+      valid: moment(value, "YYYY", true).isValid()
+    };
+  },
+  message: "That's not a valid year"
+});
+
+extend('vehicleYear', {
+  validate(value) {
+    const yearsOld = moment().diff(moment(value, 'YYYY', true), 'years')
+    return {
+      required: true,
+      valid: yearsOld > -2 && value > 1900,
+    };
+  },
+  message: "That's not a valid year"
 });
 
 
