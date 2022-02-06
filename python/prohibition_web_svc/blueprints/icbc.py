@@ -23,10 +23,14 @@ def get_driver(dl_number):
                 {"try": icbc_middleware.get_icbc_api_authorization_header, "fail": [
                     {"try": http_responses.server_error_response, "fail": []},
                 ]},
+                {"try": icbc_middleware.is_request_not_seeking_test_drivers_licence, "fail": [
+                    {"try": icbc_middleware.get_test_driver, "fail": []},
+                    {"try": http_responses.successful_get_response, "fail": []},
+                ]},
                 {"try": icbc_middleware.get_icbc_driver, "fail": [
                     {"try": http_responses.server_error_response, "fail": []},
                 ]},
-                {"try": splunk.icbc_get_driver, "fail": []},
+                {"try": splunk.icbc_get_driver, "fail": []}
             ],
             required_permission='driver-get',
             dl_number=dl_number,
@@ -44,7 +48,8 @@ def get_vehicle(plate_number):
                     {"try": http_responses.server_error_response, "fail": []},
                 ]},
                 {"try": icbc_middleware.is_request_not_seeking_test_plate, "fail": [
-                    {"try": http_responses.respond_test_vehicle, "fail": []},
+                    {"try": icbc_middleware.get_test_plate, "fail": []},
+                    {"try": http_responses.successful_get_response, "fail": []},
                 ]},
                 {"try": icbc_middleware.get_icbc_vehicle, "fail": [
                     {"try": http_responses.server_error_response, "fail": []},

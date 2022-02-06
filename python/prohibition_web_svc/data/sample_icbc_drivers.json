@@ -1,0 +1,77 @@
+{
+  "1234567": {
+   "dlNumber": "1234567",
+   "birthDate": "1960-01-01",
+   "party":    {
+      "ICBCEnterpriseID": "343785",
+      "partyType": "Person",
+      "lastName": "JAGGER",
+      "firstName": "LOREN",
+      "secondName": "",
+      "thirdName": "",
+      "nameType": "Legal",
+      "addresses": [{
+            "addressType": "Residence",
+            "addressLine1": "175 PEMBERTON AVENUE",
+            "addressLine2": "",
+            "addressLine3": "",
+            "city": "NORTH VANCOUVER",
+            "region": "BC",
+            "country": "CAN",
+            "postalCode": "V7P2R5",
+            "unitNumber": "",
+            "streetNumber": "",
+            "streetName": "",
+            "streetType": "",
+            "streetDirection": "",
+            "boxNumber": "",
+            "location": "",
+            "postalStationName": "",
+            "postalStationQualifier": "",
+            "postalStationType": "",
+            "routeServiceClass": "",
+            "routeServiceNumber": "",
+            "additionalDeliveryInfo": "ATT: JOSEPHINE"
+         }]
+      }
+   },
+   "5120503": {
+      "dlNumber": "5120503",
+      "birthDate": "1955-02-22",
+      "party": {
+        "ICBCEnterpriseID": "976949180580602",
+        "partyType": "Person",
+        "lastName": "JOHNSTONE",
+        "firstName": "KAREN",
+        "secondName": "PATRICIA",
+        "thirdName": "",
+        "nameType": "Legal",
+        "birthDate": "1955-02-22",
+        "dlNumber": "5120503",
+        "dlPlaceOfIssue": "BC",
+        "addresses": [{
+            "addressType": "Mailing",
+            "addressLine1": "9150 ARRASTRA CREEK FOREST SER",
+            "addressLine2": "",
+            "addressLine3": "",
+            "city": "COALMONT",
+            "region": "BC",
+            "country": "CAN",
+            "postalCode": "V0X1W0",
+            "unitNumber": "",
+            "streetNumber": "9150",
+            "streetName": "ARRASTRA CREEK FOREST SERVICE",
+            "streetType": "RD",
+            "streetDirection": "",
+            "boxNumber": "",
+            "location": "",
+            "postalStationName": "",
+            "postalStationQualifier": "",
+            "postalStationType": "",
+            "routeServiceClass": "",
+            "routeServiceNumber": "",
+            "additionalDeliveryInfo": ""
+          }]
+      }
+    }
+}

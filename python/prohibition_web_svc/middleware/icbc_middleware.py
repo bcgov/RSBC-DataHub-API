@@ -4,6 +4,7 @@ from datetime import datetime
 from flask import jsonify, make_response
 import base64
 from python.prohibition_web_svc.config import Config
+from python.common.helper import load_json_into_dict
 
 
 def get_icbc_api_authorization_header(**kwargs) -> tuple:
@@ -47,5 +48,29 @@ def get_icbc_vehicle(**kwargs) -> tuple:
 
 def is_request_not_seeking_test_plate(**kwargs) -> tuple:
     # TODO - remove before flight
+    vehicle_data = load_json_into_dict('python/prohibition_web_svc/data/sample_icbc_vehicles.json')
     plate_number = kwargs.get('plate_number')
-    return plate_number != 'ICBC', kwargs
+    return plate_number not in vehicle_data, kwargs
+
+
+def is_request_not_seeking_test_drivers_licence(**kwargs) -> tuple:
+    # TODO - remove before flight
+    dl_number = kwargs.get('dl_number')
+    drivers_data = load_json_into_dict('python/prohibition_web_svc/data/sample_icbc_drivers.json')
+    return dl_number not in drivers_data, kwargs
+
+
+def get_test_plate(**kwargs) -> tuple:
+    # TODO - Remove before flight
+    vehicle_data = load_json_into_dict('python/prohibition_web_svc/data/sample_icbc_vehicles.json')
+    plate_number = kwargs.get('plate_number')
+    kwargs['response_dict'] = vehicle_data.get(plate_number, {})
+    return True, kwargs
+
+
+def get_test_driver(**kwargs) -> tuple:
+    # TODO - Remove before flight
+    driver_data = load_json_into_dict('python/prohibition_web_svc/data/sample_icbc_drivers.json')
+    dl_number = kwargs.get('dl_number')
+    kwargs['response_dict'] = driver_data.get(dl_number, {})
+    return True, kwargs
