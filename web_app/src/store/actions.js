@@ -375,8 +375,6 @@ export const actions = {
 
                     key_value_pairs['REASONABLE_GROUNDS_ALCOHOL_BAC_VALUE'] = context.getters.getFormPrintValue(
                         form_object, 'test_result_bac')
-
-                    key_value_pairs['REASONABLE_GROUNDS_TEST_APPROVED_INSTRUMENT_SPECIFY'] = 'BAC'
                 }
             }
 
