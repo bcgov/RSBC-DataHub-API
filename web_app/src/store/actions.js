@@ -529,9 +529,10 @@ export const actions = {
         payload['timestamp'] = current_timestamp
         await context.dispatch("tellApiFormIsPrinted", form_object)
           .then( (response) => {
-            console.log("response from tellApiFormIsPrinted()", response)
-            context.commit("setFormAsPrinted", payload)
-            context.dispatch("saveCurrentFormToDB", form_object)
+              console.log("response from tellApiFormIsPrinted()", response)
+              context.commit("setFormAsPrinted", payload)
+              context.dispatch("saveCurrentFormToDB", form_object)
+              context.commit("stopEditingCurrentForm")
           })
     },
 
