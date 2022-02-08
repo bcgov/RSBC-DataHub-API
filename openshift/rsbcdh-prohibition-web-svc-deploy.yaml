@@ -149,6 +149,16 @@ objects:
                 secretKeyRef:
                   name: ${NAME}${SUFFIX}
                   key: flask-basic-auth-pass
+            - name: SPLUNK_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: splunk-host
+            - name: SPLUNK_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: splunk-token
             - name: LOG_LEVEL
               value: ${LOG_LEVEL}
             - name: ENVIRONMENT
