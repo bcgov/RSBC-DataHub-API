@@ -355,7 +355,7 @@ export const actions = {
                 key_value_pairs['REASONABLE_GROUNDS_TEST_ASD_EXPIRY_DATE'] = context.getters.getFormPrintValue(
                     form_object, 'asd_expiry_date')
 
-                key_value_pairs['REASONABLE_GROUNDS_TEST_TIME'] = context.getters.getFormPrintValue(
+                key_value_pairs['REASONABLE_GROUNDS_TEST_TIME'] = context.getters.getFormPrintDateTime(
                     form_object, 'time_of_test')
 
                 key_value_pairs['REASONABLE_GROUNDS_ALCOHOL_51-99'] = context.getters.getFormPrintCheckedValue(
@@ -383,7 +383,7 @@ export const actions = {
 
                 let prescribed_test = []
 
-                key_value_pairs['REASONABLE_GROUNDS_TEST_TIME'] = context.getters.getFormPrintValue(
+                key_value_pairs['REASONABLE_GROUNDS_TEST_TIME'] = context.getters.getFormPrintDateTime(
                     form_object, 'time_of_test')
 
                 if (context.getters.getFormPrintCheckedValue(

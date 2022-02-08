@@ -278,6 +278,15 @@ export const getters = {
         return root[attribute];
     },
 
+    getFormPrintDateTime: state => (form_object, attribute) => {
+        let root = state.forms[form_object.form_type][form_object.form_id].data;
+        if (!(attribute in root)) {
+            return '';
+        }
+        const valueDt = moment(root[attribute], "YYYYMMDD HHmm", true)
+        return valueDt.format("YYYY-MM-DD HH:mm");
+    },
+
     getFormPrintRadioValue: state => (form_object, attribute, checked_value) => {
         let root = state.forms[form_object.form_type][form_object.form_id].data;
         if (!(attribute in root)) {
