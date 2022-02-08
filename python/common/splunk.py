@@ -57,16 +57,22 @@ def paybc_invoice_generated(**args) -> tuple:
 
 
 def icbc_get_driver(**args) -> tuple:
-    username = args.get('username')
-    splunk_event = {"event": "icbc_get_driver", "loginUserId": username}
+    splunk_event = {
+        "event": "icbc_get_driver",
+        "loginUserId": args.get('username'),
+        "queried_bcdl": args.get("dl_number")
+    }
     config = args.get('config')
     _post_to_splunk(_get_icbc_payload(splunk_event, config.OPENSHIFT_PLATE), **args)
     return True, args
 
 
 def icbc_get_vehicle(**args) -> tuple:
-    username = args.get('username')
-    splunk_event = {"event": "icbc_get_vehicle", "loginUserId": username}
+    splunk_event = {
+        "event": "icbc_get_vehicle",
+        "loginUserId": args.get('username'),
+        "queried_plate": args.get('plate_number')
+    }
     config = args.get('config')
     _post_to_splunk(_get_icbc_payload(splunk_event, config.OPENSHIFT_PLATE), **args)
     return True, args
