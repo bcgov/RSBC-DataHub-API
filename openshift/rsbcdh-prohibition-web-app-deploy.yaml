@@ -144,7 +144,7 @@ objects:
     name: ${NAME}-${COMPONENT}${SUFFIX}
   spec:
     host: ${NAME}-${COMPONENT}${SUFFIX}${URL_SUFFIX}
-    path: /roadside-forms/
+    path: /
     port:
       targetPort: 5000-tcp
     tls:
