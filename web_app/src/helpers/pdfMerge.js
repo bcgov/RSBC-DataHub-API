@@ -1,6 +1,8 @@
 import jsPDF from "jspdf";
 
 const FONT_COLOR = "rgb(0, 0, 128)"
+const PUBLIC_PATH = process.env.BASE_URL
+
 
 export default {
 
@@ -34,7 +36,7 @@ export default {
     async buildPages(doc, print_definitions, variant, page_index, form_data) {
         for (const page of print_definitions['variants'][variant]['pages']) {
             console.log("doc", doc)
-            await this.fetchCacheName(page['image']['filename'])
+            await this.fetchCacheName(PUBLIC_PATH + page['image']['filename'])
                 .then( (response) => {
                     console.log("B - got response");
                     return new URL(response.responseURL)

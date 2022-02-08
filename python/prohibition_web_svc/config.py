@@ -29,7 +29,7 @@ class Config(BaseConfig):
 
     KEYCLOAK_CERTS_URL = "{}realms/{}/protocol/openid-connect/certs".format(KEYCLOAK_AUTH_URL, KEYCLOAK_REALM)
 
-    URL_PREFIX                          = os.getenv('URL_PREFIX', '/roadside-forms')
+    URL_PREFIX                          = os.getenv('URL_PREFIX', '/')
 
     MAX_RECORDS_RETURNED = 200
 
