@@ -1,6 +1,5 @@
-importScripts("/roadside-forms/precache-manifest.13048e76300e1ae3f9970b6b929b322d.js", "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
+importScripts("/roadside-forms/precache-manifest.1cf83c29507fcd8269f186e55e9e034c.js", "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
-const URL_PREFIX = '/roadside-forms/api/v1'
 
 // The precaching code provided by Workbox
 self.__precacheManifest = [].concat(self.__precacheManifest || []);
@@ -34,8 +33,8 @@ workbox.routing.registerRoute(
 
 // Cache frequently changing API resources using "StaleWhileRevalidate" method
 workbox.routing.registerRoute(({request, url}) =>
-    url.pathname ===  URL_PREFIX + '/impound_lot_operators'  ||
-    url.pathname === URL_PREFIX + '/user_roles',
+    url.pathname ===  '/roadside-forms/api/v1/impound_lot_operators'  ||
+    url.pathname === '/roadside-forms/api/v1/user_roles',
   new workbox.strategies.StaleWhileRevalidate({
     cacheName: 'dynamic-api',
     plugins: [
@@ -50,14 +49,14 @@ workbox.routing.registerRoute(({request, url}) =>
 
 // Cache static API resources for 2 days
 workbox.routing.registerRoute(({request, url}) =>
-    url.pathname === URL_PREFIX + '/agencies'  ||
-    url.pathname === URL_PREFIX + '/cities'  ||
-    url.pathname === URL_PREFIX + '/countries'  ||
-    url.pathname === URL_PREFIX + '/jurisdictions'  ||
-    url.pathname === URL_PREFIX + '/provinces'  ||
-    url.pathname === URL_PREFIX + '/vehicles'  ||
-    url.pathname === URL_PREFIX + '/vehicle_styles'  ||
-    url.pathname === URL_PREFIX + '/colors',
+    url.pathname === '/roadside-forms/api/v1/agencies'  ||
+    url.pathname === '/roadside-forms/api/v1/cities'  ||
+    url.pathname === '/roadside-forms/api/v1/countries'  ||
+    url.pathname === '/roadside-forms/api/v1/jurisdictions'  ||
+    url.pathname === '/roadside-forms/api/v1/provinces'  ||
+    url.pathname === '/roadside-forms/api/v1/vehicles'  ||
+    url.pathname === '/roadside-forms/api/v1/vehicle_styles'  ||
+    url.pathname === '/roadside-forms/api/v1/colors',
   new workbox.strategies.CacheFirst({
     cacheName: 'static-api',
     plugins: [
