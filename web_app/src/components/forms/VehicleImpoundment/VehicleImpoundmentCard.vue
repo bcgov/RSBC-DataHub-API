@@ -5,7 +5,7 @@
         <type-ahead-field id="offence_city" fg_class="col-sm-4" :suggestions="getArrayOfBCCityNames" rules="required">City</type-ahead-field>
       </form-row>
       <form-row>
-        <date-time id="prohibition_start_time" fg_class="col-sm-4" rules="required|notFutureDt">
+        <date-time id="prohibition_start_time" fg_class="col-sm-4" rules="required">
           Time of driving, care or control
         </date-time>
       </form-row>

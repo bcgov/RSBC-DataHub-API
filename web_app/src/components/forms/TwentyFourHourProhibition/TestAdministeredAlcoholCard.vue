@@ -10,7 +10,7 @@
         <radio-field v-if="isTestAdministeredASD" id="result_alcohol" fg_class="col-sm-6"
                      :options='["51-99 mg%", "Over 99 mg%"]'>Result</radio-field>
         <date-time v-if="isTestAdministeredASD" id="time_of_test"
-                   rules="required|notFutureDt"
+                   rules="required"
                    fg_class="col-sm-6">Time of test</date-time>
       </form-row>
     </shadow-box>
@@ -23,7 +23,7 @@
         <check-field v-if="isTestAdministeredApprovedInstrument" id="result_alcohol_approved_instrument" fg_class="col-sm-6"
                      :options='["BAC"]'>Result</check-field>
         <date-time v-if="isTestAdministeredApprovedInstrument" id="time_of_test"
-                   rules="required|notFutureDt"
+                   rules="required"
                    fg_class="col-sm-6">Time of test</date-time>
       </form-row>
       <form-row>
@@ -37,7 +37,7 @@
         </check-field>
         <date-time v-if="isTestAdministeredSFST"
                    id="time_of_test"
-                   rules="required|notFutureDt"
+                   rules="required"
                    fg_class="col-sm-6">Time of test</date-time>
       </form-row>
     </shadow-box>

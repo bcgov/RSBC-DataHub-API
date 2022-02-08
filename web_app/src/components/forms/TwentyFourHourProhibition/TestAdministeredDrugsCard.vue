@@ -11,7 +11,7 @@
                      :options='["THC", "Cocaine"]'>Test result</check-field>
         <date-time v-if="isTestAdministeredADSE"
                    id="time_of_test"
-                   rules="required|notFutureDt"
+                   rules="required"
                    fg_class="col-sm-6">Time of test</date-time>
       </form-row>
     </shadow-box>
@@ -22,7 +22,7 @@
         </check-field>
         <date-time v-if="isTestAdministeredSFST"
                    id="time_of_test"
-                   rules="required|notFutureDt"
+                   rules="required"
                    fg_class="col-sm-6">Time of test</date-time>
       </form-row>
     </shadow-box>
@@ -32,7 +32,7 @@
                      :options='["Prescribed Physical Coordination Test (DRE)"]'>&nbsp;
         </check-field>
         <date-time v-if="isTestAdministeredDRE" id="time_of_test"
-                   rules="required|notFutureDt"
+                   rules="required"
                    fg_class="col-sm-6">Time of test</date-time>
       </form-row>
     </shadow-box>

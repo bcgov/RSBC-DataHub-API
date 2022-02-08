@@ -11,7 +11,7 @@
     </form-row>
     <form-row>
       <text-field id="file_number" fg_class="col-sm-3" rules="required">Agency File Number</text-field>
-      <date-time id="prohibition_start_time" fg_class="col-sm-9" rules="required|notFutureDt">
+      <date-time id="prohibition_start_time" fg_class="col-sm-9" rules="required">
         Time of driving, care or control
       </date-time>
     </form-row>

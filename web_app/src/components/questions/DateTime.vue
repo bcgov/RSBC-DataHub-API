@@ -74,7 +74,7 @@ export default {
       this.$store.commit("updateFormField", payload)
     },
     timeAgo() {
-      if(this.isValidDate) {
+      if(this.displayTimeAgoString) {
         this.timeAgoString = moment(this.getAttributeValue(this.id)).fromNow()
       }
     },
@@ -90,9 +90,6 @@ export default {
 
   computed: {
     ...mapGetters(["getAttributeValue"]),
-    isValidDate() {
-      return moment(this.getAttributeValue(this.id)).isValid()
-    },
     isFutureDate() {
       return moment().diff(this.getAttributeValue(this.id), "millisecond") < 0
     },
@@ -124,7 +121,7 @@ export default {
       }
     },
     displayTimeAgoString() {
-      return this.isValidDate && ! this.displayDateNotValid && ! this.displayTimeNotValid;
+      return ! (this.displayDateNotValid && this.displayTimeNotValid);
     }
   }
 
