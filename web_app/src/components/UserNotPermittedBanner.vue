@@ -9,20 +9,64 @@
           </span>
         </span>
         <div v-if="showApplication && ! hasUserApplied" class="d-flex justify-content-center mt-2">
-          <div class="form-inline">
+          <div class="form-row pl-2">
             <div class="form-group">
-              <label v-if="false" for="keycloak_username">Username</label>
+              <label for="first_name">First Name</label>
               <input type="text"
-                   class="form-group"
-                   id="keycloak_username"
-                   :value=getKeycloakUsername
-                   :disabled=true>
-              <button @click="dispatchUnlock" class="btn btn-secondary btn-sm">
-                Apply
-                <b-spinner v-if="showSpinner" small></b-spinner>
-              </button>
+                   class="form-control"
+                   id="first_name"
+                   v-model="application.first_name">
             </div>
           </div>
+          <div class="form-row pl-2">
+            <div class="form-group">
+              <label for="last_name">Last Name</label>
+              <input type="text"
+                   class="form-control"
+                   id="last_name"
+                   v-model="application.last_name">
+            </div>
+          </div>
+          <div class="form-row pl-2">
+            <div class="form-group">
+              <label for="badge_number">Badge Number</label>
+              <input type="text"
+                   class="form-control"
+                   id="badge_number"
+                   v-model="application.badge_number">
+            </div>
+          </div>
+          <div class="form-row pl-2">
+            <div class="form-group">
+              <label for="agency">Agency</label>
+              <input type="text"
+                   class="form-control"
+                   id="agency"
+                   v-model="application.agency">
+            </div>
+          </div>
+          <div class="form-row pl-2">
+            <div class="form-group">
+              <label for="keycloak_username">Username</label>
+              <div class="form-inline">
+                <input type="text"
+                     class="form-control"
+                     id="keycloak_username"
+                     :value=getKeycloakUsername
+                     :disabled=true>
+                <button @click="dispatchUnlock" class="btn btn-secondary">
+                  Apply
+                  <b-spinner v-if="showSpinner" small></b-spinner>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+
+
+          </div>
+
         </div>
         <div v-if="hasUserApplied" class="text-muted small">
           Waiting for the administrator to unlock
@@ -40,17 +84,24 @@ export default {
   name: "UserNotPermittedBanner",
   data() {
     return {
+      application: {
+        first_name: '',
+        last_name: '',
+        badge_number: '',
+        agency: this.$store.getters.getAgencyName
+      },
       showApplication: false,
-      showSpinner: false
+      showSpinner: false,
     }
   },
   methods: {
     ...mapActions(['applyToUnlockApplication']),
     dispatchUnlock() {
       this.showSpinner = true
-      this.applyToUnlockApplication()
+      this.applyToUnlockApplication(this.application)
         .then(() => {
           this.showSpinner = false
+          this.showApplication = false
         })
         .catch(() => {
           this.showSpinner = false
@@ -58,7 +109,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getKeycloakUsername', 'hasUserApplied']),
+    ...mapGetters(['getKeycloakUsername', 'hasUserApplied', 'getAgencyName']),
     showApplicationLabel() {
       if (this.showApplication) {
         return 'Hide'
@@ -69,3 +120,11 @@ export default {
   }
 }
 </script>
+
+<style>
+#apply-button button {
+  border: red 2px solid;
+  vertical-align: bottom;
+}
+
+</style>

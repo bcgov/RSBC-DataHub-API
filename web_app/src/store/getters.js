@@ -270,6 +270,17 @@ export const getters = {
         return ''
     },
 
+    getAgencyName: state => {
+        if (state.keycloak) {
+            if (state.keycloak.idTokenParsed) {
+                if (state.keycloak.idTokenParsed.bceid_business_name) {
+                    return state.keycloak.idTokenParsed.bceid_business_name;
+                }
+            }
+        }
+        return ''
+    },
+
     getFormPrintValue: state => (form_object, attribute) => {
         let root = state.forms[form_object.form_type][form_object.form_id].data;
         if (!(attribute in root)) {

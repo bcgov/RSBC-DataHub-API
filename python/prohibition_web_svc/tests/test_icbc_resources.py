@@ -36,8 +36,8 @@ def database(application):
 def roles(database):
     today = datetime.strptime("2021-07-21", "%Y-%m-%d")
     user_role = [
-        UserRole(username='john@idir', role_name='officer', submitted_dt=today),
-        UserRole(username='larry@idir', role_name='officer', submitted_dt=today, approved_dt=today)
+        UserRole(user_guid='john@idir', role_name='officer', submitted_dt=today),
+        UserRole(user_guid='larry@idir', role_name='officer', submitted_dt=today, approved_dt=today)
     ]
     db.session.bulk_save_objects(user_role)
     db.session.commit()

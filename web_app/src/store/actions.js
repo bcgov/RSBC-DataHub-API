@@ -416,44 +416,50 @@ export const actions = {
 
     },
 
-    async applyToUnlockApplication(context) {
+    async applyToUnlockApplication(context, application) {
         console.log("inside actions.js applyToUnlockApplication(): ")
-        const url = constants.API_ROOT_URL + "/api/v1/user_roles"
+        const url = constants.API_ROOT_URL + "/api/v1/users"
         return await new Promise((resolve, reject) => {
             fetch(url, {
-            "method": 'POST',
-            "headers": context.getters.apiHeader,
-                })
-                    .then(response => {
-                        return response.json()
+                "method": 'POST',
+                "body": JSON.stringify(application),
+                "headers": context.getters.apiHeader,
                     })
-                    .then( (data) => {
-                        console.log("applyToUnlockApplication()", data)
-                        resolve(context.commit("pushInitialUserRole", data))
+                        .then(response => {
+                            return response.json()
+                        })
+                        .then( (data) => {
+                            console.log("applyToUnlockApplication()", data)
+                            resolve(context.commit("pushInitialUserRole", data))
+                        })
+                        .catch((error) => {
+                            console.log("error", error)
+                            if (error) {
+                                reject("message" in error ? {"description": error.message }: {"description": "No valid response"})
+                            }
+                            reject({"description": "Server did not respond"})
+                            });
                     })
-                    .catch((error) => {
-                        console.log("error", error)
-                        if (error) {
-                            reject("message" in error ? {"description": error.message }: {"description": "No valid response"})
-                        }
-                        reject({"description": "Server did not respond"})
-                        });
-                })
     },
 
-    async adminApproveUserRole(context, username) {
+    async adminApproveUserRole(context, new_user) {
         console.log("inside actions.js adminApproveUserRole(): ")
-        const url = constants.API_ROOT_URL + "/api/v1/admin/users/" + username + "/roles/officer"
+        const url = constants.API_ROOT_URL + "/api/v1/admin/users/" + new_user.user_guid + "/roles/officer"
         return await new Promise((resolve, reject) => {
             fetch(url, {
             "method": 'PATCH',
             "headers": context.getters.apiHeader,
                 })
                     .then(response => {
-                        return response.json()
+                        if (response.status === 200) {
+                            return response.json()
+                        }
                     })
                     .then( data => {
-                        resolve(context.commit("updateUsers", data))
+                        new_user.role_name = data.role_name
+                        new_user.approved_dt = data.approved_dt
+                        new_user.submitted_dt = data.submitted_dt
+                        resolve(context.commit("updateUsers", new_user))
                     })
                     .catch((error) => {
                         console.log("error", error)
@@ -467,7 +473,7 @@ export const actions = {
 
     async adminDeleteUserRole(context, payload) {
         console.log("inside actions.js adminDeleteUserRole(): ", payload)
-        const url = constants.API_ROOT_URL + "/api/v1/admin/users/" + payload.username + "/roles/" + payload.role_name
+        const url = constants.API_ROOT_URL + "/api/v1/admin/users/" + payload.user_guid + "/roles/" + payload.role_name
         return await new Promise((resolve, reject) => {
             fetch(url, {
             "method": 'DELETE',
@@ -489,9 +495,9 @@ export const actions = {
                 })
     },
 
-    async adminAddUserRole(context, username) {
+    async adminAddUserRole(context, new_user) {
         console.log("inside actions.js adminAddUserRole(): ")
-        const url = constants.API_ROOT_URL + "/api/v1/admin/users/" + username + "/roles"
+        const url = constants.API_ROOT_URL + "/api/v1/admin/users/" + new_user.user_guid + "/roles"
         const payload = {"role_name": "administrator"}
         return await new Promise((resolve, reject) => {
             fetch(url, {
@@ -500,10 +506,15 @@ export const actions = {
                 "headers": context.getters.apiHeader,
                 })
                     .then(response => {
-                        return response.json()
+                        if (response.status === 200) {
+                            return response.json()
+                        }
                     })
-                    .then( data => {
-                        return resolve(context.commit("addUsers", data))
+                    .then( () => {
+                        new_user.role_name = payload.role_name
+                        new_user.approved_dt = moment().tz("America/Vancouver")
+                        new_user.submitted_dt = moment().tz("America/Vancouver")
+                        return resolve(context.commit("addUsers", new_user))
                     })
                     .catch((error) => {
                         console.log("error", error)

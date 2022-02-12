@@ -22,15 +22,15 @@ def log_payload_to_splunk(**kwargs) -> tuple:
 def lease_a_form_id(**kwargs) -> tuple:
     logging.debug('inside lease_a_form_id()')
     form_type = kwargs.get('form_type')
-    username = kwargs.get('username')
+    user_guid = kwargs.get('user_guid')
     form = db.session.query(Form) \
         .filter(Form.form_type == form_type) \
-        .filter(Form.username == None) \
+        .filter(Form.user_guid == None) \
         .first()
     if form is None:
         logging.warning('Insufficient unique ids available for {}'.format(form_type))
         return False, kwargs
-    form.lease(username)
+    form.lease(user_guid)
     try:
         db.session.commit()
     except Exception as e:
@@ -42,18 +42,18 @@ def lease_a_form_id(**kwargs) -> tuple:
 def renew_form_id_lease(**kwargs) -> tuple:
     logging.debug('inside renew_form_id_lease()')
     form_type = kwargs.get('form_type')
-    username = kwargs.get('username')
+    user_guid = kwargs.get('user_guid')
     form_id = kwargs.get('form_id')
     form = db.session.query(Form) \
         .filter(Form.form_type == form_type) \
-        .filter(Form.username == username) \
+        .filter(Form.user_guid == user_guid) \
         .filter(Form.printed_timestamp == None) \
         .filter(Form.id == form_id) \
         .first()
     if form is None:
-        logging.warning('User, {}, cannot renew the lease on {} form'.format(username, form_id))
+        logging.warning('User, {}, cannot renew the lease on {} form'.format(user_guid, form_id))
         return False, kwargs
-    form.lease(username)
+    form.lease(user_guid)
     try:
         db.session.commit()
     except Exception as e:
@@ -65,16 +65,16 @@ def renew_form_id_lease(**kwargs) -> tuple:
 def mark_form_as_printed(**kwargs) -> tuple:
     logging.debug('inside mark_form_as_served()')
     form_type = kwargs.get('form_type')
-    username = kwargs.get('username')
+    user_guid = kwargs.get('user_guid')
     form_id = kwargs.get('form_id')
     form = db.session.query(Form) \
         .filter(Form.form_type == form_type) \
-        .filter(Form.username == username) \
+        .filter(Form.user_guid == user_guid) \
         .filter(Form.id == form_id) \
         .first()
     if form is None:
         logging.warning('{}, cannot update {} - {} as printed'.format(
-            username, form_type, form_id))
+            user_guid, form_type, form_id))
         return False, kwargs
     tz = pytz.timezone('America/Vancouver')
     form.printed_timestamp = datetime.datetime.now(tz)
@@ -99,12 +99,12 @@ def request_contains_a_payload(**kwargs) -> tuple:
 
 def list_all_users_forms(**kwargs) -> tuple:
     form_type = kwargs.get('form_type')
-    username = kwargs.get('username')
-    logging.debug("inside list_all_forms() {} {}".format(username, form_type))
+    user_guid = kwargs.get('user_guid')
+    logging.debug("inside list_all_forms() {} {}".format(user_guid, form_type))
     try:
         all_forms = db.session.query(Form) \
             .filter(Form.form_type == form_type) \
-            .filter(Form.username == kwargs['username']) \
+            .filter(Form.user_guid == kwargs['username']) \
             .all()
         kwargs['response'] = make_response(jsonify(Form.collection_to_dict(all_forms)))
     except Exception as e:
@@ -120,7 +120,7 @@ def get_a_form(**kwargs) -> tuple:
         form = db.session.query(Form) \
             .filter(Form.form_type == form_type) \
             .filter(Form.id == form_id) \
-            .filter(Form.username == kwargs['username']) \
+            .filter(Form.user_guid == kwargs['username']) \
             .first()
         kwargs['response'] = make_response(jsonify(form), 200)
     except Exception as e:

@@ -155,12 +155,12 @@ export const mutations = {
     },
 
     updateUsers(state, p) {
-        const index = state.users.findIndex( u => u.username === p.username && u.role_name === p.role_name)
+        const index = state.users.findIndex( u => u.user_guid === p.user_guid && u.role_name === p.role_name)
         Vue.set(state.users, index, p)
     },
 
     deleteUser(state, p) {
-        const index = state.users.findIndex( u => u.username === p.username && u.role_name === p.role_name)
+        const index = state.users.findIndex( u => u.user_guid === p.user_guid && u.role_name === p.role_name)
         Vue.delete(state.users, index)
     },
 

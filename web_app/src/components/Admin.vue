@@ -6,6 +6,16 @@
       <div class="card-body text-left pb-1">
         <table class="table table-striped">
           <tbody>
+            <tr>
+              <th>First</th>
+              <th>Last</th>
+              <th>Badge</th>
+              <th>Agency</th>
+              <th>Username</th>
+              <th>Role</th>
+              <th>Submitted Date</th>
+              <th colspan="2">Action</th>
+            </tr>
             <admin-user-role v-for="(user, index) in getAllUsers" :key="index" :user="user"></admin-user-role>
 
           </tbody>

@@ -52,9 +52,21 @@ def keycloak_no_username(**kwargs) -> tuple:
     return True, kwargs
 
 
+def no_user_guid(**kwargs) -> tuple:
+    logging.warning("decoded keycloak token has no user_guid")
+    kwargs['response'] = make_response({'error': 'server error'}, 500)
+    return True, kwargs
+
+
 def role_already_exists(**kwargs) -> tuple:
     logging.warning("role for {} already exists".format(kwargs.get('username')))
     kwargs['response'] = make_response({'error': 'role already exists'}, 400)
+    return True, kwargs
+
+
+def user_already_exists(**kwargs) -> tuple:
+    logging.warning("user for {} already exists".format(kwargs.get('username')))
+    kwargs['response'] = make_response({'error': 'user already exists'}, 400)
     return True, kwargs
 
 

@@ -3,7 +3,9 @@ import python.common.helper as helper
 from flask import request, Blueprint, make_response, jsonify
 from flask_cors import CORS
 import logging.config
-import python.prohibition_web_svc.business.roles_logic as rules
+import python.prohibition_web_svc.middleware.role_middleware as role_middleware
+import python.prohibition_web_svc.business.keycloak_logic as keycloak_logic
+import python.prohibition_web_svc.http_responses as http_responses
 
 
 logging.config.dictConfig(Config.LOGGING)
@@ -19,23 +21,22 @@ def index():
     List all roles for the currently logged-in user
     """
     if request.method == 'GET':
-        kwargs = helper.middle_logic(rules.list_my_roles(),
-                                     required_permission='user_roles-index',
-                                     request=request,
-                                     config=Config)
+        kwargs = helper.middle_logic(
+            keycloak_logic.get_authorized_keycloak_user() + [
+                {"try": role_middleware.query_current_users_roles, "fail": [
+                    {"try": http_responses.server_error_response, "fail": []},
+                ]}
+            ],
+            required_permission='user_roles-index',
+            request=request,
+            config=Config)
         return kwargs.get('response')
 
 
 @bp.route('/user_roles', methods=['POST'])
 def create():
-    """
-    Save a new user-role.
-    """
     if request.method == 'POST':
-        kwargs = helper.middle_logic(rules.create_a_role(),
-                                     request=request,
-                                     config=Config)
-        return kwargs.get('response')
+        return make_response({"error": "method not implemented"}, 405)
 
 
 @bp.route('/user_roles/<string:role_name>', methods=['GET'])

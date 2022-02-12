@@ -34,10 +34,10 @@ def forms(database):
     today = datetime.strptime("2021-07-21", "%Y-%m-%d")
     yesterday = today - timedelta(days=1)
     forms = [
-        Form(form_id='AA-123332', form_type='24Hour', username='larry@idir', lease_expiry=today, printed=None),
-        Form(form_id='AA-123333', form_type='24Hour', username='larry@idir', lease_expiry=yesterday, printed=None),
-        Form(form_id='AA-123334', form_type='12Hour', username='larry@idir', lease_expiry=yesterday, printed=None),
-        Form(form_id='AA-11111', form_type='24Hour', username=None, lease_expiry=None, printed=None)
+        Form(form_id='AA-123332', form_type='24Hour', user_guid='larry@idir', lease_expiry=today, printed=None),
+        Form(form_id='AA-123333', form_type='24Hour', user_guid='larry@idir', lease_expiry=yesterday, printed=None),
+        Form(form_id='AA-123334', form_type='12Hour', user_guid='larry@idir', lease_expiry=yesterday, printed=None),
+        Form(form_id='AA-11111', form_type='24Hour', user_guid=None, lease_expiry=None, printed=None)
     ]
     db.session.bulk_save_objects(forms)
     db.session.commit()
@@ -68,7 +68,7 @@ def test_an_administrator_can_add_a_12hour_form_id(as_guest, monkeypatch, forms,
     assert database.session.query(Form) \
                .filter(Form.id == 'J-100999') \
                .filter(Form.form_type == '12Hour') \
-               .filter(Form.username == None) \
+               .filter(Form.user_guid == None) \
                .count() == 1
 
 

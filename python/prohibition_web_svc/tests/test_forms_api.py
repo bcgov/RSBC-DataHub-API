@@ -37,10 +37,10 @@ def forms(database):
     today = datetime.strptime("2021-07-21", "%Y-%m-%d")
     yesterday = today - timedelta(days=1)
     forms = [
-        Form(form_id='AA-123332', form_type='24Hour', username='larry@idir', lease_expiry=today, printed=None),
-        Form(form_id='AA-123333', form_type='24Hour', username='larry@idir', lease_expiry=yesterday, printed=None),
-        Form(form_id='AA-123334', form_type='12Hour', username='larry@idir', lease_expiry=yesterday, printed=None),
-        Form(form_id='AA-11111', form_type='24Hour', username=None, lease_expiry=None, printed=None)
+        Form(form_id='AA-123332', form_type='24Hour', user_guid='larry@idir', lease_expiry=today, printed=None),
+        Form(form_id='AA-123333', form_type='24Hour', user_guid='larry@idir', lease_expiry=yesterday, printed=None),
+        Form(form_id='AA-123334', form_type='12Hour', user_guid='larry@idir', lease_expiry=yesterday, printed=None),
+        Form(form_id='AA-11111', form_type='24Hour', user_guid=None, lease_expiry=None, printed=None)
     ]
     db.session.bulk_save_objects(forms)
     db.session.commit()
@@ -50,9 +50,9 @@ def forms(database):
 def roles(database):
     today = datetime.strptime("2021-07-21", "%Y-%m-%d")
     user_role = [
-        UserRole(username='john@idir', role_name='officer', submitted_dt=today),
-        UserRole(username='larry@idir', role_name='officer', submitted_dt=today, approved_dt=today),
-        UserRole(username='mo@idir', role_name='administrator', submitted_dt=today, approved_dt=today)
+        UserRole(user_guid='john@idir', role_name='officer', submitted_dt=today),
+        UserRole(user_guid='larry@idir', role_name='officer', submitted_dt=today, approved_dt=today),
+        UserRole(user_guid='mo@idir', role_name='administrator', submitted_dt=today, approved_dt=today)
     ]
     db.session.bulk_save_objects(user_role)
     db.session.commit()
@@ -71,14 +71,14 @@ def test_authorized_user_gets_only_current_users_form_records(as_guest, monkeypa
              'form_type': '24Hour',
              'lease_expiry': '2021-07-21',
              'printed_timestamp': None,
-             'username': 'larry@idir'
+             'user_guid': 'larry@idir'
          },
         {
             'id': 'AA-123333',
             'form_type': '24Hour',
             'lease_expiry': '2021-07-20',
             'printed_timestamp': None,
-            'username': 'larry@idir'
+            'user_guid': 'larry@idir'
         }
     ]
     assert resp.status_code == 200
@@ -116,7 +116,7 @@ def test_when_form_created_authorized_user_receives_unique_form_id_for_later_use
         'form_type': '24Hour',
         'lease_expiry': expected_lease_expiry,
         'printed_timestamp': None,
-        'username': 'larry@idir'
+        'user_guid': 'larry@idir'
     }
 
 
@@ -144,7 +144,7 @@ def test_if_no_unique_ids_available_user_receives_a_500_response(as_guest, datab
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
     today = datetime.strptime("2021-07-21", "%Y-%m-%d")
     forms = [
-        Form(form_id='AA-123332', form_type='24Hour', username='other_user', lease_expiry=today, printed=None),
+        Form(form_id='AA-123332', form_type='24Hour', user_guid='other_user', lease_expiry=today, printed=None),
     ]
     database.session.bulk_save_objects(forms)
     database.session.commit()
@@ -171,7 +171,7 @@ def test_user_cannot_renew_lease_on_form_that_has_been_printed(as_guest, databas
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
     today = datetime.strptime("2021-07-21", "%Y-%m-%d")
     forms = [
-        Form(form_id='AA-123332', form_type='24Hour', username='larry@idir', lease_expiry=today, printed=today),
+        Form(form_id='AA-123332', form_type='24Hour', user_guid='larry@idir', lease_expiry=today, printed=today),
     ]
     database.session.bulk_save_objects(forms)
     database.session.commit()
@@ -205,7 +205,7 @@ def test_when_form_updated_without_payload_user_receives_updated_lease_date(as_g
         'form_type': '24Hour',
         'lease_expiry': expected_lease_expiry,
         'printed_timestamp': None,
-        'username': 'larry@idir'
+        'user_guid': 'larry@idir'
     }
 
 
