@@ -49,29 +49,41 @@ extend('notFutureDt', {
   computesRequired: true
 });
 
-// digits 8
-extend('dob8', {
+extend('dob', {
   validate(value) {
-    let result = false;
-    const regexMatch = value.match("^[0-9]{4}[0-9]{2}[0-9]{2}$")
-    if (Array.isArray(regexMatch)) {
-       result = regexMatch[0] === value;
-    }
+    const dob_dt = moment(value, "YYYYMMDD", true)
+    const dob_years = moment().diff(dob_dt, 'years')
     return {
-      valid: result
+      required: true,
+      valid: dob_years > 16 && dob_years < 120,
     };
   },
-  message: "DOB must have 8 digits",
+  message: "Driver must be between 16 and 120 years old",
+  computesRequired: true
 });
 
-extend('dob', {
+
+extend('bac_result', {
   validate(value) {
     return {
       required: true,
-      valid: moment().diff(moment(value), 'years') > 0,
+      valid: value >= 1 && value < 999,
     };
   },
-  message: "DOB cannot be future dated",
+  message: "BAC results must be between 1 and 999",
+  computesRequired: true
+});
+
+
+
+extend('plate_year', {
+  validate(value) {
+    return {
+      required: true,
+      valid: value >= 2000 && value < parseInt(moment().format("YYYY")) + 1,
+    };
+  },
+  message: "Plate year must be between 2000 and the current year",
   computesRequired: true
 });
 

@@ -5,7 +5,7 @@
     <plate-number id="plate_number" fg_class="col-sm-6">Plate Number</plate-number>
   </form-row>
   <form-row>
-    <text-field id="plate_year" fg_class="col-sm-4">Plate Year</text-field>
+    <text-field id="plate_year" rules="plate_year" fg_class="col-sm-4">Plate Year</text-field>
     <text-field id="plate_val_tag" input_type="number" fg_class="col-sm-4">Plate Val Tag</text-field>
     <text-field id="registration_number" fg_class="col-sm-4">Registration Number</text-field>
   </form-row>

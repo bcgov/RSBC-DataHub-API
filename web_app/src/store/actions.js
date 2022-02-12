@@ -365,17 +365,14 @@ export const actions = {
                 key_value_pairs['REASONABLE_GROUNDS_ALCOHOL_OVER_99'] = context.getters.getFormPrintCheckedValue(
                     form_object, 'result_alcohol', 'Over 99 mg%')
 
-
                 key_value_pairs['REASONABLE_GROUNDS_TEST_APPROVED_INSTRUMENT'] = context.getters.getFormPrintCheckedValue(
                     form_object, 'test_administered_instrument', 'Approved Instrument')
 
-                key_value_pairs['REASONABLE_GROUNDS_ALCOHOL_BAC'] = context.getters.getFormPrintCheckedValue(
-                        form_object, 'result_alcohol_approved_instrument', "BAC")
-
-                if (key_value_pairs['REASONABLE_GROUNDS_ALCOHOL_BAC']) {
-
+                if (key_value_pairs['REASONABLE_GROUNDS_TEST_APPROVED_INSTRUMENT']) {
+                    key_value_pairs['REASONABLE_GROUNDS_TEST_APPROVED_INSTRUMENT_SPECIFY'] = 'Intox EC/IR II'
+                    key_value_pairs['REASONABLE_GROUNDS_ALCOHOL_BAC'] = true
                     key_value_pairs['REASONABLE_GROUNDS_ALCOHOL_BAC_VALUE'] = context.getters.getFormPrintValue(
-                        form_object, 'test_result_bac')
+                        form_object, 'test_result_bac') + " mg%"
                 }
             }
 
