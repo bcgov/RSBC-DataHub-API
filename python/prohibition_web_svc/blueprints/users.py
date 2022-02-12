@@ -12,13 +12,20 @@ logging.config.dictConfig(Config.LOGGING)
 logging.info('*** users blueprint loaded ***')
 
 bp = Blueprint('users', __name__, url_prefix=Config.URL_PREFIX + '/api/v1')
-CORS(bp, resources={Config.URL_PREFIX + "/api/v1/users/*": {"origins": Config.ACCESS_CONTROL_ALLOW_ORIGIN}})
+CORS(bp, resources={Config.URL_PREFIX + "/api/v1/users*": {"origins": Config.ACCESS_CONTROL_ALLOW_ORIGIN}})
 
 
 @bp.route('/users', methods=['GET'])
 def index():
-    if request.method == 'GET':
-        return make_response({"error": "method not implemented"}, 405)
+    kwargs = middle_logic(
+        keycloak_logic.get_keycloak_user() + [
+            {"try": user_middleware.get_user, "fail": [
+                {"try": http_responses.server_error_response, "fail": []}
+            ]}
+        ],
+        request=request,
+        config=Config)
+    return kwargs.get('response')
 
 
 @bp.route('/users', methods=['POST'])
@@ -66,16 +73,8 @@ def create():
 @bp.route('/users/<string:user_guid>', methods=['GET'])
 def get(user_guid):
     if request.method == 'GET':
-        kwargs = middle_logic(
-            keycloak_logic.get_keycloak_user() + [
-                {"try": user_middleware.get_user, "fail": [
-                    {"try": http_responses.server_error_response, "fail": []}
-                ]}
-            ],
-            user_guid=user_guid,
-            request=request,
-            config=Config)
-        return kwargs.get('response')
+        if request.method == 'GET':
+            return make_response({"error": "method not implemented"}, 405)
 
 
 @bp.route('/users/<string:user_guid>', methods=['PATCH'])

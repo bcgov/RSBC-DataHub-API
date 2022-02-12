@@ -81,7 +81,9 @@ export const mutations = {
         }
         if(state.keycloak.idTokenParsed) {
             Vue.set( root.data, "logged_in_user", state.keycloak.idTokenParsed.preferred_username);
-            Vue.set( root.data, "officer_name", state.keycloak.idTokenParsed.family_name);
+            Vue.set( root.data, "officer_name", state.users.last_name);
+            Vue.set( root.data, "agency", state.users.agency);
+            Vue.set( root.data, "badge_number", state.users.badge_number);
         }
     },
 

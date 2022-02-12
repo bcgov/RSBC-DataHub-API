@@ -40,7 +40,7 @@ export default {
     ...mapActions(['fetchStaticLookupTables'])
   },
   created() {
-    this.fetchStaticLookupTables("users")
+    this.fetchStaticLookupTables({"resource": "users", "admin": true})
   },
   components: {
     AddUserRole,

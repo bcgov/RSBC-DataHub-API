@@ -355,7 +355,7 @@ export const getters = {
     },
 
     getAllUsers: state => {
-        return state.users
+        return state.admin_users
     },
 
 

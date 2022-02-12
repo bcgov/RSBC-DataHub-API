@@ -100,6 +100,7 @@ export const store = new Vuex.Store ({
     icbc_vehicle_lookup: [],
     keycloak: {},
     user_roles: {},
+    admin_users: {},
     users: {}
   },
 

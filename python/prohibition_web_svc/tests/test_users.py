@@ -158,10 +158,10 @@ def test_user_with_keycloak_token_cannot_apply_again_to_use_the_app(as_guest, mo
 def test_user_with_keycloak_token_can_get_their_own_user_details(as_guest, monkeypatch, roles):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
-    resp = as_guest.get(Config.URL_PREFIX + "/api/v1/users/" + "aaa-bbb-ccc",
-                         follow_redirects=True,
-                         content_type="application/json",
-                         headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
+    resp = as_guest.get(Config.URL_PREFIX + "/api/v1/users",
+                        follow_redirects=True,
+                        content_type="application/json",
+                        headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
     assert resp.status_code == 200
     assert resp.json == {
         "username": 'john@idir',
