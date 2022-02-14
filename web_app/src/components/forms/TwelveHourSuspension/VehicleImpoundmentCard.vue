@@ -2,10 +2,10 @@
   <form-card title="Vehicle Disposition">
     <div>
       <form-row>
-        <radio-field id="vehicle_towed" fg_class="col-sm-6" :options='["Yes", "No"]'>Vehicle Towed?</radio-field>
+        <radio-field id="vehicle_impounded" fg_class="col-sm-6" :options='["Yes", "No"]'>Vehicle Towed?</radio-field>
       </form-row>
       <form-row>
-        <radio-field id="reason_for_not_towing" fg_class="col-sm-6"
+        <radio-field id="reason_for_not_impounding" fg_class="col-sm-6"
                      :options='["Released to other driver", "Left at roadside"]'
                      :visible="showVehicleNotImpounded">Reason for not towing?</radio-field>
       </form-row>
@@ -39,13 +39,13 @@ mixins: [CardsCommon],
   computed: {
     ...mapGetters(["getAttributeValue", "getArrayOfImpoundLotOperators"]),
     showVehicleImpounded() {
-      return this.getAttributeValue('vehicle_towed') === "Yes";
+      return this.getAttributeValue('vehicle_impounded') === "Yes";
     },
     showVehicleNotImpounded() {
-      return this.getAttributeValue('vehicle_towed') === "No";
+      return this.getAttributeValue('vehicle_impounded') === "No";
     },
     isReleasedToOtherDriver() {
-      return this.getAttributeValue('reason_for_not_towing') === "Released to other driver";
+      return this.getAttributeValue('reason_for_not_impounding') === "Released to other driver";
     },
   }
 }
