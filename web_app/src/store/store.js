@@ -28,7 +28,8 @@ export const store = new Vuex.Store ({
         "12Hour": {
           "component": "TwelveHourProhibition",
           "form_type": "12Hour",
-          "description": "12 Hour Driving Suspension",
+          "label": "12-Hour",
+          "description": "12-Hour Driving Suspension",
           "full_name": "MV2906",
           "documents": {
             "all": {
@@ -41,6 +42,7 @@ export const store = new Vuex.Store ({
         "24Hour": {
           "component": "TwentyFourHourProhibition",
           "form_type": "24Hour",
+          "label": "24-Hour",
           "description": "24-Hour Prohibition",
           "full_name": "MV2634",
           "documents": {
@@ -54,6 +56,7 @@ export const store = new Vuex.Store ({
         "VI": {
           "component": "VehicleImpoundment",
           "form_type": "VI",
+          "label": "VI",
           "description": "Vehicle Impoundment",
           "full_name": "MV2721",
           "documents": {
@@ -79,6 +82,7 @@ export const store = new Vuex.Store ({
         "IRP": {
           "component": "ImmediateRoadsideProhibition",
           "form_type": "IRP",
+          "label": "IRP",
           "description": "Immediate Roadside Prohibition",
           "full_name": "MV2723",
           "documents": {},
