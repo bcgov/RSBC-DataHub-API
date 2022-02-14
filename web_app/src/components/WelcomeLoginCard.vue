@@ -2,7 +2,7 @@
   <div class="card bg-light border-secondary mb-3">
       <div class="card-body text-dark">
         <span class="font-weight-bold">Welcome!</span>
-        please login to get started.
+        Please log in to get started.
 
         <router-link to="/login" class="font-weight-bold">
           <div class="btn btn-primary">Login</div>

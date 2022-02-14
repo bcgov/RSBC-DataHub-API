@@ -2,7 +2,7 @@
   <div class="card bg-light border-secondary mb-3">
       <div class="card-body text-dark">
         <span class="font-weight-bold">Welcome!</span>
-        it looks like you haven't used this app before.<br />
+        It looks like you haven't used this app before.<br />
         <span class="small">Until you're authorized, this app is disabled.
           <span v-if="! hasUserApplied" @click="showApplication = ! showApplication" class="text-secondary">
             {{ this.showApplicationLabel }}
