@@ -14,7 +14,7 @@
         <div class="input-group-append">
           <button type="button" @click="triggerPlateLookup" class="btn-sm btn-secondary font-weight-bold"
                   :disabled="! isDisplayIcbcPlateLookup">
-            ICBC Lookup
+            ICBC Prefill
             <b-spinner v-if="display_spinner" small label="Loading..."></b-spinner>
           </button>
         </div>
