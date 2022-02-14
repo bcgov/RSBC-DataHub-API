@@ -1,6 +1,6 @@
 <template>
   <div>
-      <form-card title="Return of driver's licence">
+      <form-card title="Driver's Licence Disposition">
         <form-row>
           <radio-field id="licence_surrendered" fg_class="col-sm-12" :options='["Yes", "No"]'>Licence surrendered at roadside?</radio-field>
         </form-row>
