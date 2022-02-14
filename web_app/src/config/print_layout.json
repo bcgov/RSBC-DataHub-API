@@ -944,6 +944,14 @@
           "y": 49.5
         }
       },
+      "DRIVER_PHONE": {
+        "field_type": "text",
+        "font_size": 12,
+        "start": {
+          "x": 32,
+          "y": 57
+        }
+      },
       "VEHICLE_NSC_PUJ": {
         "field_type": "text",
         "font_size": 12,
@@ -1211,6 +1219,7 @@
               "DRIVER_DL_NUMBER",
               "DRIVER_DOB",
               "DRIVER_ADDRESS",
+              "DRIVER_PHONE",
               "REASON_ALCOHOL_90",
               "REASON_DRUGS_90",
               "NOTICE_TIME",
@@ -1261,6 +1270,7 @@
               "DRIVER_DL_NUMBER",
               "DRIVER_DOB",
               "DRIVER_ADDRESS",
+              "DRIVER_PHONE",
               "REASON_ALCOHOL_90",
               "REASON_DRUGS_90",
               "NOTICE_TIME",
@@ -1311,6 +1321,7 @@
               "DRIVER_DL_NUMBER",
               "DRIVER_DOB",
               "DRIVER_ADDRESS",
+              "DRIVER_PHONE",
               "REASON_ALCOHOL_90",
               "REASON_DRUGS_90",
               "NOTICE_TIME",

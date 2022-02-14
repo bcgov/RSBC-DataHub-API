@@ -11,7 +11,8 @@
       <dob-field id="dob" fg_class="col-sm-4">Date of Birth</dob-field>
     </form-row>
     <form-row>
-      <text-field id="address1" fg_class="col-sm-12" placeholder="Address" rules="required">Address Line 1</text-field>
+      <text-field id="address1" fg_class="col-sm-8" placeholder="Address" rules="required">Address Line 1</text-field>
+      <phone-field id="driver_phone" fg_class="col-sm-4" rules="phone">Phone</phone-field>
     </form-row>
     <form-row>
       <type-ahead-field id="city" fg_class="col-sm-6" :suggestions="getArrayOfBCCityNames" rules="required">City</type-ahead-field>
