@@ -34,7 +34,15 @@ extend('validDt', {
 // });
 
 extend('notExpired', {
-  validate: value => moment().diff(moment(value, 'YYYYMMDD', true), 'days') < 0,
+  validate(value) {
+    const now = moment()
+    const expiry = moment(value + ' 23:59', 'YYYYMMDD HH:mm', true)
+    console.log("today vs expiry: ", now, expiry)
+    return {
+      required: true,
+      valid: now.diff(expiry, 'days') < 0
+    }
+  },
   message: "Expired"
 });
 

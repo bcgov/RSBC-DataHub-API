@@ -9,7 +9,9 @@
     <div class="col-xs-10">
       <div class="input-group mb-1">
         <input type="text"
-           class="form-control " :disabled="disabled"
+           class="form-control "
+               :class="errors.length > 0 ? 'border-danger bg-warning' : ''"
+           :disabled="disabled"
            placeholder="YYYYMMDD"
            :id="id"
            :value="getAttributeValue(id)"
