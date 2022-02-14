@@ -6,7 +6,7 @@
       </form-row>
       <form-row>
         <radio-field id="reason_for_not_towing" fg_class="col-sm-6"
-                     :options='["Released to other driver", "Left at roadside", "Private tow", "Seized for investigation"]'
+                     :options='["Released to other driver", "Left at roadside"]'
                      :visible="showVehicleNotImpounded">Reason for not towing?</radio-field>
       </form-row>
       <form-row v-if="isReleasedToOtherDriver">
