@@ -449,7 +449,10 @@ export const getters = {
             return '';
         }
         if (root["vehicle_impounded"] === 'Yes') {
-            return "Impounded"
+            if(form_object.form_type === '24Hour') {
+                return "Impounded"
+            }
+            return ''
         }
         if (root["vehicle_impounded"] === 'No') {
             if ("reason_for_not_impounding" in root) {
