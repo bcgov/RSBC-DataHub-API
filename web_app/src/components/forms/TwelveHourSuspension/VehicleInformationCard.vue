@@ -15,7 +15,7 @@
     <type-ahead-field :suggestions="getArrayOfCommonCarColors" id="vehicle_color" fg_class="col-sm-2">Vehicle Colour</type-ahead-field>
   </form-row>
   <form-row>
-    <text-field id="puj_code" fg_class="col-sm-5">PUJ Code</text-field>
+    <province-field id="puj_code" fg_class="col-sm-2">PUJ Code</province-field>
     <text-field id="nsc_number" fg_class="col-sm-7">NSC Number</text-field>
   </form-row>
 </form-card>

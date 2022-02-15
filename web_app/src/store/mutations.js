@@ -116,6 +116,7 @@ export const mutations = {
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "vehicle_year", data['vehicleModelYear']);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "vehicle_make", data['vehicleMake']);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "vehicle_model", data['vehicleModel']);
+        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "vehicle_type", data['vehicleStyle']);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "vehicle_color", data['vehicleColour']);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "vin_number", data['vehicleIdNumber']);
 
