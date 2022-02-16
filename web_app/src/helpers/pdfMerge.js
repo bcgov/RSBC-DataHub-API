@@ -69,7 +69,7 @@ export default {
                          let field_definition = print_definitions['fields'][field]
                          console.log("field_definition", field_definition, field)
                         if (field_definition['field_type'] === 'label') {
-                            doc.text(field, field_definition['start']['x'], field_definition['start']['y']);
+                            doc.text(field_definition['value'], field_definition['start']['x'], field_definition['start']['y']);
                         }
                         if (form_data[field]) {
                             doc.setTextColor(FONT_COLOR);

@@ -567,6 +567,7 @@
       },
       "DRIVER_COPY": {
         "field_type": "label",
+        "value": "DRIVER COPY",
         "font_size": 10,
         "start": {
           "x": 100,
@@ -575,6 +576,7 @@
       },
       "POLICE_COPY": {
         "field_type": "label",
+        "value": "POLICE COPY",
         "font_size": 10,
         "start": {
           "x": 100,
@@ -583,6 +585,7 @@
       },
       "ILO_COPY": {
         "field_type": "label",
+        "value": "ILO COPY",
         "font_size": 10,
         "start": {
           "x": 100,
@@ -591,6 +594,7 @@
       },
       "ICBC_COPY": {
         "field_type": "label",
+        "value": "SEND TO ICBC",
         "font_size": 10,
         "start": {
           "x": 100,
@@ -1178,6 +1182,7 @@
       },
       "DRIVER_COPY": {
         "field_type": "label",
+        "value": "DRIVER COPY",
         "font_size": 10,
         "start": {
           "x": 90,
@@ -1186,6 +1191,7 @@
       },
       "POLICE_COPY": {
         "field_type": "label",
+        "value": "POLICE COPY",
         "font_size": 10,
         "start": {
           "x": 90,
@@ -1194,6 +1200,7 @@
       },
       "ICBC_COPY": {
         "field_type": "label",
+        "value": "SEND TO ICBC",
         "font_size": 10,
         "start": {
           "x": 90,

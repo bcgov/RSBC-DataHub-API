@@ -34,7 +34,7 @@ export const store = new Vuex.Store ({
           "documents": {
             "all": {
               "name": "All Copies",
-              "variants": ['driver', 'police', 'icbc']
+              "variants": ['icbc', 'driver', 'police']
             }
           },
           "disabled": false
@@ -48,7 +48,7 @@ export const store = new Vuex.Store ({
           "documents": {
             "all": {
               "name": "All Copies",
-              "variants": ['driver', 'ilo', 'police', 'icbc']
+              "variants": ['icbc', 'driver', 'ilo', 'police']
             }
           },
           "disabled": false
@@ -60,18 +60,6 @@ export const store = new Vuex.Store ({
           "description": "Vehicle Impoundment",
           "full_name": "MV2721",
           "documents": {
-            "driver": {
-              "name": "Driver Copy",
-              "variants": ['driver'],
-            },
-            "ilo": {
-              "name": "ILO Copy",
-              "variants": ['ilo']
-            },
-            "police": {
-              "name": "Police Copy",
-              "variants": ['police']
-            },
             "all": {
               "name": "All Copies",
               "variants": ['driver', 'ilo', 'police']
