@@ -18,7 +18,7 @@ export default {
     },
     fg_class: String,
     display_validation_errors: Boolean,
-    rules: String
+    rules: {}
   },
   computed: {
     attribute: {

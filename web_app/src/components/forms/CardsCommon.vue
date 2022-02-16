@@ -31,7 +31,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getAttributeValue", "getArrayOfBCCityNames", "getArrayOfAgencies"])
+    ...mapGetters(["getAttributeValue", "getArrayOfBCCityNames", "getArrayOfAgencies"]),
+    offenceCityRules() {
+      return {
+        required: true,
+        inCities: this.getArrayOfBCCityNames
+      }
+    }
   },
   components: {
     CheckField,
