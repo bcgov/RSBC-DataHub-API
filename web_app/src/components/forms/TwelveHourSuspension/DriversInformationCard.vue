@@ -7,7 +7,7 @@
     </form-row>
     <form-row>
       <text-field id="last_name" fg_class="col-sm-4" placeholder="Last Name" rules="required">Last Name</text-field>
-      <text-field id="first_name" fg_class="col-sm-4" placeholder="First Name" rules="required">First Name</text-field>
+      <text-field id="first_name" fg_class="col-sm-4" placeholder="Given Names" rules="required">Given Names</text-field>
       <dob-field id="dob" fg_class="col-sm-4">Date of Birth</dob-field>
     </form-row>
     <form-row>
