@@ -36,8 +36,8 @@ def test_get_provinces(as_guest):
                         follow_redirects=True,
                         content_type="application/json")
     assert resp.status_code == 200
-    assert "AB" in resp.json[2]['objectCd']
-    assert "Alberta" in resp.json[2]['objectDsc']
+    assert 'objectCd' in resp.json[2]
+    assert 'objectDsc' in resp.json[2]
     
 
 def test_get_jurisdictions(as_guest):
@@ -54,8 +54,8 @@ def test_get_countries(as_guest):
                         follow_redirects=True,
                         content_type="application/json")
     assert resp.status_code == 200
-    assert "CAN" in resp.json[0]['objectCd']
-    assert "Canada" in resp.json[0]['objectDsc']
+    assert 'objectCd' in resp.json[2]
+    assert 'objectDsc' in resp.json[2]
     
 
 def test_get_cities(as_guest):

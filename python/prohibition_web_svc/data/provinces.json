@@ -1,410 +1,286 @@
 [
-  {
-    "objectCd": "AL",
-    "objectDsc": "Alabama",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "AK",
-    "objectDsc": "Alaska",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "AB",
-    "objectDsc": "Alberta",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "AZ",
-    "objectDsc": "Arizona",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "AR",
-    "objectDsc": "Arkansas",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "BC",
-    "objectDsc": "British Columbia",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "CA",
-    "objectDsc": "California",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "CO",
-    "objectDsc": "Colorado",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "CT",
-    "objectDsc": "Connecticut",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "DE",
-    "objectDsc": "Delaware",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "DC",
-    "objectDsc": "District of Columbia",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "FL",
-    "objectDsc": "Florida",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "GA",
-    "objectDsc": "Georgia",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "HI",
-    "objectDsc": "Hawaii",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "ID",
-    "objectDsc": "Idaho",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "IL",
-    "objectDsc": "Illinois",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "IN",
-    "objectDsc": "Indiana",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "IA",
-    "objectDsc": "Iowa",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "KS",
-    "objectDsc": "Kansas",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "KY",
-    "objectDsc": "Kentucky",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "LA",
-    "objectDsc": "Louisiana",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "ME",
-    "objectDsc": "Maine",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "MB",
-    "objectDsc": "Manitoba",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "MD",
-    "objectDsc": "Maryland",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "MA",
-    "objectDsc": "Massachusetts",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "MX",
-    "objectDsc": "Mexico",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "MI",
-    "objectDsc": "Michigan",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "MN",
-    "objectDsc": "Minnesota",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "MS",
-    "objectDsc": "Mississippi",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "MO",
-    "objectDsc": "Missouri",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "MT",
-    "objectDsc": "Montana",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "NA",
-    "objectDsc": "Nebraska",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "NV",
-    "objectDsc": "Nevada",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "NB",
-    "objectDsc": "New Brunswick",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "NH",
-    "objectDsc": "New Hampshire",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "NJ",
-    "objectDsc": "New Jersey",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "NM",
-    "objectDsc": "New Mexico",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "NY",
-    "objectDsc": "New York",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "NL",
-    "objectDsc": "Newfoundland",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "NC",
-    "objectDsc": "North Carolina",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "ND",
-    "objectDsc": "North Dakota",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "NT",
-    "objectDsc": "Northwest Territories",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "NS",
-    "objectDsc": "Nova Scotia",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "NU",
-    "objectDsc": "Nunavut",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "OH",
-    "objectDsc": "Ohio",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "OK",
-    "objectDsc": "Oklahoma",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "ON",
-    "objectDsc": "Ontario",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "OR",
-    "objectDsc": "Oregon",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "FD",
-    "objectDsc": "Other Foreign Province/State",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "PA",
-    "objectDsc": "Pennsylvania",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "PE",
-    "objectDsc": "Prince Edward Island",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "QC",
-    "objectDsc": "Quebec",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "RI",
-    "objectDsc": "Rhode Island",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "SK",
-    "objectDsc": "Saskatchewan",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "SC",
-    "objectDsc": "South Carolina",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "SD",
-    "objectDsc": "South Dakota",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "TS",
-    "objectDsc": "Tennessee",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "TX",
-    "objectDsc": "Texas",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "UP",
-    "objectDsc": "Unknown",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "UT",
-    "objectDsc": "Utah",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "VT",
-    "objectDsc": "Vermont",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "VI",
-    "objectDsc": "Virgin Islands",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "VA",
-    "objectDsc": "Virginia",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "WA",
-    "objectDsc": "Washington",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "WV",
-    "objectDsc": "West Virginia",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "WI",
-    "objectDsc": "Wisconsin",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "WY",
-    "objectDsc": "Wyoming",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "YT",
-    "objectDsc": "Yukon Territory",
-    "activeYN": "Y",
-    "internalYN": null
-  }
+ {
+   "objectCd": "AK",
+   "objectDsc": "ALASKA"
+ },
+ {
+   "objectCd": "ALTA",
+   "objectDsc": "ALBERTA"
+ },
+ {
+   "objectCd": "AL",
+   "objectDsc": "ALABAMA"
+ },
+ {
+   "objectCd": "AR",
+   "objectDsc": "ARKANSAS"
+ },
+ {
+   "objectCd": "AZ",
+   "objectDsc": "ARIZONA"
+ },
+ {
+   "objectCd": "BC",
+   "objectDsc": "BRITISH COLUMBIA"
+ },
+ {
+   "objectCd": "CA",
+   "objectDsc": "CALIFORNIA"
+ },
+ {
+   "objectCd": "CO",
+   "objectDsc": "COLORADO"
+ },
+ {
+   "objectCd": "CT",
+   "objectDsc": "CONNECTICUT"
+ },
+ {
+   "objectCd": "DC",
+   "objectDsc": "DISTRICT OF COLUMBIA"
+ },
+ {
+   "objectCd": "DE",
+   "objectDsc": "DELAWARE"
+ },
+ {
+   "objectCd": "EUR",
+   "objectDsc": "EUROPE"
+ },
+ {
+   "objectCd": "FL",
+   "objectDsc": "FLORIDA"
+ },
+ {
+   "objectCd": "GA",
+   "objectDsc": "GEORGIA"
+ },
+ {
+   "objectCd": "HI",
+   "objectDsc": "HAWAII"
+ },
+ {
+   "objectCd": "IA",
+   "objectDsc": "IOWA"
+ },
+ {
+   "objectCd": "ID",
+   "objectDsc": "IDAHO"
+ },
+ {
+   "objectCd": "IL",
+   "objectDsc": "ILLINOIS"
+ },
+ {
+   "objectCd": "INTL",
+   "objectDsc": "INTERNATIONAL"
+ },
+ {
+   "objectCd": "IN",
+   "objectDsc": "INDIANA"
+ },
+ {
+   "objectCd": "KS",
+   "objectDsc": "KANSAS"
+ },
+ {
+   "objectCd": "KY",
+   "objectDsc": "KENTUCKY"
+ },
+ {
+   "objectCd": "LA",
+   "objectDsc": "LOUISIANA"
+ },
+ {
+   "objectCd": "MAN",
+   "objectDsc": "MANITOBA"
+ },
+ {
+   "objectCd": "MA",
+   "objectDsc": "MASSACHUSETTS"
+ },
+ {
+   "objectCd": "MD",
+   "objectDsc": "MARYLAND"
+ },
+ {
+   "objectCd": "ME",
+   "objectDsc": "MAINE"
+ },
+ {
+   "objectCd": "MI",
+   "objectDsc": "MICHIGAN"
+ },
+ {
+   "objectCd": "MN",
+   "objectDsc": "MINNESOTA"
+ },
+ {
+   "objectCd": "MO",
+   "objectDsc": "MISSOURI"
+ },
+ {
+   "objectCd": "MS",
+   "objectDsc": "MISSISSIPPI"
+ },
+ {
+   "objectCd": "MT",
+   "objectDsc": "MONTANA"
+ },
+ {
+   "objectCd": "MX",
+   "objectDsc": "MEXICO"
+ },
+ {
+   "objectCd": "NA",
+   "objectDsc": "NEBRASKA"
+ },
+ {
+   "objectCd": "NB",
+   "objectDsc": "NEW BRUNSWICK"
+ },
+ {
+   "objectCd": "NC",
+   "objectDsc": "NORTH CAROLINA"
+ },
+ {
+   "objectCd": "ND",
+   "objectDsc": "NORTH DAKOTA"
+ },
+ {
+   "objectCd": "NFLD",
+   "objectDsc": "NEWFOUNDLAND"
+ },
+ {
+   "objectCd": "NH",
+   "objectDsc": "NEW HAMPSHIRE"
+ },
+ {
+   "objectCd": "NJ",
+   "objectDsc": "NEW JERSEY"
+ },
+ {
+   "objectCd": "NM",
+   "objectDsc": "NEW MEXICO"
+ },
+ {
+   "objectCd": "NS",
+   "objectDsc": "NOVA SCOTIA"
+ },
+ {
+   "objectCd": "NVT",
+   "objectDsc": "NUNAVUT"
+ },
+ {
+   "objectCd": "NV",
+   "objectDsc": "NEVADA"
+ },
+ {
+   "objectCd": "NWT",
+   "objectDsc": "NORTHWEST TERRITORY"
+ },
+ {
+   "objectCd": "NY",
+   "objectDsc": "NEW YORK"
+ },
+ {
+   "objectCd": "OH",
+   "objectDsc": "OHIO"
+ },
+ {
+   "objectCd": "OK",
+   "objectDsc": "OKLAHOMA"
+ },
+ {
+   "objectCd": "ONT",
+   "objectDsc": "ONTARIO"
+ },
+ {
+   "objectCd": "OR",
+   "objectDsc": "OREGON"
+ },
+ {
+   "objectCd": "OTH",
+   "objectDsc": "OTHER"
+ },
+ {
+   "objectCd": "PA",
+   "objectDsc": "PENNSYLVANIA"
+ },
+ {
+   "objectCd": "PEI",
+   "objectDsc": "PRINCE EDWARD ISLAND"
+ },
+ {
+   "objectCd": "PR",
+   "objectDsc": "PUERTO RICO"
+ },
+ {
+   "objectCd": "QUE",
+   "objectDsc": "QUEBEC"
+ },
+ {
+   "objectCd": "RI",
+   "objectDsc": "RHODE ISLAND"
+ },
+ {
+   "objectCd": "SASK",
+   "objectDsc": "SASKATCHEWAN"
+ },
+ {
+   "objectCd": "SC",
+   "objectDsc": "SOUTH CAROLINA"
+ },
+ {
+   "objectCd": "SD",
+   "objectDsc": "SOUTH DAKOTA"
+ },
+ {
+   "objectCd": "TS",
+   "objectDsc": "TENNESSEE"
+ },
+ {
+   "objectCd": "TX",
+   "objectDsc": "TEXAS"
+ },
+ {
+   "objectCd": "UK",
+   "objectDsc": "UNITED KINGDOM"
+ },
+ {
+   "objectCd": "UT",
+   "objectDsc": "UTAH"
+ },
+ {
+   "objectCd": "VA",
+   "objectDsc": "VIRGINIA"
+ },
+ {
+   "objectCd": "VI",
+   "objectDsc": "VIRGIN ISLANDS"
+ },
+ {
+   "objectCd": "VT",
+   "objectDsc": "VERMONT"
+ },
+ {
+   "objectCd": "WA",
+   "objectDsc": "WASHINGTON"
+ },
+ {
+   "objectCd": "WI",
+   "objectDsc": "WISCONSIN"
+ },
+ {
+   "objectCd": "WV",
+   "objectDsc": "WEST VIRGINIA"
+ },
+ {
+   "objectCd": "WY",
+   "objectDsc": "WYOMING"
+ },
+ {
+   "objectCd": "YT",
+   "objectDsc": "YUKON TERRITORY"
+ }
 ]
