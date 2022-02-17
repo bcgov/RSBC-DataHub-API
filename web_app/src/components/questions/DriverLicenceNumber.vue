@@ -7,6 +7,7 @@
       <div class="input-group mb-3">
         <input :disabled="disabled" type=text
              class="form-control"
+                :class="errors.length > 0 ? 'border-danger bg-warning' : ''"
              :id="id"
              placeholder="Driver's Licence Number"
              v-model="attribute">

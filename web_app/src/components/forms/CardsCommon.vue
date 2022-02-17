@@ -37,6 +37,14 @@ export default {
         required: true,
         inCities: this.getArrayOfBCCityNames
       }
+    },
+    bcdlNumberRules() {
+      if (this.getAttributeValue('drivers_licence_jurisdiction') === "British Columbia") {
+        return {
+          'bcdlNumberRule': true
+        }
+      }
+      return {}
     }
   },
   components: {

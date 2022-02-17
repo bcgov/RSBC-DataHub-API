@@ -2,7 +2,7 @@
 <form-card title="Driver's Information">
   <div>
     <form-row>
-      <driver-licence-number id="drivers_number">Driver's Licence Number</driver-licence-number>
+      <driver-licence-number id="drivers_number" :rules="bcdlNumberRules">Driver's Licence Number</driver-licence-number>
       <jurisdiction-field :disabled=true id="drivers_licence_jurisdiction" fg_class="col-sm-3">Prov / State / International</jurisdiction-field>
     </form-row>
     <form-row>
@@ -11,7 +11,7 @@
       <dob-field id="dob" fg_class="col-sm-4">Date of Birth</dob-field>
     </form-row>
     <form-row>
-      <text-field id="address1" fg_class="col-sm-8" placeholder="Address" rules="required">Address Line 1</text-field>
+      <text-field id="address1" fg_class="col-sm-8" placeholder="Address" rules="required">Address</text-field>
       <phone-field id="driver_phone" fg_class="col-sm-4" rules="phone">Phone</phone-field>
     </form-row>
     <form-row>

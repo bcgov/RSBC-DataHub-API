@@ -7,6 +7,17 @@ extend('inCities', {
   message: 'Not a city in the list'
 });
 
+
+extend('bcdlNumberRule',  {
+  validate(value) {
+    const regX = new RegExp(/^(\d{7})$/);
+    return {
+      valid: regX.test(value)
+    };
+  },
+  message: 'BCDL numbers must have 7 digits'
+});
+
 extend('required', {
   validate(value) {
     return {
