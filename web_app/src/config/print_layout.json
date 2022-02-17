@@ -948,11 +948,19 @@
           "y": 49.5
         }
       },
-      "DRIVER_PHONE": {
+      "DRIVER_PHONE_AREA_CODE": {
         "field_type": "text",
         "font_size": 12,
         "start": {
           "x": 32,
+          "y": 57
+        }
+      },
+      "DRIVER_PHONE": {
+        "field_type": "text",
+        "font_size": 12,
+        "start": {
+          "x": 45,
           "y": 57
         }
       },
@@ -976,7 +984,7 @@
         "field_type": "checkbox",
         "font_size": 12,
         "start": {
-          "x": 46,
+          "x": 47,
           "y": 65
         }
       },
@@ -1226,6 +1234,7 @@
               "DRIVER_DL_NUMBER",
               "DRIVER_DOB",
               "DRIVER_ADDRESS",
+              "DRIVER_PHONE_AREA_CODE",
               "DRIVER_PHONE",
               "REASON_ALCOHOL_90",
               "REASON_DRUGS_90",
@@ -1277,6 +1286,7 @@
               "DRIVER_DL_NUMBER",
               "DRIVER_DOB",
               "DRIVER_ADDRESS",
+              "DRIVER_PHONE_AREA_CODE",
               "DRIVER_PHONE",
               "REASON_ALCOHOL_90",
               "REASON_DRUGS_90",
@@ -1328,6 +1338,7 @@
               "DRIVER_DL_NUMBER",
               "DRIVER_DOB",
               "DRIVER_ADDRESS",
+              "DRIVER_PHONE_AREA_CODE",
               "DRIVER_PHONE",
               "REASON_ALCOHOL_90",
               "REASON_DRUGS_90",

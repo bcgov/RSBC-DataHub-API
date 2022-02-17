@@ -309,7 +309,9 @@ export const actions = {
             key_value_pairs['DRIVER_GIVEN'] = context.getters.getFormPrintValue(form_object,'first_name')
             key_value_pairs['DRIVER_DL_NUMBER'] = context.getters.getFormPrintValue(form_object,'drivers_number')
             key_value_pairs['DRIVER_DL_PROVINCE'] = context.getters.getFormPrintJurisdiction(form_object,'drivers_licence_jurisdiction')
-            key_value_pairs['DRIVER_PHONE'] = context.getters.getFormPrintValue(form_object,'driver_phone')
+
+            key_value_pairs['DRIVER_PHONE_AREA_CODE'] = context.getters.getFormPrintValue(form_object,'driver_phone').substr(0,3)
+            key_value_pairs['DRIVER_PHONE'] = context.getters.getFormPrintValue(form_object,'driver_phone').substr(3)
 
             let dob = moment(context.getters.getFormPrintValue(form_object,'dob'))
             key_value_pairs['DRIVER_DOB'] = dob.format("YYYY MM DD")
