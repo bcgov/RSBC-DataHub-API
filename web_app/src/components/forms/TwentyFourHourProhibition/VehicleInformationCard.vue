@@ -18,7 +18,7 @@
   </form-row>
   <form-row>
     <text-field id="vin_number" fg_class="col-sm-5">VIN Number</text-field>
-    <province-field id="puj_code" fg_class="col-sm-2">PUJ Code</province-field>
+    <province-field id="puj_code" fg_class="col-sm-2" :default-to-bc=false>PUJ Code</province-field>
     <text-field id="nsc_number" fg_class="col-sm-5">NSC Number</text-field>
   </form-row>
 </form-card>
