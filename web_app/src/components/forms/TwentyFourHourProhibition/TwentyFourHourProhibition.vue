@@ -14,7 +14,7 @@
         <officer-details-card></officer-details-card>
         <form-card title="Generate PDF for Printing">
           <div class="d-flex justify-content-between">
-            <button type="submit" class="btn btn-primary" :disabled="invalid">PDF
+            <button type="submit" class="btn btn-primary" :disabled="invalid">Print Forms
               <b-spinner v-if="display_spinner" small label="Loading..."></b-spinner>
             </button>
           </div>
