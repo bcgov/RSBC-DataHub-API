@@ -4,7 +4,7 @@
       <form-row>
         <check-field :show_label="false"  id="test_administered_asd" fg_class="col-sm-6"
                      :options='["Alco-Sensor FST (ASD)"]'>Test Administered</check-field>
-        <date-field v-if="isTestAdministeredASD" id="asd_expiry_date" fg_class="col-sm-6" rules="notExpiredDt">ASD expiry date</date-field>
+        <date-field v-if="isTestAdministeredASD" id="asd_expiry_date" fg_class="col-sm-6" rules="required|validDt|notExpiredDt">ASD expiry date</date-field>
       </form-row>
       <form-row>
         <radio-field v-if="isTestAdministeredASD" id="result_alcohol" fg_class="col-sm-6"
