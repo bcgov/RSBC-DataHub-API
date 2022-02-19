@@ -8,7 +8,6 @@ import DriverLicenceNumber from "@/components/questions/DriverLicenceNumber";
 import TypeAheadField from "@/components/questions/TypeAheadField";
 import GenderField from "@/components/questions/GenderField";
 import PhoneField from "@/components/questions/PhoneField";
-import DateTime from "@/components/questions/DateTime";
 import DateField from "@/components/questions/DateField";
 import DobField from "@/components/questions/DoBField";
 import PlateNumber from "@/components/questions/PlateNumber";
@@ -18,6 +17,7 @@ import ShadowBox from "@/components/forms/ShadowBox";
 import FormStep from "@/components/forms/FormStep";
 import FormCard from "@/components/forms/FormCard";
 import FormRow from "@/components/forms/FormRow";
+import TimeField from "@/components/questions/TimeField";
 import ReadOnlyElement from "@/components/questions/ReadOnlyElement";
 import {mapGetters} from "vuex";
 
@@ -50,7 +50,6 @@ export default {
   components: {
     CheckField,
     DateField,
-    DateTime,
     DobField,
     DriverLicenceNumber,
     FormCard,
@@ -65,6 +64,7 @@ export default {
     ReadOnlyElement,
     ShadowBox,
     TextField,
+    TimeField,
     TypeAheadField,
     WaitForIcbcField
   }

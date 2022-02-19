@@ -18,6 +18,8 @@ export default {
     MAX_NUMBER_UNIQUE_ID_FETCH_ATTEMPTS: 2,
 
     MIN_VEHICLE_YEAR: 1920,
-    MAX_VEHICLE_YEAR: moment().format("YYYY") + 1
+    MAX_VEHICLE_YEAR: moment().format("YYYY") + 1,
+
+    TIMEZONE: "America/Vancouver"
 
 }

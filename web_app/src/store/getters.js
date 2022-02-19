@@ -289,15 +289,24 @@ export const getters = {
         return root[attribute];
     },
 
-    getFormPrintDateTime: state => (form_object, attribute) => {
-        let root = state.forms[form_object.form_type][form_object.form_id].data;
-        if (!(attribute in root)) {
+    getFormDateTimeString: state => (form_object, [dateString, timeString]) => {
+        const root = state.forms[form_object.form_type][form_object.form_id].data;
+        if (!(dateString in root && timeString in root)) {
             return '';
         }
-        const valueDt = moment(root[attribute], "YYYYMMDD HHmm", true)
-        return valueDt.format("YYYY-MM-DD HH:mm");
+        console.log("getFormDateTimeString()", root[dateString], root[timeString] )
+        const date_time = moment.tz(root[dateString] + " " + root[timeString], 'YYYYMMDD HHmm', true, constants.TIMEZONE)
+        return date_time.format("YYYY-MM-DD HH:mm")
     },
 
+    getFormDateTime: state => (form_object, [dateString, timeString]) => {
+        const root = state.forms[form_object.form_type][form_object.form_id].data;
+        if (!(dateString in root && timeString in root)) {
+            return '';
+        }
+        console.log("getFormDateTime()", root[dateString], root[timeString] )
+        return moment.tz(root[dateString] + " " + root[timeString], 'YYYYMMDD HHmm', true, constants.TIMEZONE)
+    },
     getFormPrintRadioValue: state => (form_object, attribute, checked_value) => {
         let root = state.forms[form_object.form_type][form_object.form_id].data;
         if (!(attribute in root)) {

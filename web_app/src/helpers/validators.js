@@ -1,6 +1,7 @@
-import moment from 'moment';
+import moment from 'moment-timezone';
 import {extend} from "vee-validate";
 import { oneOf } from 'vee-validate/dist/rules';
+import constants from "@/config/constants";
 
 extend('inCities', {
   ...oneOf,
@@ -30,29 +31,43 @@ extend('required', {
 });
 
 extend('validDt', {
-  validate: value => moment(value, "YYYYMMDD", true).isValid(),
+  validate(value) {
+    return {
+      required: true,
+      valid: moment(value, "YYYYMMDD", true).isValid()
+    }
+  },
   message: "That's not a valid date"
 });
 
-// extend('validDtTime', {
-//   validate(value) {
-//     console.log("validDtTime " + value)
-//     return {
-//       required: true,
-//       valid: moment(value, "YYYYMMDD HHmm", true).isValid()
-//     };
-//   },
-//   message: "That's not a valid date time"
-// });
-
-extend('notExpired', {
+extend('validTime', {
   validate(value) {
-    const now = moment()
-    const expiry = moment(value + ' 23:59', 'YYYYMMDD HH:mm', true)
-    console.log("today vs expiry: ", now, expiry)
     return {
       required: true,
-      valid: now.diff(expiry, 'days') < 0
+      valid: moment(value, "HHmm", true).isValid()
+    }
+  },
+  message: "That's not a valid time"
+});
+
+extend('notFutureDateTime', {
+  params: ['relatedDate'],
+  validate(value, {relatedDate}) {
+    const date_time = moment.tz(relatedDate + " " + value, 'YYYYMMDD HHmm', true, constants.TIMEZONE)
+    return {
+      valid: moment().diff(date_time, 'minutes') >= 0
+    }
+  },
+  hasTarget: true,
+  message: "Date and time cannot be in the future"
+});
+
+
+extend('notExpiredDt', {
+  validate(value) {
+    return {
+      required: true,
+      valid: moment().diff(moment(value, 'YYYYMMDD', true), 'days') <= 0
     }
   },
   message: "Expired"
@@ -60,13 +75,23 @@ extend('notExpired', {
 
 extend('notFutureDt', {
   validate(value) {
+    const date_time = moment.tz(value + " 0000", 'YYYYMMDD HHmm', true, constants.TIMEZONE)
     return {
       required: true,
-      valid: moment().diff(moment(value, 'YYYYMMDD HHmm', true), 'minutes') > 0,
+      valid: moment().diff(date_time, 'minutes') > 0,
     };
   },
   message: "Cannot be future dated",
-  computesRequired: true
+});
+
+extend('notGtYearAgo', {
+  validate(value) {
+    return {
+      required: true,
+      valid: moment().diff(moment(value, 'YYYYMMDD', true), 'days') < 364,
+    };
+  },
+  message: "That's over a year ago",
 });
 
 extend('dob', {
@@ -79,7 +104,20 @@ extend('dob', {
     };
   },
   message: "Driver must be between 16 and 120 years old",
-  computesRequired: true
+});
+
+
+extend('notBeforeCareDateTime', {
+  params: ['careDate', 'careTime', 'relatedDate'],
+  validate(value, {careDate, careTime, relatedDate}) {
+    const careDateTime = moment.tz(careDate + " " + careTime, 'YYYYMMDD HHmm', true, constants.TIMEZONE)
+    const relatedDateTime = moment.tz(relatedDate + " " + value, 'YYYYMMDD HHmm', true, constants.TIMEZONE)
+    return {
+      valid: careDateTime.diff(relatedDateTime, 'minutes') <= 0
+    }
+  },
+  hasTarget: true,
+  message: "Cannot be before care or control date / time"
 });
 
 
@@ -91,7 +129,6 @@ extend('bac_result', {
     };
   },
   message: "BAC results must be between 1 and 999",
-  computesRequired: true
 });
 
 
@@ -104,7 +141,6 @@ extend('plate_year', {
     };
   },
   message: "Plate year must be between 2000 and the current year",
-  computesRequired: true
 });
 
 

@@ -1,7 +1,6 @@
 <script>
 import CheckField from "@/components/questions/CheckField";
 import DateField from "@/components/questions/DateField";
-import DateTime from "@/components/questions/DateTime";
 import DobField from "@/components/questions/DoBField";
 import DriverLicenceNumber from "@/components/questions/DriverLicenceNumber";
 import FormCard from "@/components/forms/FormCard";
@@ -52,7 +51,6 @@ export default {
   components: {
     CheckField,
     DateField,
-    DateTime,
     DobField,
     DriverLicenceNumber,
     FormCard,

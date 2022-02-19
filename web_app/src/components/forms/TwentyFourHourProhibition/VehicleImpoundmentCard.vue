@@ -11,8 +11,10 @@
       <form-row v-if="isReleasedToOtherDriver">
         <text-field id="vehicle_released_to" :visible="showVehicleNotImpounded" fg_class="col-sm-6" >
           Vehicle Released To</text-field>
-        <date-time id="datetime_released" :visible="showVehicleNotImpounded" fg_class="col-sm-6" >
-          Date and Time Released</date-time>
+        <date-field id="released_date" fg_class="col-sm-3" :visible="showVehicleNotImpounded"
+                  rules="required|validDt|notFutureDt|notGtYearAgo">Date Released</date-field>
+        <time-field id="released_time" fg_class="col-sm-3" :visible="showVehicleNotImpounded"
+                    rules="required|validTime|notFutureDateTime:@released_date">Time</time-field>
       </form-row>
       <form-row>
         <radio-field id="location_of_keys" :visible="showVehicleImpounded" fg_class="col-sm-6"

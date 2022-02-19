@@ -9,10 +9,10 @@
       <form-row>
         <check-field v-if="isTestAdministeredADSE" id="positive_adse" fg_class="col-sm-6"
                      :options='["THC", "Cocaine"]'>Test result</check-field>
-        <date-time v-if="isTestAdministeredADSE"
-                   id="time_of_test"
-                   rules="required"
-                   fg_class="col-sm-6">Time of test</date-time>
+        <date-field id="test_date" fg_class="col-sm-3" :visible="isTestAdministeredADSE"
+                  rules="required|validDt|notFutureDt|notGtYearAgo">Date of test</date-field>
+        <time-field id="test_time" fg_class="col-sm-3" :visible="isTestAdministeredADSE"
+                    rules="required|validTime|notFutureDateTime:@test_date|notBeforeCareDateTime:@prohibition_start_date,@prohibition_start_time,@test_date">Time</time-field>
       </form-row>
     </shadow-box>
     <shadow-box>
@@ -20,10 +20,10 @@
         <check-field :show_label="false" id="test_administered_sfst" fg_class="col-sm-6"
                      :options='["Prescribed Physical Coordination Test (SFST)"]'>&nbsp;
         </check-field>
-        <date-time v-if="isTestAdministeredSFST"
-                   id="time_of_test"
-                   rules="required"
-                   fg_class="col-sm-6">Time of test</date-time>
+        <date-field id="test_date" fg_class="col-sm-3" :visible="isTestAdministeredSFST"
+                  rules="required|validDt|notFutureDt|notGtYearAgo">Date of test</date-field>
+        <time-field id="test_time" fg_class="col-sm-3" :visible="isTestAdministeredSFST"
+                    rules="required|validTime|notFutureDateTime:@test_date|notBeforeCareDateTime:@prohibition_start_date,@prohibition_start_time,@test_date">Time</time-field>
       </form-row>
     </shadow-box>
     <shadow-box>
@@ -31,9 +31,10 @@
         <check-field :show_label="false" id="test_administered_dre" fg_class="col-sm-6"
                      :options='["Prescribed Physical Coordination Test (DRE)"]'>&nbsp;
         </check-field>
-        <date-time v-if="isTestAdministeredDRE" id="time_of_test"
-                   rules="required"
-                   fg_class="col-sm-6">Time of test</date-time>
+        <date-field id="test_date" fg_class="col-sm-3" :visible="isTestAdministeredDRE"
+                  rules="required|validDt|notFutureDt|notGtYearAgo">Date of test</date-field>
+        <time-field id="test_time" fg_class="col-sm-3" :visible="isTestAdministeredDRE"
+                    rules="required|validTime|notFutureDateTime:@test_date|notBeforeCareDateTime:@prohibition_start_date,@prohibition_start_time,@test_date">Time</time-field>
       </form-row>
     </shadow-box>
     <form-row>

@@ -4,7 +4,7 @@
     <label :for="id"><slot></slot>
       <span v-if="required" class="text-danger"> *</span>
       <span class="small text-muted"> YYYYMMDD</span>
-      <span class="text-muted" v-if="isValidDate"> ({{ timeAgo }})</span>
+<!--      <span class="text-muted" v-if="isValidDate"> ({{ timeAgo }})</span>-->
     </label>
     <div class="col-xs-10">
       <div class="input-group mb-1">
@@ -14,8 +14,8 @@
            :disabled="disabled"
            placeholder="YYYYMMDD"
            :id="id"
-           :value="getAttributeValue(id)"
-           @input="setDateTime">
+           :name="id"
+           v-model="attribute">
       </div>
       <div class="small text-danger ml-1">{{ errors[0] }}</div>
     </div>
@@ -26,7 +26,6 @@
 <script>
 
 import FieldCommon from "@/components/questions/FieldCommon";
-import moment from 'moment';
 import {mapGetters, mapMutations} from "vuex";
 
 export default {
@@ -35,30 +34,10 @@ export default {
 
   methods: {
     ...mapMutations(["updateFormField"]),
-    setDateTime(e) {
-      const isoDate = e.target.value;
-      const payload = {target: {id: this.id, value: isoDate }}
-      this.$store.commit("updateFormField", payload)
-    },
   },
 
   computed: {
     ...mapGetters(["getAttributeValue"]),
-    dateObject() {
-      return moment(this.getAttributeValue(this.id), 'YYYYMMDD', true);
-    },
-    isValidDate() {
-      return this.dateObject.isValid()
-    },
-    timeAgo() {
-      if(this.isValidDate) {
-        return this.dateObject.fromNow()
-      }
-      return null
-    },
-    timeAgoString() {
-      return this.timeAgo() + ' months ago'
-    }
   }
 
 }

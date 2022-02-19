@@ -1,7 +1,7 @@
 import constants from "@/config/constants";
 import persistence from "@/helpers/persistence";
 import print_layout from "@/config/print_layout.json";
-import moment from "moment";
+import moment from "moment-timezone";
 import pdfMerge from "@/helpers/pdfMerge";
 
 
@@ -246,11 +246,11 @@ export const actions = {
             key_value_pairs['REASON_ALCOHOL_90'] = context.getters.getFormPrintRadioValue(form_object, 'prohibition_type_12hr', 'Alcohol 90.3(2)')
             key_value_pairs['REASON_DRUGS_90'] = context.getters.getFormPrintRadioValue(form_object, 'prohibition_type_12hr', 'Drugs 90.3(2.1)')
 
-            let prohibition_start_time = moment(context.getters.getFormPrintValue(form_object, 'prohibition_start_time'))
-            key_value_pairs['NOTICE_TIME'] = prohibition_start_time.format("HH:mm")
-            key_value_pairs['NOTICE_DAY'] = prohibition_start_time.format("Do")
-            key_value_pairs['NOTICE_MONTH'] = prohibition_start_time.format("MMMM")
-            key_value_pairs['NOTICE_YEAR'] = prohibition_start_time.format("YYYY")
+            let prohibition_start_datetime = moment(context.getters.getFormDateTime(form_object, ['prohibition_start_date','prohibition_start_time']))
+            key_value_pairs['NOTICE_TIME'] = prohibition_start_datetime.format("HH:mm")
+            key_value_pairs['NOTICE_DAY'] = prohibition_start_datetime.format("Do")
+            key_value_pairs['NOTICE_MONTH'] = prohibition_start_datetime.format("MMMM")
+            key_value_pairs['NOTICE_YEAR'] = prohibition_start_datetime.format("YYYY")
 
             key_value_pairs['DL_SURRENDER_LOCATION'] = context.getters.getFormPrintValue(form_object, 'offence_address') +
                 ", " + context.getters.getFormPrintValue(form_object, 'offence_city')
@@ -303,7 +303,7 @@ export const actions = {
 
             key_value_pairs['RELEASE_LOCATION_KEYS'] = context.getters.getFormPrintValue(form_object, 'location_of_keys')
             key_value_pairs['RELEASE_PERSON'] = context.getters.getFormPrintValue(form_object, 'vehicle_released_to')
-            key_value_pairs['RELEASE_DATETIME'] = context.getters.getFormPrintDateTime(form_object, 'datetime_released')
+            key_value_pairs['RELEASE_DATETIME'] = context.getters.getFormDateTimeString(form_object, ['released_date', 'released_time'])
 
             key_value_pairs['DRIVER_SURNAME'] = context.getters.getFormPrintValue(form_object,"last_name")
             key_value_pairs['DRIVER_GIVEN'] = context.getters.getFormPrintValue(form_object,'first_name')
@@ -360,8 +360,8 @@ export const actions = {
                 key_value_pairs['REASONABLE_GROUNDS_TEST_ASD_EXPIRY_DATE'] = context.getters.getFormPrintValue(
                     form_object, 'asd_expiry_date')
 
-                key_value_pairs['REASONABLE_GROUNDS_TEST_TIME'] = context.getters.getFormPrintDateTime(
-                    form_object, 'time_of_test')
+                key_value_pairs['REASONABLE_GROUNDS_TEST_TIME'] = context.getters.getFormDateTimeString(
+                    form_object, ['test_date', 'test_time'])
 
                 key_value_pairs['REASONABLE_GROUNDS_ALCOHOL_51-99'] = context.getters.getFormPrintCheckedValue(
                     form_object, 'result_alcohol', '51-99 mg%')
@@ -385,14 +385,17 @@ export const actions = {
 
                 let prescribed_test = []
 
-                key_value_pairs['REASONABLE_GROUNDS_TEST_TIME'] = context.getters.getFormPrintDateTime(
-                    form_object, 'time_of_test')
+                key_value_pairs['REASONABLE_GROUNDS_TEST_TIME'] = context.getters.getFormDateTimeString(
+                    form_object, ['test_date', 'test_time'])
 
                 if (context.getters.getFormPrintCheckedValue(
                         form_object, 'test_administered_adse', "Approved Drug Screening Equipment")) {
                     key_value_pairs['REASONABLE_GROUNDS_TEST_APPROVED_INSTRUMENT'] = true
                     key_value_pairs['REASONABLE_GROUNDS_TEST_APPROVED_INSTRUMENT_SPECIFY'] = 'ADSE'
-                    key_value_pairs['ADSE_RESULTS'] = context.getters.getFormPrintValue(form_object,"positive_adse").join(" and ")
+                    const thc_or_cocaine = context.getters.getFormPrintValue(form_object,"positive_adse")
+                    if (thc_or_cocaine) {
+                        key_value_pairs['ADSE_RESULTS'] = thc_or_cocaine.join(" and ")
+                    }
                 }
 
                 if (context.getters.getFormPrintCheckedValue(form_object, "test_administered_sfst", "Prescribed Physical Coordination Test (SFST)")) {

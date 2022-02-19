@@ -10,10 +10,14 @@
       <type-ahead-field id="offence_city" fg_class="col-sm-4" :suggestions="getArrayOfBCCityNames" :rules="offenceCityRules">City</type-ahead-field>
     </form-row>
     <form-row>
-      <text-field id="file_number" fg_class="col-sm-3" rules="required">Agency File Number</text-field>
-      <date-time id="prohibition_start_time" fg_class="col-sm-9" rules="required">
-        Date/Time of Driving, care or control
-      </date-time>
+      <date-field id="prohibition_start_date" fg_class="col-sm-5"
+                  rules="required|validDt|notFutureDt|notGtYearAgo">
+        Date of Driving, care or control
+      </date-field>
+      <time-field id="prohibition_start_time" fg_class="col-sm-4"
+                  rules="required|validTime|notFutureDateTime:@prohibition_start_date">
+        Time
+      </time-field>
     </form-row>
   </div>
 </form-card>
