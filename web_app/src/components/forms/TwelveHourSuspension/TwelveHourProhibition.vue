@@ -10,7 +10,7 @@
         <officer-details-card></officer-details-card>
         <form-card title="Generate PDF for Printing">
           <div class="d-flex justify-content-between">
-            <button type="submit" class="btn btn-primary" :disabled="invalid">PDF
+            <button type="submit" class="btn btn-primary" :disabled="invalid">Print Forms
               <b-spinner v-if="display_spinner" small label="Loading..."></b-spinner>
             </button>
           </div>
@@ -28,7 +28,7 @@
 import FormsCommon from "@/components/forms/FormsCommon";
 import DriversInformationCard from "@/components/forms/TwelveHourSuspension/DriversInformationCard";
 import ReturnOfLicenceCard from "@/components/forms/ReturnOfLicenceCard";
-import OfficerDetailsCard from "@/components/forms/TwelveHourSuspension/OfficerDetailsCard";
+import OfficerDetailsCard from "@/components/forms/OfficerDetailsCard";
 import VehicleInformationCard from "@/components/forms/TwelveHourSuspension/VehicleInformationCard";
 import ProhibitionInformationCard from "@/components/forms/TwelveHourSuspension/ProhibitionInformationCard";
 import VehicleImpoundmentCard from "@/components/forms/TwelveHourSuspension/VehicleImpoundmentCard";

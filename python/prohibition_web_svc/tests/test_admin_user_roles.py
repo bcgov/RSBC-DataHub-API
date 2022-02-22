@@ -34,9 +34,9 @@ def database(application):
 def roles(database):
     today = datetime.strptime("2021-07-21", "%Y-%m-%d")
     user_role = [
-        UserRole(username='john@idir', role_name='officer', submitted_dt=today),
-        UserRole(username='larry@idir', role_name='officer', submitted_dt=today, approved_dt=today),
-        UserRole(username='mo@idir', role_name='administrator', submitted_dt=today, approved_dt=today)
+        UserRole(user_guid='john@idir', role_name='officer', submitted_dt=today),
+        UserRole(user_guid='larry@idir', role_name='officer', submitted_dt=today, approved_dt=today),
+        UserRole(user_guid='mo@idir', role_name='administrator', submitted_dt=today, approved_dt=today)
     ]
     db.session.bulk_save_objects(user_role)
     db.session.commit()
@@ -46,21 +46,21 @@ def test_administrator_can_get_all_roles_for_specific_user(as_guest, monkeypatch
     monkeypatch.setattr(Config, 'ADMIN_USERNAME', 'administrator@idir')
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_administrative_user_from_database)
-    resp = as_guest.get("/api/v1/admin/users/larry%40idir/roles",
+    resp = as_guest.get(Config.URL_PREFIX + "/api/v1/admin/users/larry%40idir/roles",
                          follow_redirects=True,
                          content_type="application/json",
                          headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
     logging.debug(json.dumps(resp.json))
     assert resp.status_code == 200
     assert len(resp.json) == 1
-    assert resp.json[0]['username'] == 'larry@idir'
+    assert resp.json[0]['user_guid'] == 'larry@idir'
 
 
 def test_non_administrators_cannot_get_all_roles_for_specific_user(as_guest, monkeypatch, roles):
     monkeypatch.setattr(Config, 'ADMIN_USERNAME', 'administrator@idir')
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
-    resp = as_guest.get("/api/v1/admin/users/larry%40idir/roles",
+    resp = as_guest.get(Config.URL_PREFIX + "/api/v1/admin/users/larry%40idir/roles",
                          follow_redirects=True,
                          content_type="application/json",
                          headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
@@ -72,7 +72,7 @@ def test_administrator_can_approve_a_specific_user_role(as_guest, monkeypatch, r
     monkeypatch.setattr(Config, 'ADMIN_USERNAME', 'administrator@idir')
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_administrative_user_from_database)
-    resp = as_guest.patch("/api/v1/admin/users/john%40idir/roles/officer",
+    resp = as_guest.patch(Config.URL_PREFIX + "/api/v1/admin/users/john%40idir/roles/officer",
                          follow_redirects=True,
                          content_type="application/json",
                          headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
@@ -85,7 +85,7 @@ def test_non_administrators_cannot_approve_a_user_role(as_guest, monkeypatch, ro
     monkeypatch.setattr(Config, 'ADMIN_USERNAME', 'administrator@idir')
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
-    resp = as_guest.patch("/api/v1/admin/users/larry%40idir/roles/officer",
+    resp = as_guest.patch(Config.URL_PREFIX + "/api/v1/admin/users/larry%40idir/roles/officer",
                          follow_redirects=True,
                          content_type="application/json",
                          headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
@@ -97,7 +97,7 @@ def test_administrator_can_delete_an_officer_user(as_guest, monkeypatch, roles, 
     monkeypatch.setattr(Config, 'ADMIN_USERNAME', 'administrator@idir')
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_administrative_user_from_database)
-    resp = as_guest.delete("/api/v1/admin/users/john%40idir/roles/officer",
+    resp = as_guest.delete(Config.URL_PREFIX + "/api/v1/admin/users/john%40idir/roles/officer",
                          follow_redirects=True,
                          content_type="application/json",
                          headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
@@ -105,7 +105,7 @@ def test_administrator_can_delete_an_officer_user(as_guest, monkeypatch, roles, 
     assert resp.status_code == 200
     assert database.session.query(UserRole) \
                .filter(UserRole.role_name == 'officer') \
-               .filter(UserRole.username == 'john@idir') \
+               .filter(UserRole.user_guid == 'john@idir') \
                .count() == 0
 
 
@@ -113,7 +113,7 @@ def test_administrator_can_delete_another_admin_user(as_guest, monkeypatch, role
     monkeypatch.setattr(Config, 'ADMIN_USERNAME', 'administrator@idir')
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_administrative_user_from_database)
-    resp = as_guest.delete("/api/v1/admin/users/mo@idir/roles/administrator",
+    resp = as_guest.delete(Config.URL_PREFIX + "/api/v1/admin/users/mo@idir/roles/administrator",
                          follow_redirects=True,
                          content_type="application/json",
                          headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
@@ -121,7 +121,7 @@ def test_administrator_can_delete_another_admin_user(as_guest, monkeypatch, role
     assert resp.status_code == 200
     assert database.session.query(UserRole) \
                .filter(UserRole.role_name == 'administrator') \
-               .filter(UserRole.username == 'mo@idir') \
+               .filter(UserRole.user_guid == 'mo@idir') \
                .count() == 0
 
 
@@ -129,7 +129,7 @@ def test_non_administrators_cannot_delete_a_user_role(as_guest, monkeypatch, rol
     monkeypatch.setattr(Config, 'ADMIN_USERNAME', 'administrator@idir')
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
-    resp = as_guest.delete("/api/v1/admin/users/larry%40idir/roles/officer",
+    resp = as_guest.delete(Config.URL_PREFIX + "/api/v1/admin/users/larry%40idir/roles/officer",
                          follow_redirects=True,
                          content_type="application/json",
                          headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
@@ -140,7 +140,7 @@ def test_administrator_can_give_another_user_administrative_permissions(as_guest
     monkeypatch.setattr(Config, 'ADMIN_USERNAME', 'administrator@idir')
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_administrative_user_from_database)
-    resp = as_guest.post("/api/v1/admin/users/john%40idir/roles",
+    resp = as_guest.post(Config.URL_PREFIX + "/api/v1/admin/users/john%40idir/roles",
                          json={"role_name": "administrator"},
                         follow_redirects=True,
                         content_type="application/json",
@@ -148,14 +148,14 @@ def test_administrator_can_give_another_user_administrative_permissions(as_guest
     assert resp.status_code == 201
     record = database.session.query(UserRole) \
         .filter(UserRole.role_name == 'administrator') \
-        .filter(UserRole.username == 'john@idir') \
+        .filter(UserRole.user_guid == 'john@idir') \
         .first()
     assert record.role_name == 'administrator'
-    assert record.username == 'john@idir'
+    assert record.user_guid == 'john@idir'
     
 
 def test_administrators_have_no_user_roles_get_method(as_guest):
-    resp = as_guest.get("/api/v1/admin/users/larry%40idir/roles/officer",
+    resp = as_guest.get(Config.URL_PREFIX + "/api/v1/admin/users/larry%40idir/roles/officer",
                         follow_redirects=True,
                         content_type="application/json",
                         headers=_get_keycloak_auth_header(_get_keycloak_access_token()))

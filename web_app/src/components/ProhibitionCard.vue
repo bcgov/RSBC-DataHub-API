@@ -14,7 +14,7 @@
           <router-link class="text-white" v-if="isFormAvailable" :to="{
             name: form.form_type,
             params: { id: getNextAvailableUniqueIdByType(form.form_type)}}">
-            New {{ form.form_type }} Form
+            New {{ form.label }} Form
           </router-link>
           <span v-if="! isFormAvailable">New {{ form.form_type }} Form</span>
         </button>

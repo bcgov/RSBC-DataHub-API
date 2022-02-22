@@ -9,8 +9,8 @@ import python.common.helper as helper
 logging.config.dictConfig(Config.LOGGING)
 logging.info('*** vehicle styles blueprint loaded ***')
 
-bp = Blueprint('vehicle_styles', __name__, url_prefix='/api/v1')
-CORS(bp, resources={"/api/v1/vehicle_styles": {"origins": Config.ACCESS_CONTROL_ALLOW_ORIGIN}})
+bp = Blueprint('vehicle_styles', __name__, url_prefix=Config.URL_PREFIX + '/api/v1')
+CORS(bp, resources={Config.URL_PREFIX + "/api/v1/vehicle_styles": {"origins": Config.ACCESS_CONTROL_ALLOW_ORIGIN}})
 
 
 @bp.route('/vehicle_styles', methods=['GET'])

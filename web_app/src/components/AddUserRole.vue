@@ -5,6 +5,7 @@
 
        <select class="form-control" id="username" v-model="newUser">
           <option v-for="(user, id) in getAllUsers"
+                  :value="user"
                   :key="id">
             {{ user.username }}
           </option>

@@ -3,6 +3,7 @@ from datetime import datetime
 import python.prohibition_web_svc.middleware.keycloak_middleware as middleware
 from python.prohibition_web_svc.models import db, UserRole
 from python.prohibition_web_svc.app import create_app
+from python.prohibition_web_svc.config import Config
 import logging
 import json
 
@@ -33,38 +34,17 @@ def database(application):
 def roles(database):
     today = datetime.strptime("2021-07-21", "%Y-%m-%d")
     user_role = [
-        UserRole(username='john@idir', role_name='officer', submitted_dt=today),
-        UserRole(username='larry@idir', role_name='officer', submitted_dt=today, approved_dt=today)
+        UserRole(user_guid='john@idir', role_name='officer', submitted_dt=today),
+        UserRole(user_guid='larry@idir', role_name='officer', submitted_dt=today, approved_dt=today)
     ]
     db.session.bulk_save_objects(user_role)
     db.session.commit()
 
 
-def test_user_without_authorization_can_apply_to_use_the_app(as_guest, monkeypatch, roles):
-    monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
-    monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_keycloak_user_who_has_not_applied)
-    resp = as_guest.post("/api/v1/user_roles",
-                         follow_redirects=True,
-                         content_type="application/json",
-                         headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
-    assert resp.status_code == 201
-
-
-def test_user_with_keycloak_token_cannot_apply_again_to_use_the_app(as_guest, monkeypatch, roles):
-    monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
-    monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_unauthorized_user)
-    resp = as_guest.post("/api/v1/user_roles",
-                         follow_redirects=True,
-                         content_type="application/json",
-                         headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
-    assert resp.status_code == 400
-    assert resp.json['error'] == 'role already exists'
-
-
 def test_user_without_authorization_cannot_view_their_user_roles(as_guest, monkeypatch, roles):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_keycloak_user_who_has_not_applied)
-    resp = as_guest.get("/api/v1/user_roles",
+    resp = as_guest.get(Config.URL_PREFIX + "/api/v1/user_roles",
                         follow_redirects=True,
                         content_type="application/json",
                         headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
@@ -74,7 +54,7 @@ def test_user_without_authorization_cannot_view_their_user_roles(as_guest, monke
 def test_user_with_authorization_can_view_see_their_own_user_roles(as_guest, monkeypatch, roles):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
-    resp = as_guest.get("/api/v1/user_roles",
+    resp = as_guest.get(Config.URL_PREFIX + "/api/v1/user_roles",
                         follow_redirects=True,
                         content_type="application/json",
                         headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
@@ -85,7 +65,7 @@ def test_user_with_authorization_can_view_see_their_own_user_roles(as_guest, mon
 
 
 def test_get_method_not_implemented(as_guest):
-    resp = as_guest.get("/api/v1/user_roles/officer",
+    resp = as_guest.get(Config.URL_PREFIX + "/api/v1/user_roles/officer",
                         follow_redirects=True,
                         content_type="application/json",
                         headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
@@ -93,7 +73,7 @@ def test_get_method_not_implemented(as_guest):
 
 
 def test_update_method_not_implemented(as_guest):
-    resp = as_guest.patch("/api/v1/user_roles/officer",
+    resp = as_guest.patch(Config.URL_PREFIX + "/api/v1/user_roles/officer",
                           follow_redirects=True,
                           content_type="application/json",
                           headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
@@ -101,7 +81,7 @@ def test_update_method_not_implemented(as_guest):
 
 
 def test_delete_method_not_implemented(as_guest):
-    resp = as_guest.delete("/api/v1/user_roles/officer",
+    resp = as_guest.delete(Config.URL_PREFIX + "/api/v1/user_roles/officer",
                            follow_redirects=True,
                            content_type="application/json",
                            headers=_get_keycloak_auth_header(_get_keycloak_access_token()))

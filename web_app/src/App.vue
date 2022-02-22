@@ -2,7 +2,7 @@
   <div id="app" class="card border-0 ml-4 mr-4">
     <div id="roadsafety-header" class="card-header">
       <div class="d-flex justify-content-between">
-        <a href="/"><img width="300px" src="/assets/BCID_RoadSafetyBC_logo_transparent.png" ></a>
+        <a :href="`${publicPath}`"><img width="300px" :src="`${publicPath}assets/BCID_RoadSafetyBC_logo_transparent.png`" ></a>
         <div class="d-flex align-items-end flex-column">
           <div class="font-weight-bold text-warning">
             DRAFT <span class="text-light small">{{ getAppVersion }}</span>
@@ -41,6 +41,11 @@ export default {
     ...mapGetters(['getAppVersion', "getKeycloakUsername", "isUserAnAdmin", "isUserAuthenticated",
     "isDisplayNotLoggedInBanner"]),
   },
+  data () {
+    return {
+      publicPath: process.env.BASE_URL
+    }
+  }
 
 }
 </script>

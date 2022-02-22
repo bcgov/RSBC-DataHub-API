@@ -11,8 +11,8 @@ from python.prohibition_web_svc.business.keycloak_logic import get_authorized_ke
 logging.config.dictConfig(Config.LOGGING)
 logging.info('*** forms blueprint loaded ***')
 
-bp = Blueprint('forms', __name__, url_prefix='/api/v1')
-CORS(bp, resources={"/api/v1/forms/*": {"origins": Config.ACCESS_CONTROL_ALLOW_ORIGIN}})
+bp = Blueprint('forms', __name__, url_prefix=Config.URL_PREFIX + '/api/v1')
+CORS(bp, resources={Config.URL_PREFIX + "/api/v1/forms/*": {"origins": Config.ACCESS_CONTROL_ALLOW_ORIGIN}})
 
 
 @bp.route('/forms/<string:form_type>', methods=['GET'])

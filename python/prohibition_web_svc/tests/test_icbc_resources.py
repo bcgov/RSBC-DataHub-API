@@ -36,8 +36,8 @@ def database(application):
 def roles(database):
     today = datetime.strptime("2021-07-21", "%Y-%m-%d")
     user_role = [
-        UserRole(username='john@idir', role_name='officer', submitted_dt=today),
-        UserRole(username='larry@idir', role_name='officer', submitted_dt=today, approved_dt=today)
+        UserRole(user_guid='john@idir', role_name='officer', submitted_dt=today),
+        UserRole(user_guid='larry@idir', role_name='officer', submitted_dt=today, approved_dt=today)
     ]
     db.session.bulk_save_objects(user_role)
     db.session.commit()
@@ -56,7 +56,7 @@ def test_authorized_user_can_get_driver(as_guest, monkeypatch, roles):
     responses.add(responses.POST, "{}:{}/services/collector".format(
         Config.SPLUNK_HOST, Config.SPLUNK_PORT), status=200)
 
-    resp = as_guest.get("/api/v1/icbc/drivers/5120503",
+    resp = as_guest.get(Config.URL_PREFIX + "/api/v1/icbc/drivers/5120503",
                         follow_redirects=True,
                         content_type="application/json",
                         headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
@@ -69,7 +69,7 @@ def test_authorized_user_can_get_driver(as_guest, monkeypatch, roles):
 def test_unauthorized_user_cannot_get_driver(as_guest, monkeypatch, roles):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_unauthorized_user)
-    resp = as_guest.get("/api/v1/icbc/drivers/5120503",
+    resp = as_guest.get(Config.URL_PREFIX + "/api/v1/icbc/drivers/5120503",
                         follow_redirects=True,
                         content_type="application/json",
                         headers=_get_keycloak_auth_header("invalid-token"))
@@ -78,7 +78,7 @@ def test_unauthorized_user_cannot_get_driver(as_guest, monkeypatch, roles):
 
 def test_user_without_keycloak_login_cannot_get_driver(as_guest, monkeypatch):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
-    resp = as_guest.get("/api/v1/icbc/drivers/5120503",
+    resp = as_guest.get(Config.URL_PREFIX + "/api/v1/icbc/drivers/5120503",
                         follow_redirects=True,
                         content_type="application/json",
                         headers=_get_keycloak_auth_header("invalid-token"))
@@ -98,7 +98,7 @@ def test_authorized_user_gets_driver_not_found(as_guest, monkeypatch, roles):
     responses.add(responses.POST, "{}:{}/services/collector".format(
         Config.SPLUNK_HOST, Config.SPLUNK_PORT), status=200)
 
-    resp = as_guest.get("/api/v1/icbc/drivers/1234",
+    resp = as_guest.get(Config.URL_PREFIX + "/api/v1/icbc/drivers/1234",
                         follow_redirects=True,
                         content_type="application/json",
                         headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
@@ -128,7 +128,7 @@ def test_authorized_user_gets_vehicle_not_found(as_guest, monkeypatch, roles):
     responses.add(responses.POST, "{}:{}/services/collector".format(
         Config.SPLUNK_HOST, Config.SPLUNK_PORT), status=200)
 
-    resp = as_guest.get("/api/v1/icbc/vehicles/AAAAA",
+    resp = as_guest.get(Config.URL_PREFIX + "/api/v1/icbc/vehicles/AAAAA",
                         follow_redirects=True,
                         content_type="application/json",
                         headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
@@ -159,7 +159,7 @@ def test_authorized_user_gets_vehicle(as_guest, monkeypatch, roles):
     responses.add(responses.POST, "{}:{}/services/collector".format(
         Config.SPLUNK_HOST, Config.SPLUNK_PORT), status=200)
 
-    resp = as_guest.get("/api/v1/icbc/vehicles/LD626J",
+    resp = as_guest.get(Config.URL_PREFIX + "/api/v1/icbc/vehicles/LD626J",
                         follow_redirects=True,
                         content_type="application/json",
                         headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
@@ -188,7 +188,7 @@ def test_request_for_licence_plate_using_lowercase_automatically_converted_to_up
     responses.add(responses.POST, "{}:{}/services/collector".format(
         Config.SPLUNK_HOST, Config.SPLUNK_PORT), status=200)
 
-    resp = as_guest.get("/api/v1/icbc/vehicles/ld626j",
+    resp = as_guest.get(Config.URL_PREFIX + "/api/v1/icbc/vehicles/ld626j",
                         follow_redirects=True,
                         content_type="application/json",
                         headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
@@ -201,7 +201,7 @@ def test_request_for_licence_plate_using_lowercase_automatically_converted_to_up
 def test_unauthorized_user_cannot_get_vehicle(as_guest, monkeypatch, roles):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_unauthorized_user)
-    resp = as_guest.get("/api/v1/icbc/vehicles/5120503",
+    resp = as_guest.get(Config.URL_PREFIX + "/api/v1/icbc/vehicles/5120503",
                         follow_redirects=True,
                         content_type="application/json",
                         headers=_get_keycloak_auth_header("invalid-token"))
@@ -210,7 +210,7 @@ def test_unauthorized_user_cannot_get_vehicle(as_guest, monkeypatch, roles):
 
 def test_user_without_keycloak_login_cannot_get_vehicle(as_guest, monkeypatch):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
-    resp = as_guest.get("/api/v1/icbc/vehicles/5120503",
+    resp = as_guest.get(Config.URL_PREFIX + "/api/v1/icbc/vehicles/5120503",
                         follow_redirects=True,
                         content_type="application/json",
                         headers=_get_keycloak_auth_header("invalid-token"))
@@ -224,7 +224,7 @@ def test_authorized_user_gets_fake_vehicle_if_using_icbc_licence_plate(plate, as
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
     # responds without calling ICBC - useful for demos when ICBC doesn't respond
-    resp = as_guest.get("/api/v1/icbc/vehicles/" + plate,
+    resp = as_guest.get(Config.URL_PREFIX + "/api/v1/icbc/vehicles/" + plate,
                         follow_redirects=True,
                         content_type="application/json",
                         headers=_get_keycloak_auth_header(_get_keycloak_access_token()))

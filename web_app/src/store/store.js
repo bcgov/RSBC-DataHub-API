@@ -28,20 +28,13 @@ export const store = new Vuex.Store ({
         "12Hour": {
           "component": "TwelveHourProhibition",
           "form_type": "12Hour",
-          "description": "12 Hour Driving Suspension",
+          "label": "12-Hour",
+          "description": "12-Hour Driving Suspension",
           "full_name": "MV2906",
           "documents": {
-            "driver": {
-              "name": "Driver Copy",
-             "variants": ['driver'],
-            },
-            "police": {
-              "name": "Police Copy",
-              "variants": ['police'],
-            },
             "all": {
               "name": "All Copies",
-              "variants": ['driver', 'police']
+              "variants": ['icbc', 'driver', 'police']
             }
           },
           "disabled": false
@@ -49,24 +42,13 @@ export const store = new Vuex.Store ({
         "24Hour": {
           "component": "TwentyFourHourProhibition",
           "form_type": "24Hour",
+          "label": "24-Hour",
           "description": "24-Hour Prohibition",
           "full_name": "MV2634",
           "documents": {
-            "driver": {
-              "name": "Driver Copy",
-              "variants": ['driver'],
-            },
-            "ilo": {
-              "name": "ILO Copy",
-              "variants": ['ilo']
-            },
-            "report": {
-              "name": "Police Copy",
-              "variants": ['police']
-            },
             "all": {
               "name": "All Copies",
-              "variants": ['driver', 'ilo', 'police']
+              "variants": ['icbc', 'driver', 'ilo', 'police']
             }
           },
           "disabled": false
@@ -74,31 +56,21 @@ export const store = new Vuex.Store ({
         "VI": {
           "component": "VehicleImpoundment",
           "form_type": "VI",
+          "label": "VI",
           "description": "Vehicle Impoundment",
           "full_name": "MV2721",
           "documents": {
-            "driver": {
-              "name": "Driver Copy",
-              "variants": ['driver'],
-            },
-            "ilo": {
-              "name": "ILO Copy",
-              "variants": ['ilo']
-            },
-            "police": {
-              "name": "Police Copy",
-              "variants": ['police']
-            },
             "all": {
               "name": "All Copies",
               "variants": ['driver', 'ilo', 'police']
             }
           },
-          "disabled": false
+          "disabled": true
         },
         "IRP": {
           "component": "ImmediateRoadsideProhibition",
           "form_type": "IRP",
+          "label": "IRP",
           "description": "Immediate Roadside Prohibition",
           "full_name": "MV2723",
           "documents": {},
@@ -120,6 +92,7 @@ export const store = new Vuex.Store ({
     icbc_vehicle_lookup: [],
     keycloak: {},
     user_roles: {},
+    admin_users: {},
     users: {}
   },
 

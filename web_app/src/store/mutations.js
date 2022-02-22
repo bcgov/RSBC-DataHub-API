@@ -81,7 +81,9 @@ export const mutations = {
         }
         if(state.keycloak.idTokenParsed) {
             Vue.set( root.data, "logged_in_user", state.keycloak.idTokenParsed.preferred_username);
-            Vue.set( root.data, "officer_name", state.keycloak.idTokenParsed.family_name);
+            Vue.set( root.data, "officer_name", state.users.last_name);
+            Vue.set( root.data, "agency", state.users.agency);
+            Vue.set( root.data, "badge_number", state.users.badge_number);
         }
     },
 
@@ -114,6 +116,7 @@ export const mutations = {
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "vehicle_year", data['vehicleModelYear']);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "vehicle_make", data['vehicleMake']);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "vehicle_model", data['vehicleModel']);
+        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "vehicle_type", data['vehicleStyle']);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "vehicle_color", data['vehicleColour']);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "vin_number", data['vehicleIdNumber']);
 
@@ -155,12 +158,12 @@ export const mutations = {
     },
 
     updateUsers(state, p) {
-        const index = state.users.findIndex( u => u.username === p.username && u.role_name === p.role_name)
+        const index = state.users.findIndex( u => u.user_guid === p.user_guid && u.role_name === p.role_name)
         Vue.set(state.users, index, p)
     },
 
     deleteUser(state, p) {
-        const index = state.users.findIndex( u => u.username === p.username && u.role_name === p.role_name)
+        const index = state.users.findIndex( u => u.user_guid === p.user_guid && u.role_name === p.role_name)
         Vue.delete(state.users, index)
     },
 

@@ -14,7 +14,7 @@
         <officer-details-card></officer-details-card>
         <form-card title="Generate PDF for Printing">
           <div class="d-flex justify-content-between">
-            <button type="submit" class="btn btn-primary" :disabled="invalid">PDF
+            <button type="submit" class="btn btn-primary" :disabled="invalid">Print Forms
               <b-spinner v-if="display_spinner" small label="Loading..."></b-spinner>
             </button>
           </div>
@@ -34,7 +34,7 @@ import {mapActions, mapGetters, mapMutations} from 'vuex';
 
 import DriversInformationCard from "@/components/forms/TwentyFourHourProhibition/DriversInformationCard";
 import FadeText from "@/components/FadeText";
-import OfficerDetailsCard from "@/components/forms/TwentyFourHourProhibition/OfficerDetailsCard";
+import OfficerDetailsCard from "@/components/forms/OfficerDetailsCard";
 import ProhibitionInformationCard from "@/components/forms/TwentyFourHourProhibition/ProhibitionInformationCard";
 import ReasonableGroundsCard from "@/components/forms/TwentyFourHourProhibition/ReasonableGroundsCard";
 import ReturnOfLicenceCard from "@/components/forms/ReturnOfLicenceCard";

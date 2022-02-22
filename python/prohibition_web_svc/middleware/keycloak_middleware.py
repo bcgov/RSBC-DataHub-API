@@ -53,10 +53,28 @@ def get_username_from_decoded_access_token(**kwargs) -> tuple:
     decoded_access_token = kwargs.get('decoded_access_token')
     try:
         kwargs['username'] = decoded_access_token['preferred_username']
+        logging.debug("username from access token: " + kwargs.get('username'))
     except Exception as e:
         kwargs['error'] = "preferred_username not present in decoded access token: " + str(e)
         return False, kwargs
     return True, kwargs
+
+
+def get_user_guid_from_decoded_access_token(**kwargs) -> tuple:
+    decoded_access_token = kwargs.get('decoded_access_token')
+    if decoded_access_token.get('bceid_userid'):
+        logging.debug('BCeID user')
+        kwargs['user_guid'] = decoded_access_token.get('bceid_userid')
+        return True, kwargs
+    if decoded_access_token.get('idir_guid'):
+        logging.debug('IDIR user')
+        kwargs['user_guid'] = decoded_access_token.get('idir_guid')
+        return True, kwargs
+    logging.debug('Github user? - no user GUID')
+    kwargs['user_guid'] = kwargs.get('username')
+    if kwargs['user_guid']:
+        return True, kwargs
+    return False, kwargs
 
 
 def load_roles_and_permissions_from_static_file(**kwargs) -> tuple:
@@ -81,7 +99,7 @@ def check_user_is_authorized(**kwargs) -> tuple:
 def query_database_for_users_permissions(**kwargs) -> tuple:
     logging.debug("inside query_database_for_users_permissions()")
     try:
-        kwargs['user_roles'] = UserRole.get_roles(kwargs.get('username'))
+        kwargs['user_roles'] = UserRole.get_roles(kwargs.get('user_guid'))
     except Exception as e:
         logging.warning("error while querying database for user permissions: " + str(e))
         return False, kwargs

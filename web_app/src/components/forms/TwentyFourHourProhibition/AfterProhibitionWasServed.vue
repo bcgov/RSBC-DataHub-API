@@ -13,7 +13,7 @@
     <form-row>
       <check-field :show_label="false"  id="after_test_administered" fg_class="col-sm-6"
                    :options='["Alco-Sensor FST (ASD)"]'>Test Administered</check-field>
-      <date-field v-if="isProhibitionTypeAlcohol && isTestAdministeredASD" id="after_asd_expiry_date" fg_class="col-sm-6" rules="notExpired">ASD expiry date</date-field>
+      <date-field v-if="isProhibitionTypeAlcohol && isTestAdministeredASD" id="after_asd_expiry_date" fg_class="col-sm-6" rules="notExpiredDt">ASD expiry date</date-field>
       <radio-field v-if="isProhibitionTypeAlcohol && isTestAdministeredASD" id="after_result_alcohol" fg_class="col-sm-12"
                    :options='["51-99 mg%", "Over 99 mg%"]'>Result</radio-field>
     </form-row>

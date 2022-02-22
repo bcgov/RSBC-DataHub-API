@@ -22,10 +22,18 @@ import { mapGetters, mapMutations } from 'vuex';
 
 export default {
   name: "ProvinceField",
+  props: {
+    defaultToBc: {
+      type: Boolean,
+      default: true
+    }
+  },
   mixins: [FieldCommon],
   mounted () {
-    // set initial value to BC
-    this.$store.commit("updateFormField", { target: { id: this.id, value: "BC"}})
+    if(this.defaultToBc) {
+      // set initial value to BC
+      this.$store.commit("updateFormField", { target: { id: this.id, value: "BC"}})
+    }
   },
   computed: {
     ...mapGetters(["getArrayOfProvinces", "getAttributeValue"])

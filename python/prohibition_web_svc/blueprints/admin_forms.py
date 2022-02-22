@@ -10,8 +10,8 @@ import python.prohibition_web_svc.http_responses as http_responses
 logging.config.dictConfig(Config.LOGGING)
 logging.info('*** admin/forms blueprint loaded ***')
 
-bp = Blueprint('admin_forms', __name__, url_prefix='/api/v1/admin')
-CORS(bp, resources={"/api/v1/admin/forms*": {"origins": Config.ACCESS_CONTROL_ALLOW_ORIGIN}})
+bp = Blueprint('admin_forms', __name__, url_prefix=Config.URL_PREFIX + '/api/v1')
+CORS(bp, resources={Config.URL_PREFIX + "/api/v1/admin/forms*": {"origins": Config.ACCESS_CONTROL_ALLOW_ORIGIN}})
 
 
 def basic_auth_required(f):
@@ -32,7 +32,7 @@ def basic_auth_required(f):
     return decorated
 
 
-@bp.route('/forms', methods=['GET'])
+@bp.route('/admin/forms', methods=['GET'])
 @basic_auth_required
 def index():
     """
@@ -51,7 +51,7 @@ def index():
         return kwargs.get('response')
 
 
-@bp.route('/forms/<string:form_id>', methods=['GET'])
+@bp.route('/admin/forms/<string:form_id>', methods=['GET'])
 def get(form_id):
     """
     Get a specific form
@@ -60,7 +60,7 @@ def get(form_id):
         return make_response('method not implemented', 405)
 
 
-@bp.route('/forms', methods=['POST'])
+@bp.route('/admin/forms', methods=['POST'])
 @basic_auth_required
 def create():
     """
@@ -84,7 +84,7 @@ def create():
         return kwargs.get('response')
 
 
-@bp.route('/forms/<string:form_id>', methods=['PATCH'])
+@bp.route('/admin/forms/<string:form_id>', methods=['PATCH'])
 def update(form_id):
     """
     Update a specific form
@@ -93,7 +93,7 @@ def update(form_id):
         return make_response('method not implemented', 405)
 
 
-@bp.route('/forms/<string:form_id>', methods=['DELETE'])
+@bp.route('/admin/forms/<string:form_id>', methods=['DELETE'])
 def delete(form_id):
     """
     Delete a specific form

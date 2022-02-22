@@ -9,22 +9,13 @@
       <plate-number id="plate_number" fg_class="col-sm-6">Plate Number</plate-number>
     </form-row>
   <form-row>
-    <wait-for-icbc-field id="plate_year" fg_class="col-sm-4">Plate Year</wait-for-icbc-field>
-    <wait-for-icbc-field id="plate_val_tag" input_type="number" fg_class="col-sm-4">Plate Val Tag</wait-for-icbc-field>
-    <wait-for-icbc-field id="registration_number" fg_class="col-sm-4">Registration Number</wait-for-icbc-field>
-  </form-row>
-  <form-row>
-<type-ahead-field :suggestions="getArrayOfVehicleYears" id="vehicle_year" fg_class="col-sm-2">Vehicle Year</type-ahead-field>
+    <text-field id="vehicle_year" rules="vehicleYear" fg_class="col-sm-2">Vehicle Year</text-field>
     <type-ahead-field :suggestions="getArrayOfVehicleMakes" id="vehicle_make" input_type="number" fg_class="col-sm-2">Vehicle Make</type-ahead-field>
     <type-ahead-field :suggestions="getArrayOfVehicleModels" id="vehicle_model" fg_class="col-sm-3">Vehicle Model</type-ahead-field>
-    <wait-for-icbc-field id="vehicle_type" fg_class="col-sm-3">Vehicle Type</wait-for-icbc-field>
     <type-ahead-field :suggestions="getArrayOfCommonCarColors" id="vehicle_color" fg_class="col-sm-2">Vehicle Colour</type-ahead-field>
   </form-row>
   <form-row>
-    <wait-for-icbc-field id="vin_number" fg_class="col-sm-12">VIN Number</wait-for-icbc-field>
-  </form-row>
-  <form-row>
-    <text-field id="puj_code" fg_class="col-sm-5">PUJ Code</text-field>
+    <province-field id="puj_code" fg_class="col-sm-2" :default-to-bc=false>PUJ Code</province-field>
     <text-field id="nsc_number" fg_class="col-sm-7">NSC Number</text-field>
   </form-row>
 </form-card>

@@ -1,6 +1,8 @@
 import jsPDF from "jspdf";
 
 const FONT_COLOR = "rgb(0, 0, 128)"
+const PUBLIC_PATH = process.env.BASE_URL
+
 
 export default {
 
@@ -11,7 +13,7 @@ export default {
               orientation: print_definitions['orientation'],
               units: print_definitions['units'],
               format: print_definitions['format'],
-              putOnlyUsedFonts: true
+              compress: true
           });
           let page_index = 0
           this.buildPdfVariants(doc, document_types_to_print, print_definitions, page_index, form_data)
@@ -34,7 +36,7 @@ export default {
     async buildPages(doc, print_definitions, variant, page_index, form_data) {
         for (const page of print_definitions['variants'][variant]['pages']) {
             console.log("doc", doc)
-            await this.fetchCacheName(page['image']['filename'])
+            await this.fetchCacheName(PUBLIC_PATH + page['image']['filename'])
                 .then( (response) => {
                     console.log("B - got response");
                     return new URL(response.responseURL)
@@ -58,7 +60,8 @@ export default {
                                 page['image']['offset_y'],
                                 page['image']['width'],
                                 page['image']['height'],
-                                null
+                                '',
+                                'FAST'
                             )
                 })
                 .then((doc) => {
@@ -66,7 +69,7 @@ export default {
                          let field_definition = print_definitions['fields'][field]
                          console.log("field_definition", field_definition, field)
                         if (field_definition['field_type'] === 'label') {
-                            doc.text(field, field_definition['start']['x'], field_definition['start']['y']);
+                            doc.text(field_definition['value'], field_definition['start']['x'], field_definition['start']['y']);
                         }
                         if (form_data[field]) {
                             doc.setTextColor(FONT_COLOR);

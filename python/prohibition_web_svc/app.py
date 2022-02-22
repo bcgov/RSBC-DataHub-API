@@ -1,17 +1,19 @@
 from flask_api import FlaskAPI
 import logging
+import pytz
 from datetime import datetime
-from python.prohibition_web_svc.models import db, Form, UserRole
+from python.prohibition_web_svc.models import db, Form, UserRole, User
 from python.prohibition_web_svc.config import Config
 from python.prohibition_web_svc.blueprints import impound_lot_operators, jurisdictions, forms, admin_forms, agencies
 from python.prohibition_web_svc.blueprints import provinces, countries, cities, colors, vehicles, icbc, keycloak
-from python.prohibition_web_svc.blueprints import vehicle_styles, user_roles, admin_user_roles, admin_users
+from python.prohibition_web_svc.blueprints import vehicle_styles, user_roles, admin_user_roles, admin_users, users
 
 
 application = FlaskAPI(__name__)
 application.config['SECRET_KEY'] = Config.FLASK_SECRET_KEY
 application.config['SQLALCHEMY_DATABASE_URI'] = Config.DATABASE_URI
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+application.config["SQLALCHEMY_ECHO"] = False
 
 application.register_blueprint(admin_forms.bp)
 application.register_blueprint(admin_user_roles.bp)
@@ -27,6 +29,7 @@ application.register_blueprint(jurisdictions.bp)
 application.register_blueprint(keycloak.bp)
 application.register_blueprint(provinces.bp)
 application.register_blueprint(user_roles.bp)
+application.register_blueprint(users.bp)
 application.register_blueprint(vehicle_styles.bp)
 application.register_blueprint(vehicles.bp)
 
@@ -73,12 +76,20 @@ def _seed_forms_for_development(database):
 
 
 def seed_initial_administrator(database):
-    current_dt = datetime.now()
-    users = [
-        UserRole(username=Config.ADMIN_USERNAME, role_name='officer', submitted_dt=current_dt, approved_dt=current_dt),
-        UserRole(username=Config.ADMIN_USERNAME, role_name='administrator', submitted_dt=current_dt, approved_dt=current_dt)
+    vancouver_tz = pytz.timezone("America/Vancouver")
+    current_dt = datetime.now(vancouver_tz)
+    user = User(username=Config.ADMIN_USERNAME,
+                user_guid=Config.ADMIN_USERNAME,
+                badge_number='0000',
+                agency="RoadSafety",
+                first_name="Initial",
+                last_name="Administrator")
+    database.session.add(user)
+    roles = [
+        UserRole(user_guid=Config.ADMIN_USERNAME, role_name='officer', submitted_dt=current_dt, approved_dt=current_dt),
+        UserRole(user_guid=Config.ADMIN_USERNAME, role_name='administrator', submitted_dt=current_dt, approved_dt=current_dt)
     ]
-    database.session.bulk_save_objects(users)
+    database.session.bulk_save_objects(roles)
     database.session.commit()
     logging.warning("seed initial administrator: " + Config.ADMIN_USERNAME)
     return

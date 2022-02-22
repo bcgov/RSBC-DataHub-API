@@ -20,6 +20,9 @@ def get_keycloak_user() -> list:
         {"try": keycloak_middleware.get_username_from_decoded_access_token, "fail": [
             {"try": http_responses.keycloak_no_username, "fail": []},
         ]},
+        {"try": keycloak_middleware.get_user_guid_from_decoded_access_token, "fail": [
+            {"try": http_responses.no_user_guid, "fail": []},
+        ]}
     ]
 
 
@@ -36,9 +39,4 @@ def get_authorized_keycloak_user() -> list:
         ]},
     ]
 
-
-def user_is_an_administrator() -> list:
-    return get_keycloak_user() + [
-
-    ]
 

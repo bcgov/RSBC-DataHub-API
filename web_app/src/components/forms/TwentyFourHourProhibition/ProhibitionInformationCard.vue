@@ -6,13 +6,21 @@
     </form-row>
     <form-row>
       <text-field id="offence_address" fg_class="col-sm-8" rules="required">Intersection or Address of Offence</text-field>
-      <type-ahead-field id="offence_city" fg_class="col-sm-4" :suggestions="getArrayOfBCCityNames" rules="required">City</type-ahead-field>
+      <type-ahead-field id="offence_city" fg_class="col-sm-4"
+                        :suggestions="getArrayOfBCCityNames"
+                        :rules="offenceCityRules">City
+      </type-ahead-field>
     </form-row>
     <form-row>
       <text-field id="file_number" fg_class="col-sm-3" rules="required">Agency File #</text-field>
-      <date-time id="prohibition_start_time" fg_class="col-sm-9" rules="required|notFutureDt">
-        Time of driving, care or control
-      </date-time>
+      <date-field id="prohibition_start_date" fg_class="col-sm-5"
+                  rules="required|validDt|notFutureDt|notGtYearAgo">
+        Date of Driving, care or control
+      </date-field>
+      <time-field id="prohibition_start_time" fg_class="col-sm-4"
+                  rules="required|validTime|notFutureDateTime:@prohibition_start_date">
+        Time
+      </time-field>
     </form-row>
 </form-card>
 </template>
@@ -22,7 +30,7 @@ import CardsCommon from "@/components/forms/CardsCommon";
 
 export default {
   name: "ProhibitionInformationCard",
-  mixins: [CardsCommon]
+  mixins: [CardsCommon],
 }
 </script>
 

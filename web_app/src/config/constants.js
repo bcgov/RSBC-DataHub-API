@@ -1,7 +1,7 @@
 import moment from "moment";
 export default {
 
-    API_ROOT_URL: process.env.NODE_ENV === 'development' ? "http://localhost:5002" : '',
+    API_ROOT_URL: process.env.NODE_ENV === 'development' ? "http://localhost:5002" : '/roadside-forms',
     // API_ROOT_URL: "http://localhost:5002",
 
     // Number of days before this app will refresh unique prohibition ids.  The unique
@@ -18,6 +18,8 @@ export default {
     MAX_NUMBER_UNIQUE_ID_FETCH_ATTEMPTS: 2,
 
     MIN_VEHICLE_YEAR: 1920,
-    MAX_VEHICLE_YEAR: moment().format("YYYY") + 1
+    MAX_VEHICLE_YEAR: moment().format("YYYY") + 1,
+
+    TIMEZONE: "America/Vancouver"
 
 }

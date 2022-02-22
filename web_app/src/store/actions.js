@@ -1,7 +1,7 @@
 import constants from "@/config/constants";
 import persistence from "@/helpers/persistence";
 import print_layout from "@/config/print_layout.json";
-import moment from "moment";
+import moment from "moment-timezone";
 import pdfMerge from "@/helpers/pdfMerge";
 
 
@@ -177,9 +177,9 @@ export const actions = {
                 })
     },
 
-    async fetchStaticLookupTables(context, type) {
-        const admin = type === 'users' ? 'admin/' : ''
-        const url = constants.API_ROOT_URL + "/api/v1/" + admin + type
+    async fetchStaticLookupTables(context, payload) {
+        const admin_parameter = payload.admin ? 'admin/' : ''
+        const url = constants.API_ROOT_URL + "/api/v1/" + admin_parameter + payload.resource
         console.log("fetchStaticLookupTables()", url)
         fetch(url, {
             "method": 'GET',
@@ -188,7 +188,8 @@ export const actions = {
                 return response.json()
             })
             .then( data => {
-                context.commit("populateStaticLookupTables", { "type": type, "data": data })
+                const admin_prefix = payload.admin ? 'admin_' : ''
+                context.commit("populateStaticLookupTables", { "type": admin_prefix + payload.resource, "data": data })
             })
             .catch(() => {
                 console.log("fetchStaticLookupTables network fetch failed")
@@ -245,11 +246,11 @@ export const actions = {
             key_value_pairs['REASON_ALCOHOL_90'] = context.getters.getFormPrintRadioValue(form_object, 'prohibition_type_12hr', 'Alcohol 90.3(2)')
             key_value_pairs['REASON_DRUGS_90'] = context.getters.getFormPrintRadioValue(form_object, 'prohibition_type_12hr', 'Drugs 90.3(2.1)')
 
-            let prohibition_start_time = moment(context.getters.getFormPrintValue(form_object, 'prohibition_start_time'))
-            key_value_pairs['NOTICE_TIME'] = prohibition_start_time.format("HH:mm")
-            key_value_pairs['NOTICE_DAY'] = prohibition_start_time.format("Do")
-            key_value_pairs['NOTICE_MONTH'] = prohibition_start_time.format("MMMM")
-            key_value_pairs['NOTICE_YEAR'] = prohibition_start_time.format("YYYY")
+            let prohibition_start_datetime = moment(context.getters.getFormDateTime(form_object, ['prohibition_start_date','prohibition_start_time']))
+            key_value_pairs['NOTICE_TIME'] = prohibition_start_datetime.format("HH:mm")
+            key_value_pairs['NOTICE_DAY'] = prohibition_start_datetime.format("Do")
+            key_value_pairs['NOTICE_MONTH'] = prohibition_start_datetime.format("MMMM")
+            key_value_pairs['NOTICE_YEAR'] = prohibition_start_datetime.format("YYYY")
 
             key_value_pairs['DL_SURRENDER_LOCATION'] = context.getters.getFormPrintValue(form_object, 'offence_address') +
                 ", " + context.getters.getFormPrintValue(form_object, 'offence_city')
@@ -302,11 +303,15 @@ export const actions = {
 
             key_value_pairs['RELEASE_LOCATION_KEYS'] = context.getters.getFormPrintValue(form_object, 'location_of_keys')
             key_value_pairs['RELEASE_PERSON'] = context.getters.getFormPrintValue(form_object, 'vehicle_released_to')
+            key_value_pairs['RELEASE_DATETIME'] = context.getters.getFormDateTimeString(form_object, ['released_date', 'released_time'])
 
             key_value_pairs['DRIVER_SURNAME'] = context.getters.getFormPrintValue(form_object,"last_name")
             key_value_pairs['DRIVER_GIVEN'] = context.getters.getFormPrintValue(form_object,'first_name')
             key_value_pairs['DRIVER_DL_NUMBER'] = context.getters.getFormPrintValue(form_object,'drivers_number')
             key_value_pairs['DRIVER_DL_PROVINCE'] = context.getters.getFormPrintJurisdiction(form_object,'drivers_licence_jurisdiction')
+
+            key_value_pairs['DRIVER_PHONE_AREA_CODE'] = context.getters.getFormPrintValue(form_object,'driver_phone').substr(0,3)
+            key_value_pairs['DRIVER_PHONE'] = context.getters.getFormPrintValue(form_object,'driver_phone').substr(3)
 
             let dob = moment(context.getters.getFormPrintValue(form_object,'dob'))
             key_value_pairs['DRIVER_DOB'] = dob.format("YYYY MM DD")
@@ -345,6 +350,13 @@ export const actions = {
             key_value_pairs['REASON_PRESCRIBED_TEST_NOT_USED'] = context.getters.getFormPrintValue(
                     form_object, 'reason_prescribed_test_not_used')
 
+            let prescribed_test = []
+
+            if (context.getters.getFormPrintCheckedValue(form_object, "test_administered_sfst", "Prescribed Physical Coordination Test (SFST)")) {
+                    prescribed_test.push("SFST")
+                    key_value_pairs['REASONABLE_GROUNDS_TEST_PHYSICAL_COORDINATION'] = true
+                }
+
 
             // Alcohol - 215
             if (key_value_pairs['REASON_ALCOHOL_215']) {
@@ -355,8 +367,8 @@ export const actions = {
                 key_value_pairs['REASONABLE_GROUNDS_TEST_ASD_EXPIRY_DATE'] = context.getters.getFormPrintValue(
                     form_object, 'asd_expiry_date')
 
-                key_value_pairs['REASONABLE_GROUNDS_TEST_TIME'] = context.getters.getFormPrintValue(
-                    form_object, 'time_of_test').split(" ")[1]
+                key_value_pairs['REASONABLE_GROUNDS_TEST_TIME'] = context.getters.getFormDateTimeString(
+                    form_object, ['test_date', 'test_time'])
 
                 key_value_pairs['REASONABLE_GROUNDS_ALCOHOL_51-99'] = context.getters.getFormPrintCheckedValue(
                     form_object, 'result_alcohol', '51-99 mg%')
@@ -364,40 +376,31 @@ export const actions = {
                 key_value_pairs['REASONABLE_GROUNDS_ALCOHOL_OVER_99'] = context.getters.getFormPrintCheckedValue(
                     form_object, 'result_alcohol', 'Over 99 mg%')
 
-
                 key_value_pairs['REASONABLE_GROUNDS_TEST_APPROVED_INSTRUMENT'] = context.getters.getFormPrintCheckedValue(
                     form_object, 'test_administered_instrument', 'Approved Instrument')
 
-                key_value_pairs['REASONABLE_GROUNDS_ALCOHOL_BAC'] = context.getters.getFormPrintCheckedValue(
-                        form_object, 'result_alcohol_approved_instrument', "BAC")
-
-                if (key_value_pairs['REASONABLE_GROUNDS_ALCOHOL_BAC']) {
-
+                if (key_value_pairs['REASONABLE_GROUNDS_TEST_APPROVED_INSTRUMENT']) {
+                    key_value_pairs['REASONABLE_GROUNDS_TEST_APPROVED_INSTRUMENT_SPECIFY'] = 'Intox EC/IR II'
+                    key_value_pairs['REASONABLE_GROUNDS_ALCOHOL_BAC'] = true
                     key_value_pairs['REASONABLE_GROUNDS_ALCOHOL_BAC_VALUE'] = context.getters.getFormPrintValue(
-                        form_object, 'test_result_bac')
-
-                    key_value_pairs['REASONABLE_GROUNDS_TEST_APPROVED_INSTRUMENT_SPECIFY'] = 'BAC'
+                        form_object, 'test_result_bac') + " mg%"
                 }
             }
 
             // Drugs - 215
             if (key_value_pairs['REASON_DRUGS_215']) {
 
-                let prescribed_test = []
-
-                key_value_pairs['REASONABLE_GROUNDS_TEST_TIME'] = context.getters.getFormPrintValue(
-                    form_object, 'time_of_test').split(" ")[1]
+                key_value_pairs['REASONABLE_GROUNDS_TEST_TIME'] = context.getters.getFormDateTimeString(
+                    form_object, ['test_date', 'test_time'])
 
                 if (context.getters.getFormPrintCheckedValue(
                         form_object, 'test_administered_adse', "Approved Drug Screening Equipment")) {
                     key_value_pairs['REASONABLE_GROUNDS_TEST_APPROVED_INSTRUMENT'] = true
                     key_value_pairs['REASONABLE_GROUNDS_TEST_APPROVED_INSTRUMENT_SPECIFY'] = 'ADSE'
-                    key_value_pairs['ADSE_RESULTS'] = context.getters.getFormPrintValue(form_object,"positive_adse").join(" and ")
-                }
-
-                if (context.getters.getFormPrintCheckedValue(form_object, "test_administered_sfst", "Prescribed Physical Coordination Test (SFST)")) {
-                    prescribed_test.push("SFST")
-                    key_value_pairs['REASONABLE_GROUNDS_TEST_PHYSICAL_COORDINATION'] = true
+                    const thc_or_cocaine = context.getters.getFormPrintValue(form_object,"positive_adse")
+                    if (thc_or_cocaine) {
+                        key_value_pairs['ADSE_RESULTS'] = thc_or_cocaine.join(" and ")
+                    }
                 }
 
                 if (context.getters.getFormPrintCheckedValue(form_object, "test_administered_dre", "Prescribed Physical Coordination Test (DRE)")) {
@@ -418,44 +421,50 @@ export const actions = {
 
     },
 
-    async applyToUnlockApplication(context) {
+    async applyToUnlockApplication(context, application) {
         console.log("inside actions.js applyToUnlockApplication(): ")
-        const url = constants.API_ROOT_URL + "/api/v1/user_roles"
+        const url = constants.API_ROOT_URL + "/api/v1/users"
         return await new Promise((resolve, reject) => {
             fetch(url, {
-            "method": 'POST',
-            "headers": context.getters.apiHeader,
-                })
-                    .then(response => {
-                        return response.json()
+                "method": 'POST',
+                "body": JSON.stringify(application),
+                "headers": context.getters.apiHeader,
                     })
-                    .then( (data) => {
-                        console.log("applyToUnlockApplication()", data)
-                        resolve(context.commit("pushInitialUserRole", data))
+                        .then(response => {
+                            return response.json()
+                        })
+                        .then( (data) => {
+                            console.log("applyToUnlockApplication()", data)
+                            resolve(context.commit("pushInitialUserRole", data))
+                        })
+                        .catch((error) => {
+                            console.log("error", error)
+                            if (error) {
+                                reject("message" in error ? {"description": error.message }: {"description": "No valid response"})
+                            }
+                            reject({"description": "Server did not respond"})
+                            });
                     })
-                    .catch((error) => {
-                        console.log("error", error)
-                        if (error) {
-                            reject("message" in error ? {"description": error.message }: {"description": "No valid response"})
-                        }
-                        reject({"description": "Server did not respond"})
-                        });
-                })
     },
 
-    async adminApproveUserRole(context, username) {
+    async adminApproveUserRole(context, new_user) {
         console.log("inside actions.js adminApproveUserRole(): ")
-        const url = constants.API_ROOT_URL + "/api/v1/admin/users/" + username + "/roles/officer"
+        const url = constants.API_ROOT_URL + "/api/v1/admin/users/" + new_user.user_guid + "/roles/officer"
         return await new Promise((resolve, reject) => {
             fetch(url, {
             "method": 'PATCH',
             "headers": context.getters.apiHeader,
                 })
                     .then(response => {
-                        return response.json()
+                        if (response.status === 200) {
+                            return response.json()
+                        }
                     })
                     .then( data => {
-                        resolve(context.commit("updateUsers", data))
+                        new_user.role_name = data.role_name
+                        new_user.approved_dt = data.approved_dt
+                        new_user.submitted_dt = data.submitted_dt
+                        resolve(context.commit("updateUsers", new_user))
                     })
                     .catch((error) => {
                         console.log("error", error)
@@ -469,7 +478,7 @@ export const actions = {
 
     async adminDeleteUserRole(context, payload) {
         console.log("inside actions.js adminDeleteUserRole(): ", payload)
-        const url = constants.API_ROOT_URL + "/api/v1/admin/users/" + payload.username + "/roles/" + payload.role_name
+        const url = constants.API_ROOT_URL + "/api/v1/admin/users/" + payload.user_guid + "/roles/" + payload.role_name
         return await new Promise((resolve, reject) => {
             fetch(url, {
             "method": 'DELETE',
@@ -491,9 +500,9 @@ export const actions = {
                 })
     },
 
-    async adminAddUserRole(context, username) {
+    async adminAddUserRole(context, new_user) {
         console.log("inside actions.js adminAddUserRole(): ")
-        const url = constants.API_ROOT_URL + "/api/v1/admin/users/" + username + "/roles"
+        const url = constants.API_ROOT_URL + "/api/v1/admin/users/" + new_user.user_guid + "/roles"
         const payload = {"role_name": "administrator"}
         return await new Promise((resolve, reject) => {
             fetch(url, {
@@ -502,10 +511,15 @@ export const actions = {
                 "headers": context.getters.apiHeader,
                 })
                     .then(response => {
-                        return response.json()
+                        if (response.status === 200) {
+                            return response.json()
+                        }
                     })
-                    .then( data => {
-                        return resolve(context.commit("addUsers", data))
+                    .then( () => {
+                        new_user.role_name = payload.role_name
+                        new_user.approved_dt = moment().tz("America/Vancouver")
+                        new_user.submitted_dt = moment().tz("America/Vancouver")
+                        return resolve(context.commit("addUsers", new_user))
                     })
                     .catch((error) => {
                         console.log("error", error)
@@ -529,23 +543,24 @@ export const actions = {
         payload['timestamp'] = current_timestamp
         await context.dispatch("tellApiFormIsPrinted", form_object)
           .then( (response) => {
-            console.log("response from tellApiFormIsPrinted()", response)
-            context.commit("setFormAsPrinted", payload)
-            context.dispatch("saveCurrentFormToDB", form_object)
+              console.log("response from tellApiFormIsPrinted()", response)
+              context.commit("setFormAsPrinted", payload)
+              context.dispatch("saveCurrentFormToDB", form_object)
+              context.commit("stopEditingCurrentForm")
           })
     },
 
     async downloadLookupTables(context) {
 
-        await context.dispatch("fetchStaticLookupTables", "agencies")
-        await context.dispatch("fetchStaticLookupTables", "impound_lot_operators")
-        await context.dispatch("fetchStaticLookupTables", "countries")
-        await context.dispatch("fetchStaticLookupTables", "jurisdictions")
-        await context.dispatch("fetchStaticLookupTables", "provinces")
-        await context.dispatch("fetchStaticLookupTables", "cities")
-        await context.dispatch("fetchStaticLookupTables", "colors")
-        await context.dispatch("fetchStaticLookupTables", "vehicles")
-        await context.dispatch("fetchStaticLookupTables", "vehicle_styles")
+        await context.dispatch("fetchStaticLookupTables", {"resource": "agencies", "admin": false})
+        await context.dispatch("fetchStaticLookupTables", {"resource": "impound_lot_operators", "admin": false})
+        await context.dispatch("fetchStaticLookupTables", {"resource": "countries", "admin": false})
+        await context.dispatch("fetchStaticLookupTables", {"resource": "jurisdictions", "admin": false})
+        await context.dispatch("fetchStaticLookupTables", {"resource": "provinces", "admin": false})
+        await context.dispatch("fetchStaticLookupTables", {"resource": "cities", "admin": false})
+        await context.dispatch("fetchStaticLookupTables", {"resource": "colors", "admin": false})
+        await context.dispatch("fetchStaticLookupTables", {"resource": "vehicles", "admin": false})
+        await context.dispatch("fetchStaticLookupTables", {"resource": "vehicle_styles", "admin": false})
 
     },
 

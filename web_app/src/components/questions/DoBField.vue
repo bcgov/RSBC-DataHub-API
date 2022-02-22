@@ -1,8 +1,9 @@
 <template>
 <div class="form-group" :class="fg_class">
-  <validation-provider :rules="rules" :name="id" v-slot="{ errors, required }">
+  <validation-provider rules="validDt|dob" :name="id" v-slot="{ errors, required }">
     <label v-if="show_label" :for="id">
       Date of Birth
+      <span class="small text-muted"> YYYYMMDD</span>
       <span v-if="required" class="text-danger"> *</span>
       <span class="text-muted" v-if="isValidDate"> ({{ yearsOld }} yrs)</span>
     </label>
