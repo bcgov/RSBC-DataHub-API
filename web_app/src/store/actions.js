@@ -350,6 +350,13 @@ export const actions = {
             key_value_pairs['REASON_PRESCRIBED_TEST_NOT_USED'] = context.getters.getFormPrintValue(
                     form_object, 'reason_prescribed_test_not_used')
 
+            let prescribed_test = []
+
+            if (context.getters.getFormPrintCheckedValue(form_object, "test_administered_sfst", "Prescribed Physical Coordination Test (SFST)")) {
+                    prescribed_test.push("SFST")
+                    key_value_pairs['REASONABLE_GROUNDS_TEST_PHYSICAL_COORDINATION'] = true
+                }
+
 
             // Alcohol - 215
             if (key_value_pairs['REASON_ALCOHOL_215']) {
@@ -383,8 +390,6 @@ export const actions = {
             // Drugs - 215
             if (key_value_pairs['REASON_DRUGS_215']) {
 
-                let prescribed_test = []
-
                 key_value_pairs['REASONABLE_GROUNDS_TEST_TIME'] = context.getters.getFormDateTimeString(
                     form_object, ['test_date', 'test_time'])
 
@@ -396,11 +401,6 @@ export const actions = {
                     if (thc_or_cocaine) {
                         key_value_pairs['ADSE_RESULTS'] = thc_or_cocaine.join(" and ")
                     }
-                }
-
-                if (context.getters.getFormPrintCheckedValue(form_object, "test_administered_sfst", "Prescribed Physical Coordination Test (SFST)")) {
-                    prescribed_test.push("SFST")
-                    key_value_pairs['REASONABLE_GROUNDS_TEST_PHYSICAL_COORDINATION'] = true
                 }
 
                 if (context.getters.getFormPrintCheckedValue(form_object, "test_administered_dre", "Prescribed Physical Coordination Test (DRE)")) {
