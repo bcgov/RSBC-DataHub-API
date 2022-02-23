@@ -123,9 +123,15 @@ export const mutations = {
         const owner = data['vehicleParties'][0]['party']
         const address = owner['addresses'][0]
 
+        if(owner.partyType === 'Organisation') {
+            Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "corporate_owner", ['Owned by corporate entity']);
+            Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_corporation", owner['orgName']);
+        } else {
+            Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_last_name", owner['lastName']);
+            Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_first_name", owner['firstName']);
+        }
+
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owner_is_driver", []);
-        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_last_name", owner['lastName']);
-        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_first_name", owner['firstName']);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_address1", address['addressLine1']);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_city", address['city']);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_province", address['region']);
