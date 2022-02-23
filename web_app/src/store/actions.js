@@ -292,22 +292,22 @@ export const actions = {
             key_value_pairs['NOT_IMPOUNDED'] = context.getters.getFormPrintRadioValue(form_object, 'vehicle_impounded', 'No')
             key_value_pairs['IMPOUNDED'] = context.getters.getFormPrintRadioValue(form_object, 'vehicle_impounded', 'Yes')
 
-            // TODO - don't print the following if the vehicle is impounded
-            key_value_pairs['NOT_IMPOUNDED_REASON'] = context.getters.getFormPrintValue(form_object, 'reason_for_not_impounding')
-
-            let ilo = context.getters.getFormPrintValue(form_object, 'impound_lot_operator').split(", ")
-            if (ilo.length > 1) {
-                key_value_pairs['IMPOUNDED_LOT'] = ilo[0]
-                key_value_pairs['IMPOUNDED_ADDRESS'] = ilo[1] + ", " + ilo[2]
-                key_value_pairs['IMPOUNDED_PHONE_AREA_CODE'] = ilo[3].substr(0, 3)
-                key_value_pairs['IMPOUNDED_PHONE_NUMBER'] = ilo[3].substr(4)
+            if (key_value_pairs['IMPOUNDED']) {
+                let ilo = context.getters.getFormPrintValue(form_object, 'impound_lot_operator').split(", ")
+                if (ilo.length > 1) {
+                    key_value_pairs['IMPOUNDED_LOT'] = ilo[0]
+                    key_value_pairs['IMPOUNDED_ADDRESS'] = ilo[1] + ", " + ilo[2]
+                    key_value_pairs['IMPOUNDED_PHONE_AREA_CODE'] = ilo[3].substr(0, 3)
+                    key_value_pairs['IMPOUNDED_PHONE_NUMBER'] = ilo[3].substr(4)
+                }
+            } else {
+                key_value_pairs['NOT_IMPOUNDED_REASON'] = context.getters.getFormPrintValue(form_object, 'reason_for_not_impounding')
+                key_value_pairs['RELEASE_PERSON'] = context.getters.getFormPrintValue(form_object, 'vehicle_released_to')
+                key_value_pairs['RELEASE_DATETIME'] = context.getters.getFormDateTimeString(form_object, ['released_date', 'released_time'])
             }
 
             key_value_pairs['RELEASE_LOCATION_VEHICLE'] = context.getters.locationOfVehicle(form_object)
-
             key_value_pairs['RELEASE_LOCATION_KEYS'] = context.getters.getFormPrintValue(form_object, 'location_of_keys')
-            key_value_pairs['RELEASE_PERSON'] = context.getters.getFormPrintValue(form_object, 'vehicle_released_to')
-            key_value_pairs['RELEASE_DATETIME'] = context.getters.getFormDateTimeString(form_object, ['released_date', 'released_time'])
 
             key_value_pairs['DRIVER_SURNAME'] = context.getters.getFormPrintValue(form_object,"last_name")
             key_value_pairs['DRIVER_GIVEN'] = context.getters.getFormPrintValue(form_object,'first_name')
