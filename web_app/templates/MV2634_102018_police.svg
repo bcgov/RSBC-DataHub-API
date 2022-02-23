@@ -44,22 +44,23 @@
      pagecolor="#ffffff"
      bordercolor="#666666"
      borderopacity="1.0"
-     inkscape:pageopacity="0.0"
+     inkscape:pageopacity="1"
      inkscape:pageshadow="2"
      inkscape:zoom="0.98994949"
-     inkscape:cx="849.40101"
+     inkscape:cx="533.72779"
      inkscape:cy="369.2193"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
      units="in"
-     inkscape:window-width="759"
-     inkscape:window-height="960"
-     inkscape:window-x="16"
-     inkscape:window-y="67"
-     inkscape:window-maximized="0"
+     inkscape:window-width="1920"
+     inkscape:window-height="1016"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
      showguides="true"
-     inkscape:guide-bbox="true" />
+     inkscape:guide-bbox="true"
+     inkscape:pagecheckerboard="true" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -87,6 +88,13 @@
        height="204.1525"
        width="114.2244"
        style="display:inline;filter:url(#filter4626)" />
+    <rect
+       style="display:inline;opacity:1;fill:#ffffff;fill-opacity:1;stroke-width:0.26458332"
+       id="rect21"
+       width="35.814117"
+       height="6.6817379"
+       x="209.00476"
+       y="127.81839" />
     <image
        y="94.404762"
        x="25.702381"
@@ -95,6 +103,7 @@
        preserveAspectRatio="none"
        height="189.73619"
        width="109.50489"
-       style="display:inline;opacity:1;filter:url(#filter4579)" />
+       style="display:inline;opacity:1;filter:url(#filter4579)"
+       sodipodi:insensitive="true" />
   </g>
 </svg>

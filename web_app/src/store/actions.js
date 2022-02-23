@@ -328,15 +328,20 @@ export const actions = {
                 form_object, 'operating_grounds', "Independent witness")
             key_value_pairs['DRIVER_ADMISSION_BY_DRIVER'] = context.getters.getFormPrintCheckedValue(
                 form_object, 'operating_grounds', "Admission by driver")
-            key_value_pairs['VIDEO_SURVEILLANCE'] = context.getters.getFormPrintCheckedValue(
+
+            const video_surveillance = context.getters.getFormPrintCheckedValue(
                 form_object, 'operating_grounds', "Video surveillance")
 
             let operating_grounds_other = context.getters.getFormPrintCheckedValue(
                 form_object, 'operating_grounds', "Other")
             key_value_pairs['DRIVER_OTHER'] = operating_grounds_other
 
-            if (operating_grounds_other) {
-                key_value_pairs['DRIVER_ADDITIONAL_INFORMATION'] = context.getters.getFormPrintValue(
+            if (operating_grounds_other || video_surveillance) {
+                key_value_pairs['DRIVER_ADDITIONAL_INFORMATION'] = "Additional Information:"
+                if (video_surveillance) {
+                    key_value_pairs['DRIVER_ADDITIONAL_INFORMATION'] += " video surveillance. "
+                }
+                key_value_pairs['DRIVER_ADDITIONAL_INFORMATION'] += context.getters.getFormPrintValue(
                     form_object, 'operating_ground_other')
             } else {
                 key_value_pairs['DRIVER_ADDITIONAL_INFORMATION'] = ''

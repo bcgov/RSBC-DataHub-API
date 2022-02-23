@@ -420,14 +420,6 @@
           "y": 49.9
         }
       },
-      "VIDEO_SURVEILLANCE": {
-        "field_type": "checkbox",
-        "font_size": 14,
-        "start": {
-          "x": 210.9,
-          "y": 49.9
-        }
-      },
       "DRIVER_ADDITIONAL_INFORMATION": {
         "field_type": "memo",
         "font_size": 10,
@@ -785,7 +777,6 @@
               "DRIVER_ADMISSION_BY_DRIVER",
               "DRIVER_INDEPENDENT_WITNESS",
               "DRIVER_OTHER",
-              "VIDEO_SURVEILLANCE",
               "DRIVER_ADDITIONAL_INFORMATION",
               "REASONABLE_GROUNDS_YES",
               "REASONABLE_GROUNDS_NO",
@@ -871,7 +862,6 @@
               "DRIVER_ADMISSION_BY_DRIVER",
               "DRIVER_INDEPENDENT_WITNESS",
               "DRIVER_OTHER",
-              "VIDEO_SURVEILLANCE",
               "DRIVER_ADDITIONAL_INFORMATION",
               "REASONABLE_GROUNDS_YES",
               "REASONABLE_GROUNDS_NO",
