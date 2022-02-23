@@ -12,7 +12,7 @@
              :value="getAttributeValue(id)"
              @input="updateFormField">
         <div class="input-group-append">
-          <button type="button" @click="triggerPlateLookup" class="btn-sm btn-secondary font-weight-bold"
+          <button type="button" @click="triggerPlateLookup" class="btn-sm btn-secondary font-weight-bold" id="icbc-prefill"
                   :disabled="! isDisplayIcbcPlateLookup">
             ICBC Prefill
             <b-spinner v-if="display_spinner" small label="Loading..."></b-spinner>
