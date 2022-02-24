@@ -7,7 +7,6 @@ import pdfMerge from "@/helpers/pdfMerge";
 
 export const actions = {
 
-
     deleteSpecificForm(context, form_object ) {
         context.dispatch('deleteFormFromDB', form_object.form_id)
         context.commit('deleteForm', form_object)

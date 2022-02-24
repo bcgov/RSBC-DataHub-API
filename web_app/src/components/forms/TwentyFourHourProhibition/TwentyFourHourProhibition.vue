@@ -66,8 +66,7 @@ export default {
         "getAttributeValue",
         "getCurrentlyEditedFormData",
         "getCurrentlyEditedFormObject",
-        "corporateOwner",
-        "getDatabaseStatus"]),
+        "corporateOwner"]),
     isProhibitionTypeDrugs() {
       return this.getAttributeValue('prohibition_type') === "Drugs 215(3)";
     },
