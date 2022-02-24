@@ -137,7 +137,7 @@ extend('plate_year', {
   validate(value) {
     return {
       required: true,
-      valid: value >= 2000 && value < parseInt(moment().format("YYYY")) + 1,
+      valid: value = 2000 && value <= parseInt(moment().format("YYYY")) + 1,
     };
   },
   message: "Plate year must be between 2000 and the current year",
