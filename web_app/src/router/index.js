@@ -77,17 +77,6 @@ function sleep(ms) {
 
 
 router.beforeEach(async (to, from, next) => {
-  if ((to.name === '24Hour' || to.name === '12Hour') && !from.name) {
-    console.log("from: NONE")
-    next({
-      name: "NotFound",
-      params: { pathMatch: to.path.substring(1).split('/') },
-    })
-  } else next()
-})
-
-
-router.beforeEach(async (to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // We wait for Keycloak init, then we can call all methods safely
     while (router.app.$keycloak.createLoginUrl === null) {

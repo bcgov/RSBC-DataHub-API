@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import App from './App.vue'
 import { BootstrapVue, BootstrapVueIcons, ModalPlugin } from 'bootstrap-vue'
 import { ValidationProvider } from 'vee-validate';
+import VueKeyCloak from '@dsb-norge/vue-keycloak-js'
 import router from '@/router'
 
 
@@ -10,7 +11,7 @@ import "@/config/custom_stylesheet.scss";
 import {store} from "@/store/store.js"
 
 import './registerServiceWorker'
-//import constants from "@/config/constants";
+import constants from "@/config/constants";
 
 
 Vue.use(Vuex)
@@ -28,16 +29,16 @@ Vue.component('ValidationProvider', ValidationProvider);
 Vue.config.productionTip = false
 
 
-// Vue.use(VueKeyCloak, {
-//   init: {
-//     onLoad: 'check-sso',
-//     pkceMethod: "S256",
-//   },
-//   config: constants.API_ROOT_URL + '/api/v1/keycloak',
-//   onReady: () => {
-//     store.commit("setKeycloak", Vue.prototype.$keycloak)
-//   }
-// });
+Vue.use(VueKeyCloak, {
+  init: {
+    onLoad: 'check-sso',
+    pkceMethod: "S256",
+  },
+  config: constants.API_ROOT_URL + '/api/v1/keycloak',
+  onReady: () => {
+    store.commit("setKeycloak", Vue.prototype.$keycloak)
+  }
+});
 
 
 new Vue({
