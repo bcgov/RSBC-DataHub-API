@@ -11,17 +11,21 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store ({
   state: {
-    version: version,
-    isOnline: true,
+    admin_users: {},
+    agencies: [],
+    db_ready: false,
+    cities: [],
+    colors: [],
+    countries: [],
+    currently_editing_form_object: {
+      "form_type": null,
+      "form_id": null
+    },
     forms: {
       "IRP": {},
       "24Hour": {},
       "12Hour": {},
       "VI": {}
-    },
-    currently_editing_form_object: {
-      "form_type": null,
-      "form_id": null
     },
     form_schemas: {
       forms: {
@@ -78,22 +82,19 @@ export const store = new Vuex.Store ({
         }
       }
     },
-    agencies: [],
+    icbc_vehicle_lookup: [],
     impound_lot_operators: [],
-    provinces: [],
+    isOnline: true,
     jurisdictions: [],
-    countries: [],
-    cities: [],
-    colors: [],
+    keycloak: {},
+    pickup_locations: [],
+    provinces: [],
+    ROADSAFETY_EMAIL: '[to_be_determined]@gov.bc.ca',
+    user_roles: {},
+    users: {},
     vehicles: [],
     vehicle_styles: [],
-    pickup_locations: [],
-    ROADSAFETY_EMAIL: '[to_be_determined]@gov.bc.ca',
-    icbc_vehicle_lookup: [],
-    keycloak: {},
-    user_roles: {},
-    admin_users: {},
-    users: {}
+    version: version,
   },
 
   getters: getters,

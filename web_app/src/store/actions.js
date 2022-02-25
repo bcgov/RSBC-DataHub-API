@@ -7,7 +7,6 @@ import pdfMerge from "@/helpers/pdfMerge";
 
 export const actions = {
 
-
     deleteSpecificForm(context, form_object ) {
         context.dispatch('deleteFormFromDB', form_object.form_id)
         context.commit('deleteForm', form_object)
@@ -213,7 +212,9 @@ export const actions = {
 
     async saveCurrentFormToDB(context, form_object) {
         let form_object_to_save = context.state.forms[form_object.form_type][form_object.form_id]
-        await persistence.updateOrCreate(form_object.form_id, form_object_to_save)
+        if (form_object_to_save) {
+            await persistence.updateOrCreate(form_object.form_id, form_object_to_save)
+        }
     },
 
     async createPDF (context, payload) {

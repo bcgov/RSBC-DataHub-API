@@ -62,8 +62,11 @@ export default {
   },
   mixins: [FormsCommon],
   computed: {
-    ...mapGetters(["getAttributeValue", "getCurrentlyEditedFormData", "getCurrentlyEditedFormObject",
-      "corporateOwner"]),
+    ...mapGetters([
+        "getAttributeValue",
+        "getCurrentlyEditedFormData",
+        "getCurrentlyEditedFormObject",
+        "corporateOwner"]),
     isProhibitionTypeDrugs() {
       return this.getAttributeValue('prohibition_type') === "Drugs 215(3)";
     },
@@ -86,10 +89,11 @@ export default {
     this.setNewFormDefaults(payload)
     this.data = this.getCurrentlyEditedFormData
     this.isMounted = true
+    this.saveCurrentFormToDB(payload)
   },
   methods: {
     ...mapMutations(["setFormAsPrinted"]),
-    ...mapActions(["saveFormAndGeneratePDF"]),
+    ...mapActions(["saveFormAndGeneratePDF", "saveCurrentFormToDB"]),
     async onSubmit (invalid) {
       this.display_spinner = true;
       console.log('inside onSubmit()', invalid);

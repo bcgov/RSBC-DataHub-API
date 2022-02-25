@@ -7,6 +7,7 @@ import TwentyFourHourProhibition from "@/components/forms/TwentyFourHourProhibit
 import TwelveHourProhibition from "@/components/forms/TwelveHourSuspension/TwelveHourProhibition";
 import ImmediateRoadsideProhibition from "@/components/forms/ImmediateRoadsideProhibition";
 import VehicleImpoundment from "@/components/forms/VehicleImpoundment/VehicleImpoundment";
+import NotFound from "@/components/NotFound";
 
 Vue.use(Router)
 
@@ -59,6 +60,11 @@ const router = new Router({
       component: VehicleImpoundment,
       props: true
     },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: NotFound
+    },
   ],
   scrollBehavior () {
     return { x: 0, y: 0 };
@@ -68,6 +74,18 @@ const router = new Router({
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
+
+
+router.beforeEach(async (to, from, next) => {
+  if ((to.name === '24Hour' || to.name === '12Hour') && !from.name) {
+    console.log("from: NONE")
+    next({
+      name: "NotFound",
+      params: { pathMatch: to.path.substring(1).split('/') },
+    })
+  } else next()
+})
+
 
 router.beforeEach(async (to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
@@ -85,5 +103,6 @@ router.beforeEach(async (to, from, next) => {
     next()
   }
 })
+
 
 export default router
