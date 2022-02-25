@@ -474,7 +474,7 @@ export const actions = {
                         new_user.role_name = data.role_name
                         new_user.approved_dt = data.approved_dt
                         new_user.submitted_dt = data.submitted_dt
-                        resolve(context.commit("updateUsers", new_user))
+                        resolve(context.commit("updateAdminUserRole", new_user))
                     })
                     .catch((error) => {
                         console.log("error", error)
@@ -497,7 +497,7 @@ export const actions = {
                     .then(response => {
                         console.log(response)
                         if (response.status === 200) {
-                            resolve(context.commit("deleteUser", payload))
+                            resolve(context.commit("deleteAdminUserRole", payload))
                         }
                     })
                     .catch(error => {
@@ -511,7 +511,7 @@ export const actions = {
     },
 
     async adminAddUserRole(context, new_user) {
-        console.log("inside actions.js adminAddUserRole(): ")
+        console.log("inside actions.js adminAddUserRole()", new_user)
         const url = constants.API_ROOT_URL + "/api/v1/admin/users/" + new_user.user_guid + "/roles"
         const payload = {"role_name": "administrator"}
         return await new Promise((resolve, reject) => {
@@ -526,10 +526,17 @@ export const actions = {
                         }
                     })
                     .then( () => {
-                        new_user.role_name = payload.role_name
-                        new_user.approved_dt = moment().tz("America/Vancouver")
-                        new_user.submitted_dt = moment().tz("America/Vancouver")
-                        return resolve(context.commit("addUsers", new_user))
+                        return resolve(context.commit("addAdminUserRole", {
+                            username: new_user.username,
+                            user_guid: new_user.user_guid,
+                            first_name: new_user.first_name,
+                            last_name: new_user.last_name,
+                            badge_number: new_user.badge_number,
+                            agency: new_user.agency,
+                            role_name: payload.role_name,
+                            approved_dt: moment().tz("America/Vancouver"),
+                            submitted_dt: moment().tz("America/Vancouver")
+                        }))
                     })
                     .catch((error) => {
                         console.log("error", error)

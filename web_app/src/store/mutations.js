@@ -163,18 +163,18 @@ export const mutations = {
         Vue.set(root, "printed_timestamp", payload.timestamp)
     },
 
-    updateUsers(state, p) {
-        const index = state.users.findIndex( u => u.user_guid === p.user_guid && u.role_name === p.role_name)
-        Vue.set(state.users, index, p)
+    updateAdminUserRole(state, p) {
+        const index = state.admin_users.findIndex( u => u.user_guid === p.user_guid && u.role_name === p.role_name)
+        Vue.set(state.admin_users, index, p)
     },
 
-    deleteUser(state, p) {
-        const index = state.users.findIndex( u => u.user_guid === p.user_guid && u.role_name === p.role_name)
-        Vue.delete(state.users, index)
+    deleteAdminUserRole(state, p) {
+        const index = state.admin_users.findIndex( u => u.user_guid === p.user_guid && u.role_name === p.role_name)
+        Vue.delete(state.admin_users, index)
     },
 
-    addUsers(state, payload) {
-        state.users.push(payload)
+    addAdminUserRole(state, payload) {
+        state.admin_users.push(payload)
     },
 
     pushInitialUserRole(state, payload) {
