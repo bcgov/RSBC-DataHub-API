@@ -89,11 +89,10 @@ export default {
     this.setNewFormDefaults(payload)
     this.data = this.getCurrentlyEditedFormData
     this.isMounted = true
-    this.saveCurrentFormToDB(payload)
   },
   methods: {
     ...mapMutations(["setFormAsPrinted"]),
-    ...mapActions(["saveFormAndGeneratePDF", "saveCurrentFormToDB"]),
+    ...mapActions(["saveFormAndGeneratePDF"]),
     async onSubmit (invalid) {
       this.display_spinner = true;
       console.log('inside onSubmit()', invalid);

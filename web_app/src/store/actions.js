@@ -543,7 +543,7 @@ export const actions = {
 
     async saveFormAndGeneratePDF(context, form_object) {
         const current_timestamp = moment.now()
-        console.log("inside saveAndPrint()", current_timestamp)
+        console.log("inside saveFormAndGeneratePDF()", current_timestamp)
         let payload = {}
         payload['form_object'] = form_object
         payload['filename'] = context.getters.getPdfFileNameString(form_object, "all");
@@ -556,8 +556,8 @@ export const actions = {
               console.log("response from tellApiFormIsPrinted()", response)
               context.commit("setFormAsPrinted", payload)
               context.dispatch("saveCurrentFormToDB", form_object)
-              context.commit("stopEditingCurrentForm")
           })
+        // TODO - stop editing current form; prevent editing all fields
     },
 
     async downloadLookupTables(context) {

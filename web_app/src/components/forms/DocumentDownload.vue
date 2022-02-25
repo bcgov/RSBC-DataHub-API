@@ -48,9 +48,9 @@ export default {
       await this.tellApiFormIsPrinted(payload.form_object)
         .then( (response) => {
           console.log("response from tellApiFormIsPrinted()", response)
-          this.setFormAsPrinted(payload)
-          this.saveCurrentFormToDB(payload.form_object)
         })
+      this.setFormAsPrinted(payload)
+      this.saveCurrentFormToDB(payload.form_object)
 
     }
   }
