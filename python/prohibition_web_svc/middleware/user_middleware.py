@@ -56,6 +56,7 @@ def create_a_user(**kwargs) -> tuple:
         user = User(
             username=kwargs.get('username'),
             user_guid=kwargs.get('user_guid'),
+            business_guid=kwargs.get('business_guid'),
             badge_number=kwargs.get('payload')['badge_number'],
             agency=kwargs.get('payload')['agency'],
             first_name=kwargs.get('payload')['first_name'],

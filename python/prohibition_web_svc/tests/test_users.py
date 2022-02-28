@@ -101,6 +101,7 @@ def test_bceid_user_can_apply_to_use_the_app(as_guest, monkeypatch, roles, datab
                .filter(User.agency == 'RCMP Terrace') \
                .filter(User.first_name == "New") \
                .filter(User.last_name == "Officer") \
+               .filter(User.business_guid == "gggg-ffff-dddd-jjjj") \
                .count() == 1
     assert database.session.query(UserRole) \
                .filter(UserRole.role_name == "officer") \
@@ -211,6 +212,7 @@ def _get_bceid_user_who_has_not_applied(**kwargs) -> tuple:
         'preferred_username': 'new-officer@bceid',
         'bceid_userid': 'aaa-bbb-ccc-fff',
         "bceid_business_name": "RoadSafety Digital Forms",
+        "bceid_business_guid": "gggg-ffff-dddd-jjjj"
     }
     return True, kwargs
 

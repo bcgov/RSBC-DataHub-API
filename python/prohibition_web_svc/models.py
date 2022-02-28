@@ -54,19 +54,21 @@ class Form(db.Model):
 
 class User(db.Model):
     user_guid = db.Column(db.String(120), primary_key=True)
+    business_guid = db.Column(db.String(120), nullable=True)
     username = db.Column(db.String(80), nullable=False)
     agency = db.Column(db.String(120), nullable=False)
     badge_number = db.Column(db.String(12), nullable=False)
     last_name = db.Column(db.String(40), nullable=False)
     first_name = db.Column(db.String(40), nullable=True)
 
-    def __init__(self, username, user_guid, agency, badge_number, last_name, first_name):
+    def __init__(self, username, user_guid, agency, badge_number, last_name, first_name, business_guid=''):
         self.username = username
         self.user_guid = user_guid
         self.agency = agency
         self.badge_number = badge_number
         self.last_name = last_name
         self.first_name = first_name
+        self.business_guid = business_guid
 
     @staticmethod
     def serialize(user):
