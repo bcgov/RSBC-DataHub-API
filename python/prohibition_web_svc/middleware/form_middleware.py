@@ -14,8 +14,8 @@ def validate_update(**kwargs) -> tuple:
 
 def log_payload_to_splunk(**kwargs) -> tuple:
     request = kwargs.get('request')
-    # TODO - remove before flight - not authorized to log form data yet
-    logging.info("payload: | {}".format(request.get_data()))
+    # TODO - log to Splunk
+    logging.debug("payload: | {}".format(request.get_data()))
     return True, kwargs
 
 
