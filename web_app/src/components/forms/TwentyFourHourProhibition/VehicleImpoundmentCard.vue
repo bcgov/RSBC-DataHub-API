@@ -1,7 +1,10 @@
 <template>
   <form-card title="Vehicle Impoundment or Disposition">
       <form-row>
-        <radio-field id="vehicle_impounded" fg_class="col-sm-6" :options='["Yes", "No"]'>Vehicle Impounded?</radio-field>
+        <radio-field id="vehicle_impounded"
+                     fg_class="col-sm-6" :options='["Yes", "No"]'
+                     rules="required">Vehicle Impounded?
+        </radio-field>
       </form-row>
       <form-row>
         <radio-field id="reason_for_not_impounding" fg_class="col-sm-6"
@@ -17,11 +20,11 @@
                     rules="required|validTime|notFutureDateTime:@released_date">Time</time-field>
       </form-row>
       <form-row>
-        <radio-field id="location_of_keys" :visible="showVehicleImpounded" fg_class="col-sm-6"
+        <radio-field id="location_of_keys" :visible="showVehicleImpounded" fg_class="col-sm-6" rules="required"
                      :options='["With vehicle", "With driver"]'>Location of Keys?</radio-field>
       </form-row>
       <form-row>
-        <type-ahead-field id="impound_lot_operator" fg_class="col-sm-12" :visible="showVehicleImpounded"
+        <type-ahead-field id="impound_lot_operator" fg_class="col-sm-12" :visible="showVehicleImpounded" rules="required"
                           :suggestions="getArrayOfImpoundLotOperators">Impound Lot Operator (name, lot address, city & phone)</type-ahead-field>
       </form-row>
   </form-card>
