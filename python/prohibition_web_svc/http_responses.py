@@ -76,7 +76,15 @@ def payload_missing(**kwargs) -> tuple:
 
 
 def failed_validation(**kwargs) -> tuple:
-    kwargs['response'] = make_response({'error': 'failed validation'}, 400)
+    kwargs['response'] = make_response({
+        'message': 'failed validation',
+        'errors': kwargs.get('validation_errors')
+    }, 400)
+    return True, kwargs
+
+
+def no_payload(**kwargs) -> tuple:
+    kwargs['response'] = make_response({'error': 'no payload'}, 400)
     return True, kwargs
 
 

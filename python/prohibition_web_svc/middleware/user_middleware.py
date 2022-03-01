@@ -132,6 +132,7 @@ def validate_create_user_payload(**kwargs) -> tuple:
     if cerberus.validate(kwargs.get('payload')):
         return True, kwargs
     logging.warning("validation error: " + json.dumps(cerberus.errors))
+    kwargs['validation_errors'] = cerberus.errors
     return False, kwargs
 
 
