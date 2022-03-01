@@ -9,7 +9,7 @@
     </label>
     <div class="col-xs-10">
       <input type="text"
-           :disabled="disabled"
+           :disabled="disabled || hasFormBeenPrinted"
            :id="id"
            class="form-control"
              :class="errors.length > 0 ? 'border-danger bg-warning' : ''"
@@ -34,7 +34,7 @@ export default {
     ...mapMutations(['updateFormField']),
   },
   computed: {
-    ...mapGetters(["getAttributeValue"]),
+    ...mapGetters(["getAttributeValue", "hasFormBeenPrinted"]),
     yearsOld() {
       return moment().diff(moment(this.getAttributeValue(this.id)), 'years')
     },

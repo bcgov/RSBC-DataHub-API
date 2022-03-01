@@ -5,18 +5,19 @@
         <span v-if="required" class="text-danger"> *</span>
       </label>
       <div class="input-group mb-3">
-        <input :disabled="disabled" type=text
+        <input :disabled="disabled || hasFormBeenPrinted" type=text
              class="form-control"
                 :class="errors.length > 0 ? 'border-danger bg-warning' : ''"
              :id="id"
              placeholder="Driver's Licence Number"
              v-model="attribute">
         <div class="input-group-append">
-          <button id="btn-bcdl-prefill" type="button" :disabled="! isDisplayIcbcLicenceLookup" @click="triggerDriversLookup"
+          <button id="btn-bcdl-prefill" type="button" :disabled="hasFormBeenPrinted || ! isDisplayIcbcLicenceLookup" @click="triggerDriversLookup"
                   class="btn-sm btn-secondary text-white font-weight-bold">ICBC Prefill
             <b-spinner v-if="display_spinner" small label="Loading..."></b-spinner>
           </button>
-          <button id="btn-dl-scan" type="button" :disabled="! isLicenceJurisdictionBC" @click="launchDlScanner" class="btn-sm btn-secondary text-white ml-2 font-weight-bold">Scan DL</button>
+          <button id="btn-dl-scan" type="button" :disabled="hasFormBeenPrinted || ! isLicenceJurisdictionBC"
+                  @click="launchDlScanner" class="btn-sm btn-secondary text-white ml-2 font-weight-bold">Scan DL</button>
         </div>
       </div>
       <div class="small text-danger">{{ errors[0] }}
@@ -72,7 +73,12 @@ export default {
         "form_object": this.getCurrentlyEditedFormObject
       }
     },
-    ...mapGetters(['getCurrentlyEditedFormObject', "getAttributeValue", "isDisplayIcbcLicenceLookup", "isLicenceJurisdictionBC"]),
+    ...mapGetters([
+        'getCurrentlyEditedFormObject',
+      "getAttributeValue",
+      "isDisplayIcbcLicenceLookup",
+      "hasFormBeenPrinted",
+      "isLicenceJurisdictionBC"]),
   },
   methods: {
     ...mapMutations(['updateFormField', "populateDriverFromBarCode"]),

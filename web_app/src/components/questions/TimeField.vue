@@ -10,7 +10,7 @@
                    :id="id"
                    class="form-control "
                       :class="errors.length > 0 ? 'border-danger bg-warning' : ''"
-                   :disabled="disabled"
+                   :disabled="disabled || hasFormBeenPrinted"
                    placeholder="HHMM"
                    :name="id"
                    v-model="attribute">
@@ -30,7 +30,7 @@ export default {
   name: "TimeField",
   mixins: [FieldCommon],
    computed: {
-     ...mapGetters(["getAttributeValue"])
+     ...mapGetters(["getAttributeValue", "hasFormBeenPrinted"])
    },
   methods: {
     ...mapMutations(["updateFormField"])

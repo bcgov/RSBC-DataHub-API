@@ -126,6 +126,11 @@ export const getters = {
         return ! (state.forms[form_object.form_type][form_object.form_id].printed_timestamp)
     },
 
+    hasFormBeenPrinted: state => {
+        const form_object = state.currently_editing_form_object;
+        return (state.forms[form_object.form_type][form_object.form_id].printed_timestamp)
+    },
+
     getServedStatus: state => form_object => {
         if (state.forms[form_object.form_type][form_object.form_id].printed_timestamp) {
             return "Printed";

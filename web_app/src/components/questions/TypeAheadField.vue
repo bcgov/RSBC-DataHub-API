@@ -7,7 +7,7 @@
                              @input="typeAheadUpdate"
                              :value="getAttributeValue(id)"
                              :data=suggestions
-                             :disabled="disabled"
+                             :disabled="disabled || hasFormBeenPrinted"
                              :inputName="id + '_typeahead'" />
     <div class="small text-danger">{{ errors[0] }}</div>
   </validation-provider>
@@ -29,7 +29,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getAttributeValue"]),
+    ...mapGetters(["getAttributeValue", "hasFormBeenPrinted"]),
   },
   methods: {
     typeAheadUpdate(e) {

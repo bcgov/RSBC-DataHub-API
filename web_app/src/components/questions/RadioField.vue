@@ -6,7 +6,8 @@
         <input class="form-check-input"
                :id="id"
                v-model="attribute"
-               type="radio" v-bind:value="option" :name="id" :disabled="disabled">
+               type="radio" v-bind:value="option" :name="id"
+               :disabled="disabled || hasFormBeenPrinted">
         <label class="form-check-label" :for="option">{{ option }}</label>
       </div>
 <!--  </validation-provider>-->
@@ -29,7 +30,7 @@ export default {
     ...mapMutations(["updateFormField"])
   },
   computed: {
-    ...mapGetters(["getAttributeValue"])
+    ...mapGetters(["getAttributeValue", "hasFormBeenPrinted"])
   }
 }
 </script>
