@@ -441,11 +441,19 @@ export const actions = {
                 "headers": context.getters.apiHeader,
                     })
                         .then(response => {
-                            return response.json()
+                            return response
                         })
-                        .then( (data) => {
-                            console.log("applyToUnlockApplication()", data)
-                            resolve(context.commit("pushInitialUserRole", data))
+                        .then( (response) => {
+                            const data = response.json()
+                            if (response.status === 201) {
+                                console.log("applyToUnlockApplication() - success", data)
+                                resolve(data)
+                                data.then((user_role) => {
+                                    context.commit("pushInitialUserRole", user_role)
+                                })
+                            } else {
+                                reject(data)
+                            }
                         })
                         .catch((error) => {
                             console.log("error", error)
