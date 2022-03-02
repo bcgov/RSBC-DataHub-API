@@ -17,11 +17,11 @@ def main():
     parser.add_argument('--form-type', required=True, choices=['12Hour', '24Hour', 'IRP', 'VI'])
     parser.add_argument('--start', required=True, help='starting number')
     parser.add_argument('--end', required=True, help='ending number')
-    parser.add_argument('--dev', default=True, help='if true, use test prefix')
+    parser.add_argument('--env', default='TEST', choices=['TEST', 'PROD'])
     args = parser.parse_args()
 
     for form_number in range(int(args.start), int(args.end)):
-        form_id = "{}{}".format(form_prefix(args.form_type, args.dev), form_number)
+        form_id = "{}{}".format(form_prefix(args.form_type, args.env), form_number)
         logging.warning("adding form_id: " + form_id)
         add_form_ids(args.form_type, form_id)
 
@@ -39,15 +39,16 @@ def add_form_ids(form_type: str, form_id: str):
     return
 
 
-def form_prefix(form_type: str, is_development: bool) -> str:
-    if is_development:
+def form_prefix(form_type: str, environment: str) -> str:
+    prefix = {}
+    if environment == 'TEST':
         prefix = {
             "12Hour": "JZ",  # a 'JZ' prefix denotes a test number
             "24Hour": "VZ",  # a 'VZ' prefix denotes a test number
             "IRP": "20",
             "VI": "22"
         }
-    else:
+    if environment == 'PROD':
         prefix = {
             "12Hour": "JA",
             "24Hour": "VA",
