@@ -138,10 +138,6 @@ export const getters = {
         return "Not Printed"
     },
 
-    getRoadSafetyEmailAddress: state => {
-        return state.ROADSAFETY_EMAIL;
-    },
-
     getPdfFileNameString: state => (form_object, document_type) => {
         let file_extension = ".pdf"
         let root = state.forms[form_object.form_type][form_object.form_id]

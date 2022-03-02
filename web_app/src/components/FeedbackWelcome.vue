@@ -9,12 +9,14 @@
 
 <script>
 
-import {mapGetters} from "vuex";
+import constants from "@/config/constants";
 
 export default {
   name: "FeedbackWelcome",
   computed: {
-    ...mapGetters(["getRoadSafetyEmailAddress"])
+    getRoadSafetyEmailAddress() {
+      return constants.ROAD_SAFETY_CONTACT + '@gov.bc.ca'
+    }
   }
 }
 </script>

@@ -20,6 +20,8 @@ export default {
     MIN_VEHICLE_YEAR: 1920,
     MAX_VEHICLE_YEAR: moment().format("YYYY") + 1,
 
-    TIMEZONE: "America/Vancouver"
+    TIMEZONE: "America/Vancouver",
+
+    ROAD_SAFETY_CONTACT: 'RSIOpsSupport',
 
 }

@@ -25,13 +25,13 @@ export default {
   name: "ReturnOfLicenceCard",
   mixins: [CardsCommon],
   computed: {
-    ...mapGetters(["getArrayOfPickupLocations", "getRoadSafetyEmailAddress"]),
+    ...mapGetters(["getArrayOfPickupLocations"]),
     licencePickupInPerson() {
       return this.getAttributeValue('return_of_licence') === "Pickup in person";
     },
     isLicenceSurrendered() {
       return this.getAttributeValue('licence_surrendered') === "Yes";
-    },
+    }
   }
 }
 </script>
