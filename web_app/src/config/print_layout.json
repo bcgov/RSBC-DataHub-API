@@ -678,6 +678,7 @@
               "NOTICE_MONTH",
               "NOTICE_YEAR",
               "DL_SURRENDER_LOCATION",
+              "OFFICER_LAST_NAME",
               "OFFICER_BADGE_NUMBER",
               "AGENCY_NAME",
               "AGENCY_FILE_NUMBER",
