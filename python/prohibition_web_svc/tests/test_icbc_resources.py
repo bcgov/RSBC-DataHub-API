@@ -119,7 +119,7 @@ def test_authorized_user_gets_vehicle_not_found(as_guest, monkeypatch, roles):
                       Config.ICBC_API_ROOT,
                       urllib.parse.urlencode({
                           "plateNumber": "AAAAA",
-                          "effectiveDate": datetime.now().astimezone().replace(microsecond=0).isoformat()
+                          # "effectiveDate": datetime.now().astimezone().replace(microsecond=0).isoformat()
                       })
                     ),
                   json=_vehicle_not_found(),
@@ -150,7 +150,7 @@ def test_authorized_user_gets_vehicle(as_guest, monkeypatch, roles):
                       Config.ICBC_API_ROOT,
                       urllib.parse.urlencode({
                           "plateNumber": "LD626J",
-                          "effectiveDate": datetime.now().astimezone().replace(microsecond=0).isoformat()
+                          # "effectiveDate": datetime.now().astimezone().replace(microsecond=0).isoformat()
                       })
                   ),
                   json=sample_vehicle_response(),
@@ -179,7 +179,7 @@ def test_request_for_licence_plate_using_lowercase_automatically_converted_to_up
                       Config.ICBC_API_ROOT,
                       urllib.parse.urlencode({
                           "plateNumber": "LD626J",
-                          "effectiveDate": datetime.now().astimezone().replace(microsecond=0).isoformat()
+                          # "effectiveDate": datetime.now().astimezone().replace(microsecond=0).isoformat()
                       })
                   ),
                   json=sample_vehicle_response(),
@@ -242,7 +242,7 @@ def test_in_production_fake_vehicle_responses_are_not_returned(as_guest, monkeyp
                       Config.ICBC_API_ROOT,
                       urllib.parse.urlencode({
                           "plateNumber": "ICBC",
-                          "effectiveDate": datetime.now().astimezone().replace(microsecond=0).isoformat()
+                          # "effectiveDate": datetime.now().astimezone().replace(microsecond=0).isoformat()
                       })
                   ),
                   json={},
@@ -256,7 +256,7 @@ def test_in_production_fake_vehicle_responses_are_not_returned(as_guest, monkeyp
                         content_type="application/json",
                         headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
     assert resp.status_code == 200
-    assert '/api/vehicles?plateNumber=ICBC&effectiveDate=' in responses.calls[0].request.url
+    assert '/api/vehicles?plateNumber=ICBC' in responses.calls[0].request.url
 
 
 def _sample_driver_response() -> dict:

@@ -34,7 +34,8 @@ def get_icbc_vehicle(**kwargs) -> tuple:
     url = "{}/vehicles".format(Config.ICBC_API_ROOT)
     url_parameters = {
         "plateNumber": kwargs.get('plate_number'),
-        "effectiveDate": datetime.now().astimezone().replace(microsecond=0).isoformat()
+        # TODO - removed effectiveDate for debugging purposes
+        # "effectiveDate": datetime.now().astimezone().replace(microsecond=0).isoformat()
     }
     try:
         icbc_response = requests.get(url, headers=kwargs.get('icbc_header'), params=url_parameters)
