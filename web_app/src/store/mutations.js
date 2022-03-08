@@ -12,8 +12,9 @@ export const mutations = {
     updateFormField (state, payload) {
         let id = payload.target.id;
         let value = payload.target.value;
+        let upperCaseValue = value.toUpperCase()
         let form_object = state.currently_editing_form_object
-        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, id, value);
+        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, id, upperCaseValue);
     },
 
     addItemToCheckboxList (state, payload) {
