@@ -2,8 +2,8 @@
   <div>
     <user-not-permitted-banner v-if="isDisplayUserNotAuthorizedBanner"></user-not-permitted-banner>
     <welcome-login-card v-if="isDisplayWelcomeLoginCard"></welcome-login-card>
-    <recent-prohibitions v-if="isRecentProhibitions"></recent-prohibitions>
     <issue-prohibitions v-if="isDisplayIssueProhibitions"></issue-prohibitions>
+    <recent-prohibitions v-if="isRecentProhibitions"></recent-prohibitions>
     <prohibition-search v-if="isDisplaySearchRecentProhibition"></prohibition-search>
     <feedback-welcome v-if="isDisplayFeedbackBanner"></feedback-welcome>
   </div>
