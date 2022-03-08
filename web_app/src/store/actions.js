@@ -563,16 +563,16 @@ export const actions = {
         payload['form_object'] = form_object
         payload['filename'] = context.getters.getPdfFileNameString(form_object, "all");
         payload['variants'] = context.getters.getPagesToPrint(form_object);
-        await context.dispatch("saveCurrentFormToDB", form_object)
-        await context.dispatch("createPDF", payload)
         payload['timestamp'] = current_timestamp
+        await context.dispatch("createPDF", payload)
+            .then(() => {
+                context.commit("setFormAsPrinted", payload)
+                context.dispatch("saveCurrentFormToDB", form_object)
+            })
         await context.dispatch("tellApiFormIsPrinted", form_object)
           .then( (response) => {
               console.log("response from tellApiFormIsPrinted()", response)
-              context.commit("setFormAsPrinted", payload)
-              context.dispatch("saveCurrentFormToDB", form_object)
           })
-        // TODO - stop editing current form; prevent editing all fields
     },
 
     async downloadLookupTables(context) {
