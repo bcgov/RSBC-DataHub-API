@@ -743,8 +743,8 @@
   },
   {
     "id": "917CCEFE-9A2A-91DD-06BC-7395D2BB31E9",
-    "name": "Lillooet Autobody Towing & Salvage",
-    "lot_address": "205 Main Street Lillooet V0K 1V0",
+    "name": "Lillooet Autobody & Towing",
+    "lot_address": "205 Main Street",
     "city": "Lilloote",
     "phone": "250-256-4687"
   },
@@ -940,7 +940,7 @@
   {
     "id": "F5E5F29B-A149-9BCF-055A-0E9C610D0172",
     "name": "New Westminster Towing & Storage",
-    "lot_address": "231 Ewen Avenue",
+    "lot_address": "420 Boyne Street",
     "city": "New Westminster",
     "phone": "604-519-1026"
   },
