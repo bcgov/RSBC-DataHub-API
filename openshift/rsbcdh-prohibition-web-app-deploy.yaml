@@ -10,6 +10,10 @@ parameters:
 - name: VERSION
 - name: HOST
 - name: JAG_PROXY_WHITELIST
+  valueFrom:
+    secretKeyRef:
+      name: ${NAME}${SUFFIX}
+      key: jag-proxy-whitelist
 - name: LOG_LEVEL
   value: 'WARNING'
 - name: URL_SUFFIX
@@ -82,11 +86,6 @@ objects:
               value: ${LOG_LEVEL}
             - name: ENVIRONMENT
               value: ${PHASE}
-            - name: JAG_PROXY_WHITELIST
-              valueFrom:
-                secretKeyRef:
-                  name: ${NAME}${SUFFIX}
-                  key: jag-proxy-whitelist
           resources:
             limits:
               cpu: 80m
@@ -163,11 +162,14 @@ objects:
       name: ${NAME}-${COMPONENT}${SUFFIX}
       weight: 100
     wildcardPolicy: None
-- apiVersion: v1
+- apiVersion: route.openshift.io/v1
   kind: Route
   metadata:
     creationTimestamp: null
     name: ${NAME}-${COMPONENT}${SUFFIX}-api
+    annotations:
+      haproxy.router.openshift.io/ip_whitelist: ${JAG_PROXY_WHITELIST}
+      haproxy.router.openshift.io/timeout: 60s
   spec:
     host: ${NAME}-${COMPONENT}${SUFFIX}${URL_SUFFIX}
     path: /api
