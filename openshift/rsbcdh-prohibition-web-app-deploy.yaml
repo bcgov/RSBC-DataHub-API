@@ -143,17 +143,14 @@ objects:
       deploymentconfig: ${NAME}-${COMPONENT}${SUFFIX}
   status:
     loadBalancer: {}
-- apiVersion: v1
+- apiVersion: route.openshift.io/v1
   kind: Route
   metadata:
     creationTimestamp: null
     name: ${NAME}-${COMPONENT}${SUFFIX}
     annotations:
-      haproxy:
-        router:
-          openshift:
-            io/ip_whitelist: ${JAG_PROXY_WHITELIST}
-            timeout: 60s
+      haproxy.router.openshift.io/ip_whitelist: ${JAG_PROXY_WHITELIST}
+      haproxy.router.openshift.io/timeout: 60s
   spec:
     host: ${NAME}-${COMPONENT}${SUFFIX}${URL_SUFFIX}
     path: /
