@@ -86,6 +86,8 @@ objects:
               value: ${LOG_LEVEL}
             - name: ENVIRONMENT
               value: ${PHASE}
+            - name: JAG_WHITElIST_TEST
+              value: ${JAG_PROXY_WHITELIST}
           resources:
             limits:
               cpu: 80m
