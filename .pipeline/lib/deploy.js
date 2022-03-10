@@ -17,7 +17,7 @@ module.exports = settings => {
   oc.raw('delete', ['route'], {selector:`app=${phases[phase].instance},env-name=${phases[phase].phase},github-repo=${oc.git.repository},github-owner=${oc.git.owner}`, wait:'true', namespace:phases[phase].namespace})
 
   const secret_file = phases[phase].name + phases[phase].suffix
-  const jag_proxy_whitelist = atob(oc.raw('get', 'secret', 'secrets', secret_file, '-o', 'jsonpath="{.data.jag-proxy-whitelist}"'))
+  const jag_proxy_whitelist = oc.raw('get', 'secret', 'secrets', secret_file, '-o', 'jsonpath="{.data.jag-proxy-whitelist}"')
   console.log("jag_proxy_whitelist: ", secret_file, jag_proxy_whitelist)
 
   //First call will create/generate default secret values frome a pre-existing manually created template secret object
