@@ -116,16 +116,22 @@ export const mutations = {
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "vehicle_year", data['vehicleModelYear']);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "vehicle_make", data['vehicleMake']);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "vehicle_model", data['vehicleModel']);
-        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "vehicle_type", data['vehicleStyle']);
+        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "vehicle_type", data['vehicleStyle'].substring(0,6));
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "vehicle_color", data['vehicleColour']);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "vin_number", data['vehicleIdNumber']);
 
         const owner = data['vehicleParties'][0]['party']
         const address = owner['addresses'][0]
 
+        if(owner.partyType === 'Organisation') {
+            Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "corporate_owner", ['Owned by corporate entity']);
+            Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_corporation", owner['orgName']);
+        } else {
+            Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_last_name", owner['lastName']);
+            Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_first_name", owner['firstName']);
+        }
+
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owner_is_driver", []);
-        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_last_name", owner['lastName']);
-        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_first_name", owner['firstName']);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_address1", address['addressLine1']);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_city", address['city']);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_province", address['region']);
@@ -157,18 +163,18 @@ export const mutations = {
         Vue.set(root, "printed_timestamp", payload.timestamp)
     },
 
-    updateUsers(state, p) {
-        const index = state.users.findIndex( u => u.user_guid === p.user_guid && u.role_name === p.role_name)
-        Vue.set(state.users, index, p)
+    updateAdminUserRole(state, p) {
+        const index = state.admin_users.findIndex( u => u.user_guid === p.user_guid && u.role_name === p.role_name)
+        Vue.set(state.admin_users, index, p)
     },
 
-    deleteUser(state, p) {
-        const index = state.users.findIndex( u => u.user_guid === p.user_guid && u.role_name === p.role_name)
-        Vue.delete(state.users, index)
+    deleteAdminUserRole(state, p) {
+        const index = state.admin_users.findIndex( u => u.user_guid === p.user_guid && u.role_name === p.role_name)
+        Vue.delete(state.admin_users, index)
     },
 
-    addUsers(state, payload) {
-        state.users.push(payload)
+    addAdminUserRole(state, payload) {
+        state.admin_users.push(payload)
     },
 
     pushInitialUserRole(state, payload) {

@@ -56,6 +56,14 @@ new Vue({
         store.dispatch("fetchStaticLookupTables", {"resource": "user_roles", "admin": false})
         store.dispatch("fetchStaticLookupTables", {"resource": "users", "admin": false})
       }
+      if (mutation.type === 'updateFormField' ||
+          mutation.type === 'updateCheckBox' ||
+          mutation.type === 'populateDriverFromICBC' ||
+          mutation.type === 'populateVehicleFromICBC' ||
+          mutation.type === 'typeAheadUpdate'
+      ) {
+        store.dispatch("saveCurrentFormToDB", store.state.currently_editing_form_object)
+      }
     });
 
   },

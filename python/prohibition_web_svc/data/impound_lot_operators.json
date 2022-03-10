@@ -1031,22 +1031,22 @@
   {
     "id": "0A9505E0-A691-94F2-5BBD-5E0AFFC56A7C",
     "name": "Payless Auto Towing Ltd (Squamish)",
-    "lot_address": "1115 Enterprise Way (Squamish)",
-    "city": "North Vancouver",
+    "lot_address": "39550 Galbraith Ave",
+    "city": "Squamish",
     "phone": "604-988-4176 Ext 3"
   },
   {
     "id": "39C68BBB-0752-6224-6CD8-851A1EA8220F",
     "name": "Payless Auto Towing Ltd (Whistler)",
     "lot_address": "1212 Alpha Lake Road Lot A (Whistler)",
-    "city": "North Vancouver",
+    "city": "Whistler",
     "phone": "604-988-4176 Ext 3"
   },
   {
     "id": "93DC39A0-7E47-1693-5BD8-442988262DC0",
-    "name": "Pemberton Towng",
-    "lot_address": "1931 Carpenter Road (Pemberton)",
-    "city": "North Vancouver",
+    "name": "Payless Auto Towing Ltd (Pemberton)",
+    "lot_address": "1931 Carpenter Road",
+    "city": "Pemberton",
     "phone": "604-988-4176 Ext 3"
   },
   {

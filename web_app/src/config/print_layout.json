@@ -54,7 +54,7 @@
       },
       "DRIVER_ADDRESS": {
         "field_type": "text",
-        "font_size": 10,
+        "font_size": 8,
         "start": {
           "x": 33.2,
           "y": 52
@@ -110,7 +110,7 @@
       },
       "DL_SURRENDER_LOCATION": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 8,
         "start": {
           "x": 30.7,
           "y": 89
@@ -150,7 +150,7 @@
       },
       "OWNER_NAME": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 8,
         "start": {
           "x": 32.4,
           "y": 112
@@ -158,7 +158,7 @@
       },
       "OWNER_ADDRESS": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 8,
         "start": {
           "x": 32.4,
           "y": 119
@@ -166,7 +166,7 @@
       },
       "OWNER_PROVINCE": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 8,
         "start": {
           "x": 102.9,
           "y": 119
@@ -174,7 +174,7 @@
       },
       "OWNER_POSTAL_CODE": {
         "field_type": "text",
-        "font_size": 10,
+        "font_size": 8,
         "start": {
           "x": 115.2,
           "y": 119
@@ -182,7 +182,7 @@
       },
       "VEHICLE_LICENSE_NUMBER": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 8,
         "start": {
           "x": 32.4,
           "y": 126
@@ -190,7 +190,7 @@
       },
       "VEHICLE_PROVINCE": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 8,
         "start": {
           "x": 53.7,
           "y": 126
@@ -198,7 +198,7 @@
       },
       "VEHICLE_LICENSE_YEAR": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 8,
         "start": {
           "x": 67.6,
           "y": 126
@@ -222,7 +222,7 @@
       },
       "VEHICLE_TYPE": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 8,
         "start": {
           "x": 116.8,
           "y": 126
@@ -230,7 +230,7 @@
       },
       "VEHICLE_MAKE": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 8,
         "start": {
           "x": 32.4,
           "y": 132
@@ -238,7 +238,7 @@
       },
       "VEHICLE_MODEL": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 8,
         "start": {
           "x": 53.7,
           "y": 132
@@ -246,7 +246,7 @@
       },
       "VEHICLE_YEAR": {
         "field_type": "text",
-        "font_size": 11,
+        "font_size": 8,
         "start": {
           "x": 69.3,
           "y": 132
@@ -254,7 +254,7 @@
       },
       "VEHICLE_COLOR": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 8,
         "start": {
           "x": 79.9,
           "y": 132
@@ -262,7 +262,7 @@
       },
       "VEHICLE_NSC_PUJ": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 8,
         "start": {
           "x": 92.2,
           "y": 132
@@ -270,7 +270,7 @@
       },
       "VEHICLE_NSC_NUMBER": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 8,
         "start": {
           "x": 104.5,
           "y": 132
@@ -278,7 +278,7 @@
       },
       "VEHICLE_VIN": {
         "field_type": "text",
-        "font_size": 11,
+        "font_size": 10,
         "start": {
           "x": 32.4,
           "y": 138
@@ -286,7 +286,7 @@
       },
       "OWNER_PHONE_AREA_CODE": {
         "field_type": "text",
-        "font_size": 11,
+        "font_size": 8,
         "start": {
           "x": 99.6,
           "y": 138
@@ -294,7 +294,7 @@
       },
       "OWNER_PHONE_NUMBER": {
         "field_type": "text",
-        "font_size": 11,
+        "font_size": 8,
         "start": {
           "x": 107.8,
           "y": 138
@@ -326,7 +326,7 @@
       },
       "IMPOUNDED_LOT": {
         "field_type": "text",
-        "font_size": 9,
+        "font_size": 8,
         "start": {
           "x": 78.3,
           "y": 154
@@ -334,7 +334,7 @@
       },
       "IMPOUNDED_ADDRESS": {
         "field_type": "text",
-        "font_size": 9,
+        "font_size": 8,
         "start": {
           "x": 29.9,
           "y": 158.7
@@ -342,7 +342,7 @@
       },
       "IMPOUNDED_PHONE_AREA_CODE": {
         "field_type": "text",
-        "font_size": 9,
+        "font_size": 10,
         "start": {
           "x": 98,
           "y": 158.7
@@ -417,14 +417,6 @@
         "font_size": 14,
         "start": {
           "x": 185.1,
-          "y": 49.9
-        }
-      },
-      "VIDEO_SURVEILLANCE": {
-        "field_type": "checkbox",
-        "font_size": 14,
-        "start": {
-          "x": 210.9,
           "y": 49.9
         }
       },
@@ -686,6 +678,7 @@
               "NOTICE_MONTH",
               "NOTICE_YEAR",
               "DL_SURRENDER_LOCATION",
+              "OFFICER_LAST_NAME",
               "OFFICER_BADGE_NUMBER",
               "AGENCY_NAME",
               "AGENCY_FILE_NUMBER",
@@ -785,7 +778,6 @@
               "DRIVER_ADMISSION_BY_DRIVER",
               "DRIVER_INDEPENDENT_WITNESS",
               "DRIVER_OTHER",
-              "VIDEO_SURVEILLANCE",
               "DRIVER_ADDITIONAL_INFORMATION",
               "REASONABLE_GROUNDS_YES",
               "REASONABLE_GROUNDS_NO",
@@ -871,7 +863,6 @@
               "DRIVER_ADMISSION_BY_DRIVER",
               "DRIVER_INDEPENDENT_WITNESS",
               "DRIVER_OTHER",
-              "VIDEO_SURVEILLANCE",
               "DRIVER_ADDITIONAL_INFORMATION",
               "REASONABLE_GROUNDS_YES",
               "REASONABLE_GROUNDS_NO",
@@ -950,7 +941,7 @@
       },
       "DRIVER_PHONE_AREA_CODE": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 8,
         "start": {
           "x": 32,
           "y": 57
@@ -958,7 +949,7 @@
       },
       "DRIVER_PHONE": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 8,
         "start": {
           "x": 45,
           "y": 57
@@ -966,7 +957,7 @@
       },
       "VEHICLE_NSC_PUJ": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 8,
         "start": {
           "x": 75,
           "y": 57
@@ -974,7 +965,7 @@
       },
       "VEHICLE_NSC_NUMBER": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 8,
         "start": {
           "x": 85,
           "y": 57
@@ -998,7 +989,7 @@
       },
       "NOTICE_TIME": {
         "field_type": "text",
-        "font_size": 11,
+        "font_size": 10,
         "start": {
           "x": 34.8,
           "y": 99
@@ -1006,7 +997,7 @@
       },
       "NOTICE_DAY": {
         "field_type": "text",
-        "font_size": 11,
+        "font_size": 10,
         "start": {
           "x": 64.4,
           "y": 99
@@ -1014,7 +1005,7 @@
       },
       "NOTICE_MONTH": {
         "field_type": "text",
-        "font_size": 11,
+        "font_size": 10,
         "start": {
           "x": 87,
           "y": 99
@@ -1022,7 +1013,7 @@
       },
       "NOTICE_YEAR": {
         "field_type": "text",
-        "font_size": 11,
+        "font_size": 10,
         "start": {
           "x": 113,
           "y": 99
@@ -1030,7 +1021,7 @@
       },
       "DL_SURRENDER_LOCATION": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 8,
         "start": {
           "x": 30.7,
           "y": 120.1
@@ -1070,7 +1061,7 @@
       },
       "VEHICLE_LICENSE_NUMBER": {
         "field_type": "text",
-        "font_size": 10,
+        "font_size": 8,
         "start": {
           "x": 107,
           "y": 149
@@ -1078,7 +1069,7 @@
       },
       "VEHICLE_PROVINCE": {
         "field_type": "text",
-        "font_size": 10,
+        "font_size": 8,
         "start": {
           "x": 94.7,
           "y": 149
@@ -1086,7 +1077,7 @@
       },
       "VEHICLE_LICENSE_YEAR": {
         "field_type": "text",
-        "font_size": 10,
+        "font_size": 8,
         "start": {
           "x": 33.2,
           "y": 149
@@ -1094,7 +1085,7 @@
       },
       "VEHICLE_MAKE": {
         "field_type": "text",
-        "font_size": 10,
+        "font_size": 8,
         "start": {
           "x": 43,
           "y": 149
@@ -1102,7 +1093,7 @@
       },
       "VEHICLE_MODEL": {
         "field_type": "text",
-        "font_size": 10,
+        "font_size": 8,
         "start": {
           "x": 60,
           "y": 149
@@ -1110,7 +1101,7 @@
       },
       "VEHICLE_YEAR": {
         "field_type": "text",
-        "font_size": 10,
+        "font_size": 8,
         "start": {
           "x": 30.7,
           "y": 149
@@ -1118,7 +1109,7 @@
       },
       "VEHICLE_COLOR": {
         "field_type": "text",
-        "font_size": 10,
+        "font_size": 8,
         "start": {
           "x": 77,
           "y": 149
@@ -1126,7 +1117,7 @@
       },
       "IMPOUNDED_LOT": {
         "field_type": "text",
-        "font_size": 10,
+        "font_size": 8,
         "start": {
           "x": 30.7,
           "y": 169.2
@@ -1142,7 +1133,7 @@
       },
       "IMPOUNDED_PHONE_AREA_CODE": {
         "field_type": "text",
-        "font_size": 10,
+        "font_size": 8,
         "start": {
           "x": 103,
           "y": 169.2
@@ -1150,7 +1141,7 @@
       },
       "IMPOUNDED_PHONE_NUMBER": {
         "field_type": "text",
-        "font_size": 10,
+        "font_size": 8,
         "start": {
           "x": 110,
           "y": 169.2
@@ -1158,7 +1149,7 @@
       },
       "RELEASE_LOCATION_KEYS": {
         "field_type": "text",
-        "font_size": 10,
+        "font_size": 8,
         "start": {
           "x": 30.7,
           "y": 155.8
@@ -1166,7 +1157,7 @@
       },
       "RELEASE_LOCATION_VEHICLE": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 8,
         "start": {
           "x": 30.7,
           "y": 163
@@ -1174,7 +1165,7 @@
       },
       "RELEASE_PERSON": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 8,
         "start": {
           "x": 30.7,
           "y": 169.5
@@ -1182,7 +1173,7 @@
       },
       "RELEASE_DATETIME": {
         "field_type": "text",
-        "font_size": 10,
+        "font_size": 8,
         "start": {
           "x": 94,
           "y": 176

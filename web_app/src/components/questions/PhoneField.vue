@@ -6,6 +6,7 @@
     </label>
     <input type="text"
            class="form-control"
+           :disabled="disabled || hasFormBeenPrinted"
            :id="id"
            :placeholder="placeholder"
             :value="getAttributeValue(id)"
@@ -27,7 +28,7 @@ export default {
   },
   mixins: [FieldCommon],
   computed: {
-    ...mapGetters(["getAttributeValue"])
+    ...mapGetters(["getAttributeValue", "hasFormBeenPrinted"])
   },
   methods: {
     ...mapMutations(["updateFormField"])

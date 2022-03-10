@@ -218,9 +218,7 @@ def test_user_without_keycloak_login_cannot_get_vehicle(as_guest, monkeypatch):
 
 
 @pytest.mark.parametrize("plate", ["ICBC1", "ICBC2"])
-def test_authorized_user_gets_fake_vehicle_if_using_icbc_licence_plate(plate, as_guest, monkeypatch, roles):
-    # TODO - remove before flight - this functionality shouldn't go to production
-    logging.warning("plate" + plate)
+def test_authorized_user_gets_fake_vehicle_if_using_icbc_licence_plate_in_dev(plate, as_guest, monkeypatch, roles):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
     # responds without calling ICBC - useful for demos when ICBC doesn't respond
@@ -231,6 +229,35 @@ def test_authorized_user_gets_fake_vehicle_if_using_icbc_licence_plate(plate, as
     assert resp.status_code == 200
     assert 'plateNumber' in resp.json[0]
     assert resp.json[0]['plateNumber'] == plate
+
+
+@responses.activate
+def test_in_production_fake_vehicle_responses_are_not_returned(as_guest, monkeypatch, roles):
+    import python.prohibition_web_svc.blueprints.icbc as icbc
+    monkeypatch.setattr(icbc, "Config", InProductionConfig)
+    monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
+    monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
+
+    responses.add(responses.GET,
+                  '{}/vehicles?{}'.format(
+                      Config.ICBC_API_ROOT,
+                      urllib.parse.urlencode({
+                          "plateNumber": "ICBC",
+                          "effectiveDate": datetime.now().astimezone().replace(microsecond=0).isoformat()
+                      })
+                  ),
+                  json={},
+                  status=200)
+
+    responses.add(responses.POST, "{}:{}/services/collector".format(
+        Config.SPLUNK_HOST, Config.SPLUNK_PORT), status=200)
+
+    resp = as_guest.get(Config.URL_PREFIX + "/api/v1/icbc/vehicles/ICBC",
+                        follow_redirects=True,
+                        content_type="application/json",
+                        headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
+    assert resp.status_code == 200
+    assert '/api/vehicles?plateNumber=ICBC&effectiveDate=' in responses.calls[0].request.url
 
 
 def _sample_driver_response() -> dict:
@@ -386,3 +413,8 @@ def _get_authorized_user(**kwargs) -> tuple:
     logging.warning("inside _get_authorized_user()")
     kwargs['decoded_access_token'] = {'preferred_username': 'larry@idir'}  # keycloak username
     return True, kwargs
+
+
+class InProductionConfig(Config):
+    ENVIRONMENT = 'prod'
+

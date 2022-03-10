@@ -6,7 +6,7 @@
     <div class="form-check" v-for="(option) in options" :key="option">
       <input class="form-check-input" :id="id" @change="updateCheckBox" type="checkbox"
              :checked="checkBoxStatus(id,option)"
-             :value="option" :name="id" :disabled="disabled">
+             :value="option" :name="id" :disabled="disabled || hasFormBeenPrinted">
       <label class="form-check-label" :for="option">{{ option }}</label>
     </div>
 <!--    <div class="small text-danger">{{ errors[0] }}</div>-->
@@ -29,7 +29,7 @@ export default {
     ...mapMutations(["updateCheckBox"])
   },
   computed: {
-    ...mapGetters(["checkBoxStatus"])
+    ...mapGetters(["checkBoxStatus", "hasFormBeenPrinted"])
   }
 }
 </script>

@@ -1,6 +1,6 @@
 import moment from 'moment-timezone';
 import {extend} from "vee-validate";
-import { oneOf } from 'vee-validate/dist/rules';
+import { oneOf, max } from 'vee-validate/dist/rules';
 import constants from "@/config/constants";
 
 extend('inCities', {
@@ -8,6 +8,10 @@ extend('inCities', {
   message: 'Not a city in the list'
 });
 
+extend('max', {
+  ...max,
+  message: 'Too many characters'
+});
 
 extend('bcdlNumberRule',  {
   validate(value) {
@@ -137,7 +141,7 @@ extend('plate_year', {
   validate(value) {
     return {
       required: true,
-      valid: value >= 2000 && value < parseInt(moment().format("YYYY")) + 1,
+      valid: value = 2000 && value <= parseInt(moment().format("YYYY")) + 1,
     };
   },
   message: "Plate year must be between 2000 and the current year",

@@ -5,7 +5,7 @@
         <form>
           <div class="d-flex form-row align-items-start">
             <wait-for-icbc-field :show_label=false id="plate_year" fg_class="col-sm-8">Prohibition Search</wait-for-icbc-field>
-            <button type="submit" disabled class="btn btn-primary btn-sm">Search</button>
+            <button type="submit" disabled class="btn btn-primary btn-sm" id="search">Search</button>
           </div>
         </form>
       </div>

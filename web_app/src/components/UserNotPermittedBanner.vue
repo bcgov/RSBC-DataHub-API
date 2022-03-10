@@ -10,63 +10,21 @@
         </span>
         <div v-if="showApplication && ! hasUserApplied" class="d-flex justify-content-center mt-2">
           <div class="form-row pl-2">
-            <div class="form-group">
-              <label for="first_name">First Name</label>
-              <input type="text"
-                   class="form-control"
-                   id="first_name"
-                   v-model="application.first_name">
-            </div>
+            <application-field id="first_name" @modified="modified_event" :errors="errors">First Name</application-field>
           </div>
           <div class="form-row pl-2">
-            <div class="form-group">
-              <label for="last_name">Last Name</label>
-              <input type="text"
-                   class="form-control"
-                   id="last_name"
-                   v-model="application.last_name">
-            </div>
+            <application-field id="last_name" @modified="modified_event" :errors="errors">Last Name</application-field>
           </div>
           <div class="form-row pl-2">
-            <div class="form-group">
-              <label for="badge_number">Badge Number</label>
-              <input type="text"
-                   class="form-control"
-                   id="badge_number"
-                   v-model="application.badge_number">
-            </div>
+            <application-field id="badge_number" @modified="modified_event" :errors="errors">Badge Number</application-field>
           </div>
           <div class="form-row pl-2">
-            <div class="form-group">
-              <label for="agency">Agency</label>
-              <input type="text"
-                   class="form-control"
-                   id="agency"
-                   v-model="application.agency">
-            </div>
+            <application-field id="agency" @modified="modified_event" :errors="errors">Agency</application-field>
+            <button @click="dispatchUnlock" class="btn btn-secondary">
+              Apply
+              <b-spinner v-if="showSpinner" small></b-spinner>
+            </button>
           </div>
-          <div class="form-row pl-2">
-            <div class="form-group">
-              <label for="keycloak_username">Username</label>
-              <div class="form-inline">
-                <input type="text"
-                     class="form-control"
-                     id="keycloak_username"
-                     :value=getKeycloakUsername
-                     :disabled=true>
-                <button @click="dispatchUnlock" class="btn btn-secondary">
-                  Apply
-                  <b-spinner v-if="showSpinner" small></b-spinner>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-
-
-          </div>
-
         </div>
         <div v-if="hasUserApplied" class="text-muted small">
           Waiting for the administrator to unlock
@@ -78,12 +36,20 @@
 <script>
 
 import {mapGetters, mapActions} from "vuex";
+import ApplicationField from "@/components/ApplicationField";
+import Vue from 'vue'
 
 
 export default {
   name: "UserNotPermittedBanner",
   data() {
     return {
+      errors: {
+        first_name: [],
+        last_name: [],
+        badge_number: [],
+        agency: []
+      },
       application: {
         first_name: '',
         last_name: '',
@@ -96,16 +62,25 @@ export default {
   },
   methods: {
     ...mapActions(['applyToUnlockApplication']),
-    dispatchUnlock() {
+    async dispatchUnlock() {
       this.showSpinner = true
-      this.applyToUnlockApplication(this.application)
+      await this.applyToUnlockApplication(this.application)
         .then(() => {
           this.showSpinner = false
           this.showApplication = false
         })
-        .catch(() => {
+        .catch((errors) => {
+          errors.then( (data) => {
+            console.log("applyToUnlockApplication failed", data.errors)
+            Vue.set(this, "errors", data.errors)
+          })
+          this.showApplication = true
           this.showSpinner = false
         })
+    },
+    modified_event(payload) {
+      console.log(payload)
+      Vue.set(this.application, payload['id'], payload['value'])
     }
   },
   computed: {
@@ -117,6 +92,9 @@ export default {
         return 'Unlock'
       }
     }
+  },
+  components: {
+    ApplicationField
   }
 }
 </script>

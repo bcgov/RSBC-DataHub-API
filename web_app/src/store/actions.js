@@ -7,7 +7,6 @@ import pdfMerge from "@/helpers/pdfMerge";
 
 export const actions = {
 
-
     deleteSpecificForm(context, form_object ) {
         context.dispatch('deleteFormFromDB', form_object.form_id)
         context.commit('deleteForm', form_object)
@@ -213,7 +212,9 @@ export const actions = {
 
     async saveCurrentFormToDB(context, form_object) {
         let form_object_to_save = context.state.forms[form_object.form_type][form_object.form_id]
-        await persistence.updateOrCreate(form_object.form_id, form_object_to_save)
+        if (form_object_to_save) {
+            await persistence.updateOrCreate(form_object.form_id, form_object_to_save)
+        }
     },
 
     async createPDF (context, payload) {
@@ -259,8 +260,12 @@ export const actions = {
             key_value_pairs['AGENCY_FILE_NUMBER'] = context.getters.getFormPrintValue(form_object, 'file_number')
             key_value_pairs['OFFICER_LAST_NAME'] = context.getters.getFormPrintValue(form_object, 'officer_name')
 
-            key_value_pairs['OWNER_NAME'] = context.getters.getFormPrintValue(form_object, 'owners_last_name')
+            if(context.getters.getFormPrintCheckedValue(form_object, 'corporate_owner', 'Owned by corporate entity')) {
+                key_value_pairs['OWNER_NAME'] = context.getters.getFormPrintValue(form_object, 'owners_corporation')
+            } else {
+                key_value_pairs['OWNER_NAME'] = context.getters.getFormPrintValue(form_object, 'owners_last_name')
                 + ", " + context.getters.getFormPrintValue(form_object, 'owners_first_name')
+            }
 
             key_value_pairs['OWNER_ADDRESS'] = context.getters.getFormPrintValue(form_object, 'owners_address1')
                     + ", " + context.getters.getFormPrintValue(form_object, 'owners_city')
@@ -288,22 +293,22 @@ export const actions = {
             key_value_pairs['NOT_IMPOUNDED'] = context.getters.getFormPrintRadioValue(form_object, 'vehicle_impounded', 'No')
             key_value_pairs['IMPOUNDED'] = context.getters.getFormPrintRadioValue(form_object, 'vehicle_impounded', 'Yes')
 
-            // TODO - don't print the following if the vehicle is impounded
-            key_value_pairs['NOT_IMPOUNDED_REASON'] = context.getters.getFormPrintValue(form_object, 'reason_for_not_impounding')
-
-            let ilo = context.getters.getFormPrintValue(form_object, 'impound_lot_operator').split(", ")
-            if (ilo.length > 1) {
-                key_value_pairs['IMPOUNDED_LOT'] = ilo[0]
-                key_value_pairs['IMPOUNDED_ADDRESS'] = ilo[1] + ", " + ilo[2]
-                key_value_pairs['IMPOUNDED_PHONE_AREA_CODE'] = ilo[3].substr(0, 3)
-                key_value_pairs['IMPOUNDED_PHONE_NUMBER'] = ilo[3].substr(4)
+            if (key_value_pairs['IMPOUNDED']) {
+                let ilo = context.getters.getFormPrintValue(form_object, 'impound_lot_operator').split(", ")
+                if (ilo.length > 1) {
+                    key_value_pairs['IMPOUNDED_LOT'] = ilo[0]
+                    key_value_pairs['IMPOUNDED_ADDRESS'] = ilo[1] + ", " + ilo[2]
+                    key_value_pairs['IMPOUNDED_PHONE_AREA_CODE'] = ilo[3].substr(0, 3)
+                    key_value_pairs['IMPOUNDED_PHONE_NUMBER'] = ilo[3].substr(4)
+                }
+            } else {
+                key_value_pairs['NOT_IMPOUNDED_REASON'] = context.getters.getFormPrintValue(form_object, 'reason_for_not_impounding')
+                key_value_pairs['RELEASE_PERSON'] = context.getters.getFormPrintValue(form_object, 'vehicle_released_to')
+                key_value_pairs['RELEASE_DATETIME'] = context.getters.getFormDateTimeString(form_object, ['released_date', 'released_time'])
             }
 
             key_value_pairs['RELEASE_LOCATION_VEHICLE'] = context.getters.locationOfVehicle(form_object)
-
             key_value_pairs['RELEASE_LOCATION_KEYS'] = context.getters.getFormPrintValue(form_object, 'location_of_keys')
-            key_value_pairs['RELEASE_PERSON'] = context.getters.getFormPrintValue(form_object, 'vehicle_released_to')
-            key_value_pairs['RELEASE_DATETIME'] = context.getters.getFormDateTimeString(form_object, ['released_date', 'released_time'])
 
             key_value_pairs['DRIVER_SURNAME'] = context.getters.getFormPrintValue(form_object,"last_name")
             key_value_pairs['DRIVER_GIVEN'] = context.getters.getFormPrintValue(form_object,'first_name')
@@ -328,15 +333,20 @@ export const actions = {
                 form_object, 'operating_grounds', "Independent witness")
             key_value_pairs['DRIVER_ADMISSION_BY_DRIVER'] = context.getters.getFormPrintCheckedValue(
                 form_object, 'operating_grounds', "Admission by driver")
-            key_value_pairs['VIDEO_SURVEILLANCE'] = context.getters.getFormPrintCheckedValue(
+
+            const video_surveillance = context.getters.getFormPrintCheckedValue(
                 form_object, 'operating_grounds', "Video surveillance")
 
             let operating_grounds_other = context.getters.getFormPrintCheckedValue(
                 form_object, 'operating_grounds', "Other")
             key_value_pairs['DRIVER_OTHER'] = operating_grounds_other
 
-            if (operating_grounds_other) {
-                key_value_pairs['DRIVER_ADDITIONAL_INFORMATION'] = context.getters.getFormPrintValue(
+            if (operating_grounds_other || video_surveillance) {
+                key_value_pairs['DRIVER_ADDITIONAL_INFORMATION'] = "Additional Information:"
+                if (video_surveillance) {
+                    key_value_pairs['DRIVER_ADDITIONAL_INFORMATION'] += " video surveillance. "
+                }
+                key_value_pairs['DRIVER_ADDITIONAL_INFORMATION'] += context.getters.getFormPrintValue(
                     form_object, 'operating_ground_other')
             } else {
                 key_value_pairs['DRIVER_ADDITIONAL_INFORMATION'] = ''
@@ -431,11 +441,19 @@ export const actions = {
                 "headers": context.getters.apiHeader,
                     })
                         .then(response => {
-                            return response.json()
+                            return response
                         })
-                        .then( (data) => {
-                            console.log("applyToUnlockApplication()", data)
-                            resolve(context.commit("pushInitialUserRole", data))
+                        .then( (response) => {
+                            const data = response.json()
+                            if (response.status === 201) {
+                                console.log("applyToUnlockApplication() - success", data)
+                                resolve(data)
+                                data.then((user_role) => {
+                                    context.commit("pushInitialUserRole", user_role)
+                                })
+                            } else {
+                                reject(data)
+                            }
                         })
                         .catch((error) => {
                             console.log("error", error)
@@ -464,7 +482,7 @@ export const actions = {
                         new_user.role_name = data.role_name
                         new_user.approved_dt = data.approved_dt
                         new_user.submitted_dt = data.submitted_dt
-                        resolve(context.commit("updateUsers", new_user))
+                        resolve(context.commit("updateAdminUserRole", new_user))
                     })
                     .catch((error) => {
                         console.log("error", error)
@@ -487,7 +505,7 @@ export const actions = {
                     .then(response => {
                         console.log(response)
                         if (response.status === 200) {
-                            resolve(context.commit("deleteUser", payload))
+                            resolve(context.commit("deleteAdminUserRole", payload))
                         }
                     })
                     .catch(error => {
@@ -501,7 +519,7 @@ export const actions = {
     },
 
     async adminAddUserRole(context, new_user) {
-        console.log("inside actions.js adminAddUserRole(): ")
+        console.log("inside actions.js adminAddUserRole()", new_user)
         const url = constants.API_ROOT_URL + "/api/v1/admin/users/" + new_user.user_guid + "/roles"
         const payload = {"role_name": "administrator"}
         return await new Promise((resolve, reject) => {
@@ -516,10 +534,17 @@ export const actions = {
                         }
                     })
                     .then( () => {
-                        new_user.role_name = payload.role_name
-                        new_user.approved_dt = moment().tz("America/Vancouver")
-                        new_user.submitted_dt = moment().tz("America/Vancouver")
-                        return resolve(context.commit("addUsers", new_user))
+                        return resolve(context.commit("addAdminUserRole", {
+                            username: new_user.username,
+                            user_guid: new_user.user_guid,
+                            first_name: new_user.first_name,
+                            last_name: new_user.last_name,
+                            badge_number: new_user.badge_number,
+                            agency: new_user.agency,
+                            role_name: payload.role_name,
+                            approved_dt: moment().tz("America/Vancouver"),
+                            submitted_dt: moment().tz("America/Vancouver")
+                        }))
                     })
                     .catch((error) => {
                         console.log("error", error)
@@ -533,7 +558,7 @@ export const actions = {
 
     async saveFormAndGeneratePDF(context, form_object) {
         const current_timestamp = moment.now()
-        console.log("inside saveAndPrint()", current_timestamp)
+        console.log("inside saveFormAndGeneratePDF()", current_timestamp)
         let payload = {}
         payload['form_object'] = form_object
         payload['filename'] = context.getters.getPdfFileNameString(form_object, "all");
@@ -546,8 +571,8 @@ export const actions = {
               console.log("response from tellApiFormIsPrinted()", response)
               context.commit("setFormAsPrinted", payload)
               context.dispatch("saveCurrentFormToDB", form_object)
-              context.commit("stopEditingCurrentForm")
           })
+        // TODO - stop editing current form; prevent editing all fields
     },
 
     async downloadLookupTables(context) {

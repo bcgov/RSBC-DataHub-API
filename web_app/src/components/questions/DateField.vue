@@ -11,7 +11,7 @@
         <input type="text"
            class="form-control "
                :class="errors.length > 0 ? 'border-danger bg-warning' : ''"
-           :disabled="disabled"
+           :disabled="disabled || hasFormBeenPrinted"
            placeholder="YYYYMMDD"
            :id="id"
            :name="id"
@@ -37,7 +37,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["getAttributeValue"]),
+    ...mapGetters(["getAttributeValue", "hasFormBeenPrinted"]),
   }
 
 }

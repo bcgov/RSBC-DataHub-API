@@ -8,7 +8,7 @@
          class="form-control"
            :class="errors.length > 0 ? 'border-danger bg-warning' : ''"
          :id="id"
-         :disabled="disabled"
+         :disabled="disabled || hasFormBeenPrinted"
          :placeholder="placeholder"
          v-model="attribute">
     <div class="small text-danger">{{ errors[0] }}</div>
@@ -29,7 +29,7 @@ export default {
     placeholder: String,
   },
   computed: {
-    ...mapGetters(["getAttributeValue"]),
+    ...mapGetters(["getAttributeValue", "hasFormBeenPrinted"]),
     isShowOptional() {
       if(this.rules) {
         return ! this.rules.includes('required')

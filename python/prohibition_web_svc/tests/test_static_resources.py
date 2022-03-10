@@ -63,8 +63,8 @@ def test_get_cities(as_guest):
                         follow_redirects=True,
                         content_type="application/json")
     assert resp.status_code == 200
-    assert "Victoria" in resp.json
-    assert "100 Mile House" in resp.json
+    assert "VICTORIA" in resp.json
+    assert "100 MILE HOUSE" in resp.json
     
 
 def test_get_car_colors(as_guest):

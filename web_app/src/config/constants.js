@@ -12,7 +12,7 @@ export default {
     UNIQUE_ID_REFRESH_DAYS: 15,
 
     // The minimum number of unique ids per type to have in storage before requesting more.
-    MINIMUM_NUMBER_OF_UNIQUE_IDS_PER_TYPE: 2,
+    MINIMUM_NUMBER_OF_UNIQUE_IDS_PER_TYPE: 10,
 
     // The maximum number of times app will attempt to retrieve unique IDs
     MAX_NUMBER_UNIQUE_ID_FETCH_ATTEMPTS: 2,
@@ -20,6 +20,8 @@ export default {
     MIN_VEHICLE_YEAR: 1920,
     MAX_VEHICLE_YEAR: moment().format("YYYY") + 1,
 
-    TIMEZONE: "America/Vancouver"
+    TIMEZONE: "America/Vancouver",
+
+    ROAD_SAFETY_CONTACT: 'RSIOpsSupport',
 
 }

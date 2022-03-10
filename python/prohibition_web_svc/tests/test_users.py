@@ -54,6 +54,23 @@ def roles(database):
     db.session.commit()
 
 
+def test_applying_user_must_supply_an_agency_name_of_at_least_4_characters(as_guest, monkeypatch, roles, database):
+    monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
+    monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_keycloak_user_who_has_not_applied)
+    resp = as_guest.post(Config.URL_PREFIX + "/api/v1/users",
+                         json={
+                             "agency": "AAA",
+                             "badge_number": "8044",
+                             "first_name": "New",
+                             "last_name": "Officer"
+                         },
+                         follow_redirects=True,
+                         headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
+    assert resp.status_code == 400
+    assert resp.json['message'] == "failed validation"
+    assert resp.json['errors'] == {'agency': ['min length is 4']}
+
+
 def test_user_without_authorization_can_apply_to_use_the_app(as_guest, monkeypatch, roles, database):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_keycloak_user_who_has_not_applied)
@@ -101,6 +118,7 @@ def test_bceid_user_can_apply_to_use_the_app(as_guest, monkeypatch, roles, datab
                .filter(User.agency == 'RCMP Terrace') \
                .filter(User.first_name == "New") \
                .filter(User.last_name == "Officer") \
+               .filter(User.business_guid == "gggg-ffff-dddd-jjjj") \
                .count() == 1
     assert database.session.query(UserRole) \
                .filter(UserRole.role_name == "officer") \
@@ -211,6 +229,7 @@ def _get_bceid_user_who_has_not_applied(**kwargs) -> tuple:
         'preferred_username': 'new-officer@bceid',
         'bceid_userid': 'aaa-bbb-ccc-fff',
         "bceid_business_name": "RoadSafety Digital Forms",
+        "bceid_business_guid": "gggg-ffff-dddd-jjjj"
     }
     return True, kwargs
 

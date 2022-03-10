@@ -14,7 +14,7 @@
         <officer-details-card></officer-details-card>
         <form-card title="Generate PDF for Printing">
           <div class="d-flex justify-content-between">
-            <button type="submit" class="btn btn-primary" :disabled="invalid">Print Forms
+            <button type="submit" class="btn btn-primary" :disabled="invalid" id="btn_print_forms">Print Forms
               <b-spinner v-if="display_spinner" small label="Loading..."></b-spinner>
             </button>
           </div>
@@ -62,8 +62,11 @@ export default {
   },
   mixins: [FormsCommon],
   computed: {
-    ...mapGetters(["getAttributeValue", "getCurrentlyEditedFormData", "getCurrentlyEditedFormObject",
-      "corporateOwner"]),
+    ...mapGetters([
+        "getAttributeValue",
+        "getCurrentlyEditedFormData",
+        "getCurrentlyEditedFormObject",
+        "corporateOwner"]),
     isProhibitionTypeDrugs() {
       return this.getAttributeValue('prohibition_type') === "Drugs 215(3)";
     },

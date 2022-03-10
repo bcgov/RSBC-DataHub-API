@@ -56,6 +56,7 @@ def create_a_user(**kwargs) -> tuple:
         user = User(
             username=kwargs.get('username'),
             user_guid=kwargs.get('user_guid'),
+            business_guid=kwargs.get('business_guid'),
             badge_number=kwargs.get('payload')['badge_number'],
             agency=kwargs.get('payload')['agency'],
             first_name=kwargs.get('payload')['first_name'],
@@ -131,6 +132,7 @@ def validate_create_user_payload(**kwargs) -> tuple:
     if cerberus.validate(kwargs.get('payload')):
         return True, kwargs
     logging.warning("validation error: " + json.dumps(cerberus.errors))
+    kwargs['validation_errors'] = cerberus.errors
     return False, kwargs
 
 

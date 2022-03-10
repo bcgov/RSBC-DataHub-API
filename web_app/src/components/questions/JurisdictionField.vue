@@ -4,7 +4,7 @@
     <label v-if="show_label" :for="id"><slot></slot>
       <span v-if="required" class="text-danger"> *</span>
     </label>
-    <select :disabled="disabled" class="form-control" :id="id" @input="updateFormField">
+    <select :disabled="disabled || hasFormBeenPrinted" class="form-control" :id="id" @input="updateFormField">
       <option v-for="jurisdiction in getArrayOfJurisdictions"
               :key="jurisdiction.objectCd"
               :selected="jurisdiction.objectDsc === getAttributeValue(id)">
@@ -29,7 +29,7 @@ export default {
     this.$store.commit("updateFormField", { target: { id: this.id, value: "British Columbia" }})
   },
   computed: {
-    ...mapGetters(["getArrayOfJurisdictions", "getAttributeValue"])
+    ...mapGetters(["getArrayOfJurisdictions", "getAttributeValue", "hasFormBeenPrinted"])
   },
   methods: {
     ...mapMutations(["updateFormField"])

@@ -37,7 +37,7 @@ def create():
         kwargs = middle_logic(
             keycloak_logic.get_keycloak_user() + [
                 {"try": user_middleware.request_contains_a_payload, "fail": [
-                    {"try": http_responses.failed_validation, "fail": []}
+                    {"try": http_responses.no_payload, "fail": []}
                 ]},
                 {"try": user_middleware.validate_create_user_payload, "fail": [
                     {"try": http_responses.failed_validation, "fail": []}

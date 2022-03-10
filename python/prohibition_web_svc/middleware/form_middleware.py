@@ -14,8 +14,8 @@ def validate_update(**kwargs) -> tuple:
 
 def log_payload_to_splunk(**kwargs) -> tuple:
     request = kwargs.get('request')
-    # TODO - remove before flight - not authorized to log form data yet
-    logging.info("payload: | {}".format(request.get_data()))
+    # TODO - log to Splunk
+    logging.debug("payload: | {}".format(request.get_data()))
     return True, kwargs
 
 
@@ -156,7 +156,6 @@ def get_json_payload(**kwargs) -> tuple:
 
 def validate_form_payload(**kwargs) -> tuple:
     logging.debug("inside validate_form_payload()")
-    payload = kwargs.get('payload')
     schema = {
         "form_id": {
             'type': 'string',
@@ -171,7 +170,12 @@ def validate_form_payload(**kwargs) -> tuple:
         }
     }
     v = Validator(schema)
-    return v.validate(payload), kwargs
+    v.allow_unknown = False
+    if v.validate(kwargs.get('payload')):
+        return True, kwargs
+    logging.warning("validation error: " + json.dumps(v.errors))
+    kwargs['validation_errors'] = v.errors
+    return False, kwargs
 
 
 def admin_create_form(**kwargs) -> tuple:

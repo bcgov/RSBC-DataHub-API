@@ -1,7 +1,7 @@
 import logging
 import requests
 from datetime import datetime
-from flask import jsonify, make_response
+from flask import make_response
 import base64
 from python.prohibition_web_svc.config import Config
 from python.common.helper import load_json_into_dict
@@ -47,8 +47,12 @@ def get_icbc_vehicle(**kwargs) -> tuple:
 
 
 def is_request_not_seeking_test_plate(**kwargs) -> tuple:
-    # TODO - remove before flight
     vehicle_data = load_json_into_dict('python/prohibition_web_svc/data/sample_icbc_vehicles.json')
+    config = kwargs.get('config')
+    logging.debug("Environment: " + config.ENVIRONMENT)
+    if config.ENVIRONMENT == 'prod':
+        # Never return the test plate in PROD
+        return True, kwargs
     plate_number = kwargs.get('plate_number')
     return plate_number not in vehicle_data, kwargs
 

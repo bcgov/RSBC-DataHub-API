@@ -64,6 +64,7 @@ def get_user_guid_from_decoded_access_token(**kwargs) -> tuple:
     decoded_access_token = kwargs.get('decoded_access_token')
     if decoded_access_token.get('bceid_userid'):
         logging.debug('BCeID user')
+        kwargs['business_guid'] = decoded_access_token.get('bceid_business_guid')
         kwargs['user_guid'] = decoded_access_token.get('bceid_userid')
         return True, kwargs
     if decoded_access_token.get('idir_guid'):
