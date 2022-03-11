@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     typeAheadUpdate(e) {
-      const payload = {target: {value: e, id: this.id }}
+      const payload = {target: {value: e.toUpperCase(), id: this.id }}
       this.$store.commit("updateFormField", payload)
     }
   },
