@@ -287,7 +287,7 @@ export const getters = {
         if (!(attribute in root)) {
             return '';
         }
-        return root[attribute];
+        return root[attribute].toUpperCase();
     },
 
     getFormDateTimeString: state => (form_object, [dateString, timeString]) => {
@@ -297,7 +297,7 @@ export const getters = {
         }
         console.log("getFormDateTimeString()", root[dateString], root[timeString] )
         const date_time = moment.tz(root[dateString] + " " + root[timeString], 'YYYYMMDD HHmm', true, constants.TIMEZONE)
-        return date_time.format("YYYY-MM-DD HH:mm")
+        return date_time.format("YYYY-MM-DD HH:mm").toUpperCase()
     },
 
     getFormDateTime: state => (form_object, [dateString, timeString]) => {
@@ -331,7 +331,7 @@ export const getters = {
         }
         let filteredObject = state.jurisdictions.filter( j => j['objectDsc'] === root[attribute]);
         console.log('filteredObject', filteredObject)
-        return filteredObject[0]['objectCd']
+        return filteredObject[0]['objectCd'].toUpperCase()
     },
 
     isUserAnAdmin: state => {
@@ -460,13 +460,13 @@ export const getters = {
         }
         if (root["vehicle_impounded"] === 'Yes') {
             if(form_object.form_type === '24Hour') {
-                return "Impounded"
+                return "IMPOUNDED"
             }
             return ''
         }
         if (root["vehicle_impounded"] === 'No') {
             if ("reason_for_not_impounding" in root) {
-                return root['reason_for_not_impounding']
+                return root['reason_for_not_impounding'].toUpperCase()
             }
             return ''
         }

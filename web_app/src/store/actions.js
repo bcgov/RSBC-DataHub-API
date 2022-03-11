@@ -342,9 +342,9 @@ export const actions = {
             key_value_pairs['DRIVER_OTHER'] = operating_grounds_other
 
             if (operating_grounds_other || video_surveillance) {
-                key_value_pairs['DRIVER_ADDITIONAL_INFORMATION'] = "Additional Information:"
+                key_value_pairs['DRIVER_ADDITIONAL_INFORMATION'] = "ADDITIONAL INFORMATION:"
                 if (video_surveillance) {
-                    key_value_pairs['DRIVER_ADDITIONAL_INFORMATION'] += " video surveillance. "
+                    key_value_pairs['DRIVER_ADDITIONAL_INFORMATION'] += " VIDEO SURVEILLANCE. "
                 }
                 key_value_pairs['DRIVER_ADDITIONAL_INFORMATION'] += context.getters.getFormPrintValue(
                     form_object, 'operating_ground_other')
