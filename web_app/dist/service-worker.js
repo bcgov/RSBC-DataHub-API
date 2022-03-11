@@ -1,4 +1,4 @@
-importScripts("/roadside-forms/precache-manifest.9378c4d3e12c3685e470d4c1cefa7caf.js", "/roadside-forms/workbox-v4.3.1/workbox-sw.js");
+importScripts("/roadside-forms/precache-manifest.3c72405069e9c18e9be7cf1ce4c3a45e.js", "/roadside-forms/workbox-v4.3.1/workbox-sw.js");
 workbox.setConfig({modulePathPrefix: "/roadside-forms/workbox-v4.3.1"});
 
 // The precaching code provided by Workbox
