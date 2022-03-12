@@ -572,6 +572,11 @@ export const actions = {
         await context.dispatch("tellApiFormIsPrinted", form_object)
           .then( (response) => {
               console.log("response from tellApiFormIsPrinted()", response)
+              return response
+          })
+          .catch( (error) => {
+              console.log("no response from tellApiFormIsPrinted()", error)
+              return error
           })
     },
 

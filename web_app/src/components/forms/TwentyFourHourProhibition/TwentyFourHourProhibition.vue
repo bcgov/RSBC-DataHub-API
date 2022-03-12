@@ -99,6 +99,14 @@ export default {
       console.log('inside onSubmit()', is_validated);
       if(is_validated) {
         await this.saveFormAndGeneratePDF(this.getFormObject)
+          .then( (response) => {
+              console.log('form generated successfully', response)
+              this.display_spinner = false;
+            })
+          .catch((error) => {
+              console.log('form did not generate successfully', error)
+              this.display_spinner = false;
+            })
       } else {
         this.rerender++;
         this.isNotValid = true;
