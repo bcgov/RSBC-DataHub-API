@@ -44,15 +44,17 @@ export default {
     ...mapMutations(["editExistingForm"]),
     ...mapActions(["deleteSpecificForm", "saveFormAndGeneratePDF"]),
     triggerPrint() {
-      console.log('inside triggerPrint()', this.display_spinner, this.getFormObject);
+      console.log('inside triggerPrint()', this.display_spinner, this.prohibition);
       this.display_spinner = true;
       this.saveFormAndGeneratePDF(this.prohibition)
-          .then(() => {
-            this.display_spinner = false;
-          })
-          .catch(() => {
-            this.display_spinner = false;
-          })
+          .then( (response) => {
+              console.log('form generated successfully', response)
+              this.display_spinner = false;
+            })
+          .catch((error) => {
+              console.log('form did not generate successfully', error)
+              this.display_spinner = false;
+            })
 
     }
   }

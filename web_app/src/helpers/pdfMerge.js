@@ -26,7 +26,7 @@ export default {
     async buildPdfVariants(doc, document_types_to_print, print_definitions, page_index, form_data) {
         for (const variant of document_types_to_print) {
             console.log("A:", variant, print_definitions['variants'][variant], doc)
-            doc = await this.buildPages(doc,print_definitions, variant, page_index, form_data)
+            doc = await this.buildPages(doc, print_definitions, variant, page_index, form_data)
             page_index++
         }
         return doc;
