@@ -34,7 +34,7 @@ Vue.use(VueKeyCloak, {
     onLoad: 'check-sso',
     pkceMethod: "S256",
   },
-  config: constants.API_ROOT_URL + '/api/v1/keycloak',
+  config: constants.API_ROOT_URL + '/api/v1/static/keycloak',
   onReady: () => {
     store.commit("setKeycloak", Vue.prototype.$keycloak)
   }
@@ -47,14 +47,17 @@ new Vue({
   async created() {
 
     await store.dispatch("getAllFormsFromDB");
+
+    // download lookup tables while offline
     await store.dispatch("downloadLookupTables")
 
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'setKeycloak') {
+        store.dispatch("downloadLookupTables")
         store.dispatch("getMoreFormsFromApiIfNecessary")
         // TODO - store.dispatch("renewFormLeasesFromApiIfNecessary")
-        store.dispatch("fetchStaticLookupTables", {"resource": "user_roles", "admin": false})
-        store.dispatch("fetchStaticLookupTables", {"resource": "users", "admin": false})
+        store.dispatch("fetchStaticLookupTables", {"resource": "user_roles", "admin": false, "static": false})
+        store.dispatch("fetchStaticLookupTables", {"resource": "users", "admin": false, "static": false})
       }
       if (mutation.type === 'updateFormField' ||
           mutation.type === 'updateCheckBox' ||

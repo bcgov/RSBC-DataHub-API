@@ -177,8 +177,14 @@ export const actions = {
     },
 
     async fetchStaticLookupTables(context, payload) {
-        const admin_parameter = payload.admin ? 'admin/' : ''
-        const url = constants.API_ROOT_URL + "/api/v1/" + admin_parameter + payload.resource
+        let url = ''
+        if (payload.admin) {
+            url = constants.API_ROOT_URL + "/api/v1/admin/" + payload.resource
+        } else if (payload.static) {
+            url = constants.API_ROOT_URL + "/api/v1/static/" + payload.resource
+        } else {
+            url = constants.API_ROOT_URL + "/api/v1/" + payload.resource
+        }
         console.log("fetchStaticLookupTables()", url)
         fetch(url, {
             "method": 'GET',
@@ -193,7 +199,6 @@ export const actions = {
             .catch(() => {
                 console.log("fetchStaticLookupTables network fetch failed")
             })
-
     },
 
     async deleteFormFromDB(context, form_id) {
@@ -582,15 +587,15 @@ export const actions = {
 
     async downloadLookupTables(context) {
 
-        await context.dispatch("fetchStaticLookupTables", {"resource": "agencies", "admin": false})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "impound_lot_operators", "admin": false})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "countries", "admin": false})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "jurisdictions", "admin": false})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "provinces", "admin": false})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "cities", "admin": false})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "colors", "admin": false})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "vehicles", "admin": false})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "vehicle_styles", "admin": false})
+        await context.dispatch("fetchStaticLookupTables", {"resource": "agencies", "admin": false, "static": true})
+        await context.dispatch("fetchStaticLookupTables", {"resource": "impound_lot_operators", "admin": false, "static": true})
+        await context.dispatch("fetchStaticLookupTables", {"resource": "countries", "admin": false, "static": true})
+        await context.dispatch("fetchStaticLookupTables", {"resource": "jurisdictions", "admin": false, "static": true})
+        await context.dispatch("fetchStaticLookupTables", {"resource": "provinces", "admin": false, "static": true})
+        await context.dispatch("fetchStaticLookupTables", {"resource": "cities", "admin": false, "static": true})
+        await context.dispatch("fetchStaticLookupTables", {"resource": "colors", "admin": false, "static": true})
+        await context.dispatch("fetchStaticLookupTables", {"resource": "vehicles", "admin": false, "static": true})
+        await context.dispatch("fetchStaticLookupTables", {"resource": "vehicle_styles", "admin": false, "static": true})
 
     },
 
