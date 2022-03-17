@@ -1,5 +1,7 @@
 import pytest
 import logging
+import responses
+import json
 from datetime import datetime
 import python.prohibition_web_svc.middleware.keycloak_middleware as middleware
 from python.prohibition_web_svc.models import db, UserRole
@@ -40,15 +42,29 @@ def roles(database):
     db.session.commit()
 
 
+@responses.activate
 def test_authorized_can_get_agencies(as_guest, monkeypatch, roles):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
+
+    responses.add(responses.POST, "{}:{}/services/collector".format(
+        Config.SPLUNK_HOST, Config.SPLUNK_PORT), status=200)
+
     resp = as_guest.get(Config.URL_PREFIX + "/api/v1/static/agencies",
                         follow_redirects=True,
                         content_type="application/json",
                         headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
     assert resp.status_code == 200
     assert "2101" in resp.json
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'get static resource',
+            'resource': 'agencies',
+            'user_guid': 'larry@idir',
+            'username': 'larry@idir'
+        },
+        'source': 'be78d6'
+    })
 
 
 def test_unauthorized_user_cannot_get_agencies(as_guest):
@@ -59,15 +75,29 @@ def test_unauthorized_user_cannot_get_agencies(as_guest):
     assert resp.status_code == 401
 
 
+@responses.activate
 def test_authorized_user_gets_impound_lot_operators(as_guest, monkeypatch, roles):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
+
+    responses.add(responses.POST, "{}:{}/services/collector".format(
+        Config.SPLUNK_HOST, Config.SPLUNK_PORT), status=200)
+
     resp = as_guest.get(Config.URL_PREFIX + "/api/v1/static/impound_lot_operators",
                         follow_redirects=True,
                         content_type="application/json",
                         headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
     assert resp.status_code == 200
     assert "24 Hour Towing" in resp.json[0]['name']
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'get static resource',
+            'resource': 'impound_lot_operators',
+            'user_guid': 'larry@idir',
+            'username': 'larry@idir'
+        },
+        'source': 'be78d6'
+    })
 
 
 def test_unauthorized_user_cannot_get_impound_lot_operators(as_guest):
@@ -78,9 +108,14 @@ def test_unauthorized_user_cannot_get_impound_lot_operators(as_guest):
     assert resp.status_code == 401
 
 
+@responses.activate
 def test_authorized_user_gets_provinces(as_guest, monkeypatch, roles):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
+
+    responses.add(responses.POST, "{}:{}/services/collector".format(
+        Config.SPLUNK_HOST, Config.SPLUNK_PORT), status=200)
+
     resp = as_guest.get(Config.URL_PREFIX + "/api/v1/static/provinces",
                         follow_redirects=True,
                         content_type="application/json",
@@ -88,6 +123,15 @@ def test_authorized_user_gets_provinces(as_guest, monkeypatch, roles):
     assert resp.status_code == 200
     assert 'objectCd' in resp.json[2]
     assert 'objectDsc' in resp.json[2]
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'get static resource',
+            'resource': 'provinces',
+            'user_guid': 'larry@idir',
+            'username': 'larry@idir'
+        },
+        'source': 'be78d6'
+    })
 
 
 def test_unauthorized_user_cannot_get_provinces(as_guest):
@@ -97,9 +141,14 @@ def test_unauthorized_user_cannot_get_provinces(as_guest):
     assert resp.status_code == 401
 
 
+@responses.activate
 def test_authorized_user_gets_jurisdictions(as_guest, monkeypatch, roles):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
+
+    responses.add(responses.POST, "{}:{}/services/collector".format(
+        Config.SPLUNK_HOST, Config.SPLUNK_PORT), status=200)
+
     resp = as_guest.get(Config.URL_PREFIX + "/api/v1/static/jurisdictions",
                         follow_redirects=True,
                         content_type="application/json",
@@ -107,6 +156,15 @@ def test_authorized_user_gets_jurisdictions(as_guest, monkeypatch, roles):
     assert resp.status_code == 200
     assert "AB" in resp.json[2]['objectCd']
     assert "Alberta" in resp.json[2]['objectDsc']
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'get static resource',
+            'resource': 'jurisdictions',
+            'user_guid': 'larry@idir',
+            'username': 'larry@idir'
+        },
+        'source': 'be78d6'
+    })
 
 
 def test_unauthorized_user_cannot_get_jurisdictions(as_guest):
@@ -116,9 +174,14 @@ def test_unauthorized_user_cannot_get_jurisdictions(as_guest):
     assert resp.status_code == 401
 
 
+@responses.activate
 def test_authorized_user_can_get_countries(as_guest, monkeypatch, roles):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
+
+    responses.add(responses.POST, "{}:{}/services/collector".format(
+        Config.SPLUNK_HOST, Config.SPLUNK_PORT), status=200)
+
     resp = as_guest.get(Config.URL_PREFIX + "/api/v1/static/countries",
                         follow_redirects=True,
                         content_type="application/json",
@@ -126,6 +189,15 @@ def test_authorized_user_can_get_countries(as_guest, monkeypatch, roles):
     assert resp.status_code == 200
     assert 'objectCd' in resp.json[2]
     assert 'objectDsc' in resp.json[2]
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'get static resource',
+            'resource': 'countries',
+            'user_guid': 'larry@idir',
+            'username': 'larry@idir'
+        },
+        'source': 'be78d6'
+    })
 
 
 def test_unauthorized_user_cannot_get_countries(as_guest):
@@ -135,9 +207,14 @@ def test_unauthorized_user_cannot_get_countries(as_guest):
     assert resp.status_code == 401
 
 
+@responses.activate
 def test_authorized_user_gets_cities(as_guest, monkeypatch, roles):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
+
+    responses.add(responses.POST, "{}:{}/services/collector".format(
+        Config.SPLUNK_HOST, Config.SPLUNK_PORT), status=200)
+
     resp = as_guest.get(Config.URL_PREFIX + "/api/v1/static/cities",
                         follow_redirects=True,
                         content_type="application/json",
@@ -145,6 +222,15 @@ def test_authorized_user_gets_cities(as_guest, monkeypatch, roles):
     assert resp.status_code == 200
     assert "VICTORIA" in resp.json
     assert "100 MILE HOUSE" in resp.json
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'get static resource',
+            'resource': 'cities',
+            'user_guid': 'larry@idir',
+            'username': 'larry@idir'
+        },
+        'source': 'be78d6'
+    })
 
 
 def test_unauthorized_user_cannot_get_cities(as_guest):
@@ -154,15 +240,29 @@ def test_unauthorized_user_cannot_get_cities(as_guest):
     assert resp.status_code == 401
 
 
+@responses.activate
 def test_authorized_user_gets_car_colors(as_guest, monkeypatch, roles):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
+
+    responses.add(responses.POST, "{}:{}/services/collector".format(
+        Config.SPLUNK_HOST, Config.SPLUNK_PORT), status=200)
+
     resp = as_guest.get(Config.URL_PREFIX + "/api/v1/static/colors",
                         follow_redirects=True,
                         content_type="application/json",
                         headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
     assert resp.status_code == 200
     assert "BLU" in resp.json
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'get static resource',
+            'resource': 'colors',
+            'user_guid': 'larry@idir',
+            'username': 'larry@idir'
+        },
+        'source': 'be78d6'
+    })
 
 
 def test_unauthorized_user_cannot_get_car_colors(as_guest):
@@ -172,6 +272,7 @@ def test_unauthorized_user_cannot_get_car_colors(as_guest):
     assert resp.status_code == 401
 
 
+@responses.activate
 def test_authorized_user_can_get_vehicles(as_guest, monkeypatch, roles):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
@@ -182,6 +283,15 @@ def test_authorized_user_can_get_vehicles(as_guest, monkeypatch, roles):
     assert resp.status_code == 200
     assert "AC" == resp.json[0]['make']
     assert "300" == resp.json[0]['model']
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'get static resource',
+            'resource': 'vehicles',
+            'user_guid': 'larry@idir',
+            'username': 'larry@idir'
+        },
+        'source': 'be78d6'
+    })
 
 
 def test_unauthorized_cannot_get_vehicles(as_guest):
@@ -191,6 +301,7 @@ def test_unauthorized_cannot_get_vehicles(as_guest):
     assert resp.status_code == 401
 
 
+@responses.activate
 def test_authorized_user_can_get_vehicle_styles(as_guest, monkeypatch, roles):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
@@ -200,6 +311,15 @@ def test_authorized_user_can_get_vehicle_styles(as_guest, monkeypatch, roles):
                         headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
     assert resp.status_code == 200
     assert "2DR" == resp.json[0]
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'get static resource',
+            'resource': 'vehicle_styles',
+            'user_guid': 'larry@idir',
+            'username': 'larry@idir'
+        },
+        'source': 'be78d6'
+    })
 
 
 def test_unauthorized_user_cannot_get_vehicle_styles(as_guest):
@@ -209,6 +329,7 @@ def test_unauthorized_user_cannot_get_vehicle_styles(as_guest):
     assert resp.status_code == 401
 
 
+@responses.activate
 def test_unauthorized_user_can_get_keycloak_config(as_guest):
     resp = as_guest.get(Config.URL_PREFIX + "/api/v1/static/keycloak",
                         follow_redirects=True,
@@ -217,8 +338,18 @@ def test_unauthorized_user_can_get_keycloak_config(as_guest):
     assert 'realm' in resp.json
     assert 'url' in resp.json
     assert 'clientId' in resp.json
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'get static resource',
+            'resource': 'keycloak',
+            'user_guid': '',
+            'username': ''
+        },
+        'source': 'be78d6'
+    })
 
 
+@responses.activate
 def test_authorized_user_can_get_keycloak_config(as_guest, monkeypatch, roles):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
@@ -230,7 +361,15 @@ def test_authorized_user_can_get_keycloak_config(as_guest, monkeypatch, roles):
     assert 'realm' in resp.json
     assert 'url' in resp.json
     assert 'clientId' in resp.json
-
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'get static resource',
+            'resource': 'keycloak',
+            'user_guid': '',
+            'username': ''
+        },
+        'source': 'be78d6'
+    })
 
 
 def _get_unauthorized_user(**kwargs) -> tuple:

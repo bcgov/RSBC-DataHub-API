@@ -26,7 +26,8 @@ def get_driver(dl_number):
                 {"try": icbc_middleware.get_icbc_driver, "fail": [
                     {"try": http_responses.server_error_response, "fail": []},
                 ]},
-                {"try": splunk.icbc_get_driver, "fail": []},
+                {"try": icbc_middleware.splunk_get_driver, "fail": []},
+                {"try": splunk.log_to_splunk, "fail": []}
             ],
             required_permission='driver-get',
             dl_number=dl_number,
@@ -49,11 +50,13 @@ def get_vehicle(plate_number):
                 {"try": icbc_middleware.get_icbc_vehicle, "fail": [
                     {"try": http_responses.server_error_response, "fail": []},
                 ]},
-                {"try": splunk.icbc_get_vehicle, "fail": []}
+                {"try": icbc_middleware.splunk_get_vehicle, "fail": []},
+                {"try": splunk.log_to_splunk, "fail": []}
             ],
             required_permission='vehicle-get',
             plate_number=plate_number.upper(),
             request=request,
             config=Config)
         return kwargs.get('response')
+
 

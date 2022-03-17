@@ -2,7 +2,9 @@ from python.prohibition_web_svc.config import Config
 from python.common.helper import middle_logic
 from python.prohibition_web_svc.business.keycloak_logic import get_authorized_keycloak_user
 import python.prohibition_web_svc.http_responses as http_responses
+import python.prohibition_web_svc.middleware.splunk_middleware as splunk_middleware
 from flask import request, make_response, Blueprint
+from python.common.splunk import log_to_splunk
 from flask_cors import CORS
 
 import logging.config
@@ -24,22 +26,27 @@ def index(resource):
     if request.method == 'GET':
         kwargs = middle_logic([
               {"try": _is_not_keycloak, "fail": [
+                  {"try": splunk_middleware.log_static_get, "fail": []},
                   {"try": _get_keycloak, "fail": [
                       {"try": http_responses.server_error_response, "fail": []},
-                  ]}
+                  ]},
+                  {"try": log_to_splunk, "fail": []},
               ]},
               ] + get_authorized_keycloak_user() + [
+                {"try": splunk_middleware.log_static_get, "fail": []},
                 {"try": _is_known_resource, "fail": [
                     {"try": http_responses.bad_request_response, "fail": []},
                 ]},
                 {"try": _is_resource_agencies, "fail": [
                     {"try": _get_resource, "fail": [
                         {"try": http_responses.server_error_response, "fail": []},
-                    ]}
+                    ]},
+                    {"try": log_to_splunk, "fail": []},
                 ]},
                 {"try": _get_agencies, "fail": [
                     {"try": http_responses.server_error_response, "fail": []},
-                ]}
+                ]},
+                {"try": log_to_splunk, "fail": []},
             ],
             resource=resource,
             required_permission='static-get',

@@ -1,5 +1,5 @@
 import pytest
-import base64
+import responses
 import logging
 import json
 import responses
@@ -37,7 +37,7 @@ def forms(database):
     today = datetime.strptime("2021-07-21", "%Y-%m-%d")
     yesterday = today - timedelta(days=1)
     forms = [
-        Form(form_id='AA-123332', form_type='24Hour', user_guid='larry@idir', lease_expiry=today, printed=None),
+        Form(form_id='AA123332', form_type='24Hour', user_guid='larry@idir', lease_expiry=today, printed=None),
         Form(form_id='AA-123333', form_type='24Hour', user_guid='larry@idir', lease_expiry=yesterday, printed=None),
         Form(form_id='AA-123334', form_type='12Hour', user_guid='larry@idir', lease_expiry=yesterday, printed=None),
         Form(form_id='AA-11111', form_type='24Hour', user_guid=None, lease_expiry=None, printed=None)
@@ -58,6 +58,7 @@ def roles(database):
     db.session.commit()
 
 
+@responses.activate
 def test_authorized_user_gets_only_current_users_form_records(as_guest, monkeypatch, roles, forms):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
@@ -67,7 +68,7 @@ def test_authorized_user_gets_only_current_users_form_records(as_guest, monkeypa
     assert len(resp.json) == 2
     assert resp.json == [
         {
-             'id': 'AA-123332',
+             'id': 'AA123332',
              'form_type': '24Hour',
              'lease_expiry': '2021-07-21',
              'printed_timestamp': None,
@@ -82,6 +83,14 @@ def test_authorized_user_gets_only_current_users_form_records(as_guest, monkeypa
         }
     ]
     assert resp.status_code == 200
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'get form index',
+            'user_guid': 'larry@idir',
+            'username': 'larry@idir'
+        },
+        'source': 'be78d6'
+    })
 
 
 def test_request_without_keycloak_user_cannot_get_forms(as_guest, monkeypatch, forms):
@@ -101,6 +110,7 @@ def test_request_with_unauthorized_keycloak_user_cannot_get_forms(as_guest, monk
     assert resp.status_code == 401
 
 
+@responses.activate
 def test_when_form_created_authorized_user_receives_unique_form_id_for_later_use(as_guest, monkeypatch, roles, forms):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
@@ -118,6 +128,17 @@ def test_when_form_created_authorized_user_receives_unique_form_id_for_later_use
         'printed_timestamp': None,
         'user_guid': 'larry@idir'
     }
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'create form',
+            'user_guid': 'larry@idir',
+            'username': 'larry@idir',
+            'form_type': '24Hour',
+            'lease_expiry': expected_lease_expiry,
+            'id': 'AA-11111'
+        },
+        'source': 'be78d6'
+    })
 
 
 def test_unauthorized_user_cannot_create_new_forms(as_guest, monkeypatch, roles, forms):
@@ -139,12 +160,13 @@ def test_request_without_keycloak_user_cannot_create_forms(as_guest, monkeypatch
     assert resp.status_code == 401
 
 
+@responses.activate
 def test_if_no_unique_ids_available_user_receives_a_500_response(as_guest, database, monkeypatch, roles):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
     today = datetime.strptime("2021-07-21", "%Y-%m-%d")
     forms = [
-        Form(form_id='AA-123332', form_type='24Hour', user_guid='other_user', lease_expiry=today, printed=None),
+        Form(form_id='AA123332', form_type='24Hour', user_guid='other_user', lease_expiry=today, printed=None),
     ]
     database.session.bulk_save_objects(forms)
     database.session.commit()
@@ -153,9 +175,17 @@ def test_if_no_unique_ids_available_user_receives_a_500_response(as_guest, datab
                          content_type="application/json",
                          headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
     assert resp.status_code == 500
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'insufficient form ids',
+            'user_guid': 'larry@idir',
+            'username': 'larry@idir',
+            'form_type': '24Hour'
+        },
+        'source': 'be78d6'
+    })
 
 
-@responses.activate
 def test_users_cannot_submit_payloads_to_the_create_endpoint(as_guest, monkeypatch, database, roles):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
@@ -166,34 +196,46 @@ def test_users_cannot_submit_payloads_to_the_create_endpoint(as_guest, monkeypat
     assert resp.status_code == 400
 
 
+@responses.activate
 def test_user_cannot_renew_lease_on_form_that_has_been_printed(as_guest, database, monkeypatch, roles):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
     today = datetime.strptime("2021-07-21", "%Y-%m-%d")
     forms = [
-        Form(form_id='AA-123332', form_type='24Hour', user_guid='larry@idir', lease_expiry=today, printed=today),
+        Form(form_id='AA123332', form_type='24Hour', user_guid='larry@idir', lease_expiry=today, printed=today),
     ]
     database.session.bulk_save_objects(forms)
     database.session.commit()
 
-    resp = as_guest.patch(Config.URL_PREFIX + "/api/v1/forms/24Hour/{}".format('AA-123332'),
+    resp = as_guest.patch(Config.URL_PREFIX + "/api/v1/forms/24Hour/{}".format('AA123332'),
                           content_type="application/json",
                           headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
     assert resp.status_code == 400
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'unable to renew form lease',
+            'user_guid': 'larry@idir',
+            'username': 'larry@idir',
+            'form_type': '24Hour',
+            'id': 'AA123332'
+        },
+        'source': 'be78d6'
+    })
 
 
 def test_request_without_keycloak_user_cannot_update_forms_or_renew_lease_on_form(as_guest, monkeypatch, forms):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
-    resp = as_guest.patch(Config.URL_PREFIX + "/api/v1/forms/24Hour/{}".format("AA-123332"),
+    resp = as_guest.patch(Config.URL_PREFIX + "/api/v1/forms/24Hour/{}".format("AA123332"),
                           content_type="application/json",
                           headers=_get_keycloak_auth_header("invalid"))
     assert resp.status_code == 401
 
 
+@responses.activate
 def test_when_form_updated_without_payload_user_receives_updated_lease_date(as_guest, monkeypatch, roles, forms):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
-    resp = as_guest.patch(Config.URL_PREFIX + "/api/v1/forms/24Hour/{}".format('AA-123332'),
+    resp = as_guest.patch(Config.URL_PREFIX + "/api/v1/forms/24Hour/{}".format('AA123332'),
                           content_type="application/json",
                           headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
     today = datetime.now()
@@ -201,16 +243,26 @@ def test_when_form_updated_without_payload_user_receives_updated_lease_date(as_g
 
     assert resp.status_code == 200
     assert resp.json == {
-        'id': 'AA-123332',
+        'id': 'AA123332',
         'form_type': '24Hour',
         'lease_expiry': expected_lease_expiry,
         'printed_timestamp': None,
         'user_guid': 'larry@idir'
     }
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'form lease renewed',
+            'user_guid': 'larry@idir',
+            'username': 'larry@idir',
+            'form_type': '24Hour',
+            'id': 'AA123332'
+        },
+        'source': 'be78d6'
+    })
 
 
 def test_form_delete_method_not_implemented(as_guest):
-    resp = as_guest.delete(Config.URL_PREFIX + "/api/v1/forms/24Hour/{}".format('AA-123332'),
+    resp = as_guest.delete(Config.URL_PREFIX + "/api/v1/forms/24Hour/{}".format('AA123332'),
                            content_type="application/json",
                            headers=_get_keycloak_auth_header(Config))
     assert resp.status_code == 405

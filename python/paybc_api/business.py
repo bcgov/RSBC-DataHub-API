@@ -2,7 +2,8 @@ import python.common.middleware as middleware
 import python.common.rsi_email as rsi_email
 import python.common.actions as actions
 import python.paybc_api.website.api_responses as api_responses
-import python.common.splunk as splunk
+import python.common.splunk_application_for_review as splunk
+import python.common.splunk as common_splunk
 
 
 def search_for_invoice() -> list:
@@ -18,6 +19,7 @@ def search_for_invoice() -> list:
         {"try": middleware.clean_prohibition_number, "fail": []},
         {"try": middleware.validate_prohibition_number, "fail": []},
         {"try": splunk.paybc_lookup, "fail": []},
+        {"try": common_splunk.log_to_splunk, "fail": []},
         {"try": middleware.get_vips_status, "fail": []},
         {"try": middleware.prohibition_exists_in_vips, "fail": []},
         {"try": middleware.user_submitted_last_name_matches_vips, "fail": []},
@@ -50,6 +52,7 @@ def generate_invoice() -> list:
         {"try": middleware.get_invoice_details, "fail": []},
         {"try": api_responses.get_prohibition_success, "fail": []},
         {"try": splunk.paybc_invoice_generated, "fail": []},
+        {"try": common_splunk.log_to_splunk, "fail": []},
     ]
 
 
@@ -86,6 +89,7 @@ def save_payment() -> list:
         {"try": middleware.save_payment_to_vips, "fail": []},
         {"try": middleware.payment_success, "fail": []},
         {"try": splunk.review_fee_paid, "fail": []},
+        {"try": common_splunk.log_to_splunk, "fail": []},
         {"try": rsi_email.applicant_to_schedule_review, "fail": []},
         {"try": middleware.create_verify_schedule_event, "fail": []},
         {"try": actions.add_hold_to_verify_schedule, "fail": []},

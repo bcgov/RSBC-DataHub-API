@@ -1,4 +1,6 @@
 from python.prohibition_web_svc.config import Config
+import python.prohibition_web_svc.middleware.splunk_middleware as splunk_middleware
+import python.common.splunk as splunk
 from flask import request, Blueprint, make_response, jsonify
 import python.common.helper as helper
 from flask_cors import CORS
@@ -23,6 +25,10 @@ def basic_auth_required(f):
         auth = request.authorization
         if not auth or not helper.check_credentials(
                 Config.FLASK_BASIC_AUTH_USER, Config.FLASK_BASIC_AUTH_PASS, auth.username, auth.password):
+            helper.middle_logic([
+                    {"try": splunk_middleware.basic_authentication_failed, "fail": []},
+                    {"try": splunk.log_to_splunk, "fail": []},
+                ], config=Config, request=request)
             logging.warning("Request denied - unauthorized - IP Address: {}".format(request.remote_addr))
             message = {'error': 'Unauthorized'}
             resp = jsonify(message)
@@ -41,6 +47,8 @@ def index():
     if request.method == 'GET':
         kwargs = helper.middle_logic(
             [
+                {"try": splunk_middleware.admin_get_forms, "fail": []},
+                {"try": splunk.log_to_splunk, "fail": []},
                 {"try": form_middleware.admin_list_all_forms_by_type, "fail": [
                     {"try": http_responses.server_error_response, "fail": []},
                 ]}
@@ -75,6 +83,8 @@ def create():
                 {"try": form_middleware.validate_form_payload, "fail": [
                     {"try": http_responses.failed_validation, "fail": []},
                 ]},
+                {"try": splunk_middleware.admin_create_form, "fail": []},
+                {"try": splunk.log_to_splunk, "fail": []},
                 {"try": form_middleware.admin_create_form, "fail": [
                     {"try": http_responses.server_error_response, "fail": []},
                 ]}

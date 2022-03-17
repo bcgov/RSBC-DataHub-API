@@ -1,4 +1,6 @@
 import pytest
+import responses
+import json
 import python.prohibition_web_svc.middleware.keycloak_middleware as middleware
 from python.prohibition_web_svc.models import db, User, UserRole
 from python.prohibition_web_svc.app import create_app
@@ -71,6 +73,7 @@ def test_applying_user_must_supply_an_agency_name_of_at_least_4_characters(as_gu
     assert resp.json['errors'] == {'agency': ['min length is 4']}
 
 
+@responses.activate
 def test_user_without_authorization_can_apply_to_use_the_app(as_guest, monkeypatch, roles, database):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_keycloak_user_who_has_not_applied)
@@ -97,8 +100,18 @@ def test_user_without_authorization_can_apply_to_use_the_app(as_guest, monkeypat
                .filter(UserRole.submitted_dt != None) \
                .filter(UserRole.approved_dt == None) \
                .count() == 1
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'officer has applied',
+            'user_guid': 'new-officer@idir',
+            'username': 'new-officer@idir',
+            'badge_number': '8044'
+        },
+        'source': 'be78d6'
+    })
 
 
+@responses.activate
 def test_bceid_user_can_apply_to_use_the_app(as_guest, monkeypatch, roles, database):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_bceid_user_who_has_not_applied)
@@ -126,8 +139,18 @@ def test_bceid_user_can_apply_to_use_the_app(as_guest, monkeypatch, roles, datab
                .filter(UserRole.submitted_dt != None) \
                .filter(UserRole.approved_dt == None) \
                .count() == 1
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'officer has applied',
+            'user_guid': 'aaa-bbb-ccc-fff',
+            'username': 'new-officer@bceid',
+            'badge_number': '8044'
+        },
+        'source': 'be78d6'
+    })
 
 
+@responses.activate
 def test_idir_user_can_apply_to_use_the_app(as_guest, monkeypatch, roles, database):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_idir_user_who_has_not_applied)
@@ -154,6 +177,15 @@ def test_idir_user_can_apply_to_use_the_app(as_guest, monkeypatch, roles, databa
                .filter(UserRole.submitted_dt != None) \
                .filter(UserRole.approved_dt == None) \
                .count() == 1
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'officer has applied',
+            'user_guid': 'aaa-bbb-ccc-fff',
+            'username': 'new-officer@idir',
+            'badge_number': '8044'
+        },
+        'source': 'be78d6'
+    })
 
 
 def test_user_with_keycloak_token_cannot_apply_again_to_use_the_app(as_guest, monkeypatch, roles):
@@ -173,6 +205,7 @@ def test_user_with_keycloak_token_cannot_apply_again_to_use_the_app(as_guest, mo
     assert resp.json['error'] == 'role already exists'
 
 
+@responses.activate
 def test_user_with_keycloak_token_can_get_their_own_user_details(as_guest, monkeypatch, roles):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
@@ -189,6 +222,14 @@ def test_user_with_keycloak_token_can_get_their_own_user_details(as_guest, monke
         "first_name": "John",
         "last_name": "Smith"
     }
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'get user',
+            'user_guid': 'aaa-bbb-ccc',
+            'username': 'john@idir',
+        },
+        'source': 'be78d6'
+    })
 
 
 def _get_keycloak_access_token() -> str:

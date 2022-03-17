@@ -54,3 +54,23 @@ def is_request_not_seeking_test_plate(**kwargs) -> tuple:
         return True, kwargs
     plate_number = kwargs.get('plate_number')
     return plate_number != 'ICBC', kwargs
+
+
+def splunk_get_driver(**kwargs) -> tuple:
+    kwargs['splunk_data'] = {
+        "event": "icbc_get_driver",
+        "username": kwargs.get('username'),
+        "user_guid": kwargs.get('user_guid'),
+        "queried_bcdl": kwargs.get("dl_number")
+    }
+    return True, kwargs
+
+
+def splunk_get_vehicle(**kwargs) -> tuple:
+    kwargs['splunk_data'] = {
+        "event": "icbc_get_vehicle",
+        "username": kwargs.get('username'),
+        "user_guid": kwargs.get('user_guid'),
+        "queried_plate": kwargs.get('plate_number')
+    }
+    return True, kwargs
