@@ -1,0 +1,52 @@
+# Digital Forms 12/24 web service test environment
+
+[Documentation]  Credentials and URLs for the DF12/24 DEV enviroment, when run on a pod itself. This file
+...              contains settings and configuration for running tests in the DEV environment. To create a 
+...              resource table, copy ``env/template.resource`` to a new file, add the appropriate values. 
+...              Caution: files ending in .resource are ignored by git. For details, see:
+...              http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#resource-and-variable-files
+
+#=======================================================================================
+#  _____  ________      __                  _                                      _
+# |  __ \|  ____\ \    / /                 (_)                                    | |
+# | |  | | |__   \ \  / /    ___ _ ____   ___ _ __ ___  _ __  _ __ ___   ___ _ __ | |_
+# | |  | |  __|   \ \/ /    / _ \ '_ \ \ / / | '__/ _ \| '_ \| '_ ` _ \ / _ \ '_ \| __|
+# | |__| | |____   \  /    |  __/ | | \ V /| | | | (_) | | | | | | | | |  __/ | | | |_
+# |_____/|______|   \/      \___|_| |_|\_/ |_|_|  \___/|_| |_|_| |_| |_|\___|_| |_|\__|
+#                                                                                        
+#=======================================================================================
+*** Variables ***
+
+${OPENSHIFT_PROJECT}        abc123-dev
+${OPENSHIFT_POD_NAME}       pod-name
+${OPENSHIFT_POD_PORT}       0000
+# Example port-forward:     oc port-forward services/service-dev 5009:5000 -n abc123-dev
+# Example get logs:         oc logs services/service-dev --follow
+# TODO:                     Automatically start and stop the port logs and log collection
+
+
+# This is the URL to use for web service requests. It could be a locally forwarded port, or
+# a fully qualified domain name.
+${DFTTF_WEB_SERVICE_URL}    http://localhost:5009
+
+# These are the web service credentials, which are located in the OCP4 namespace secrets.
+# For example, abc123-dev/rsbc-dh-dev secrets: flask-basic-auth-pass and flask-basic-auth-user
+# TODO: Fetch the values of these secrets directly using an API or command-line call.
+${FLASK_BASIC_AUTH_USER}    USERNAME
+${FLASK_BASIC_AUTH_PASS}    PASSWORD
+
+# When testing users, use these account names
+${DFTTF_ADMIN_USER}         username@github
+${DFTTF_NON_ADMIN_USER}     username@idir
+
+# Harvest the value for this from the browser developer tools after logging in to the web service as a 
+# user with administrator privileges (e.g. username@github). Use the developer tools to inspect requests.
+# For example, search the Network requests for requests containing the string "user_roles" and copy
+# the value of the "authorization" in the request header to the value of ${ADMIN_BEARER_TOKEN} below:
+${ADMIN_BEARER_TOKEN}     Bearer 
+
+# Harvest the value for this from the browser developer tools after logging in to the web service as a 
+# user with officer privileges (e.g. username@idir). Use the developer tools to inspect requests.
+# For example, search the Network requests for requests containing the string "user_roles" and copy
+# the value of the "authorization" in the request header to the value of ${ADMIN_BEARER_TOKEN} below:
+${OFFICER_BEARER_TOKEN}  Bearer 

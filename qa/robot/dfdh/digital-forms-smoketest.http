@@ -1,0 +1,184 @@
+@DF_ENVIRONMENT =                    test
+
+# NOTE: the DFDH routes are locked down. Forward a local port to the server with a command like this:
+# $ kubectl port-forward services/rsbc-dh-ingestor-test 5005:5000 -n be78d6-test
+# $ kubectl port-forward services/rsbc-dh-rabbitmq-test 15672:15672 -n be78d6-test
+# $ kubectl port-forward services/rsbc-dh-paybc-test 5006:5000 -n be78d6-test
+# 
+# Logs:
+# $ kubectl logs services/rsbc-dh-ingestor-test -n be78d6-test --follow
+# $ kubectl logs services/rsbc-dh-paybc-test -n be78d6-test --follow
+# $ kubectl logs services/rsbc-dh-form-handler-test -n be78d6-test --follow
+# 
+# Remote shell onto test pod:
+# $ oc rsh svc/temporary-test-pod
+
+
+@DF_INGESTOR_URL =                  localhost:5005
+@DF_PAYBC_URL =                     localhost:5006
+
+# Application type
+@IS_ADP =                           true
+@IS_IRP =                           false
+@IS_UL =                            false
+
+# Prohibition dated today:          {{$datetime "YYYY-MM-DD"}} 
+# Prohibition dated two days ago:   {{$datetime "YYYY-MM-DD" -2 d}}
+# Custom prohibition date:          2021-09-01
+@PROHIBITION_SERVICE_DATE =         {{$datetime "YYYY-MM-DD" -1 d}}
+
+@HEARING_TYPE =                     written
+@PROHIBITION_NUMBER =               30197505
+@APPLICANT_FIRST_NAME =             {{FIRST_GIVEN_NAME}}
+@APPLICANT_LAST_NAME =              {{SURNAME}}
+@APPLICANT_EMAIL_ADDRESS =          {{TESTER_EMAIL_ADDRESS}}
+@APPLICANT_PHONE_NUMBER =           {{PHONE_NO}}
+@APPLICANT_STREET_ADDRESS =         910 Government Street
+@APPLICANT_CITY =                   Victoria
+@APPLICANT_PROVINCE =               britishcolumbia
+@APPLICANT_POSTAL_CODE =            V1V 2X2
+@DRIVER_FIRST_NAME =                Another
+@DRIVER_LAST_NAME =                 Luck
+@DRIVER_DL =                        9999999
+
+# 1. ADP application for review
+POST http://{{DF_INGESTOR_URL}}/v1/publish/event/form?form=prohibition_review
+Content-Type: application/xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+    <before-you-begin>
+        <help-image filename="info_reduced.png" mediatype="image/png">/fr/service/persistence/crud/gov-pssg/prohibition_review/form/177ce3ac783dbc708641d34d68c4537610b2c88b.bin</help-image>
+        <help-text />
+    </before-you-begin>
+    <prohibition-information>
+        <control-prohibition-number>{{PROHIBITION_NUMBER}}</control-prohibition-number>
+        <control-11 />
+        <control-is-adp>{{IS_ADP}}</control-is-adp>
+        <control-is-irp>{{IS_IRP}}</control-is-irp>
+        <control-is-ul>{{IS_UL}}</control-is-ul>
+        <prohibition-number-clean>{{PROHIBITION_NUMBER}}</prohibition-number-clean>
+        <prohibition-no-image filename="Combo prohibition no.png" mediatype="image/png">/fr/service/persistence/crud/gov-pssg/prohibition_review/form/c1f5e74f6cbaec34574386b394d0141645faff1e.bin</prohibition-no-image>
+        <licence-seized>licence-seized</licence-seized>
+        <licence-not-surrendered />
+        <licence-lost-or-stolen />
+        <licence-not-issued />
+        <irp-prohibition-type-length />
+        <date-of-service>{{PROHIBITION_SERVICE_DATE}}</date-of-service>
+    </prohibition-information>
+    <identification-information>
+        <applicant-information-label />
+        <applicant-role>advocate</applicant-role>
+        <first-name-applicant>{{APPLICANT_FIRST_NAME}}</first-name-applicant>
+        <last-name-applicant>{{APPLICANT_LAST_NAME}}</last-name-applicant>
+        <consent-upload filename="1x1pixel.png" mediatype="image/png" size="95">file:/tmp/xforms_upload_15517868928568885436.tmp?filename=1x1pixel.png&amp;mediatype=image%2Fpng&amp;size=95&amp;mac=70a3c3a4a0cf551af30159e90dc763a27b5f761b</consent-upload>
+        <applicant-contact-information-label />
+        <applicant-phone-number>{{APPLICANT_PHONE_NUMBER}}</applicant-phone-number>
+        <applicant-email-address>{{APPLICANT_EMAIL_ADDRESS}}</applicant-email-address>
+        <appeals-registry-email>{{APPLICANT_EMAIL_ADDRESS}}</appeals-registry-email>
+        <applicant-email-confirm>{{APPLICANT_EMAIL_ADDRESS}}</applicant-email-confirm>
+        <driver-inforamation-label />
+        <driver-first-name>{{DRIVER_FIRST_NAME}}</driver-first-name>
+        <driver-last-name>{{DRIVER_LAST_NAME}}</driver-last-name>
+        <driver-bcdl>{{DRIVER_DL}}</driver-bcdl>
+        <address-label />
+        <street-address>{{APPLICANT_STREET_ADDRESS}}</street-address>
+        <control-driver-city-town>{{APPLICANT_CITY}}</control-driver-city-town>
+        <control-driver-province>{{APPLICANT_PROVINCE}}</control-driver-province>
+        <control-driver-postal-code>{{APPLICANT_POSTAL_CODE}}</control-driver-postal-code>
+    </identification-information>
+    <review-information>
+        <ul-burden-of-proof-text />
+        <ul-grounds />
+        <irp-burden-of-proof-text />
+        <irp-grounds-list />
+        <adp-burden-of-proof-text />
+        <adp-grounds-alcohol>1 2 3</adp-grounds-alcohol>
+        <adp-grounds-drugs>2 3 1</adp-grounds-drugs>
+        <adp-grounds-alcohol-drugs>3 2 1</adp-grounds-alcohol-drugs>
+        <adp-grounds-drug-expert>3 6 4 2 1</adp-grounds-drug-expert>
+        <adp-grounds-refusal>2 3 1</adp-grounds-refusal>
+        <control-6>36</control-6>
+        <hearing-request-type>{{HEARING_TYPE}}</hearing-request-type>
+        <control-2 />
+        <oral-review-instructions />
+        <preparing-for-your-review />
+        <preparing-for-review-irp-text />
+        <preparing-for-review-ul-text />
+    </review-information>
+    <consent-and-submission>
+        <signature-applicant-name>{{APPLICANT_FIRST_NAME}} {{APPLICANT_LAST_NAME}}</signature-applicant-name>
+        <date-signed>{{$datetime "YYYY-MM-DD"}}</date-signed>
+        <control-5 />
+    </consent-and-submission>
+</form>
+
+# Next steps:
+# -----------
+# - Check e-mail received at APPLICANT_EMAIL_ADDRESS
+# - Go to PayBC and look up the prohibition number and driver surname.
+#   Alternatively, submit payment using the commands below.
+
+
+##################################################
+# Get token
+# Get the token by hand, set it as the value of PAYBC_ACCESS_TOKEN. See settings.json for values of PAYBC_CLIENT_ID and PAYBC_CLIENT_SECRET.
+#
+# export PBC_AUTH={{PAYBC_CLIENT_ID}}:{{PAYBC_CLIENT_SECRET}}
+# curl --verbose --request POST --silent --data grant_type=client_credentials --user ${PBC_AUTH} http://127.0.0.1:5006/oauth/token
+@PAYBC_ACCESS_TOKEN = TOKEN
+
+
+###################################################
+# Get invoice details
+GET http://{{DF_PAYBC_URL}}/api_v2/invoice/{{PROHIBITION_NUMBER}}
+Authorization: Bearer {{PAYBC_ACCESS_TOKEN}}
+
+
+######################################################
+# Make payment
+##
+## NOTE: receipt_number MUST BE UNIQUE, or you'll see HTTP 500 from DFAPI.
+##
+# Example from TEST: "receipt_number": "PYBCCCTEST_00015467"
+# Example from PROD: "receiptNumberTxt":PYBCCC07075P_0040xxxx}
+# 
+
+@RECEIPT_NUMBER =           PYBCCCTEST_{{$datetime "DDhhmmss"}}
+@RECEIPT_DATE =             {{$datetime "YYYY-MM-DD"}}T{{$datetime "HH:mm:ss"}}Z
+POST http://{{DF_PAYBC_URL}}/api_v2/receipt
+Authorization: Bearer {{PAYBC_ACCESS_TOKEN}}
+Content-Type: application/json
+
+{
+    "party_number": "0",
+    "account_number": "n/a",
+    "site_number": "0",
+    "receipt_number": "PYBCSFTEST_{{$randomInt 00000000 99999999}}",
+    "receipt_date": "{{RECEIPT_DATE}}",
+    "receipt_amount": 200.0,
+    "payment_method": "PAYBC-RSI-CC",
+    "comments": "",
+    "cardtype": "Visa",
+    "invoices": [
+        {
+            "trx_number": "{{PROHIBITION_NUMBER}}",
+            "amount_to_apply": 200.0,
+            "lines": []
+        }
+    ],
+    "transaction_id": "18493",
+    "authorization_id": "TEST"
+}
+
+# Example response: {"receipt_amount":200.0,"receipt_date":"2021-11-10T00:29:21Z","receipt_number":"PYBCSFTEST_78499621","status":"APP"}
+
+
+# Next steps:
+# -----------
+# 1. Check payment confirmation e-mail sent to APPLICANT_EMAIL_ADDRESS.
+# 2. Schedule appointment at 
+#    https://forms2.qa.gov.bc.ca/forms/content?id=34F8F542261449CBA35F220B74ADC393
+# 4. Check e-mail for review date confirmation
+# 5. Submit evidence at
+#    https://forms2.qa.gov.bc.ca/forms/content?id=C88D6641F78A4D5FBC383CC50E641CE6

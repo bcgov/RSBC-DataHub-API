@@ -1,0 +1,12 @@
+# Do not commit node modules
+node_modules/**
+
+# Avoid committing credentials to version control
+.env
+.env.ps1
+
+# Avoid junk files
+**/.DS_Store
+**/*.tmp
+**/*.bak
+**/*.log

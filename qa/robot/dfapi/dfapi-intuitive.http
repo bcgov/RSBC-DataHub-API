@@ -1,0 +1,254 @@
+#  ____  _____ _    ____ ___ 
+# |  _ \|  ___/ \  |  _ \_ _| 
+# | | | | |_ / _ \ | |_) | | 
+# | |_| |  _/ ___ \|  __/| | 
+# |____/|_|/_/   \_\_|  |___| REST client exploratory test script
+#
+# This test script is for Visual Studio Code and the "REST Client" plugin by Huachao Mao,
+# available from the Visual Studio Code marketplace:
+# https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+#
+# Environments are selected by choosing an its name from the VSCode status bar the 
+# bottom-right corner (No Environment > DEV > TEST). The variables are defined in VSCode
+# settings.json file. See more info in section "Environment Variables" at:
+# https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+#
+
+# This correlation string makes it easy to find transactions in the server logs:
+@CORRELATION = rsi-{{FORM_TYPE}}-{{PROHIBITION_ID}}-{{NOTICE_NUMBER}}
+
+
+
+### GET SWAGGER OPENAPI SPEC
+####################################################################################
+GET http://{{DFAPI_URL}}/v2/api-docs
+
+
+
+### DELETE PROHIBITION REVIEW APPLICATION (alternative method, using authentication)
+####################################################################################
+# Must be connected to VPN unless running on a pod.
+# Example: https://<SERVER>/rsdfrm/ords/deva/rsdfrmords/web/digitalForm/prohibition/134/222
+# NOTE: If the correlation id does not start with a number, you will get an error page. The correlation id must be unique for ORDS calls.
+#DELETE https://{{ORDS_DELETE_APPLICATION_URL}}/rsdfrm/ords/deva/rsdfrmords/web/digitalForm/prohibition/{{PROHIBITION_ID}}/222
+#Authorization: Basic {{ORDS_DELETE_APPLICATION_AUTH}}
+#Accept: */*
+
+
+
+### DELETE PROHIBITION REVIEW APPLICATION (no authentication)
+#############################################################
+# Must be connected to VPN unless running on a pod.
+# Example: DELETE https://<SERVER>/ords/deva/rsdfrmords/web/digitalForm/prohibition/182/333
+# NOTE: If the correlation id does not start with a number, you will get an error page. The correlation id must be unique for ORDS calls.
+DELETE https://{{ORDS_DELETE_APPLICATION_URL}}/{{PROHIBITION_ID}}/333
+
+
+
+### DELETE SCHEDULED REVIEWS (no authentication)
+################################################
+# Must be connected to VPN unless running on a pod.
+# Example: DELETE https://<SERVER>/ords/deva/vipsords/web/prohibition/21900104/review/schedule/ADP/rsi1234
+DELETE https://{{ORDS_DELETE_REVIEW_TIME_URL}}/{{NOTICE_NUMBER}}/review/schedule/{{FORM_TYPE}}/{{application_id}}
+
+
+
+### CREATE NEW PROHIBITION REVIEW APPLICATION
+#############################################
+# Example: POST http://<SERVER>/digitalforms/ADP/21900104/application/rsi1044
+@correlation_id = {{CORRELATION}}-3003
+POST http://{{DFAPI_URL}}/{{FORM_TYPE}}/{{NOTICE_NUMBER}}/application/{{correlation_id}}
+Authorization: Basic {{CREDENTIALS}}
+Content-Type: application/json
+
+{
+  "applicationInfo": {
+    "email": "{{TESTER_EMAIL_ADDRESS}}",
+    "faxNo": "{{FAX_NO}}",
+    "firstGivenNm": "{{FIRST_GIVEN_NAME}}",
+    "formData": "{{FORM_DATA}}",
+    "manualEntryYN": "{{MANUAL_ENTRY}}",
+    "noticeSubjectCd": "{{NOTICE_SUBJECT}}",
+    "phoneNo": "{{PHONE_NO}}",
+    "presentationTypeCd": "{{PRESENTATION_TYPE}}",
+    "reviewRoleTypeCd": "{{REVIEW_ROLE_TYPE}}",
+    "secondGivenNm": "{{SECOND_GIVEN_NAME}}",
+    "surnameNm": "{{SURNAME}}"
+  }
+}
+
+
+
+### GET PROHIBITION REVIEW APPLICATION
+######################################
+# Example: http://<SERVER>/digitalforms/c741582c-de28-67e2-e054-00144ffbc109/application/rsi-ADP-182-21900104-3004
+@correlation_id = {{CORRELATION}}-3004
+GET http://{{DFAPI_URL}}/{{application_id}}/application/{{correlation_id}}
+Authorization: Basic {{CREDENTIALS}}
+Content-Type: application/json
+
+
+
+### PATCH PROHIBITION REVIEW APPLICATION
+########################################
+@correlation_id = {{CORRELATION}}-3005
+PATCH http://{{DFAPI_URL}}/{{FORM_TYPE}}/{{application_id}}/application/{{correlation_id}}
+Authorization: Basic {{CREDENTIALS}}
+Content-Type: application/json
+
+{
+  "applicationInfo": {
+    "faxNo": "9999999999",
+    "phoneNo": "8888888888"
+  }
+}
+
+
+
+### QUERY PROHIBITION STATUS
+############################
+# Example: http://<SERVER>/digitalforms/21900104/status/rsi-ADP-182-21900104-3006
+@correlation_id = {{CORRELATION}}-3006
+GET http://{{DFAPI_URL}}/{{NOTICE_NUMBER}}/status/{{correlation_id}}
+Authorization: Basic {{CREDENTIALS}}
+Content-Type: application/json
+
+
+
+### GET DISCLOSURE
+##################
+# Example: GET http://<SERVER>/digitalforms/20/disclosure/rsi-ADP-182-21900104-3007
+
+@correlation_id = {{CORRELATION}}-3007
+GET http://{{DFAPI_URL}}/{{DOCUMENT_ID}}/disclosure/{{correlation_id}}
+Authorization: Basic {{CREDENTIALS}}
+Content-Type: application/json
+
+
+
+### MARK DISCLOSURE DOCUMENT AS SENT
+####################################
+# Example: PATCH http://<SERVER>/digitalforms/disclosure/rsi-ADP-182-21900104-3008
+
+@correlation_id = {{CORRELATION}}-3008
+PATCH http://{{DFAPI_URL}}/disclosure/{{correlation_id}}
+Authorization: Basic {{CREDENTIALS}}
+Content-Type: application/json
+
+{
+  "disclosure": {
+    "disclosedDtm": "{{$datetime "YYYY-MM-DD HH:mm:ss -00:00"}}",
+    "documentId": "{{DOCUMENT_ID}}"
+  }
+}
+
+
+# >>> DISCLOSURE CHECK <<<
+# -----------------------------------------------------------------------------------------------
+# Check that disclosure has happened by looking at the response from the QUERY endpoint.
+# When a disclosure has not been sent, you should see the "disclosure" element prohibition query
+# responses with no date. For example: 
+#   "disclosure":[{"documentId":"1600"}]
+# After the disclosure, the date is added. For example:
+#   "disclosure":[{"documentId":"1600","disclosedDtm":"2021-12-20 09:41:25 -08:00"}]
+# -----------------------------------------------------------------------------------------------
+
+
+### GET PAYMENT STATUS
+######################
+# Example: http://<SERVER>/digitalforms/c741582c-de28-67e2-e054-00144ffbc109/payment/status/rsi-ADP-182-21900104-3009
+# NOTE: an HTTP 404 response with "Requested data not found" means that no payment has been made.
+@correlation_id = {{CORRELATION}}-3009
+GET http://{{DFAPI_URL}}/{{application_id}}/payment/status/{{correlation_id}}
+Authorization: Basic {{CREDENTIALS}}
+Content-Type: application/json
+
+
+### PATCH PAYMENT
+################
+# Example: http://<SERVER>/digitalforms/c741582c-de28-67e2-e054-00144ffbc109/payment/rsi-ADP-182-21900104-3010
+# NOTE: receipt number must be unique
+@correlation_id = {{CORRELATION}}-3010
+PATCH http://{{DFAPI_URL}}/{{application_id}}/payment/{{correlation_id}}
+Authorization: Basic {{CREDENTIALS}}
+Content-Type: application/json
+
+{
+  "transactionInfo":
+  {
+    "paymentAmount":"200.00",
+    "paymentCardType":"VISA",
+    "paymentDate":"{{$datetime "YYYY-MM-DD HH:mm:ss -00:00"}}",
+    "receiptNumberTxt":"{{$randomInt 90000000 99999999}}"
+  }
+}
+
+# >>> PAYMENT CHECK <<<
+# -----------------------------------------------------------------------------------------------
+# Check that payment went through by looking at the response from the GET PAYMENT STATUS endpoint.
+# You should also see the receipt number from the QUERY STATUS endpoint.
+#
+# **NOTE**: The payment receipt number must be unique. That's why it's generated with a random int
+# in the PATCH PAYMENT request above. If it's not unique, the payment will fail.
+#
+# When a payment has not been sent, you should see an empty "transactionInfo" element in the GET PAYMENT
+# response. For example: 
+#   "transactionInfo": {}
+# After payment, the date is added. For example:
+#    "transactionInfo":{"paymentCardType":"VISA","paymentAmount":"200.00","receiptNumberTxt":"90320189","paymentDate":"2022-01-07 15:13:48 -08:00"}
+# The status endpoint shows the receipt number likes this:
+#    "reviews":[{"applicationId":"d5066135-bf27-4c55-e054-00144ffb2e6c","receiptNumberTxt":"96237001"}]
+# -----------------------------------------------------------------------------------------------
+
+
+### GET REVIEW SCHEDULE
+#######################
+# Example: http://<SERVER>/digitalforms/ADP/ORAL/2021-07-16/review/availableTimeSlot/rsi-ADP-182-21900104-3011
+# Note: there should be no reviews on the weekends. Days with no reviews available return an HTTP 404.
+@correlation_id = {{CORRELATION}}-3011
+GET http://{{DFAPI_URL}}/{{FORM_TYPE}}/{{PRESENTATION_TYPE}}/{{$datetime "YYYY-MM-DD" 5 d}}/review/availableTimeSlot/{{correlation_id}}
+Authorization: Basic {{CREDENTIALS}}
+Content-Type: application/json
+
+
+
+### SCHEDULE A REVIEW
+#####################
+# Example: http://<SERVER>/digitalforms/c741582c-de28-67e2-e054-00144ffbc109/review/schedule/rsi-ADP-182-21900104-3012
+@correlation_id = {{CORRELATION}}-3012
+POST http://{{DFAPI_URL}}/{{application_id}}/review/schedule/{{correlation_id}}
+Authorization: Basic {{CREDENTIALS}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "timeSlot":
+  {
+    "reviewStartDtm": "2022-01-24 09:00:00 -08:00",
+    "reviewEndDtm": "2022-01-24 09:30:00 -08:00"
+  }
+}
+
+# >>> REVIEW CHECK <<<
+# -----------------------------------------------------------------------------------------------
+# Check that the review is booked by looking at the response from the QUERY endpoint.
+# When no review is scheduled, you should see the "reviews" element prohibition query
+# responses with no dates. For example: 
+#   "reviews": [{"applicationId":"d5066135-bf23-4c55-e054-00144ffb2e6c"}]
+# After payment, the "reviewStartDtm" and "reviewEndDtm" elements are added. For example:
+#    "reviews": [{"applicationId":"d5066135-bf23-4c55-e054-00144ffb2e6c","status":"in_progress","reviewStartDtm":"2022-01-11 09:30:00 -08:00","reviewEndDtm":"2022-01-11 10:00:00 -08:00","receiptNumberTxt":"90320189","reviewId":"4010"}
+# -----------------------------------------------------------------------------------------------
+
+
+### Now what?
+#
+# 1. Use the VIPS web front-end to mark the application as complete. Mark the review as unsuccessful. 
+#    Check the status through the DFAPI to ensure it matches VIPS.
+# 2. Attempt to submit a new application for the same prohibition. A second application should not 
+#    work for ADP or IRP, but a UL prohibition is allowed to have a second review request. However, 
+#    as of VIPS API 1.1.0, the VIPS API does allow ADP and UL prohibitions to be submitted again. 
+#    After a discussion with Jonathan Longe in fall of 2021, we decided that it will not be possible 
+#    for an applicant to submit a second application anyway, because the Digital Forms application 
+#    system will check to see if an application already exists for each prohibition, and it will not 
+#    attempt to create a second prohibition through the DFAPI anyway. So even though this is probably 
+#    a defect in the DFAPI, it should never cause a problem.
