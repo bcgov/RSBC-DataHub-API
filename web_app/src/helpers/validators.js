@@ -104,7 +104,7 @@ extend('dob', {
     const dob_years = moment().diff(dob_dt, 'years')
     return {
       required: true,
-      valid: dob_years >= 16 && dob_years <= 120,
+      valid: dob_years >= 10 && dob_years <= 120,
     };
   },
   message: "Driver must be between 16 and 120 years old",
