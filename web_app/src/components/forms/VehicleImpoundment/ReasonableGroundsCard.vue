@@ -2,7 +2,6 @@
 <form-card title="Reasonable Grounds">
     <div>
       <form-row>
-        <text-field id="ul_prohibition_number" fg_class="col-sm-6">UL Prohibition Number</text-field>
         <text-field id="ipr_number" fg_class="col-sm-6" >IRP Number</text-field>
       </form-row>
       <form-row>
@@ -16,8 +15,8 @@
           7-Day Impoundment for the following reason(s)
           <span class="text-muted">Section 251 and 253 of the Motor Vehicle Act</span>
         </rich-check-field>
+        <text-field id="ul_prohibition_number" fg_class="col-sm-6">UL Prohibition Number</text-field>
       </form-row>
-
     </div>
 </form-card>
 </template>
