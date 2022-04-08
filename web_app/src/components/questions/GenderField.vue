@@ -5,8 +5,10 @@
       <span v-if="required" class="text-danger"> *</span>
     </label>
     <select :disabled="disabled" class="form-control" :id="id" v-model="attribute">
-      <option>Male</option>
+      <option>Gender Diverse</option>
       <option>Female</option>
+      <option>Male</option>
+      <option>Unknown</option>
     </select>
     <div class="small text-danger">{{ errors[0] }}</div>
   </validation-provider>
