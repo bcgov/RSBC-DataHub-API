@@ -69,7 +69,7 @@ export const store = new Vuex.Store ({
               "variants": ['driver', 'ilo', 'police']
             }
           },
-          "disabled": true
+          "disabled": false
         },
         "IRP": {
           "component": "ImmediateRoadsideProhibition",
