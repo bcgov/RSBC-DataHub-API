@@ -23,6 +23,16 @@ extend('bcdlNumberRule',  {
   message: 'BCDL numbers must have 7 digits'
 });
 
+extend('bcdlExpiryYear', {
+  validate(value) {
+    return {
+      required: true,
+      valid: moment(value, "YYYY", true).isValid()
+    };
+  },
+  message: "That's not a valid year"
+});
+
 extend('required', {
   validate(value) {
     return {
@@ -65,7 +75,6 @@ extend('notFutureDateTime', {
   hasTarget: true,
   message: "Date and time cannot be in the future"
 });
-
 
 extend('notExpiredDt', {
   validate(value) {
@@ -110,7 +119,6 @@ extend('dob', {
   message: "Driver must be between 16 and 120 years old",
 });
 
-
 extend('notBeforeCareDateTime', {
   params: ['careDate', 'careTime', 'relatedDate'],
   validate(value, {careDate, careTime, relatedDate}) {
@@ -124,7 +132,6 @@ extend('notBeforeCareDateTime', {
   message: "Cannot be before care or control date / time"
 });
 
-
 extend('bac_result', {
   validate(value) {
     return {
@@ -135,8 +142,6 @@ extend('bac_result', {
   message: "BAC results must be between 1 and 999",
 });
 
-
-
 extend('plate_year', {
   validate(value) {
     return {
@@ -146,7 +151,6 @@ extend('plate_year', {
   },
   message: "Plate year must be between 2000 and the current year",
 });
-
 
 extend('phone', {
   validate(value) {
@@ -162,6 +166,19 @@ extend('phone', {
   message: "Phone number format ##########"
 });
 
+extend('email', {
+  validate(value) {
+    let result = false;
+    const regexMatch = value.match("^\\w+@\\w+\\.\\w{2,}$")
+    if (Array.isArray(regexMatch)) {
+       result = regexMatch[0] === value;
+    }
+    return {
+      valid: result
+    };
+  },
+  message: "Email address format user@domain.com"
+});
 
 extend('lt25', {
   validate(value) {
@@ -171,7 +188,6 @@ extend('lt25', {
   },
   message: "too long; must be less 25 chars",
 });
-
 
 extend('lt5', {
   validate(value) {
@@ -194,10 +210,10 @@ extend('lt3', {
 extend('lt4', {
   validate(value) {
     return {
-      valid: value.length < 5,
+      valid: value.length < 4,
     };
   },
-  message: "Value must be than 5 chars",
+  message: "Value must be than 4 chars",
 });
 
 extend('vehicleYear', {
@@ -220,5 +236,3 @@ extend('vehicleYear', {
   },
   message: "That's not a valid year"
 });
-
-

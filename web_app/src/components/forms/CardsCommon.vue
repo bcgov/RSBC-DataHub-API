@@ -8,6 +8,7 @@ import DriverLicenceNumber from "@/components/questions/DriverLicenceNumber";
 import TypeAheadField from "@/components/questions/TypeAheadField";
 import GenderField from "@/components/questions/GenderField";
 import PhoneField from "@/components/questions/PhoneField";
+import EmailField from "@/components/questions/EmailField";
 import DateField from "@/components/questions/DateField";
 import DobField from "@/components/questions/DoBField";
 import PlateNumber from "@/components/questions/PlateNumber";
@@ -52,6 +53,7 @@ export default {
     DateField,
     DobField,
     DriverLicenceNumber,
+    EmailField,
     FormCard,
     FormRow,
     FormStep,

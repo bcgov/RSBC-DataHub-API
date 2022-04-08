@@ -3,6 +3,7 @@ import CheckField from "@/components/questions/CheckField";
 import DateField from "@/components/questions/DateField";
 import DobField from "@/components/questions/DoBField";
 import DriverLicenceNumber from "@/components/questions/DriverLicenceNumber";
+import EmailField from "@/components/questions/EmailField";
 import FormCard from "@/components/forms/FormCard";
 import FormContainer from "@/components/forms/FormContainer";
 import FormRow from "@/components/forms/FormRow";
@@ -53,6 +54,7 @@ export default {
     DateField,
     DobField,
     DriverLicenceNumber,
+    EmailField,
     FormCard,
     FormContainer,
     FormRow,
