@@ -15,7 +15,7 @@
     "core-js": "^3.6.5",
     "idb": "^6.1.3",
     "jspdf": "^2.4.0",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "moment-timezone": "^0.5.34",
     "register-service-worker": "^1.7.1",
     "vee-validate": "^3.4.5",
