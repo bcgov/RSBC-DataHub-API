@@ -295,7 +295,6 @@ export const getters = {
         if (!(dateString in root && timeString in root)) {
             return '';
         }
-        console.log("getFormDateTimeString()", root[dateString], root[timeString] )
         const date_time = moment.tz(root[dateString] + " " + root[timeString], 'YYYYMMDD HHmm', true, constants.TIMEZONE)
         return date_time.format("YYYY-MM-DD HH:mm").toUpperCase()
     },
@@ -305,7 +304,6 @@ export const getters = {
         if (!(dateString in root && timeString in root)) {
             return '';
         }
-        console.log("getFormDateTime()", root[dateString], root[timeString] )
         return moment.tz(root[dateString] + " " + root[timeString], 'YYYYMMDD HHmm', true, constants.TIMEZONE)
     },
     getFormPrintRadioValue: state => (form_object, attribute, checked_value) => {
@@ -330,7 +328,6 @@ export const getters = {
             return '';
         }
         let filteredObject = state.jurisdictions.filter( j => j['objectDsc'] === root[attribute]);
-        console.log('filteredObject', filteredObject)
         return filteredObject[0]['objectCd'].toUpperCase()
     },
 

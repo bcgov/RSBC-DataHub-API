@@ -1,8 +1,8 @@
-import constants from "@/config/constants";
-import persistence from "@/helpers/persistence";
-import print_layout from "@/config/print_layout.json";
+import constants from "../config/constants";
+import persistence from "../helpers/persistence";
+import print_layout from "../config/print_layout.json";
 import moment from "moment-timezone";
-import pdfMerge from "@/helpers/pdfMerge";
+import pdfMerge from "../helpers/pdfMerge";
 
 
 export const actions = {
@@ -306,14 +306,14 @@ export const actions = {
                     key_value_pairs['IMPOUNDED_PHONE_AREA_CODE'] = ilo[3].substr(0, 3)
                     key_value_pairs['IMPOUNDED_PHONE_NUMBER'] = ilo[3].substr(4)
                 }
+                key_value_pairs['RELEASE_LOCATION_KEYS'] = context.getters.getFormPrintValue(form_object, 'location_of_keys')
             } else {
                 key_value_pairs['NOT_IMPOUNDED_REASON'] = context.getters.getFormPrintValue(form_object, 'reason_for_not_impounding')
                 key_value_pairs['RELEASE_PERSON'] = context.getters.getFormPrintValue(form_object, 'vehicle_released_to')
                 key_value_pairs['RELEASE_DATETIME'] = context.getters.getFormDateTimeString(form_object, ['released_date', 'released_time'])
             }
-
             key_value_pairs['RELEASE_LOCATION_VEHICLE'] = context.getters.locationOfVehicle(form_object)
-            key_value_pairs['RELEASE_LOCATION_KEYS'] = context.getters.getFormPrintValue(form_object, 'location_of_keys')
+
 
             key_value_pairs['DRIVER_SURNAME'] = context.getters.getFormPrintValue(form_object,"last_name")
             key_value_pairs['DRIVER_GIVEN'] = context.getters.getFormPrintValue(form_object,'first_name')
@@ -379,17 +379,18 @@ export const actions = {
                 key_value_pairs['REASONABLE_GROUNDS_TEST_ALCO_SENSOR'] = context.getters.getFormPrintCheckedValue(
                     form_object, 'test_administered_asd', 'Alco-Sensor FST (ASD)')
 
-                key_value_pairs['REASONABLE_GROUNDS_TEST_ASD_EXPIRY_DATE'] = context.getters.getFormPrintValue(
-                    form_object, 'asd_expiry_date')
+                if(key_value_pairs['REASONABLE_GROUNDS_TEST_ALCO_SENSOR']) {
+                    key_value_pairs['REASONABLE_GROUNDS_TEST_ASD_EXPIRY_DATE'] = context.getters.getFormPrintValue(
+                        form_object, 'asd_expiry_date')
+                    key_value_pairs['REASONABLE_GROUNDS_ALCOHOL_51-99'] = context.getters.getFormPrintCheckedValue(
+                        form_object, 'result_alcohol', '51-99 mg%')
+
+                    key_value_pairs['REASONABLE_GROUNDS_ALCOHOL_OVER_99'] = context.getters.getFormPrintCheckedValue(
+                        form_object, 'result_alcohol', 'Over 99 mg%')
+                }
 
                 key_value_pairs['REASONABLE_GROUNDS_TEST_TIME'] = context.getters.getFormDateTimeString(
                     form_object, ['test_date', 'test_time'])
-
-                key_value_pairs['REASONABLE_GROUNDS_ALCOHOL_51-99'] = context.getters.getFormPrintCheckedValue(
-                    form_object, 'result_alcohol', '51-99 mg%')
-
-                key_value_pairs['REASONABLE_GROUNDS_ALCOHOL_OVER_99'] = context.getters.getFormPrintCheckedValue(
-                    form_object, 'result_alcohol', 'Over 99 mg%')
 
                 key_value_pairs['REASONABLE_GROUNDS_TEST_APPROVED_INSTRUMENT'] = context.getters.getFormPrintCheckedValue(
                     form_object, 'test_administered_instrument', 'Approved Instrument')
