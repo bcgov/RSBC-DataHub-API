@@ -426,8 +426,7 @@ export const actions = {
 
                 key_value_pairs['PHYSICAL_TEST_SPECIFICS'] = prescribed_test.join(" and ")
 
-                key_value_pairs['REASONABLE_GROUNDS_DRUG_ABILITY_TO_DRIVE_AFFECTED'] = context.getters.getFormPrintCheckedValue(
-                    form_object, "result_drug", "Ability to drive affected by a drug")
+                key_value_pairs['REASONABLE_GROUNDS_DRUG_ABILITY_TO_DRIVE_AFFECTED'] = true
 
 
             }
