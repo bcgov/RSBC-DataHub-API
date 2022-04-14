@@ -1,7 +1,6 @@
 import moment from "moment";
 import constants from "../config/constants";
 
-
 export const getters = {
 
     getAllAvailableForms: state => {

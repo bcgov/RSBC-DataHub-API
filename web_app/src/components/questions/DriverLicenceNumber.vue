@@ -1,5 +1,5 @@
 <template>
-  <div v-if="visible" class="form-group">
+  <div v-if="visible" class="form-group" :class="fg_class">
     <validation-provider :rules="rules" :name="id" v-slot="{ errors, required }">
       <label v-if="show_label" :for="id"><slot></slot>
         <span v-if="required" class="text-danger"> *</span>
@@ -77,11 +77,10 @@ export default {
         'getCurrentlyEditedFormObject',
       "getAttributeValue",
       "isDisplayIcbcLicenceLookup",
-      "hasFormBeenPrinted",
       "isLicenceJurisdictionBC"]),
   },
   methods: {
-    ...mapMutations(['updateFormField', "populateDriverFromBarCode"]),
+    ...mapMutations(["populateDriverFromBarCode"]),
     ...mapActions(['lookupDriverFromICBC']),
     triggerDriversLookup() {
       console.log("inside triggerDriversLookup()")

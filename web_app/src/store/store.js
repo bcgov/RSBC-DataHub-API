@@ -62,11 +62,11 @@ export const store = new Vuex.Store ({
           "form_type": "VI",
           "label": "VI",
           "description": "Vehicle Impoundment",
-          "full_name": "MV2721",
+          "full_name": "MV2721 & MV2722",
           "documents": {
             "all": {
               "name": "All Copies",
-              "variants": ['driver', 'ilo', 'police']
+              "variants": ['report']
             }
           },
           "disabled": false

@@ -17,10 +17,10 @@
             <check-field fg_class="col-sm-12" :show_label="false" id="corporate_owner" :options="['Owned by corporate entity']">Corporation</check-field>
           </form-row>
           <form-row>
-            <text-field v-if="corporateOwner" id="owners_corporation" fg_class="col-sm-8">Corporation Name</text-field>
+            <text-field v-if="corporateOwner" id="owners_corporation" fg_class="col-sm-12">Corporation Name</text-field>
             <text-field v-if="!corporateOwner" id="owners_last_name" fg_class="col-sm-4">Owner's Last Name</text-field>
-            <text-field v-if="!corporateOwner" id="owners_first_name" fg_class="col-sm-4">Owner's First Name</text-field>
-            <dob-field id="owner_dob" fg_class="col-sm-4" rules="dob8|dob">Date of Birth</dob-field>
+            <text-field v-if="!corporateOwner" id="owners_first_name" fg_class="col-sm-5">Owner's First Name</text-field>
+            <dob-field v-if="!corporateOwner" id="owner_dob" fg_class="col-sm-3" rules="dob8|dob">Date of Birth</dob-field>
           </form-row>
           <form-row>
             <text-field id="owners_address1" fg_class="col-sm-8" placeholder="Address" rules="lt25">Street Address</text-field>

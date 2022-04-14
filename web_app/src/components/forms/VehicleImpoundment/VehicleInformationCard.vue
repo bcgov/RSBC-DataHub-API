@@ -6,13 +6,13 @@
   </form-row>
   <form-row>
     <type-ahead-field :suggestions="getArrayOfVehicleYears" id="vehicle_year" fg_class="col-sm-2">Vehicle Year</type-ahead-field>
-    <type-ahead-field :suggestions="getArrayOfVehicleMakes" id="vehicle_make" input_type="number" fg_class="col-sm-3">Vehicle Make</type-ahead-field>
-    <type-ahead-field :suggestions="getArrayOfVehicleModels" id="vehicle_model" fg_class="col-sm-3">Vehicle Model</type-ahead-field>
+    <type-ahead-field :suggestions="getArrayOfVehicleMakes" id="vehicle_make" input_type="number" fg_class="col-sm-4">Vehicle Make</type-ahead-field>
+    <type-ahead-field :suggestions="getArrayOfVehicleModels" id="vehicle_model" fg_class="col-sm-4">Vehicle Model</type-ahead-field>
     <type-ahead-field :suggestions="getArrayOfCommonCarColors" id="vehicle_color" fg_class="col-sm-2">Vehicle Colour</type-ahead-field>
   </form-row>
   <form-row>
     <text-field id="registration_number" fg_class="col-sm-4">Registration Number</text-field>
-    <check-field :show_label="false" id="nsc_number" fg_class="col-sm-1" :options='["NSC?"]'>NSC</check-field>
+    <check-field id="nsc_number" fg_class="col-sm-2" :options='["NSC?"]'></check-field>
     <text-field id="vin_number" fg_class="col-sm-6">Vehicle Identification Number (VIN)</text-field>
   </form-row>
 </form-card>

@@ -1,5 +1,7 @@
 <script>
 
+import { mapMutations, mapGetters } from 'vuex';
+
 export default {
   name: "FieldCommon",
   props: {
@@ -40,7 +42,15 @@ export default {
         return "form-control border-danger"
       }
       return 'form-control'
-    }
+    },
+    ...mapGetters([
+        "getAttributeValue",
+        "hasFormBeenPrinted",
+        "hasFormBeenPrinted"
+    ])
+  },
+  methods: {
+    ...mapMutations(["updateFormField"])
   }
 }
 </script>

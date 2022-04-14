@@ -1,21 +1,25 @@
 <template>
   <form-container title="Vehicle Impoundment" v-if="isMounted">
-    <validation-observer v-slot="{handleSubmit, invalid}">
-      <form @submit.prevent="handleSubmit(onSubmit(invalid))">
+    <validation-observer v-slot="{handleSubmit, validate}">
+      <form @submit.prevent="handleSubmit(onSubmit(validate))">
         <drivers-information-card></drivers-information-card>
         <vehicle-information-card></vehicle-information-card>
         <vehicle-owner-card></vehicle-owner-card>
         <vehicle-impoundment-card></vehicle-impoundment-card>
         <reasonable-grounds-card></reasonable-grounds-card>
+        <excessive-speed-card v-if="getAttributeValue('reason_excessive_speed')"></excessive-speed-card>
+
+        <linkage-card></linkage-card>
+        <incident-details-card></incident-details-card>
         <officer-details-card></officer-details-card>
         <form-card title="Generate PDF for Printing">
           <div class="d-flex justify-content-between">
-            <button type="submit" class="btn btn-primary" :disabled="invalid">PDF
+            <button type="submit" class="btn btn-primary" id="btn_print_forms">Print Notice and Report
               <b-spinner v-if="display_spinner" small label="Loading..."></b-spinner>
             </button>
           </div>
           <div class="small text-danger pt-2">
-            <fade-text v-if="isNotValid" :key="rerender" show-seconds=3000>Errors in form - check above</fade-text>
+            <fade-text v-if="isNotValid" :key="rerender" show-seconds=3000>Errors in form - check for validation errors above</fade-text>
           </div>
         </form-card>
       </form>
@@ -35,11 +39,16 @@ import VehicleInformationCard from "@/components/forms/VehicleImpoundment/Vehicl
 import VehicleOwnerCard from "@/components/forms/VehicleImpoundment/VehicleOwnerCard";
 import VehicleImpoundmentCard from "@/components/forms/VehicleImpoundment/VehicleImpoundmentCard";
 import ReasonableGroundsCard from "@/components/forms/VehicleImpoundment/ReasonableGroundsCard";
-
+import ExcessiveSpeedCard from "@/components/forms/VehicleImpoundment/ExcessiveSpeedCard";
+import LinkageCard from "@/components/forms/VehicleImpoundment/LinkageCard";
+import IncidentDetailsCard from "@/components/forms/VehicleImpoundment/IncidentDetailsCard";
 
 export default {
   name: "VehicleImpoundment",
   components: {
+    IncidentDetailsCard,
+    LinkageCard,
+    ExcessiveSpeedCard,
     ReasonableGroundsCard,
     VehicleImpoundmentCard,
     DriversInformationCard,
@@ -54,7 +63,7 @@ export default {
         "getAttributeValue",
         "getCurrentlyEditedFormData",
         "getCurrentlyEditedFormObject",
-        "corporateOwner"
+        "corporateOwner",
     ]),
   },
   props: {
@@ -79,20 +88,25 @@ export default {
   methods: {
     ...mapMutations(["setFormAsPrinted"]),
     ...mapActions(["saveFormAndGeneratePDF"]),
-    async onSubmit (invalid) {
-      console.log('inside onSubmit()', invalid);
-      if(! invalid) {
-        this.display_spinner = true;
+    async onSubmit (validate) {
+      this.display_spinner = true;
+      const is_validated = await validate()
+      console.log('inside onSubmit()', is_validated);
+      if(is_validated) {
         await this.saveFormAndGeneratePDF(this.getFormObject)
-            .then(() => {
+          .then( (response) => {
+              console.log('form generated successfully', response)
               this.display_spinner = false;
             })
-            .catch(() => {
+          .catch((error) => {
+              console.log('form did not generate successfully', error)
               this.display_spinner = false;
-              this.rerender++;
-              this.isNotValid = true;
             })
+      } else {
+        this.rerender++;
+        this.isNotValid = true;
       }
+      this.display_spinner = false;
     }
   }
 }

@@ -1,17 +1,10 @@
 <template>
-  <form-card title="Vehicle Impounded Details">
+  <form-card title="Impound Lot">
       <form-row>
-        <text-field id="offence_address" fg_class="col-sm-8" rules="required">Intersection or Address of Offence</text-field>
-        <type-ahead-field id="offence_city" fg_class="col-sm-4" :suggestions="getArrayOfBCCityNames" rules="required">City</type-ahead-field>
+        <date-field id="impounded_dt" fg_class="col-sm-12">The motor vehicle was impounded on</date-field>
       </form-row>
       <form-row>
-        <date-time id="prohibition_start_time" fg_class="col-sm-4" rules="required">
-          Time of driving, care or control
-        </date-time>
-      </form-row>
-      <form-row>
-        <date-field id="impounded_dt" fg_class="col-sm-4">The motor vehicle was impounded on</date-field>
-        <type-ahead-field id="impound_lot_operator" fg_class="col-sm-8"
+        <type-ahead-field id="impound_lot_operator" fg_class="col-sm-12"
             :suggestions="getArrayOfImpoundLotOperators">Impound Lot Operator (name, lot address, city & phone)</type-ahead-field>
       </form-row>
   </form-card>
