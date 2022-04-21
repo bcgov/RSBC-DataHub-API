@@ -32,21 +32,20 @@ def index(resource):
                   ]},
                   {"try": log_to_splunk, "fail": []},
               ]},
-              ] + get_authorized_keycloak_user() + [
-                {"try": splunk_middleware.log_static_get, "fail": []},
-                {"try": _is_known_resource, "fail": [
-                    {"try": http_responses.bad_request_response, "fail": []},
-                ]},
-                {"try": _is_resource_agencies, "fail": [
-                    {"try": _get_resource, "fail": [
-                        {"try": http_responses.server_error_response, "fail": []},
-                    ]},
-                    {"try": log_to_splunk, "fail": []},
-                ]},
-                {"try": _get_agencies, "fail": [
-                    {"try": http_responses.server_error_response, "fail": []},
-                ]},
-                {"try": log_to_splunk, "fail": []},
+              {"try": splunk_middleware.log_static_get, "fail": []},
+              {"try": _is_known_resource, "fail": [
+                  {"try": http_responses.bad_request_response, "fail": []},
+              ]},
+              {"try": _is_resource_agencies, "fail": [
+                  {"try": _get_resource, "fail": [
+                      {"try": http_responses.server_error_response, "fail": []},
+                  ]},
+                  {"try": log_to_splunk, "fail": []},
+              ]},
+              {"try": _get_agencies, "fail": [
+                  {"try": http_responses.server_error_response, "fail": []},
+              ]},
+              {"try": log_to_splunk, "fail": []},
             ],
             resource=resource,
             required_permission='static-get',

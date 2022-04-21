@@ -212,10 +212,8 @@ export const getters = {
     areNewUniqueIdsRequiredByType: (state, getters) => form_type => {
         console.log("inside areNewUniqueIdsRequiredByType", form_type)
         // Business rules state that X number of forms must be available to use offline
-        if (getters.getFormTypeCount[form_type] < constants.MINIMUM_NUMBER_OF_UNIQUE_IDS_PER_TYPE) {
-            return true;
-        }
-        return false
+        return state.form_schemas.forms[form_type].disabled === false
+            && getters.getFormTypeCount[form_type] < constants.MINIMUM_NUMBER_OF_UNIQUE_IDS_PER_TYPE
     },
 
     getFormTypeCount: state => {
