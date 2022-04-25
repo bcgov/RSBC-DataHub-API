@@ -66,7 +66,7 @@ export const store = new Vuex.Store ({
           "documents": {
             "all": {
               "name": "All Copies",
-              "variants": ['report']
+              "variants": ['notice', 'report']
             }
           },
           "disabled": false

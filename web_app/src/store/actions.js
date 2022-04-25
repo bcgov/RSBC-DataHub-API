@@ -310,6 +310,8 @@ export const actions = {
             key_value_pairs['RELEASE_LOCATION_VEHICLE'] = context.getters.locationOfVehicle(form_object)
             key_value_pairs['RELEASE_LOCATION_KEYS'] = context.getters.getFormPrintValue(form_object, 'location_of_keys')
 
+            key_value_pairs['DRIVER_NAME'] = context.getters.getFormPrintValue(form_object,"last_name") + ", " +
+                context.getters.getFormPrintValue(form_object,'first_name')
             key_value_pairs['DRIVER_SURNAME'] = context.getters.getFormPrintValue(form_object,"last_name")
             key_value_pairs['DRIVER_GIVEN'] = context.getters.getFormPrintValue(form_object,'first_name')
             key_value_pairs['DRIVER_DL_NUMBER'] = context.getters.getFormPrintValue(form_object,'drivers_number')

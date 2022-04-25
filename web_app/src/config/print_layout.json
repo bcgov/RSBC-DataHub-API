@@ -8,57 +8,57 @@
         "field_type": "text",
         "font_size": 20,
         "start": {
-          "x": 30,
-          "y": 30
+          "x": 100,
+          "y": 32
         }
       },
-      "DRIVER_SURNAME": {
+      "DRIVER_NAME": {
         "field_type": "text",
         "font_size": 12,
         "start": {
-          "x": 33.2,
-          "y": 38
-        }
-      },
-      "DRIVER_GIVEN": {
-        "field_type": "text",
-        "font_size": 12,
-        "start": {
-          "x": 83.2,
-          "y": 38
+          "x": 18,
+          "y": 45
         }
       },
       "DRIVER_DL_NUMBER": {
         "field_type": "text",
         "font_size": 14,
         "start": {
-          "x": 33.2,
-          "y": 45
+          "x": 18,
+          "y": 56
         }
       },
       "DRIVER_DL_PROVINCE": {
         "field_type": "text",
         "font_size": 14,
         "start": {
-          "x": 80,
-          "y": 45
+          "x": 115,
+          "y": 56
         }
       },
       "DRIVER_DOB": {
         "field_type": "text",
         "font_size": 14,
         "start": {
-          "x": 103,
+          "x": 150,
           "y": 45
+        }
+      },
+      "OWNER_NAME": {
+        "field_type": "text",
+        "font_size": 14,
+        "start": {
+          "x": 18,
+          "y": 80
         }
       }
     },
     "variants": {
-      "report": {
+      "notice": {
         "pages": [
           {
             "image": {
-              "filename": "assets/MV2722_report.png",
+              "filename": "assets/MV2721_201502.png",
               "offset_x": 0,
               "offset_y": 0,
               "width": 215,
@@ -66,8 +66,28 @@
             },
             "show_fields": [
               "VIOLATION_NUMBER",
-              "DRIVER_SURNAME",
-              "DRIVER_GIVEN",
+              "DRIVER_NAME",
+              "DRIVER_DL_NUMBER",
+              "DRIVER_DL_PROVINCE",
+              "DRIVER_DOB",
+              "OWNER_NAME"
+            ]
+          }
+        ]
+      },
+      "report": {
+        "pages": [
+          {
+            "image": {
+              "filename": "assets/MV2722_201502.png",
+              "offset_x": 0,
+              "offset_y": 0,
+              "width": 215,
+              "height": 307
+            },
+            "show_fields": [
+              "VIOLATION_NUMBER",
+              "DRIVER_NAME",
               "DRIVER_DL_NUMBER",
               "DRIVER_DL_PROVINCE",
               "DRIVER_DOB"
