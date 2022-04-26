@@ -294,7 +294,7 @@ export const getters = {
             return '';
         }
         const date_time = moment.tz(root[dateString] + " " + root[timeString], 'YYYYMMDD HHmm', true, constants.TIMEZONE)
-        return date_time.format("YYYY-MM-DD HH:mm").toUpperCase()
+        return date_time.format("YYYY-MM-DD HH:mm")
     },
 
     getFormDateTime: state => (form_object, [dateString, timeString]) => {
