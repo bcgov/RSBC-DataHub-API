@@ -1,4 +1,4 @@
-importScripts("/roadside-forms/precache-manifest.e1ef4f1ca775b4a51afb67be7bc79610.js", "/roadside-forms/workbox-v4.3.1/workbox-sw.js");
+importScripts("/roadside-forms/precache-manifest.c84115faa1789b74bbd6003b6eb58aa3.js", "/roadside-forms/workbox-v4.3.1/workbox-sw.js");
 workbox.setConfig({modulePathPrefix: "/roadside-forms/workbox-v4.3.1"});
 
 // The precaching code provided by Workbox
@@ -50,14 +50,14 @@ workbox.routing.registerRoute(({request, url}) =>
 
 // Cache static API resources for 2 days
 workbox.routing.registerRoute(({request, url}) =>
-    url.pathname === '/roadside-forms/api/v1/agencies'  ||
-    url.pathname === '/roadside-forms/api/v1/cities'  ||
-    url.pathname === '/roadside-forms/api/v1/countries'  ||
-    url.pathname === '/roadside-forms/api/v1/jurisdictions'  ||
-    url.pathname === '/roadside-forms/api/v1/provinces'  ||
-    url.pathname === '/roadside-forms/api/v1/vehicles'  ||
-    url.pathname === '/roadside-forms/api/v1/vehicle_styles'  ||
-    url.pathname === '/roadside-forms/api/v1/colors',
+    url.pathname === '/roadside-forms/api/v1/static/agencies'  ||
+    url.pathname === '/roadside-forms/api/v1/static/cities'  ||
+    url.pathname === '/roadside-forms/api/v1/static/countries'  ||
+    url.pathname === '/roadside-forms/api/v1/static/jurisdictions'  ||
+    url.pathname === '/roadside-forms/api/v1/static/provinces'  ||
+    url.pathname === '/roadside-forms/api/v1/static/vehicles'  ||
+    url.pathname === '/roadside-forms/api/v1/static/vehicle_styles'  ||
+    url.pathname === '/roadside-forms/api/v1/static/colors',
   new workbox.strategies.CacheFirst({
     cacheName: 'static-api',
     plugins: [
