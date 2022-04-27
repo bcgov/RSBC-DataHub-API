@@ -413,10 +413,7 @@ export const actions = {
                         form_object, 'test_administered_adse', "Approved Drug Screening Equipment")) {
                     key_value_pairs['REASONABLE_GROUNDS_TEST_APPROVED_INSTRUMENT'] = true
                     key_value_pairs['REASONABLE_GROUNDS_TEST_APPROVED_INSTRUMENT_SPECIFY'] = 'ADSE'
-                    const thc_or_cocaine = context.getters.getFormPrintValue(form_object,"positive_adse")
-                    if (thc_or_cocaine) {
-                        key_value_pairs['ADSE_RESULTS'] = thc_or_cocaine.join(" and ")
-                    }
+                    key_value_pairs['ADSE_RESULTS'] = context.getters.getFormPrintListValues(form_object,"positive_adse")
                 }
 
                 if (context.getters.getFormPrintCheckedValue(form_object, "test_administered_dre", "Prescribed Physical Coordination Test (DRE)")) {

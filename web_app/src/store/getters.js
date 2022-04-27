@@ -288,6 +288,14 @@ export const getters = {
         return root[attribute].toUpperCase();
     },
 
+    getFormPrintListValues: state => (form_object, attribute) => {
+        let root = state.forms[form_object.form_type][form_object.form_id].data;
+        if (!(attribute in root)) {
+            return '';
+        }
+        return root[attribute].join(" and ").toUpperCase();
+    },
+
     getFormDateTimeString: state => (form_object, [dateString, timeString]) => {
         const root = state.forms[form_object.form_type][form_object.form_id].data;
         if (!(dateString in root && timeString in root)) {
