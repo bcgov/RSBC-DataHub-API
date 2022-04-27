@@ -107,7 +107,7 @@ extend('dob', {
       valid: dob_years >= 10 && dob_years <= 120,
     };
   },
-  message: "Driver must be between 16 and 120 years old",
+  message: "Driver must be between 10 and 120 years old",
 });
 
 
