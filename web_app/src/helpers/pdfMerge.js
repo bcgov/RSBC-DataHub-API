@@ -1,6 +1,7 @@
 import jsPDF from "jspdf";
 
 const FONT_COLOR = "rgb(0, 0, 128)"
+const FONT = "Helvetica"
 const PUBLIC_PATH = process.env.BASE_URL
 
 
@@ -73,6 +74,7 @@ export default {
                         }
                         if (form_data[field]) {
                             doc.setTextColor(FONT_COLOR);
+                            doc.setFont(FONT)
                             doc.setFontSize(field_definition['font_size'])
                             if (field_definition['field_type'] === 'text') {
                                 doc.text(form_data[field], field_definition['start']['x'], field_definition['start']['y']);
