@@ -1,7 +1,8 @@
 import jsPDF from "jspdf";
-
+import {font}  from "./BCSans-Regular-normal";
 const FONT_COLOR = "rgb(0, 0, 128)"
-const FONT = "Helvetica"
+const FONT_FILE = "bc_sans.ttf"
+const FONT = "BC_SANS"
 const PUBLIC_PATH = process.env.BASE_URL
 
 
@@ -14,8 +15,13 @@ export default {
               orientation: print_definitions['orientation'],
               units: print_definitions['units'],
               format: print_definitions['format'],
+              putOnlyUsedFonts: true,
               compress: true
           });
+          doc.addFileToVFS(FONT_FILE, font);
+          doc.addFont(FONT_FILE, FONT, "normal");
+          doc.setFont(FONT);
+          doc.setTextColor(FONT_COLOR);
           let page_index = 0
           this.buildPdfVariants(doc, document_types_to_print, print_definitions, page_index, form_data)
               .then( (doc) => {
@@ -73,8 +79,6 @@ export default {
                             doc.text(field_definition['value'], field_definition['start']['x'], field_definition['start']['y']);
                         }
                         if (form_data[field]) {
-                            doc.setTextColor(FONT_COLOR);
-                            doc.setFont(FONT)
                             doc.setFontSize(field_definition['font_size'])
                             if (field_definition['field_type'] === 'text') {
                                 doc.text(form_data[field], field_definition['start']['x'], field_definition['start']['y']);
