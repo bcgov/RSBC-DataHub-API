@@ -3,8 +3,9 @@ import logging
 import responses
 import json
 from python.common.config import Config
-import python.common.splunk as splunk
-from python.common.splunk import paybc_lookup, icbc_get_driver, icbc_get_vehicle
+from python.common.splunk import log_to_splunk
+from python.common.splunk_application_for_review import paybc_lookup
+from python.prohibition_web_svc.middleware.icbc_middleware import splunk_get_driver, splunk_get_vehicle
 
 
 @responses.activate
@@ -22,7 +23,8 @@ def test_splunk_logs_paybc_lookup_event():
                   json=expected_payload,
                   status=200, match_querystring=True)
 
-    results = paybc_lookup(prohibition_number="40123456", config=Config)
+    is_okay, args = paybc_lookup(splunk_data=expected_payload, config=Config, prohibition_number='40123456')
+    log_to_splunk(**args)
 
     payload = json.loads(responses.calls[0].request.body.decode())
     logging.warning(json.dumps(payload))
@@ -45,13 +47,19 @@ def test_splunk_logs_icbc_get_driver_event():
                   json=expected_payload,
                   status=200, match_querystring=True)
 
-    results = icbc_get_driver(config=Config, dl_number=dl_number, username=username)
+    is_okay, args = splunk_get_driver(splunk_data=expected_payload,
+                                      config=Config,
+                                      dl_number=dl_number,
+                                      username=username,
+                                      user_guid='')
+    log_to_splunk(**args)
 
     payload = json.loads(responses.calls[0].request.body.decode())
     logging.warning(json.dumps(payload))
     assert payload == {"event": {
         "event": 'icbc_get_driver',
-        "loginUserId": username,
+        "user_guid": '',
+        "username": username,
         "queried_bcdl": dl_number},
         "source": "be78d6"}
 
@@ -72,12 +80,18 @@ def test_splunk_logs_icbc_get_vehicle_event():
                   json=expected_payload,
                   status=200, match_querystring=True)
 
-    results = icbc_get_vehicle(config=Config, plate_number=plate_number, username='someuser@bceid')
+    is_okay, args = splunk_get_vehicle(splunk_data=expected_payload,
+                                       config=Config,
+                                       plate_number=plate_number,
+                                       username=username,
+                                       user_guid='')
+    log_to_splunk(**args)
 
     payload = json.loads(responses.calls[0].request.body.decode())
     logging.warning(json.dumps(payload))
     assert payload == {"event": {
         "event": 'icbc_get_vehicle',
-        "loginUserId": "someuser@bceid",
+        "user_guid": '',
+        "username": "someuser@bceid",
         'queried_plate': plate_number
     }, "source": "be78d6"}

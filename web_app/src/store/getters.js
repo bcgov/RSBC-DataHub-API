@@ -211,10 +211,8 @@ export const getters = {
     areNewUniqueIdsRequiredByType: (state, getters) => form_type => {
         console.log("inside areNewUniqueIdsRequiredByType", form_type)
         // Business rules state that X number of forms must be available to use offline
-        if (getters.getFormTypeCount[form_type] < constants.MINIMUM_NUMBER_OF_UNIQUE_IDS_PER_TYPE) {
-            return true;
-        }
-        return false
+        return state.form_schemas.forms[form_type].disabled === false
+            && getters.getFormTypeCount[form_type] < constants.MINIMUM_NUMBER_OF_UNIQUE_IDS_PER_TYPE
     },
 
     getFormTypeCount: state => {
@@ -289,14 +287,21 @@ export const getters = {
         return root[attribute].toUpperCase();
     },
 
+    getFormPrintListValues: state => (form_object, attribute) => {
+        let root = state.forms[form_object.form_type][form_object.form_id].data;
+        if (!(attribute in root)) {
+            return '';
+        }
+        return root[attribute].join(" and ").toUpperCase();
+    },
+
     getFormDateTimeString: state => (form_object, [dateString, timeString]) => {
         const root = state.forms[form_object.form_type][form_object.form_id].data;
         if (!(dateString in root && timeString in root)) {
             return '';
         }
-        console.log("getFormDateTimeString()", root[dateString], root[timeString] )
         const date_time = moment.tz(root[dateString] + " " + root[timeString], 'YYYYMMDD HHmm', true, constants.TIMEZONE)
-        return date_time.format("YYYY-MM-DD HH:mm").toUpperCase()
+        return date_time.format("YYYY-MM-DD HH:mm")
     },
 
     getFormDateTime: state => (form_object, [dateString, timeString]) => {
@@ -304,7 +309,6 @@ export const getters = {
         if (!(dateString in root && timeString in root)) {
             return '';
         }
-        console.log("getFormDateTime()", root[dateString], root[timeString] )
         return moment.tz(root[dateString] + " " + root[timeString], 'YYYYMMDD HHmm', true, constants.TIMEZONE)
     },
     getFormPrintRadioValue: state => (form_object, attribute, checked_value) => {
@@ -329,7 +333,6 @@ export const getters = {
             return '';
         }
         let filteredObject = state.jurisdictions.filter( j => j['objectDsc'] === root[attribute]);
-        console.log('filteredObject', filteredObject)
         return filteredObject[0]['objectCd'].toUpperCase()
     },
 

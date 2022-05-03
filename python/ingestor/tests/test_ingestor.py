@@ -513,7 +513,8 @@ def test_an_applicant_that_paid_more_than_24hrs_ago_cannot_schedule(client, monk
     logging.warning(json_data)
     assert response.status_code == 200
     assert json_data['data']['is_success'] is False
-    assert json_data['data']['error'] == "You are outside the 24-hour time allowed to schedule the review."
+    assert json_data['data']['error'] == "You are outside the 24-hour time allowed to schedule the review. " \
+                                         "Please call Appeals at 250-356-6573."
 
 
 @responses.activate

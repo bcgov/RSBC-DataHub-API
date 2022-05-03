@@ -4,7 +4,6 @@
     <welcome-login-card v-if="isDisplayWelcomeLoginCard"></welcome-login-card>
     <issue-prohibitions v-if="isDisplayIssueProhibitions"></issue-prohibitions>
     <recent-prohibitions v-if="isRecentProhibitions"></recent-prohibitions>
-    <prohibition-search v-if="isDisplaySearchRecentProhibition"></prohibition-search>
     <feedback-welcome v-if="isDisplayFeedbackBanner"></feedback-welcome>
   </div>
 </template>
@@ -13,7 +12,6 @@
 
 import IssueProhibitions from "@/components/IssueProhibitions";
 import FeedbackWelcome from "@/components/FeedbackWelcome";
-import ProhibitionSearch from "@/components/ProhibitionSearch";
 import RecentProhibitions from "@/components/RecentProhibitions";
 import UserNotPermittedBanner from "@/components/UserNotPermittedBanner";
 import {mapGetters} from "vuex";
@@ -25,7 +23,6 @@ export default {
      WelcomeLoginCard,
      UserNotPermittedBanner,
      RecentProhibitions,
-     ProhibitionSearch,
      FeedbackWelcome,
      IssueProhibitions
   },

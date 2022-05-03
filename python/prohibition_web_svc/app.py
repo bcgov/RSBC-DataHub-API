@@ -4,9 +4,9 @@ import pytz
 from datetime import datetime
 from python.prohibition_web_svc.models import db, Form, UserRole, User
 from python.prohibition_web_svc.config import Config
-from python.prohibition_web_svc.blueprints import impound_lot_operators, jurisdictions, forms, admin_forms, agencies
-from python.prohibition_web_svc.blueprints import provinces, countries, cities, colors, vehicles, icbc, keycloak
-from python.prohibition_web_svc.blueprints import vehicle_styles, user_roles, admin_user_roles, admin_users, users
+from python.prohibition_web_svc.blueprints import static, forms, admin_forms
+from python.prohibition_web_svc.blueprints import icbc
+from python.prohibition_web_svc.blueprints import user_roles, admin_user_roles, admin_users, users
 
 
 application = FlaskAPI(__name__)
@@ -18,20 +18,11 @@ application.config["SQLALCHEMY_ECHO"] = False
 application.register_blueprint(admin_forms.bp)
 application.register_blueprint(admin_user_roles.bp)
 application.register_blueprint(admin_users.bp)
-application.register_blueprint(agencies.bp)
-application.register_blueprint(cities.bp)
-application.register_blueprint(colors.bp)
-application.register_blueprint(countries.bp)
 application.register_blueprint(forms.bp)
 application.register_blueprint(icbc.bp)
-application.register_blueprint(impound_lot_operators.bp)
-application.register_blueprint(jurisdictions.bp)
-application.register_blueprint(keycloak.bp)
-application.register_blueprint(provinces.bp)
+application.register_blueprint(static.bp)
 application.register_blueprint(user_roles.bp)
 application.register_blueprint(users.bp)
-application.register_blueprint(vehicle_styles.bp)
-application.register_blueprint(vehicles.bp)
 
 
 db.init_app(application)

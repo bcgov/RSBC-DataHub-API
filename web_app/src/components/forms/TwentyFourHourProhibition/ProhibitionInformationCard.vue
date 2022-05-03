@@ -12,14 +12,14 @@
       </type-ahead-field>
     </form-row>
     <form-row>
-      <text-field id="file_number" fg_class="col-sm-3" rules="required">Agency File #</text-field>
+      <text-field id="file_number" fg_class="col-sm-2" rules="required">Agency File #</text-field>
       <date-field id="prohibition_start_date" fg_class="col-sm-5"
                   rules="required|validDt|notFutureDt|notGtYearAgo">
-        Date of Driving, care or control
+        Date of Driving - care or control
       </date-field>
-      <time-field id="prohibition_start_time" fg_class="col-sm-4"
+      <time-field id="prohibition_start_time" fg_class="col-sm-5"
                   rules="required|validTime|notFutureDateTime:@prohibition_start_date">
-        Time
+        Time of Driving - care or control
       </time-field>
     </form-row>
 </form-card>

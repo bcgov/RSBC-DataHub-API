@@ -1,5 +1,6 @@
 import pytest
 from python.prohibition_web_svc.config import Config
+import responses
 from datetime import datetime
 import python.prohibition_web_svc.middleware.keycloak_middleware as middleware
 from python.prohibition_web_svc.models import db, UserRole
@@ -42,6 +43,7 @@ def roles(database):
     db.session.commit()
 
 
+@responses.activate
 def test_administrator_can_get_all_roles_for_specific_user(as_guest, monkeypatch, roles):
     monkeypatch.setattr(Config, 'ADMIN_USERNAME', 'administrator@idir')
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
@@ -54,8 +56,18 @@ def test_administrator_can_get_all_roles_for_specific_user(as_guest, monkeypatch
     assert resp.status_code == 200
     assert len(resp.json) == 1
     assert resp.json[0]['user_guid'] == 'larry@idir'
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'admin get user-role',
+            'admin_user_guid': 'mo@idir',
+            'admin_username': 'mo@idir',
+            'requested_user_guid': 'larry@idir'
+        },
+        'source': 'be78d6'
+    })
 
 
+@responses.activate
 def test_non_administrators_cannot_get_all_roles_for_specific_user(as_guest, monkeypatch, roles):
     monkeypatch.setattr(Config, 'ADMIN_USERNAME', 'administrator@idir')
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
@@ -66,8 +78,17 @@ def test_non_administrators_cannot_get_all_roles_for_specific_user(as_guest, mon
                          headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
     logging.debug(json.dumps(resp.json))
     assert resp.status_code == 401
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'permission denied',
+            'user_guid': 'larry@idir',
+            'username': 'larry@idir'
+        },
+        'source': 'be78d6'
+    })
 
 
+@responses.activate
 def test_administrator_can_approve_a_specific_user_role(as_guest, monkeypatch, roles):
     monkeypatch.setattr(Config, 'ADMIN_USERNAME', 'administrator@idir')
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
@@ -79,8 +100,19 @@ def test_administrator_can_approve_a_specific_user_role(as_guest, monkeypatch, r
     logging.debug(json.dumps(resp.json))
     assert resp.status_code == 200
     assert resp.json['approved_dt'] is not None
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'admin update user-role',
+            'admin_user_guid': 'mo@idir',
+            'admin_username': 'mo@idir',
+            'requested_user_guid': 'john@idir',
+            'role_name': 'officer'
+        },
+        'source': 'be78d6'
+    })
 
 
+@responses.activate
 def test_non_administrators_cannot_approve_a_user_role(as_guest, monkeypatch, roles):
     monkeypatch.setattr(Config, 'ADMIN_USERNAME', 'administrator@idir')
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
@@ -91,8 +123,17 @@ def test_non_administrators_cannot_approve_a_user_role(as_guest, monkeypatch, ro
                          headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
     logging.debug(json.dumps(resp.json))
     assert resp.status_code == 401
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'permission denied',
+            'user_guid': 'larry@idir',
+            'username': 'larry@idir'
+        },
+        'source': 'be78d6'
+    })
 
 
+@responses.activate
 def test_administrator_can_delete_an_officer_user(as_guest, monkeypatch, roles, database):
     monkeypatch.setattr(Config, 'ADMIN_USERNAME', 'administrator@idir')
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
@@ -107,6 +148,16 @@ def test_administrator_can_delete_an_officer_user(as_guest, monkeypatch, roles, 
                .filter(UserRole.role_name == 'officer') \
                .filter(UserRole.user_guid == 'john@idir') \
                .count() == 0
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'admin delete user-role',
+            'admin_user_guid': 'mo@idir',
+            'admin_username': 'mo@idir',
+            'requested_user_guid': 'john@idir',
+            'role_name': 'officer'
+        },
+        'source': 'be78d6'
+    })
 
 
 def test_administrator_can_delete_another_admin_user(as_guest, monkeypatch, roles, database):
@@ -125,6 +176,7 @@ def test_administrator_can_delete_another_admin_user(as_guest, monkeypatch, role
                .count() == 0
 
 
+@responses.activate
 def test_non_administrators_cannot_delete_a_user_role(as_guest, monkeypatch, roles):
     monkeypatch.setattr(Config, 'ADMIN_USERNAME', 'administrator@idir')
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
@@ -134,6 +186,14 @@ def test_non_administrators_cannot_delete_a_user_role(as_guest, monkeypatch, rol
                          content_type="application/json",
                          headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
     assert resp.status_code == 401
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'permission denied',
+            'user_guid': 'larry@idir',
+            'username': 'larry@idir'
+        },
+        'source': 'be78d6'
+    })
 
 
 def test_administrator_can_give_another_user_administrative_permissions(as_guest, monkeypatch, roles, database):

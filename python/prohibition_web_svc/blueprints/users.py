@@ -2,6 +2,8 @@ from python.prohibition_web_svc.config import Config
 from python.common.helper import middle_logic
 import python.prohibition_web_svc.business.keycloak_logic as keycloak_logic
 import python.prohibition_web_svc.http_responses as http_responses
+import python.prohibition_web_svc.middleware.splunk_middleware as splunk_middleware
+import python.common.splunk as splunk
 from flask import request, Blueprint, make_response, jsonify
 from flask_cors import CORS
 import logging.config
@@ -17,15 +19,18 @@ CORS(bp, resources={Config.URL_PREFIX + "/api/v1/users*": {"origins": Config.ACC
 
 @bp.route('/users', methods=['GET'])
 def index():
-    kwargs = middle_logic(
-        keycloak_logic.get_keycloak_user() + [
-            {"try": user_middleware.get_user, "fail": [
-                {"try": http_responses.server_error_response, "fail": []}
-            ]}
-        ],
-        request=request,
-        config=Config)
-    return kwargs.get('response')
+    if request.method == 'GET':
+        kwargs = middle_logic(
+            keycloak_logic.get_keycloak_user() + [
+                {"try": splunk_middleware.get_user, "fail": []},
+                {"try": splunk.log_to_splunk, "fail": []},
+                {"try": user_middleware.get_user, "fail": [
+                    {"try": http_responses.server_error_response, "fail": []}
+                ]}
+            ],
+            request=request,
+            config=Config)
+        return kwargs.get('response')
 
 
 @bp.route('/users', methods=['POST'])
@@ -54,6 +59,8 @@ def create():
                     ]},
                     {"try": http_responses.role_already_exists, "fail": []},
                 ]},
+                {"try": splunk_middleware.officer_has_applied, "fail": []},
+                {"try": splunk.log_to_splunk, "fail": []},
                 {"try": user_middleware.create_a_user, "fail": [
                     {"try": http_responses.server_error_response, "fail": []},
                 ]},

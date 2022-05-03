@@ -9,7 +9,6 @@
         <div>state.isOnline: {{ $store.state.isOnline }}</div>
         <div>state.keycloak.ready: {{ $store.state.keycloak.ready }}</div>
         <div>state.keycloak.authenticated: {{ $store.state.keycloak.authenticated}}</div>
-        <pre>{{ $store.state.keycloak }}</pre>
       </div>
     </div>
 </template>
