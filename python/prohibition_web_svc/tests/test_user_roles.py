@@ -1,5 +1,6 @@
 import pytest
 from datetime import datetime
+import responses
 import python.prohibition_web_svc.middleware.keycloak_middleware as middleware
 from python.prohibition_web_svc.models import db, UserRole
 from python.prohibition_web_svc.app import create_app
@@ -41,6 +42,7 @@ def roles(database):
     db.session.commit()
 
 
+@responses.activate
 def test_user_without_authorization_cannot_view_their_user_roles(as_guest, monkeypatch, roles):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_keycloak_user_who_has_not_applied)
@@ -49,8 +51,17 @@ def test_user_without_authorization_cannot_view_their_user_roles(as_guest, monke
                         content_type="application/json",
                         headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
     assert resp.status_code == 401
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'permission denied',
+            'user_guid': 'new-officer@idir',
+            'username': 'new-officer@idir'
+        },
+        'source': 'be78d6'
+    })
 
 
+@responses.activate
 def test_user_with_authorization_can_view_see_their_own_user_roles(as_guest, monkeypatch, roles):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
@@ -62,6 +73,14 @@ def test_user_with_authorization_can_view_see_their_own_user_roles(as_guest, mon
     assert len(resp.json) == 1
     assert resp.json[0]['role_name'] == 'officer'
     assert resp.status_code == 200
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'get user-role',
+            'user_guid': 'larry@idir',
+            'username': 'larry@idir'
+        },
+        'source': 'be78d6'
+    })
 
 
 def test_get_method_not_implemented(as_guest):

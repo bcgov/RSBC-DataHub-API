@@ -3,7 +3,6 @@ import Vue from 'vue'
 export const mutations = {
 
     editExistingForm (state, payload) {
-        console.log("editExistingForm()", state.currently_editing_form_object, payload)
         Vue.set(state.currently_editing_form_object, "form_id", payload.form_id)
         Vue.set(state.currently_editing_form_object, "form_type", payload.form_type)
 

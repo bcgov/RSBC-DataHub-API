@@ -128,7 +128,7 @@ export const getters = {
 
     hasFormBeenPrinted: state => {
         const form_object = state.currently_editing_form_object;
-        return (state.forms[form_object.form_type][form_object.form_id].printed_timestamp)
+        return Boolean(state.forms[form_object.form_type][form_object.form_id].printed_timestamp)
     },
 
     getServedStatus: state => form_object => {
@@ -212,10 +212,8 @@ export const getters = {
     areNewUniqueIdsRequiredByType: (state, getters) => form_type => {
         console.log("inside areNewUniqueIdsRequiredByType", form_type)
         // Business rules state that X number of forms must be available to use offline
-        if (getters.getFormTypeCount[form_type] < constants.MINIMUM_NUMBER_OF_UNIQUE_IDS_PER_TYPE) {
-            return true;
-        }
-        return false
+        return state.form_schemas.forms[form_type].disabled === false
+            && getters.getFormTypeCount[form_type] < constants.MINIMUM_NUMBER_OF_UNIQUE_IDS_PER_TYPE
     },
 
     getFormTypeCount: state => {
@@ -287,7 +285,15 @@ export const getters = {
         if (!(attribute in root)) {
             return '';
         }
-        return root[attribute];
+        return root[attribute].toUpperCase();
+    },
+
+    getFormPrintListValues: state => (form_object, attribute) => {
+        let root = state.forms[form_object.form_type][form_object.form_id].data;
+        if (!(attribute in root)) {
+            return '';
+        }
+        return root[attribute].join(" and ").toUpperCase();
     },
 
     getFormDateTimeString: state => (form_object, [dateString, timeString]) => {
@@ -295,7 +301,6 @@ export const getters = {
         if (!(dateString in root && timeString in root)) {
             return '';
         }
-        console.log("getFormDateTimeString()", root[dateString], root[timeString] )
         const date_time = moment.tz(root[dateString] + " " + root[timeString], 'YYYYMMDD HHmm', true, constants.TIMEZONE)
         return date_time.format("YYYY-MM-DD HH:mm")
     },
@@ -305,7 +310,6 @@ export const getters = {
         if (!(dateString in root && timeString in root)) {
             return '';
         }
-        console.log("getFormDateTime()", root[dateString], root[timeString] )
         return moment.tz(root[dateString] + " " + root[timeString], 'YYYYMMDD HHmm', true, constants.TIMEZONE)
     },
     getFormPrintRadioValue: state => (form_object, attribute, checked_value) => {
@@ -330,8 +334,7 @@ export const getters = {
             return '';
         }
         let filteredObject = state.jurisdictions.filter( j => j['objectDsc'] === root[attribute]);
-        console.log('filteredObject', filteredObject)
-        return filteredObject[0]['objectCd']
+        return filteredObject[0]['objectCd'].toUpperCase()
     },
 
     isUserAnAdmin: state => {
@@ -460,13 +463,13 @@ export const getters = {
         }
         if (root["vehicle_impounded"] === 'Yes') {
             if(form_object.form_type === '24Hour') {
-                return "Impounded"
+                return "IMPOUNDED"
             }
             return ''
         }
         if (root["vehicle_impounded"] === 'No') {
             if ("reason_for_not_impounding" in root) {
-                return root['reason_for_not_impounding']
+                return root['reason_for_not_impounding'].toUpperCase()
             }
             return ''
         }

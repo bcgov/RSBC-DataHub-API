@@ -37,10 +37,6 @@
                     rules="required|validTime|notFutureDateTime:@test_date|notBeforeCareDateTime:@prohibition_start_date,@prohibition_start_time,@test_date">Time</time-field>
       </form-row>
     </shadow-box>
-    <form-row>
-        <check-field id="result_drug" fg_class="col-sm-12"
-                     :options='[this.drugConclusion]'><strong>Result</strong></check-field>
-    </form-row>
 </form-card>
 </template>
 

@@ -5,7 +5,8 @@ from flask_cors import CORS
 import logging.config
 import python.prohibition_web_svc.middleware.role_middleware as role_middleware
 import python.prohibition_web_svc.middleware.form_middleware as form_middleware
-import python.prohibition_web_svc.middleware.keycloak_middleware as keycloak_middleware
+import python.prohibition_web_svc.middleware.splunk_middleware as splunk_middleware
+import python.common.splunk as splunk
 import python.prohibition_web_svc.business.keycloak_logic as keycloak_logic
 import python.prohibition_web_svc.http_responses as http_responses
 
@@ -20,20 +21,13 @@ CORS(bp, resources={Config.URL_PREFIX + "/api/v1/admin/users/*": {"origins": Con
 @bp.route('/admin/users/<string:user_guid>/roles', methods=['GET'])
 def index(user_guid):
     """
-    List all user roles for a specific user
+    Administrator list all user roles for a specific user
     """
     if request.method == 'GET':
         kwargs = helper.middle_logic(
-            keycloak_logic.get_keycloak_user() + [
-                {"try": keycloak_middleware.load_roles_and_permissions_from_static_file, "fail": [
-                    {"try": http_responses.server_error_response, "fail": []},
-                ]},
-                {"try": keycloak_middleware.query_database_for_users_permissions, "fail": [
-                    {"try": http_responses.server_error_response, "fail": []},
-                ]},
-                {"try": keycloak_middleware.check_user_is_authorized, "fail": [
-                    {"try": http_responses.unauthorized, "fail": []},
-                ]},
+            keycloak_logic.get_authorized_keycloak_user() + [
+                {"try": splunk_middleware.admin_get_user_role, "fail": []},
+                {"try": splunk.log_to_splunk, "fail": []},
                 {"try": role_middleware.query_all_users_roles, "fail": [
                     {"try": http_responses.server_error_response, "fail": []},
                 ]}
@@ -52,16 +46,9 @@ def update(user_guid, role_name):
     """
     if request.method == 'PATCH':
         kwargs = helper.middle_logic(
-            keycloak_logic.get_keycloak_user() + [
-                {"try": keycloak_middleware.load_roles_and_permissions_from_static_file, "fail": [
-                    {"try": http_responses.server_error_response, "fail": []},
-                ]},
-                {"try": keycloak_middleware.query_database_for_users_permissions, "fail": [
-                    {"try": http_responses.server_error_response, "fail": []},
-                ]},
-                {"try": keycloak_middleware.check_user_is_authorized, "fail": [
-                    {"try": http_responses.unauthorized, "fail": []},
-                ]},
+            keycloak_logic.get_authorized_keycloak_user() + [
+                {"try": splunk_middleware.admin_update_user_role, "fail": []},
+                {"try": splunk.log_to_splunk, "fail": []},
                 {"try": role_middleware.approve_officers_role, "fail": [
                     {"try": http_responses.server_error_response, "fail": []},
                 ]},
@@ -81,16 +68,9 @@ def delete(user_guid, role_name):
     """
     if request.method == 'DELETE':
         kwargs = helper.middle_logic(
-            keycloak_logic.get_keycloak_user() + [
-                {"try": keycloak_middleware.load_roles_and_permissions_from_static_file, "fail": [
-                    {"try": http_responses.server_error_response, "fail": []},
-                ]},
-                {"try": keycloak_middleware.query_database_for_users_permissions, "fail": [
-                    {"try": http_responses.server_error_response, "fail": []},
-                ]},
-                {"try": keycloak_middleware.check_user_is_authorized, "fail": [
-                    {"try": http_responses.unauthorized, "fail": []},
-                ]},
+            keycloak_logic.get_authorized_keycloak_user() + [
+                {"try": splunk_middleware.admin_delete_user_role, "fail": []},
+                {"try": splunk.log_to_splunk, "fail": []},
                 {"try": role_middleware.delete_a_role, "fail": [
                     {"try": http_responses.server_error_response, "fail": []},
                 ]},
@@ -107,16 +87,7 @@ def delete(user_guid, role_name):
 def create(user_guid):
     if request.method == 'POST':
         kwargs = helper.middle_logic(
-            keycloak_logic.get_keycloak_user() + [
-                {"try": keycloak_middleware.load_roles_and_permissions_from_static_file, "fail": [
-                    {"try": http_responses.server_error_response, "fail": []},
-                ]},
-                {"try": keycloak_middleware.query_database_for_users_permissions, "fail": [
-                    {"try": http_responses.server_error_response, "fail": []},
-                ]},
-                {"try": keycloak_middleware.check_user_is_authorized, "fail": [
-                    {"try": http_responses.unauthorized, "fail": []},
-                ]},
+            keycloak_logic.get_authorized_keycloak_user() + [
                 {"try": form_middleware.request_contains_a_payload, "fail": [
                     {"try": http_responses.payload_missing, "fail": []},
                 ]},

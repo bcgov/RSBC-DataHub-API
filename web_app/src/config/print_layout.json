@@ -342,7 +342,7 @@
       },
       "IMPOUNDED_PHONE_AREA_CODE": {
         "field_type": "text",
-        "font_size": 10,
+        "font_size": 8,
         "start": {
           "x": 98,
           "y": 158.7
@@ -350,7 +350,7 @@
       },
       "IMPOUNDED_PHONE_NUMBER": {
         "field_type": "text",
-        "font_size": 10,
+        "font_size": 8,
         "start": {
           "x": 107,
           "y": 158.7
@@ -358,7 +358,7 @@
       },
       "RELEASE_LOCATION_KEYS": {
         "field_type": "text",
-        "font_size": 10,
+        "font_size": 8,
         "start": {
           "x": 30.7,
           "y": 174.2
@@ -366,7 +366,7 @@
       },
       "RELEASE_LOCATION_VEHICLE": {
         "field_type": "text",
-        "font_size": 10,
+        "font_size": 8,
         "start": {
           "x": 80.8,
           "y": 174.2
@@ -374,7 +374,7 @@
       },
       "RELEASE_PERSON": {
         "field_type": "text",
-        "font_size": 10,
+        "font_size": 8,
         "start": {
           "x": 30.7,
           "y": 179.5
@@ -382,7 +382,7 @@
       },
       "RELEASE_DATETIME": {
         "field_type": "text",
-        "font_size": 10,
+        "font_size": 8,
         "start": {
           "x": 106.2,
           "y": 179.5
@@ -1175,7 +1175,7 @@
         "field_type": "text",
         "font_size": 8,
         "start": {
-          "x": 94,
+          "x": 98,
           "y": 176
         }
       },

@@ -644,7 +644,8 @@ def paid_not_more_than_24hrs_ago(**args) -> tuple:
     if (today_date - payment_date).days < 1:
         return True, args
     error = 'the payment is older than 24 hours'
-    args['error_string'] = "You are outside the 24-hour time allowed to schedule the review."
+    args['error_string'] = "You are outside the 24-hour time allowed to schedule the review. " \
+                           "Please call Appeals at 250-356-6573."
     logging.info(error)
     return False, args
 

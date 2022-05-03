@@ -16,7 +16,7 @@
   </form-row>
   <form-row>
     <province-field id="puj_code" fg_class="col-sm-2" :default-to-bc=false>PUJ Code</province-field>
-    <text-field id="nsc_number" fg_class="col-sm-7">NSC Number</text-field>
+    <text-field id="nsc_number" fg_class="col-sm-7" rules="max:14">NSC Number</text-field>
   </form-row>
 </form-card>
 </template>

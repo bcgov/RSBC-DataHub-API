@@ -7,7 +7,8 @@
             "forms-update",
             "driver-get",
             "vehicle-get",
-            "user_roles-index"
+            "user_roles-index",
+            "static-get"
         ]
     },
     "administrator": {

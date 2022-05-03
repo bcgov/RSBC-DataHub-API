@@ -1,3 +1,5 @@
+import responses
+import json
 import pytest
 import base64
 import logging
@@ -43,6 +45,7 @@ def forms(database):
     db.session.commit()
 
 
+@responses.activate
 def test_an_administrator_can_list_all_forms_by_type(as_guest, monkeypatch, forms):
     resp = as_guest.get(Config.URL_PREFIX + "/api/v1/admin/forms?type=24Hour",
                         content_type="application/json",
@@ -50,14 +53,30 @@ def test_an_administrator_can_list_all_forms_by_type(as_guest, monkeypatch, form
     assert resp.status_code == 200
     logging.warning(str(resp.json))
     assert len(resp.json) == 3
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'admin get forms',
+            'form_type': '24Hour'
+        },
+        'source': 'be78d6'
+    })
 
 
+@responses.activate
 def test_a_non_administrator_cannot_list_forms_by_type(as_guest, monkeypatch, forms):
     resp = as_guest.get(Config.URL_PREFIX + "/api/v1/admin/forms?type=24Hour",
                         content_type="application/json")
     assert resp.status_code == 401
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'basic authentication failed',
+            "requesting_ip": "127.0.0.1"
+        },
+        'source': 'be78d6'
+    })
 
 
+@responses.activate
 def test_an_administrator_can_add_a_12hour_form_id(as_guest, monkeypatch, forms, database):
     payload = {'form_type': '12Hour', 'form_id': 'J-100999'}
     resp = as_guest.post(Config.URL_PREFIX + "/api/v1/admin/forms",
@@ -70,6 +89,14 @@ def test_an_administrator_can_add_a_12hour_form_id(as_guest, monkeypatch, forms,
                .filter(Form.form_type == '12Hour') \
                .filter(Form.user_guid == None) \
                .count() == 1
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'admin create form',
+            'form_type': '12Hour',
+            'form_id': 'J-100999'
+        },
+        'source': 'be78d6'
+    })
 
 
 def test_an_administrator_cannot_add_form_without_known_form_type(as_guest, monkeypatch, forms):

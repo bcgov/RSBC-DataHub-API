@@ -64,6 +64,15 @@ def test_authorized_user_can_get_driver(as_guest, monkeypatch, roles):
     assert 'dlNumber' in resp.json
     assert resp.json['dlNumber'] == "5120503"
     assert responses.calls[0].request.headers['loginUserId'] == 'larry@idir'
+    assert responses.calls[1].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'icbc_get_driver',
+            'username': 'larry@idir',
+            'user_guid': 'larry@idir',
+            'queried_bcdl': '5120503',
+        },
+        'source': 'be78d6'
+    })
 
 
 def test_unauthorized_user_cannot_get_driver(as_guest, monkeypatch, roles):
@@ -107,6 +116,15 @@ def test_authorized_user_gets_driver_not_found(as_guest, monkeypatch, roles):
     assert resp.json['error']['message'] == "Not Found"
     assert resp.json['error']['description'] == "The resource specified in the request was not found"
     assert responses.calls[0].request.headers['loginUserId'] == 'larry@idir'
+    assert responses.calls[1].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'icbc_get_driver',
+            'username': 'larry@idir',
+            'user_guid': 'larry@idir',
+            'queried_bcdl': '1234',
+        },
+        'source': 'be78d6'
+    })
 
 
 @responses.activate
@@ -138,6 +156,15 @@ def test_authorized_user_gets_vehicle_not_found(as_guest, monkeypatch, roles):
     assert resp.json['error']['message'] == "Not Found"
     assert resp.json['error']['description'] == "vehicle not found"
     assert responses.calls[0].request.headers['loginUserId'] == 'larry@idir'
+    assert responses.calls[1].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'icbc_get_vehicle',
+            'username': 'larry@idir',
+            'user_guid': 'larry@idir',
+            'queried_plate': 'AAAAA',
+        },
+        'source': 'be78d6'
+    })
 
 
 @responses.activate
@@ -167,6 +194,15 @@ def test_authorized_user_gets_vehicle(as_guest, monkeypatch, roles):
     assert 'plateNumber' in resp.json[0]
     assert resp.json[0]['plateNumber'] == "LD626J"
     assert responses.calls[0].request.headers['loginUserId'] == 'larry@idir'
+    assert responses.calls[1].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'icbc_get_vehicle',
+            'username': 'larry@idir',
+            'user_guid': 'larry@idir',
+            'queried_plate': 'LD626J',
+        },
+        'source': 'be78d6'
+    })
 
 
 @responses.activate
@@ -196,6 +232,15 @@ def test_request_for_licence_plate_using_lowercase_automatically_converted_to_up
     assert 'plateNumber' in resp.json[0]
     assert resp.json[0]['plateNumber'] == "LD626J"
     assert responses.calls[0].request.headers['loginUserId'] == 'larry@idir'
+    assert responses.calls[1].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'icbc_get_vehicle',
+            'username': 'larry@idir',
+            'user_guid': 'larry@idir',
+            'queried_plate': 'LD626J',
+        },
+        'source': 'be78d6'
+    })
 
 
 def test_unauthorized_user_cannot_get_vehicle(as_guest, monkeypatch, roles):
@@ -217,6 +262,7 @@ def test_user_without_keycloak_login_cannot_get_vehicle(as_guest, monkeypatch):
     assert resp.status_code == 401
 
 
+@responses.activate
 def test_authorized_user_gets_fake_vehicle_if_using_icbc_licence_plate_in_dev(as_guest, monkeypatch, roles):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
@@ -228,6 +274,7 @@ def test_authorized_user_gets_fake_vehicle_if_using_icbc_licence_plate_in_dev(as
     assert resp.status_code == 200
     assert 'plateNumber' in resp.json[0]
     assert resp.json[0]['plateNumber'] == "LD626J"
+    assert len(responses.calls) == 0  # No outside calls to Splunk or ICBC when using a fake plate
 
 
 @responses.activate
@@ -257,6 +304,15 @@ def test_in_production_fake_vehicle_responses_are_not_returned(as_guest, monkeyp
                         headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
     assert resp.status_code == 200
     assert '/api/vehicles?plateNumber=ICBC' in responses.calls[0].request.url
+    assert responses.calls[1].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'icbc_get_vehicle',
+            'username': 'larry@idir',
+            'user_guid': 'larry@idir',
+            'queried_plate': 'ICBC',
+        },
+        'source': 'be78d6'
+    })
 
 
 def _sample_driver_response() -> dict:

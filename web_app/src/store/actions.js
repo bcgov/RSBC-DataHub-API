@@ -1,8 +1,8 @@
-import constants from "@/config/constants";
-import persistence from "@/helpers/persistence";
-import print_layout from "@/config/print_layout.json";
+import constants from "../config/constants";
+import persistence from "../helpers/persistence";
+import print_layout from "../config/print_layout.json";
 import moment from "moment-timezone";
-import pdfMerge from "@/helpers/pdfMerge";
+import pdfMerge from "../helpers/pdfMerge";
 
 
 export const actions = {
@@ -177,8 +177,14 @@ export const actions = {
     },
 
     async fetchStaticLookupTables(context, payload) {
-        const admin_parameter = payload.admin ? 'admin/' : ''
-        const url = constants.API_ROOT_URL + "/api/v1/" + admin_parameter + payload.resource
+        let url = ''
+        if (payload.admin) {
+            url = constants.API_ROOT_URL + "/api/v1/admin/" + payload.resource
+        } else if (payload.static) {
+            url = constants.API_ROOT_URL + "/api/v1/static/" + payload.resource
+        } else {
+            url = constants.API_ROOT_URL + "/api/v1/" + payload.resource
+        }
         console.log("fetchStaticLookupTables()", url)
         fetch(url, {
             "method": 'GET',
@@ -193,7 +199,6 @@ export const actions = {
             .catch(() => {
                 console.log("fetchStaticLookupTables network fetch failed")
             })
-
     },
 
     async deleteFormFromDB(context, form_id) {
@@ -301,14 +306,14 @@ export const actions = {
                     key_value_pairs['IMPOUNDED_PHONE_AREA_CODE'] = ilo[3].substr(0, 3)
                     key_value_pairs['IMPOUNDED_PHONE_NUMBER'] = ilo[3].substr(4)
                 }
+                key_value_pairs['RELEASE_LOCATION_KEYS'] = context.getters.getFormPrintValue(form_object, 'location_of_keys')
             } else {
                 key_value_pairs['NOT_IMPOUNDED_REASON'] = context.getters.getFormPrintValue(form_object, 'reason_for_not_impounding')
                 key_value_pairs['RELEASE_PERSON'] = context.getters.getFormPrintValue(form_object, 'vehicle_released_to')
                 key_value_pairs['RELEASE_DATETIME'] = context.getters.getFormDateTimeString(form_object, ['released_date', 'released_time'])
             }
-
             key_value_pairs['RELEASE_LOCATION_VEHICLE'] = context.getters.locationOfVehicle(form_object)
-            key_value_pairs['RELEASE_LOCATION_KEYS'] = context.getters.getFormPrintValue(form_object, 'location_of_keys')
+
 
             key_value_pairs['DRIVER_SURNAME'] = context.getters.getFormPrintValue(form_object,"last_name")
             key_value_pairs['DRIVER_GIVEN'] = context.getters.getFormPrintValue(form_object,'first_name')
@@ -342,9 +347,9 @@ export const actions = {
             key_value_pairs['DRIVER_OTHER'] = operating_grounds_other
 
             if (operating_grounds_other || video_surveillance) {
-                key_value_pairs['DRIVER_ADDITIONAL_INFORMATION'] = "Additional Information:"
+                key_value_pairs['DRIVER_ADDITIONAL_INFORMATION'] = "ADDITIONAL INFORMATION:"
                 if (video_surveillance) {
-                    key_value_pairs['DRIVER_ADDITIONAL_INFORMATION'] += " video surveillance. "
+                    key_value_pairs['DRIVER_ADDITIONAL_INFORMATION'] += " VIDEO SURVEILLANCE. "
                 }
                 key_value_pairs['DRIVER_ADDITIONAL_INFORMATION'] += context.getters.getFormPrintValue(
                     form_object, 'operating_ground_other')
@@ -374,17 +379,18 @@ export const actions = {
                 key_value_pairs['REASONABLE_GROUNDS_TEST_ALCO_SENSOR'] = context.getters.getFormPrintCheckedValue(
                     form_object, 'test_administered_asd', 'Alco-Sensor FST (ASD)')
 
-                key_value_pairs['REASONABLE_GROUNDS_TEST_ASD_EXPIRY_DATE'] = context.getters.getFormPrintValue(
-                    form_object, 'asd_expiry_date')
+                if(key_value_pairs['REASONABLE_GROUNDS_TEST_ALCO_SENSOR']) {
+                    key_value_pairs['REASONABLE_GROUNDS_TEST_ASD_EXPIRY_DATE'] = context.getters.getFormPrintValue(
+                        form_object, 'asd_expiry_date')
+                    key_value_pairs['REASONABLE_GROUNDS_ALCOHOL_51-99'] = context.getters.getFormPrintCheckedValue(
+                        form_object, 'result_alcohol', '51-99 mg%')
+
+                    key_value_pairs['REASONABLE_GROUNDS_ALCOHOL_OVER_99'] = context.getters.getFormPrintCheckedValue(
+                        form_object, 'result_alcohol', 'Over 99 mg%')
+                }
 
                 key_value_pairs['REASONABLE_GROUNDS_TEST_TIME'] = context.getters.getFormDateTimeString(
                     form_object, ['test_date', 'test_time'])
-
-                key_value_pairs['REASONABLE_GROUNDS_ALCOHOL_51-99'] = context.getters.getFormPrintCheckedValue(
-                    form_object, 'result_alcohol', '51-99 mg%')
-
-                key_value_pairs['REASONABLE_GROUNDS_ALCOHOL_OVER_99'] = context.getters.getFormPrintCheckedValue(
-                    form_object, 'result_alcohol', 'Over 99 mg%')
 
                 key_value_pairs['REASONABLE_GROUNDS_TEST_APPROVED_INSTRUMENT'] = context.getters.getFormPrintCheckedValue(
                     form_object, 'test_administered_instrument', 'Approved Instrument')
@@ -407,10 +413,7 @@ export const actions = {
                         form_object, 'test_administered_adse', "Approved Drug Screening Equipment")) {
                     key_value_pairs['REASONABLE_GROUNDS_TEST_APPROVED_INSTRUMENT'] = true
                     key_value_pairs['REASONABLE_GROUNDS_TEST_APPROVED_INSTRUMENT_SPECIFY'] = 'ADSE'
-                    const thc_or_cocaine = context.getters.getFormPrintValue(form_object,"positive_adse")
-                    if (thc_or_cocaine) {
-                        key_value_pairs['ADSE_RESULTS'] = thc_or_cocaine.join(" and ")
-                    }
+                    key_value_pairs['ADSE_RESULTS'] = context.getters.getFormPrintListValues(form_object,"positive_adse")
                 }
 
                 if (context.getters.getFormPrintCheckedValue(form_object, "test_administered_dre", "Prescribed Physical Coordination Test (DRE)")) {
@@ -420,8 +423,7 @@ export const actions = {
 
                 key_value_pairs['PHYSICAL_TEST_SPECIFICS'] = prescribed_test.join(" and ")
 
-                key_value_pairs['REASONABLE_GROUNDS_DRUG_ABILITY_TO_DRIVE_AFFECTED'] = context.getters.getFormPrintCheckedValue(
-                    form_object, "result_drug", "Ability to drive affected by a drug")
+                key_value_pairs['REASONABLE_GROUNDS_DRUG_ABILITY_TO_DRIVE_AFFECTED'] = true
 
 
             }
@@ -563,29 +565,34 @@ export const actions = {
         payload['form_object'] = form_object
         payload['filename'] = context.getters.getPdfFileNameString(form_object, "all");
         payload['variants'] = context.getters.getPagesToPrint(form_object);
-        await context.dispatch("saveCurrentFormToDB", form_object)
-        await context.dispatch("createPDF", payload)
         payload['timestamp'] = current_timestamp
+        await context.dispatch("createPDF", payload)
+            .then(() => {
+                context.commit("setFormAsPrinted", payload)
+                context.dispatch("saveCurrentFormToDB", form_object)
+            })
         await context.dispatch("tellApiFormIsPrinted", form_object)
           .then( (response) => {
               console.log("response from tellApiFormIsPrinted()", response)
-              context.commit("setFormAsPrinted", payload)
-              context.dispatch("saveCurrentFormToDB", form_object)
+              return response
           })
-        // TODO - stop editing current form; prevent editing all fields
+          .catch( (error) => {
+              console.log("no response from tellApiFormIsPrinted()", error)
+              return error
+          })
     },
 
     async downloadLookupTables(context) {
 
-        await context.dispatch("fetchStaticLookupTables", {"resource": "agencies", "admin": false})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "impound_lot_operators", "admin": false})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "countries", "admin": false})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "jurisdictions", "admin": false})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "provinces", "admin": false})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "cities", "admin": false})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "colors", "admin": false})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "vehicles", "admin": false})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "vehicle_styles", "admin": false})
+        await context.dispatch("fetchStaticLookupTables", {"resource": "agencies", "admin": false, "static": true})
+        await context.dispatch("fetchStaticLookupTables", {"resource": "impound_lot_operators", "admin": false, "static": true})
+        await context.dispatch("fetchStaticLookupTables", {"resource": "countries", "admin": false, "static": true})
+        await context.dispatch("fetchStaticLookupTables", {"resource": "jurisdictions", "admin": false, "static": true})
+        await context.dispatch("fetchStaticLookupTables", {"resource": "provinces", "admin": false, "static": true})
+        await context.dispatch("fetchStaticLookupTables", {"resource": "cities", "admin": false, "static": true})
+        await context.dispatch("fetchStaticLookupTables", {"resource": "colors", "admin": false, "static": true})
+        await context.dispatch("fetchStaticLookupTables", {"resource": "vehicles", "admin": false, "static": true})
+        await context.dispatch("fetchStaticLookupTables", {"resource": "vehicle_styles", "admin": false, "static": true})
 
     },
 

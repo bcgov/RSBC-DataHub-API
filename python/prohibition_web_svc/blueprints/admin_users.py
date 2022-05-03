@@ -1,4 +1,6 @@
 from python.prohibition_web_svc.config import Config
+import python.prohibition_web_svc.middleware.splunk_middleware as splunk_middleware
+import python.common.splunk as splunk
 import python.common.helper as helper
 from flask import request, Blueprint, make_response, jsonify
 from flask_cors import CORS
@@ -23,16 +25,9 @@ def index():
     """
     if request.method == 'GET':
         kwargs = helper.middle_logic(
-            keycloak_logic.get_keycloak_user() + [
-                {"try": keycloak_middleware.load_roles_and_permissions_from_static_file, "fail": [
-                    {"try": http_responses.server_error_response, "fail": []},
-                ]},
-                {"try": keycloak_middleware.query_database_for_users_permissions, "fail": [
-                    {"try": http_responses.server_error_response, "fail": []},
-                ]},
-                {"try": keycloak_middleware.check_user_is_authorized, "fail": [
-                    {"try": http_responses.unauthorized, "fail": []},
-                ]},
+            keycloak_logic.get_authorized_keycloak_user() + [
+                {"try": splunk_middleware.admin_get_users, "fail": []},
+                {"try": splunk.log_to_splunk, "fail": []},
                 {"try": role_middleware.query_all_users, "fail": [
                     {"try": http_responses.server_error_response, "fail": []},
                 ]},

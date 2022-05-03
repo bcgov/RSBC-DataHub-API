@@ -1,14 +1,19 @@
 import python.prohibition_web_svc.middleware.keycloak_middleware as keycloak_middleware
 import python.prohibition_web_svc.http_responses as http_responses
-from python.prohibition_web_svc.config import Config
+import python.prohibition_web_svc.middleware.splunk_middleware as splunk_middleware
+import python.common.splunk as splunk
 
 
 def get_keycloak_user() -> list:
     return [
         {"try": keycloak_middleware.get_authorization_header_from_request, "fail": [
+            {"try": splunk_middleware.unauthenticated, "fail": []},
+            {"try": splunk.log_to_splunk, "fail": []},
             {"try": http_responses.unauthorized, "fail": []},
         ]},
         {"try": keycloak_middleware.get_token_from_authorization_header, "fail": [
+            {"try": splunk_middleware.unauthenticated, "fail": []},
+            {"try": splunk.log_to_splunk, "fail": []},
             {"try": http_responses.unauthorized, "fail": []},
         ]},
         {"try": keycloak_middleware.get_keycloak_certificates, "fail": [
@@ -35,6 +40,8 @@ def get_authorized_keycloak_user() -> list:
             {"try": http_responses.server_error_response, "fail": []},
         ]},
         {"try": keycloak_middleware.check_user_is_authorized, "fail": [
+            {"try": splunk_middleware.permission_denied, "fail": []},
+            {"try": splunk.log_to_splunk, "fail": []},
             {"try": http_responses.unauthorized, "fail": []},
         ]},
     ]
