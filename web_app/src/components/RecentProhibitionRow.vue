@@ -55,7 +55,6 @@ export default {
               console.log('form did not generate successfully', error)
               this.display_spinner = false;
             })
-
     }
   }
 }

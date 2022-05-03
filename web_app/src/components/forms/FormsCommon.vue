@@ -38,13 +38,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getArrayOfBCCityNames", "getFormData"]),
-    getFormObject() {
-      return {
-        form_id: this.id,
-        form_type: this.name
-      }
-    }
+    ...mapGetters(["getArrayOfBCCityNames", "getFormData", "getCurrentlyEditedForm"])
   },
   methods: {
     ...mapMutations(["editExistingForm", "setNewFormDefaults"])

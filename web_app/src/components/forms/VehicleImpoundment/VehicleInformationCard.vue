@@ -12,7 +12,7 @@
   </form-row>
   <form-row>
     <text-field id="registration_number" fg_class="col-sm-4">Registration Number</text-field>
-    <check-field id="nsc_number" fg_class="col-sm-2" :options='["NSC?"]'></check-field>
+    <check-field id="is_nsc" fg_class="col-sm-2" :options='["NSC?"]'></check-field>
     <text-field id="vin_number" fg_class="col-sm-6">Vehicle Identification Number (VIN)</text-field>
   </form-row>
 </form-card>

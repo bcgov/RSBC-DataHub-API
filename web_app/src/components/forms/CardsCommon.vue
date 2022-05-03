@@ -1,7 +1,6 @@
 <script>
 
 import TextField from "@/components/questions/TextField";
-import WaitForIcbcField from "@/components/questions/WaitForICBCField";
 import ProvinceField from "@/components/questions/ProvinceField";
 import JurisdictionField from "@/components/questions/JurisdictionField";
 import DriverLicenceNumber from "@/components/questions/DriverLicenceNumber";
@@ -20,6 +19,7 @@ import FormCard from "@/components/forms/FormCard";
 import FormRow from "@/components/forms/FormRow";
 import TimeField from "@/components/questions/TimeField";
 import ReadOnlyElement from "@/components/questions/ReadOnlyElement";
+import InLineCheckBox from "@/components/questions/InLineCheckBox";
 import {mapGetters} from "vuex";
 
 
@@ -58,6 +58,7 @@ export default {
     FormRow,
     FormStep,
     GenderField,
+    InLineCheckBox,
     JurisdictionField,
     PhoneField,
     PlateNumber,
@@ -67,8 +68,7 @@ export default {
     ShadowBox,
     TextField,
     TimeField,
-    TypeAheadField,
-    WaitForIcbcField
+    TypeAheadField
   }
 }
 </script>

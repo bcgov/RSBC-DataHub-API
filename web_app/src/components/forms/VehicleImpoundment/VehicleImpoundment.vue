@@ -93,7 +93,7 @@ export default {
       const is_validated = await validate()
       console.log('inside onSubmit()', is_validated);
       if(is_validated) {
-        await this.saveFormAndGeneratePDF(this.getFormObject)
+        await this.saveFormAndGeneratePDF(this.getCurrentlyEditedForm)
           .then( (response) => {
               console.log('form generated successfully', response)
               this.display_spinner = false;

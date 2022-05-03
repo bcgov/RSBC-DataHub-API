@@ -4,8 +4,7 @@
         <date-field id="impounded_dt" fg_class="col-sm-12">The motor vehicle was impounded on</date-field>
       </form-row>
       <form-row>
-        <type-ahead-field id="impound_lot_operator" fg_class="col-sm-12"
-            :suggestions="getArrayOfImpoundLotOperators">Impound Lot Operator (name, lot address, city & phone)</type-ahead-field>
+        <impound-lot-operator fg_class="col-sm-12">Impound Lot Operator</impound-lot-operator>
       </form-row>
   </form-card>
 </template>
@@ -14,11 +13,13 @@
 
 import CardsCommon from "@/components/forms/CardsCommon";
 import { mapGetters } from 'vuex';
+import ImpoundLotOperator from "@/components/questions/ImpoundLotOperator";
 
 
 export default {
 name: "VehicleImpoundmentCard",
-mixins: [CardsCommon],
+  components: {ImpoundLotOperator},
+  mixins: [CardsCommon],
   computed: {
     ...mapGetters(["getAttributeValue", "getArrayOfImpoundLotOperators"])
   }

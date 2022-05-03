@@ -49,6 +49,11 @@ export const getters = {
         return root.data;
     },
 
+    getCurrentlyEditedForm: state => {
+        let form_object = state.currently_editing_form_object;
+        return state.forms[form_object.form_type][form_object.form_id]
+    },
+
     getAttributeValue: state => id => {
         let form_object = state.currently_editing_form_object;
         let root = state.forms[form_object.form_type][form_object.form_id].data;
@@ -173,6 +178,16 @@ export const getters = {
 
     getArrayOfProvinces: state => {
         return state.provinces;
+    },
+
+    getImpoundLotOperatorObject: state => ilo_string => {
+        const results = state.impound_lot_operators.filter( o =>
+            (o.name + ", " + o.lot_address + ", " + o.city + ", " + o.phone) === ilo_string
+        );
+        if (results.length > 0) {
+            return results[0]
+        }
+        return {}
     },
 
     getArrayOfImpoundLotOperators: state => {
@@ -302,6 +317,16 @@ export const getters = {
         }
         const date_time = moment.tz(root[dateString] + " " + root[timeString], 'YYYYMMDD HHmm', true, constants.TIMEZONE)
         return date_time.format("YYYY-MM-DD HH:mm")
+    },
+
+    getFormPrintDate: state => (form_object, dateString) => {
+        const root = state.forms[form_object.form_type][form_object.form_id].data;
+        if (!(dateString in root)) {
+            return '';
+        }
+        console.log("getFormDateString()", root[dateString] )
+        const date_time = moment(root[dateString], 'YYYYMMDD', true)
+        return date_time.format("YYYY-MM-DD")
     },
 
     getFormDateTime: state => (form_object, [dateString, timeString]) => {

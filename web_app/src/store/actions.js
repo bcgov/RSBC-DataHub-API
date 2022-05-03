@@ -222,6 +222,7 @@ export const actions = {
         }
     },
 
+    // TODO - delete this method - deprecated
     async createPDF (context, payload) {
         return new Promise((resolve) => {
             console.log("inside createPDF()", payload)
@@ -231,15 +232,15 @@ export const actions = {
                     print_layout[payload.form_object.form_type],
                     payload.variants,
                     key_value_pairs,
-                    payload.filename
+                    payload.filename,
+                    payload.form_object.form_type
                 ))
             })
         })
     },
 
-
     // the print templates use different field names from the form
-    // TODO - refactor this method.  Suggest calling appropriate getters from print_layout.json
+    // TODO - Delete method below.  Call functions in print_layout.json instead
     async getPrintMappings(context, form_object) {
         return new Promise(resolve => {
             let key_value_pairs = Array();
@@ -270,6 +271,7 @@ export const actions = {
             } else {
                 key_value_pairs['OWNER_NAME'] = context.getters.getFormPrintValue(form_object, 'owners_last_name')
                 + ", " + context.getters.getFormPrintValue(form_object, 'owners_first_name')
+                key_value_pairs['OWNER_DOB'] = context.getters.getFormPrintDate(form_object, 'owner_dob')
             }
 
             key_value_pairs['OWNER_ADDRESS'] = context.getters.getFormPrintValue(form_object, 'owners_address1')
@@ -280,6 +282,7 @@ export const actions = {
 
             let phone_number = context.getters.getFormPrintValue(form_object, 'owners_phone')
             key_value_pairs['OWNER_PHONE_NUMBER'] = phone_number.substr(3, 3) + '-' + phone_number.substr(6, 9)
+            key_value_pairs['OWNER_EMAIL'] = context.getters.getFormPrintValue(form_object, 'owners_email')
 
             key_value_pairs['VEHICLE_LICENSE_NUMBER'] = context.getters.getFormPrintValue(form_object, 'plate_number')
             key_value_pairs['VEHICLE_PROVINCE'] = context.getters.getFormPrintJurisdiction(form_object, 'plate_province')
@@ -325,8 +328,10 @@ export const actions = {
             key_value_pairs['DRIVER_PHONE_AREA_CODE'] = context.getters.getFormPrintValue(form_object,'driver_phone').substr(0,3)
             key_value_pairs['DRIVER_PHONE'] = context.getters.getFormPrintValue(form_object,'driver_phone').substr(3)
 
-            let dob = moment(context.getters.getFormPrintValue(form_object,'dob'))
-            key_value_pairs['DRIVER_DOB'] = dob.format("YYYY MM DD")
+            key_value_pairs['DRIVER_DOB'] = context.getters.getFormPrintDate(form_object,'dob')
+            key_value_pairs['DRIVER_GENDER'] = context.getters.getFormPrintValue(form_object,'driver_gender').substr(0,5)
+            key_value_pairs['DRIVER_DL_EXPIRY'] = context.getters.getFormPrintValue(form_object,'expiry_year')
+            key_value_pairs['DRIVER_DL_CLASS'] = context.getters.getFormPrintValue(form_object,'dl_class')
 
             key_value_pairs['DRIVER_ADDRESS'] =
                 context.getters.getFormPrintValue(form_object,'address1') + ", " +
@@ -562,17 +567,35 @@ export const actions = {
 
     async saveFormAndGeneratePDF(context, form_object) {
         const current_timestamp = moment.now()
-        console.log("inside saveFormAndGeneratePDF()", current_timestamp)
+        console.log("inside saveFormAndGeneratePDF()", current_timestamp, form_object)
         let payload = {}
         payload['form_object'] = form_object
         payload['filename'] = context.getters.getPdfFileNameString(form_object, "all");
         payload['variants'] = context.getters.getPagesToPrint(form_object);
+        payload['form_data'] = form_object.data;
         payload['timestamp'] = current_timestamp
-        await context.dispatch("createPDF", payload)
-            .then(() => {
-                context.commit("setFormAsPrinted", payload)
-                context.dispatch("saveCurrentFormToDB", form_object)
-            })
+
+        // temporary kludge while refactoring.  The method the VI form uses to generate
+        // the PDF is the preferred, simpler solution
+        if (form_object.form_type === "VI") {
+            await pdfMerge.generatePDF(
+                print_layout[payload.form_object.form_type],
+                payload.variants,
+                form_object,
+                payload.filename,
+                payload.form_object.form_type).then(() => {
+                    context.commit("setFormAsPrinted", payload)
+                    context.dispatch("saveCurrentFormToDB", form_object)
+                })
+        } else {
+            await context.dispatch("createPDF", payload)
+                .then(() => {
+                    context.commit("setFormAsPrinted", payload)
+                    context.dispatch("saveCurrentFormToDB", form_object)
+                })
+        }
+
+
         await context.dispatch("tellApiFormIsPrinted", form_object)
           .then( (response) => {
               console.log("response from tellApiFormIsPrinted()", response)
