@@ -46,7 +46,7 @@ def form_prefix(form_type: str, environment: str) -> str:
             "12Hour": "JZ",  # a 'JZ' prefix denotes a test number
             "24Hour": "VZ",  # a 'VZ' prefix denotes a test number
             "IRP": "20",
-            "VI": "22"
+            "VI": "99"
         }
     if environment == 'PROD':
         prefix = {
