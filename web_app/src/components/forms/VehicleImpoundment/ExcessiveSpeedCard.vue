@@ -1,8 +1,10 @@
 <template>
   <form-card title="Excessive Speed">
     <form-row >
-      <text-field id="speed_limit" rules="required" fg_class="col-sm-3">Speed Limit</text-field>
-      <text-field id="vehicle_speed" rules="required" fg_class="col-sm-9">Vehicle Speed</text-field>
+      <text-field id="speed_limit" input_type="number" rules="required" fg_class="col-sm-3">Speed Limit (km/h)</text-field>
+    </form-row>
+    <form-row>
+      <text-field id="vehicle_speed" input_type="number" rules="required" fg_class="col-sm-3">Vehicle Speed (km/h)</text-field>
     </form-row>
     <form-row>
       <radio-field id="speed_estimated" fg_class="col-sm-12" :options='["Visual", "Pacing"]'>
@@ -11,7 +13,7 @@
 
       <radio-field id="speed_confirmed" fg_class="col-sm-12"
                    :options='["Laser", "Radar", "Other (explain in incident details)"]'>
-          Vehicle speed estimated by:
+          Vehicle speed confirmed by:
       </radio-field>
     </form-row>
   </form-card>

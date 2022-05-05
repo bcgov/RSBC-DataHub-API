@@ -4,7 +4,7 @@
     <label v-if="show_label" :for="id"><slot></slot>
       <span v-if=" ! isShowOptional" class="text-danger"> *</span>
     </label>
-    <input type="text"
+    <input :type="input_type"
          class="form-control"
            :class="errors.length > 0 ? 'border-danger bg-warning' : ''"
          :id="id"
@@ -27,6 +27,10 @@ export default {
   mixins: [FieldCommon],
   props: {
     placeholder: String,
+    input_type: {
+      type: String,
+      default: "text"
+    },
   },
   computed: {
     ...mapGetters(["getAttributeValue", "hasFormBeenPrinted"]),
