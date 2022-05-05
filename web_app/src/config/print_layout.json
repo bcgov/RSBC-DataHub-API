@@ -535,6 +535,16 @@
           "y": 251
         }
       },
+      "MV2722_REPORT_DATE": {
+        "field_type": "text",
+        "font_size": 12,
+        "function": "getDateValue",
+        "parameters": "prohibition_start_date",
+        "start": {
+          "x": 62,
+          "y": 28
+        }
+      },
       "MV2722_DRIVER_NAME": {
         "field_type": "text",
         "font_size": 12,
@@ -817,13 +827,14 @@
       },
       "MV2722_INCIDENT_DETAILS": {
         "field_type": "memo",
-        "font_size": 12,
+        "font_size": 10,
         "function": "getStringValue",
         "parameters": "incident_details",
         "start": {
           "x": 37,
-          "y": 208
-        }
+          "y": 207
+        },
+        "max_width": 165
       },
       "MV2722_OFFICER_LAST_NAME": {
         "field_type": "text",
@@ -1028,6 +1039,7 @@
             "show_fields": [
               "BAR_CODE",
               "VIOLATION_NUMBER",
+              "MV2722_REPORT_DATE",
               "MV2722_DRIVER_NAME",
               "MV2722_DRIVER_DL_NUMBER",
               "MV2722_DRIVER_DL_PROVINCE",
