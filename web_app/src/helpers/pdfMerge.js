@@ -1,11 +1,12 @@
 import jsPDF from "jspdf";
 import checkDigit from "@/helpers/checkDigit";
 import {font}  from "./BCSans-Regular-normal";
-const FONT_FILE = "bc_sans.ttf"
-const FONT = "BC_SANS"
 import moment from "moment-timezone";
 import constants from "@/config/constants";
 import {barcode_font}  from "./LibreBarcode39-Regular-normal";
+
+const FONT_FILE = "bc_sans.ttf"
+const FONT = "BC_SANS"
 const FONT_COLOR = "rgb(0, 0, 128)"
 const BARCODE_FILE = "code39.ttf"
 const BARCODE = "code39"
@@ -285,9 +286,9 @@ export default {
         return false
     },
 
-    todo(form_data, attribute, value='[TODO]') {
-        console.log("inside todo()", form_data, attribute)
-        return value
+    // print static text to the printout
+    label(form_data, label_text) {
+        return label_text
     },
 
 }

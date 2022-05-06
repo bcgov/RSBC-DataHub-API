@@ -885,10 +885,40 @@
           "x": 87,
           "y": 254
         }
+      },
+      "MV2721_ILO_COPY": {
+        "field_type": "text",
+        "font_size": 12,
+        "function": "label",
+        "parameters": "ILO COPY",
+        "start": {
+          "x": 70,
+          "y": 270
+        }
+      },
+      "MV2721_POLICE_COPY": {
+        "field_type": "text",
+        "font_size": 12,
+        "function": "label",
+        "parameters": "POLICE COPY",
+        "start": {
+          "x": 70,
+          "y": 270
+        }
+      },
+      "MV2721_DRIVER_COPY": {
+        "field_type": "text",
+        "font_size": 12,
+        "function": "label",
+        "parameters": "DRIVER COPY",
+        "start": {
+          "x": 70,
+          "y": 270
+        }
       }
     },
     "variants": {
-      "notice": {
+      "police": {
         "pages": [
           {
             "image": {
@@ -952,7 +982,78 @@
               "MV2721_OFFICER_LAST_NAME",
               "MV2721_AGENCY_NAME",
               "MV2721_AGENCY_FILE_NUMBER",
-              "MV2721_OFFICER_SIGNATURE"
+              "MV2721_OFFICER_SIGNATURE",
+              "MV2721_POLICE_COPY"
+            ]
+          }
+        ]
+      },
+      "driver": {
+        "pages": [
+          {
+            "image": {
+              "filename": "assets/MV2721_201502.png",
+              "offset_x": 0,
+              "offset_y": -10,
+              "width": 215,
+              "height": 307
+            },
+            "show_fields": [
+              "BAR_CODE",
+              "VIOLATION_NUMBER",
+              "MV2721_DRIVER_NAME",
+              "MV2721_DRIVER_DL_NUMBER",
+              "MV2721_DRIVER_DL_PROVINCE",
+              "MV2721_DRIVER_DOB",
+              "MV2721_DRIVER_GENDER",
+              "MV2721_DRIVER_DL_CLASS",
+              "MV2721_DRIVER_DL_EXPIRY",
+              "MV2721_OWNER_NAME",
+              "MV2721_OWNER_DOB",
+              "MV2721_OWNER_ADDRESS",
+              "MV2721_OWNER_PROVINCE",
+              "MV2721_OWNER_POSTAL_CODE",
+              "MV2721_OWNER_PHONE_NUMBER",
+              "MV2721_OWNER_PHONE_AREA_CODE",
+              "MV2721_OWNER_EMAIL",
+              "MV2721_VEHICLE_LICENSE_NUMBER",
+              "MV2721_VEHICLE_PROVINCE",
+              "MV2721_VEHICLE_MAKE",
+              "MV2721_VEHICLE_MODEL",
+              "MV2721_VEHICLE_YEAR",
+              "MV2721_VEHICLE_COLOR",
+              "MV2721_VEHICLE_NSC_NUMBER",
+              "MV2721_IS_VEHICLE_NSC",
+              "MV2721_VEHICLE_VIN",
+              "MV2721_NOTICE_DATE",
+              "MV2721_NOTICE_TIME",
+              "MV2721_LOCATION",
+              "MV2721_LOCATION_CITY",
+              "MV2721_IMPOUNDMENT_DURATION_3",
+              "MV2721_IMPOUNDMENT_DURATION_7",
+              "MV2721_IMPOUNDMENT_DURATION_30",
+              "MV2721_IRP_NUMBER",
+              "MV2721_REASON_EXCESSIVE_SPEED",
+              "MV2721_REASON_PROHIBITED",
+              "MV2721_REASON_SUSPENDED",
+              "MV2721_REASON_RACING",
+              "MV2721_REASON_PROHIBITED",
+              "MV2721_REASON_STUNT_DRIVING",
+              "MV2721_REASON_MOTORCYCLE_SEATING",
+              "MV2721_REASON_MOTORCYCLE_RESTRICTIONS",
+              "MV2721_REASON_UNLICENSED",
+              "MV2721_UL_NUMBER",
+              "MV2721_IMPOUND_DATE",
+              "MV2721_IMPOUND_LOT_NAME",
+              "MV2721_IMPOUND_LOT_ADDRESS",
+              "MV2721_IMPOUND_LOT_CITY",
+              "MV2721_IMPOUND_LOT_PHONE",
+              "MV2721_OFFICER_BADGE_NUMBER",
+              "MV2721_OFFICER_LAST_NAME",
+              "MV2721_AGENCY_NAME",
+              "MV2721_AGENCY_FILE_NUMBER",
+              "MV2721_OFFICER_SIGNATURE",
+              "MV2721_DRIVER_COPY"
             ]
           }
         ]
@@ -1021,7 +1122,8 @@
               "MV2721_OFFICER_LAST_NAME",
               "MV2721_AGENCY_NAME",
               "MV2721_AGENCY_FILE_NUMBER",
-              "MV2721_OFFICER_SIGNATURE"
+              "MV2721_OFFICER_SIGNATURE",
+              "MV2721_ILO_COPY"
             ]
           }
         ]

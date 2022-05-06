@@ -12,7 +12,7 @@
 <script>
 
 import CardsCommon from "@/components/forms/CardsCommon";
-import { mapGetters } from 'vuex';
+import {mapGetters, mapMutations} from 'vuex';
 import ImpoundLotOperator from "@/components/questions/ImpoundLotOperator";
 
 
@@ -22,6 +22,13 @@ name: "VehicleImpoundmentCard",
   mixins: [CardsCommon],
   computed: {
     ...mapGetters(["getAttributeValue", "getArrayOfImpoundLotOperators"])
+  },
+  mounted() {
+    // The vehicle is always impounded when using the Vehicle Impoundment (VI) form
+    this.setFormAsImpounded()
+  },
+  methods: {
+    ...mapMutations(["setFormAsImpounded"])
   }
 }
 </script>

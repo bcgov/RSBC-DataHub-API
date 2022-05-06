@@ -16,6 +16,12 @@ export const mutations = {
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, id, value);
     },
 
+    setFormAsImpounded (state) {
+        console.log("setFormAsImpounded()", )
+        let form_object = state.currently_editing_form_object
+        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "vehicle_impounded", "Yes");
+    },
+
     addItemToCheckboxList (state, payload) {
         console.log("inside addItemToCheckboxList()", state, payload)
         let root = state.forms[payload.form_object.form_type][payload.form_object.form_id].data
