@@ -4,10 +4,10 @@
     <label v-if="show_label" :for="id"><slot></slot>
       <span v-if="required" class="text-danger"> *</span>
     </label>
-    <select :disabled="disabled || hasFormBeenPrinted" class="form-control" :id="id" @input="updateFormField">
+    <select :disabled="disabled || hasFormBeenPrinted" class="form-control" :id="id" @input="updateJurisdictionByEvent">
       <option v-for="jurisdiction in getArrayOfJurisdictions"
               :key="jurisdiction.objectCd"
-              :selected="jurisdiction.objectDsc === getAttributeValue(id)">
+              :selected="jurisdiction.objectDsc === getAttributeValue(id).objectDsc">
         {{ jurisdiction.objectDsc }}
       </option>
     </select>
@@ -22,17 +22,27 @@ import FieldCommon from "@/components/questions/FieldCommon";
 import { mapGetters, mapMutations } from 'vuex';
 
 export default {
-  name: "JurisdictionField",
+  name: "JurisdictionObject",
   mixins: [FieldCommon],
   mounted () {
     // set initial value to BC
-    this.$store.commit("updateFormField", { target: { id: this.id, value: "British Columbia" }})
+    this.updateJurisdictionByName("British Columbia")
   },
   computed: {
-    ...mapGetters(["getArrayOfJurisdictions", "getAttributeValue", "hasFormBeenPrinted"])
+    ...mapGetters(["getArrayOfJurisdictions", "getAttributeValue", "hasFormBeenPrinted", "getJurisdictionByFullName"])
   },
   methods: {
-    ...mapMutations(["updateFormField"])
+    ...mapMutations(["updateFormField"]),
+    updateJurisdictionByEvent(e) {
+      const jurisdictionName = e.target.value;
+      this.updateJurisdictionByName(jurisdictionName)
+    },
+    updateJurisdictionByName(name) {
+      const jurisdictionObject = this.getJurisdictionByFullName(name)
+      console.log("jurisdictionUpdate()", name, jurisdictionObject)
+      const payload = {target: {value: jurisdictionObject, id: this.id }}
+      this.$store.commit("updateFormField", payload)
+    }
   }
 }
 </script>

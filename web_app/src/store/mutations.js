@@ -8,9 +8,10 @@ export const mutations = {
 
     },
 
-    updateFormField (state, payload) {
-        let id = payload.target.id;
-        let value = payload.target.value;
+    updateFormField (state, event) {
+        console.log("updateFormField()", event)
+        let id = event.target.id;
+        let value = event.target.value;
         let form_object = state.currently_editing_form_object
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, id, value);
     },

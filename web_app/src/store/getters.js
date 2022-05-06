@@ -190,6 +190,16 @@ export const getters = {
         return {}
     },
 
+    getJurisdictionByFullName: state => name => {
+        const results = state.jurisdictions.filter( o =>
+            o.objectDsc === name
+        );
+        if (results.length > 0) {
+            return results[0]
+        }
+        return {}
+    },
+
     getArrayOfImpoundLotOperators: state => {
         return state.impound_lot_operators.map( o => o.name + ", " + o.lot_address + ", " + o.city + ", " + o.phone);
     },
@@ -201,7 +211,11 @@ export const getters = {
     isDisplayIcbcPlateLookup: (state, getters) => {
         let form_object = state.currently_editing_form_object;
         let root = state.forms[form_object.form_type][form_object.form_id].data;
-        return root['plate_province'] === "British Columbia" && getters.isUserAuthorized
+        if ('plate_province' in root) {
+            if ('objectDsc' in root['plate_province']) {
+                return root['plate_province'].objectDsc === "British Columbia" && getters.isUserAuthorized
+            }
+        }
     },
 
     isDisplayIcbcLicenceLookup: (state, getters) => {
@@ -211,7 +225,13 @@ export const getters = {
     isLicenceJurisdictionBC: (state) => {
         let form_object = state.currently_editing_form_object;
         let root = state.forms[form_object.form_type][form_object.form_id].data;
-        return root['drivers_licence_jurisdiction'] === "British Columbia"
+        if (root['drivers_licence_jurisdiction']) {
+            if ("objectDsc" in root['drivers_licence_jurisdiction']) {
+                return root['drivers_licence_jurisdiction'].objectDsc === "British Columbia"
+            }
+        }
+
+        return false;
     },
 
     corporateOwner: state => {
@@ -357,7 +377,7 @@ export const getters = {
         if (!(attribute in root)) {
             return '';
         }
-        let filteredObject = state.jurisdictions.filter( j => j['objectDsc'] === root[attribute]);
+        let filteredObject = state.jurisdictions.filter( j => j === root[attribute]);
         return filteredObject[0]['objectCd'].toUpperCase()
     },
 

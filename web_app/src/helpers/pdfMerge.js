@@ -214,6 +214,15 @@ export default {
         return ''
     },
 
+    getJurisdictionCode(form_data, attribute) {
+        if (attribute in form_data.data) {
+            if ('objectCd' in form_data.data[attribute]) {
+                return form_data.data[attribute].objectCd
+            }
+        }
+        return ''
+    },
+
     getValuesConcatenatedWithCommas(form_data, attributes_array) {
         let attributeValues = []
         attributes_array.forEach( (attribute) => {
