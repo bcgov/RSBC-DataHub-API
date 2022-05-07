@@ -18,7 +18,7 @@ export default {
 
     async generatePDF(print_definitions, document_types_to_print, form_data, filename, form_type) {
         return await new Promise((resolve) => {
-          console.log("inside generatePDF()", filename)
+          console.log("inside generatePDF()", filename, document_types_to_print)
           let doc = new jsPDF({
               orientation: print_definitions['orientation'],
               units: print_definitions['units'],
@@ -290,5 +290,46 @@ export default {
     label(form_data, label_text) {
         return label_text
     },
+
+    // --- methods below are being used as a temporary workaround until refactoring --- //
+
+    isJurisdictionBC(form_data) {
+        const attribute = "drivers_licence_jurisdiction"
+        if (attribute in form_data.data) {
+            if ('objectCd' in form_data.data[attribute]) {
+                return (form_data.data[attribute].objectCd === "BC");
+            }
+        }
+        return false;
+    },
+
+    isUnlicensed(form_data) {
+        const attribute = "reason_unlicensed"
+        if (attribute in form_data.data) {
+            return (form_data.data[attribute] === true);
+        }
+        return false;
+    },
+
+    getJurisdictionIfUnlicensed(form_data, attribute) {
+        if(this.isJurisdictionBC(form_data) && this.isUnlicensed(form_data)) {
+            if(attribute in form_data.data) {
+                return form_data.data[attribute].objectCd
+            }
+        }
+    },
+
+    getStringIfUnlicensed(form_data, attribute) {
+        console.log("getStringIfUnlicensed()", this.isJurisdictionBC(form_data), this.isUnlicensed(form_data))
+        if(this.isJurisdictionBC(form_data) && this.isUnlicensed(form_data)) {
+            if(attribute in form_data.data) {
+                return form_data.data[attribute]
+            }
+        }
+    },
+
+    getUnlicensedAndOutOfProvince(form_data) {
+        return this.isJurisdictionBC(form_data) && this.isUnlicensed(form_data)
+    }
 
 }

@@ -3,7 +3,7 @@
     <div>
       <shadow-box>
         <form-row>
-          <text-field id="offence_address" fg_class="col-sm-8" rules="required">Intersection or Address of Offence</text-field>
+          <text-field id="offence_address" fg_class="col-sm-8" rules="required|max:25">Intersection or Address of Offence</text-field>
           <type-ahead-field id="offence_city" fg_class="col-sm-4"
                             :suggestions="getArrayOfBCCityNames"
                             :rules="offenceCityRules">City
@@ -21,14 +21,20 @@
         </form-row>
       </shadow-box>
       <shadow-box>
+        <p>3, 7  or 30 Day Impoundment <span class="text-muted">In accordance
+          with Section 215.46 and 253 of the Motor Vehicle Act</span>
+        </p>
         <form-row>
-          <text-field id="ipr_number" fg_class="col-sm-6" >IRP Number</text-field>
-        </form-row>
-        <form-row>
-          <radio-field id="impound_duration" fg_class="col-sm-12" :options='["3-Day", "7-Day", "30-Day"]'>
-            Impoundment Duration
-            <span class="text-muted">(in accordance with section 215.46 and 253 of the Motor Vehicle Act)</span>
-          </radio-field>
+          <in-line-check-box id="impound_duration_3" fg_class="col-sm-2" :option=true>
+          3-Day
+          </in-line-check-box>
+          <in-line-check-box id="impound_duration_7" fg_class="col-sm-2" :option=true>
+            7-Day
+          </in-line-check-box>
+          <in-line-check-box id="impound_duration_30" fg_class="col-sm-2" :option=true>
+            30-Day
+          </in-line-check-box>
+          <text-field id="ipr_number" fg_class="col-sm-6" v-if="isIRP">IRP Number</text-field>
         </form-row>
       </shadow-box>
       <shadow-box>
@@ -83,7 +89,14 @@
           </in-line-check-box>
         </form-row>
         <form-row>
-          <text-field v-if="getAttributeValue('reason_unlicensed')" id="ul_prohibition_number" fg_class="col-sm-6">UL Prohibition Number</text-field>
+          <text-field v-if="getAttributeValue('reason_unlicensed')" id="ul_prohibition_number" fg_class="col-sm-6">
+            UL Prohibition Number
+          </text-field>
+        </form-row>
+        <form-row>
+          <radio-field v-if="getAttributeValue('reason_unlicensed')" id="suspected_bc_resident" :options="['Yes', 'No']">
+            Does the officer have grounds to believe that the Driver resides in British Columbia? (explain in incident details)
+          </radio-field>
         </form-row>
       </shadow-box>
     </div>
@@ -100,7 +113,12 @@ export default {
   components: {InLineCheckBox},
   mixins: [CardsCommon],
   computed: {
-    ...mapGetters(['getAttributeValue'])
+    ...mapGetters(['getAttributeValue']),
+    isIRP() {
+      return (this.getAttributeValue("impound_duration_3") ||
+      this.getAttributeValue("impound_duration_7") ||
+          this.getAttributeValue("impound_duration_30"))
+    }
   }
 }
 </script>

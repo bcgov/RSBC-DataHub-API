@@ -94,6 +94,16 @@
           "y": 46
         }
       },
+      "MV2721_DRIVER_IS_OWNER": {
+        "field_type": "checkbox",
+        "font_size": 12,
+        "function": "getRadioValue",
+        "parameters": ["driver_is_owner", true],
+        "start": {
+          "x": 18,
+          "y": 56
+        }
+      },
       "MV2721_OWNER_NAME": {
         "field_type": "text",
         "font_size": 12,
@@ -309,7 +319,7 @@
         "field_type": "checkbox",
         "font_size": 12,
         "function": "getRadioValue",
-        "parameters": ["impound_duration", "3-Day"],
+        "parameters": ["impound_duration_3", true],
         "start": {
           "x": 18,
           "y": 163
@@ -319,7 +329,7 @@
         "field_type": "checkbox",
         "font_size": 12,
         "function": "getRadioValue",
-        "parameters": ["impound_duration", "7-Day"],
+        "parameters": ["impound_duration_7", true],
         "start": {
           "x": 60,
           "y": 163
@@ -329,7 +339,7 @@
         "field_type": "checkbox",
         "font_size": 12,
         "function": "getRadioValue",
-        "parameters": ["impound_duration", "30-Day"],
+        "parameters": ["impound_duration_30", true],
         "start": {
           "x": 105,
           "y": 163
@@ -565,10 +575,30 @@
           "y": 52
         }
       },
+      "MV2722_SUSPECTED_BC_RESIDENT": {
+        "field_type": "checkbox",
+        "font_size": 12,
+        "function": "getRadioValue",
+        "parameters": ["suspected_bc_resident", "Yes"],
+        "start": {
+          "x": 18,
+          "y": 66
+        }
+      },
+      "MV2722_UL_OUT_OF_PROVINCE": {
+        "field_type": "checkbox",
+        "font_size": 12,
+        "function": "getUnlicensedAndOutOfProvince",
+        "parameters": "",
+        "start": {
+          "x": 18,
+          "y": 75
+        }
+      },
       "MV2722_UL_DRIVER_DL_NUMBER": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getStringValue",
+        "function": "getStringIfUnlicensed",
         "parameters": "drivers_number",
         "start": {
           "x": 61,
@@ -578,7 +608,7 @@
       "MV2722_DRIVER_DL_PROVINCE": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getJurisdictionCode",
+        "function": "getJurisdictionIfUnlicensed",
         "parameters": "drivers_licence_jurisdiction",
         "start": {
           "x": 153,
@@ -588,7 +618,7 @@
       "MV2722_DRIVER_DL_EXPIRY": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getStringValue",
+        "function": "getStringIfUnlicensed",
         "parameters": "expiry_year",
         "start": {
           "x": 185,
@@ -946,6 +976,7 @@
               "MV2721_OWNER_PHONE_NUMBER",
               "MV2721_OWNER_PHONE_AREA_CODE",
               "MV2721_OWNER_EMAIL",
+              "MV2721_DRIVER_IS_OWNER",
               "MV2721_VEHICLE_LICENSE_NUMBER",
               "MV2721_VEHICLE_PROVINCE",
               "MV2721_VEHICLE_MAKE",
@@ -1016,6 +1047,7 @@
               "MV2721_OWNER_PHONE_NUMBER",
               "MV2721_OWNER_PHONE_AREA_CODE",
               "MV2721_OWNER_EMAIL",
+              "MV2721_DRIVER_IS_OWNER",
               "MV2721_VEHICLE_LICENSE_NUMBER",
               "MV2721_VEHICLE_PROVINCE",
               "MV2721_VEHICLE_MAKE",
@@ -1086,6 +1118,7 @@
               "MV2721_OWNER_PHONE_NUMBER",
               "MV2721_OWNER_PHONE_AREA_CODE",
               "MV2721_OWNER_EMAIL",
+              "MV2721_DRIVER_IS_OWNER",
               "MV2721_VEHICLE_LICENSE_NUMBER",
               "MV2721_VEHICLE_PROVINCE",
               "MV2721_VEHICLE_MAKE",
@@ -1175,7 +1208,9 @@
               "MV2722_AGENCY_NAME",
               "MV2722_AGENCY_FILE_NUMBER",
               "MV2722_OFFICER_SIGNATURE",
-              "MV2722_INCIDENT_DETAILS"
+              "MV2722_INCIDENT_DETAILS",
+              "MV2722_UL_OUT_OF_PROVINCE",
+              "MV2722_SUSPECTED_BC_RESIDENT"
             ]
           }
         ]

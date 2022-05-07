@@ -33,6 +33,7 @@
             <email-field id="owners_email" fg_class="col-sm-4" rules="email">Email Address</email-field>
           </form-row>
           <form-row>
+            <in-line-check-box id="driver_is_owner" :option="true">The driver is the registered owner</in-line-check-box>
           </form-row>
         </div>
       </div>
