@@ -331,6 +331,10 @@ export default {
             }
         }
         return ''
+    },
+
+    getUnlicensedAndOutOfProvince(form_data) {
+        return this.isJurisdictionBC(form_data) && this.isUnlicensed(form_data)
     }
 
 }
