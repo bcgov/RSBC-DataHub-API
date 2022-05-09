@@ -314,9 +314,13 @@ export default {
     getJurisdictionIfUnlicensed(form_data, attribute) {
         if(this.isJurisdictionBC(form_data) && this.isUnlicensed(form_data)) {
             if(attribute in form_data.data) {
-                return form_data.data[attribute].objectCd
+                if ("objectCd" in form_data.data[attribute]) {
+                    return form_data.data[attribute].objectCd
+                }
+                return ''
             }
         }
+        return ''
     },
 
     getStringIfUnlicensed(form_data, attribute) {
@@ -326,10 +330,7 @@ export default {
                 return form_data.data[attribute]
             }
         }
-    },
-
-    getUnlicensedAndOutOfProvince(form_data) {
-        return this.isJurisdictionBC(form_data) && this.isUnlicensed(form_data)
+        return ''
     }
 
 }
