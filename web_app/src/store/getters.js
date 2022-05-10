@@ -155,6 +155,10 @@ export const getters = {
         return state.form_schemas.forms[form_object.form_type].documents[document_type].pdf;
     },
 
+    getDocumentsToPrint: state => form_type => {
+        return state.form_schemas.forms[form_type].documents;
+    },
+
     getPagesToPrint: (state, getters) => form_object => {
         let variantList = state.form_schemas.forms[form_object.form_type].documents['all'].variants;
         if ( ! getters.isVehicleImpounded(form_object)) {

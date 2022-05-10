@@ -13,13 +13,13 @@
         <incident-details-card></incident-details-card>
         <officer-details-card></officer-details-card>
         <form-card title="Generate PDF for Printing">
-          <div class="d-flex justify-content-between">
-            <button type="submit" class="btn btn-primary" id="btn_print_forms">Print Notice and Report
-              <b-spinner v-if="display_spinner" small label="Loading..."></b-spinner>
-            </button>
-          </div>
-          <div class="small text-danger pt-2">
-            <fade-text v-if="isNotValid" :key="rerender" show-seconds=3000>Errors in form - check for validation errors above</fade-text>
+          <div class="d-flex">
+            <print-documents
+              v-for="(document, index) in getDocumentsToPrint(name)" v-bind:key="index"
+              :validate="validate"
+              :variants="document.variants">
+              {{ document.name }}
+            </print-documents>
           </div>
         </form-card>
       </form>
@@ -30,10 +30,9 @@
 <script>
 
 import FormsCommon from "@/components/forms/FormsCommon";
-import {mapActions, mapGetters, mapMutations} from 'vuex';
-
+import {mapGetters} from 'vuex';
+import PrintDocuments from "../PrintDocuments";
 import DriversInformationCard from "@/components/forms/VehicleImpoundment/DriversInformationCard";
-import FadeText from "@/components/FadeText";
 import OfficerDetailsCard from "@/components/forms/VehicleImpoundment/OfficerDetailsCard";
 import VehicleInformationCard from "@/components/forms/VehicleImpoundment/VehicleInformationCard";
 import VehicleOwnerCard from "@/components/forms/VehicleImpoundment/VehicleOwnerCard";
@@ -52,20 +51,12 @@ export default {
     ReasonableGroundsCard,
     VehicleImpoundmentCard,
     DriversInformationCard,
-    FadeText,
     OfficerDetailsCard,
     VehicleInformationCard,
     VehicleOwnerCard,
+    PrintDocuments
   },
   mixins: [FormsCommon],
-  computed: {
-    ...mapGetters([
-        "getAttributeValue",
-        "getCurrentlyEditedFormData",
-        "getCurrentlyEditedFormObject",
-        "corporateOwner",
-    ]),
-  },
   props: {
     name: {
       type: String,
@@ -85,29 +76,16 @@ export default {
     this.data = this.getCurrentlyEditedFormData
     this.isMounted = true
   },
-  methods: {
-    ...mapMutations(["setFormAsPrinted"]),
-    ...mapActions(["saveFormAndGeneratePDF"]),
-    async onSubmit (validate) {
-      this.display_spinner = true;
-      const is_validated = await validate()
-      console.log('inside onSubmit()', is_validated);
-      if(is_validated) {
-        await this.saveFormAndGeneratePDF(this.getCurrentlyEditedForm)
-          .then( (response) => {
-              console.log('form generated successfully', response)
-              this.display_spinner = false;
-            })
-          .catch((error) => {
-              console.log('form did not generate successfully', error)
-              this.display_spinner = false;
-            })
-      } else {
-        this.rerender++;
-        this.isNotValid = true;
-      }
-      this.display_spinner = false;
-    }
+  computed: {
+    ...mapGetters([
+        "getDocumentsToPrint",
+        "getAttributeValue",
+        "getCurrentlyEditedFormData",
+        "getCurrentlyEditedFormObject",
+        "corporateOwner",
+        "getPdfFileNameString",
+        "getPagesToPrint"
+    ]),
   }
 }
 </script>

@@ -565,38 +565,30 @@ export const actions = {
                 })
     },
 
-    async saveFormAndGeneratePDF(context, form_object) {
-        const current_timestamp = moment.now()
-        console.log("inside saveFormAndGeneratePDF()", current_timestamp, form_object)
-        let payload = {}
-        payload['form_object'] = form_object
-        payload['filename'] = context.getters.getPdfFileNameString(form_object, "all");
-        payload['variants'] = context.getters.getPagesToPrint(form_object);
-        payload['form_data'] = form_object.data;
-        payload['timestamp'] = current_timestamp
-
+    async saveFormAndGeneratePDF(context, payload) {
+        console.log("inside saveFormAndGeneratePDF()", payload)
         // temporary kludge while refactoring.  The method the VI form uses to generate
         // the PDF is the preferred, simpler solution
-        if (form_object.form_type === "VI") {
+        if (payload.form_object.form_type === "VI") {
             await pdfMerge.generatePDF(
                 print_layout[payload.form_object.form_type],
                 payload.variants,
-                form_object,
+                payload.form_object,
                 payload.filename,
                 payload.form_object.form_type).then(() => {
                     context.commit("setFormAsPrinted", payload)
-                    context.dispatch("saveCurrentFormToDB", form_object)
+                    context.dispatch("saveCurrentFormToDB", payload.form_object)
                 })
         } else {
             await context.dispatch("createPDF", payload)
                 .then(() => {
                     context.commit("setFormAsPrinted", payload)
-                    context.dispatch("saveCurrentFormToDB", form_object)
+                    context.dispatch("saveCurrentFormToDB", payload.form_object)
                 })
         }
 
 
-        await context.dispatch("tellApiFormIsPrinted", form_object)
+        await context.dispatch("tellApiFormIsPrinted", payload.form_object)
           .then( (response) => {
               console.log("response from tellApiFormIsPrinted()", response)
               return response

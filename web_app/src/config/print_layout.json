@@ -1087,6 +1087,16 @@
               "MV2721_OFFICER_SIGNATURE",
               "MV2721_DRIVER_COPY"
             ]
+          },
+          {
+            "image": {
+              "filename": "assets/MV2721_201502_appeal.png",
+              "offset_x": 0,
+              "offset_y": -10,
+              "width": 215,
+              "height": 307
+            },
+            "show_fields": []
           }
         ]
       },

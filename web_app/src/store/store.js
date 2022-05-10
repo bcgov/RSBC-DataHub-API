@@ -64,9 +64,13 @@ export const store = new Vuex.Store ({
           "description": "Vehicle Impoundment",
           "full_name": "MV2721 & MV2722",
           "documents": {
-            "all": {
-              "name": "All Copies",
-              "variants": ['police', 'driver', 'ilo', 'report']
+            "driver": {
+              "name": "Driver Copy",
+              "variants": ['driver']
+            },
+            "police": {
+              "name": "Police, ILO and Report Copies",
+              "variants": ['police', 'ilo', 'report']
             }
           },
           "disabled": false
