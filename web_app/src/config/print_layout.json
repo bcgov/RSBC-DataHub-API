@@ -588,7 +588,7 @@
       "MV2722_UL_OUT_OF_PROVINCE": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getUnlicensedAndOutOfProvince",
+        "function": "isUnlicensedAndOutOfProvince",
         "parameters": "",
         "start": {
           "x": 18,
@@ -598,7 +598,7 @@
       "MV2722_UL_DRIVER_DL_NUMBER": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getStringIfUnlicensed",
+        "function": "getStringIfUnlicensedAndOutOfProvince",
         "parameters": "drivers_number",
         "start": {
           "x": 61,
@@ -608,7 +608,7 @@
       "MV2722_DRIVER_DL_PROVINCE": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getJurisdictionIfUnlicensed",
+        "function": "getJurisdictionIfUnlicensedAndOutOfProvince",
         "parameters": "drivers_licence_jurisdiction",
         "start": {
           "x": 153,
@@ -618,7 +618,7 @@
       "MV2722_DRIVER_DL_EXPIRY": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getStringIfUnlicensed",
+        "function": "getStringIfUnlicensedAndOutOfProvince",
         "parameters": "expiry_year",
         "start": {
           "x": 185,

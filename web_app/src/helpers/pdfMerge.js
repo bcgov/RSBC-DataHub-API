@@ -311,8 +311,8 @@ export default {
         return false;
     },
 
-    getJurisdictionIfUnlicensed(form_data, attribute) {
-        if(this.isJurisdictionBC(form_data) && this.isUnlicensed(form_data)) {
+    getJurisdictionIfUnlicensedAndOutOfProvince(form_data, attribute) {
+        if(this.isUnlicensedAndOutOfProvince(form_data)) {
             if(attribute in form_data.data) {
                 if ("objectCd" in form_data.data[attribute]) {
                     return form_data.data[attribute].objectCd
@@ -323,9 +323,8 @@ export default {
         return ''
     },
 
-    getStringIfUnlicensed(form_data, attribute) {
-        console.log("getStringIfUnlicensed()", this.isJurisdictionBC(form_data), this.isUnlicensed(form_data))
-        if(this.isJurisdictionBC(form_data) && this.isUnlicensed(form_data)) {
+    getStringIfUnlicensedAndOutOfProvince(form_data, attribute) {
+        if(this.isUnlicensedAndOutOfProvince(form_data)) {
             if(attribute in form_data.data) {
                 return form_data.data[attribute]
             }
@@ -333,8 +332,8 @@ export default {
         return ''
     },
 
-    getUnlicensedAndOutOfProvince(form_data) {
-        return this.isJurisdictionBC(form_data) && this.isUnlicensed(form_data)
+    isUnlicensedAndOutOfProvince(form_data) {
+        return ! this.isJurisdictionBC(form_data) && this.isUnlicensed(form_data)
     }
 
 }
