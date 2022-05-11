@@ -1,7 +1,7 @@
 <template>
   <form-card title="Impound Lot">
       <form-row>
-        <date-field id="impounded_dt" fg_class="col-sm-12">The motor vehicle was impounded on</date-field>
+        <date-field id="impounded_dt" rules="required|validDt|notFutureDt|notGtYearAgo" fg_class="col-sm-12">The motor vehicle was impounded on</date-field>
       </form-row>
       <form-row>
         <impound-lot-operator fg_class="col-sm-12">Impound Lot Operator</impound-lot-operator>
