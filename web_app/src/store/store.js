@@ -37,7 +37,8 @@ export const store = new Vuex.Store ({
           "full_name": "MV2906",
           "documents": {
             "all": {
-              "name": "All Copies",
+              "name": "Print All Copies",
+              "reprint": true,
               "variants": ['icbc', 'driver', 'police']
             }
           },
@@ -51,7 +52,8 @@ export const store = new Vuex.Store ({
           "full_name": "MV2634",
           "documents": {
             "all": {
-              "name": "All Copies",
+              "name": "Print All Copies",
+              "reprint": true,
               "variants": ['icbc', 'driver', 'ilo', 'police']
             }
           },
@@ -65,11 +67,13 @@ export const store = new Vuex.Store ({
           "full_name": "MV2721 & MV2722",
           "documents": {
             "driver": {
-              "name": "Driver Copy",
+              "name": "Print Driver Copy",
+              "reprint": true,
               "variants": ['driver']
             },
             "police": {
-              "name": "Police, ILO and Report Copies",
+              "name": "Print Police, ILO and Report Copies",
+              "reprint": false,
               "variants": ['police', 'ilo', 'report']
             }
           },

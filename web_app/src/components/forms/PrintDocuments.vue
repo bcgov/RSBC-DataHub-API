@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div @click="onSubmit(validate, variants)" class="btn btn-primary mr-3" id="btn_print_forms">
-      Print <slot></slot>
+    <div @click="onSubmit(validate, variants, form_object)" class="btn btn-primary mr-3" id="btn_print_forms">
+      <slot></slot>
       <b-spinner v-if="display_spinner" small label="Loading..."></b-spinner>
     </div>
     <div class="small text-danger pt-2">
@@ -18,6 +18,9 @@ import {mapActions, mapGetters, mapMutations} from "vuex";
 export default {
   name: "PrintDocuments",
   props: {
+    form_object: {
+      type: Object
+    },
     validate: {},
     variants: {
       type: Array
@@ -44,12 +47,11 @@ export default {
   methods: {
     ...mapMutations(["setFormAsPrinted"]),
     ...mapActions(["saveFormAndGeneratePDF"]),
-    async onSubmit (validate, variantList) {
+    async onSubmit (validate, variantList, form_object) {
       this.display_spinner = true;
       const is_validated = await validate()
       console.log('inside onSubmit()', is_validated, variantList);
       if(is_validated) {
-        const form_object = this.getCurrentlyEditedForm
         const current_timestamp = moment.now()
         let payload = {}
         payload['form_object'] = form_object

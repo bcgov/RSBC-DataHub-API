@@ -15,9 +15,17 @@
           <b-icon-pen variant="primary"></b-icon-pen>
         </router-link>
       </h6>
-      <div v-if="! isFormEditable(prohibition)" @click="triggerPrint" class="btn btn-primary small">
-        Print again
-        <b-spinner v-if="display_spinner" small label="Loading..."></b-spinner>
+      <div v-if="! isFormEditable(prohibition)">
+        <div v-for="(document, index) in getDocumentsToPrint(prohibition.form_type)" v-bind:key="index">
+          <print-documents
+            v-if="document.reprint"
+            :form_object="prohibition"
+            :validate="() => { return true }"
+            :variants="document.variants">
+            Print again
+          </print-documents>
+        </div>
+
       </div>
     </td>
   </tr>
@@ -26,6 +34,7 @@
 <script>
 
 import { mapMutations, mapGetters, mapActions } from 'vuex';
+import PrintDocuments from "@/components/forms/PrintDocuments";
 
 export default {
   name: "RecentProhibitionRow",
@@ -38,24 +47,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["isFormEditable", "getServedStatus"])
+    ...mapGetters(["isFormEditable", "getServedStatus", "getDocumentsToPrint"])
   },
   methods: {
     ...mapMutations(["editExistingForm"]),
     ...mapActions(["deleteSpecificForm", "saveFormAndGeneratePDF"]),
-    triggerPrint() {
-      console.log('inside triggerPrint()', this.display_spinner, this.prohibition);
-      this.display_spinner = true;
-      this.saveFormAndGeneratePDF(this.prohibition)
-          .then( (response) => {
-              console.log('form generated successfully', response)
-              this.display_spinner = false;
-            })
-          .catch((error) => {
-              console.log('form did not generate successfully', error)
-              this.display_spinner = false;
-            })
-    }
+  },
+  components: {
+    PrintDocuments
   }
 }
 </script>

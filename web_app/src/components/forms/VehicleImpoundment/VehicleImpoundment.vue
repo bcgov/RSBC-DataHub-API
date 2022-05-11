@@ -16,6 +16,7 @@
           <div class="d-flex">
             <print-documents
               v-for="(document, index) in getDocumentsToPrint(name)" v-bind:key="index"
+              :form_object="getCurrentlyEditedForm"
               :validate="validate"
               :variants="document.variants">
               {{ document.name }}
@@ -80,6 +81,7 @@ export default {
     ...mapGetters([
         "getDocumentsToPrint",
         "getAttributeValue",
+        "getCurrentlyEditedForm",
         "getCurrentlyEditedFormData",
         "getCurrentlyEditedFormObject",
         "corporateOwner",
