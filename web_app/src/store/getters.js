@@ -19,11 +19,11 @@ export const getters = {
       return state.version;
     },
 
-    getAllEditedForms: state => {
+    getAllEditedFormsNotPrinted: state => {
         let edited_forms = Array();
         for (let form_type in state.forms) {
             for (let form_id in state.forms[form_type]) {
-                if ("data" in state.forms[form_type][form_id]) {
+                if ("data" in state.forms[form_type][form_id] && ! state.forms[form_type][form_id].printed_timestamp) {
                     edited_forms.push(state.forms[form_type][form_id])
                 }
             }

@@ -1,8 +1,8 @@
 import jsPDF from "jspdf";
-import checkDigit from "@/helpers/checkDigit";
+import checkDigit from "./checkDigit";
 import {font}  from "./BCSans-Regular-normal";
 import moment from "moment-timezone";
-import constants from "@/config/constants";
+import constants from "../config/constants";
 import {barcode_font}  from "./LibreBarcode39-Regular-normal";
 
 const FONT_FILE = "bc_sans.ttf"

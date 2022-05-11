@@ -83,7 +83,7 @@ test('test driver date of birth is shown on drivers copy', () => {
     store.commit("updateFormField", { "target": { "value": "19991231", "id": "dob"}})
     store.dispatch("getPrintMappings", state.currently_editing_form_object)
         .then( (actual) => {
-            expect(actual['DRIVER_DOB']).toEqual("1999 12 31")
+            expect(actual['DRIVER_DOB']).toEqual("1999-12-31")
         })
 })
 
