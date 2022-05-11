@@ -249,7 +249,7 @@
         "field_type": "text",
         "font_size": 12,
         "function": "getStringValue",
-        "parameters": "drivers_number",
+        "parameters": "registration_number",
         "start": {
           "x": 18,
           "y": 118
