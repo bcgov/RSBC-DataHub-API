@@ -4,7 +4,7 @@
     <label v-if="show_label" :for="id"><slot></slot>
       <span v-if="required" class="text-danger"> *</span>
     </label>
-    <select :disabled="disabled" class="form-control" :id="id" v-model="attribute">
+    <select :disabled="disabled || hasFormBeenPrinted" class="form-control" :id="id" v-model="attribute">
       <option>Gender Diverse</option>
       <option>Female</option>
       <option>Male</option>
