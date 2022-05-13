@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pgr:powergrep xmlns:pgr="http://www.powergrep.com/powergrep52.xsd" version="5.2">
+	<fileselectionfile globalmasks="1">
+		<convertformats name="Proprietary formats">
+			<pdf masks="*.pdf">
+				<mode>builtin</mode>
+			</pdf>
+			<word masks="*.do[ct]">
+				<mode>builtin</mode>
+			</word>
+			<docx masks="*.do[ct][xm]">
+				<mode>builtin</mode>
+			</docx>
+			<odt masks="*.odt;*.sxw">
+				<mode>builtin</mode>
+			</odt>
+			<wri masks="*.wri">
+				<mode>builtin</mode>
+			</wri>
+			<wp masks="*.wp;*.wp[d456]">
+				<mode>builtin</mode>
+			</wp>
+			<xps masks="*.xps;*.oxps">
+				<mode>builtin</mode>
+			</xps>
+			<xls masks="*.xls">
+				<mode>builtin</mode>
+			</xls>
+			<xlsx masks="*.xls[xm]">
+				<mode>builtin</mode>
+			</xlsx>
+			<quattro masks="*.wq[12];*.wb[123];*.qpw;*.wkq">
+				<mode>builtin</mode>
+			</quattro>
+			<lotus masks="*.wk[s134]">
+				<mode>builtin</mode>
+			</lotus>
+			<audio masks="*.mp[1234ag];*.m4[ab];*.flac;*.fl[ac];*.wav;*.wave;*.wv;*.alac;*.aif;*.aif[fc];*.afc&#13;&#10;*.og[ag];*.ape;*.mpc;*.ofr;*.opus;*.dsf;*.rf64;*.bwf">
+				<mode>builtin</mode>
+			</audio>
+			<wma masks="*.wm[av];*.asf">
+				<mode>builtin</mode>
+			</wma>
+			<exif masks="*.jpg;*.jpeg;*.tif;*.tiff;*.psd">
+				<mode>builtin</mode>
+			</exif>
+			<rtf masks="*.rtf">
+				<mode>raw</mode>
+			</rtf>
+			<html masks="*.html;*.htm;*.shtml;*.hta">
+				<mode>raw</mode>
+			</html>
+			<mht masks="*.mht;*.mhtml">
+				<mode>builtin</mode>
+			</mht>
+			<eml masks="*.eml">
+				<mode>builtin</mode>
+			</eml>
+			<outlook masks="*.msg;winmail.dat">
+				<mode>builtin</mode>
+			</outlook>
+			<cdr masks="*.cd[rt]">
+				<mode>builtin</mode>
+			</cdr>
+			<acetext masks="*.atc">
+				<mode>raw</mode>
+			</acetext>
+			<lnk masks="*.lnk">
+				<mode>builtin</mode>
+			</lnk>
+			<zip masks="*.epub;*.thmx;*.kmz;*.ae[as];*.hmxz;*.hmskin">
+				<mode>compound</mode>
+			</zip>
+			<chm masks="*.chm;*.hxs">
+				<mode>compound</mode>
+			</chm>
+			<custom name="IFilter" masks="*.ppt;*.pptx;*.od[bcfgimps]">
+				<mode>ifilter</mode>
+				<mode>raw</mode>
+			</custom>
+			<comments>Convert files that are not searchable without conversion.  Search only through the main document text of compound documents.</comments>
+		</convertformats>
+		<archiveformats name="None">
+			<zip masks="*.zip;*.[ejw]ar;*.xpi"/>
+			<zipx masks="*.zipx"/>
+			<seven masks="*.7z"/>
+			<gz masks="*.gz"/>
+			<bz2 masks="*.bz2;*.bzip2"/>
+			<lzma masks="*.lzma"/>
+			<xz masks="*.xz"/>
+			<tar masks="*.tar"/>
+			<tgz masks="*.tgz;*.tar.gz"/>
+			<tbz masks="*.tbz;*.tbz2;*.tar.bz2;*.tar.bzip2"/>
+			<tlzma masks="*.tlzma;*.tar.lzma"/>
+			<txz masks="*.txz;*.tar.xz"/>
+			<cpio masks="*.cpio"/>
+			<cpgz masks="*.cpgz;*.cpio.gz"/>
+			<cpbz masks="*.cpbz;*.cpbz2;*.cpio.bz2;*.cpio.bzip2"/>
+			<cplzma masks="*.cplzma;*.cpio.lzma"/>
+			<cpxz masks="*.cpxz;*.cpio.xz"/>
+			<arj masks="*.arj"/>
+			<cab masks="*.cab"/>
+			<deb masks="*.deb"/>
+			<lha masks="*.lha;*.lzh"/>
+			<rar masks="*.rar"/>
+			<rpm masks="*.rpm"/>
+			<xar masks="*.xar"/>
+			<mbox masks="*.mbx;INBOX;Sent"/>
+			<pst masks="*.[op]st"/>
+			<oe5 masks="*.dbx"/>
+			<fat masks="*.fat"/>
+			<iso masks="*.iso;*.[mu]df"/>
+			<ntfs masks="*.ntfs"/>
+			<ext masks="*.ext;*.ext[234]"/>
+			<hfs masks="*.hfs"/>
+			<wim masks="*.wim;*.swm"/>
+			<comments>Do not decompress any files.  Do not search inside archives, disk images, or mailboxes.</comments>
+		</archiveformats>
+		<dataformats name="Specific auto detection" dataformat="win1252" binary="1" unicode="1" writebom="1" preservebom="1">
+			<format name="Text files" masks="*.txt" dataformat="win1252" unicode="1" writebom="1"/>
+			<format name="XML files" masks="*.xml;*.dtd;*.xhtml;*.xsl;*.xslt;*.xsd" dataformat="utf8" xml="1"/>
+			<format name="HTML files" masks="*.htm;*.html;*.asp;*.aspx;*.php" dataformat="win1252" html="1" unicode="1"/>
+			<format name="RTF files" masks="*.rtf" dataformat="win1252"/>
+			<format name="Source code files" masks="*.cs;*.bas;*.vb;*.java;*.pas;*.dfm;*.c;*.cpp;*.h;*.hpp;*.pl;*.py" dataformat="win1252" unicode="1" preservebom="1"/>
+			<format name="Binary files" masks="*.gif;*.png;*.jpg;*.jpeg;*.exe;*.dll" dataformat="bytes"/>
+			<comments>Perform quick automatic Unicode detection on all files.  Perform slower automatic detection of XML declarations and HTML charset tags only on files with extensions used for XML and HTML files.</comments>
+		</dataformats>
+		<hideformats name="Backup, working, versioning, and hidden" hidden="1" system="1" regex="1" masksfiles="\.bak\d*$;\.~[^.]*$;^Backup [0-9]+ of&#13;&#10;^Working copy of;^~\$.*\.(?:xls|doc|ppt)[xm]?" masksfolders="\.bak\d*$;\.~[^.]*$;^Backup [0-9]+ of;^__history$&#13;&#10;^__recovery$&#13;&#10;^\.svn$;^Sync Issues">
+			<comments>Hide all files and folders that look like backup copies or like working copies.  Hide all folders used by version control systems.  Also hide all files and folders that have the hidden or system attribute set.</comments>
+		</hideformats>
+		<network>
+			<server name="\\wsl.localhost" name="\\wsl.localhost">
+				<drive name="Ubuntu">
+					<folder name="home">
+						<folder name="user">
+							<folder name="pod-logs">
+								<folder name="2022-01-10" mark="recurse"/>
+							</folder>
+						</folder>
+					</folder>
+				</drive>
+			</server>
+		</network>
+	</fileselectionfile>
+</pgr:powergrep>

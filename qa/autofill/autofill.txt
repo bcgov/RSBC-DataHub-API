@@ -1,0 +1,125 @@
+### AUTOFILL PROFILES ###,,,,,,
+Profile ID,Name,Site,Hotkey,,,
+c1,DFTTF-12-hour,,Alt + 2,,,
+c2,DFTTF-24-hour,dev.jag.gov.bc.ca/roadside-forms/24Hour,Alt + 4,,,
+### AUTOFILL RULES ###,,,,,,
+Rule ID,Type,Name,Value,Site,Mode,Profile
+r53,0,"^drivers_number$","1234567","",1,c1
+r54,0,"^last_name$","O'Drivername","",1,c1
+r55,0,"^first_name$","Odwyn","",1,c1
+r56,0,"^dob$","20000101","",1,c1
+r57,0,"^address1$","88 Eighth Avenue East","",1,c1
+r58,0,"^driver_phone$","1112220000","",1,c1
+r59,0,"^typeahead-input-66874$","Drivercityville","",1,c1
+r60,0,"^postal$","V1V1V1","",1,c1
+r61,0,"^plate_number$","XXX999","",1,c1
+r62,0,"^vehicle_year$","2000","",1,c1
+r63,0,"^typeahead-input-55494$","FORD","",1,c1
+r64,0,"^typeahead-input-58888$","FUSI","",1,c1
+r65,0,"^typeahead-input-63073$","SIL","",1,c1
+r66,0,"^puj_code$","BC","",1,c1
+r67,0,"^nsc_number$","NSC123456789","",1,c1
+r68,0,"^typeahead-input-83863$","Poco Auto Rescue & Recovery Ltd, 13065 76 Avenue, Port Coquitlam, 604-933-4497","",1,c1
+r69,0,"^offence_address$","Sixth Street @ Eighth Avenue","",1,c1
+r70,0,"^typeahead-input-29051$","Prohibitionton","",1,c1
+r71,0,"^file_number$","RSI-1234","",1,c1
+r72,0,"^prohibition_start_time$","0001","",1,c1
+r73,0,"^time$","0505","",1,c1
+r74,3,"^licence_surrendered$","10","",0,c1
+r75,3,"^return_of_licence$","10","",0,c1
+r76,3,"^vehicle_impounded$","10","",0,c1
+r77,3,"^location_of_keys$","10","",0,c1
+r78,3,"^prohibition_type_12hr$","10","",0,c1
+r125,0,"^drivers_number$","1234567","",0,c1
+r126,0,"^last_name$","O'Drivername","",0,c1
+r127,0,"^first_name$","Odwyn","",0,c1
+r128,0,"^dob$","20000101","",0,c1
+r129,0,"^address1$","88 Eighth Avenue East","",0,c1
+r130,0,"^driver_phone$","1112220000","",0,c1
+r131,0,"^city_typeahead$","ASHCROFT RURAL","",0,c1
+r132,0,"^postal$","V1V1V1","",0,c1
+r133,0,"^plate_number$","XXX999","",0,c1
+r134,0,"^vehicle_year$","2000","",0,c1
+r135,0,"^vehicle_make_typeahead$","FORD","",0,c1
+r136,0,"^vehicle_model_typeahead$","FUSI","",0,c1
+r137,0,"^vehicle_color_typeahead$","SIL","",0,c1
+r138,0,"^nsc_number$","NSC123456789","",0,c1
+r139,3,"^Yes$","1","",0,c1
+r140,3,"^With vehicle$","1","",0,c1
+r141,3,"^Alcohol 90.3\(2\)$","1","",0,c1
+r142,0,"^offence_address$","Sixth Street @ Eighth Avenue","",0,c1
+r143,0,"^offence_city_typeahead$","BOSTON BAR","",0,c1
+r144,0,"^file_number$","RSI-1234","",0,c1
+r145,0,"^prohibition_start_date$","20220228","",0,c1
+r146,0,"^prohibition_start_time$","0101","",0,c1
+r147,0,"^agency$","STEVE RCMP","",0,c1
+r148,2,"^puj_code$","""BC""","",0,c1
+r247,0,"^drivers_number$","5120503","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r248,0,"^last_name$","O'Drivername","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r249,0,"^first_name$","Odwyn","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r250,0,"^dob$","20000101","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r251,0,"^address1$","88 Eighth Avenue East","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r252,0,"^city_typeahead$","ASHCROFT","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r253,0,"^postal$","V1V1V1","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r254,0,"^plate_number$","MR277R","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r255,0,"^plate_year$","2022","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r256,0,"^plate_val_tag$","TAG22","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r257,0,"^registration_number$","REG123","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r258,0,"^vehicle_year$","2000","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r259,0,"^vehicle_make_typeahead$","FORD","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r260,0,"^vehicle_model_typeahead$","FUSI","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r261,0,"^vehicle_type_typeahead$","4DR","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r262,0,"^vehicle_color_typeahead$","SIL","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r263,0,"^vin_number$","VIN1234567890","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r264,0,"^nsc_number$","NSC12346890","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r265,0,"^owners_last_name$","McLastname","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r266,0,"^owners_first_name$","Misha","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r267,0,"^owners_address1$","77 Seventh Street South","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r268,0,"^owners_city_typeahead$","COQUITLAM","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r269,0,"^owners_postal$","3V3V3V","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r270,0,"^owners_phone$","6041118888","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r271,3,"^vehicle_impounded$","10","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r272,3,"^With driver$","1","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r273,0,"^impound_lot_operator_typeahead$","Reliable Towing Merritt Ltd, 1141 McFarlane Way, Merritt, 250-378-5000","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r274,3,"^Drugs 215\(3\)$","1","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r275,0,"^offence_address$","Yates @ Quadra","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r276,0,"^offence_city_typeahead$","DELTA","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r277,0,"^file_number$","RSI-1234","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r278,0,"^prohibition_start_date$","20220303","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r279,0,"^prohibition_start_time$","0300","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r280,3,"^Witnessed by officer$","1","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r281,3,"^Independent witness$","1","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r282,3,"^Other$","1","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r283,0,"^operating_ground_other$","Other reason here.","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r284,3,"^prescribed_device$","10","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r285,3,"^Approved Drug Screening Equipment$","1","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r286,3,"^THC$","1","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r287,3,"^Cocaine$","1","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r288,0,"^test_date$","20220303","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r289,0,"^test_time$","0300","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r290,3,"^Prescribed Physical Coordination Test \(SFST\)$","1","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r291,3,"^Prescribed Physical Coordination Test \(DRE\)$","1","test.jag.gov.bc.ca/roadside-forms/",0,c2
+r292,2,"^puj_code$","""BC""","test.jag.gov.bc.ca/roadside-forms/",0,c2
+### AUTOFILL OPTIONS ###,,,,,,
+advanced,"[]",,,,,
+exceptions,"[]",,,,,
+textclips,"[]",,,,,
+variables,"[]",,,,,
+activecat,0,,,,,
+autoimport,0,,,,,
+backup,0,30,,,,
+badge,1,,,,,
+closeinfobar,1,,,,,
+debug,0,,,,,
+delay,0,1,,,,
+fluid,1,,,,,
+hidebackup,0,,,,,
+manual,1,,,,,
+mask,1,,,,,
+menu,1,,,,,
+overwrite,0,,,,,
+sitefilters,1,,,,,
+skiphidden,0,,,,,
+sound,1,,,,,
+vars,1,,,,,
+voice,0,1,,,,

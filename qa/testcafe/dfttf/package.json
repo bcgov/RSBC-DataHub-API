@@ -1,0 +1,28 @@
+{
+  "name": "tc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test:chrome": "testcafe chrome ./tests --disable-page-caching  --skip-js-errors",
+    "test:chrome-debug": "testcafe chrome ./tests --debug-on-fail --disable-page-caching --skip-js-errors",
+    "test:edge": "testcafe edge ./tests --disable-page-caching --skip-js-errors --debug-on-fail",
+    "test:firefox": "testcafe firefox ./tests --disable-page-caching  --skip-js-errors",
+    "test:headless": "testcafe chrome:headless ./tests  --skip-js-errors",
+    "test:mobile": "testcafe chrome:emulation:device:iphone X ./tests  --skip-js-errors",
+    "test:nocache": "testcafe chrome ./tests --disable-page-caching  --skip-js-errors"
+  },
+  "keywords": [
+    "DF",
+    "TestCafe",
+    "12/24 forms"
+  ],
+  "license": "ISC",
+  "devDependencies": {
+    "js-automation-tools": "^1.2.0",
+    "testcafe": "^1.18.2"
+  },
+  "dependencies": {
+    "prettier": "^2.5.1"
+  }
+}
