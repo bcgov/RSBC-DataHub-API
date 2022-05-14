@@ -31,7 +31,7 @@
 <script>
 
 import FormsCommon from "@/components/forms/FormsCommon";
-import {mapActions, mapGetters, mapMutations} from 'vuex';
+import {mapGetters} from 'vuex';
 import PrintDocuments from "../PrintDocuments";
 import DriversInformationCard from "@/components/forms/TwentyFourHourProhibition/DriversInformationCard";
 import OfficerDetailsCard from "@/components/forms/OfficerDetailsCard";
@@ -91,10 +91,6 @@ export default {
     this.setNewFormDefaults(payload)
     this.data = this.getCurrentlyEditedFormData
     this.isMounted = true
-  },
-  methods: {
-    ...mapMutations(["setFormAsPrinted"]),
-    ...mapActions(["saveFormAndGeneratePDF"]),
   }
 }
 </script>

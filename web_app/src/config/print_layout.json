@@ -1,17 +1,14 @@
 {
   "VI": {
-    "orientation": "p",
     "units": "mm",
-    "format": "letter",
     "fields": {
       "BAR_CODE": {
         "field_type": "barcode",
-        "font_size": 42,
         "function": "getFormIdForBarCode",
         "parameters": "",
         "start": {
-          "x": 77,
-          "y": 14
+          "x": 67,
+          "y": 15
         }
       },
       "VIOLATION_NUMBER": {
@@ -951,6 +948,7 @@
       "police": {
         "pages": [
           {
+            "orientation": "Portrait",
             "image": {
               "filename": "assets/MV2721_201502.png",
               "offset_x": 0,
@@ -1022,6 +1020,7 @@
       "driver": {
         "pages": [
           {
+            "orientation": "Portrait",
             "image": {
               "filename": "assets/MV2721_201502.png",
               "offset_x": 0,
@@ -1089,6 +1088,7 @@
             ]
           },
           {
+            "orientation": "Portrait",
             "image": {
               "filename": "assets/MV2721_201502_appeal.png",
               "offset_x": 0,
@@ -1103,6 +1103,7 @@
       "ilo": {
         "pages": [
           {
+            "orientation": "Portrait",
             "image": {
               "filename": "assets/MV2721_201502.png",
               "offset_x": 0,
@@ -1174,6 +1175,7 @@
       "report": {
         "pages": [
           {
+            "orientation": "Portrait",
             "image": {
               "filename": "assets/MV2722_201502.png",
               "offset_x": 0,
@@ -1225,40 +1227,37 @@
           }
         ]
       }
-    }
+    },
+    "viewbox": "2 15 211 271"
   },
   "24Hour": {
-    "orientation": "l",
     "units": "mm",
-    "format": "letter",
     "fields": {
       "VIOLATION_NUMBER": {
         "field_type": "text",
         "font_size": 20,
+        "function": "getFormattedFormId",
+        "parameters": "",
         "start": {
           "x": 30,
           "y": 30
         }
       },
-      "DRIVER_SURNAME": {
+      "DRIVER_NAME": {
         "field_type": "text",
         "font_size": 12,
+        "function": "getValuesConcatenatedWithCommas",
+        "parameters": ["last_name","first_name"],
         "start": {
           "x": 33.2,
-          "y": 38
-        }
-      },
-      "DRIVER_GIVEN": {
-        "field_type": "text",
-        "font_size": 12,
-        "start": {
-          "x": 83.2,
           "y": 38
         }
       },
       "DRIVER_DL_NUMBER": {
         "field_type": "text",
         "font_size": 14,
+        "function": "getStringValue",
+        "parameters": "drivers_number",
         "start": {
           "x": 33.2,
           "y": 45
@@ -1267,6 +1266,8 @@
       "DRIVER_DL_PROVINCE": {
         "field_type": "text",
         "font_size": 14,
+        "function": "getJurisdictionCode",
+        "parameters": "drivers_licence_jurisdiction",
         "start": {
           "x": 80,
           "y": 45
@@ -1275,6 +1276,8 @@
       "DRIVER_DOB": {
         "field_type": "text",
         "font_size": 14,
+        "function": "getDateValue",
+        "parameters": "dob",
         "start": {
           "x": 103,
           "y": 45
@@ -1283,6 +1286,8 @@
       "DRIVER_ADDRESS": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getValuesConcatenatedWithCommas",
+        "parameters": ["address1","city","province","postal"],
         "start": {
           "x": 33.2,
           "y": 52
@@ -1291,6 +1296,8 @@
       "REASON_ALCOHOL_215": {
         "field_type": "checkbox",
         "font_size": 12,
+        "function": "getIsChecked",
+        "parameters": ["prohibition_type", "Alcohol 215(2)"],
         "start": {
           "x": 48.8,
           "y": 56
@@ -1299,6 +1306,8 @@
       "REASON_DRUGS_215": {
         "field_type": "checkbox",
         "font_size": 12,
+        "function": "getIsChecked",
+        "parameters": ["prohibition_type", "Drugs 215(3)"],
         "start": {
           "x": 76.7,
           "y": 56
@@ -1307,6 +1316,8 @@
       "NOTICE_TIME": {
         "field_type": "text",
         "font_size": 12,
+        "function": "getTimeFormat",
+        "parameters": ["prohibition_start_time", "HH:mm"],
         "start": {
           "x": 32.4,
           "y": 72
@@ -1315,6 +1326,8 @@
       "NOTICE_DAY": {
         "field_type": "text",
         "font_size": 12,
+        "function": "getDateFormat",
+        "parameters": ["prohibition_start_date", "Do"],
         "start": {
           "x": 64.4,
           "y": 72
@@ -1323,6 +1336,8 @@
       "NOTICE_MONTH": {
         "field_type": "text",
         "font_size": 12,
+        "function": "getDateFormat",
+        "parameters": ["prohibition_start_date", "MMMM"],
         "start": {
           "x": 84.9,
           "y": 72
@@ -1331,6 +1346,8 @@
       "NOTICE_YEAR": {
         "field_type": "text",
         "font_size": 12,
+        "function": "getDateFormat",
+        "parameters": ["prohibition_start_date", "YYYY"],
         "start": {
           "x": 116.8,
           "y": 72
@@ -1339,6 +1356,8 @@
       "DL_SURRENDER_LOCATION": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getValuesConcatenatedWithCommas",
+        "parameters": ["offence_address","offence_city"],
         "start": {
           "x": 30.7,
           "y": 89
@@ -1347,6 +1366,8 @@
       "OFFICER_LAST_NAME": {
         "field_type": "text",
         "font_size": 12,
+        "function": "getStringValue",
+        "parameters": "officer_name",
         "start": {
           "x": 30.7,
           "y": 95
@@ -1355,6 +1376,8 @@
       "OFFICER_BADGE_NUMBER": {
         "field_type": "text",
         "font_size": 12,
+        "function": "getStringValue",
+        "parameters": "badge_number",
         "start": {
           "x": 107,
           "y": 95
@@ -1363,6 +1386,8 @@
       "AGENCY_NAME": {
         "field_type": "text",
         "font_size": 12,
+        "function": "getStringValue",
+        "parameters": "agency",
         "start": {
           "x": 30.7,
           "y": 102
@@ -1371,6 +1396,8 @@
       "AGENCY_FILE_NUMBER": {
         "field_type": "text",
         "font_size": 12,
+        "function": "getStringValue",
+        "parameters": "file_number",
         "start": {
           "x": 92.2,
           "y": 102
@@ -1379,6 +1406,8 @@
       "OWNER_NAME": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getOwnerName",
+        "parameters": "",
         "start": {
           "x": 32.4,
           "y": 112
@@ -1387,6 +1416,8 @@
       "OWNER_ADDRESS": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getValuesConcatenatedWithCommas",
+        "parameters": ["owners_address1","owners_city"],
         "start": {
           "x": 32.4,
           "y": 119
@@ -1395,6 +1426,8 @@
       "OWNER_PROVINCE": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "owners_province",
         "start": {
           "x": 102.9,
           "y": 119
@@ -1403,6 +1436,8 @@
       "OWNER_POSTAL_CODE": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "owners_postal",
         "start": {
           "x": 115.2,
           "y": 119
@@ -1411,6 +1446,8 @@
       "VEHICLE_LICENSE_NUMBER": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "plate_number",
         "start": {
           "x": 32.4,
           "y": 126
@@ -1419,6 +1456,8 @@
       "VEHICLE_PROVINCE": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getJurisdictionCode",
+        "parameters": "plate_province",
         "start": {
           "x": 53.7,
           "y": 126
@@ -1427,6 +1466,8 @@
       "VEHICLE_LICENSE_YEAR": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "plate_year",
         "start": {
           "x": 67.6,
           "y": 126
@@ -1435,6 +1476,8 @@
       "VEHICLE_TAG_NUMBER": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "plate_val_tag",
         "start": {
           "x": 79.9,
           "y": 126
@@ -1443,6 +1486,8 @@
       "VEHICLE_REGISTRATION_NUMBER": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "registration_number",
         "start": {
           "x": 96,
           "y": 126
@@ -1451,6 +1496,8 @@
       "VEHICLE_TYPE": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "vehicle_type",
         "start": {
           "x": 116.8,
           "y": 126
@@ -1459,6 +1506,8 @@
       "VEHICLE_MAKE": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "vehicle_make",
         "start": {
           "x": 32.4,
           "y": 132
@@ -1467,6 +1516,8 @@
       "VEHICLE_MODEL": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "vehicle_model",
         "start": {
           "x": 53.7,
           "y": 132
@@ -1475,6 +1526,8 @@
       "VEHICLE_YEAR": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "vehicle_year",
         "start": {
           "x": 69.3,
           "y": 132
@@ -1483,6 +1536,8 @@
       "VEHICLE_COLOR": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "vehicle_color",
         "start": {
           "x": 79.9,
           "y": 132
@@ -1491,6 +1546,8 @@
       "VEHICLE_NSC_PUJ": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "puj_code",
         "start": {
           "x": 92.2,
           "y": 132
@@ -1499,6 +1556,8 @@
       "VEHICLE_NSC_NUMBER": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "nsc_number",
         "start": {
           "x": 104.5,
           "y": 132
@@ -1507,6 +1566,8 @@
       "VEHICLE_VIN": {
         "field_type": "text",
         "font_size": 10,
+        "function": "getStringValue",
+        "parameters": "vin_number",
         "start": {
           "x": 32.4,
           "y": 138
@@ -1515,6 +1576,8 @@
       "OWNER_PHONE_AREA_CODE": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getPhoneAreaCodeValue",
+        "parameters": "owners_phone",
         "start": {
           "x": 99.6,
           "y": 138
@@ -1523,6 +1586,8 @@
       "OWNER_PHONE_NUMBER": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getPhoneValue",
+        "parameters": "owners_phone",
         "start": {
           "x": 107.8,
           "y": 138
@@ -1531,6 +1596,8 @@
       "NOT_IMPOUNDED": {
         "field_type": "checkbox",
         "font_size": 12,
+        "function": "getIsChecked",
+        "parameters": ["vehicle_impounded", "No"],
         "start": {
           "x": 29.9,
           "y": 145.3
@@ -1539,6 +1606,8 @@
       "IMPOUNDED": {
         "field_type": "checkbox",
         "font_size": 12,
+        "function": "getIsChecked",
+        "parameters": ["vehicle_impounded", "Yes"],
         "start": {
           "x": 29.9,
           "y": 148.6
@@ -1547,6 +1616,7 @@
       "NOT_IMPOUNDED_REASON": {
         "field_type": "text",
         "font_size": 12,
+        "fn": [],
         "start": {
           "x": 66.8,
           "y": 145.3
@@ -1555,6 +1625,7 @@
       "IMPOUNDED_LOT": {
         "field_type": "text",
         "font_size": 8,
+
         "start": {
           "x": 78.3,
           "y": 154
@@ -1786,8 +1857,9 @@
         }
       },
       "DRIVER_COPY": {
-        "field_type": "label",
-        "value": "DRIVER COPY",
+        "field_type": "text",
+        "function": "label",
+        "parameters": "DRIVER COPY",
         "font_size": 10,
         "start": {
           "x": 100,
@@ -1795,8 +1867,9 @@
         }
       },
       "POLICE_COPY": {
-        "field_type": "label",
-        "value": "POLICE COPY",
+        "field_type": "text",
+        "function": "label",
+        "parameters": "POLICE COPY",
         "font_size": 10,
         "start": {
           "x": 100,
@@ -1804,8 +1877,9 @@
         }
       },
       "ILO_COPY": {
-        "field_type": "label",
-        "value": "ILO COPY",
+        "field_type": "text",
+        "function": "label",
+        "parameters": "ILO COPY",
         "font_size": 10,
         "start": {
           "x": 100,
@@ -1813,30 +1887,32 @@
         }
       },
       "ICBC_COPY": {
-        "field_type": "label",
-        "value": "SEND TO ICBC",
+        "field_type": "text",
         "font_size": 10,
+        "function": "label",
+        "parameters": "SEND TO ICBC",
         "start": {
           "x": 100,
           "y": 199.6
         }
       }
     },
+    "viewbox": "0 0 223 210",
     "variants": {
       "driver": {
         "pages": [
           {
+            "orientation": "Landscape",
             "image": {
               "filename": "assets/MV2634_102018_driver.png",
-              "offset_x": 25,
-              "offset_y": 6,
+              "offset_x": 0,
+              "offset_y": 0,
               "width": 223,
-              "height": 201
+              "height": 202
             },
             "show_fields": [
               "VIOLATION_NUMBER",
-              "DRIVER_SURNAME",
-              "DRIVER_GIVEN",
+              "DRIVER_NAME",
               "DRIVER_DL_NUMBER",
               "DRIVER_DL_PROVINCE",
               "DRIVER_DOB",
@@ -1892,8 +1968,8 @@
           {
             "image": {
               "filename": "assets/MV2634_102018_driver.png",
-              "offset_x": 25,
-              "offset_y": 6,
+              "offset_x": 0,
+              "offset_y": 0,
               "width": 223,
               "height": 201
             },
@@ -1945,17 +2021,17 @@
       "police": {
         "pages": [
           {
+            "orientation": "Landscape",
             "image": {
               "filename": "assets/MV2634_102018_police.png",
-              "offset_x": 25,
-              "offset_y": 6,
+              "offset_x": 0,
+              "offset_y": 0,
               "width": 223,
-              "height": 201
+              "height": 202
             },
             "show_fields": [
               "VIOLATION_NUMBER",
-              "DRIVER_SURNAME",
-              "DRIVER_GIVEN",
+              "DRIVER_NAME",
               "DRIVER_DL_NUMBER",
               "DRIVER_DL_PROVINCE",
               "DRIVER_DOB",
@@ -2030,17 +2106,17 @@
       "icbc": {
         "pages": [
           {
+            "orientation": "Landscape",
             "image": {
               "filename": "assets/MV2634_102018_police.png",
-              "offset_x": 25,
-              "offset_y": 6,
+              "offset_x": 0,
+              "offset_y": 0,
               "width": 223,
-              "height": 201
+              "height": 202
             },
             "show_fields": [
               "VIOLATION_NUMBER",
-              "DRIVER_SURNAME",
-              "DRIVER_GIVEN",
+              "DRIVER_NAME",
               "DRIVER_DL_NUMBER",
               "DRIVER_DL_PROVINCE",
               "DRIVER_DOB",
@@ -2113,39 +2189,36 @@
         ]
       }
     }
+
   },
   "12Hour": {
-    "orientation": "l",
     "units": "mm",
-    "format": "letter",
     "fields": {
       "VIOLATION_NUMBER": {
         "field_type": "text",
         "font_size": 18,
+        "function": "getFormattedFormId",
+        "parameters": "",
         "start": {
           "x": 31,
           "y": 28.9
         }
       },
-      "DRIVER_SURNAME": {
+      "DRIVER_NAME": {
         "field_type": "text",
         "font_size": 12,
+        "function": "getValuesConcatenatedWithCommas",
+        "parameters": ["last_name","first_name"],
         "start": {
           "x": 33.2,
-          "y": 35.4
-        }
-      },
-      "DRIVER_GIVEN": {
-        "field_type": "text",
-        "font_size": 12,
-        "start": {
-          "x": 83.2,
           "y": 35.4
         }
       },
       "DRIVER_DL_NUMBER": {
         "field_type": "text",
         "font_size": 14,
+        "function": "getStringValue",
+        "parameters": "drivers_number",
         "start": {
           "x": 33.2,
           "y": 42.8
@@ -2154,6 +2227,8 @@
       "DRIVER_DOB": {
         "field_type": "text",
         "font_size": 12,
+        "function": "getDateValue",
+        "parameters": "dob",
         "start": {
           "x": 98,
           "y": 43
@@ -2162,6 +2237,8 @@
       "DRIVER_ADDRESS": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getValuesConcatenatedWithCommas",
+        "parameters": ["address1","city","province","postal"],
         "start": {
           "x": 33.2,
           "y": 49.5
@@ -2170,6 +2247,8 @@
       "DRIVER_PHONE_AREA_CODE": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getPhoneAreaCodeValue",
+        "parameters": "driver_phone",
         "start": {
           "x": 32,
           "y": 57
@@ -2178,6 +2257,8 @@
       "DRIVER_PHONE": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getPhoneValue",
+        "parameters": "driver_phone",
         "start": {
           "x": 45,
           "y": 57
@@ -2186,6 +2267,8 @@
       "VEHICLE_NSC_PUJ": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "puj_code",
         "start": {
           "x": 75,
           "y": 57
@@ -2194,6 +2277,8 @@
       "VEHICLE_NSC_NUMBER": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "nsc_number",
         "start": {
           "x": 85,
           "y": 57
@@ -2202,6 +2287,8 @@
       "REASON_ALCOHOL_90": {
         "field_type": "checkbox",
         "font_size": 12,
+        "function": "getIsChecked",
+        "parameters": ["prohibition_type_12hr", "Alcohol 90.3(2)"],
         "start": {
           "x": 47,
           "y": 65
@@ -2210,6 +2297,8 @@
       "REASON_DRUGS_90": {
         "field_type": "checkbox",
         "font_size": 12,
+        "function": "getIsChecked",
+        "parameters": ["prohibition_type_12hr", "Drugs 90.3(2.1)"],
         "start": {
           "x": 78,
           "y": 65
@@ -2218,6 +2307,8 @@
       "NOTICE_TIME": {
         "field_type": "text",
         "font_size": 10,
+        "function": "getTimeFormat",
+        "parameters": ["prohibition_start_time", "HH:mm"],
         "start": {
           "x": 34.8,
           "y": 99
@@ -2226,6 +2317,8 @@
       "NOTICE_DAY": {
         "field_type": "text",
         "font_size": 10,
+        "function": "getDateFormat",
+        "parameters": ["prohibition_start_date", "Do"],
         "start": {
           "x": 64.4,
           "y": 99
@@ -2234,6 +2327,8 @@
       "NOTICE_MONTH": {
         "field_type": "text",
         "font_size": 10,
+        "function": "getDateFormat",
+        "parameters": ["prohibition_start_date", "MMMM"],
         "start": {
           "x": 87,
           "y": 99
@@ -2242,6 +2337,8 @@
       "NOTICE_YEAR": {
         "field_type": "text",
         "font_size": 10,
+        "function": "getDateFormat",
+        "parameters": ["prohibition_start_date", "YYYY"],
         "start": {
           "x": 113,
           "y": 99
@@ -2250,6 +2347,8 @@
       "DL_SURRENDER_LOCATION": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getValuesConcatenatedWithCommas",
+        "parameters": ["offence_address","offence_city"],
         "start": {
           "x": 30.7,
           "y": 120.1
@@ -2258,6 +2357,8 @@
       "OFFICER_LAST_NAME": {
         "field_type": "text",
         "font_size": 12,
+        "function": "getStringValue",
+        "parameters": "officer_name",
         "start": {
           "x": 30.7,
           "y": 128.9
@@ -2266,6 +2367,8 @@
       "OFFICER_BADGE_NUMBER": {
         "field_type": "text",
         "font_size": 12,
+        "function": "getStringValue",
+        "parameters": "badge_number",
         "start": {
           "x": 107,
           "y": 128.9
@@ -2274,6 +2377,8 @@
       "AGENCY_NAME": {
         "field_type": "text",
         "font_size": 12,
+        "function": "getStringValue",
+        "parameters": "agency",
         "start": {
           "x": 30.7,
           "y": 136.9
@@ -2282,6 +2387,8 @@
       "AGENCY_FILE_NUMBER": {
         "field_type": "text",
         "font_size": 12,
+        "function": "getStringValue",
+        "parameters": "file_number",
         "start": {
           "x": 94.7,
           "y": 136.9
@@ -2290,6 +2397,8 @@
       "VEHICLE_LICENSE_NUMBER": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "plate_number",
         "start": {
           "x": 107,
           "y": 149
@@ -2298,6 +2407,8 @@
       "VEHICLE_PROVINCE": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getJurisdictionCode",
+        "parameters": "plate_province",
         "start": {
           "x": 94.7,
           "y": 149
@@ -2306,6 +2417,8 @@
       "VEHICLE_LICENSE_YEAR": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "plate_year",
         "start": {
           "x": 33.2,
           "y": 149
@@ -2314,6 +2427,8 @@
       "VEHICLE_MAKE": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "vehicle_make",
         "start": {
           "x": 43,
           "y": 149
@@ -2322,6 +2437,8 @@
       "VEHICLE_MODEL": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "vehicle_model",
         "start": {
           "x": 60,
           "y": 149
@@ -2330,6 +2447,8 @@
       "VEHICLE_YEAR": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "vehicle_year",
         "start": {
           "x": 30.7,
           "y": 149
@@ -2338,6 +2457,8 @@
       "VEHICLE_COLOR": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "vehicle_color",
         "start": {
           "x": 77,
           "y": 149
@@ -2346,6 +2467,8 @@
       "IMPOUNDED_LOT": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getImpoundLotOperator",
+        "parameters": "name",
         "start": {
           "x": 30.7,
           "y": 169.2
@@ -2354,6 +2477,8 @@
       "IMPOUNDED_ADDRESS": {
         "field_type": "text",
         "font_size": 10,
+        "function": "getImpoundLotOperator",
+        "parameters": "lot_address",
         "start": {
           "x": 30.7,
           "y": 163.1
@@ -2370,6 +2495,8 @@
       "IMPOUNDED_PHONE_NUMBER": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getImpoundLotOperator",
+        "parameters": "phone",
         "start": {
           "x": 110,
           "y": 169.2
@@ -2408,8 +2535,9 @@
         }
       },
       "DRIVER_COPY": {
-        "field_type": "label",
-        "value": "DRIVER COPY",
+        "field_type": "text",
+        "function": "label",
+        "parameters": "DRIVER COPY",
         "font_size": 10,
         "start": {
           "x": 90,
@@ -2417,8 +2545,9 @@
         }
       },
       "POLICE_COPY": {
-        "field_type": "label",
-        "value": "POLICE COPY",
+        "field_type": "text",
+        "function": "label",
+        "parameters": "POLICE COPY",
         "font_size": 10,
         "start": {
           "x": 90,
@@ -2426,30 +2555,32 @@
         }
       },
       "ICBC_COPY": {
-        "field_type": "label",
-        "value": "SEND TO ICBC",
+        "field_type": "text",
         "font_size": 10,
+        "function": "label",
+        "parameters": "SEND TO ICBC",
         "start": {
           "x": 90,
           "y": 199.5
         }
       }
     },
+    "viewbox": "0 0 223 210",
     "variants": {
       "driver": {
         "pages": [
           {
+            "orientation": "Landscape",
             "image": {
               "filename": "assets/MV2906_102018.png",
-              "offset_x": 25,
+              "offset_x": 0,
               "offset_y": 0,
               "width": 223,
-              "height": 201
+              "height": 202
             },
             "show_fields": [
               "VIOLATION_NUMBER",
-              "DRIVER_SURNAME",
-              "DRIVER_GIVEN",
+              "DRIVER_NAME",
               "DRIVER_DL_NUMBER",
               "DRIVER_DOB",
               "DRIVER_ADDRESS",
@@ -2491,17 +2622,17 @@
       "police": {
         "pages": [
           {
+            "orientation": "Landscape",
             "image": {
               "filename": "assets/MV2906_102018.png",
-              "offset_x": 25,
+              "offset_x": 0,
               "offset_y": 0,
               "width": 223,
-              "height": 201
+              "height": 202
             },
             "show_fields": [
               "VIOLATION_NUMBER",
-              "DRIVER_SURNAME",
-              "DRIVER_GIVEN",
+              "DRIVER_NAME",
               "DRIVER_DL_NUMBER",
               "DRIVER_DOB",
               "DRIVER_ADDRESS",
@@ -2543,17 +2674,17 @@
       "icbc": {
         "pages": [
           {
+            "orientation": "Landscape",
             "image": {
               "filename": "assets/MV2906_102018.png",
-              "offset_x": 25,
+              "offset_x": 0,
               "offset_y": 0,
               "width": 223,
-              "height": 201
+              "height": 202
             },
             "show_fields": [
               "VIOLATION_NUMBER",
-              "DRIVER_SURNAME",
-              "DRIVER_GIVEN",
+              "DRIVER_NAME",
               "DRIVER_DL_NUMBER",
               "DRIVER_DOB",
               "DRIVER_ADDRESS",

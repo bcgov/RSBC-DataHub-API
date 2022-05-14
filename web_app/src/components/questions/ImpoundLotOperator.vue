@@ -3,7 +3,6 @@
     <form-row>
       <div v-if="visible" class="form-group" :class="fg_class">
         <validation-provider :rules="rules" :name="id" v-slot="{ errors, required }">
-          <span v-if="required" class="small text-danger"> *</span>
           <vue-typeahead-bootstrap
               :input-class="errors.length > 0 ? 'border-danger bg-warning' : ''"
               @hit="typeAheadUpdate"
@@ -13,6 +12,7 @@
               :disabled="disabled || hasFormBeenPrinted"
               :inputName="id + '_typeahead'" />
           <div class="small text-danger">{{ errors[0] }}</div>
+          <span v-if="required" class="small text-danger"> *</span>
         </validation-provider>
         <shadow-box class="mt-3">
           <form-row>
@@ -27,7 +27,7 @@
             <text-field id="ilo_city" :disabled="true"
                         :placeholder="getAttributeValue(id).city"
                         fg_class="col-sm-4">City</text-field>
-            <text-field :id="ilo_phone" :disabled="true"
+            <text-field id="ilo_phone" :disabled="true"
                         :placeholder="getAttributeValue(id).phone"
                         fg_class="col-sm-3">Public phone</text-field>
           </form-row>

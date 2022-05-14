@@ -20,6 +20,7 @@ import FormRow from "@/components/forms/FormRow";
 import TimeField from "@/components/questions/TimeField";
 import ReadOnlyElement from "@/components/questions/ReadOnlyElement";
 import InLineCheckBox from "@/components/questions/InLineCheckBox";
+import ImpoundLotOperator from "@/components/questions/ImpoundLotOperator";
 import {mapGetters} from "vuex";
 
 
@@ -59,6 +60,7 @@ export default {
     FormStep,
     GenderField,
     InLineCheckBox,
+    ImpoundLotOperator,
     JurisdictionField,
     PhoneField,
     PlateNumber,

@@ -40,13 +40,12 @@ export default {
         "getCurrentlyEditedFormData",
         "getCurrentlyEditedFormObject",
         "corporateOwner",
-        "getPdfFileNameString",
         "getPagesToPrint"
     ]),
   },
   methods: {
+    ...mapActions(["tellApiFormIsPrinted", "saveCurrentFormToDB", "getPrintMappings"]),
     ...mapMutations(["setFormAsPrinted"]),
-    ...mapActions(["saveFormAndGeneratePDF"]),
     async onSubmit (validate, variantList, form_object) {
       this.display_spinner = true;
       const is_validated = await validate()
@@ -55,19 +54,25 @@ export default {
         const current_timestamp = moment.now()
         let payload = {}
         payload['form_object'] = form_object
-        payload['filename'] = this.getPdfFileNameString(form_object, variantList[0]);
         payload['variants'] = variantList;
         payload['form_data'] = form_object.data;
         payload['timestamp'] = current_timestamp
-        await this.saveFormAndGeneratePDF(payload)
+        this.setFormAsPrinted(payload)
+        this.saveCurrentFormToDB(form_object)
+        this.tellApiFormIsPrinted(form_object)
           .then( (response) => {
-              console.log('form generated successfully', response)
-              this.display_spinner = false;
-            })
-          .catch((error) => {
-              console.log('form did not generate successfully', error)
-              this.display_spinner = false;
-            })
+              console.log("response from tellApiFormIsPrinted()", response)
+          })
+          .catch( (error) => {
+              console.log("no response from tellApiFormIsPrinted()", error)
+          })
+        this.display_spinner = false;
+        this.$router.replace({
+          name: "print", params: {
+            "form_type": form_object.form_type,
+            "id": form_object.form_id
+          }
+        })
       } else {
         this.rerender++;
         this.isNotValid = true;
@@ -80,7 +85,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

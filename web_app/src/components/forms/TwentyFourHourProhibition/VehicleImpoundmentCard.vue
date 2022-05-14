@@ -23,10 +23,8 @@
         <radio-field id="location_of_keys" :visible="showVehicleImpounded" fg_class="col-sm-6" rules="required"
                      :options='["With vehicle", "With driver"]'>Location of Keys?</radio-field>
       </form-row>
-      <form-row>
-        <type-ahead-field id="impound_lot_operator" fg_class="col-sm-12" :visible="showVehicleImpounded" rules="required"
-                          :suggestions="getArrayOfImpoundLotOperators">Impound Lot Operator (name, lot address, city & phone)</type-ahead-field>
-      </form-row>
+      <impound-lot-operator v-if="showVehicleImpounded" fg_class="col-sm-12" rules="required">
+        Impound Lot Operator (name, lot address, city & phone)</impound-lot-operator>
   </form-card>
 </template>
 

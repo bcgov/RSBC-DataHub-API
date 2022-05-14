@@ -34,7 +34,7 @@ import VehicleInformationCard from "@/components/forms/TwelveHourSuspension/Vehi
 import PrintDocuments from "../PrintDocuments";
 import ProhibitionInformationCard from "@/components/forms/TwelveHourSuspension/ProhibitionInformationCard";
 import VehicleImpoundmentCard from "@/components/forms/TwelveHourSuspension/VehicleImpoundmentCard";
-import {mapActions, mapGetters, mapMutations} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: "TwelveTwentyFour",
@@ -70,7 +70,6 @@ export default {
       "getCurrentlyEditedForm"]),
   },
   methods: {
-    ...mapMutations(["setFormAsPrinted"]),
     ...mapActions(["saveFormAndGeneratePDF"])
   }
 }

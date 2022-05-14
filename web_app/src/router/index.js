@@ -7,6 +7,7 @@ import TwentyFourHourProhibition from "@/components/forms/TwentyFourHourProhibit
 import TwelveHourProhibition from "@/components/forms/TwelveHourSuspension/TwelveHourProhibition";
 import ImmediateRoadsideProhibition from "@/components/forms/ImmediateRoadsideProhibition";
 import VehicleImpoundment from "@/components/forms/VehicleImpoundment/VehicleImpoundment";
+import SVGPrint from "@/components/print/SvgPrint";
 import NotFound from "@/components/NotFound";
 
 Vue.use(Router)
@@ -58,6 +59,12 @@ const router = new Router({
       path: '/VI/:id',
       name: 'VI',
       component: VehicleImpoundment,
+      props: true
+    },
+    {
+      path: '/:form_type/:id/print',
+      name: 'print',
+      component: SVGPrint,
       props: true
     },
     {

@@ -43,6 +43,10 @@ export const getters = {
         return state.forms[form_type][form_id].data;
     },
 
+    getForm: state => (form_type, form_id) => {
+        return state.forms[form_type][form_id];
+    },
+
     getCurrentlyEditedFormData: state => {
         let form_object = state.currently_editing_form_object;
         let root = state.forms[form_object.form_type][form_object.form_id]
