@@ -37,6 +37,9 @@ export default {
     },
     viewBox() {
       return this.page.viewBox;
+    },
+    baseURL() {
+      return process.env.BASE_URL
     }
   },
   components: {
