@@ -1,7 +1,7 @@
 <template>
   <div v-if="formData" class="svg-wrapper">
     <svg width="100%" :viewBox="viewbox">
-      <image :href="'/' + page.image.filename" :height="page.image.height + 'px'" :width="page.image.width + 'px'"/>
+      <image :href="process.env.BASE_URL + page.image.filename" :height="page.image.height + 'px'" :width="page.image.width + 'px'"/>
       <component
         v-for="(field, index) in fieldsToShow"
         v-bind:key="index"
