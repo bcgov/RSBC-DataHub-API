@@ -19,7 +19,7 @@
 <script>
 
 import FieldCommon from "@/components/questions/FieldCommon";
-import {mapGetters, mapMutations} from "vuex";
+import {mapGetters} from "vuex";
 
 
 export default {
@@ -40,9 +40,6 @@ export default {
       }
       return true
     }
-  },
-  methods: {
-    ...mapMutations(["updateFormField"])
   }
 }
 </script>

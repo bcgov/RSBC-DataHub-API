@@ -2,7 +2,7 @@
   <form-container title="Vehicle Impoundment" v-if="isMounted">
     <validation-observer v-slot="{handleSubmit, validate}">
       <form @submit.prevent="handleSubmit(onSubmit(validate))">
-        <drivers-information-card></drivers-information-card>
+        <drivers-information-card :path="`form[name][id].data`"></drivers-information-card>
         <vehicle-information-card></vehicle-information-card>
         <vehicle-owner-card></vehicle-owner-card>
         <vehicle-impoundment-card></vehicle-impoundment-card>

@@ -8,10 +8,9 @@
         <input type=text
              class="form-control"
              :id="id"
-               :disabled="disabled || hasFormBeenPrinted"
+             :disabled="disabled || hasFormBeenPrinted"
              placeholder="Plate"
-             :value="getAttributeValue(id)"
-             @input="updateFormField">
+             v-model="attribute">
         <div class="input-group-append">
           <button type="button" @click="triggerPlateLookup" class="btn-sm btn-secondary font-weight-bold" id="icbc-prefill"
                   :disabled="hasFormBeenPrinted || ! isDisplayIcbcPlateLookup">
@@ -47,7 +46,7 @@ export default {
     ...mapGetters(["getAttributeValue", "isDisplayIcbcPlateLookup", "getCurrentlyEditedFormId", "hasFormBeenPrinted"]),
     icbcPayload() {
       return {
-        "plateNumber": this.getAttributeValue(this.id)
+        "plateNumber": this.getAttributeValue(this.path, this.id)
       }
     },
   },

@@ -1,39 +1,23 @@
 <template>
   <div>
-    <form-row>
-      <div v-if="visible" class="form-group" :class="fg_class">
-        <validation-provider :rules="rules" :name="id" v-slot="{ errors, required }">
-          <vue-typeahead-bootstrap
-              :input-class="errors.length > 0 ? 'border-danger bg-warning' : ''"
-              @hit="typeAheadUpdate"
-              placeholder="Search for an impound lot operator"
-              v-model="query"
-              :data="getArrayOfImpoundLotOperators"
-              :disabled="disabled || hasFormBeenPrinted"
-              :inputName="id + '_typeahead'" />
-          <div class="small text-danger">{{ errors[0] }}</div>
-          <span v-if="required" class="small text-danger"> *</span>
-        </validation-provider>
-        <shadow-box class="mt-3">
-          <form-row>
-            <text-field id="ilo_name" :disabled="true"
-                        :placeholder="getAttributeValue(id).name"
-                        fg_class="col-sm-12">Impound Lot Operator Name</text-field>
-          </form-row>
-          <form-row>
-            <text-field id="ilo_address" :disabled="true"
-                        :placeholder="getAttributeValue(id).lot_address"
-                        fg_class="col-sm-5">Public lot address</text-field>
-            <text-field id="ilo_city" :disabled="true"
-                        :placeholder="getAttributeValue(id).city"
-                        fg_class="col-sm-4">City</text-field>
-            <text-field id="ilo_phone" :disabled="true"
-                        :placeholder="getAttributeValue(id).phone"
-                        fg_class="col-sm-3">Public phone</text-field>
-          </form-row>
-        </shadow-box>
-      </div>
-    </form-row>
+    <shadow-box>
+      <form-row>
+        <vue-typeahead-bootstrap
+          class="col-sm-4 mb-2"
+          @hit="typeAheadUpdate"
+          placeholder="Search for an impound lot operator"
+          v-model="query"
+          :data="getArrayOfImpoundLotOperators"
+          :disabled="disabled || hasFormBeenPrinted"
+          :inputName="id + '_typeahead'" />
+      </form-row>
+        <form-row>
+          <text-field id="name" rules="required" :path="getPath" fg_class="col-sm-12">Impound Lot Operator Name</text-field>
+          <text-field id="lot_address" rules="required" :path="getPath" fg_class="col-sm-5">Public lot address</text-field>
+          <text-field id="city" rules="required" :path="getPath" fg_class="col-sm-4">City</text-field>
+          <text-field id="phone" rules="required" :path="getPath" fg_class="col-sm-3">Public phone</text-field>
+        </form-row>
+    </shadow-box>
   </div>
 
 </template>
@@ -58,6 +42,9 @@ export default {
     },
     suggestions: {
       default: Array
+    },
+    path: {
+      type: String
     }
   },
   data(){
@@ -67,12 +54,17 @@ export default {
     },
   computed: {
     ...mapGetters(["getAttributeValue", "hasFormBeenPrinted", "getArrayOfImpoundLotOperators", "getImpoundLotOperatorObject"]),
+    getPath() {
+      return this.path + "/" + this.id
+    }
   },
   methods: {
     typeAheadUpdate(e) {
+      console.log("ilo()", e)
       const ilo_object = this.getImpoundLotOperatorObject(e)
-      const payload = {target: {value: ilo_object, id: this.id }}
+      const payload = {target: {value: ilo_object, path: this.path, id: this.id }}
       this.$store.commit("updateFormField", payload)
+      this.query = ''
     }
   },
   components: {

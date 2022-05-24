@@ -32,7 +32,7 @@ export default {
   mounted () {
     if(this.defaultToBc) {
       // set initial value to BC
-      this.$store.commit("updateFormField", { target: { id: this.id, value: "BC"}})
+      this.$store.commit("updateFormField", { target: { id: this.id, path: this.path, value: "BC"}})
     }
   },
   computed: {

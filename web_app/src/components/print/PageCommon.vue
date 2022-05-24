@@ -1,8 +1,8 @@
 <script>
-
 import TextComponent from "@/components/print/TextComponent";
 import CheckboxComponent from "@/components/print/CheckBoxComponent";
 import BarcodeComponent from "@/components/print/BarcodeComponent";
+import MemoComponent from "@/components/print/MemoComponent";
 import {mapGetters} from "vuex";
 
 export default {
@@ -45,7 +45,8 @@ export default {
   components: {
     TextComponent,
     CheckboxComponent,
-    BarcodeComponent
+    BarcodeComponent,
+    MemoComponent
   }
 }
 </script>

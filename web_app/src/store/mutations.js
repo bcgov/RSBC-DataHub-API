@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import nestedFunctions from "@/helpers/nestedFunctions";
 
 export const mutations = {
 
@@ -9,11 +10,15 @@ export const mutations = {
     },
 
     updateFormField (state, event) {
-        console.log("updateFormField()", event)
-        let id = event.target.id;
-        let value = event.target.value;
-        let form_object = state.currently_editing_form_object
-        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, id, value);
+        let pathArray = event.target.path.split("/")
+        pathArray.push(event.target.id)
+        nestedFunctions.setProp(state, pathArray, event.target.value)
+    },
+
+    deleteFormField (state, event) {
+        let pathArray = event.target.path.split("/")
+        pathArray.push(event.target.id)
+        nestedFunctions.deleteProp(state, pathArray)
     },
 
     setFormAsImpounded (state) {
@@ -39,25 +44,6 @@ export const mutations = {
         let tenant = {id: payload.event.id, value: payload.event.value}
         let indexOfValue = root[payload.id].indexOf(tenant)
         root[payload.id].splice(indexOfValue, 1)
-    },
-
-    updateCheckBox (state, payload) {
-        let id = payload.target.id;
-        let value = payload.target.value;
-        let form_object = state.currently_editing_form_object
-        let root = state.forms[form_object.form_type][form_object.form_id].data
-        if (root[id]) {
-            if (root[id].includes(value) && typeof root[id] === "object") {
-                // item exists; remove it
-                let indexOfValue = root[id].indexOf(value)
-                root[id].splice(indexOfValue, 1)
-            } else {
-                // item doesn't exist; so add it
-                root[id].push(value);
-            }
-        } else {
-            Vue.set(root, id, [value])
-        }
     },
 
     deleteForm(state, payload) {
@@ -130,11 +116,12 @@ export const mutations = {
         const address = owner['addresses'][0]
 
         if(owner.partyType === 'Organisation') {
-            Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "corporate_owner", ['Owned by corporate entity']);
-            Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_corporation", owner['orgName']);
+            Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owner_corp", {});
+            Vue.set(state.forms[form_object.form_type][form_object.form_id].data.owner_corp, "name", owner['orgName']);
         } else {
-            Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_last_name", owner['lastName']);
-            Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_first_name", owner['firstName']);
+            Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owner_person", {});
+            Vue.set(state.forms[form_object.form_type][form_object.form_id].data.owner_person, "owners_last_name", owner['lastName']);
+            Vue.set(state.forms[form_object.form_type][form_object.form_id].data.owner_person, "owners_first_name", owner['firstName']);
         }
 
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owner_is_driver", []);

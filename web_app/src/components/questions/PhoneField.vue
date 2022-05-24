@@ -9,8 +9,7 @@
            :disabled="disabled || hasFormBeenPrinted"
            :id="id"
            :placeholder="placeholder"
-            :value="getAttributeValue(id)"
-            @input="updateFormField">
+            v-model="attribute">
     <div class="small text-danger">{{ errors[0] }}</div>
   </validation-provider>
 </div>

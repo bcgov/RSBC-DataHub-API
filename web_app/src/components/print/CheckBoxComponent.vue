@@ -1,7 +1,7 @@
 <template>
-  <text :x="adjustedStart.x" :y="adjustedStart.y" v-if="renderValue"
+  <text :x="adjustedStart.x" :y="adjustedStart.y"
         class="fontText"
-        fill="darkblue">&#10004;
+        fill="darkblue" v-html="renderValue">
   </text>
 </template>
 
@@ -15,6 +15,18 @@ export default {
     value: {
       type: String
     }
+  },
+  computed: {
+    renderValue() {
+      if (["isExists"].includes(this.field.function)) {
+        if (this[this.field.function](this.getPath, this.field.parameters)) {
+          return "&#10004;"
+        }
+      } else {
+        return '?'
+      }
+      return ""
+    },
   }
 }
 </script>

@@ -1,11 +1,11 @@
 <template>
 <form-card title="Driver's Information">
     <form-row>
-      <driver-licence-number id="drivers_number" fg_class="col-sm-6">Driver's Licence Number</driver-licence-number>
+      <driver-licence-number id="drivers_number" :path=path fg_class="col-sm-6">Driver's Licence Number</driver-licence-number>
       <jurisdiction-field id="drivers_licence_jurisdiction" fg_class="col-sm-3">Prov / State / International</jurisdiction-field>
     </form-row>
     <form-row>
-      <text-field id="last_name" fg_class="col-sm-4" rules="required|lt25">Surname</text-field>
+      <text-field id="last_name" :path="path" fg_class="col-sm-4" rules="required|lt25">Surname</text-field>
       <text-field id="first_name" fg_class="col-sm-5" rules="lt25">Given Names</text-field>
       <dob-field id="dob" fg_class="col-sm-3" rules="dob8|dob">Date of Birth</dob-field>
     </form-row>

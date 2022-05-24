@@ -38,7 +38,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getArrayOfBCCityNames", "getFormData", "getCurrentlyEditedForm"])
+    ...mapGetters(["getArrayOfBCCityNames", "getFormData", "getCurrentlyEditedForm"]),
+    getPath() {
+      return `forms/${this.name}/${this.id}/data`
+    }
   },
   methods: {
     ...mapMutations(["editExistingForm", "setNewFormDefaults"])

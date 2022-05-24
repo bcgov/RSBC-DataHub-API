@@ -1,5 +1,6 @@
 import moment from "moment";
 import constants from "../config/constants";
+import nestedFunctions from "@/helpers/nestedFunctions";
 
 export const getters = {
 
@@ -58,22 +59,27 @@ export const getters = {
         return state.forms[form_object.form_type][form_object.form_id]
     },
 
-    getAttributeValue: state => id => {
-        let form_object = state.currently_editing_form_object;
-        let root = state.forms[form_object.form_type][form_object.form_id].data;
-        if (!(id in root)) {
-            return '';
-        }
-        return root[id];
+    getAttributeValue: state => (path, id) => {
+        let pathArray = path.split("/")
+        pathArray.push(id)
+        return nestedFunctions.getProp(state, pathArray)
     },
 
-    checkBoxStatus: state => (id, value) => {
-        let form_object = state.currently_editing_form_object;
-        let root = state.forms[form_object.form_type][form_object.form_id].data;
-        if (!(id in root)) {
-            return false;
+    doesAttributeExist: state => (path, id) => {
+        let pathArray = path.split("/")
+        pathArray.push(id)
+        const value = nestedFunctions.getProp(state, pathArray)
+        return value !== undefined
+    },
+
+    checkBoxStatus: state => (path, id, value) => {
+        let pathArray = path.split("/")
+        pathArray.push(id)
+        const stateValue = nestedFunctions.getProp(state, pathArray)
+        if (stateValue) {
+            return stateValue.includes(value)
         }
-        return root[id].includes(value);
+        return false
     },
 
     getArrayOfBCCityNames: state => {
@@ -243,6 +249,7 @@ export const getters = {
     },
 
     corporateOwner: state => {
+        console.log(" --- DEPRECATED --- ")
         let form_object = state.currently_editing_form_object;
         let root = state.forms[form_object.form_type][form_object.form_id].data;
         if( ! root['corporate_owner']) {
@@ -471,37 +478,37 @@ export const getters = {
         return ! getters.isAppAvailableToWorkOffline && ! getters.isUserAuthenticated && state.keycloak.ready;
     },
 
-    isTestAdministeredADSE: (state, getters) => {
-      const root = getters.getAttributeValue('test_administered_adse')
+    isTestAdministeredADSE: (state, getters) => (path) =>  {
+      const root = getters.getAttributeValue(path,'test_administered_adse')
       if (Array.isArray(root)) {
         return root.includes("Approved Drug Screening Equipment")
       }
       return false;
     },
-    isTestAdministeredSFST: (state, getters) => {
-      const root = getters.getAttributeValue('test_administered_sfst')
+    isTestAdministeredSFST: (state, getters) => (path) =>  {
+      const root = getters.getAttributeValue(path,'test_administered_sfst')
       if (Array.isArray(root)) {
         return root.includes("Prescribed Physical Coordination Test (SFST)")
       }
       return false;
     },
-    isTestAdministeredDRE: (state, getters) => {
-      const root = getters.getAttributeValue('test_administered_dre')
+    isTestAdministeredDRE: (state, getters) => (path) =>  {
+      const root = getters.getAttributeValue(path,'test_administered_dre')
       if (Array.isArray(root)) {
         return root.includes("Prescribed Physical Coordination Test (DRE)")
       }
       return false;
     },
 
-    isTestAdministeredASD: (state, getters) => {
-      const root = getters.getAttributeValue('test_administered_asd')
+    isTestAdministeredASD: (state, getters) => (path) =>  {
+      const root = getters.getAttributeValue(path, 'test_administered_asd')
       if (Array.isArray(root)) {
         return root.includes("Alco-Sensor FST (ASD)")
       }
       return false;
     },
-    isTestAdministeredApprovedInstrument: (state, getters) => {
-      const root = getters.getAttributeValue('test_administered_instrument')
+    isTestAdministeredApprovedInstrument: (state, getters) => (path) => {
+      const root = getters.getAttributeValue(path, 'test_administered_instrument')
       if (Array.isArray(root)) {
         return root.includes("Approved Instrument")
       }

@@ -4,8 +4,8 @@
     <label :for="id"><slot></slot></label>
     <span v-if="required" class="small text-danger"> *</span>
     <vue-typeahead-bootstrap :input-class="errors.length > 0 ? 'border-danger bg-warning' : ''"
-                             @input="typeAheadUpdate"
-                             :value="getAttributeValue(id)"
+                             @hit="typeAheadUpdate"
+                             :value="getAttributeValue(path, id)"
                              :data=suggestions
                              :disabled="disabled || hasFormBeenPrinted"
                              :inputName="id + '_typeahead'" />
@@ -33,7 +33,13 @@ export default {
   },
   methods: {
     typeAheadUpdate(e) {
-      const payload = {target: {value: e.toUpperCase(), id: this.id }}
+      const payload = {
+        target: {
+          value: e.toUpperCase(),
+          id: this.id,
+          path: this.path
+        }
+      }
       this.$store.commit("updateFormField", payload)
     }
   },

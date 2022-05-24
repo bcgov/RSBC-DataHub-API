@@ -1,6 +1,7 @@
 <script>
 
-import printFunctions from "@/helpers/printFunctions";
+import {mapGetters} from 'vuex';
+import checkDigit from "@/helpers/checkDigit";
 
 export default {
   name: "RenderCommon",
@@ -22,8 +23,21 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(["getAttributeValue"]),
+    fontSizeClass() {
+      if (this.field.font_size >= 12) {
+        return "fontLarge"
+      }
+      if (this.field.font_size > 10 && this.field.font_size < 12) {
+        return "fontMedium"
+      }
+      if (this.field.font_size <= 10 ) {
+        return "fontSmall"
+      }
+      return "fontText"
+    },
     adjustedStart() {
-      // Temporary workaround while determining how x,y coordinates should be adjusted
+      // Temporary workaround while determining how x,y coordinates should be adjusted for SVG
       if (this.form_type === "VI") {
         return {
           x: this.start.x,
@@ -43,17 +57,44 @@ export default {
         }
       }
       return {
-          x: this.start.x,
-          y: this.start.y
-        }
+        x: this.start.x,
+        y: this.start.y
+      }
     },
     renderValue() {
-      if (this.field.function) {
-        console.log("renderValue()", this.field.parameters, this.form_data)
-        return printFunctions[this.field.function](this.form_data, this.field.parameters)
-      }
       return "fn()"
+    },
+    getPath() {
+      return `forms/${this.form_type}/${this.form_id}/data`
+    },
+  },
+  methods: {
+    getStringValue(form_path, path_and_attribute) {
+      let pathArray = form_path.split("/")
+      pathArray = pathArray.concat(path_and_attribute.split('/'))
+      const attribute = pathArray.pop()
+      const path = pathArray.join("/")
+      return this.getAttributeValue(path, attribute);
+    },
+
+    getFormattedFormId() {
+      const sixDigitString = this.form_id.substr(2,7)
+      const digit = checkDigit.checkDigit(sixDigitString)
+      return this.form_id.substr(0,2) + "-" + sixDigitString + digit
+
+    },
+
+    getFormIdForBarCode() {
+        const sixDigitString = this.form_id.substr(2,7)
+        const digit = checkDigit.checkDigit(sixDigitString)
+        return "*" + sixDigitString + digit + "*"
+    },
+
+    isExists(form_path, attribute) {
+      return this.getStringValue(form_path, attribute) !== undefined
     }
+
+
   }
 }
 </script>

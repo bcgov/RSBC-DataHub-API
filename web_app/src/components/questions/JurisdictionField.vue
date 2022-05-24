@@ -7,7 +7,7 @@
     <select :disabled="disabled || hasFormBeenPrinted" class="form-control" :id="id" @input="updateJurisdictionByEvent">
       <option v-for="jurisdiction in getArrayOfJurisdictions"
               :key="jurisdiction.objectCd"
-              :selected="jurisdiction.objectDsc === getAttributeValue(id).objectDsc">
+              :selected="jurisdiction.objectDsc === getAttributeValue(path, id).objectDsc">
         {{ jurisdiction.objectDsc }}
       </option>
     </select>
@@ -40,7 +40,7 @@ export default {
     updateJurisdictionByName(name) {
       const jurisdictionObject = this.getJurisdictionByFullName(name)
       console.log("jurisdictionUpdate()", name, jurisdictionObject)
-      const payload = {target: {value: jurisdictionObject, id: this.id }}
+      const payload = {target: {value: jurisdictionObject, id: this.id, path: this.path }}
       this.$store.commit("updateFormField", payload)
     }
   }
