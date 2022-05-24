@@ -3,7 +3,7 @@
     <shadow-box>
       <form-row>
         <vue-typeahead-bootstrap
-          class="col-sm-4 mb-2"
+          class="col-sm-5 mb-2"
           @hit="typeAheadUpdate"
           placeholder="Search for an impound lot operator"
           v-model="query"

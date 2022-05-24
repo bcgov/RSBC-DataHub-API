@@ -2344,7 +2344,7 @@
       },
       "DRIVER_NAME": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 10,
         "function": "getValuesConcatenatedWithCommas",
         "parameters": ["last_name","first_name"],
         "start": {
@@ -2354,7 +2354,7 @@
       },
       "DRIVER_DL_NUMBER": {
         "field_type": "text",
-        "font_size": 14,
+        "font_size": 10,
         "function": "getStringValue",
         "parameters": "drivers_number",
         "start": {
@@ -2364,9 +2364,9 @@
       },
       "DRIVER_DOB": {
         "field_type": "text",
-        "font_size": 12,
-        "function": "getDateValue",
-        "parameters": "dob",
+        "font_size": 10,
+        "function": "getFormattedDate",
+        "parameters": ["dob", "YYYY-MM-DD"],
         "start": {
           "x": 98,
           "y": 43
@@ -2374,7 +2374,7 @@
       },
       "DRIVER_ADDRESS": {
         "field_type": "text",
-        "font_size": 8,
+        "font_size": 10,
         "function": "getValuesConcatenatedWithCommas",
         "parameters": ["address1","city","province","postal"],
         "start": {
@@ -2425,8 +2425,8 @@
       "REASON_ALCOHOL_90": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getIsChecked",
-        "parameters": ["prohibition_type_12hr", "Alcohol 90.3(2)"],
+        "function": "isExists",
+        "parameters": "prohibition_type_12hr_alcohol",
         "start": {
           "x": 47,
           "y": 65
@@ -2435,8 +2435,8 @@
       "REASON_DRUGS_90": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getIsChecked",
-        "parameters": ["prohibition_type_12hr", "Drugs 90.3(2.1)"],
+        "function": "isExists",
+        "parameters": "prohibition_type_12hr_drugs",
         "start": {
           "x": 78,
           "y": 65
@@ -2445,7 +2445,7 @@
       "NOTICE_TIME": {
         "field_type": "text",
         "font_size": 10,
-        "function": "getTimeFormat",
+        "function": "getFormattedTime",
         "parameters": ["prohibition_start_time", "HH:mm"],
         "start": {
           "x": 34.8,
@@ -2455,7 +2455,7 @@
       "NOTICE_DAY": {
         "field_type": "text",
         "font_size": 10,
-        "function": "getDateFormat",
+        "function": "getFormattedDate",
         "parameters": ["prohibition_start_date", "Do"],
         "start": {
           "x": 64.4,
@@ -2465,7 +2465,7 @@
       "NOTICE_MONTH": {
         "field_type": "text",
         "font_size": 10,
-        "function": "getDateFormat",
+        "function": "getFormattedDate",
         "parameters": ["prohibition_start_date", "MMMM"],
         "start": {
           "x": 87,
@@ -2475,7 +2475,7 @@
       "NOTICE_YEAR": {
         "field_type": "text",
         "font_size": 10,
-        "function": "getDateFormat",
+        "function": "getFormattedDate",
         "parameters": ["prohibition_start_date", "YYYY"],
         "start": {
           "x": 113,
@@ -2484,7 +2484,7 @@
       },
       "DL_SURRENDER_LOCATION": {
         "field_type": "text",
-        "font_size": 8,
+        "font_size": 10,
         "function": "getValuesConcatenatedWithCommas",
         "parameters": ["offence_address","offence_city"],
         "start": {
@@ -2494,7 +2494,7 @@
       },
       "OFFICER_LAST_NAME": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 10,
         "function": "getStringValue",
         "parameters": "officer_name",
         "start": {
@@ -2504,7 +2504,7 @@
       },
       "OFFICER_BADGE_NUMBER": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 10,
         "function": "getStringValue",
         "parameters": "badge_number",
         "start": {
@@ -2514,7 +2514,7 @@
       },
       "AGENCY_NAME": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 10,
         "function": "getStringValue",
         "parameters": "agency",
         "start": {
@@ -2524,7 +2524,7 @@
       },
       "AGENCY_FILE_NUMBER": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 10,
         "function": "getStringValue",
         "parameters": "file_number",
         "start": {
@@ -2604,9 +2604,9 @@
       },
       "IMPOUNDED_LOT": {
         "field_type": "text",
-        "font_size": 8,
-        "function": "getImpoundLotOperator",
-        "parameters": "name",
+        "font_size": 10,
+        "function": "getStringValue",
+        "parameters": "vehicle_impounded_yes/impound_lot_operator/name",
         "start": {
           "x": 30.7,
           "y": 169.2
@@ -2615,34 +2615,18 @@
       "IMPOUNDED_ADDRESS": {
         "field_type": "text",
         "font_size": 10,
-        "function": "getImpoundLotOperator",
-        "parameters": "lot_address",
+        "function": "getValuesConcatenatedWithCommas",
+        "parameters": ["vehicle_impounded_yes/impound_lot_operator/lot_address", "vehicle_impounded_yes/impound_lot_operator/city", "vehicle_impounded_yes/impound_lot_operator/phone"],
         "start": {
           "x": 30.7,
           "y": 163.1
         }
       },
-      "IMPOUNDED_PHONE_AREA_CODE": {
-        "field_type": "text",
-        "font_size": 8,
-        "start": {
-          "x": 103,
-          "y": 169.2
-        }
-      },
-      "IMPOUNDED_PHONE_NUMBER": {
-        "field_type": "text",
-        "font_size": 8,
-        "function": "getImpoundLotOperator",
-        "parameters": "phone",
-        "start": {
-          "x": 110,
-          "y": 169.2
-        }
-      },
       "RELEASE_LOCATION_KEYS": {
         "field_type": "text",
         "font_size": 8,
+        "function": "conditionalLabel",
+        "parameters": ["vehicle_impounded_yes/location_of_keys_vehicle", "With Vehicle"],
         "start": {
           "x": 30.7,
           "y": 155.8
@@ -2650,7 +2634,9 @@
       },
       "RELEASE_LOCATION_VEHICLE": {
         "field_type": "text",
-        "font_size": 8,
+        "font_size": 10,
+        "function": "conditionalLabel",
+        "parameters": ["vehicle_impounded_yes", ""],
         "start": {
           "x": 30.7,
           "y": 163
@@ -2658,7 +2644,9 @@
       },
       "RELEASE_PERSON": {
         "field_type": "text",
-        "font_size": 8,
+        "font_size": 10,
+        "function": "getStringValue",
+        "parameters": "vehicle_impounded_no/reason_for_not_impounding_released/vehicle_released_to",
         "start": {
           "x": 30.7,
           "y": 169.5
@@ -2666,7 +2654,9 @@
       },
       "RELEASE_DATETIME": {
         "field_type": "text",
-        "font_size": 8,
+        "font_size": 10,
+        "function": "concatenateDateAndTime",
+        "parameters": ["vehicle_impounded_no/reason_for_not_impounding_released/released_date", "vehicle_impounded_no/reason_for_not_impounding_released/released_time"],
         "start": {
           "x": 98,
           "y": 176
@@ -2746,8 +2736,6 @@
               "VEHICLE_NSC_NUMBER",
               "IMPOUNDED_LOT",
               "IMPOUNDED_ADDRESS",
-              "IMPOUNDED_PHONE_AREA_CODE",
-              "IMPOUNDED_PHONE_NUMBER",
               "RELEASE_LOCATION_KEYS",
               "RELEASE_LOCATION_VEHICLE",
               "RELEASE_PERSON",
@@ -2798,8 +2786,6 @@
               "VEHICLE_NSC_NUMBER",
               "IMPOUNDED_LOT",
               "IMPOUNDED_ADDRESS",
-              "IMPOUNDED_PHONE_AREA_CODE",
-              "IMPOUNDED_PHONE_NUMBER",
               "RELEASE_LOCATION_KEYS",
               "RELEASE_LOCATION_VEHICLE",
               "RELEASE_PERSON",
@@ -2850,8 +2836,6 @@
               "VEHICLE_NSC_NUMBER",
               "IMPOUNDED_LOT",
               "IMPOUNDED_ADDRESS",
-              "IMPOUNDED_PHONE_AREA_CODE",
-              "IMPOUNDED_PHONE_NUMBER",
               "RELEASE_LOCATION_KEYS",
               "RELEASE_LOCATION_VEHICLE",
               "RELEASE_PERSON",

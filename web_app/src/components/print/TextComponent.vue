@@ -15,21 +15,7 @@ export default {
   name: "TextComponent",
   computed: {
     renderValue() {
-      if ([
-          "getValuesConcatenatedWithCommas",
-          "getStringValue",
-          "getFormattedFormId",
-          "getFormattedDate",
-          "getFormattedTime",
-          "getJurisdictionCode",
-          "label",
-          "getPhone",
-          "getAreaCode",
-          "conditionalLabel",
-          "concatenateDateAndTime",
-          "getStringValueWithSuffix"
-
-      ].includes(this.field.function)) {
+      if (this.field.function) {
         const value = this[this.field.function](this.getPath, this.field.parameters)
         if (value) {
           return value.toUpperCase()

@@ -2,12 +2,12 @@
   <form-container title="Notice of 12 Hour Licence Suspension" v-if="isMounted">
     <validation-observer v-slot="{handleSubmit, validate}">
       <form @submit.prevent="handleSubmit(onSubmit(validate))">
-        <drivers-information-card></drivers-information-card>
-        <vehicle-information-card></vehicle-information-card>
-        <return-of-licence-card></return-of-licence-card>
-        <vehicle-impoundment-card></vehicle-impoundment-card>
-        <prohibition-information-card></prohibition-information-card>
-        <officer-details-card></officer-details-card>
+        <drivers-information-card :path="getPath"></drivers-information-card>
+        <vehicle-information-card :path="getPath"></vehicle-information-card>
+<!--        <return-of-licence-card :path="getPath"></return-of-licence-card>-->
+        <vehicle-impoundment-card :path="getPath"></vehicle-impoundment-card>
+        <prohibition-information-card :path="getPath"></prohibition-information-card>
+        <officer-details-card :path="getPath"></officer-details-card>
         <form-card title="Generate PDF for Printing">
           <div class="d-flex justify-content-between">
             <print-documents
@@ -28,13 +28,12 @@
 
 import FormsCommon from "@/components/forms/FormsCommon";
 import DriversInformationCard from "@/components/forms/TwelveHourSuspension/DriversInformationCard";
-import ReturnOfLicenceCard from "@/components/forms/ReturnOfLicenceCard";
 import OfficerDetailsCard from "@/components/forms/OfficerDetailsCard";
 import VehicleInformationCard from "@/components/forms/TwelveHourSuspension/VehicleInformationCard";
 import PrintDocuments from "../PrintDocuments";
 import ProhibitionInformationCard from "@/components/forms/TwelveHourSuspension/ProhibitionInformationCard";
 import VehicleImpoundmentCard from "@/components/forms/TwelveHourSuspension/VehicleImpoundmentCard";
-import {mapActions, mapGetters} from "vuex";
+import {mapGetters} from "vuex";
 
 export default {
   name: "TwelveTwentyFour",
@@ -44,7 +43,6 @@ export default {
     ProhibitionInformationCard,
     DriversInformationCard,
     OfficerDetailsCard,
-    ReturnOfLicenceCard,
     VehicleInformationCard,
     VehicleImpoundmentCard,
   },
@@ -69,9 +67,6 @@ export default {
       "getPdfFileNameString",
       "getCurrentlyEditedForm"]),
   },
-  methods: {
-    ...mapActions(["saveFormAndGeneratePDF"])
-  }
 }
 </script>
 

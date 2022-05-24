@@ -79,6 +79,12 @@ export default {
 
     getFormattedFormId() {
       const sixDigitString = this.form_id.substr(2,7)
+      return this.form_id.substr(0,2) + "-" + sixDigitString
+
+    },
+
+    getFormIdWithCheckDigit() {
+      const sixDigitString = this.form_id.substr(2,7)
       const digit = checkDigit.checkDigit(sixDigitString)
       return this.form_id.substr(0,2) + "-" + sixDigitString + digit
 

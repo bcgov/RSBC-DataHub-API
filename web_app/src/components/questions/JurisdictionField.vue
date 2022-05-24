@@ -7,7 +7,7 @@
     <select :disabled="disabled || hasFormBeenPrinted" class="form-control" :id="id" @input="updateJurisdictionByEvent">
       <option v-for="jurisdiction in getArrayOfJurisdictions"
               :key="jurisdiction.objectCd"
-              :selected="jurisdiction.objectDsc === getAttributeValue(path, id).objectDsc">
+              :selected="jurisdiction.objectDsc === getObjectDscIfExists">
         {{ jurisdiction.objectDsc }}
       </option>
     </select>
@@ -29,7 +29,14 @@ export default {
     this.updateJurisdictionByName("British Columbia")
   },
   computed: {
-    ...mapGetters(["getArrayOfJurisdictions", "getAttributeValue", "hasFormBeenPrinted", "getJurisdictionByFullName"])
+    ...mapGetters(["getArrayOfJurisdictions", "getAttributeValue", "hasFormBeenPrinted", "getJurisdictionByFullName"]),
+    getObjectDscIfExists() {
+      const value = this.getAttributeValue(this.path, this.id)
+      if (value && 'objectDsc' in value) {
+        return value.objectDsc
+      }
+      return ''
+    }
   },
   methods: {
     ...mapMutations(["updateFormField"]),
