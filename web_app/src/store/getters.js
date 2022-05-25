@@ -248,16 +248,6 @@ export const getters = {
         return false;
     },
 
-    corporateOwner: state => {
-        console.log(" --- DEPRECATED --- ")
-        let form_object = state.currently_editing_form_object;
-        let root = state.forms[form_object.form_type][form_object.form_id].data;
-        if( ! root['corporate_owner']) {
-            return false;
-        }
-        return root['corporate_owner'].includes("Owned by corporate entity")
-    },
-
     areNewUniqueIdsRequiredByType: (state, getters) => form_type => {
         console.log("inside areNewUniqueIdsRequiredByType", form_type)
         // Business rules state that X number of forms must be available to use offline

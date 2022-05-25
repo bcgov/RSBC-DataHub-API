@@ -14,18 +14,18 @@
       <div class="card-body lightgray" v-if="! isReadOnly">
         <div>
           <form-row>
-            <radio-field fg_class="col-sm-12"
-                         id="owner"
-                         :path="path" :options="[['corp', 'Yes'], ['person', 'No']]">Owned by corporate entity</radio-field>
+            <in-line-check-box fg_class="col-sm-12"
+                         id="corp_owner"
+                         :path="path" :option="true">Owned by corporate entity</in-line-check-box>
           </form-row>
-          <form-row v-if="doesAttributeExist(path, 'owner_corp')">
-            <text-field id="name" :path="path + '/owner_corp'" fg_class="col-sm-12" rules="max:40">
+          <form-row v-if="doesAttributeExist(path, 'corp_owner_true')">
+            <text-field id="name" :path="path + '/corp_owner_true'" fg_class="col-sm-12" rules="max:40">
               Corporation Name</text-field>
           </form-row>
-          <form-row v-if="doesAttributeExist(path, 'owner_person')">
-            <text-field id="owners_last_name" :path="path + '/owner_person'"  fg_class="col-sm-6" rules="max:20">
+          <form-row v-if="! doesAttributeExist(path, 'corp_owner_true')">
+            <text-field id="owners_last_name" :path="path + '/corp_owner_false'"  fg_class="col-sm-6" rules="max:20">
               Owner's Last Name</text-field>
-            <text-field id="owners_first_name" :path="path + '/owner_person'" fg_class="col-sm-6" rules="max:20">
+            <text-field id="owners_first_name" :path="path + '/corp_owner_false'" fg_class="col-sm-6" rules="max:20">
               Owner's First Name</text-field>
           </form-row>
           <form-row>
@@ -63,7 +63,7 @@ export default {
     ...mapMutations(["populateOwnerFromDriver"])
   },
   computed: {
-    ...mapGetters(["checkBoxStatus", "corporateOwner"])
+    ...mapGetters(["checkBoxStatus"])
   }
 }
 </script>

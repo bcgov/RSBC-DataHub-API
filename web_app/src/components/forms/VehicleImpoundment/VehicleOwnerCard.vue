@@ -14,14 +14,19 @@
       <div class="card-body lightgray">
         <div>
           <form-row>
-            <check-field fg_class="col-sm-12" :show_label="false" id="corporate_owner" :path=path :options="[['corporate', 'Owned by corporate entity']]">Corporation</check-field>
+            <in-line-check-box fg_class="col-sm-12"
+                         id="corp_owner"
+                         :path="path" :option="true">Owned by corporate entity</in-line-check-box>
           </form-row>
-          <form-row>
-            <text-field v-if="corporateOwner" id="owners_corporation" :path=path fg_class="col-sm-12">Corporation Name</text-field>
+          <form-row v-if="doesAttributeExist(path, 'corp_owner_true')">
+            <text-field id="name" :path="path + '/corp_owner_true'" fg_class="col-sm-12" rules="max:40">
+              Corporation Name</text-field>
           </form-row>
-          <form-row v-if="!corporateOwner">
-            <text-field id="owners_last_name" :path=path fg_class="col-sm-4">Owner's Last Name</text-field>
-            <text-field id="owners_first_name" :path=path fg_class="col-sm-5">Owner's First Name</text-field>
+          <form-row v-if="! doesAttributeExist(path, 'corp_owner_true')">
+            <text-field id="owners_last_name" :path="path + '/corp_owner_false'"  fg_class="col-sm-4" rules="max:20">
+              Owner's Last Name</text-field>
+            <text-field id="owners_first_name" :path="path + '/corp_owner_false'" fg_class="col-sm-5" rules="max:20">
+              Owner's First Name</text-field>
             <dob-field id="owner_dob" :path=path fg_class="col-sm-3" rules="dob8|dob">Date of Birth</dob-field>
           </form-row>
           <form-row>
@@ -44,7 +49,7 @@
 </template>
 
 <script>
-import {mapGetters, mapMutations} from "vuex";
+import {mapMutations} from "vuex";
 import CardsCommon from "@/components/forms/CardsCommon";
 
 export default {
@@ -61,9 +66,6 @@ export default {
   },
   methods: {
     ...mapMutations(["populateOwnerFromDriver"])
-  },
-  computed: {
-    ...mapGetters(["corporateOwner"])
   }
 }
 </script>

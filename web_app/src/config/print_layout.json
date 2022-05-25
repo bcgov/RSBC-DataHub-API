@@ -105,7 +105,7 @@
         "field_type": "text",
         "font_size": 12,
         "function": "getValuesConcatenatedWithCommas",
-        "parameters": ["owners_last_name", "owners_first_name"],
+        "parameters": ["corp_owner_false/owners_last_name", "corp_owner_false/owners_first_name", "corp_owner_true/name"],
         "start": {
           "x": 18,
           "y": 66
@@ -1408,7 +1408,7 @@
         "field_type": "text",
         "font_size": 8,
         "function": "getValuesConcatenatedWithCommas",
-        "parameters": ["owner_person/owners_last_name","owner_person/owners_first_name"],
+        "parameters": ["corp_owner_false/owners_last_name", "corp_owner_false/owners_first_name", "corp_owner_true/name"],
         "start": {
           "x": 32.4,
           "y": 112

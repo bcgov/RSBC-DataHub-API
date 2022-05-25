@@ -86,7 +86,6 @@ export default {
         "getCurrentlyEditedForm",
         "getCurrentlyEditedFormData",
         "getCurrentlyEditedFormObject",
-        "corporateOwner",
         "getPdfFileNameString",
         "getPagesToPrint"
     ]),

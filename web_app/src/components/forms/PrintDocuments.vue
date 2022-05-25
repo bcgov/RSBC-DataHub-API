@@ -39,12 +39,11 @@ export default {
         "getCurrentlyEditedForm",
         "getCurrentlyEditedFormData",
         "getCurrentlyEditedFormObject",
-        "corporateOwner",
         "getPagesToPrint"
     ]),
   },
   methods: {
-    ...mapActions(["tellApiFormIsPrinted", "saveCurrentFormToDB", "getPrintMappings"]),
+    ...mapActions(["tellApiFormIsPrinted", "saveCurrentFormToDB"]),
     ...mapMutations(["setFormAsPrinted"]),
     async onSubmit (validate, variantList, form_object) {
       this.display_spinner = true;
