@@ -66,15 +66,10 @@ export const store = new Vuex.Store ({
           "description": "Vehicle Impoundment",
           "full_name": "MV2721 & MV2722",
           "documents": {
-            "driver": {
-              "name": "Print Driver Copy",
+            "all": {
+              "name": "Print All Copies",
               "reprint": true,
-              "variants": ['driver']
-            },
-            "police": {
-              "name": "Print Police, ILO and Report Copies",
-              "reprint": false,
-              "variants": ['police', 'ilo', 'report']
+              "variants": ['driver', 'police', 'ilo', 'report']
             }
           },
           "disabled": false
