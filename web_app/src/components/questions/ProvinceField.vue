@@ -5,6 +5,7 @@
       <span v-if="required" class="text-danger"> *</span>
     </label>
     <select class="form-control" :disabled="disabled || hasFormBeenPrinted" :id="id" v-model="attribute">
+      <option></option>
       <option v-for="province in getArrayOfProvinces"
               :key="province.objectCd">
         {{ province.objectCd }}
