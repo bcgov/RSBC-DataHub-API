@@ -194,6 +194,18 @@ export const getters = {
         return state.provinces;
     },
 
+    getArrayOfProvinceNames: state => {
+        return state.provinces.map( o => o.objectDsc );
+    },
+
+    getProvinceObjectByName: state => name => {
+        const results =  state.provinces.filter( o => o.objectDsc === name);
+        if (results.length > 0) {
+            return results[0]
+        }
+        return {}
+    },
+
     getImpoundLotOperatorObject: state => ilo_string => {
         const results = state.impound_lot_operators.filter( o =>
             (o.name + ", " + o.lot_address + ", " + o.city + ", " + o.phone) === ilo_string

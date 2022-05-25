@@ -60,7 +60,6 @@ export default {
   },
   methods: {
     typeAheadUpdate(e) {
-      console.log("ilo()", e)
       const ilo_object = this.getImpoundLotOperatorObject(e)
       const payload = {target: {value: ilo_object, path: this.path, id: this.id }}
       this.$store.commit("updateFormField", payload)

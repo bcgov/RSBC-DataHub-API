@@ -18,8 +18,8 @@
   </form-row>
   <form-row>
     <text-field id="vin_number" :path=path fg_class="col-sm-5" rules="max:20">VIN Number</text-field>
-    <province-field id="puj_code" :path=path fg_class="col-sm-2" :default-to-bc=false>PUJ Code</province-field>
-    <text-field id="nsc_number" :path=path fg_class="col-sm-5" rules="max:14">NSC Number</text-field>
+    <province-autocomplete id="puj_code" :path=path fg_class="col-sm-3">PUJ Code</province-autocomplete>
+    <text-field id="nsc_number" :path=path fg_class="col-sm-4" rules="max:14">NSC Number</text-field>
   </form-row>
 </form-card>
 </template>
