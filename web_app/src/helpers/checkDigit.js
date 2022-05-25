@@ -11,7 +11,6 @@ export default {
             this.timesTwo(n[3]) +
             n[4] +
             this.timesTwo(n[5]))
-        console.log("checkDigit number_sum", number_sum)
         return number_sum % 10
     },
 

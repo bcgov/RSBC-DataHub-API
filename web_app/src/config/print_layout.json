@@ -14,7 +14,7 @@
       "VIOLATION_NUMBER": {
         "field_type": "text",
         "font_size": 20,
-        "function": "getFormattedFormId",
+        "function": "getFormIdWithCheckDigit",
         "parameters": "",
         "start": {
           "x": 99,
@@ -34,8 +34,8 @@
       "MV2721_DRIVER_DOB": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getDateValue",
-        "parameters": "dob",
+        "function": "getFormattedDate",
+        "parameters": ["dob", "YYYY-MM-DD"],
         "start": {
           "x": 150,
           "y": 35
@@ -94,8 +94,8 @@
       "MV2721_DRIVER_IS_OWNER": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["driver_is_owner", true],
+        "function": "isExists",
+        "parameters": "driver_is_owner_true",
         "start": {
           "x": 18,
           "y": 56
@@ -114,8 +114,8 @@
       "MV2721_OWNER_DOB": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getDateValue",
-        "parameters": "owner_dob",
+        "function": "getFormattedDate",
+        "parameters": ["owner_dob", "YYYY-MM-DD"],
         "start": {
           "x": 167,
           "y": 66
@@ -255,8 +255,8 @@
       "MV2721_IS_VEHICLE_NSC": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getIsChecked",
-        "parameters": ["is_nsc", "NSC?"],
+        "function": "isExists",
+        "parameters": "is_nsc_nsc",
         "start": {
           "x": 60,
           "y": 118
@@ -275,8 +275,8 @@
       "MV2721_NOTICE_DATE": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getDateValue",
-        "parameters": "prohibition_start_date",
+        "function": "getFormattedDate",
+        "parameters": ["prohibition_start_date", "YYYY-MM-DD"],
         "start": {
           "x": 98,
           "y": 133
@@ -285,8 +285,8 @@
       "MV2721_NOTICE_TIME": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getStringValue",
-        "parameters": "prohibition_start_time",
+        "function": "getFormattedTime",
+        "parameters": ["prohibition_start_time", "HH:mm"],
         "start": {
           "x": 21,
           "y": 141
@@ -315,8 +315,8 @@
       "MV2721_IMPOUNDMENT_DURATION_3": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["impound_duration_3", true],
+        "function": "isExists",
+        "parameters": "impound_duration_3_true",
         "start": {
           "x": 18,
           "y": 163
@@ -325,8 +325,8 @@
       "MV2721_IMPOUNDMENT_DURATION_7": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["impound_duration_7", true],
+        "function": "isExists",
+        "parameters": "impound_duration_7_true",
         "start": {
           "x": 60,
           "y": 163
@@ -335,8 +335,8 @@
       "MV2721_IMPOUNDMENT_DURATION_30": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["impound_duration_30", true],
+        "function": "isExists",
+        "parameters": "impound_duration_30_true",
         "start": {
           "x": 105,
           "y": 163
@@ -355,8 +355,8 @@
       "MV2721_REASON_EXCESSIVE_SPEED": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_excessive_speed", true],
+        "function": "isExists",
+        "parameters": "reason_excessive_speed_true",
         "start": {
           "x": 18,
           "y": 178
@@ -365,8 +365,8 @@
       "MV2721_REASON_PROHIBITED": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_prohibited", true],
+        "function": "isExists",
+        "parameters": "reason_prohibited_true",
         "start": {
           "x": 18,
           "y": 182
@@ -375,8 +375,8 @@
       "MV2721_REASON_SUSPENDED": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_suspended", true],
+        "function": "isExists",
+        "parameters": "reason_suspended_true",
         "start": {
           "x": 18,
           "y": 186
@@ -385,8 +385,8 @@
       "MV2721_REASON_RACING": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_racing", true],
+        "function": "isExists",
+        "parameters": "reason_racing_true",
         "start": {
           "x": 18,
           "y": 190
@@ -395,8 +395,8 @@
       "MV2721_REASON_STUNT_DRIVING": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_stunt", true],
+        "function": "isExists",
+        "parameters": "reason_stunt_true",
         "start": {
           "x": 18,
           "y": 195.3
@@ -405,8 +405,8 @@
       "MV2721_REASON_MOTORCYCLE_SEATING": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_motorcycle_seating", true],
+        "function": "isExists",
+        "parameters": "reason_motorcycle_seating_true",
         "start": {
           "x": 18,
           "y": 199.3
@@ -415,8 +415,8 @@
       "MV2721_REASON_MOTORCYCLE_RESTRICTIONS": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_motorcycle_restrictions", true],
+        "function": "isExists",
+        "parameters": "reason_motorcycle_restrictions_true",
         "start": {
           "x": 18,
           "y": 204
@@ -425,8 +425,8 @@
       "MV2721_REASON_UNLICENSED": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_unlicensed", true],
+        "function": "isExists",
+        "parameters": "reason_unlicensed_true",
         "start": {
           "x": 18,
           "y": 208
@@ -436,7 +436,7 @@
         "field_type": "text",
         "font_size": 12,
         "function": "getStringValue",
-        "parameters": "ul_prohibition_number",
+        "parameters": "reason_unlicensed_true/ul_prohibition_number",
         "start": {
           "x": 162,
           "y": 213
@@ -445,8 +445,8 @@
       "MV2721_IMPOUND_DATE": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getDateValue",
-        "parameters": "impounded_dt",
+        "function": "getFormattedDate",
+        "parameters": ["impounded_dt", "YYYY-MM-DD"],
         "start": {
           "x": 60,
           "y": 227
@@ -455,8 +455,8 @@
       "MV2721_IMPOUND_LOT_NAME": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getImpoundLotOperator",
-        "parameters": "name",
+        "function": "getStringValue",
+        "parameters": "impound_lot_operator/name",
         "start": {
           "x": 119,
           "y": 228
@@ -465,8 +465,8 @@
       "MV2721_IMPOUND_LOT_ADDRESS": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getImpoundLotOperator",
-        "parameters": "lot_address",
+        "function": "getStringValue",
+        "parameters": "impound_lot_operator/lot_address",
         "start": {
           "x": 18,
           "y": 239
@@ -475,8 +475,8 @@
       "MV2721_IMPOUND_LOT_CITY": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getImpoundLotOperator",
-        "parameters": "city",
+        "function": "getStringValue",
+        "parameters": "impound_lot_operator/city",
         "start": {
           "x": 88,
           "y": 239
@@ -485,8 +485,8 @@
       "MV2721_IMPOUND_LOT_PHONE": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getImpoundLotOperator",
-        "parameters": "phone",
+        "function": "getStringValue",
+        "parameters": "impound_lot_operator/phone",
         "start": {
           "x": 148,
           "y": 239
@@ -545,8 +545,8 @@
       "MV2722_REPORT_DATE": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getDateValue",
-        "parameters": "prohibition_start_date",
+        "function": "getFormattedDate",
+        "parameters": ["prohibition_start_date", "YYYY-MM-DD"],
         "start": {
           "x": 62,
           "y": 28
@@ -575,8 +575,8 @@
       "MV2722_SUSPECTED_BC_RESIDENT": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["suspected_bc_resident", "Yes"],
+        "function": "isExists",
+        "parameters": "reason_unlicensed_true/suspected_bc_resident_yes",
         "start": {
           "x": 18,
           "y": 66
@@ -585,8 +585,8 @@
       "MV2722_UL_OUT_OF_PROVINCE": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "isUnlicensedAndOutOfProvince",
-        "parameters": "",
+        "function": "isExistsAndNotBc",
+        "parameters": ["reason_unlicensed_true", "drivers_licence_jurisdiction/objectCd"],
         "start": {
           "x": 18,
           "y": 75
@@ -595,8 +595,9 @@
       "MV2722_UL_DRIVER_DL_NUMBER": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getStringIfUnlicensedAndOutOfProvince",
-        "parameters": "drivers_number",
+        "function": "conditionalAndNotBcGetString",
+        "parameters": ["reason_unlicensed_true", "drivers_licence_jurisdiction/objectCd", "drivers_number" ],
+
         "start": {
           "x": 61,
           "y": 75
@@ -605,8 +606,8 @@
       "MV2722_DRIVER_DL_PROVINCE": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getJurisdictionIfUnlicensedAndOutOfProvince",
-        "parameters": "drivers_licence_jurisdiction",
+        "function": "conditionalAndNotBcGetString",
+        "parameters": ["reason_unlicensed_true", "drivers_licence_jurisdiction/objectCd", "drivers_licence_jurisdiction/objectCd" ],
         "start": {
           "x": 153,
           "y": 75
@@ -615,8 +616,8 @@
       "MV2722_DRIVER_DL_EXPIRY": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getStringIfUnlicensedAndOutOfProvince",
-        "parameters": "expiry_year",
+        "function": "conditionalAndNotBcGetString",
+        "parameters": ["reason_unlicensed_true", "drivers_licence_jurisdiction/objectCd", "expiry_year" ],
         "start": {
           "x": 185,
           "y": 75
@@ -625,8 +626,8 @@
       "MV2722_LINKAGE_KEYS": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["linkage_keys", true],
+        "function": "isExists",
+        "parameters": "linkage_keys_true",
         "start": {
           "x": 17,
           "y": 90
@@ -636,7 +637,7 @@
         "field_type": "text",
         "font_size": 8,
         "function": "getStringValue",
-        "parameters": "vehicle_key_linkage",
+        "parameters": "vehicle_keys_true/note",
         "start": {
           "x": 56,
           "y": 90
@@ -645,8 +646,8 @@
       "MV2722_LINKAGE_OPERATOR": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["linkage_principal_operator", true],
+        "function": "isExists",
+        "parameters": "linkage_principal_operator_true",
         "start": {
           "x": 17,
           "y": 95
@@ -655,8 +656,8 @@
       "MV2722_LINKAGE_WITHIN":  {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["linkage_owner_within", true],
+        "function": "isExists",
+        "parameters": "linkage_owner_within_true",
         "start": {
           "x": 17,
           "y": 100
@@ -665,8 +666,8 @@
       "MV2722_LINKAGE_AWARE": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["linkage_owner_aware", true],
+        "function": "isExists",
+        "parameters": "linkage_owner_aware_true",
         "start": {
           "x": 17,
           "y": 105
@@ -675,8 +676,8 @@
       "MV2722_LINKAGE_TRANSFER": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["linkage_transfer", true],
+        "function": "isExists",
+        "parameters": "linkage_transfer_true",
         "start": {
           "x": 17,
           "y": 110
@@ -685,8 +686,8 @@
       "MV2722_LINKAGE_OTHER": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["linkage_other", true],
+        "function": "isExists",
+        "parameters": "linkage_other_true",
         "start": {
           "x": 17,
           "y": 115
@@ -695,7 +696,7 @@
       "MV2722_IS_IRP": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getIsFieldPopulated",
+        "function": "isExists",
         "parameters": "ipr_number",
         "start": {
           "x": 18,
@@ -705,8 +706,8 @@
       "MV2722_IS_EXCESSIVE_SPEED": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_excessive_speed", true],
+        "function": "isExists",
+        "parameters": "reason_excessive_speed_true",
         "start": {
           "x": 18,
           "y": 137
@@ -716,7 +717,7 @@
         "field_type": "text",
         "font_size": 12,
         "function": "getStringValue",
-        "parameters": "speed_limit",
+        "parameters": "reason_excessive_speed_true/speed_limit",
         "start": {
           "x": 77,
           "y": 137
@@ -726,7 +727,7 @@
         "field_type": "text",
         "font_size": 12,
         "function": "getStringValue",
-        "parameters": "vehicle_speed",
+        "parameters": "reason_excessive_speed_true/vehicle_speed",
         "start": {
           "x": 133,
           "y": 137
@@ -735,8 +736,8 @@
       "MV2722_SPEED_IS_VISUAL": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getIsChecked",
-        "parameters": ["speed_estimated", "Visual"],
+        "function": "isExists",
+        "parameters": "reason_excessive_speed_true/speed_estimated_visual",
         "start": {
           "x": 55,
           "y": 144
@@ -745,8 +746,8 @@
       "MV2722_SPEED_IS_PACING": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getIsChecked",
-        "parameters": ["speed_estimated", "Pacing"],
+        "function": "isExists",
+        "parameters": "reason_excessive_speed_true/speed_estimated_pacing",
         "start": {
           "x": 79,
           "y": 144
@@ -755,8 +756,8 @@
       "MV2722_SPEED_IS_LASER": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getIsChecked",
-        "parameters": ["speed_confirmed", "Laser"],
+        "function": "isExists",
+        "parameters": "reason_excessive_speed_true/speed_confirmed_laser",
         "start": {
           "x": 55,
           "y": 149
@@ -765,8 +766,8 @@
       "MV2722_SPEED_IS_RADAR": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getIsChecked",
-        "parameters": ["speed_confirmed", "Radar"],
+        "function": "isExists",
+        "parameters": "reason_excessive_speed_true/speed_confirmed_radar",
         "start": {
           "x": 79,
           "y": 149
@@ -775,8 +776,8 @@
       "MV2722_SPEED_IS_OTHER": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getIsChecked",
-        "parameters": ["speed_confirmed", "Other (explain in incident details)"],
+        "function": "isExists",
+        "parameters": "reason_excessive_speed_true/speed_confirmed_other",
         "start": {
           "x": 106,
           "y": 149
@@ -785,8 +786,8 @@
       "MV2722_REASON_PROHIBITED": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_prohibited", true],
+        "function": "isExists",
+        "parameters": "reason_prohibited_true",
         "start": {
           "x": 19,
           "y": 162
@@ -795,8 +796,8 @@
       "MV2722_REASON_SUSPENDED": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_suspended", true],
+        "function": "isExists",
+        "parameters": "reason_suspended_true",
         "start": {
           "x": 19,
           "y": 167
@@ -805,8 +806,8 @@
       "MV2722_REASON_RACING": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_racing", true],
+        "function": "isExists",
+        "parameters": "reason_racing_true",
         "start": {
           "x": 19,
           "y": 172
@@ -815,8 +816,8 @@
       "MV2722_REASON_STUNT": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_stunt", true],
+        "function": "isExists",
+        "parameters": "reason_stunt_true",
         "start": {
           "x": 19,
           "y": 177
@@ -825,8 +826,8 @@
       "MV2722_REASON_MC_SEATING": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_motorcycle_seating", true],
+        "function": "isExists",
+        "parameters": "reason_motorcycle_seating_true",
         "start": {
           "x": 19,
           "y": 182
@@ -835,8 +836,8 @@
       "MV2722_REASON_MC_RESTRICTIONS": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_motorcycle_restrictions", true],
+        "function": "isExists",
+        "parameters": "reason_motorcycle_restrictions_true",
         "start": {
           "x": 19,
           "y": 186
@@ -845,8 +846,8 @@
       "MV2722_REASON_UNLICENSED": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_unlicensed", true],
+        "function": "isExists",
+        "parameters": "reason_unlicensed_true",
         "start": {
           "x": 19,
           "y": 191

@@ -16,9 +16,22 @@ export default {
       type: String
     }
   },
+  methods: {
+    // temporary hack
+    isExistsAndNotBc(form_path, [isExistsAttribute, jurisdictionCd]) {
+      // the last item in the attributes_array is the attribute to display
+      const jurisdiction = this.getStringValue(form_path, jurisdictionCd)
+      if (jurisdiction && jurisdiction !== 'BC') {
+        if (this.isExists(form_path, isExistsAttribute)) {
+          return true;
+        }
+      }
+      return false;
+    }
+  },
   computed: {
     renderValue() {
-      if (["isExists"].includes(this.field.function)) {
+      if (this.field.function) {
         if (this[this.field.function](this.getPath, this.field.parameters)) {
           return "&#10004;"
         }

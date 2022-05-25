@@ -62,7 +62,14 @@ export default {
       }
     },
     renderValue() {
-      return "fn()"
+      if (this.field.function) {
+        const value = this[this.field.function](this.getPath, this.field.parameters)
+        if (value) {
+          return value.toUpperCase()
+        }
+        return ''
+      }
+      return "txt()"
     },
     getPath() {
       return `forms/${this.form_type}/${this.form_id}/data`
@@ -98,6 +105,15 @@ export default {
 
     isExists(form_path, attribute) {
       return this.getStringValue(form_path, attribute) !== undefined
+    },
+
+    isMultipleExists(form_path, attributes_array) {
+      attributes_array.forEach( (attribute) => {
+        if( ! this.isExists(form_path, attribute)) {
+          return false
+        }
+      })
+      return true
     }
 
 

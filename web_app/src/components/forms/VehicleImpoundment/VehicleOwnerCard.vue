@@ -11,29 +11,31 @@
           </div>
       </div>
     </div>
-      <div class="card-body lightgray" v-if="! isReadOnly">
+      <div class="card-body lightgray">
         <div>
           <form-row>
-            <check-field fg_class="col-sm-12" :show_label="false" id="corporate_owner" :options="['Owned by corporate entity']">Corporation</check-field>
+            <check-field fg_class="col-sm-12" :show_label="false" id="corporate_owner" :path=path :options="[['corporate', 'Owned by corporate entity']]">Corporation</check-field>
           </form-row>
           <form-row>
-            <text-field v-if="corporateOwner" id="owners_corporation" fg_class="col-sm-12">Corporation Name</text-field>
-            <text-field v-if="!corporateOwner" id="owners_last_name" fg_class="col-sm-4">Owner's Last Name</text-field>
-            <text-field v-if="!corporateOwner" id="owners_first_name" fg_class="col-sm-5">Owner's First Name</text-field>
-            <dob-field v-if="!corporateOwner" id="owner_dob" fg_class="col-sm-3" rules="dob8|dob">Date of Birth</dob-field>
+            <text-field v-if="corporateOwner" id="owners_corporation" :path=path fg_class="col-sm-12">Corporation Name</text-field>
+          </form-row>
+          <form-row v-if="!corporateOwner">
+            <text-field id="owners_last_name" :path=path fg_class="col-sm-4">Owner's Last Name</text-field>
+            <text-field id="owners_first_name" :path=path fg_class="col-sm-5">Owner's First Name</text-field>
+            <dob-field id="owner_dob" :path=path fg_class="col-sm-3" rules="dob8|dob">Date of Birth</dob-field>
           </form-row>
           <form-row>
-            <text-field id="owners_address1" fg_class="col-sm-8" placeholder="Address" rules="lt25">Street Address</text-field>
-            <type-ahead-field id="owners_city" fg_class="col-sm-4" :suggestions="getArrayOfBCCityNames">City</type-ahead-field>
+            <text-field id="owners_address1" :path=path fg_class="col-sm-8" placeholder="Address" rules="lt25">Street Address</text-field>
+            <type-ahead-field id="owners_city" :path=path fg_class="col-sm-4" :suggestions="getArrayOfBCCityNames">City</type-ahead-field>
           </form-row>
           <form-row>
-            <province-field id="owners_province" fg_class="col-sm-2">Province</province-field>
-            <text-field id="owners_postal" fg_class="col-sm-2">Postal / Zip</text-field>
-            <phone-field id="owners_phone" fg_class="col-sm-4" rules="phone">Phone Number</phone-field>
-            <email-field id="owners_email" fg_class="col-sm-4" rules="email">Email Address</email-field>
+            <province-field id="owners_province" :path=path fg_class="col-sm-2">Province</province-field>
+            <text-field id="owners_postal" :path=path fg_class="col-sm-2">Postal / Zip</text-field>
+            <phone-field id="owners_phone" :path=path fg_class="col-sm-4" rules="phone">Phone Number</phone-field>
+            <email-field id="owners_email" :path=path fg_class="col-sm-4" rules="email">Email Address</email-field>
           </form-row>
           <form-row>
-            <in-line-check-box id="driver_is_owner" :option="true">The driver is the registered owner</in-line-check-box>
+            <in-line-check-box id="driver_is_owner" :path=path :option="true">The driver is the registered owner</in-line-check-box>
           </form-row>
         </div>
       </div>

@@ -13,18 +13,6 @@ import moment from "moment-timezone";
 export default {
   mixins: [RenderCommon],
   name: "TextComponent",
-  computed: {
-    renderValue() {
-      if (this.field.function) {
-        const value = this[this.field.function](this.getPath, this.field.parameters)
-        if (value) {
-          return value.toUpperCase()
-        }
-        return ''
-      }
-      return "txt()"
-    },
-  },
   methods: {
     getValuesConcatenatedWithCommas(form_path, attributes_array) {
       let attributeValues = []
@@ -100,6 +88,19 @@ export default {
       let value = this.getStringValue(form_path, attribute_array[0])
       if (value) {
         return value + ' ' + attribute_array[1]
+      }
+      return ''
+    },
+
+    // temporary hack
+    conditionalAndNotBcGetString(form_path, [isExistsAttribute, jurisdictionCd, valueAttribute]) {
+      // the last item in the attributes_array is the attribute to display
+      const value = this.getStringValue(form_path, valueAttribute)
+      const jurisdiction = this.getStringValue(form_path, jurisdictionCd)
+      if (jurisdiction && jurisdiction !== 'BC') {
+        if (this.isExists(form_path, isExistsAttribute)) {
+          return value;
+        }
       }
       return ''
     },
