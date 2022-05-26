@@ -1,16 +1,9 @@
-importScripts("/roadside-forms/precache-manifest.07dc0e40860bde1a01614908a1ed0ce4.js", "/roadside-forms/workbox-v4.3.1/workbox-sw.js");
+importScripts("/roadside-forms/precache-manifest.f3631d4bc03721b9f9779b55170cca18.js", "/roadside-forms/workbox-v4.3.1/workbox-sw.js");
 workbox.setConfig({modulePathPrefix: "/roadside-forms/workbox-v4.3.1"});
-import {BackgroundSyncPlugin } from 'workbox-background-sync'
-import {registerRoute} from 'workbox-routing'
-import {NetworkOnly} from 'workbox-strategies'
-import {precacheAndRoute} from 'workbox-precaching'
-import {strategies} from 'workbox-strategies'
-import {cacheableResponse} from 'workbox-cacheable-response'
-import {expiration} from 'workbox-expiration'
 
 // The precaching code provided by Workbox
 self.__precacheManifest = [].concat(self.__precacheManifest || []);
-precacheAndRoute(self.__precacheManifest, {
+workbox.precaching.precacheAndRoute(self.__precacheManifest, {
     ignoreURLParametersMatching: [/.*/]
 });
 
@@ -19,19 +12,19 @@ self.addEventListener("message", msg => {
 })
 
 // Cache CSS, JS, and Web Worker requests with a Stale While Revalidate strategy
-registerRoute(
+workbox.routing.registerRoute(
   // Check to see if the request's destination is style for stylesheets, script for JavaScript, or worker for web worker
   ({ request }) =>
     request.destination === 'style' ||
     request.destination === 'script' ||
     request.destination === 'worker',
   // Use a Stale While Revalidate caching strategy
-  new strategies.StaleWhileRevalidate({
+  new workbox.strategies.StaleWhileRevalidate({
     // Put all cached files in a cache named 'assets'
     cacheName: 'assets',
     plugins: [
       // Ensure that only requests that result in a 200 status are cached
-      new cacheableResponse.Plugin({
+      new workbox.cacheableResponse.Plugin({
         statuses: [200],
       }),
     ],
@@ -39,15 +32,15 @@ registerRoute(
 );
 
 // Cache frequently changing API resources using "StaleWhileRevalidate" method
-registerRoute(({request, url}) =>
+workbox.routing.registerRoute(({request, url}) =>
     url.pathname ===  '/roadside-forms/api/v1/impound_lot_operators'  ||
     url.pathname === '/roadside-forms/api/v1/users' ||
     url.pathname === '/roadside-forms/api/v1/user_roles',
-  new strategies.StaleWhileRevalidate({
+  new workbox.strategies.StaleWhileRevalidate({
     cacheName: 'dynamic-api',
     plugins: [
       // Ensure that only requests that result in a 200 status are cached
-      new cacheableResponse.Plugin({
+      new workbox.cacheableResponse.Plugin({
         statuses: [200],
       })
     ],
@@ -56,7 +49,7 @@ registerRoute(({request, url}) =>
 
 
 // Cache static API resources for 2 days
-registerRoute(({request, url}) =>
+workbox.routing.registerRoute(({request, url}) =>
     url.pathname === '/roadside-forms/api/v1/static/agencies'  ||
     url.pathname === '/roadside-forms/api/v1/static/cities'  ||
     url.pathname === '/roadside-forms/api/v1/static/countries'  ||
@@ -65,26 +58,26 @@ registerRoute(({request, url}) =>
     url.pathname === '/roadside-forms/api/v1/static/vehicles'  ||
     url.pathname === '/roadside-forms/api/v1/static/vehicle_styles'  ||
     url.pathname === '/roadside-forms/api/v1/static/colors',
-  new strategies.CacheFirst({
+  new workbox.strategies.CacheFirst({
     cacheName: 'static-api',
     plugins: [
       // Ensure that only requests that result in a 200 status are cached
-      new cacheableResponse.Plugin({
+      new workbox.cacheableResponse.Plugin({
         statuses: [200],
       }),
-      new expiration.Plugin({
+      new workbox.expiration.Plugin({
         maxAgeSeconds: 60 * 60 * 24 * 2, // 2 Days
       }),
     ],
   }),
 );
 
-const bgSyncPlugin = new BackgroundSyncPlugin('roadsafetyQueue', {
+const bgSyncPlugin = new workbox.backgroundSync.BackgroundSyncPlugin('roadsafetyQueue', {
   maxRetentionTime: 24 * 60, // Retry for max of 24 Hours (specified in minutes)
 });
 
-registerRoute(
+workbox.routing.registerRoute(
     /roadside-forms\/api\/v1\/forms\/.*/,
-    new NetworkOnly({
+    new workbox.strategies.NetworkOnly({
         plugins: [bgSyncPlugin],
     }), 'PATCH');
