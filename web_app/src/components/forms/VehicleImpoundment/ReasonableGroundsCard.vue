@@ -10,6 +10,7 @@
           </type-ahead-field>
         </form-row>
         <form-row>
+          <text-field id="file_number" :path=path fg_class="col-sm-3" rules="required">Agency File #</text-field>
           <date-field id="prohibition_start_date" :path=path fg_class="col-sm-5"
                       rules="required|validDt|notFutureDt|notGtYearAgo">
             Date of Driving, care or control

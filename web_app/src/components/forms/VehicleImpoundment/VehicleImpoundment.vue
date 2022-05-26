@@ -36,7 +36,7 @@ import FormsCommon from "@/components/forms/FormsCommon";
 import {mapGetters} from 'vuex';
 import PrintDocuments from "../PrintDocuments";
 import DriversInformationCard from "@/components/forms/VehicleImpoundment/DriversInformationCard";
-import OfficerDetailsCard from "@/components/forms/VehicleImpoundment/OfficerDetailsCard";
+import OfficerDetailsCard from "@/components/forms/OfficerDetailsCard";
 import VehicleInformationCard from "@/components/forms/VehicleImpoundment/VehicleInformationCard";
 import VehicleOwnerCard from "@/components/forms/VehicleImpoundment/VehicleOwnerCard";
 import VehicleImpoundmentCard from "@/components/forms/VehicleImpoundment/VehicleImpoundmentCard";

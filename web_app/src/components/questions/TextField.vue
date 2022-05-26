@@ -27,10 +27,19 @@ export default {
   mixins: [FieldCommon],
   props: {
     placeholder: String,
+    default_value: {
+      type: String
+    },
     input_type: {
       type: String,
       default: "text"
     },
+
+  },
+  mounted() {
+    if(this.default_value) {
+      this.attribute = this.default_value
+    }
   },
   computed: {
     ...mapGetters(["getAttributeValue", "hasFormBeenPrinted"]),

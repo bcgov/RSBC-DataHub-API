@@ -536,6 +536,10 @@ export const getters = {
         }
     },
 
+    getCurrentUserObject: state => {
+        return state.users
+    }
+
 
 }
 

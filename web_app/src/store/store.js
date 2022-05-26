@@ -93,7 +93,14 @@ export const store = new Vuex.Store ({
     pickup_locations: [],
     provinces: [],
     user_roles: {},
-    users: {},
+    users: {
+      agency: '',
+      badge_number: '',
+      first_name: '',
+      last_name: '',
+      user_guid: '',
+      username: ''
+    },
     vehicles: [],
     vehicle_styles: [],
     version: version,
