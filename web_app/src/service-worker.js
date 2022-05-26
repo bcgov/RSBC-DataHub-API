@@ -1,5 +1,5 @@
+workbox.loadModule('workbox-background-sync');
 
-// The precaching code provided by Workbox
 self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {
     ignoreURLParametersMatching: [/.*/]
@@ -70,12 +70,16 @@ workbox.routing.registerRoute(({request, url}) =>
   }),
 );
 
-const bgSyncPlugin = new workbox.backgroundSync.BackgroundSyncPlugin('roadsafetyQueue', {
+
+// When the application is offline, queue any forms submitted
+// to the API and resubmit when back online.
+const BackgroundSyncPlugin = workbox.backgroundSync.BackgroundSyncPlugin;
+const bgSyncPlugin = new BackgroundSyncPlugin('roadsafetyQueue', {
   maxRetentionTime: 24 * 60, // Retry for max of 24 Hours (specified in minutes)
 });
 
 workbox.routing.registerRoute(
-    /roadside-forms\/api\/v1\/forms\/.*/,
+    /\/roadside-forms\/api\/v1\/forms\/.*/,
     new workbox.strategies.NetworkOnly({
         plugins: [bgSyncPlugin],
     }), 'PATCH');
