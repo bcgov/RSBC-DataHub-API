@@ -1,5 +1,5 @@
 import pytest
-import responses
+from datetime import datetime
 import logging
 import json
 import responses
@@ -249,16 +249,37 @@ def test_when_form_updated_without_payload_user_receives_updated_lease_date(as_g
         'printed_timestamp': None,
         'user_guid': 'larry@idir'
     }
-    assert responses.calls[0].request.body.decode() == json.dumps({
-        'event': {
-            'event': 'form lease renewed',
-            'user_guid': 'larry@idir',
-            'username': 'larry@idir',
-            'form_type': '24Hour',
-            'id': 'AA123332'
-        },
-        'source': 'be78d6'
-    })
+
+
+@responses.activate
+def test_user_can_submit_form_and_mark_form_id_as_printed(as_guest, database, monkeypatch, roles):
+    monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
+    monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_authorized_user)
+    today = datetime.strptime("2021-07-21", "%Y-%m-%d")
+    forms = [
+        Form(form_id='AA123332', form_type='24Hour', user_guid='larry@idir', lease_expiry=today, printed=None),
+    ]
+    database.session.bulk_save_objects(forms)
+    database.session.commit()
+
+    resp = as_guest.patch(Config.URL_PREFIX + "/api/v1/forms/24Hour/{}".format('AA123332'),
+                          content_type="application/json",
+                          headers=_get_keycloak_auth_header(_get_keycloak_access_token()),
+                          json={
+                              "form_id": "AA123332",
+                              "form_type": "24Hour",
+                              "lease_expiry": "2022-06-23",
+                              "printed_timestamp": "2022-11-18T11:55:00-08:00",
+                              "component": "TwentyFourHourProhibition",
+                              "label": "24-Hour",
+                              "description": "24-Hour Prohibition",
+                              "full_name": "MV2634"
+                            })
+    assert resp.status_code == 200
+    assert database.session.query(Form.printed_timestamp) \
+               .filter(Form.id == 'AA123332') \
+               .filter(Form.form_type == '24Hour') \
+               .first() == (datetime.strptime("2022-11-18 11:55:00", "%Y-%m-%d %H:%M:%S"),)
 
 
 def test_form_delete_method_not_implemented(as_guest):

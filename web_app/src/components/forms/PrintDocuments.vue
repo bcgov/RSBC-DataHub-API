@@ -14,6 +14,7 @@
 import moment from "moment-timezone";
 import fadeText from "../FadeText";
 import {mapActions, mapGetters, mapMutations} from "vuex";
+import constants from "@/config/constants";
 
 export default {
   name: "PrintDocuments",
@@ -50,7 +51,7 @@ export default {
       const is_validated = await validate()
       console.log('inside onSubmit()', is_validated, variantList);
       if(is_validated) {
-        const current_timestamp = moment.now()
+        const current_timestamp = moment().tz(constants.TIMEZONE).format()
         let payload = {}
         payload['form_object'] = form_object
         payload['variants'] = variantList;
