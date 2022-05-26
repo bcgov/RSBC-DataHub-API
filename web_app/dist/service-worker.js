@@ -1,9 +1,16 @@
-importScripts("/roadside-forms/precache-manifest.1d4f2c774dc744284987f8004e43410a.js", "/roadside-forms/workbox-v4.3.1/workbox-sw.js");
+importScripts("/roadside-forms/precache-manifest.07dc0e40860bde1a01614908a1ed0ce4.js", "/roadside-forms/workbox-v4.3.1/workbox-sw.js");
 workbox.setConfig({modulePathPrefix: "/roadside-forms/workbox-v4.3.1"});
+import {BackgroundSyncPlugin } from 'workbox-background-sync'
+import {registerRoute} from 'workbox-routing'
+import {NetworkOnly} from 'workbox-strategies'
+import {precacheAndRoute} from 'workbox-precaching'
+import {strategies} from 'workbox-strategies'
+import {cacheableResponse} from 'workbox-cacheable-response'
+import {expiration} from 'workbox-expiration'
 
 // The precaching code provided by Workbox
 self.__precacheManifest = [].concat(self.__precacheManifest || []);
-workbox.precaching.precacheAndRoute(self.__precacheManifest, {
+precacheAndRoute(self.__precacheManifest, {
     ignoreURLParametersMatching: [/.*/]
 });
 
@@ -12,19 +19,19 @@ self.addEventListener("message", msg => {
 })
 
 // Cache CSS, JS, and Web Worker requests with a Stale While Revalidate strategy
-workbox.routing.registerRoute(
+registerRoute(
   // Check to see if the request's destination is style for stylesheets, script for JavaScript, or worker for web worker
   ({ request }) =>
     request.destination === 'style' ||
     request.destination === 'script' ||
     request.destination === 'worker',
   // Use a Stale While Revalidate caching strategy
-  new workbox.strategies.StaleWhileRevalidate({
+  new strategies.StaleWhileRevalidate({
     // Put all cached files in a cache named 'assets'
     cacheName: 'assets',
     plugins: [
       // Ensure that only requests that result in a 200 status are cached
-      new workbox.cacheableResponse.Plugin({
+      new cacheableResponse.Plugin({
         statuses: [200],
       }),
     ],
@@ -32,15 +39,15 @@ workbox.routing.registerRoute(
 );
 
 // Cache frequently changing API resources using "StaleWhileRevalidate" method
-workbox.routing.registerRoute(({request, url}) =>
+registerRoute(({request, url}) =>
     url.pathname ===  '/roadside-forms/api/v1/impound_lot_operators'  ||
     url.pathname === '/roadside-forms/api/v1/users' ||
     url.pathname === '/roadside-forms/api/v1/user_roles',
-  new workbox.strategies.StaleWhileRevalidate({
+  new strategies.StaleWhileRevalidate({
     cacheName: 'dynamic-api',
     plugins: [
       // Ensure that only requests that result in a 200 status are cached
-      new workbox.cacheableResponse.Plugin({
+      new cacheableResponse.Plugin({
         statuses: [200],
       })
     ],
@@ -49,7 +56,7 @@ workbox.routing.registerRoute(({request, url}) =>
 
 
 // Cache static API resources for 2 days
-workbox.routing.registerRoute(({request, url}) =>
+registerRoute(({request, url}) =>
     url.pathname === '/roadside-forms/api/v1/static/agencies'  ||
     url.pathname === '/roadside-forms/api/v1/static/cities'  ||
     url.pathname === '/roadside-forms/api/v1/static/countries'  ||
@@ -58,16 +65,26 @@ workbox.routing.registerRoute(({request, url}) =>
     url.pathname === '/roadside-forms/api/v1/static/vehicles'  ||
     url.pathname === '/roadside-forms/api/v1/static/vehicle_styles'  ||
     url.pathname === '/roadside-forms/api/v1/static/colors',
-  new workbox.strategies.CacheFirst({
+  new strategies.CacheFirst({
     cacheName: 'static-api',
     plugins: [
       // Ensure that only requests that result in a 200 status are cached
-      new workbox.cacheableResponse.Plugin({
+      new cacheableResponse.Plugin({
         statuses: [200],
       }),
-      new workbox.expiration.Plugin({
+      new expiration.Plugin({
         maxAgeSeconds: 60 * 60 * 24 * 2, // 2 Days
       }),
     ],
   }),
 );
+
+const bgSyncPlugin = new BackgroundSyncPlugin('roadsafetyQueue', {
+  maxRetentionTime: 24 * 60, // Retry for max of 24 Hours (specified in minutes)
+});
+
+registerRoute(
+    /roadside-forms\/api\/v1\/forms\/.*/,
+    new NetworkOnly({
+        plugins: [bgSyncPlugin],
+    }), 'PATCH');
