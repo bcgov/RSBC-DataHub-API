@@ -1,4 +1,4 @@
-importScripts("/roadside-forms/precache-manifest.f37b6020ebc692369a6ac1b3785fcdbd.js", "/roadside-forms/workbox-v4.3.1/workbox-sw.js");
+importScripts("/roadside-forms/precache-manifest.4a923c2c903414b1297a899c0c7558a9.js", "/roadside-forms/workbox-v4.3.1/workbox-sw.js");
 workbox.setConfig({modulePathPrefix: "/roadside-forms/workbox-v4.3.1"});
 workbox.loadModule('workbox-background-sync');
 
@@ -85,3 +85,4 @@ workbox.routing.registerRoute(
     new workbox.strategies.NetworkOnly({
         plugins: [bgSyncPlugin],
     }), 'PATCH');
+
