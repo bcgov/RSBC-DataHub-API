@@ -1,33 +1,49 @@
 <template>
   <div class="card bg-light border-secondary mb-3">
       <div class="card-body text-dark">
-        <span class="font-weight-bold">Welcome!</span>
-        It looks like you haven't used this app before.<br />
-        <span class="small">Until you're authorized, this app is disabled.
-          <span v-if="! hasUserApplied" @click="showApplication = ! showApplication" class="text-secondary">
-            {{ this.showApplicationLabel }}
-          </span>
-        </span>
-        <div v-if="showApplication && ! hasUserApplied" class="d-flex justify-content-center mt-2">
-          <div class="form-row pl-2">
-            <application-field id="first_name" @modified="modified_event" :errors="errors">First Name</application-field>
+        <div v-if="! hasUserApplied">
+          <p>
+            <span class="font-weight-bold">Welcome!</span> You currently do not have access to the Digital Forms system.
+          </p>
+          <p>
+            This system is available to authorized law enforcement officers only.
+            Please click the button below once you have completed the training
+            course and received the approval of your unit commander.
+          </p>
+        </div>
+
+        <div class="btn btn-primary" v-if="! hasUserApplied && ! showApplication" @click="showApplication = true">
+          Apply for Access
+        </div>
+        <div v-if="showApplication && ! hasUserApplied">
+          <div class="d-flex justify-content-center mt-2">
+            <div class="form-row pl-2">
+              <application-field id="last_name" @modified="modified_event" :errors="errors">Last Name</application-field>
+            </div>
+            <div class="form-row pl-2">
+              <application-field id="first_name" @modified="modified_event" :errors="errors">Given Name</application-field>
+            </div>
+            <div class="form-row pl-2">
+              <application-field id="agency" @modified="modified_event" :errors="errors">Agency Name</application-field>
+            </div>
+            <div class="form-row pl-2">
+              <application-field id="badge_number" input_type="number" @modified="modified_event" :errors="errors">Badge Number</application-field>
+            </div>
           </div>
-          <div class="form-row pl-2">
-            <application-field id="last_name" @modified="modified_event" :errors="errors">Last Name</application-field>
-          </div>
-          <div class="form-row pl-2">
-            <application-field id="badge_number" @modified="modified_event" :errors="errors">Badge Number</application-field>
-          </div>
-          <div class="form-row pl-2">
-            <application-field id="agency" @modified="modified_event" :errors="errors">Agency</application-field>
+          <div>
             <button @click="dispatchUnlock" class="btn btn-secondary">
-              Apply
-              <b-spinner v-if="showSpinner" small></b-spinner>
-            </button>
+                Apply
+                <b-spinner v-if="showSpinner" small></b-spinner>
+              </button>
           </div>
         </div>
-        <div v-if="hasUserApplied" class="text-muted small">
-          Waiting for the administrator to unlock
+
+        <div v-if="hasUserApplied">
+          <p>
+            <span class="font-weight-bold">Application received.</span>
+            If you do not receive a response within 1 business day, please contact us at:
+            <a href="mailto:RSIOpsSupport@gov.bc.ca">RSIOpsSupport@gov.bc.ca</a>
+          </p>
         </div>
     </div>
   </div>
@@ -84,14 +100,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getKeycloakUsername', 'hasUserApplied', 'getAgencyName']),
-    showApplicationLabel() {
-      if (this.showApplication) {
-        return 'Hide'
-      } else {
-        return 'Unlock'
-      }
-    }
+    ...mapGetters(['getKeycloakUsername', 'hasUserApplied', 'getAgencyName'])
   },
   components: {
     ApplicationField
