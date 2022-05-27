@@ -1,7 +1,5 @@
-importScripts("/roadside-forms/precache-manifest.4a923c2c903414b1297a899c0c7558a9.js", "/roadside-forms/workbox-v4.3.1/workbox-sw.js");
+importScripts("/roadside-forms/precache-manifest.bd4a6ee2542732dd17e218250c21c7eb.js", "/roadside-forms/workbox-v4.3.1/workbox-sw.js");
 workbox.setConfig({modulePathPrefix: "/roadside-forms/workbox-v4.3.1"});
-workbox.loadModule('workbox-background-sync');
-
 self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {
     ignoreURLParametersMatching: [/.*/]
@@ -75,14 +73,13 @@ workbox.routing.registerRoute(({request, url}) =>
 
 // When the application is offline, queue any forms submitted
 // to the API and resubmit when back online.
-const BackgroundSyncPlugin = workbox.backgroundSync.BackgroundSyncPlugin;
-const bgSyncPlugin = new BackgroundSyncPlugin('roadsafetyQueue', {
-  maxRetentionTime: 24 * 60, // Retry for max of 24 Hours (specified in minutes)
-});
-
 workbox.routing.registerRoute(
     /\/roadside-forms\/api\/v1\/forms\/.*/,
     new workbox.strategies.NetworkOnly({
-        plugins: [bgSyncPlugin],
+        plugins: [
+            new workbox.backgroundSync.Plugin('roadsafetyQueue', {
+              maxRetentionTime: 24 * 60, // Retry for max of 24 Hours (specified in minutes)
+            })
+        ],
     }), 'PATCH');
 
