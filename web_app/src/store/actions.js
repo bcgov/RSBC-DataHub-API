@@ -35,10 +35,7 @@ export const actions = {
     async getMoreFormsFromApiIfNecessary (context) {
         console.log("inside getMoreFormsFromApiIfNecessary()")
         context.getters.getArrayOfAllFormNames.forEach( form_type => {
-            let number_of_attempts = 0
-            while (context.getters.areNewUniqueIdsRequiredByType(form_type)
-            && number_of_attempts < constants.MAX_NUMBER_UNIQUE_ID_FETCH_ATTEMPTS) {
-                number_of_attempts++;
+            for (let i = 0; i < context.getters.getNumberOfUniqueIdsRequired(form_type); i++) {
                 context.dispatch("getFormIdsFromApiByType", form_type)
                     .then(data => {
                         if (data) {

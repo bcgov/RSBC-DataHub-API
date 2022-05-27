@@ -260,11 +260,14 @@ export const getters = {
         return false;
     },
 
-    areNewUniqueIdsRequiredByType: (state, getters) => form_type => {
-        console.log("inside areNewUniqueIdsRequiredByType", form_type)
+    getNumberOfUniqueIdsRequired: (state, getters) => form_type => {
         // Business rules state that X number of forms must be available to use offline
-        return state.form_schemas.forms[form_type].disabled === false
-            && getters.getFormTypeCount[form_type] < constants.MINIMUM_NUMBER_OF_UNIQUE_IDS_PER_TYPE
+        const numberRequired = constants.MINIMUM_NUMBER_OF_UNIQUE_IDS_PER_TYPE - getters.getFormTypeCount[form_type];
+        if (state.form_schemas.forms[form_type].disabled || numberRequired <= 0) {
+            return 0
+        } else {
+            return numberRequired
+        }
     },
 
     getFormTypeCount: state => {
