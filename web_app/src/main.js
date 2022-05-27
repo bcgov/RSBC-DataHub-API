@@ -5,6 +5,7 @@ import { BootstrapVue, BootstrapVueIcons, ModalPlugin } from 'bootstrap-vue'
 import { ValidationProvider } from 'vee-validate';
 import VueKeyCloak from '@dsb-norge/vue-keycloak-js'
 import router from '@/router'
+import VueMask from 'v-mask'
 
 
 import "@/config/custom_stylesheet.scss";
@@ -20,6 +21,7 @@ Vue.use(Vuex)
 Vue.use(BootstrapVue)
 Vue.use(ModalPlugin)
 Vue.use(BootstrapVueIcons)
+Vue.use(VueMask);
 
 
 // import custom validation rules

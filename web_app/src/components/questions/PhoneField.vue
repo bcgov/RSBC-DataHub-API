@@ -6,6 +6,7 @@
     </label>
     <input type="text"
            class="form-control"
+            v-mask="'###-###-####'"
            :disabled="disabled || hasFormBeenPrinted"
            :id="id"
            :placeholder="placeholder"

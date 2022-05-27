@@ -54,7 +54,7 @@ export default {
     getPhone(form_path, attribute) {
       let value = this.getStringValue(form_path, attribute)
       if (value) {
-        return value.substr(4,3) + "-" + value.substr(6,9)
+        return value.substr(5,13)
       }
       return ''
     },
