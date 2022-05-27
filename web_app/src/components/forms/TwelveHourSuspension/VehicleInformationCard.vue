@@ -1,9 +1,5 @@
 <template>
 <form-card title="Vehicle information">
-  <div v-if="isReadOnly" class="">
-    <read-only-element id="plate_province">Jurisdiction</read-only-element>
-    <read-only-element id="plate_number">Plate Number</read-only-element>
-  </div>
   <form-row>
       <jurisdiction-field id="plate_province" :path="path"  fg_class="col-sm-3">Jurisdiction</jurisdiction-field>
       <plate-number id="plate_number" :path="path"  fg_class="col-sm-6">Plate Number</plate-number>

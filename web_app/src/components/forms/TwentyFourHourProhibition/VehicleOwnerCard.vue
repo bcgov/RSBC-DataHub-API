@@ -11,7 +11,7 @@
           </div>
       </div>
     </div>
-      <div class="card-body lightgray" v-if="! isReadOnly">
+      <div class="card-body lightgray">
         <div>
           <form-row>
             <in-line-check-box fg_class="col-sm-12"
@@ -29,7 +29,7 @@
               Owner's First Name</text-field>
           </form-row>
           <form-row>
-            <text-field id="owners_address1" :path="path + '/owner_person'" fg_class="col-sm-12" placeholder="Address" rules="max:25">Address Line</text-field>
+            <text-field id="owners_address1" :path="path" fg_class="col-sm-12" placeholder="Address" rules="max:25">Address Line</text-field>
           </form-row>
           <form-row>
             <type-ahead-field id="owners_city" :path=path fg_class="col-sm-4" :suggestions="getArrayOfBCCityNames" rules="max:20">City</type-ahead-field>

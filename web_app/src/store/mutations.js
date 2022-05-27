@@ -91,10 +91,6 @@ export const mutations = {
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "dob", dob_string);
     },
 
-    saveICBCVehicleToStore(state, data) {
-        Vue.set(state, 'icbc_vehicle_lookup', data)
-    },
-
     populateVehicleFromICBC(state, payload) {
         let data = payload[0]
         let form_object = state.currently_editing_form_object
@@ -110,12 +106,12 @@ export const mutations = {
         const address = owner['addresses'][0]
 
         if(owner.partyType === 'Organisation') {
-            Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owner_corp", {});
-            Vue.set(state.forms[form_object.form_type][form_object.form_id].data.owner_corp, "name", owner['orgName']);
+            Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "corp_owner_true", {});
+            Vue.set(state.forms[form_object.form_type][form_object.form_id].data.corp_owner_true, "name", owner['orgName']);
         } else {
-            Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owner_person", {});
-            Vue.set(state.forms[form_object.form_type][form_object.form_id].data.owner_person, "owners_last_name", owner['lastName']);
-            Vue.set(state.forms[form_object.form_type][form_object.form_id].data.owner_person, "owners_first_name", owner['firstName']);
+            Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "corp_owner_false", {});
+            Vue.set(state.forms[form_object.form_type][form_object.form_id].data.corp_owner_false, "owners_last_name", owner['lastName']);
+            Vue.set(state.forms[form_object.form_type][form_object.form_id].data.corp_owner_false, "owners_first_name", owner['firstName']);
         }
 
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owner_is_driver", []);
@@ -128,12 +124,15 @@ export const mutations = {
     populateOwnerFromDriver(state) {
         let form_object = state.currently_editing_form_object
         let root = state.forms[form_object.form_type][form_object.form_id].data
-        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_last_name", root.last_name);
-        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_first_name", root.first_name);
+        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "corp_owner_false", {});
+        Vue.set(state.forms[form_object.form_type][form_object.form_id].data['corp_owner_false'], "owners_last_name", root.last_name);
+        Vue.set(state.forms[form_object.form_type][form_object.form_id].data['corp_owner_false'], "owners_first_name", root.first_name);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_address1", root.address1);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_city", root.city);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_province", root.province);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_postal", root.postal);
+        // delete any corporate owner that may have been created
+        Vue.delete(state.forms[form_object.form_type][form_object.form_id].data, "corp_owner_true");
     },
 
     pushFormToStore(state, form_object) {
