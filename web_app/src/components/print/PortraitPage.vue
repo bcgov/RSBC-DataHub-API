@@ -10,6 +10,7 @@
         :field="fields[field]"
         :form_type="form_type"
         :form_id="form_id"
+        :field_name="field"
         :form_data="formData">
       </component>
      Sorry, your browser does not support inline SVG.

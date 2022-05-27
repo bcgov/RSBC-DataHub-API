@@ -1,6 +1,7 @@
 <template>
   <text :x="adjustedStart.x" :y="adjustedStart.y" v-if="renderValue"
         class="fontText"
+        :id="field_name"
         fill="darkblue">{{ renderValue }}
   </text>
 </template>

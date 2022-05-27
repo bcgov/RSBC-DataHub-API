@@ -20,6 +20,9 @@ export default {
     },
     form_data: {
       type: Object
+    },
+    field_name: {
+      type: String
     }
   },
   computed: {
