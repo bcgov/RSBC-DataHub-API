@@ -1,6 +1,5 @@
 <template>
-  <div v-if="formData" class="svg-wrapper">
-    <svg width="100%" :viewBox="viewbox">
+    <svg v-if="formData" class="svg-wrapper" :viewBox="viewbox">
       <image :href="baseURL + page.image.filename" :height="page.image.height + 'px'" :width="page.image.width + 'px'"/>
       <component
         v-for="(field, index) in fieldsToShow"
@@ -15,7 +14,6 @@
       </component>
      Sorry, your browser does not support inline SVG.
     </svg>
-  </div>
 </template>
 
 <script>
@@ -28,36 +26,38 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped type="text/css">
 
-   .svg-wrapper {
-     border-bottom: darkblue solid 1px;
-   }
+@media print {
 
-  @media print {
-     #roadsafety-header {
-       display: none;
-     }
-     #debug-component {
-       display: none;
-     }
-     #not-authenticated-banner {
-       display: none;
-     }
-
-    .svg-wrapper {
-      margin-top: 25mm;
-      border: none;
-      page-break-before:always;
-      -webkit-transform: rotate(-90deg);
-      -moz-transform:rotate(-90deg);
-      filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-    }
-
-    @page {
-      margin: 0;
-
-    }
+  @page {
+    size: letter;
+    margin: 0;
   }
+
+  html {
+    margin: 0;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  #roadsafety-header {
+   display: none;
+  }
+  #debug-component {
+   display: none;
+  }
+  #not-authenticated-banner {
+   display: none;
+  }
+
+  .svg-wrapper {
+    page-break-before:always;
+    transform: rotate(-90deg) scale(1.2) translate(-200px);
+  }
+}
+
 
 </style>
