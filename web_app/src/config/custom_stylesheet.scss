@@ -14,6 +14,14 @@ $success: $bcgov_green;
 $danger: $bcgov_red;
 $light: $bcgov_background_gray;
 
+$font_path: ('~@/fonts');
+
+  @font-face {
+    font-family: "barcode";
+    src: local("barcode"), url($font_path + '/libre-barcode-39-v19-latin-regular.woff') format('woff');
+    font-style: normal;
+    font-weight: 400;
+  }
 
 @import 'node_modules/bootstrap/scss/bootstrap.scss';
 @import 'node_modules/bootstrap-vue/src/index.scss';

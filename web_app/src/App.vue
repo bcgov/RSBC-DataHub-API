@@ -61,13 +61,6 @@ export default {
   margin-top: 60px;
 }
 
-@font-face {
-  font-family: "barcode";
-  src: local("barcode"), url("/fonts/libre-barcode-39-v19-latin-regular.woff") format('woff');
-  font-style: normal;
-  font-weight: 400;
-}
-
 .form-check {
     display: flex;
     align-items: center;
