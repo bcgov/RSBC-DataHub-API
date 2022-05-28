@@ -4,7 +4,7 @@
     <label :for="id"><slot></slot></label>
     <span v-if="required" class="small text-danger"> *</span>
     <vue-typeahead-bootstrap :input-class="errors.length > 0 ? 'border-danger bg-warning' : ''"
-                             @hit="typeAheadUpdate"
+                             @input="typeAheadUpdate"
                              :value="getAttributeValue(path, id)"
                              :data=suggestions
                              :disabled="disabled || hasFormBeenPrinted"
