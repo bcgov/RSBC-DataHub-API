@@ -1548,7 +1548,7 @@
         "field_type": "text",
         "font_size": 8,
         "function": "getStringValue",
-        "parameters": "puj_code",
+        "parameters": "puj_code/objectCd",
         "start": {
           "x": 92.2,
           "y": 132

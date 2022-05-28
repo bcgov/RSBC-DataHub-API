@@ -8,7 +8,7 @@
           class="col-sm-12 mb-2"
           @input="typeAheadUpdate"
           placeholder="Province or State"
-          v-model="query"
+          :value="getProvinceName"
           :data="getArrayOfProvinceNames"
           :disabled="disabled || hasFormBeenPrinted"
           :inputName="id + '_typeahead'" />
@@ -25,14 +25,21 @@ import { mapGetters, mapMutations } from 'vuex';
 
 export default {
   name: "ProvinceAutocomplete",
-  data() {
-    return {
-      query: ''
-    }
-  },
+  // data() {
+  //   return {
+  //     query: ''
+  //   }
+  // },
   mixins: [FieldCommon],
   computed: {
-    ...mapGetters(["getArrayOfProvinceNames", "getProvinceObjectByName", "getAttributeValue", "hasFormBeenPrinted"])
+    ...mapGetters(["getArrayOfProvinceNames", "getProvinceObjectByName", "getAttributeValue", "hasFormBeenPrinted"]),
+    getProvinceName() {
+      const objectValue = this.getAttributeValue(this.path, this.id)
+      if('objectCd' in objectValue) {
+        return objectValue.objectDsc
+      }
+      return ''
+    }
   },
   methods: {
     ...mapMutations(["updateFormField", "deleteFormField"]),
