@@ -2623,11 +2623,21 @@
           "y": 163.1
         }
       },
-      "RELEASE_LOCATION_KEYS": {
+      "RELEASE_LOCATION_KEYS_VEHICLE": {
         "field_type": "text",
         "font_size": 8,
         "function": "conditionalLabel",
         "parameters": ["vehicle_impounded_yes/location_of_keys_vehicle", "With Vehicle"],
+        "start": {
+          "x": 30.7,
+          "y": 155.8
+        }
+      },
+      "RELEASE_LOCATION_KEYS_DRIVER": {
+        "field_type": "text",
+        "font_size": 8,
+        "function": "conditionalLabel",
+        "parameters": ["vehicle_impounded_yes/location_of_keys_driver", "With Driver"],
         "start": {
           "x": 30.7,
           "y": 155.8
@@ -2737,7 +2747,8 @@
               "VEHICLE_NSC_NUMBER",
               "IMPOUNDED_LOT",
               "IMPOUNDED_ADDRESS",
-              "RELEASE_LOCATION_KEYS",
+              "RELEASE_LOCATION_KEYS_VEHICLE",
+              "RELEASE_LOCATION_KEYS_DRIVER",
               "RELEASE_LOCATION_VEHICLE",
               "RELEASE_PERSON",
               "RELEASE_DATETIME",
@@ -2787,7 +2798,8 @@
               "VEHICLE_NSC_NUMBER",
               "IMPOUNDED_LOT",
               "IMPOUNDED_ADDRESS",
-              "RELEASE_LOCATION_KEYS",
+              "RELEASE_LOCATION_KEYS_VEHICLE",
+              "RELEASE_LOCATION_KEYS_DRIVER",
               "RELEASE_LOCATION_VEHICLE",
               "RELEASE_PERSON",
               "RELEASE_DATETIME",
@@ -2837,7 +2849,8 @@
               "VEHICLE_NSC_NUMBER",
               "IMPOUNDED_LOT",
               "IMPOUNDED_ADDRESS",
-              "RELEASE_LOCATION_KEYS",
+              "RELEASE_LOCATION_KEYS_VEHICLE",
+              "RELEASE_LOCATION_KEYS_DRIVER",
               "RELEASE_LOCATION_VEHICLE",
               "RELEASE_PERSON",
               "RELEASE_DATETIME",
