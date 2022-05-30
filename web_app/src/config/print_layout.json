@@ -2653,6 +2653,16 @@
           "y": 163
         }
       },
+      "NOT_IMPOUNDED_REASON_ROADSIDE": {
+        "field_type": "text",
+        "font_size": 10,
+        "function": "conditionalLabel",
+        "parameters": ["vehicle_impounded_no/reason_for_not_impounding_roadside", "LEFT AT ROADSIDE"],
+        "start": {
+          "x": 30.7,
+          "y": 163
+        }
+      },
       "RELEASE_PERSON": {
         "field_type": "text",
         "font_size": 10,
@@ -2750,6 +2760,7 @@
               "RELEASE_LOCATION_KEYS_VEHICLE",
               "RELEASE_LOCATION_KEYS_DRIVER",
               "RELEASE_LOCATION_VEHICLE",
+              "NOT_IMPOUNDED_REASON_ROADSIDE",
               "RELEASE_PERSON",
               "RELEASE_DATETIME",
               "DRIVER_COPY"
@@ -2801,6 +2812,7 @@
               "RELEASE_LOCATION_KEYS_VEHICLE",
               "RELEASE_LOCATION_KEYS_DRIVER",
               "RELEASE_LOCATION_VEHICLE",
+              "NOT_IMPOUNDED_REASON_ROADSIDE",
               "RELEASE_PERSON",
               "RELEASE_DATETIME",
               "POLICE_COPY"
@@ -2852,6 +2864,7 @@
               "RELEASE_LOCATION_KEYS_VEHICLE",
               "RELEASE_LOCATION_KEYS_DRIVER",
               "RELEASE_LOCATION_VEHICLE",
+              "NOT_IMPOUNDED_REASON_ROADSIDE",
               "RELEASE_PERSON",
               "RELEASE_DATETIME",
               "ICBC_COPY"
