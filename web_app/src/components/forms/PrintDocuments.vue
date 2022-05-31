@@ -40,7 +40,6 @@ export default {
         "getCurrentlyEditedForm",
         "getCurrentlyEditedFormData",
         "getCurrentlyEditedFormObject",
-        "getPagesToPrint"
     ]),
   },
   methods: {

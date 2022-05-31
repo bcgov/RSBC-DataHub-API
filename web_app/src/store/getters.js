@@ -169,21 +169,8 @@ export const getters = {
         return state.form_schemas.forms[form_type].documents;
     },
 
-    getPagesToPrint: (state, getters) => form_object => {
-        let variantList = state.form_schemas.forms[form_object.form_type].documents['all'].variants;
-        if ( ! getters.isVehicleImpounded(form_object)) {
-            // remove page for impound lot operator if vehicle not impounded
-            const index = variantList.indexOf("ilo");
-            if (index > -1) {
-              variantList.splice(index, 1);
-            }
-            return variantList
-        }
-        return variantList
-    },
-
-    isVehicleImpounded: state => form_object => {
-        return state.forms[form_object.form_type][form_object.form_id].data.vehicle_impounded === "Yes"
+    isVehicleImpounded: (state, getters) => path => {
+        return getters.doesAttributeExist(path, "vehicle_impounded_yes")
     },
 
     getArrayOfJurisdictions: state => {

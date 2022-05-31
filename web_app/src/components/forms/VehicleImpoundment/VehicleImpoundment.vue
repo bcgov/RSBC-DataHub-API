@@ -87,7 +87,6 @@ export default {
         "getCurrentlyEditedFormData",
         "getCurrentlyEditedFormObject",
         "getPdfFileNameString",
-        "getPagesToPrint"
     ]),
   }
 }

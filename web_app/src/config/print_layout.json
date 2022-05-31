@@ -2089,6 +2089,7 @@
       "ilo": {
         "pages": [
           {
+            "orientation": "Landscape",
             "image": {
               "filename": "assets/MV2634_102018_driver.png",
               "offset_x": 0,
@@ -2110,6 +2111,9 @@
               "AGENCY_NAME",
               "AGENCY_FILE_NUMBER",
               "OWNER_NAME",
+              "OWNER_ADDRESS",
+              "OWNER_PROVINCE",
+              "OWNER_POSTAL_CODE",
               "VEHICLE_LICENSE_NUMBER",
               "VEHICLE_PROVINCE",
               "VEHICLE_LICENSE_YEAR",
