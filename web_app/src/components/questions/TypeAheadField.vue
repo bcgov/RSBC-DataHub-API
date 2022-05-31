@@ -4,7 +4,6 @@
     <label :for="id"><slot></slot></label>
     <span v-if="required" class="small text-danger"> *</span>
     <vue-typeahead-bootstrap :input-class="errors.length > 0 ? 'border-danger bg-warning' : ''"
-                             v-model="query"
                              @input="typeAheadUpdate"
                              :value="getAttributeValue(path, id)"
                              :data=suggestions
@@ -29,25 +28,20 @@ export default {
       default: Array
     }
   },
-  data() {
-    return {
-      query: ''
-    }
-  },
   computed: {
     ...mapGetters(["getAttributeValue", "hasFormBeenPrinted"]),
   },
   methods: {
-    typeAheadUpdate() {
-      console.log("typeAheadUpdate()", this.query)
+    typeAheadUpdate(e) {
+      console.log("typeAheadUpdate()", e)
       const payload = {
         target: {
-          value: this.query.toUpperCase(),
+          value: e.toUpperCase(),
           id: this.id,
           path: this.path
         }
       }
-      this.$store.commit("updateFormField", payload)
+      this.updateFormField(payload)
     }
   },
   components: {
