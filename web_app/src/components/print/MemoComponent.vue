@@ -1,6 +1,6 @@
 <template>
   <text :x="adjustedStart.x" :y="adjustedStart.y"
-        class="fontText"
+        class="memoText"
         :id="field_name"
         fill="darkblue">{{ renderValue }}
   </text>
@@ -29,3 +29,9 @@ export default {
   }
 }
 </script>
+
+<style>
+ .memoText {
+   font-size: 2pt;
+ }
+</style>

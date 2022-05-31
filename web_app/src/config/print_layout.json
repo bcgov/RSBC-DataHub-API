@@ -1816,7 +1816,7 @@
         }
       },
       "REASON_PRESCRIBED_TEST_NOT_USED": {
-        "field_type": "text",
+        "field_type": "memo",
         "font_size": 8,
         "function": "getStringValue",
         "parameters": "prescribed_device_no/reason_prescribed_test_not_used",
