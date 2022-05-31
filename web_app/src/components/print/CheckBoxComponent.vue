@@ -18,7 +18,6 @@ export default {
     }
   },
   methods: {
-    // temporary hack
     isExistsAndNotBc(form_path, [isExistsAttribute, jurisdictionCd]) {
       // the last item in the attributes_array is the attribute to display
       const jurisdiction = this.getStringValue(form_path, jurisdictionCd)
@@ -28,6 +27,17 @@ export default {
         }
       }
       return false;
+    },
+    isExistsOr(form_path, attributes) {
+      let result = false
+      attributes.forEach( (attribute) => {
+
+        if (this.isExists(form_path, attribute) !== undefined) {
+          console.log("isExistsOr", attribute)
+          result = true
+        }
+      })
+      return result
     }
   },
   computed: {

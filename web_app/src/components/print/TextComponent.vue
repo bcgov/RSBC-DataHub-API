@@ -71,18 +71,32 @@ export default {
       return ''
     },
 
+    conditionalMultiLabel(form_path, attribute_pairs) {
+      let strings = []
+      attribute_pairs.forEach( (pair) => {
+        if(this.isExists(form_path, pair[0])) {
+          strings.push(pair[1])
+        }
+      })
+      return strings.join(" AND ")
+    },
+
     label(form_path, attribute) {
       return attribute
     },
 
-    concatenateDateAndTime(form_path, attributes_array) {
-      let dateValue = this.getStringValue(form_path, attributes_array[0])
-      let timeValue = this.getStringValue(form_path, attributes_array[1])
-      if (dateValue && timeValue) {
-          const date_time = moment(dateValue + ' ' + timeValue, 'YYYYMMDD HHmm', true)
-          return date_time.format("YYYY-MM-DD HH:mm")
-      }
-      return ' ';
+    concatenateDateAndTime(form_path, attributes_pairs) {
+      let results = []
+      attributes_pairs.forEach( (attributes_array) => {
+        let dateValue = this.getStringValue(form_path, attributes_array[0])
+        let timeValue = this.getStringValue(form_path, attributes_array[1])
+        if (dateValue && timeValue) {
+            const date_time = moment(dateValue + ' ' + timeValue, 'YYYYMMDD HHmm', true)
+            results.push(date_time.format("YYYY-MM-DD HH:mm"))
+        }
+      })
+
+      return results.join( );
     },
 
     getStringValueWithSuffix(form_path, attribute_array) {

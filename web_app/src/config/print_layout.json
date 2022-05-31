@@ -1848,8 +1848,8 @@
       "REASONABLE_GROUNDS_TEST_APPROVED_INSTRUMENT": {
         "field_type": "checkbox",
         "font_size": 14,
-        "function": "isExists",
-        "parameters": "alcohol/test_administered_instrument_true",
+        "function": "isExistsOr",
+        "parameters": ["alcohol/test_administered_instrument_true", "drugs/test_administered_adse_true"],
         "start": {
           "x": 144.5,
           "y": 107.5
@@ -1858,8 +1858,8 @@
       "REASONABLE_GROUNDS_TEST_APPROVED_INSTRUMENT_SPECIFY": {
         "field_type": "text",
         "font_size": 10,
-        "function": "conditionalLabel",
-        "parameters": ["alcohol/test_administered_instrument_true", "Intox EC/IR II"],
+        "function": "conditionalMultiLabel",
+        "parameters": [["alcohol/test_administered_instrument_true", "Intox EC/IR II"],["drugs/test_administered_adse_true", "ADSE"]],
         "start": {
           "x": 190.2,
           "y": 107.5
@@ -1868,8 +1868,8 @@
       "REASONABLE_GROUNDS_TEST_PHYSICAL_COORDINATION": {
         "field_type": "checkbox",
         "font_size": 14,
-        "function": "isExists",
-        "parameters": "alcohol/test_administered_sfst_true",
+        "function": "isExistsOr",
+        "parameters": ["alcohol/test_administered_sfst_true", "drugs/test_administered_sfst_true"],
         "start": {
           "x": 144.5,
           "y": 111.9
@@ -1879,7 +1879,7 @@
         "field_type": "text",
         "font_size": 10,
         "function": "concatenateDateAndTime",
-        "parameters": ["alcohol/test_date", "alcohol/test_time"],
+        "parameters": [["alcohol/test_date", "alcohol/test_time"], ["drugs/test_date", "drugs/test_time"]],
         "start": {
           "x": 160.9,
           "y": 117
@@ -1938,18 +1938,8 @@
       "ADSE_RESULTS_THC": {
         "field_type": "text",
         "font_size": 10,
-        "function": "conditionalLabel",
-        "parameters": ["drugs/test_administered_adse_true/positive_adse_thc", "THC"],
-        "start": {
-          "x": 194.5,
-          "y": 136.3
-        }
-      },
-      "ADSE_RESULTS_COCAINE": {
-        "field_type": "text",
-        "font_size": 10,
-        "function": "conditionalLabel",
-        "parameters": ["drugs/test_administered_adse_true/positive_adse_cocaine", "COCAINE"],
+        "function": "conditionalMultiLabel",
+        "parameters": [["drugs/test_administered_adse_true/positive_adse_thc", "THC"],["drugs/test_administered_adse_true/positive_adse_cocaine", "COCAINE"]],
         "start": {
           "x": 194.5,
           "y": 136.3
@@ -1958,8 +1948,8 @@
       "PHYSICAL_TEST_SPECIFICS_DRE": {
         "field_type": "text",
         "font_size": 10,
-        "function": "conditionalLabel",
-        "parameters": ["drugs/test_administered_dre_true", "DRE"],
+        "function": "conditionalMultiLabel",
+        "parameters": [["drugs/test_administered_sfst_true", "SFST"], ["drugs/test_administered_dre_true", "DRE"]],
         "start": {
           "x": 203.1,
           "y": 113.3
@@ -2233,7 +2223,6 @@
               "REASONABLE_GROUNDS_DRUG_ABILITY_TO_DRIVE_AFFECTED",
               "REASON_PRESCRIBED_TEST_NOT_USED",
               "ADSE_RESULTS_THC",
-              "ADSE_RESULTS_COCAINE",
               "PHYSICAL_TEST_SPECIFICS_SFST",
               "PHYSICAL_TEST_SPECIFICS_DRE"
             ]
@@ -2324,7 +2313,6 @@
               "REASONABLE_GROUNDS_DRUG_ABILITY_TO_DRIVE_AFFECTED",
               "REASON_PRESCRIBED_TEST_NOT_USED",
               "ADSE_RESULTS_THC",
-              "ADSE_RESULTS_COCAINE",
               "PHYSICAL_TEST_SPECIFICS_SFST",
               "PHYSICAL_TEST_SPECIFICS_DRE"
             ]
@@ -2681,7 +2669,7 @@
         "field_type": "text",
         "font_size": 10,
         "function": "concatenateDateAndTime",
-        "parameters": ["vehicle_impounded_no/reason_for_not_impounding_released/released_date", "vehicle_impounded_no/reason_for_not_impounding_released/released_time"],
+        "parameters": [["vehicle_impounded_no/reason_for_not_impounding_released/released_date", "vehicle_impounded_no/reason_for_not_impounding_released/released_time"]],
         "start": {
           "x": 98,
           "y": 176
