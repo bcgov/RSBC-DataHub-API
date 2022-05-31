@@ -1889,7 +1889,7 @@
         "field_type": "checkbox",
         "font_size": 14,
         "function": "isExists",
-        "parameters": "alcohol/test_administered_asd_true/results_alcohol_under",
+        "parameters": "alcohol/test_administered_asd_true/result_alcohol_under",
         "start": {
           "x": 144.5,
           "y": 126.7
@@ -1899,7 +1899,7 @@
         "field_type": "checkbox",
         "font_size": 14,
         "function": "isExists",
-        "parameters": "alcohol/test_administered_asd_true/results_alcohol_over",
+        "parameters": "alcohol/test_administered_asd_true/result_alcohol_over",
         "start": {
           "x": 168.7,
           "y": 126.7
