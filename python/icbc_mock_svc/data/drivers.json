@@ -1,0 +1,128 @@
+{
+  "5120503": {
+      "dlNumber": "5120503",
+      "birthDate": "1955-02-22",
+      "party": {
+        "ICBCEnterpriseID": "976949180580602",
+        "partyType": "Person",
+        "lastName": "JOHNSTONE",
+        "firstName": "KAREN",
+        "secondName": "PATRICIA",
+        "thirdName": "",
+        "nameType": "Legal",
+        "birthDate": "1955-02-22",
+        "dlNumber": "5120503",
+        "dlPlaceOfIssue": "BC",
+        "addresses": [
+          {
+            "addressType": "Mailing",
+            "addressLine1": "9150 ARRASTRA CREEK FOREST SER",
+            "addressLine2": "",
+            "addressLine3": "",
+            "city": "COALMONT",
+            "region": "BC",
+            "country": "CAN",
+            "postalCode": "V0X1W0",
+            "unitNumber": "",
+            "streetNumber": "9150",
+            "streetName": "ARRASTRA CREEK FOREST SERVICE",
+            "streetType": "RD",
+            "streetDirection": "",
+            "boxNumber": "",
+            "location": "",
+            "postalStationName": "",
+            "postalStationQualifier": "",
+            "postalStationType": "",
+            "routeServiceClass": "",
+            "routeServiceNumber": "",
+            "additionalDeliveryInfo": ""
+          }
+        ]
+      }
+    },
+  "5161222": {
+    "dlNumber": "5161222",
+    "birthDate": "1970-12-16",
+    "party": {
+      "ICBCEnterpriseID": "612757943090602",
+      "partyType": "Person",
+      "lastName": "PARTEST",
+      "firstName": "BRUCE",
+      "secondName": "HAMILTON",
+      "thirdName": "",
+      "nameType": "Legal",
+      "birthDate": "1970-12-16",
+      "dlNumber": "",
+      "dlPlaceOfIssue": "",
+      "addresses": [
+        {
+          "addressType": "Residence",
+          "addressLine1": "SS2 S3 COMP 9",
+          "addressLine2": "GREENSTONE MOUNTAIN RD",
+          "addressLine3": "",
+          "city": "KAMLOOPS",
+          "region": "BC",
+          "country": "CAN",
+          "postalCode": "V2C6C3",
+          "unitNumber": "",
+          "streetNumber": "",
+          "streetName": "",
+          "streetType": "",
+          "streetDirection": "",
+          "boxNumber": "",
+          "location": "",
+          "postalStationName": "",
+          "postalStationQualifier": "",
+          "postalStationType": "",
+          "routeServiceClass": "",
+          "routeServiceNumber": "",
+          "additionalDeliveryInfo": ""
+        }
+      ]
+    }
+  },
+  "1234567": {
+    "dlNumber": "1234567",
+    "birthDate": "1967-01-15",
+    "party": {
+      "ICBCEnterpriseID": "3098823513581",
+      "partyType": "Person",
+      "lastName": "SMITH",
+      "firstName": "AMANDA",
+      "secondName": "",
+      "thirdName": "",
+      "nameType": "Legal",
+      "birthDate": "1967-01-15",
+      "dlNumber": "1234567",
+      "dlPlaceOfIssue": "BC",
+      "addresses": [
+        {
+          "addressType": "Residence",
+          "addressLine1": "123 COOK ST",
+          "addressLine2": "",
+          "addressLine3": "",
+          "city": "VICTORIA",
+          "region": "BC",
+          "country": "CAN",
+          "postalCode": "V8V3W8",
+          "unitNumber": "",
+          "streetNumber": "123",
+          "streetName": "COOK",
+          "streetType": "ST",
+          "streetDirection": "",
+          "boxNumber": "",
+          "location": "",
+          "postalStationName": "",
+          "postalStationQualifier": "",
+          "postalStationType": "",
+          "routeServiceClass": "",
+          "routeServiceNumber": "",
+          "additionalDeliveryInfo": ""
+        }
+      ]
+    }
+  }
+
+
+}
+

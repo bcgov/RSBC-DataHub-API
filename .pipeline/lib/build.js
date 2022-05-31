@@ -72,6 +72,16 @@ module.exports = settings => {
       'SOURCE_CONTEXT_DIR': 'python'
     }
   }))
+  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-icbc-mock-svc-build.yaml`, {
+    'param':{
+      'NAME': phases[phase].name,
+      'SUFFIX': phases[phase].suffix,
+      'VERSION': phases[phase].tag,
+      'SOURCE_REPOSITORY_URL': oc.git.http_url,
+      'SOURCE_REPOSITORY_REF': oc.git.ref,
+      'SOURCE_CONTEXT_DIR': 'python'
+    }
+  }))
   oc.applyRecommendedLabels(
     objects,
     phases[phase].name,
