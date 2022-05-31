@@ -1787,7 +1787,7 @@
       "DRIVER_ADDITIONAL_INFORMATION": {
         "field_type": "memo",
         "font_size": 10,
-        "function": "getStringValue",
+        "function": "officerReport",
         "parameters": "operating_grounds_other/operating_ground_other",
         "start": {
           "x": 144.5,

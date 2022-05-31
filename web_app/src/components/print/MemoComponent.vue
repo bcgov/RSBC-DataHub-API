@@ -17,6 +17,16 @@ export default {
       type: String
     }
   },
+  methods: {
+    officerReport(form_path, attribute) {
+      let value = this.getStringValue(form_path, attribute)
+      let video = this.isExists(form_path, "operating_grounds_video") ? ' VIDEO SURVEILLANCE. ' : ''
+      if (value || video) {
+        return video + value
+      }
+      return ''
+    },
+  },
   computed: {
     renderValue() {
       const value = this[this.field.function](this.getPath, this.field.parameters)
