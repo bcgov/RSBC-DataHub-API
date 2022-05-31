@@ -1,9 +1,8 @@
 <template>
 <div v-if="visible" class="form-group" :class="fg_class">
   <validation-provider :rules="rules" :name="id" v-slot="{ errors, required }">
-    <label v-if="show_label" :for="id"><slot></slot>
-      <span v-if="required" class="text-danger"> *</span>
-    </label>
+    <label v-if="show_label" :for="id"><slot></slot></label>
+    <span v-if="required" class="text-danger"> *</span>
     <vue-typeahead-bootstrap
           class="col-sm-12 mb-2"
           @input="typeAheadUpdate"
@@ -25,17 +24,12 @@ import { mapGetters, mapMutations } from 'vuex';
 
 export default {
   name: "ProvinceAutocomplete",
-  // data() {
-  //   return {
-  //     query: ''
-  //   }
-  // },
   mixins: [FieldCommon],
   computed: {
     ...mapGetters(["getArrayOfProvinceNames", "getProvinceObjectByName", "getAttributeValue", "hasFormBeenPrinted"]),
     getProvinceName() {
       const objectValue = this.getAttributeValue(this.path, this.id)
-      if('objectCd' in objectValue) {
+      if(objectValue && 'objectCd' in objectValue) {
         return objectValue.objectDsc
       }
       return ''
