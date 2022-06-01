@@ -11,10 +11,10 @@
   </form-row>
   <form-row>
     <text-field id="vehicle_year" :path=path rules="vehicleYear" fg_class="col-sm-2">Vehicle Year</text-field>
-    <type-ahead-field :suggestions="getArrayOfVehicleMakes" :path=path id="vehicle_make" input_type="number" fg_class="col-sm-3">Vehicle Make</type-ahead-field>
-    <type-ahead-field :suggestions="getArrayOfVehicleModels" :path=path id="vehicle_model" fg_class="col-sm-3">Vehicle Model</type-ahead-field>
-    <type-ahead-field :suggestions="getArrayOfVehicleStyles" :path=path id="vehicle_type" fg_class="col-sm-2" rules="max:6">Vehicle Type</type-ahead-field>
-    <type-ahead-field :suggestions="getArrayOfCommonCarColors" :path=path id="vehicle_color" fg_class="col-sm-2" rules="max:4">Vehicle Colour</type-ahead-field>
+    <text-field :path=path id="vehicle_make" fg_class="col-sm-3" rules="max:7">Vehicle Make</text-field>
+    <text-field :path=path id="vehicle_model" fg_class="col-sm-3" rules="max:5">Vehicle Model</text-field>
+    <text-field :path=path id="vehicle_type" fg_class="col-sm-2" rules="max:6">Vehicle Type</text-field>
+    <text-field :path=path id="vehicle_color" fg_class="col-sm-2" rules="max:4">Vehicle Colour</text-field>
   </form-row>
   <form-row>
     <text-field id="vin_number" :path=path fg_class="col-sm-5" rules="max:20">VIN Number</text-field>

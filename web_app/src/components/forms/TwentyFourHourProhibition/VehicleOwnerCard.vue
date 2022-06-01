@@ -32,7 +32,7 @@
             <text-field id="owners_address1" :path="path" fg_class="col-sm-12" placeholder="Address" rules="max:25">Address Line</text-field>
           </form-row>
           <form-row>
-            <type-ahead-field id="owners_city" :path=path fg_class="col-sm-4" :suggestions="getArrayOfBCCityNames" rules="max:20">City</type-ahead-field>
+            <text-field id="owners_city" :path=path fg_class="col-sm-4" rules="max:20">City</text-field>
             <province-field id="owners_province" :path=path fg_class="col-sm-2">Prov / State</province-field>
             <text-field id="owners_postal" :path=path fg_class="col-sm-2">Postal / Zip</text-field>
             <phone-field id="owners_phone" :path=path fg_class="col-sm-4" rules="phone">Phone</phone-field>

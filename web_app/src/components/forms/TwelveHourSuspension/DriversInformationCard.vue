@@ -15,7 +15,7 @@
       <phone-field id="driver_phone" :path="path"  fg_class="col-sm-4" rules="phone">Phone</phone-field>
     </form-row>
     <form-row>
-      <type-ahead-field id="city" :path="path"  fg_class="col-sm-6" :suggestions="getArrayOfBCCityNames" rules="required|max:15">City</type-ahead-field>
+      <text-field id="city" :path="path"  fg_class="col-sm-6" rules="required|max:15">City</text-field>
       <province-field id="province" :path="path"  fg_class="col-sm-2">Prov / State</province-field>
       <text-field id="postal" :path="path"  fg_class="col-sm-4">Postal / Zip</text-field>
     </form-row>

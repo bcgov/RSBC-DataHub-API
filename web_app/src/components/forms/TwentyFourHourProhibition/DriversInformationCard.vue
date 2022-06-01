@@ -13,7 +13,7 @@
       <text-field id="address1" :path=path fg_class="col-sm-12" placeholder="Address" rules="required|max:25">Address</text-field>
     </form-row>
     <form-row>
-      <type-ahead-field id="city" :path=path fg_class="col-sm-6" :suggestions="getArrayOfBCCityNames" rules="required|max:15">City</type-ahead-field>
+      <text-field id="city" :path=path fg_class="col-sm-6" rules="required|max:15">City</text-field>
       <province-field id="province" :path=path fg_class="col-sm-2" rules="required">Prov / State</province-field>
       <text-field id="postal" :path=path fg_class="col-sm-4">Postal / Zip</text-field>
     </form-row>

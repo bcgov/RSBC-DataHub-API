@@ -5,10 +5,10 @@
     <plate-number id="plate_number" :path=path fg_class="col-sm-6">Plate Number</plate-number>
   </form-row>
   <form-row>
-    <type-ahead-field :suggestions="getArrayOfVehicleYears" id="vehicle_year" :path=path fg_class="col-sm-2">Vehicle Year</type-ahead-field>
-    <type-ahead-field :suggestions="getArrayOfVehicleMakes" id="vehicle_make" :path=path input_type="number" fg_class="col-sm-4">Vehicle Make</type-ahead-field>
-    <type-ahead-field :suggestions="getArrayOfVehicleModels" id="vehicle_model" :path=path fg_class="col-sm-4">Vehicle Model</type-ahead-field>
-    <type-ahead-field :suggestions="getArrayOfCommonCarColors" id="vehicle_color" :path=path fg_class="col-sm-2">Vehicle Colour</type-ahead-field>
+    <text-field id="vehicle_year" :path=path input_type="number" fg_class="col-sm-2" rules="max:4">Vehicle Year</text-field>
+    <text-field id="vehicle_make" :path=path fg_class="col-sm-4" rules="max:7">Vehicle Make</text-field>
+    <text-field id="vehicle_model" :path=path fg_class="col-sm-4" rules="max:6">Vehicle Model</text-field>
+    <text-field id="vehicle_color" :path=path fg_class="col-sm-2" rules="max:4">Vehicle Colour</text-field>
   </form-row>
   <form-row>
     <text-field id="registration_number" :path=path fg_class="col-sm-4">Registration Number</text-field>

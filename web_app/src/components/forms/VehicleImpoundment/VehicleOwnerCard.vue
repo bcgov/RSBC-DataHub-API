@@ -31,7 +31,7 @@
           </form-row>
           <form-row>
             <text-field id="owners_address1" :path=path fg_class="col-sm-8" placeholder="Address" rules="lt25">Street Address</text-field>
-            <type-ahead-field id="owners_city" :path=path fg_class="col-sm-4" :suggestions="getArrayOfBCCityNames">City</type-ahead-field>
+            <text-field id="owners_city" :path=path fg_class="col-sm-4" rules="max:20">City</text-field>
           </form-row>
           <form-row>
             <province-field id="owners_province" :path=path fg_class="col-sm-2">Province</province-field>

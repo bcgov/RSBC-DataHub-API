@@ -4,7 +4,7 @@
       <form-row>
         <vue-typeahead-bootstrap
           class="col-sm-5 mb-2"
-          @input="typeAheadUpdate"
+          @hit="typeAheadUpdate"
           placeholder="Search for an impound lot operator"
           v-model="query"
           :data="getArrayOfImpoundLotOperators"
