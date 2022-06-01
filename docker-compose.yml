@@ -160,8 +160,8 @@ services:
         dockerfile: icbc_mock_svc/Dockerfile-local
       environment:
         FLASK_SECRET_KEY: "${FLASK_SECRET_KEY}"
-        BASIC_USER: "${ICBC_API_USERNAME}"
-        BASIC_PASSWORD: "${ICBC_API_PASSWORD}"
+        ICBC_API_USERNAME: "${ICBC_API_USERNAME}"
+        ICBC_API_PASSWORD: "${ICBC_API_PASSWORD}"
         LOG_LEVEL: "DEBUG"
 
       networks:
