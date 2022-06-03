@@ -19,12 +19,16 @@ export default {
   },
   methods: {
     officerReport(form_path, attribute) {
+      let result_string = ''
       let value = this.getStringValue(form_path, attribute)
-      let video = this.isExists(form_path, "operating_grounds_video") ? ' VIDEO SURVEILLANCE. ' : ''
-      if (value || video) {
-        return video + value
+      let video = this.isExists(form_path, "operating_grounds_video") ? ' VIDEO SURVEILLANCE. ' : undefined
+      if (video) {
+        result_string = video;
       }
-      return ''
+      if (value) {
+        result_string = result_string + value
+      }
+      return result_string
     },
   },
   computed: {
