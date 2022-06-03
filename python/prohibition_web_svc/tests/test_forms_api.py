@@ -279,7 +279,7 @@ def test_user_can_submit_form_and_mark_form_id_as_printed(as_guest, database, mo
     assert database.session.query(Form.printed_timestamp) \
                .filter(Form.id == 'AA123332') \
                .filter(Form.form_type == '24Hour') \
-               .first() == (datetime.strptime("2022-11-18 11:55:00", "%Y-%m-%d %H:%M:%S"),)
+               .first() == (datetime.strptime("2022-11-18 19:55:00", "%Y-%m-%d %H:%M:%S"),)
 
 
 def test_form_delete_method_not_implemented(as_guest):
