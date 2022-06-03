@@ -43,12 +43,6 @@ export default {
   },
   computed: {
     ...mapGetters(["getAttributeValue", "hasFormBeenPrinted"]),
-    isShowOptional() {
-      if(this.rules) {
-        return ! this.rules.includes('required')
-      }
-      return true
-    }
   }
 }
 </script>

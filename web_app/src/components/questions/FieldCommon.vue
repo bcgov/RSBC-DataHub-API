@@ -47,6 +47,12 @@ export default {
       }
       return 'form-control'
     },
+    isShowOptional() {
+      if(this.rules) {
+        return ! this.rules.includes('required')
+      }
+      return true
+    },
     ...mapGetters([
         "doesAttributeExist",
         "getAttributeValue",

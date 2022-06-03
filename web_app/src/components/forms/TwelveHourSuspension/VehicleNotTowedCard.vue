@@ -2,13 +2,14 @@
     <div>
       <form-row>
         <radio-field id="reason_for_not_impounding"
+                     rules="required"
                      :path="path"
                      fg_class="col-sm-6"
                      :options='[["released", "Released to other driver"], ["roadside", "Left at roadside"]]'>
           Reason for not towing?</radio-field>
       </form-row>
       <form-row v-if="getAttributeValue(path, 'reason_for_not_impounding_released')">
-        <text-field id="vehicle_released_to" :rules="required"
+        <text-field id="vehicle_released_to" rules="required"
                     :path="path + '/reason_for_not_impounding_released'"
                     fg_class="col-sm-6" >
           Vehicle Released To</text-field>

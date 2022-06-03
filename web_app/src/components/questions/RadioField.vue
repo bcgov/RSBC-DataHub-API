@@ -1,8 +1,8 @@
 <template>
 <div v-if="visible" class="form-group" :class="fg_class">
-  <validation-provider :rules="rules" :name="id" v-slot="{ errors, required }">
+  <validation-provider :rules="rules" :name="id" v-slot="{ errors }">
       <label v-if="show_label" :for="id"><slot></slot></label>
-      <span v-if="required" class="small text-danger"> *</span>
+      <span v-if=" ! isShowOptional" class="text-danger"> *</span>
       <div class="form-check" v-for="option in options" :key="option[0]">
         <input class="form-check-input"
                :id="id"
