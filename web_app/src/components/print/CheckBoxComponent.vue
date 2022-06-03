@@ -31,9 +31,7 @@ export default {
     isExistsOr(form_path, attributes) {
       let result = false
       attributes.forEach( (attribute) => {
-
-        if (this.isExists(form_path, attribute) !== undefined) {
-          console.log("isExistsOr", attribute)
+        if (this.isExists(form_path, attribute)) {
           result = true
         }
       })
