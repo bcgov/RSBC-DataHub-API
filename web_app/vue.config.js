@@ -1,5 +1,5 @@
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production' ? '/roadside-forms/' : '/',
+  publicPath: process.env.VUE_APP_PUBLIC_PATH,
   runtimeCompiler: true,
   pwa: {
     workboxPluginMode: "InjectManifest",
