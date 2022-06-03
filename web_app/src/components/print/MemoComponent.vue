@@ -1,9 +1,9 @@
 <template>
-  <text :x="adjustedStart.x" :y="adjustedStart.y"
-        class="memoText"
-        :id="field_name"
-        fill="darkblue">{{ renderValue }}
-  </text>
+  <switch>
+    <foreignObject :x="adjustedStart.x" :y="adjustedStart.y" :width="field.max_width" :height="field.max_height">
+      <p class="memoText" :id="field_name">{{ renderValue }}</p>
+    </foreignObject>
+  </switch>
 </template>
 
 <script>
@@ -46,6 +46,8 @@ export default {
 
 <style>
  .memoText {
-   font-size: 2pt;
+   font-size: 2.5pt;
+   color: darkblue;
+   text-align: left;
  }
 </style>

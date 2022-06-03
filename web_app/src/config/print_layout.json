@@ -637,7 +637,7 @@
         "field_type": "text",
         "font_size": 8,
         "function": "getStringValue",
-        "parameters": "vehicle_keys_true/note",
+        "parameters": "linkage_keys_true/note",
         "start": {
           "x": 56,
           "y": 90
@@ -862,7 +862,8 @@
           "x": 37,
           "y": 207
         },
-        "max_width": 165
+        "max_width": 165,
+        "max_height": 40
       },
       "MV2722_OFFICER_LAST_NAME": {
         "field_type": "text",
@@ -1793,7 +1794,8 @@
           "x": 144.5,
           "y": 55
         },
-        "max_width": 110
+        "max_width": 99,
+        "max_height": 14
       },
       "REASONABLE_GROUNDS_YES": {
         "field_type": "checkbox",
@@ -1822,8 +1824,10 @@
         "parameters": "prescribed_device_no/reason_prescribed_test_not_used",
         "start": {
           "x": 167.8,
-          "y": 92.7
-        }
+          "y": 88
+        },
+        "max_width": 80,
+        "max_height": 10
       },
       "REASONABLE_GROUNDS_TEST_ALCO_SENSOR": {
         "field_type": "checkbox",
