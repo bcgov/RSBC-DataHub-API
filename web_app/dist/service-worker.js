@@ -1,4 +1,4 @@
-importScripts("/roadside-forms/precache-manifest.0bf027d5b4010acda41f42baef2be178.js", "/roadside-forms/workbox-v4.3.1/workbox-sw.js");
+importScripts("/roadside-forms/precache-manifest.68441980317cda09f1febf60c6648675.js", "/roadside-forms/workbox-v4.3.1/workbox-sw.js");
 workbox.setConfig({modulePathPrefix: "/roadside-forms/workbox-v4.3.1"});
 self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {
@@ -31,9 +31,9 @@ workbox.routing.registerRoute(
 
 // Cache frequently changing API resources using "StaleWhileRevalidate" method
 workbox.routing.registerRoute(({request, url}) =>
-    url.pathname ===  '/roadside-forms/api/v1/impound_lot_operators'  ||
-    url.pathname === '/roadside-forms/api/v1/users' ||
-    url.pathname === '/roadside-forms/api/v1/user_roles',
+    url.pathname.includes('/api/v1/impound_lot_operators') ||
+    url.pathname.includes('/api/v1/users') ||
+    url.pathname.includes('/api/v1/user_roles'),
   new workbox.strategies.StaleWhileRevalidate({
     cacheName: 'dynamic-api',
     plugins: [
@@ -48,14 +48,14 @@ workbox.routing.registerRoute(({request, url}) =>
 
 // Cache static API resources for 2 days
 workbox.routing.registerRoute(({request, url}) =>
-    url.pathname === '/roadside-forms/api/v1/static/agencies'  ||
-    url.pathname === '/roadside-forms/api/v1/static/cities'  ||
-    url.pathname === '/roadside-forms/api/v1/static/countries'  ||
-    url.pathname === '/roadside-forms/api/v1/static/jurisdictions'  ||
-    url.pathname === '/roadside-forms/api/v1/static/provinces'  ||
-    url.pathname === '/roadside-forms/api/v1/static/vehicles'  ||
-    url.pathname === '/roadside-forms/api/v1/static/vehicle_styles'  ||
-    url.pathname === '/roadside-forms/api/v1/static/colors',
+    url.pathname.includes('/api/v1/static/agencies') ||
+    url.pathname.includes('/api/v1/static/cities') ||
+    url.pathname.includes('/api/v1/static/countries') ||
+    url.pathname.includes('/api/v1/static/jurisdictions') ||
+    url.pathname.includes('/api/v1/static/provinces') ||
+    url.pathname.includes('/api/v1/static/vehicles') ||
+    url.pathname.includes('/api/v1/static/vehicle_styles') ||
+    url.pathname.includes('/api/v1/static/colors'),
   new workbox.strategies.CacheFirst({
     cacheName: 'static-api',
     plugins: [
@@ -73,8 +73,8 @@ workbox.routing.registerRoute(({request, url}) =>
 
 // When the application is offline, queue any forms submitted
 // to the API and resubmit when back online.
-workbox.routing.registerRoute(
-    /\/roadside-forms\/api\/v1\/forms\/.*/,
+workbox.routing.registerRoute(({request, url}) =>
+    url.pathname.includes('/api/v1/forms/'),
     new workbox.strategies.NetworkOnly({
         plugins: [
             new workbox.backgroundSync.Plugin('roadsafetyQueue', {
