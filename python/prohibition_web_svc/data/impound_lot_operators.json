@@ -15,7 +15,7 @@
    "name": "A J TOWING INC",
    "lot_address": "8945 NOWELL AVE",
    "city": "CHILLIWACK",
-   "phone": "604-795-337447"
+   "phone": "604-795-3374"
  },
  {
    "name": "A&M TOWING",
@@ -348,6 +348,12 @@
    "phone": "250-769-2100"
  },
  {
+   "name": "DIRECT TOWING",
+   "lot_address": "4513 44 AVE NE",
+   "city": "CHETWYND",
+   "phone": "250-788-3001"
+ },
+ {
    "name": "DOLLAR TOWING",
    "lot_address": "312 B ENTERPRISE AVE",
    "city": "KITIMAT",
@@ -415,7 +421,7 @@
  },
  {
    "name": "EISENKRIEN SERVICES LTD",
-   "lot_address": "19535 WONOWON EXTN RD",
+   "lot_address": "101 EXTENSION WONOWN",
    "city": "WONOWON",
    "phone": "250-263-8733"
  },
@@ -439,7 +445,7 @@
  },
  {
    "name": "FIRST CHOICE TOWING (2007) LTD",
-   "lot_address": "10150 ALDER RD",
+   "lot_address": "10150 ALDER CRES",
    "city": "FORT ST JOHN",
    "phone": "250-785-2271"
  },
@@ -787,7 +793,7 @@
  },
  {
    "name": "MITCHELL'S TOWING (VANCOUVER)",
-   "lot_address": "997  1 AVE W",
+   "lot_address": "997 1 AVE W",
    "city": "VANCOUVER",
    "phone": "604-982-0115"
  },
@@ -823,14 +829,8 @@
  },
  {
    "name": "NANOOSE BAY TOWING",
-   "lot_address": "1130 DOBBLER RD",
-   "city": "ERRINGTON",
-   "phone": "250-468-9700"
- },
- {
-   "name": "NANOOSE BAY TOWING & TRANSPORT",
    "lot_address": "1130 DOBLER RD",
-   "city": "NANOOSE BAY",
+   "city": "PARKSVILLE",
    "phone": "250-468-9700"
  },
  {
@@ -906,46 +906,28 @@
    "phone": "604-533-4044"
  },
  {
-   "name": "PAYLESS AUTO TOWING LTD (NORTH VAN)",
-   "lot_address": "1433 COLUMBIA AVE",
+   "name": "PAYLESS TOWING LTD (NORTH VAN)",
+   "lot_address": "1385 MAIN ST ",
    "city": "NORTH VANCOUVER",
-   "phone": "604-988-4176 Ext 3"
+   "phone": "604-988-4176"
  },
  {
-   "name": "PAYLESS AUTO TOWING LTD (PEMBERTON)",
+   "name": "PAYLESS TOWING LTD (PEMBERTON)",
    "lot_address": "1931 CARPENTER RD",
    "city": "PEMBERTON",
-   "phone": "604-988-4176 Ext 3"
+   "phone": "604-988-4176"
  },
  {
-   "name": "PAYLESS AUTO TOWING LTD (SQUAMISH)",
+   "name": "PAYLESS TOWING LTD (SQUAMISH)",
    "lot_address": "39550 GALBRAITH AVE",
    "city": "SQUAMISH",
-   "phone": "604-988-4176 Ext 3"
+   "phone": "604-988-4176"
  },
  {
-   "name": "PAYLESS AUTO TOWING LTD (WHISTLER)",
+   "name": "PAYLESS TOWING LTD (WHISTLER)",
    "lot_address": "1212 ALPHA LAKE RD LOT A",
    "city": "WHISTLER",
-   "phone": "604-988-4176 Ext 3"
- },
- {
-   "name": "PAYLESS TOWING (NORTH VAN)",
-   "lot_address": "133 AMHERST AVE",
-   "city": "NORTH VANCOUVER",
-   "phone": "604-988-2911"
- },
- {
-   "name": "PAYLESS TOWING (SQUAMISH)",
-   "lot_address": "1115 ENTERPRISE WAY",
-   "city": "SQUAMISH",
-   "phone": "604-892-5206"
- },
- {
-   "name": "PAYLESS TOWING (WHISTLER)",
-   "lot_address": "1215 ALPHA LAKE RD",
-   "city": "WHISTLER",
-   "phone": "604-932-3222"
+   "phone": "604-988-4176"
  },
  {
    "name": "PENINSULA TOWING",
@@ -1008,20 +990,26 @@
    "phone": "604-856-8721"
  },
  {
-   "name": "RELIABLE TOWING",
+   "name": "RELIABLE TOWING (MISSION)",
    "lot_address": "7168 WREN AVE",
    "city": "MISSION",
    "phone": "604-826-8621"
  },
  {
-   "name": "RELIABLE TOWING MERRITT LTD",
+   "name": "RELIABLE TOWING (MERRITT)",
    "lot_address": "1141 MCFARLANE WAY",
    "city": "MERRITT",
    "phone": "250-378-5000"
  },
  {
-   "name": "REZILLIANT TRANSPORT LTD",
-   "lot_address": "7915 101 AVE",
+   "name": "REZILLIANT TOWING (FORT NELSON)",
+   "lot_address": "4900 44 AVE",
+   "city": "FORT NELSON",
+   "phone": "250-774-8697"
+ },
+ {
+   "name": "REZILLIANT TOWING (FORT ST JOHN)",
+   "lot_address": "10147 TUNDRA ST.",
    "city": "FORT ST JOHN",
    "phone": "250-793-7139"
  },
