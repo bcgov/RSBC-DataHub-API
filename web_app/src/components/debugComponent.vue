@@ -3,7 +3,7 @@
       <span @click="toggleVisible" class="small text-muted">*</span>
       <div class="small text-muted" v-if="showDetails">
         <div>isUserHasAtLeastOneFormId: {{ isUserHasAtLeastOneFormId }}</div>
-        <div>getArrayOfCommonCarColors.length: {{ getArrayOfCommonCarColors.length }}</div>
+        <div>getArrayOfVehicleStyles.length: {{ getArrayOfVehicleStyles.length }}</div>
         <div>isUserAuthenticated: {{ isUserAuthenticated }}</div>
         <div>isUserAuthorized: {{ isUserAuthorized }}</div>
         <div>state.isOnline: {{ $store.state.isOnline }}</div>
@@ -33,7 +33,7 @@ export default {
         "getAppVersion",
         "isUserAuthenticated",
         "isUserAuthorized",
-        "getArrayOfCommonCarColors",
+        "getArrayOfVehicleStyles",
         "isUserHasAtLeastOneFormId",
         'getCurrentlyEditedFormObject',
         'getFormData',

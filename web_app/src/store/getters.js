@@ -90,33 +90,22 @@ export const getters = {
         return state.agencies;
     },
 
-    getArrayOfCommonCarColors: state => {
-        return state.colors;
-    },
-
     getArrayOfVehicleYears: () => {
         const start = constants.MIN_VEHICLE_YEAR;
         const end = constants.MAX_VEHICLE_YEAR;
         let years = []
-        for (var i = start; i <= end; i++) {
+        for (let i = start; i <= end; i++) {
             years.push(String(i))
         }
-        return years;
+        return years.reverse();
     },
 
-    getArrayOfVehicleMakes: state => {
-        return state.vehicles.map(v => v.make).filter(_onlyUnique);
+    getArrayOfVehicleSearchString: state => {
+        return state.vehicles.map(v => v.search);
     },
 
-    getArrayOfVehicleModels: state => {
-        let form_object = state.currently_editing_form_object;
-        let make = state.forms[form_object.form_type][form_object.form_id].data.vehicle_make
-        let results = state.vehicles.filter( v => v.make === make);
-        if (results.length > 0) {
-            return results.map( v => String(v.model) )
-        } else {
-            return []
-        }
+    getArrayOfVehicleMakeModel: state => {
+        return state.vehicles
     },
 
     getArrayOfVehicleStyles: state => {
@@ -433,7 +422,7 @@ export const getters = {
     },
 
     isAppAvailableToWorkOffline: (state, getters) => {
-        return getters.isUserHasAtLeastOneFormId && getters.getArrayOfCommonCarColors.length > 0;
+        return getters.isUserHasAtLeastOneFormId && getters.getArrayOfVehicleStyles.length > 0;
     },
 
     isUserHasAtLeastOneFormId: (state, getters) => {
@@ -531,9 +520,5 @@ export const getters = {
     }
 
 
-}
-
-function _onlyUnique(value, index, self) {
-  return self.indexOf(value) === index;
 }
 

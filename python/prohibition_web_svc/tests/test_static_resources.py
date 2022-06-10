@@ -171,34 +171,13 @@ def test_unauthorized_user_gets_cities(as_guest, monkeypatch, roles):
 
 
 @responses.activate
-def test_unauthorized_user_gets_car_colors(as_guest, monkeypatch, roles):
-    responses.add(responses.POST, "{}:{}/services/collector".format(
-        Config.SPLUNK_HOST, Config.SPLUNK_PORT), status=200)
-
-    resp = as_guest.get(Config.URL_PREFIX + "/api/v1/static/colors",
-                        follow_redirects=True,
-                        content_type="application/json")
-    assert resp.status_code == 200
-    assert "BLU" in resp.json
-    assert responses.calls[0].request.body.decode() == json.dumps({
-        'event': {
-            'event': 'get static resource',
-            'resource': 'colors',
-            'user_guid': '',
-            'username': ''
-        },
-        'source': 'be78d6'
-    })
-
-
-@responses.activate
 def test_unauthorized_user_can_get_vehicles(as_guest, monkeypatch, roles):
     resp = as_guest.get(Config.URL_PREFIX + "/api/v1/static/vehicles",
                         follow_redirects=True,
                         content_type="application/json")
     assert resp.status_code == 200
-    assert "AC" == resp.json[0]['make']
-    assert "300" == resp.json[0]['model']
+    assert "ABAR" == resp.json[0]['mk']
+    assert "ABARTH - " == resp.json[0]['search']
     assert responses.calls[0].request.body.decode() == json.dumps({
         'event': {
             'event': 'get static resource',
@@ -216,7 +195,7 @@ def test_unauthorized_user_can_get_vehicle_styles(as_guest, monkeypatch, roles):
                         follow_redirects=True,
                         content_type="application/json")
     assert resp.status_code == 200
-    assert "2DR" == resp.json[0]
+    assert {"code": "2DR", "name": "2-DOOR SEDAN"} == resp.json[0]
     assert responses.calls[0].request.body.decode() == json.dumps({
         'event': {
             'event': 'get static resource',

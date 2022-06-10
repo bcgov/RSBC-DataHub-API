@@ -15,7 +15,6 @@ export const store = new Vuex.Store ({
     agencies: [],
     db_ready: false,
     cities: [],
-    colors: [],
     countries: [],
     currently_editing_form_object: {
       "form_type": null,

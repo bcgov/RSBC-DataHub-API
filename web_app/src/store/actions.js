@@ -1,6 +1,7 @@
 import constants from "../config/constants";
 import persistence from "../helpers/persistence";
 import moment from "moment-timezone";
+import fuzzysort from 'fuzzysort'
 
 
 export const actions = {
@@ -142,7 +143,7 @@ export const actions = {
             })
     },
 
-    async lookupPlateFromICBC(context, icbcPayload) {
+    async lookupPlateFromICBC(context, [icbcPayload, path]) {
         console.log("inside actions.js lookupPlateFromICBC(): ")
         console.log("icbcPayload", icbcPayload)
         let plate_number = icbcPayload['plateNumber']
@@ -158,6 +159,20 @@ export const actions = {
                         if ("error" in data) {
                             reject("description" in data['error'] ? {"description": data['error'].description }: {"description": "No valid response"})
                         } else {
+                            context.dispatch("findVehicleByFuzzySearch", data)
+                                .then( (result) => {
+                                    const payload = {"target": {
+                                            "id": "vehicle_make",
+                                            "path": path,
+                                            "value": result
+                                        }
+                                    }
+                                    console.log("preparing to updateFormField()", result, payload)
+                                    context.commit("updateFormField", payload)
+                                })
+                                .catch( (error) => {
+                                    console.log("findVehicleByFuzzySearch() - error", error)
+                                })
                             resolve(context.commit("populateVehicleFromICBC", data))
                         }
                     })
@@ -217,207 +232,6 @@ export const actions = {
         }
     },
 
-    // // the print templates use different field names from the form
-    // // TODO - Delete method below.  Call functions in print_layout.json instead
-    // async getPrintMappings(context, form_object) {
-    //     return new Promise(resolve => {
-    //         console.log("getPrintMappings()", form_object)
-    //         let key_value_pairs = Array();
-    //
-    //         key_value_pairs['VIOLATION_NUMBER'] = form_object.form_id
-    //
-    //         key_value_pairs['REASON_ALCOHOL_215'] = context.getters.getFormPrintRadioValue(form_object, 'prohibition_type', 'Alcohol 215(2)')
-    //         key_value_pairs['REASON_DRUGS_215'] = context.getters.getFormPrintRadioValue(form_object, 'prohibition_type', 'Drugs 215(3)')
-    //
-    //         key_value_pairs['REASON_ALCOHOL_90'] = context.getters.getFormPrintRadioValue(form_object, 'prohibition_type_12hr', 'Alcohol 90.3(2)')
-    //         key_value_pairs['REASON_DRUGS_90'] = context.getters.getFormPrintRadioValue(form_object, 'prohibition_type_12hr', 'Drugs 90.3(2.1)')
-    //
-    //         let prohibition_start_datetime = moment(context.getters.getFormDateTime(form_object, ['prohibition_start_date','prohibition_start_time']))
-    //         key_value_pairs['NOTICE_TIME'] = prohibition_start_datetime.format("HH:mm")
-    //         key_value_pairs['NOTICE_DAY'] = prohibition_start_datetime.format("Do")
-    //         key_value_pairs['NOTICE_MONTH'] = prohibition_start_datetime.format("MMMM")
-    //         key_value_pairs['NOTICE_YEAR'] = prohibition_start_datetime.format("YYYY")
-    //
-    //         key_value_pairs['DL_SURRENDER_LOCATION'] = context.getters.getFormPrintValue(form_object, 'offence_address') +
-    //             ", " + context.getters.getFormPrintValue(form_object, 'offence_city')
-    //         key_value_pairs['OFFICER_BADGE_NUMBER'] = context.getters.getFormPrintValue(form_object, 'badge_number')
-    //         key_value_pairs['AGENCY_NAME'] = context.getters.getFormPrintValue(form_object, 'agency')
-    //         key_value_pairs['AGENCY_FILE_NUMBER'] = context.getters.getFormPrintValue(form_object, 'file_number')
-    //         key_value_pairs['OFFICER_LAST_NAME'] = context.getters.getFormPrintValue(form_object, 'officer_name')
-    //
-    //         if(context.getters.getFormPrintCheckedValue(form_object, 'corporate_owner', 'Owned by corporate entity')) {
-    //             key_value_pairs['OWNER_NAME'] = context.getters.getFormPrintValue(form_object, 'owners_corporation')
-    //         } else {
-    //             key_value_pairs['OWNER_NAME'] = context.getters.getFormPrintValue(form_object, 'owners_last_name')
-    //             + ", " + context.getters.getFormPrintValue(form_object, 'owners_first_name')
-    //             key_value_pairs['OWNER_DOB'] = context.getters.getFormPrintDate(form_object, 'owner_dob')
-    //         }
-    //
-    //         key_value_pairs['OWNER_ADDRESS'] = context.getters.getFormPrintValue(form_object, 'owners_address1')
-    //                 + ", " + context.getters.getFormPrintValue(form_object, 'owners_city')
-    //         key_value_pairs['OWNER_PROVINCE'] = context.getters.getFormPrintValue(form_object, 'owners_province')
-    //         key_value_pairs['OWNER_POSTAL_CODE'] = context.getters.getFormPrintValue(form_object, 'owners_postal')
-    //         key_value_pairs['OWNER_PHONE_AREA_CODE'] = context.getters.getFormPrintValue(form_object, 'owners_phone').substr(0, 3)
-    //
-    //         let phone_number = context.getters.getFormPrintValue(form_object, 'owners_phone')
-    //         key_value_pairs['OWNER_PHONE_NUMBER'] = phone_number.substr(3, 3) + '-' + phone_number.substr(6, 9)
-    //         key_value_pairs['OWNER_EMAIL'] = context.getters.getFormPrintValue(form_object, 'owners_email')
-    //
-    //         key_value_pairs['VEHICLE_LICENSE_NUMBER'] = context.getters.getFormPrintValue(form_object, 'plate_number')
-    //         key_value_pairs['VEHICLE_PROVINCE'] = context.getters.getFormPrintJurisdiction(form_object, 'plate_province')
-    //         key_value_pairs['VEHICLE_LICENSE_YEAR'] = context.getters.getFormPrintValue(form_object, 'plate_year')
-    //         key_value_pairs['VEHICLE_TAG_NUMBER'] = context.getters.getFormPrintValue(form_object, 'plate_val_tag')
-    //         key_value_pairs['VEHICLE_REGISTRATION_NUMBER'] = context.getters.getFormPrintValue(form_object, 'registration_number')
-    //         key_value_pairs['VEHICLE_TYPE'] = context.getters.getFormPrintValue(form_object, 'vehicle_type')
-    //         key_value_pairs['VEHICLE_MAKE'] = context.getters.getFormPrintValue(form_object, 'vehicle_make')
-    //         key_value_pairs['VEHICLE_MODEL'] = context.getters.getFormPrintValue(form_object, 'vehicle_model')
-    //         key_value_pairs['VEHICLE_YEAR'] = context.getters.getFormPrintValue(form_object, 'vehicle_year')
-    //         key_value_pairs['VEHICLE_COLOR'] = context.getters.getFormPrintValue(form_object, 'vehicle_color')
-    //         key_value_pairs['VEHICLE_NSC_PUJ'] = context.getters.getFormPrintValue(form_object, 'puj_code')
-    //         key_value_pairs['VEHICLE_NSC_NUMBER'] = context.getters.getFormPrintValue(form_object, 'nsc_number')
-    //         key_value_pairs['VEHICLE_VIN'] = context.getters.getFormPrintValue(form_object, 'vin_number')
-    //
-    //         key_value_pairs['NOT_IMPOUNDED'] = context.getters.getFormPrintRadioValue(form_object, 'vehicle_impounded', 'No')
-    //         key_value_pairs['IMPOUNDED'] = context.getters.getFormPrintRadioValue(form_object, 'vehicle_impounded', 'Yes')
-    //
-    //         if (key_value_pairs['IMPOUNDED']) {
-    //             let ilo = context.getters.getFormPrintValue(form_object, 'impound_lot_operator').split(", ")
-    //             if (ilo.length > 1) {
-    //                 key_value_pairs['IMPOUNDED_LOT'] = ilo[0]
-    //                 key_value_pairs['IMPOUNDED_ADDRESS'] = ilo[1] + ", " + ilo[2]
-    //                 key_value_pairs['IMPOUNDED_PHONE_AREA_CODE'] = ilo[3].substr(0, 3)
-    //                 key_value_pairs['IMPOUNDED_PHONE_NUMBER'] = ilo[3].substr(4)
-    //             }
-    //             key_value_pairs['RELEASE_LOCATION_KEYS'] = context.getters.getFormPrintValue(form_object, 'location_of_keys')
-    //         } else {
-    //             key_value_pairs['NOT_IMPOUNDED_REASON'] = context.getters.getFormPrintValue(form_object, 'reason_for_not_impounding')
-    //             key_value_pairs['RELEASE_PERSON'] = context.getters.getFormPrintValue(form_object, 'vehicle_released_to')
-    //             key_value_pairs['RELEASE_DATETIME'] = context.getters.getFormDateTimeString(form_object, ['released_date', 'released_time'])
-    //         }
-    //         key_value_pairs['RELEASE_LOCATION_VEHICLE'] = context.getters.locationOfVehicle(form_object)
-    //
-    //
-    //         key_value_pairs['DRIVER_NAME'] = context.getters.getFormPrintValue(form_object,"last_name") + ", " +
-    //             context.getters.getFormPrintValue(form_object,'first_name')
-    //         key_value_pairs['DRIVER_SURNAME'] = context.getters.getFormPrintValue(form_object,"last_name")
-    //         key_value_pairs['DRIVER_GIVEN'] = context.getters.getFormPrintValue(form_object,'first_name')
-    //         key_value_pairs['DRIVER_DL_NUMBER'] = context.getters.getFormPrintValue(form_object,'drivers_number')
-    //         key_value_pairs['DRIVER_DL_PROVINCE'] = context.getters.getFormPrintJurisdiction(form_object,'drivers_licence_jurisdiction')
-    //
-    //         key_value_pairs['DRIVER_PHONE_AREA_CODE'] = context.getters.getFormPrintValue(form_object,'driver_phone').substr(0,3)
-    //         key_value_pairs['DRIVER_PHONE'] = context.getters.getFormPrintValue(form_object,'driver_phone').substr(3)
-    //
-    //         key_value_pairs['DRIVER_DOB'] = context.getters.getFormPrintDate(form_object,'dob')
-    //         key_value_pairs['DRIVER_GENDER'] = context.getters.getFormPrintValue(form_object,'driver_gender').substr(0,5)
-    //         key_value_pairs['DRIVER_DL_EXPIRY'] = context.getters.getFormPrintValue(form_object,'expiry_year')
-    //         key_value_pairs['DRIVER_DL_CLASS'] = context.getters.getFormPrintValue(form_object,'dl_class')
-    //
-    //         key_value_pairs['DRIVER_ADDRESS'] =
-    //             context.getters.getFormPrintValue(form_object,'address1') + ", " +
-    //             context.getters.getFormPrintValue(form_object,'city') + ", " +
-    //             context.getters.getFormPrintValue(form_object,'province') + ", " +
-    //             context.getters.getFormPrintValue(form_object,'postal')
-    //
-    //         key_value_pairs['DRIVER_WITNESSED_BY_OFFICER'] = context.getters.getFormPrintCheckedValue(
-    //             form_object, 'operating_grounds', "Witnessed by officer")
-    //         key_value_pairs['DRIVER_INDEPENDENT_WITNESS'] = context.getters.getFormPrintCheckedValue(
-    //             form_object, 'operating_grounds', "Independent witness")
-    //         key_value_pairs['DRIVER_ADMISSION_BY_DRIVER'] = context.getters.getFormPrintCheckedValue(
-    //             form_object, 'operating_grounds', "Admission by driver")
-    //
-    //         const video_surveillance = context.getters.getFormPrintCheckedValue(
-    //             form_object, 'operating_grounds', "Video surveillance")
-    //
-    //         let operating_grounds_other = context.getters.getFormPrintCheckedValue(
-    //             form_object, 'operating_grounds', "Other")
-    //         key_value_pairs['DRIVER_OTHER'] = operating_grounds_other
-    //
-    //         if (operating_grounds_other || video_surveillance) {
-    //             key_value_pairs['DRIVER_ADDITIONAL_INFORMATION'] = "ADDITIONAL INFORMATION:"
-    //             if (video_surveillance) {
-    //                 key_value_pairs['DRIVER_ADDITIONAL_INFORMATION'] += " VIDEO SURVEILLANCE. "
-    //             }
-    //             key_value_pairs['DRIVER_ADDITIONAL_INFORMATION'] += context.getters.getFormPrintValue(
-    //                 form_object, 'operating_ground_other')
-    //         } else {
-    //             key_value_pairs['DRIVER_ADDITIONAL_INFORMATION'] = ''
-    //         }
-    //
-    //         key_value_pairs['REASONABLE_GROUNDS_YES'] = context.getters.getFormPrintCheckedValue(
-    //             form_object, 'prescribed_device', "Yes")
-    //         key_value_pairs['REASONABLE_GROUNDS_NO'] = context.getters.getFormPrintCheckedValue(
-    //             form_object, 'prescribed_device', "No")
-    //
-    //         key_value_pairs['REASON_PRESCRIBED_TEST_NOT_USED'] = context.getters.getFormPrintValue(
-    //                 form_object, 'reason_prescribed_test_not_used')
-    //
-    //         let prescribed_test = []
-    //
-    //         if (context.getters.getFormPrintCheckedValue(form_object, "test_administered_sfst", "Prescribed Physical Coordination Test (SFST)")) {
-    //                 prescribed_test.push("SFST")
-    //                 key_value_pairs['REASONABLE_GROUNDS_TEST_PHYSICAL_COORDINATION'] = true
-    //             }
-    //
-    //
-    //         // Alcohol - 215
-    //         if (key_value_pairs['REASON_ALCOHOL_215']) {
-    //
-    //             key_value_pairs['REASONABLE_GROUNDS_TEST_ALCO_SENSOR'] = context.getters.getFormPrintCheckedValue(
-    //                 form_object, 'test_administered_asd', 'Alco-Sensor FST (ASD)')
-    //
-    //             if(key_value_pairs['REASONABLE_GROUNDS_TEST_ALCO_SENSOR']) {
-    //                 key_value_pairs['REASONABLE_GROUNDS_TEST_ASD_EXPIRY_DATE'] = context.getters.getFormPrintValue(
-    //                     form_object, 'asd_expiry_date')
-    //                 key_value_pairs['REASONABLE_GROUNDS_ALCOHOL_51-99'] = context.getters.getFormPrintCheckedValue(
-    //                     form_object, 'result_alcohol', '51-99 mg%')
-    //
-    //                 key_value_pairs['REASONABLE_GROUNDS_ALCOHOL_OVER_99'] = context.getters.getFormPrintCheckedValue(
-    //                     form_object, 'result_alcohol', 'Over 99 mg%')
-    //             }
-    //
-    //             key_value_pairs['REASONABLE_GROUNDS_TEST_TIME'] = context.getters.getFormDateTimeString(
-    //                 form_object, ['test_date', 'test_time'])
-    //
-    //             key_value_pairs['REASONABLE_GROUNDS_TEST_APPROVED_INSTRUMENT'] = context.getters.getFormPrintCheckedValue(
-    //                 form_object, 'test_administered_instrument', 'Approved Instrument')
-    //
-    //             if (key_value_pairs['REASONABLE_GROUNDS_TEST_APPROVED_INSTRUMENT']) {
-    //                 key_value_pairs['REASONABLE_GROUNDS_TEST_APPROVED_INSTRUMENT_SPECIFY'] = 'Intox EC/IR II'
-    //                 key_value_pairs['REASONABLE_GROUNDS_ALCOHOL_BAC'] = true
-    //                 key_value_pairs['REASONABLE_GROUNDS_ALCOHOL_BAC_VALUE'] = context.getters.getFormPrintValue(
-    //                     form_object, 'test_result_bac') + " mg%"
-    //             }
-    //         }
-    //
-    //         // Drugs - 215
-    //         if (key_value_pairs['REASON_DRUGS_215']) {
-    //
-    //             key_value_pairs['REASONABLE_GROUNDS_TEST_TIME'] = context.getters.getFormDateTimeString(
-    //                 form_object, ['test_date', 'test_time'])
-    //
-    //             if (context.getters.getFormPrintCheckedValue(
-    //                     form_object, 'test_administered_adse', "Approved Drug Screening Equipment")) {
-    //                 key_value_pairs['REASONABLE_GROUNDS_TEST_APPROVED_INSTRUMENT'] = true
-    //                 key_value_pairs['REASONABLE_GROUNDS_TEST_APPROVED_INSTRUMENT_SPECIFY'] = 'ADSE'
-    //                 key_value_pairs['ADSE_RESULTS'] = context.getters.getFormPrintListValues(form_object,"positive_adse")
-    //             }
-    //
-    //             if (context.getters.getFormPrintCheckedValue(form_object, "test_administered_dre", "Prescribed Physical Coordination Test (DRE)")) {
-    //                 prescribed_test.push("DRE")
-    //                 key_value_pairs['REASONABLE_GROUNDS_TEST_PHYSICAL_COORDINATION'] = true
-    //             }
-    //
-    //             key_value_pairs['PHYSICAL_TEST_SPECIFICS'] = prescribed_test.join(" and ")
-    //
-    //             key_value_pairs['REASONABLE_GROUNDS_DRUG_ABILITY_TO_DRIVE_AFFECTED'] = true
-    //
-    //
-    //         }
-    //         resolve(key_value_pairs);
-    //
-    //     })
-    //
-    // },
 
     async applyToUnlockApplication(context, application) {
         console.log("inside actions.js applyToUnlockApplication(): ")
@@ -552,7 +366,6 @@ export const actions = {
         await context.dispatch("fetchStaticLookupTables", {"resource": "jurisdictions", "admin": false, "static": true})
         await context.dispatch("fetchStaticLookupTables", {"resource": "provinces", "admin": false, "static": true})
         await context.dispatch("fetchStaticLookupTables", {"resource": "cities", "admin": false, "static": true})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "colors", "admin": false, "static": true})
         await context.dispatch("fetchStaticLookupTables", {"resource": "vehicles", "admin": false, "static": true})
         await context.dispatch("fetchStaticLookupTables", {"resource": "vehicle_styles", "admin": false, "static": true})
 
@@ -566,4 +379,27 @@ export const actions = {
             context.commit('removeItemFromCheckboxList', payload)
         }
     },
+
+    // When the vehicle queried from ICBC's API, the returned vehicle make and model
+    // may not exactly match the vehicle list from PrimeCorp that contains the make
+    // and model abbreviations used on the printouts. We use a fuzzy search
+    // algorithm to find the best match.
+    async findVehicleByFuzzySearch(context, payload) {
+        console.log("findVehicleByFuzzySearch()", payload[0])
+        const icbcData = payload[0]
+        const primeCorpVehicleList = context.getters.getArrayOfVehicleSearchString
+        const results = fuzzysort.go(icbcData['vehicleMake'] + " - " + icbcData['vehicleModel'], primeCorpVehicleList)
+        return await new Promise((resolve, reject) => {
+            console.log("findVehicleByFuzzySearch() - results", results, payload)
+            if (results.length >= 1) {
+                const vehicleObject = context.getters.getArrayOfVehicleMakeModel.filter(v => v.search === results[0].target)
+                resolve(vehicleObject[0])
+            } else {
+                reject({
+                    "description": "no match found",
+                    "result": results
+                })
+            }
+        })
+    }
 }

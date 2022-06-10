@@ -5,10 +5,9 @@
     <plate-number id="plate_number" :path=path fg_class="col-sm-6">Plate Number</plate-number>
   </form-row>
   <form-row>
-    <text-field id="vehicle_year" :path=path input_type="number" fg_class="col-sm-2" rules="max:4">Vehicle Year</text-field>
-    <text-field id="vehicle_make" :path=path fg_class="col-sm-4" rules="max:7">Vehicle Make</text-field>
-    <text-field id="vehicle_model" :path=path fg_class="col-sm-4" rules="max:6">Vehicle Model</text-field>
-    <text-field id="vehicle_color" :path=path fg_class="col-sm-2" rules="max:4">Vehicle Colour</text-field>
+    <vehicle-year :path=path input_type="number" fg_class="col-sm-2" rules="max:4">Vehicle Year</vehicle-year>
+    <vehicle-make-model :path=path fg_class="col-sm-5" rules="max:7">Vehicle Make</vehicle-make-model>
+    <vehicle-colour :path=path fg_class="col-sm-3"></vehicle-colour>
   </form-row>
   <form-row>
     <text-field id="registration_number" :path=path fg_class="col-sm-4">Registration Number</text-field>
@@ -21,15 +20,10 @@
 <script>
 
 import CardsCommon from "@/components/forms/CardsCommon";
-import {mapGetters} from "vuex";
 
 export default {
   name: "VehicleInformationCard",
   mixins: [CardsCommon],
-  computed: {
-    ...mapGetters(["getArrayOfCommonCarColors", "getArrayOfVehicleYears", "getArrayOfVehicleStyles",
-      "getArrayOfVehicleMakes", "getArrayOfVehicleModels"])
-  }
 }
 </script>
 

@@ -97,7 +97,6 @@ def _is_known_resource(**kwargs) -> tuple:
     known_resources = [
         'agencies',
         'cities',
-        'colors',
         'countries',
         'impound_lot_operators',
         'jurisdictions',

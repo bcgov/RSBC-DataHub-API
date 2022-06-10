@@ -19,6 +19,10 @@ import FormStep from "@/components/forms/FormStep";
 import FormCard from "@/components/forms/FormCard";
 import FormRow from "@/components/forms/FormRow";
 import TimeField from "@/components/questions/TimeField";
+import VehicleColour from "@/components/questions/VehicleColour/VehicleColour";
+import VehicleStyle from "@/components/questions/VehicleStyle/VehicleStyle";
+import VehicleMakeModel from "@/components/questions/VehicleMakeModel";
+import VehicleYear from "@/components/questions/VehicleYear";
 import ReadOnlyElement from "@/components/questions/ReadOnlyElement";
 import InLineCheckBox from "@/components/questions/InLineCheckBox";
 import ImpoundLotOperator from "@/components/questions/ImpoundLotOperator";
@@ -76,7 +80,11 @@ export default {
     ShadowBox,
     TextField,
     TimeField,
-    TypeAheadField
+    TypeAheadField,
+    VehicleColour,
+    VehicleMakeModel,
+    VehicleStyle,
+    VehicleYear
   }
 }
 </script>

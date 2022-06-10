@@ -96,10 +96,10 @@ export const mutations = {
         let form_object = state.currently_editing_form_object
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "registration_number", data['registrationNumber']);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "vehicle_year", data['vehicleModelYear']);
-        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "vehicle_make", data['vehicleMake']);
-        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "vehicle_model", data['vehicleModel']);
-        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "vehicle_type", data['vehicleStyle'].substring(0,6));
-        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "vehicle_color", data['vehicleColour']);
+
+        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "vehicle_type",
+            {"code": data['vehicleStyle'].substr(0,6), "name": data['vehicleStyle']});
+        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "vehicle_color", [{"code": data['vehicleColour'], "display_name": data['vehicleColour']}]);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "vin_number", data['vehicleIdNumber']);
 
         const owner = data['vehicleParties'][0]['party']

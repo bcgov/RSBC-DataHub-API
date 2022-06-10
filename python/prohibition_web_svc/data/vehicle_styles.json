@@ -1,24 +1,78 @@
 [
-  "2DR",
-  "3DR",
-  "4DR",
-  "5DR",
-  "BUS",
-  "CAMP",
-  "CARRY",
-  "CONVER",
-  "DIRT",
-  "DUMP",
-  "FLTDCK",
-  "LOG",
-  "MOPED",
-  "MSCOOT",
-  "OTHER",
-  "PICKUP",
-  "STAKE",
-  "STREET",
-  "STWGN",
-  "TANK",
-  "TRACT",
-  "VAN"
+ {
+   "code": "2DR",
+   "name": "2-DOOR SEDAN"
+ },
+ {
+   "code": "3DR",
+   "name": "3-DOOR HATCH"
+ },
+ {
+   "code": "4DR",
+   "name": "4-DOOR SEDAN"
+ },
+ {
+   "code": "5DR",
+   "name": "5-DOOR HATCH"
+ },
+ {
+   "code": "CAMP",
+   "name": "CAMPER INCL:CAMPER VANS & MOTORIZED HOMES"
+ },
+ {
+   "code": "CARGO",
+   "name": "CARGO (VAN)"
+ },
+ {
+   "code": "CONVER",
+   "name": "CONVERTIBLE"
+ },
+ {
+   "code": "DUMP",
+   "name": "DUMP"
+ },
+ {
+   "code": "MSCOOT",
+   "name": "MOTOR SCOOTER"
+ },
+ {
+   "code": "OTHER",
+   "name": "OTHER"
+ },
+ {
+   "code": "PASSEN",
+   "name": "PASSENGER (VAN)"
+ },
+ {
+   "code": "PICKUP",
+   "name": "PICKUP"
+ },
+ {
+   "code": "PUCREW",
+   "name": "PICKUP (CREW CAB)"
+ },
+ {
+   "code": "PUFLAT",
+   "name": "PICKUP (FLAT BED)"
+ },
+ {
+   "code": "PUXCAB",
+   "name": "PICKUP (EXT. CAB)"
+ },
+ {
+   "code": "STAKE",
+   "name": "STAKE"
+ },
+ {
+   "code": "STWGN",
+   "name": "STATION WAGON"
+ },
+ {
+   "code": "TANK",
+   "name": "TANKER"
+ },
+ {
+   "code": "TRACT",
+   "name": "TRACTOR"
+ }
 ]

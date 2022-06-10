@@ -54,8 +54,7 @@ workbox.routing.registerRoute(({request, url}) =>
     url.pathname.includes('/api/v1/static/jurisdictions') ||
     url.pathname.includes('/api/v1/static/provinces') ||
     url.pathname.includes('/api/v1/static/vehicles') ||
-    url.pathname.includes('/api/v1/static/vehicle_styles') ||
-    url.pathname.includes('/api/v1/static/colors'),
+    url.pathname.includes('/api/v1/static/vehicle_styles'),
   new workbox.strategies.CacheFirst({
     cacheName: 'static-api',
     plugins: [

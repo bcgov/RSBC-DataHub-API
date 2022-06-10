@@ -206,7 +206,7 @@
         "field_type": "text",
         "font_size": 12,
         "function": "getStringValue",
-        "parameters": "vehicle_make",
+        "parameters": "vehicle_make/mk",
         "start": {
           "x": 77,
           "y": 107
@@ -216,7 +216,7 @@
         "field_type": "text",
         "font_size": 12,
         "function": "getStringValue",
-        "parameters": "vehicle_model",
+        "parameters": "vehicle_make/md",
         "start": {
           "x": 117,
           "y": 107
@@ -235,7 +235,7 @@
       "MV2721_VEHICLE_COLOR": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getStringValue",
+        "function": "getCarColourCodes",
         "parameters": "vehicle_color",
         "start": {
           "x": 176,
@@ -1499,7 +1499,7 @@
         "field_type": "text",
         "font_size": 8,
         "function": "getStringValue",
-        "parameters": "vehicle_type",
+        "parameters": "vehicle_type/code",
         "start": {
           "x": 116.8,
           "y": 126
@@ -1509,7 +1509,7 @@
         "field_type": "text",
         "font_size": 8,
         "function": "getStringValue",
-        "parameters": "vehicle_make",
+        "parameters": "vehicle_make/mk",
         "start": {
           "x": 32.4,
           "y": 132
@@ -1519,7 +1519,7 @@
         "field_type": "text",
         "font_size": 8,
         "function": "getStringValue",
-        "parameters": "vehicle_model",
+        "parameters": "vehicle_make/md",
         "start": {
           "x": 53.7,
           "y": 132
@@ -1538,7 +1538,7 @@
       "VEHICLE_COLOR": {
         "field_type": "text",
         "font_size": 8,
-        "function": "getStringValue",
+        "function": "getCarColourCodes",
         "parameters": "vehicle_color",
         "start": {
           "x": 79.9,
@@ -2560,7 +2560,7 @@
         "field_type": "text",
         "font_size": 8,
         "function": "getStringValue",
-        "parameters": "vehicle_make",
+        "parameters": "vehicle_make/mk",
         "start": {
           "x": 43,
           "y": 149
@@ -2570,7 +2570,7 @@
         "field_type": "text",
         "font_size": 8,
         "function": "getStringValue",
-        "parameters": "vehicle_model",
+        "parameters": "vehicle_make/md",
         "start": {
           "x": 60,
           "y": 149
@@ -2589,7 +2589,7 @@
       "VEHICLE_COLOR": {
         "field_type": "text",
         "font_size": 8,
-        "function": "getStringValue",
+        "function": "getCarColourCodes",
         "parameters": "vehicle_color",
         "start": {
           "x": 77,

@@ -107,7 +107,6 @@ export default {
       return ''
     },
 
-    // temporary hack
     conditionalAndNotBcGetString(form_path, [isExistsAttribute, jurisdictionCd, valueAttribute]) {
       // the last item in the attributes_array is the attribute to display
       const value = this.getStringValue(form_path, valueAttribute)
@@ -120,6 +119,13 @@ export default {
       return ''
     },
 
+    getCarColourCodes(form_path, attribute) {
+      const colourArray = this.getAttributeValue(form_path, attribute)
+      if (colourArray) {
+        return colourArray.map( color => color.code).join("");
+      }
+      return '';
+    }
 
   }
 }

@@ -1,5 +1,6 @@
 <script>
 
+import Multiselect from 'vue-multiselect'
 import { mapMutations, mapGetters } from 'vuex';
 
 export default {
@@ -25,6 +26,7 @@ export default {
     display_validation_errors: Boolean,
     rules: {}
   },
+  components: {Multiselect},
   computed: {
     attribute: {
       get() {
