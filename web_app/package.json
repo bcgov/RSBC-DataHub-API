@@ -1,9 +1,10 @@
 {
   "name": "prohibition_web_app",
-  "version": "0.4.17",
+  "version": "0.5.0",
   "private": true,
   "scripts": {
     "test": "jest src/test/test_*.spec.js",
+    "staging": "vue-cli-service build --mode staging",
     "serve": "vue-cli-service serve",
     "build": "npm version patch && vue-cli-service build",
     "lint": "vue-cli-service lint"

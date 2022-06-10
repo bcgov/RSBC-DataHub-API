@@ -3,8 +3,10 @@ workbox.precaching.precacheAndRoute(self.__precacheManifest, {
     ignoreURLParametersMatching: [/.*/]
 });
 
-self.addEventListener("message", msg => {
-    if (msg.data.action === 'SKIP_WAITING') self.skipWaiting();
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting()
+  }
 })
 
 // Cache CSS, JS, and Web Worker requests with a Stale While Revalidate strategy

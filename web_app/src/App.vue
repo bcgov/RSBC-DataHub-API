@@ -19,6 +19,7 @@
 
     </div>
     <not-logged-in-banner v-if="isDisplayNotLoggedInBanner"></not-logged-in-banner>
+    <update-available></update-available>
     <div class="card-body">
       <offline-banner v-if="! $store.state.isOnline"></offline-banner>
       <router-view></router-view>
@@ -30,13 +31,14 @@
 <script>
 
 import {mapGetters} from 'vuex';
+import UpdateAvailable from "@/components/UpdateAvailable";
 import NotLoggedInBanner from "@/components/NotLoggedInBanner";
 import OfflineBanner from '@/components/OfflineBanner'
 import DebugComponent from "@/components/debugComponent";
 
 export default {
   name: 'App',
-  components: {DebugComponent, NotLoggedInBanner, OfflineBanner},
+  components: {DebugComponent, NotLoggedInBanner, OfflineBanner, UpdateAvailable},
   computed: {
     ...mapGetters(['getAppVersion', "getKeycloakUsername", "isUserAnAdmin", "isUserAuthenticated",
     "isDisplayNotLoggedInBanner"]),
