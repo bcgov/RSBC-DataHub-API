@@ -1,5 +1,5 @@
 <template>
-    <div class="card-footer bg-transparent border-0 text-muted small">Version: {{ getAppVersion }}
+    <div id="debug-component" class="card-footer bg-transparent border-0 text-muted small">Version: {{ getAppVersion }}
       <span @click="toggleVisible" class="small text-muted">*</span>
       <div class="small text-muted" v-if="showDetails">
         <div>isUserHasAtLeastOneFormId: {{ isUserHasAtLeastOneFormId }}</div>

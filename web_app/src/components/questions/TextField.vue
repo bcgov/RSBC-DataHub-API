@@ -19,7 +19,7 @@
 <script>
 
 import FieldCommon from "@/components/questions/FieldCommon";
-import {mapGetters, mapMutations} from "vuex";
+import {mapGetters} from "vuex";
 
 
 export default {
@@ -27,22 +27,22 @@ export default {
   mixins: [FieldCommon],
   props: {
     placeholder: String,
+    default_value: {
+      type: String
+    },
     input_type: {
       type: String,
       default: "text"
     },
+
+  },
+  mounted() {
+    if(this.default_value) {
+      this.attribute = this.default_value
+    }
   },
   computed: {
     ...mapGetters(["getAttributeValue", "hasFormBeenPrinted"]),
-    isShowOptional() {
-      if(this.rules) {
-        return ! this.rules.includes('required')
-      }
-      return true
-    }
-  },
-  methods: {
-    ...mapMutations(["updateFormField"])
   }
 }
 </script>

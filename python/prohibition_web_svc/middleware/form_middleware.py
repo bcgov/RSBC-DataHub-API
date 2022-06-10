@@ -1,7 +1,8 @@
 import logging
 import json
-import datetime
 import pytz
+import iso8601
+from datetime import datetime
 from cerberus import Validator
 from flask import jsonify, make_response
 from python.prohibition_web_svc.models import db, Form
@@ -67,17 +68,17 @@ def mark_form_as_printed(**kwargs) -> tuple:
     form_type = kwargs.get('form_type')
     user_guid = kwargs.get('user_guid')
     form_id = kwargs.get('form_id')
+    payload = kwargs.get('payload')
     form = db.session.query(Form) \
         .filter(Form.form_type == form_type) \
         .filter(Form.user_guid == user_guid) \
         .filter(Form.id == form_id) \
         .first()
     if form is None:
-        logging.warning('{}, cannot update {} - {} as printed'.format(
+        logging.warning('{}, cannot update {} - {} as printed - record not found'.format(
             user_guid, form_type, form_id))
         return False, kwargs
-    tz = pytz.timezone('America/Vancouver')
-    form.printed_timestamp = datetime.datetime.now(tz)
+    form.printed_timestamp = convert_vancouver_to_utc(payload.get('printed_timestamp'))
     try:
         db.session.commit()
     except Exception as e:
@@ -192,3 +193,13 @@ def admin_create_form(**kwargs) -> tuple:
         return False, kwargs
     return True, kwargs
 
+
+def convert_vancouver_to_utc(iso_datetime_string: str) -> datetime:
+    """
+    The datetime string we receive from the web app has a Vancouver
+    timezone, but the API database field is not timezone aware. We
+    convert the Vancouver timezone to UTC.
+    """
+    utc_timezone = pytz.timezone("UTC")
+    printed = iso8601.parse_date(iso_datetime_string)
+    return printed.astimezone(utc_timezone).replace(tzinfo=None)

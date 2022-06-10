@@ -25,7 +25,7 @@ if (process.env.NODE_ENV === 'production') {
       document.dispatchEvent(
           new CustomEvent('swUpdated', { detail: registration })
       )
-      // TODO - causes endless loop - window.location.reload()
+       registration.update();
     },
     offline () {
       console.log('No internet connection found. App is running in offline mode.')

@@ -5,6 +5,7 @@
       <span v-if="required" class="text-danger"> *</span>
     </label>
     <select class="form-control" :disabled="disabled || hasFormBeenPrinted" :id="id" v-model="attribute">
+      <option></option>
       <option v-for="province in getArrayOfProvinces"
               :key="province.objectCd">
         {{ province.objectCd }}
@@ -32,7 +33,7 @@ export default {
   mounted () {
     if(this.defaultToBc) {
       // set initial value to BC
-      this.$store.commit("updateFormField", { target: { id: this.id, value: "BC"}})
+      this.$store.commit("updateFormField", { target: { id: this.id, path: this.path, value: "BC"}})
     }
   },
   computed: {

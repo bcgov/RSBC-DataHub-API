@@ -1,0 +1,160 @@
+apiVersion: v1
+kind: Template
+metadata: {}
+parameters:
+- name: NAME
+- name: COMPONENT
+  value: icbc-mock-svc
+- name: PHASE
+- name: SUFFIX
+- name: VERSION
+- name: HOST
+- name: FLASK_SECRET_KEY
+- name: LOG_LEVEL
+  value: 'DEBUG'
+- name: ICBC_API_USERNAME
+- name: ICBC_API_PASSWORD
+- name: FLASK_ENV
+  value: 'development'
+- name: URL_SUFFIX
+  required: true
+- name: CPU_REQUEST
+  displayName: Requested CPU
+  description: Requested CPU
+  required: true
+- name: CPU_LIMIT
+  displayName: CPU upper limit
+  description: CPU upper limit
+  required: true
+- name: MEMORY_REQUEST
+  displayName: Requested memory
+  description: Requested memory
+  required: true
+- name: MEMORY_LIMIT
+  displayName: Memory upper limit
+  description: Memory upper limit
+  required: true
+objects:
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      shared: "true"
+    name: ${NAME}-${COMPONENT}
+  spec:
+    lookupPolicy:
+      local: false
+  status:
+    dockerImageRepository: ""
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    name: ${NAME}-${COMPONENT}${SUFFIX}
+  spec:
+    replicas: 1
+    selector:
+      deploymentconfig: ${NAME}-${COMPONENT}${SUFFIX}
+    strategy:
+      activeDeadlineSeconds: 21600
+      recreateParams:
+        timeoutSeconds: 180
+      resources: {}
+      type: Recreate
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          deploymentconfig: ${NAME}-${COMPONENT}${SUFFIX}
+      spec:
+        containers:
+        - image: " "
+          name: app
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: FLASK_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}${SUFFIX}
+                  key: prohibition-flask-secret
+            - name: ICBC_API_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}${SUFFIX}
+                  key: icbc-api-username
+            - name: ICBC_API_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}${SUFFIX}
+                  key: icbc-api-password
+            - name: LOG_LEVEL
+              value: ${LOG_LEVEL}
+            - name: AUTHLIB_INSECURE_TRANSPORT
+              value: "True"
+          resources:
+            limits:
+              cpu: 80m
+              memory: 96Mi
+            requests:
+              cpu: 60m
+              memory: 64Mi
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - app
+        from:
+          kind: ImageStreamTag
+          name: ${NAME}-${COMPONENT}:${VERSION}
+      type: ImageChange
+  status:
+    availableReplicas: 0
+    latestVersion: 0
+    observedGeneration: 0
+    replicas: 0
+    unavailableReplicas: 0
+    updatedReplicas: 0
+- apiVersion: autoscaling/v1
+  kind: HorizontalPodAutoscaler
+  metadata:
+    creationTimestamp: null
+    labels: null
+    name: ${NAME}-${COMPONENT}${SUFFIX}
+  spec:
+    maxReplicas: 2
+    minReplicas: 1
+    scaleTargetRef:
+      apiVersion: v1
+      kind: DeploymentConfig
+      name: ${NAME}-${COMPONENT}${SUFFIX}
+    targetCPUUtilizationPercentage: 85
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    name: ${NAME}-${COMPONENT}${SUFFIX}
+  spec:
+    ports:
+    - name: 5000-tcp
+      port: 5000
+      protocol: TCP
+      targetPort: 5000
+    selector:
+      deploymentconfig: ${NAME}-${COMPONENT}${SUFFIX}
+  status:
+    loadBalancer: {}
+

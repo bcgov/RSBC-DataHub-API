@@ -72,7 +72,7 @@ def test_unauthorized_user_gets_impound_lot_operators(as_guest, monkeypatch, rol
                         follow_redirects=True,
                         content_type="application/json")
     assert resp.status_code == 200
-    assert "24 Hour Towing" in resp.json[0]['name']
+    assert "24 HOUR TOWING" in resp.json[0]['name']
     assert responses.calls[0].request.body.decode() == json.dumps({
         'event': {
             'event': 'get static resource',

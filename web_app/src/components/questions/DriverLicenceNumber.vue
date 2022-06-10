@@ -7,7 +7,7 @@
       <div class="input-group mb-3">
         <input :disabled="disabled || hasFormBeenPrinted" type=text
              class="form-control"
-                :class="errors.length > 0 ? 'border-danger bg-warning' : ''"
+              :class="errors.length > 0 ? 'border-danger bg-warning' : ''"
              :id="id"
              placeholder="Driver's Licence Number"
              v-model="attribute">
@@ -69,7 +69,7 @@ export default {
   computed: {
     icbcPayload() {
       return {
-        "dlNumber": this.getAttributeValue(this.id),
+        "dlNumber": this.getAttributeValue(this.path, this.id),
         "form_object": this.getCurrentlyEditedFormObject
       }
     },

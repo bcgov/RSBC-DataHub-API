@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import nestedFunctions from "@/helpers/nestedFunctions";
 
 export const mutations = {
 
@@ -9,11 +10,15 @@ export const mutations = {
     },
 
     updateFormField (state, event) {
-        console.log("updateFormField()", event)
-        let id = event.target.id;
-        let value = event.target.value;
-        let form_object = state.currently_editing_form_object
-        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, id, value);
+        let pathArray = event.target.path.split("/")
+        pathArray.push(event.target.id)
+        nestedFunctions.setProp(state, pathArray, event.target.value)
+    },
+
+    deleteFormField (state, event) {
+        let pathArray = event.target.path.split("/")
+        pathArray.push(event.target.id)
+        nestedFunctions.deleteProp(state, pathArray)
     },
 
     setFormAsImpounded (state) {
@@ -41,25 +46,6 @@ export const mutations = {
         root[payload.id].splice(indexOfValue, 1)
     },
 
-    updateCheckBox (state, payload) {
-        let id = payload.target.id;
-        let value = payload.target.value;
-        let form_object = state.currently_editing_form_object
-        let root = state.forms[form_object.form_type][form_object.form_id].data
-        if (root[id]) {
-            if (root[id].includes(value) && typeof root[id] === "object") {
-                // item exists; remove it
-                let indexOfValue = root[id].indexOf(value)
-                root[id].splice(indexOfValue, 1)
-            } else {
-                // item doesn't exist; so add it
-                root[id].push(value);
-            }
-        } else {
-            Vue.set(root, id, [value])
-        }
-    },
-
     deleteForm(state, payload) {
         // TODO - add business logic to ensure user is permitted to delete a form
         Vue.delete(state.forms[payload.form_type][payload.form_id], "data")
@@ -85,12 +71,6 @@ export const mutations = {
                 Vue.set(root, form_property, state.form_schemas.forms[form_object.form_type][form_property])
             }
         }
-        if(state.keycloak.idTokenParsed) {
-            Vue.set( root.data, "logged_in_user", state.keycloak.idTokenParsed.preferred_username);
-            Vue.set( root.data, "officer_name", state.users.last_name);
-            Vue.set( root.data, "agency", state.users.agency);
-            Vue.set( root.data, "badge_number", state.users.badge_number);
-        }
     },
 
     populateStaticLookupTables(state, payload) {
@@ -111,10 +91,6 @@ export const mutations = {
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "dob", dob_string);
     },
 
-    saveICBCVehicleToStore(state, data) {
-        Vue.set(state, 'icbc_vehicle_lookup', data)
-    },
-
     populateVehicleFromICBC(state, payload) {
         let data = payload[0]
         let form_object = state.currently_editing_form_object
@@ -130,11 +106,12 @@ export const mutations = {
         const address = owner['addresses'][0]
 
         if(owner.partyType === 'Organisation') {
-            Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "corporate_owner", ['Owned by corporate entity']);
-            Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_corporation", owner['orgName']);
+            Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "corp_owner_true", {});
+            Vue.set(state.forms[form_object.form_type][form_object.form_id].data.corp_owner_true, "name", owner['orgName']);
         } else {
-            Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_last_name", owner['lastName']);
-            Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_first_name", owner['firstName']);
+            Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "corp_owner_false", {});
+            Vue.set(state.forms[form_object.form_type][form_object.form_id].data.corp_owner_false, "owners_last_name", owner['lastName']);
+            Vue.set(state.forms[form_object.form_type][form_object.form_id].data.corp_owner_false, "owners_first_name", owner['firstName']);
         }
 
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owner_is_driver", []);
@@ -147,12 +124,15 @@ export const mutations = {
     populateOwnerFromDriver(state) {
         let form_object = state.currently_editing_form_object
         let root = state.forms[form_object.form_type][form_object.form_id].data
-        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_last_name", root.last_name);
-        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_first_name", root.first_name);
+        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "corp_owner_false", {});
+        Vue.set(state.forms[form_object.form_type][form_object.form_id].data['corp_owner_false'], "owners_last_name", root.last_name);
+        Vue.set(state.forms[form_object.form_type][form_object.form_id].data['corp_owner_false'], "owners_first_name", root.first_name);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_address1", root.address1);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_city", root.city);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_province", root.province);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_postal", root.postal);
+        // delete any corporate owner that may have been created
+        Vue.delete(state.forms[form_object.form_type][form_object.form_id].data, "corp_owner_true");
     },
 
     pushFormToStore(state, form_object) {

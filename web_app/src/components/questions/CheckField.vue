@@ -3,11 +3,15 @@
     <label v-if="show_label" :for="id"><slot></slot>
 <!--      <span v-if="required" class="text-danger"> *</span>-->
     </label>
-    <div class="form-check" v-for="(option) in options" :key="option">
-      <input class="form-check-input" :id="id" @change="updateCheckBox" type="checkbox"
-             :checked="checkBoxStatus(id,option)"
-             :value="option" :name="id" :disabled="disabled || hasFormBeenPrinted">
-      <label class="form-check-label" :for="option">{{ option }}</label>
+    <div class="form-check" v-for="option in options" :key="option[0]">
+      <input class="form-check-input"
+             :id="id"
+             type="checkbox"
+             @input="updateCheckBox"
+             v-bind:value="option[0]"
+             :name="option[0]"
+             :disabled="disabled || hasFormBeenPrinted">
+      <label class="form-check-label" :for="option[0]">{{ option[1] }}</label>
     </div>
 <!--    <div class="small text-danger">{{ errors[0] }}</div>-->
 </div>
@@ -16,7 +20,7 @@
 <script>
 
 import FieldCommon from "@/components/questions/FieldCommon";
-import {mapGetters, mapMutations} from 'vuex';
+import {mapGetters} from 'vuex';
 
 export default {
   name: "CheckField",
@@ -26,10 +30,29 @@ export default {
     options: null
   },
   methods: {
-    ...mapMutations(["updateCheckBox"])
+    updateCheckBox (event) {
+        let key = event.target.id + "_" + event.target.value;
+        const payload = {
+          target: {
+            path: this.path,
+            id: key,
+            value: {}
+          }
+        }
+        console.log("updateCheckBox()", key, payload)
+        if (event.target.checked) {
+            this.updateFormField(payload)
+        } else {
+          // item exists; remove it
+          if (this.doesAttributeExist(this.path, key)) {
+            this.deleteFormField(payload)
+          }
+        }
+
+    },
   },
   computed: {
-    ...mapGetters(["checkBoxStatus", "hasFormBeenPrinted"])
+    ...mapGetters(["checkBoxStatus", "hasFormBeenPrinted", "doesAttributeExist"]),
   }
 }
 </script>

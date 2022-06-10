@@ -18,18 +18,10 @@
 <script>
 
 import FieldCommon from "@/components/questions/FieldCommon";
-import { mapGetters, mapMutations } from 'vuex';
 
 export default {
   name: "GenderField",
-  mixins: [FieldCommon],
-
-  computed: {
-    ...mapGetters(["getAttributeValue"])
-  },
-  methods: {
-    ...mapMutations(["updateFormField"])
-  }
+  mixins: [FieldCommon]
 
 }
 </script>

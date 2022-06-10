@@ -12,6 +12,7 @@ import DateField from "@/components/questions/DateField";
 import DobField from "@/components/questions/DoBField";
 import PlateNumber from "@/components/questions/PlateNumber";
 import RadioField from "@/components/questions/RadioField";
+import RadioDescription from "@/components/questions/RadioDescription";
 import CheckField from "@/components/questions/CheckField";
 import ShadowBox from "@/components/forms/ShadowBox";
 import FormStep from "@/components/forms/FormStep";
@@ -20,19 +21,23 @@ import FormRow from "@/components/forms/FormRow";
 import TimeField from "@/components/questions/TimeField";
 import ReadOnlyElement from "@/components/questions/ReadOnlyElement";
 import InLineCheckBox from "@/components/questions/InLineCheckBox";
+import ImpoundLotOperator from "@/components/questions/ImpoundLotOperator";
 import {mapGetters} from "vuex";
+import ProvinceAutocomplete from "@/components/questions/ProvinceAutocomplete";
 
 
 export default {
   name: "CardCommon",
   props: {
-    id: String,
     isReadOnly: {
       default: false
+    },
+    path: {
+      type: String
     }
   },
   computed: {
-    ...mapGetters(["getAttributeValue", "getArrayOfBCCityNames", "getArrayOfAgencies"]),
+    ...mapGetters(["getAttributeValue", "getArrayOfBCCityNames", "getArrayOfAgencies", "doesAttributeExist"]),
     offenceCityRules() {
       return {
         required: true,
@@ -40,7 +45,7 @@ export default {
       }
     },
     bcdlNumberRules() {
-      if (this.getAttributeValue('drivers_licence_jurisdiction') === "British Columbia") {
+      if (this.getAttributeValue(this.path, 'drivers_licence_jurisdiction') === "British Columbia") {
         return {
           'bcdlNumberRule': true
         }
@@ -59,11 +64,14 @@ export default {
     FormStep,
     GenderField,
     InLineCheckBox,
+    ImpoundLotOperator,
     JurisdictionField,
     PhoneField,
     PlateNumber,
     ProvinceField,
+    ProvinceAutocomplete,
     RadioField,
+    RadioDescription,
     ReadOnlyElement,
     ShadowBox,
     TextField,

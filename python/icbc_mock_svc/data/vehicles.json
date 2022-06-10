@@ -1,0 +1,605 @@
+{
+  "ICBC": [
+      {
+        "plateNumber": "ICBC",
+        "registrationNumber": "03371224",
+        "vehicleIdNumber": "5Y2SL65806Z418645",
+        "effectiveDate": "",
+        "vehicleMake": "PONTIAC",
+        "vehicleModel": "VIBE",
+        "vehicleStyle": "FourDoorSedan",
+        "vehicleModelYear": "2006",
+        "vehicleColour": "Grey",
+        "vehicleType": "Passenger",
+        "nscNumber": "",
+        "vehicleParties": [
+          {
+            "roleType": "RegisteredOwner",
+            "party": {
+              "ICBCEnterpriseID": "138929719980602",
+              "partyType": "Person",
+              "lastName": "WIEBE",
+              "firstName": "ANDREW",
+              "secondName": "JAMES",
+              "thirdName": "",
+              "nameType": "Legal",
+              "birthDate": "1964-09-22",
+              "dlNumber": "4714606",
+              "dlPlaceOfIssue": "BC",
+              "addresses": [
+                {
+                  "addressType": "Residence",
+                  "addressLine1": "7608 HEATHER ST",
+                  "addressLine2": "",
+                  "addressLine3": "",
+                  "city": "VANCOUVER",
+                  "region": "BC",
+                  "country": "CAN",
+                  "postalCode": "V6P3R1",
+                  "unitNumber": "",
+                  "streetNumber": "7608",
+                  "streetName": "HEATHER",
+                  "streetType": "ST",
+                  "streetDirection": "",
+                  "boxNumber": "",
+                  "location": "",
+                  "postalStationName": "",
+                  "postalStationQualifier": "",
+                  "postalStationType": "",
+                  "routeServiceClass": "",
+                  "routeServiceNumber": "",
+                  "additionalDeliveryInfo": ""
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+  "AA057A": [
+  {
+    "plateNumber": "AA057A",
+    "registrationNumber": "10005877",
+    "vehicleIdNumber": "2G1FK3DJXD9002948",
+    "effectiveDate": "",
+    "vehicleMake": "CHEVROLET",
+    "vehicleModel": "CAMAR",
+    "vehicleStyle": "FourDoorConvertible",
+    "vehicleModelYear": "2013",
+    "vehicleColour": "Multi",
+    "vehicleType": "Passenger",
+    "nscNumber": "",
+    "vehicleParties": [
+      {
+        "roleType": "RegisteredOwner",
+        "party": {
+          "ICBCEnterpriseID": "791133422090602",
+          "partyType": "Person",
+          "lastName": "RINTEST",
+          "firstName": "DONALD",
+          "secondName": "WILLIAM",
+          "thirdName": "",
+          "nameType": "Legal",
+          "birthDate": "1951-09-01",
+          "dlNumber": "4741340",
+          "dlPlaceOfIssue": "BC",
+          "addresses": [
+            {
+              "addressType": "Residence",
+              "addressLine1": "133-1446 JOHNSTON RD",
+              "addressLine2": "",
+              "addressLine3": "",
+              "city": "WHITE ROCK",
+              "region": "BC",
+              "country": "CAN",
+              "postalCode": "V4B3Z5",
+              "unitNumber": "   133",
+              "streetNumber": "1446",
+              "streetName": "JOHNSTON",
+              "streetType": "RD",
+              "streetDirection": "",
+              "boxNumber": "",
+              "location": "",
+              "postalStationName": "",
+              "postalStationQualifier": "",
+              "postalStationType": "",
+              "routeServiceClass": "",
+              "routeServiceNumber": "",
+              "additionalDeliveryInfo": ""
+            }
+          ]
+        }
+      }
+    ]
+  }
+],
+  "RH5235": [
+  {
+    "plateNumber": "RH5235",
+    "registrationNumber": "13473302",
+    "vehicleIdNumber": "1XPXD49X7LD070276",
+    "effectiveDate": "2022-02-01T22:47:00+00:00",
+    "vehicleMake": "PETERBILT",
+    "vehicleModel": "",
+    "vehicleStyle": "Crewcab",
+    "vehicleModelYear": "2020",
+    "vehicleColour": "Red",
+    "vehicleType": "CommercialTruck",
+    "nscNumber": "",
+    "vehicleParties": [
+      {
+        "roleType": "RegisteredOwner",
+        "party": {
+          "ICBCEnterpriseID": "457959300876424",
+          "partyType": "Organisation",
+          "orgName": "JEWEL HOMES LTD.",
+          "nameType": "Legal",
+          "addresses": [
+            {
+              "addressType": "Business",
+              "addressLine1": "10810 CARMICHAEL ST",
+              "addressLine2": "",
+              "addressLine3": "",
+              "city": "MAPLE RIDGE",
+              "region": "BC",
+              "country": "CAN",
+              "postalCode": "V2W0H3",
+              "unitNumber": "",
+              "streetNumber": "10810",
+              "streetName": "CARMICHAEL",
+              "streetType": "ST",
+              "streetDirection": "",
+              "boxNumber": "",
+              "location": "",
+              "postalStationName": "",
+              "postalStationQualifier": "",
+              "postalStationType": "",
+              "routeServiceClass": "",
+              "routeServiceNumber": "",
+              "additionalDeliveryInfo": ""
+            }
+          ]
+        }
+      },
+      {
+        "roleType": "RegisteredOwner",
+        "party": {
+          "ICBCEnterpriseID": "572779853006523",
+          "partyType": "Organisation",
+          "orgName": "HONDA OF AMERICA",
+          "nameType": "Legal",
+          "addresses": [
+            {
+              "addressType": "Business",
+              "addressLine1": "400 BROAD ST",
+              "addressLine2": "",
+              "addressLine3": "",
+              "city": "MARYSVILLE",
+              "region": "OH",
+              "country": "USA",
+              "postalCode": "43040",
+              "unitNumber": "",
+              "streetNumber": "400",
+              "streetName": "BROAD",
+              "streetType": "ST",
+              "streetDirection": "",
+              "boxNumber": "",
+              "location": "",
+              "postalStationName": "",
+              "postalStationQualifier": "",
+              "postalStationType": "",
+              "routeServiceClass": "",
+              "routeServiceNumber": "",
+              "additionalDeliveryInfo": ""
+            }
+          ]
+        }
+      }
+    ]
+  }
+],
+  "RH5234": [
+  {
+    "plateNumber": "RH5234",
+    "registrationNumber": "13473301",
+    "vehicleIdNumber": "1XPXD49X9LD070280",
+    "effectiveDate": "2022-02-01T22:46:34+00:00",
+    "vehicleMake": "PETERBILT",
+    "vehicleModel": "",
+    "vehicleStyle": "Crewcab",
+    "vehicleModelYear": "2020",
+    "vehicleColour": "Blue",
+    "vehicleType": "CommercialTruck",
+    "nscNumber": "",
+    "vehicleParties": [
+      {
+        "roleType": "RegisteredOwner",
+        "party": {
+          "ICBCEnterpriseID": "337417584007925",
+          "partyType": "Organisation",
+          "orgName": "ELDOR ENTERPRISES INC.",
+          "nameType": "Legal",
+          "addresses": [
+            {
+              "addressType": "Business",
+              "addressLine1": "34585 CALDER PL",
+              "addressLine2": "",
+              "addressLine3": "",
+              "city": "ABBOTSFORD",
+              "region": "BC",
+              "country": "CAN",
+              "postalCode": "V2S7J1",
+              "unitNumber": "",
+              "streetNumber": "34585",
+              "streetName": "CALDER",
+              "streetType": "PL",
+              "streetDirection": "",
+              "boxNumber": "",
+              "location": "",
+              "postalStationName": "",
+              "postalStationQualifier": "",
+              "postalStationType": "",
+              "routeServiceClass": "",
+              "routeServiceNumber": "",
+              "additionalDeliveryInfo": ""
+            }
+          ]
+        }
+      },
+      {
+        "roleType": "RegisteredOwner",
+        "party": {
+          "ICBCEnterpriseID": "233010239966863",
+          "partyType": "Organisation",
+          "orgName": "MELMIK ENTERPRISES LTD.",
+          "nameType": "Legal",
+          "addresses": [
+            {
+              "addressType": "Business",
+              "addressLine1": "5012 LAC STE ANNE TRAIL S",
+              "addressLine2": "",
+              "addressLine3": "",
+              "city": "ONOWAY",
+              "region": "AB",
+              "country": "CAN",
+              "postalCode": "T0E1V0",
+              "unitNumber": "",
+              "streetNumber": "5012",
+              "streetName": "LAC STE ANNE",
+              "streetType": "TRAIL",
+              "streetDirection": "S",
+              "boxNumber": "",
+              "location": "",
+              "postalStationName": "",
+              "postalStationQualifier": "",
+              "postalStationType": "",
+              "routeServiceClass": "GD",
+              "routeServiceNumber": "",
+              "additionalDeliveryInfo": ""
+            }
+          ]
+        }
+      }
+    ]
+  }
+],
+  "LT052G": [
+  {
+    "plateNumber": "LT052G",
+    "registrationNumber": "13473300",
+    "vehicleIdNumber": "19UUB1F39GA070105",
+    "effectiveDate": "2022-02-01T22:44:38+00:00",
+    "vehicleMake": "ACURA",
+    "vehicleModel": "TLX",
+    "vehicleStyle": "FourDoorSedan",
+    "vehicleModelYear": "2016",
+    "vehicleColour": "Red",
+    "vehicleType": "Passenger",
+    "nscNumber": "",
+    "vehicleParties": [
+      {
+        "roleType": "RegisteredOwner",
+        "party": {
+          "ICBCEnterpriseID": "819012250823471",
+          "partyType": "Person",
+          "lastName": "LUTYNSKI",
+          "firstName": "THOMAS",
+          "secondName": "MICHAEL",
+          "thirdName": "",
+          "nameType": "Legal",
+          "birthDate": "1996-05-17",
+          "dlNumber": "8984634",
+          "dlPlaceOfIssue": "BC",
+          "addresses": [
+            {
+              "addressType": "Residence",
+              "addressLine1": "317 15TH ST W",
+              "addressLine2": "",
+              "addressLine3": "",
+              "city": "NORTH VANCOUVER",
+              "region": "BC",
+              "country": "CAN",
+              "postalCode": "V7M1S4",
+              "unitNumber": "",
+              "streetNumber": "317",
+              "streetName": "15TH",
+              "streetType": "ST",
+              "streetDirection": "W",
+              "boxNumber": "",
+              "location": "",
+              "postalStationName": "",
+              "postalStationQualifier": "",
+              "postalStationType": "",
+              "routeServiceClass": "",
+              "routeServiceNumber": "",
+              "additionalDeliveryInfo": ""
+            }
+          ]
+        }
+      },
+      {
+        "roleType": "Lessee",
+        "party": {
+          "ICBCEnterpriseID": "376715049632683",
+          "partyType": "Organisation",
+          "orgName": "BRONZE AGE CONTRACTING LTD.",
+          "nameType": "Legal",
+          "addresses": [
+            {
+              "addressType": "Business",
+              "addressLine1": "317 15TH ST W",
+              "addressLine2": "",
+              "addressLine3": "",
+              "city": "NORTH VANCOUVER",
+              "region": "BC",
+              "country": "CAN",
+              "postalCode": "V7M1S4",
+              "unitNumber": "",
+              "streetNumber": "317",
+              "streetName": "15TH",
+              "streetType": "ST",
+              "streetDirection": "W",
+              "boxNumber": "",
+              "location": "",
+              "postalStationName": "",
+              "postalStationQualifier": "",
+              "postalStationType": "",
+              "routeServiceClass": "",
+              "routeServiceNumber": "",
+              "additionalDeliveryInfo": ""
+            }
+          ]
+        }
+      }
+    ]
+  }
+],
+  "PR822G": [
+  {
+    "plateNumber": "PR822G",
+    "registrationNumber": "13473213",
+    "vehicleIdNumber": "19UUB1F31KA000350",
+    "effectiveDate": "2022-02-01T22:43:30+00:00",
+    "vehicleMake": "ACURA",
+    "vehicleModel": "TLX",
+    "vehicleStyle": "FourDoorSedan",
+    "vehicleModelYear": "2019",
+    "vehicleColour": "White",
+    "vehicleType": "Passenger",
+    "nscNumber": "",
+    "vehicleParties": [
+      {
+        "roleType": "RegisteredOwner",
+        "party": {
+          "ICBCEnterpriseID": "597991710580602",
+          "partyType": "Person",
+          "lastName": "ULMER",
+          "firstName": "OLEXANDER",
+          "secondName": "",
+          "thirdName": "",
+          "nameType": "Legal",
+          "birthDate": "1951-11-20",
+          "dlNumber": "0001702",
+          "dlPlaceOfIssue": "BC",
+          "addresses": [
+            {
+              "addressType": "Residence",
+              "addressLine1": "101-45746 KEITH WILSON RD",
+              "addressLine2": "",
+              "addressLine3": "",
+              "city": "CHILLIWACK",
+              "region": "BC",
+              "country": "CAN",
+              "postalCode": "V2R1J9",
+              "unitNumber": "101",
+              "streetNumber": "45746",
+              "streetName": "KEITH WILSON",
+              "streetType": "RD",
+              "streetDirection": "",
+              "boxNumber": "",
+              "location": "",
+              "postalStationName": "",
+              "postalStationQualifier": "",
+              "postalStationType": "",
+              "routeServiceClass": "",
+              "routeServiceNumber": "",
+              "additionalDeliveryInfo": ""
+            }
+          ]
+        }
+      }
+    ]
+  }
+],
+  "LH207R": [
+  {
+    "plateNumber": "LH207R",
+    "registrationNumber": "13473090",
+    "vehicleIdNumber": "19UUB1F34GA000821",
+    "effectiveDate": "2022-02-01T22:42:24+00:00",
+    "vehicleMake": "ACURA",
+    "vehicleModel": "TLX",
+    "vehicleStyle": "FourDoorSedan",
+    "vehicleModelYear": "2016",
+    "vehicleColour": "White",
+    "vehicleType": "Passenger",
+    "nscNumber": "",
+    "vehicleParties": [
+      {
+        "roleType": "RegisteredOwner",
+        "party": {
+          "ICBCEnterpriseID": "198325653637254",
+          "partyType": "Person",
+          "lastName": "LNOONNOP",
+          "firstName": "BJAFCACB",
+          "secondName": "",
+          "thirdName": "",
+          "nameType": "Legal",
+          "birthDate": "1988-02-28",
+          "dlNumber": "5111110",
+          "dlPlaceOfIssue": "AB",
+          "addresses": [
+            {
+              "addressType": "Residence",
+              "addressLine1": "151 ESPLANADE WEST",
+              "addressLine2": "",
+              "addressLine3": "",
+              "city": "NORTH VANCOUVER",
+              "region": "BC",
+              "country": "CAN",
+              "postalCode": "V7M3H9",
+              "unitNumber": "",
+              "streetNumber": "151",
+              "streetName": "ESPLANADE",
+              "streetType": "",
+              "streetDirection": "W",
+              "boxNumber": "",
+              "location": "",
+              "postalStationName": "",
+              "postalStationQualifier": "",
+              "postalStationType": "",
+              "routeServiceClass": "",
+              "routeServiceNumber": "",
+              "additionalDeliveryInfo": ""
+            }
+          ]
+        }
+      }
+    ]
+  }
+],
+  "LT016G": [
+  {
+    "plateNumber": "LT016G",
+    "registrationNumber": "13473299",
+    "vehicleIdNumber": "19UUB1F36GA000979",
+    "effectiveDate": "2022-02-01T22:40:28+00:00",
+    "vehicleMake": "ACURA",
+    "vehicleModel": "TLX",
+    "vehicleStyle": "FourDoorHardtop",
+    "vehicleModelYear": "2016",
+    "vehicleColour": "Red",
+    "vehicleType": "Passenger",
+    "nscNumber": "",
+    "vehicleParties": [
+      {
+        "roleType": "RegisteredOwner",
+        "party": {
+          "ICBCEnterpriseID": "280593240580602",
+          "partyType": "Person",
+          "lastName": "HOPPER",
+          "firstName": "GRAHAM",
+          "secondName": "",
+          "thirdName": "",
+          "nameType": "Legal",
+          "birthDate": "1945-09-22",
+          "dlNumber": "2782079",
+          "dlPlaceOfIssue": "BC",
+          "addresses": [
+            {
+              "addressType": "Residence",
+              "addressLine1": "13474 CRESTVIEW DR",
+              "addressLine2": "",
+              "addressLine3": "",
+              "city": "SURREY",
+              "region": "BC",
+              "country": "CAN",
+              "postalCode": "V3R6T2",
+              "unitNumber": "",
+              "streetNumber": "13474",
+              "streetName": "CRESTVIEW",
+              "streetType": "DR",
+              "streetDirection": "",
+              "boxNumber": "",
+              "location": "",
+              "postalStationName": "",
+              "postalStationQualifier": "",
+              "postalStationType": "",
+              "routeServiceClass": "",
+              "routeServiceNumber": "",
+              "additionalDeliveryInfo": ""
+            }
+          ]
+        }
+      }
+    ]
+  }
+],
+  "LH211R": [
+  {
+    "plateNumber": "LH211R",
+    "registrationNumber": "13473297",
+    "vehicleIdNumber": "19UUB1F34GA000897",
+    "effectiveDate": "2022-02-01T22:39:32+00:00",
+    "vehicleMake": "ACURA",
+    "vehicleModel": "TLX",
+    "vehicleStyle": "FourDoorSedan",
+    "vehicleModelYear": "2016",
+    "vehicleColour": "White",
+    "vehicleType": "Passenger",
+    "nscNumber": "",
+    "vehicleParties": [
+      {
+        "roleType": "RegisteredOwner",
+        "party": {
+          "ICBCEnterpriseID": "400333726180174",
+          "partyType": "Person",
+          "lastName": "LNOUSRSR",
+          "firstName": "BHBCCACB",
+          "secondName": "",
+          "thirdName": "",
+          "nameType": "Legal",
+          "birthDate": "1988-02-28",
+          "dlNumber": "5180319",
+          "dlPlaceOfIssue": "AB",
+          "addresses": [
+            {
+              "addressType": "Residence",
+              "addressLine1": "151 ESPLANADE WEST",
+              "addressLine2": "",
+              "addressLine3": "",
+              "city": "NORTH VANCOUVER",
+              "region": "BC",
+              "country": "CAN",
+              "postalCode": "V7M3H9",
+              "unitNumber": "",
+              "streetNumber": "151",
+              "streetName": "ESPLANADE",
+              "streetType": "",
+              "streetDirection": "W",
+              "boxNumber": "",
+              "location": "",
+              "postalStationName": "",
+              "postalStationQualifier": "",
+              "postalStationType": "",
+              "routeServiceClass": "",
+              "routeServiceNumber": "",
+              "additionalDeliveryInfo": ""
+            }
+          ]
+        }
+      }
+    ]
+  }
+]
+}

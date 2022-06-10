@@ -1,5 +1,3 @@
-
-// The precaching code provided by Workbox
 self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {
     ignoreURLParametersMatching: [/.*/]
@@ -31,9 +29,9 @@ workbox.routing.registerRoute(
 
 // Cache frequently changing API resources using "StaleWhileRevalidate" method
 workbox.routing.registerRoute(({request, url}) =>
-    url.pathname ===  '/roadside-forms/api/v1/impound_lot_operators'  ||
-    url.pathname === '/roadside-forms/api/v1/users' ||
-    url.pathname === '/roadside-forms/api/v1/user_roles',
+    url.pathname.includes('/api/v1/impound_lot_operators') ||
+    url.pathname.includes('/api/v1/users') ||
+    url.pathname.includes('/api/v1/user_roles'),
   new workbox.strategies.StaleWhileRevalidate({
     cacheName: 'dynamic-api',
     plugins: [
@@ -48,14 +46,14 @@ workbox.routing.registerRoute(({request, url}) =>
 
 // Cache static API resources for 2 days
 workbox.routing.registerRoute(({request, url}) =>
-    url.pathname === '/roadside-forms/api/v1/static/agencies'  ||
-    url.pathname === '/roadside-forms/api/v1/static/cities'  ||
-    url.pathname === '/roadside-forms/api/v1/static/countries'  ||
-    url.pathname === '/roadside-forms/api/v1/static/jurisdictions'  ||
-    url.pathname === '/roadside-forms/api/v1/static/provinces'  ||
-    url.pathname === '/roadside-forms/api/v1/static/vehicles'  ||
-    url.pathname === '/roadside-forms/api/v1/static/vehicle_styles'  ||
-    url.pathname === '/roadside-forms/api/v1/static/colors',
+    url.pathname.includes('/api/v1/static/agencies') ||
+    url.pathname.includes('/api/v1/static/cities') ||
+    url.pathname.includes('/api/v1/static/countries') ||
+    url.pathname.includes('/api/v1/static/jurisdictions') ||
+    url.pathname.includes('/api/v1/static/provinces') ||
+    url.pathname.includes('/api/v1/static/vehicles') ||
+    url.pathname.includes('/api/v1/static/vehicle_styles') ||
+    url.pathname.includes('/api/v1/static/colors'),
   new workbox.strategies.CacheFirst({
     cacheName: 'static-api',
     plugins: [
@@ -69,3 +67,16 @@ workbox.routing.registerRoute(({request, url}) =>
     ],
   }),
 );
+
+
+// When the application is offline, queue any forms submitted
+// to the API and resubmit when back online.
+workbox.routing.registerRoute(({request, url}) =>
+    url.pathname.includes('/api/v1/forms/'),
+    new workbox.strategies.NetworkOnly({
+        plugins: [
+            new workbox.backgroundSync.Plugin('roadsafetyQueue', {
+              maxRetentionTime: 24 * 60, // Retry for max of 24 Hours (specified in minutes)
+            })
+        ],
+    }), 'PATCH');

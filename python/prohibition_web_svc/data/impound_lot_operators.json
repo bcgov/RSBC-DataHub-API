@@ -1,1444 +1,1292 @@
 [
-  {
-    "id": "957C73BB-3D24-35BF-8040-B1706C328F6A",
-    "name": "24 Hour Towing",
-    "lot_address": "728 Payne Street, Creston",
-    "city": "Creston",
-    "phone": "250-428-2323"
-  },
-  {
-    "id": "1ADF3826-753F-23A5-982C-BFBB21787595",
-    "name": "5 Star Towing Inc",
-    "lot_address": "733 2nd Avenue",
-    "city": "Prince George",
-    "phone": "250-614-9393"
-  },
-  {
-    "id": "B1A811D7-578E-4FF8-2AEB-8FDE09FC7E9C",
-    "name": "A J Towing Inc",
-    "lot_address": "8945 Nowell Street",
-    "city": "Chilliwack",
-    "phone": "604-795-337447"
-  },
-  {
-    "id": "FE2B1FAE-1D69-18BA-9E62-2A48C42D3BE3",
-    "name": "A&M Towing",
-    "lot_address": "305 Moore Avenue",
-    "city": "100 Mile House",
-    "phone": "250-395-4334"
-  },
-  {
-    "id": "97EE2F66-4B2C-05AA-291D-3C2A1EA18402",
-    "name": "Able Towing",
-    "lot_address": "2384 210 Road",
-    "city": "Dawson Creek",
-    "phone": "250-782-4239"
-  },
-  {
-    "id": "8FC8649B-0171-1355-0964-21132D9B0575",
-    "name": "Aggressive Auto Towing Ltd",
-    "lot_address": "34523 2nd Avenue",
-    "city": "Abbotsford",
-    "phone": "604-854-5669"
-  },
-  {
-    "id": "E859891E-09B1-473A-6D8A-17ECF3A39751",
-    "name": "Alberni Towing Ltd",
-    "lot_address": "2490 Timberlane Road",
-    "city": "Port Alberni",
-    "phone": "250-724-4050"
-  },
-  {
-    "id": "4E5F3AF6-5258-4D29-9BC6-6B3C323D4F02",
-    "name": "All Coast Towing Services",
-    "lot_address": "1178 Stewart Road",
-    "city": "Gibsons",
-    "phone": "604-886-7280"
-  },
-  {
-    "id": "166A9C00-98B7-53C6-338E-7BBD5C6D804C",
-    "name": "All-Ways Towing",
-    "lot_address": "647B Dupplin Road",
-    "city": "All-Ways Towing",
-    "phone": "250-381-0110"
-  },
-  {
-    "id": "40EBA6C2-A6FD-288A-509B-0036E3E59C4E",
-    "name": "Antle Towing Ltd",
-    "lot_address": "802 Exeter Road",
-    "city": "Lac La Hache",
-    "phone": "250-396-7306"
-  },
-  {
-    "id": "2F757448-0D15-8162-832A-4A50126036F4",
-    "name": "Applewood Autobody Towing & Glass",
-    "lot_address": "4800 Byng Road",
-    "city": "Port Hardy",
-    "phone": "250-949-1900"
-  },
-  {
-    "id": "E5993B2A-64CF-27BF-4FB1-0053BF215DDF",
-    "name": "Archies's Towing & Autowrecking Ltd",
-    "lot_address": "7496 Old Alaska highway",
-    "city": "Fort Nelson",
-    "phone": "250-774-3054"
-  },
-  {
-    "id": "9A1F8DF8-0783-8245-9C22-2DD0840A8D69",
-    "name": "Arrowsmith Towing",
-    "lot_address": "20 HILLIERS RD N",
-    "city": "QUALICUM BEACH",
-    "phone": "250-752-1662"
-  },
-  {
-    "id": "D4B28D5E-6813-41C7-60DF-55A1BA95876D",
-    "name": "Aurora Truck Centre Ltd",
-    "lot_address": "2206 Nadina Avenue",
-    "city": "Houston",
-    "phone": "250-845-7600"
-  },
-  {
-    "id": "C5B98114-6D63-2DCB-07DF-5D5D2C0E65EE",
-    "name": "Autow",
-    "lot_address": "402 Juniper Road",
-    "city": "Quesnel",
-    "phone": "250-992-9128"
-  },
-  {
-    "id": "5378274B-3334-5FA1-88DF-111A6850466B",
-    "name": "Baillie's Towing & Auto Body Repairs",
-    "lot_address": "4833 Gilbert Drive",
-    "city": "Barriere",
-    "phone": "250-672-9529"
-  },
-  {
-    "id": "ED0BCD0F-94A5-3ABA-3A8E-B5C9077691E3",
-    "name": "Barriere Auto and Truck Tow",
-    "lot_address": "4403 Airfield Road",
-    "city": "Barriere",
-    "phone": "250-319-7767"
-  },
-  {
-    "id": "D47F1206-176C-9FC2-4B7D-0F9CD4961464",
-    "name": "Bayview Auto Towing (2000) Ltd",
-    "lot_address": "201 155 176 Street",
-    "city": "Surrey",
-    "phone": "604-538-2032"
-  },
-  {
-    "id": "AABCA77F-666F-7F41-8E47-9BD267150CC6",
-    "name": "Bee Jay Autowrecking & Towing",
-    "lot_address": "765 N MacKenzie Ave",
-    "city": "Williams Lake",
-    "phone": "250-398-8311"
-  },
-  {
-    "id": "4307EABE-89CB-7BC5-51F6-08FE4B6E6AD6",
-    "name": "Ben's Towing & Autowrecking Ltd",
-    "lot_address": "230 42nd Street SW",
-    "city": "Salmon Arm",
-    "phone": "250-832-6512"
-  },
-  {
-    "id": "1BBC81DD-116A-3063-6DE5-E9BF1A13544C",
-    "name": "BKV Enterprises Ltd",
-    "lot_address": "13200 Bartlett Road",
-    "city": "Burns Lake",
-    "phone": "250-692-3413"
-  },
-  {
-    "id": "554492AE-5A57-5140-42A7-ED0E9E032CF1",
-    "name": "Blackbear Towing",
-    "lot_address": "1080 Industrial Way",
-    "city": "Parksville",
-    "phone": "250-954-9096"
-  },
-  {
-    "id": "C7B80EA6-3FA9-1F2D-56EB-312BE5AB6C55",
-    "name": "Boyce Auto Towing Ltd",
-    "lot_address": "15700 River Road",
-    "city": "Richmond",
-    "phone": "604-278-1106"
-  },
-  {
-    "id": "50D20468-3A0E-4418-7D6C-596D69560628",
-    "name": "Bridge Lake Towing",
-    "lot_address": "310 Moore Avenue",
-    "city": "100 Mile House",
-    "phone": "250-593-4056"
-  },
-  {
-    "id": "11B5D259-85CD-604D-5A43-70D5806A1518",
-    "name": "Buster's Towing Ltd",
-    "lot_address": "435 Industrial Avenue",
-    "city": "Vancouver",
-    "phone": "604-685-7246"
-  },
-  {
-    "id": "F33DDB48-37B1-63BE-20ED-BAEEFB888273",
-    "name": "C.A Towing",
-    "lot_address": "13525 Sunshine Coast Hwy",
-    "city": "Medeira Park",
-    "phone": "604-740-1900"
-  },
-  {
-    "id": "50491011-414B-4F77-381D-8255CBEE995B",
-    "name": "Capital Towing Services Ltd",
-    "lot_address": "905 Centennial Avneue",
-    "city": "Whitehorse",
-    "phone": "867-667-2403"
-  },
-  {
-    "id": "A6B0A3AB-A63B-81CB-84E1-D689FF83225B",
-    "name": "Care Towing (1991) Ltd",
-    "lot_address": "4505 23 Street",
-    "city": "Vernon",
-    "phone": "250-542-0207"
-  },
-  {
-    "id": "C90D9216-4B3F-0C4B-8E05-4624BD7A999B",
-    "name": "Cariboo Towing",
-    "lot_address": "750 S Mackenzie Avenue",
-    "city": "Williams Lake",
-    "phone": "250-392-2888"
-  },
-  {
-    "id": "F4500B3D-5CE6-4799-7E3C-7C24AF1C5164",
-    "name": "Caribou Service",
-    "lot_address": "5549 Burton Frontage Road",
-    "city": "Burton",
-    "phone": "250-265-3191"
-  },
-  {
-    "id": "49ED412A-57A3-037B-8797-2A2B3C3578DD",
-    "name": "Central Towing",
-    "lot_address": "6 - 140 10th Street",
-    "city": "Ladysmith",
-    "phone": "250-753-6912"
-  },
-  {
-    "id": "A47E0286-2126-409B-52E2-D878CB9B0F86",
-    "name": "Chanor Truck & Auto Repair Ltd",
-    "lot_address": "1371 Quartz Road",
-    "city": "Cache Creek",
-    "phone": "250-457-6753"
-  },
-  {
-    "id": "F7A20CCB-1069-210E-51B1-7DDC22B59AC6",
-    "name": "Charlotte Tire Ltd",
-    "lot_address": "605 Ocean View Drive",
-    "city": "Queen Charlotte Island",
-    "phone": "250-559-4641"
-  },
-  {
-    "id": "5C0AAD30-2D09-3ECB-6008-5A6143F9822E",
-    "name": "Chesney Towing",
-    "lot_address": "8646 Gaudet Road",
-    "city": "Powell River",
-    "phone": "604-413-1457"
-  },
-  {
-    "id": "925D38B3-9169-2A86-46F6-31C3DA7041B0",
-    "name": "Christina Lake Towing",
-    "lot_address": "1648 Maida Frontage Road",
-    "city": "Christina Lake",
-    "phone": "250-442-9477"
-  },
-  {
-    "id": "BCDE91D5-585F-A419-8BA8-F54D74C5308B",
-    "name": "City Motors (1981) Ltd",
-    "lot_address": "5951 Arbutus Avenue",
-    "city": "Powell River",
-    "phone": "604-483-3210"
-  },
-  {
-    "id": "50707DC6-01E3-3F19-2CF8-6C486F0163B0",
-    "name": "Classic Towing (Golden)",
-    "lot_address": "1025 11 Avenue N Golden",
-    "city": "Golden",
-    "phone": "250-344-6659"
-  },
-  {
-    "id": "7F1162DF-6855-68FE-14AB-7D8C25CC6129",
-    "name": "Classic Towing (Revelstoke)",
-    "lot_address": "2100 Big Eddy Road",
-    "city": "Revelstoke",
-    "phone": "250-837-6216"
-  },
-  {
-    "id": "5C7B0609-8A37-3FCD-967A-793D277B74A7",
-    "name": "Clearwater Towing Ltd",
-    "lot_address": "516 Swanson Street",
-    "city": "Clearwater",
-    "phone": "250-674-3123"
-  },
-  {
-    "id": "3489C756-3B2D-90FE-2DC7-DE2D84AE880F",
-    "name": "Clover Towing Ltd (Surrey)",
-    "lot_address": "5340 192 Street",
-    "city": "Surrey",
-    "phone": "604-513-1900"
-  },
-  {
-    "id": "80E80051-823D-49DE-36D9-8EBBE62E27AC",
-    "name": "Club Towing & Heavy Recovery",
-    "lot_address": "505 Industrial Road # 2 Invermere",
-    "city": "Invermere",
-    "phone": "250-342-9551"
-  },
-  {
-    "id": "BF5860C5-34D8-059C-7B84-A0D3B7BE5C7E",
-    "name": "Coastline Towing & Transport",
-    "lot_address": "1893 Coulter Road",
-    "city": "Campbell River",
-    "phone": "250-923-8111"
-  },
-  {
-    "id": "D6D1C97C-3B30-175D-3311-4A3F9FB21794",
-    "name": "Cold Country Towing & Traffic Control Ltd (Kimberley)",
-    "lot_address": "321 316 Avenue * Kimberly",
-    "city": "Kimberly",
-    "phone": "250-426-3680"
-  },
-  {
-    "id": "1EB79CF5-015D-4D14-3E11-37BBBAA26AF1",
-    "name": "Cold Country Towing & Traffic Control Ltd. (Cranbrook)",
-    "lot_address": "3584 Collinson Road",
-    "city": "Cranbrook",
-    "phone": "250-426-3680"
-  },
-  {
-    "id": "2E2629E5-8F58-9F6A-5B2A-E0B8FF8A0E9C",
-    "name": "Collision Craft",
-    "lot_address": "11129 115 Street",
-    "city": "Osoyoos",
-    "phone": "250-495-6331"
-  },
-  {
-    "id": "7445D9EB-4D44-8495-49B7-30AAA9A147FA",
-    "name": "Columbia Towing Ltd (Revelstoke)",
-    "lot_address": "96 MacPherson Street",
-    "city": "Revelstoke",
-    "phone": "250-837-9391"
-  },
-  {
-    "id": "E5A26EBF-8506-3CDA-366E-E6D782A79C6F",
-    "name": "Columbia Towing Ltd (Sicamous)",
-    "lot_address": "729 Frontage Road * Sicamous",
-    "city": "Sicamous",
-    "phone": "250-836-2000"
-  },
-  {
-    "id": "D3AF6F2A-06B7-A48A-10F6-1BCC932C45D0",
-    "name": "Comox Valley Dodge Towing & Recovery",
-    "lot_address": "4847 Island Hwy N",
-    "city": "Courtenay",
-    "phone": "250-338-4665"
-  },
-  {
-    "id": "750ADE37-2A0C-7AC5-35E4-330D2A6468DF",
-    "name": "Comox Valley Towing & Recovery Ltd",
-    "lot_address": "2270 Cousins Road",
-    "city": "Courtenay",
-    "phone": "250-338-4665"
-  },
-  {
-    "id": "1D58E7C1-4FCC-0312-947E-2743168A1F87",
-    "name": "Cooper's Towing Ltd",
-    "lot_address": "1212 Alpha Lake Road",
-    "city": "Whistler",
-    "phone": "604-902-1930"
-  },
-  {
-    "id": "182BDD0E-1339-69BB-5167-B78379FA176E",
-    "name": "Coquitlam Towing & Storage Co Ltd",
-    "lot_address": "1648 Industrial Avenue",
-    "city": "Coquitlam",
-    "phone": "604-939-6474"
-  },
-  {
-    "id": "14221926-31A8-5188-5875-BBE0FA6C0E86",
-    "name": "Unitow",
-    "lot_address": "1717 Vernon Drive",
-    "city": "Vancouver",
-    "phone": "604-592-1234"
-  },
-  {
-    "id": "22BA28A9-0D39-8DCE-A6A3-547328DA8F66",
-    "name": "Dakota Towing",
-    "lot_address": "1505 Hardy Street",
-    "city": "Kelowna",
-    "phone": "250-300-3999"
-  },
-  {
-    "id": "75EEACE1-28DB-17EB-059B-186DA450460F",
-    "name": "Day & Nite Towing & Autowrecking",
-    "lot_address": "1933 Field Road",
-    "city": "Sechelt",
-    "phone": "604-885-0699"
-  },
-  {
-    "id": "68494E06-1612-88EC-459A-8BF0EB1E37F6",
-    "name": "Del Oro Mairo'sTowing Ltd",
-    "lot_address": "2535 Juliann Road",
-    "city": "Kelowna",
-    "phone": "250-769-2100"
-  },
-  {
-    "id": "18DB9B40-9CA5-4C38-8B8C-0EB3E1568335",
-    "name": "Dollar Towing",
-    "lot_address": "312 B Enterprise Avenue",
-    "city": "Kitimat",
-    "phone": "250-632-9947"
-  },
-  {
-    "id": "1E70C52C-4138-8D83-3F56-4001177541CB",
-    "name": "Don's Auto Towing Ltd",
-    "lot_address": "671 Athabasca Street",
-    "city": "Kamloops",
-    "phone": "250-374-6281"
-  },
-  {
-    "id": "1AE5640B-551C-45B1-9A84-A1CB15DD306D",
-    "name": "Downtown Service & Towing Ltd",
-    "lot_address": "750 Mackenzie Avenue  S",
-    "city": "Williams Lake",
-    "phone": "250-392-2888"
-  },
-  {
-    "id": "787C9DCB-8CA1-7930-728E-A587E6DA6918",
-    "name": "Drake Towing Ltd",
-    "lot_address": "1553 Powell Street",
-    "city": "Vancouver",
-    "phone": "604-251-3344"
-  },
-  {
-    "id": "7E257522-5801-001D-4915-0024624E1BE7",
-    "name": "Dunn Right Towing & Recovery",
-    "lot_address": "691 McPhee Avenue",
-    "city": "Courtenay",
-    "phone": "250-650-8697"
-  },
-  {
-    "id": "8F72B2ED-2674-4163-0B37-3F4993EA3ACC",
-    "name": "Dunnmore Towing & Recovery",
-    "lot_address": "3447B Royston Road",
-    "city": "Courtenay",
-    "phone": "250-650-8224"
-  },
-  {
-    "id": "39D877DE-6ED9-9C98-8CC3-DB55D3F4856C",
-    "name": "Eagle Eye Marine Services",
-    "lot_address": "178 Kings Lane",
-    "city": "Salt Spring Island",
-    "phone": "250-883-7865"
-  },
-  {
-    "id": "D548E2EB-9725-6923-43D4-C6F5C085804B",
-    "name": "Eagle Rock Towing (Armstrong)",
-    "lot_address": "1645 Eagle Rock Road (Armstrong)",
-    "city": "Armstrong",
-    "phone": "250-546-8290"
-  },
-  {
-    "id": "764C6E27-9DDC-26F1-14DE-34457234A097",
-    "name": "Eagle Rock Towing (Salmon Arm)",
-    "lot_address": "5270 Auto Road (Salmon Arm)",
-    "city": "Armstrong",
-    "phone": "250-804-4442"
-  },
-  {
-    "id": "5B94BCD1-6EE5-3075-6E8E-1B449630533C",
-    "name": "Eagle Rock Towing (Sicamous)",
-    "lot_address": "901 Trans Canada Hwy Frontage (Sicamous)  Road",
-    "city": "Armstrong",
-    "phone": "250-836-0333"
-  },
-  {
-    "id": "D9DCB9B8-3105-9227-4971-4D5D54475FCA",
-    "name": "EFM Towing",
-    "lot_address": "741 Industial Road 2",
-    "city": "Cranbrook",
-    "phone": "250-417-7334"
-  },
-  {
-    "id": "EDC51CC2-7C8A-24D7-3CFE-AAC16D8A656E",
-    "name": "Eisenkrien Services Ltd",
-    "lot_address": "19535 Wonowon Extn Road",
-    "city": "Wonowon",
-    "phone": "250-263-8733"
-  },
-  {
-    "id": "F78E766E-0650-877F-7EF9-82B40A3E339C",
-    "name": "Encore Towing & Service",
-    "lot_address": "38926 Production Way",
-    "city": "Squamish",
-    "phone": "604-892-5051"
-  },
-  {
-    "id": "FEE20D51-6D6E-54F8-9C59-30F06152A797",
-    "name": "Exceptional Towing & Recovery Ltd",
-    "lot_address": "1529 99th Street",
-    "city": "Dawson Creek",
-    "phone": "250-782-4845"
-  },
-  {
-    "id": "B0C3B134-0759-4483-6733-534545CC2574",
-    "name": "Fernie Tow & Go Ltd",
-    "lot_address": "1994 Hwy 3",
-    "city": "Fernie",
-    "phone": "250-423-7860"
-  },
-  {
-    "id": "AB661E7D-0C1F-6C3E-01BB-57A4D60F8619",
-    "name": "First Choice Towing (2007) Ltd",
-    "lot_address": "10150 Alder Road",
-    "city": "Fort St John",
-    "phone": "250-785-2271"
-  },
-  {
-    "id": "7B0AA0A1-6F27-4600-4FA6-E9FD058116CA",
-    "name": "Fraser Canyon Towing Inc",
-    "lot_address": "48150 Trans Canada Hwy",
-    "city": "Boston Bar",
-    "phone": "604-867-9113"
-  },
-  {
-    "id": "DAE9EE13-62E1-A63C-856A-0C13B04D3990",
-    "name": "Fraser Lake Towing",
-    "lot_address": "13936 Highway 16 W, Endako",
-    "city": "Fraser Lake",
-    "phone": "250-699-6132"
-  },
-  {
-    "id": "AE5320F8-4D7C-8D03-258A-5CBCD58011F7",
-    "name": "Gammond Towing",
-    "lot_address": "Lot 10 Langley Ave, Fraser lake, V0J1S0",
-    "city": "Fort Fraser",
-    "phone": "250-996-3377"
-  },
-  {
-    "id": "4F82C0AD-25BA-89A3-4F27-4241A1A35A1F",
-    "name": "Freightliner of Cranbrook Ltd",
-    "lot_address": "301 Slater Road",
-    "city": "Cranbrook",
-    "phone": "250-489-8781"
-  },
-  {
-    "id": "BEC3D9A9-8A03-359B-375E-27B348274E68",
-    "name": "Garrick Automotive",
-    "lot_address": "246 Alymer Road",
-    "city": "Chase",
-    "phone": "250-679-3167"
-  },
-  {
-    "id": "A12F9777-011E-3335-8B86-E2D969CC3B9E",
-    "name": "Gem Towing Ltd",
-    "lot_address": "2359 164 Street",
-    "city": "White Rock",
-    "phone": "604-531-8765"
-  },
-  {
-    "id": "76DF3F69-1EFD-296B-88A4-B00A89725ED5",
-    "name": "Georgia Straight Towing",
-    "lot_address": "2341 Cousins Road",
-    "city": "Courtenay",
-    "phone": "250-338-9899"
-  },
-  {
-    "id": "5E917E1B-21F1-9462-5CE8-26B70A7A555B",
-    "name": "Gino's Towing Inc",
-    "lot_address": "296 Osilinka Drive (Mackenzie)",
-    "city": "Port Coquitlam",
-    "phone": "250-271-4466"
-  },
-  {
-    "id": "2255E5CD-A6BD-4609-967A-1E88102C499A",
-    "name": "Giver A Yank Towing",
-    "lot_address": "611 E Stewart Street",
-    "city": "Vanderhoof",
-    "phone": "250-570-0077"
-  },
-  {
-    "id": "4C420DED-937A-4189-093E-F0EFC50D49EE",
-    "name": "Gateway Towing and Recovery Inc.",
-    "lot_address": "524 Industrial Park",
-    "city": "Gold River",
-    "phone": "250-283-9141"
-  },
-  {
-    "id": "372B6664-82DE-5D80-14C3-D0900E8D0C29",
-    "name": "Good Shepherd Auto Towing",
-    "lot_address": "253 Fern Road East",
-    "city": "Parksville",
-    "phone": "250-248-3110"
-  },
-  {
-    "id": "54EB78B6-7261-4BA7-7D51-6B9DFB713AD0",
-    "name": "Granton Motors Ltd",
-    "lot_address": "RR#2 Site 140 Comp 8",
-    "city": "Rock Creek",
-    "phone": "250-446-2311"
-  },
-  {
-    "id": "02C9B5E9-3417-3F63-58DC-2484590D9C00",
-    "name": "Grass Creek Ventures",
-    "lot_address": "Hwy Mkr 415 Hwy 37 N",
-    "city": "Iskut",
-    "phone": "250-234-3435"
-  },
-  {
-    "id": "9730AF95-555F-8AF1-7555-B5E821096D75",
-    "name": "Hogie's Towing",
-    "lot_address": "2310 Kirton Avenue",
-    "city": "Armstrong",
-    "phone": "250-546-3472"
-  },
-  {
-    "id": "0D8D32A7-1361-076C-0259-9B296E7728A1",
-    "name": "Hope Towing Ltd",
-    "lot_address": "1060 5 Avenue",
-    "city": "Hope",
-    "phone": "604-869-3444"
-  },
-  {
-    "id": "03F70E42-5F5D-39C1-4222-E208DF7F7DBA",
-    "name": "Irwin Collision Repairs Ltd",
-    "lot_address": "115 Desmond Crescent",
-    "city": "Saltspring Island",
-    "phone": "250-537-2513"
-  },
-  {
-    "id": "ECEF0198-9FC1-4F68-3BD3-36786E610CB3",
-    "name": "Island Thunder Towing",
-    "lot_address": "1801 Twin Peaks Road",
-    "city": "Port McNeil",
-    "phone": "250-956-2656"
-  },
-  {
-    "id": "BB31EA0D-60CC-24B3-4111-87066FB56EA1",
-    "name": "J D Towing Inc",
-    "lot_address": "6585 Industrial Park Way",
-    "city": "Grand Forks",
-    "phone": "250-442-2551"
-  },
-  {
-    "id": "7D8C9154-992D-9F27-5100-E4B8EA768245",
-    "name": "Jacks Towing (2010) Ltd",
-    "lot_address": "29092 Fraser Hwy",
-    "city": "Abbotsford",
-    "phone": "604-607-0774"
-  },
-  {
-    "id": "777AEF65-4D8C-734A-6C2C-EF39643A4273",
-    "name": "Jacks Towing (2010) Ltd",
-    "lot_address": "2122 Peardonville Road Abbotsford V2T 6J8",
-    "city": "Abbotsford",
-    "phone": "604-607-0774"
-  },
-  {
-    "id": "02B53C71-2C5F-77F3-211C-B5F1086E3469",
-    "name": "Jacks Towing (2010) Ltd",
-    "lot_address": "5814 107 Street Osoyoos V0H 1V4",
-    "city": "Abbotsford",
-    "phone": "604-607-0774"
-  },
-  {
-    "id": "C5A1F4C7-5910-5D88-52EE-04889CDD2620",
-    "name": "Jacks Towing (2010) Ltd",
-    "lot_address": "7025 Abbot Street Mission",
-    "city": "Abbotsford",
-    "phone": "604-607-0772"
-  },
-  {
-    "id": "2A3958FB-1DF1-1C57-5DD3-57D4FE787C84",
-    "name": "Jacks Towing (2010) Ltd",
-    "lot_address": "63 West Railway Ave Abbotsfort V2S8C1",
-    "city": "Abbotsford",
-    "phone": "604-607-0772"
-  },
-  {
-    "id": "7D51673C-0540-12B4-1367-2DF41A1526DE",
-    "name": "Jamie Davis Towing & Storage Ltd.",
-    "lot_address": "19683 Silver Skagit Road",
-    "city": "Hope",
-    "phone": "604-869-8440"
-  },
-  {
-    "id": "AFE9045E-91E2-5283-0906-32DC72913FF6",
-    "name": "Jamie Davis Towing & Storage Ltd.",
-    "lot_address": "920 King Place * Golden",
-    "city": "Golden",
-    "phone": "250-344-6690"
-  },
-  {
-    "id": "47B1A8E6-5D7B-77AA-4F1D-7D98413080F8",
-    "name": "Jay's Custom Towing",
-    "lot_address": "341 Kaien Road",
-    "city": "Prince Rupert",
-    "phone": "250-624-8094"
-  },
-  {
-    "id": "358FFCB0-685A-4146-5340-502E84477B87",
-    "name": "Jimco Towing Ltd",
-    "lot_address": "3982 Squilax Anglemont Hwy",
-    "city": "Scotch Creek",
-    "phone": "250-319-5250"
-  },
-  {
-    "id": "528EE930-6E0D-A053-52F3-45AE05E98F3E",
-    "name": "KBM Autoworks",
-    "lot_address": "1862 Vernon Street",
-    "city": "Lumby",
-    "phone": "250-547-2356"
-  },
-  {
-    "id": "9C3E23E9-617C-261F-A16A-789A014785E4",
-    "name": "Keegz South Country Towing",
-    "lot_address": "1010 Commercial Way",
-    "city": "Genelle",
-    "phone": "250-693-8850"
-  },
-  {
-    "id": "FA612968-1818-12B8-2849-8ED2E1B62808",
-    "name": "KMB Autobody",
-    "lot_address": "1527 Tie Lake Loop Road",
-    "city": "Jaffray",
-    "phone": "250-429-3413"
-  },
-  {
-    "id": "988F06CF-A5BD-79BE-5088-C8CEF65B659B",
-    "name": "Komar Towing",
-    "lot_address": "1300 Tachie Road",
-    "city": "Fort St James",
-    "phone": "250-996-2206"
-  },
-  {
-    "id": "C590E766-9366-0645-3C82-B20BA5DE8CBE",
-    "name": "Kool Country Auto Parts Towing & Rads Ltd",
-    "lot_address": "Lot 150 Industrial Road #2",
-    "city": "Invermere",
-    "phone": "250-342-5188"
-  },
-  {
-    "id": "6359B5F2-2DB7-82DF-545B-2A2018318C39",
-    "name": "Kootenay Towing",
-    "lot_address": "6635 Hwy 31",
-    "city": "Kaslo",
-    "phone": "250-353-2110"
-  },
-  {
-    "id": "8809C953-1E44-45AF-292B-A8B1664363BA",
-    "name": "L J's Towing & Transport",
-    "lot_address": "7519 Trans Canada Hwy",
-    "city": "Chase",
-    "phone": "250-679-8600"
-  },
-  {
-    "id": "D58E67D9-71F9-8894-46AB-61204E9E5271",
-    "name": "Lane's Auto Towing",
-    "lot_address": "258 Glen Road",
-    "city": "Avola",
-    "phone": "250-678-2300"
-  },
-  {
-    "id": "917CCEFE-9A2A-91DD-06BC-7395D2BB31E9",
-    "name": "Lillooet Autobody & Towing",
-    "lot_address": "205 Main Street",
-    "city": "Lilloote",
-    "phone": "250-256-4687"
-  },
-  {
-    "id": "73F315BF-93AA-3DAD-38E2-73789AAD7871",
-    "name": "Little Mountain Towing",
-    "lot_address": "1130 Dobler Road",
-    "city": "Errington",
-    "phone": "250-248-1132"
-  },
-  {
-    "id": "2BAD73E3-49BF-0D3B-38C6-1A83F3A65C62",
-    "name": "Long Beach Automotive Ltd",
-    "lot_address": "3 671 Industrial Way",
-    "city": "Tofino",
-    "phone": "866-345-9060"
-  },
-  {
-    "id": "82CCE318-3BA7-981B-4022-61AECB65011E",
-    "name": "Lumby Towing",
-    "lot_address": "1862 Vernon Street",
-    "city": "Lumby",
-    "phone": "250-547-2356"
-  },
-  {
-    "id": "6AA33C9A-8E24-A77B-A757-1C0F958176FC",
-    "name": "Mac's Towing Mission",
-    "lot_address": "33201 London Ave",
-    "city": "Mission",
-    "phone": "604-826-9076"
-  },
-  {
-    "id": "DB77BBDA-4CB5-7175-0D1A-6F0306E99F6E",
-    "name": "Mac's Towing New Hazelton",
-    "lot_address": "4167 15th Ave New Hazelton",
-    "city": "New Hazelton",
-    "phone": "250-842-5404"
-  },
-  {
-    "id": "18543B29-8A30-733D-367C-09B5D58B00D2",
-    "name": "Maple Ridge Towing (1981) Ltd",
-    "lot_address": "23283 McKay Avenue",
-    "city": "Maple Ridge",
-    "phone": "604-463-5146"
-  },
-  {
-    "id": "0BD546F0-4EB7-6764-37EE-656D458D4D46",
-    "name": "Mario's Merritt Towing Ltd",
-    "lot_address": "2636 Nicola Avenue",
-    "city": "Merritt",
-    "phone": "250-378-9241"
-  },
-  {
-    "id": "1AA772DB-79EA-8210-2FFA-DEEED0401AD0",
-    "name": "Marios Towing - Kamloops",
-    "lot_address": "726 Carrier Street, Kamloops",
-    "city": "Kelowna",
-    "phone": "1-888-292-6054"
-  },
-  {
-    "id": "4076A2A1-1153-864E-809F-674D2B989428",
-    "name": "Marios Towing - Princeton",
-    "lot_address": "401 Hwy 3 West Princeton",
-    "city": "Kelowna",
-    "phone": "1-888-292-6054"
-  },
-  {
-    "id": "A9EBB384-4B11-54BC-5206-3363F0280060",
-    "name": "Mario's Towing Ltd",
-    "lot_address": "3015 Sexsmith Road",
-    "city": "Kelowna",
-    "phone": "250-765-6009"
-  },
-  {
-    "id": "BA401AE7-A67E-18B1-40B4-B3AB662E8A6E",
-    "name": "Mario's Towing Ltd - Boston Bar",
-    "lot_address": "48150 Trans Canada Hwy, Boston Bar",
-    "city": "Hope",
-    "phone": "250-295-1427"
-  },
-  {
-    "id": "A95E1C4F-9CCD-21D9-A127-F5D53CAE0EBD",
-    "name": "Mario's Towing Ltd - Hope Division",
-    "lot_address": "64211 Flood Hope Road Hope",
-    "city": "Hope",
-    "phone": "604-860-0725"
-  },
-  {
-    "id": "348C1568-2426-7B4F-8486-A06AE42C5B15",
-    "name": "McBrides Service Stn Ltd",
-    "lot_address": "9616 Chemainus Road",
-    "city": "Chemainus",
-    "phone": "250-246-3341"
-  },
-  {
-    "id": "F4F4BD38-344D-1345-1217-606345C47494",
-    "name": "Me & Ron's Towing",
-    "lot_address": "178 Kings Lange",
-    "city": "Ganges",
-    "phone": "250-537-9383"
-  },
-  {
-    "id": "5EB71783-5D2F-876D-4A3C-C5FFEC5F276D",
-    "name": "Mecham Sales & Service",
-    "lot_address": "1843 MacKenzie Hwy",
-    "city": "Hagensborg",
-    "phone": "250-982-2345"
-  },
-  {
-    "id": "602B2C8E-7972-021E-040D-2EACFD45893D",
-    "name": "Mid Island Towing & Transport Ltd",
-    "lot_address": "4900 Jordan Avenue",
-    "city": "Nanaimo",
-    "phone": "250-758-1728"
-  },
-  {
-    "id": "879F5F6C-25EC-1BCC-986D-B54D45E98A85",
-    "name": "Mid-Nytes Towing Inc",
-    "lot_address": "1835 Coalchute Road V0H 1H2",
-    "city": "Grand Forks",
-    "phone": "250-442-2233"
-  },
-  {
-    "id": "7AE83CDB-5C66-0E96-351C-5C7DBFF82339",
-    "name": "Mikes's Automotive Services",
-    "lot_address": "37024 97 Street",
-    "city": "Oliver",
-    "phone": "250-498-2004"
-  },
-  {
-    "id": "AC2A3E5C-064F-2875-0B34-DCF440AF9D65",
-    "name": "Mill Bay Towing & Recovery Ltd",
-    "lot_address": "3855 Trans Canada Hwy",
-    "city": "Cobble Hill",
-    "phone": "250-743-1552"
-  },
-  {
-    "id": "DECC22B0-0974-5A64-0A16-5D9708650418",
-    "name": "Mission Auto Wrecking Ltd",
-    "lot_address": "7143 Wren Street",
-    "city": "Mission",
-    "phone": "604-826-1251"
-  },
-  {
-    "id": "B4241DF1-4BE9-29D8-635D-416FAF8296EA",
-    "name": "Mission Auto Wrecking Ltd",
-    "lot_address": "7428 Pioneer Ave",
-    "city": "Agassiz",
-    "phone": "604-796-8697"
-  },
-  {
-    "id": "783B823A-2192-8501-423B-1733CD346E37",
-    "name": "Mitchell's Towing",
-    "lot_address": "997  1 Street W",
-    "city": "Vancouver",
-    "phone": "604-982-0115"
-  },
-  {
-    "id": "3161AD23-4ABF-9DE4-4E7B-6C412F2066BF",
-    "name": "Modern Tire & Towing Inc",
-    "lot_address": "1756 #9 Hwy",
-    "city": "Agassiz",
-    "phone": "604-796-2611"
-  },
-  {
-    "id": "907CE039-7EEB-4EF4-6645-1570F5D082FB",
-    "name": "Monashee Motors Ltd",
-    "lot_address": "3050 Birch Road",
-    "city": "Valemount",
-    "phone": "250-566-4318"
-  },
-  {
-    "id": "67A55FE1-849C-0B1D-3492-DD076A7A714F",
-    "name": "Mundies Towing Storage & Service Ltd",
-    "lot_address": "5917 Thorne Avenue",
-    "city": "Burnaby",
-    "phone": "604-526-9677"
-  },
-  {
-    "id": "D9B6FBD4-0CA0-A0BB-268F-0C6DADC15FB7",
-    "name": "Mural Town Auto Service",
-    "lot_address": "3483 Henry Road",
-    "city": "Chemainus",
-    "phone": "250-246-3322"
-  },
-  {
-    "id": "8DA44692-A7B3-7AB4-7481-2CE9A1FC60EC",
-    "name": "Nanoose Bay Towing & Transport",
-    "lot_address": "1130 Dobler Road",
-    "city": "Nanoose Bay",
-    "phone": "250-468-9700"
-  },
-  {
-    "id": "F5E5F29B-A149-9BCF-055A-0E9C610D0172",
-    "name": "New Westminster Towing & Storage",
-    "lot_address": "420 Boyne Street",
-    "city": "New Westminster",
-    "phone": "604-519-1026"
-  },
-  {
-    "id": "FAF46F6C-1A0C-9631-772E-197C3C8E9F93",
-    "name": "North Nakusp Towing Ltd",
-    "lot_address": "1350 13 Avenue NW",
-    "city": "Nakusp",
-    "phone": "250-265-2265"
-  },
-  {
-    "id": "99248AD8-3195-A550-31AA-98CEA86F7FCC",
-    "name": "North River Towing (2004) Ltd",
-    "lot_address": "5115 Barriere Town Road",
-    "city": "Barriere",
-    "phone": "250-672-0110"
-  },
-  {
-    "id": "BB0CEFE8-7EE5-4C52-49D4-5D48AD153C2D",
-    "name": "Northern Capital Towing Ltd",
-    "lot_address": "1385 Foley Crescent",
-    "city": "Prince George",
-    "phone": "250-563-6715"
-  },
-  {
-    "id": "8569EA2B-2314-4BE5-A194-6D4893434B65",
-    "name": "O'Brien's Service & Repairs Ltd",
-    "lot_address": "1007 Hwy 23",
-    "city": "Nakusp",
-    "phone": "250-265-4577"
-  },
-  {
-    "id": "D2A6A32D-83D1-967A-A21E-360112C07011",
-    "name": "O'Connor Motors Ltd",
-    "lot_address": "44840 Yale Road",
-    "city": "Chilliwack",
-    "phone": "604-792-3170"
-  },
-  {
-    "id": "FD0A570F-9001-7433-6D4C-3A2CB2C92442",
-    "name": "Off Road Auto Body Ltd",
-    "lot_address": "1901 Highway 99",
-    "city": "Pemberton",
-    "phone": "604-894-6767"
-  },
-  {
-    "id": "4EA3C4B6-4B3D-43E8-37B8-21A2BF2771D4",
-    "name": "OK Region Towing",
-    "lot_address": "9403 Cedar Avenue",
-    "city": "Summerland",
-    "phone": "250-494-8697"
-  },
-  {
-    "id": "9651ED3D-8956-64DF-9FBC-F14CA5E36A66",
-    "name": "On Call Towing & Traffic Control",
-    "lot_address": "851 Yellowhead Hwy S",
-    "city": "Clearwater",
-    "phone": "250-674-1869"
-  },
-  {
-    "id": "339361B4-30E8-92CF-9D40-37C8964B7DD8",
-    "name": "Otter Point Collision Ltd",
-    "lot_address": "3366 Otter Point Road",
-    "city": "Sooke",
-    "phone": "250-642-6488"
-  },
-  {
-    "id": "AC01398D-2CEC-35FA-5C41-26E023244424",
-    "name": "Parksville Towing",
-    "lot_address": "230 SHELLY RD",
-    "city": "Parksville",
-    "phone": "250-248-9913"
-  },
-  {
-    "id": "E04D66AB-97F0-3AA5-7359-E81AD13114EF",
-    "name": "Partel Towing & Recovery",
-    "lot_address": "5933 200 Street",
-    "city": "Langley",
-    "phone": "604-533-4044"
-  },
-  {
-    "id": "33B7F49C-28BA-6742-3C0C-42BFFBA0871E",
-    "name": "Payless Auto Towing Ltd (North Van)",
-    "lot_address": "1433 Columbia Street",
-    "city": "North Vancouver",
-    "phone": "604-988-4176 Ext 3"
-  },
-  {
-    "id": "0A9505E0-A691-94F2-5BBD-5E0AFFC56A7C",
-    "name": "Payless Auto Towing Ltd (Squamish)",
-    "lot_address": "39550 Galbraith Ave",
-    "city": "Squamish",
-    "phone": "604-988-4176 Ext 3"
-  },
-  {
-    "id": "39C68BBB-0752-6224-6CD8-851A1EA8220F",
-    "name": "Payless Auto Towing Ltd (Whistler)",
-    "lot_address": "1212 Alpha Lake Road Lot A (Whistler)",
-    "city": "Whistler",
-    "phone": "604-988-4176 Ext 3"
-  },
-  {
-    "id": "93DC39A0-7E47-1693-5BD8-442988262DC0",
-    "name": "Payless Auto Towing Ltd (Pemberton)",
-    "lot_address": "1931 Carpenter Road",
-    "city": "Pemberton",
-    "phone": "604-988-4176 Ext 3"
-  },
-  {
-    "id": "5E27452F-660A-3728-3895-F830E19F83DA",
-    "name": "Peninsula Towing",
-    "lot_address": "6678 Bertram Place",
-    "city": "Saanichton",
-    "phone": "250-656-6911"
-  },
-  {
-    "id": "BD2E3186-8238-41F9-25CA-7888D80568D2",
-    "name": "Penticton Towing Ltd",
-    "lot_address": "1325 Commercial Way",
-    "city": "Penticton",
-    "phone": "250-493-1991"
-  },
-  {
-    "id": "8C6D7CAB-83EC-274C-47D6-755A66464CAF",
-    "name": "Pete's Towing (1985) Ltd",
-    "lot_address": "1893 Coulter Road",
-    "city": "Campbell River",
-    "phone": "250-287-2161"
-  },
-  {
-    "id": "5628DD04-07A4-8259-6B93-B023C8CE1A74",
-    "name": "Pioneer Motors",
-    "lot_address": "7387 Pioneer Avenue",
-    "city": "Agassiz",
-    "phone": "604-796-9055"
-  },
-  {
-    "id": "FA0BD3F1-4547-5345-91B1-6D63F30B6D97",
-    "name": "Poco Auto Rescue & Recovery Ltd",
-    "lot_address": "13065 76 Avenue",
-    "city": "Port Coquitlam",
-    "phone": "604-933-4497"
-  },
-  {
-    "id": "41A3CB87-42D9-06EA-842C-E5460A526447",
-    "name": "Prism Towing",
-    "lot_address": "1443 Jade Street",
-    "city": "Quesnel",
-    "phone": "250-992-8868"
-  },
-  {
-    "id": "4F1E26AD-8C86-462F-976B-CE2877B4A357",
-    "name": "Pronto Towing Ltd",
-    "lot_address": "2290 Queensway Drive",
-    "city": "Terrace",
-    "phone": "250-635-3113"
-  },
-  {
-    "id": "114303F6-58E6-1A4B-51DF-DA20826B82A7",
-    "name": "Protow",
-    "lot_address": "1 4505 23 Street",
-    "city": "Vernon",
-    "phone": "250-549-2077"
-  },
-  {
-    "id": "E912791A-9759-7B7A-71B5-C0F172949E1E",
-    "name": "Quiring Motors (1994) Ltd",
-    "lot_address": "26744 16 Avenue",
-    "city": "Aldergrove",
-    "phone": "604-856-8721"
-  },
-  {
-    "id": "9EE49F02-67BE-67A1-5EC4-857D2C42A4D0",
-    "name": "Reliable Towing",
-    "lot_address": "7168 Wren Street",
-    "city": "Mission",
-    "phone": "604-826-8621"
-  },
-  {
-    "id": "5A44BCAA-0711-33FB-6315-E0F03CAA9E89",
-    "name": "Reliable Towing Merritt Ltd",
-    "lot_address": "1141 McFarlane Way",
-    "city": "Merritt",
-    "phone": "250-378-5000"
-  },
-  {
-    "id": "5315429E-6BD9-95F8-281C-68851F75536D",
-    "name": "Rezilliant Transport Ltd",
-    "lot_address": "7915 101 Avenue",
-    "city": "Fort St John",
-    "phone": "250-793-7139"
-  },
-  {
-    "id": "BE6151A9-2DAA-4638-91FD-FC98D10D1D0D",
-    "name": "Rich Boyz Mechanical Ltd",
-    "lot_address": "1098 N/E Frontage Road",
-    "city": "Mcbride",
-    "phone": "250-569-2470"
-  },
-  {
-    "id": "001AC0FF-2A9D-47A7-7CA7-67B4391F1A6E",
-    "name": "Roadhouse Towing Ltd",
-    "lot_address": "517 Trans Canada Hwy S",
-    "city": "Cache Creek",
-    "phone": "250-457-9594"
-  },
-  {
-    "id": "14724107-9F01-6EA6-1D2D-D05B0B8D6821",
-    "name": "Roadway Towing Ltd",
-    "lot_address": "7391 Progress Place",
-    "city": "Delta",
-    "phone": "604-940-0329"
-  },
-  {
-    "id": "34B52FAF-A17C-8FB3-4483-19C09A59224F",
-    "name": "Robert's Towing",
-    "lot_address": "6233 Wildmare Road",
-    "city": "Chetwynd",
-    "phone": "250-788-9194"
-  },
-  {
-    "id": "62F74C17-8D7C-6DA5-4FB4-B05DFE4B724E",
-    "name": "Ron's Towing",
-    "lot_address": "1360 Foley Crescent",
-    "city": "Prince George",
-    "phone": "250-564-8444"
-  },
-  {
-    "id": "D857310B-3113-8DD1-A332-36A1B4754D8F",
-    "name": "Ron's Towing (Sintich Road)",
-    "lot_address": "1890 Sintich Road",
-    "city": "Prince George",
-    "phone": "250-564-8444"
-  },
-  {
-    "id": "AC8A926E-5B13-611D-3F5D-37900FB48EB5",
-    "name": "Rookz's Auto Body Ltd.",
-    "lot_address": "1994 Highway #3",
-    "city": "Fernie",
-    "phone": "250-423-7900"
-  },
-  {
-    "id": "8C66C78F-0E18-6616-5B51-598E5802804D",
-    "name": "Rupert Towing",
-    "lot_address": "101 Shawatlan Road",
-    "city": "Prince Rupert",
-    "phone": "250-624-2722"
-  },
-  {
-    "id": "E5D3C08F-50A7-3F60-8DEF-76B6513B5C0C",
-    "name": "Rusty's Auto Towing",
-    "lot_address": "15700 River Road",
-    "city": "Richmond",
-    "phone": "604-278-1106"
-  },
-  {
-    "id": "7723C09B-A2AF-A07E-1520-720D46D725CF",
-    "name": "Scrap King Auto Wrecking & Towing Creston",
-    "lot_address": "211 Collis Street Creston",
-    "city": "Salmo",
-    "phone": "250-428-2323"
-  },
-  {
-    "id": "F9745B19-2476-1A9F-11A8-464675C43B53",
-    "name": "Scrap King Auto Wrecking & Towing Salmo",
-    "lot_address": "1660 Airport Road",
-    "city": "Salmo",
-    "phone": "250-357-2091"
-  },
-  {
-    "id": "CEC0E645-0A33-7AD7-8FDC-907B5E51772E",
-    "name": "Seeley Lake Service Ltd",
-    "lot_address": "3479 Kelly Street",
-    "city": "Hazelton",
-    "phone": "250-842-6465"
-  },
-  {
-    "id": "E45D3B27-87CD-7810-3C25-00A05F4B08A4",
-    "name": "Skookum Towing Ltd",
-    "lot_address": "414 Fountain Vallley Road",
-    "city": "Lillooet",
-    "phone": "250-256-4789"
-  },
-  {
-    "id": "FAAE38C1-24ED-2861-9E15-4D66CC716260",
-    "name": "Smokey Creek Salvage Ltd",
-    "lot_address": "3453 Yeatman Road",
-    "city": "South Slocan",
-    "phone": "250-359-7815"
-  },
-  {
-    "id": "96388082-7B2B-051E-38FB-7572A2C220A6",
-    "name": "Sorrento Towing & Recovery",
-    "lot_address": "2827 Hilltop Road",
-    "city": "Sorrento",
-    "phone": "250-833-7722"
-  },
-  {
-    "id": "29797EE7-693D-3416-0ED4-479D4F7C7C96",
-    "name": "Southview Auto Towing Ltd",
-    "lot_address": "15700 River Road",
-    "city": "Richmond",
-    "phone": "604-435-7211"
-  },
-  {
-    "id": "ACCAF73A-5223-8FC7-3DF9-4BD175BC5B4B",
-    "name": "Sparwood Towing (Ridgemont Avenue)",
-    "lot_address": "1291 Ridgemont Avenue 621 Douglas Fir Road waiting for updated application",
-    "city": "Sparwood",
-    "phone": "250-425-2721"
-  },
-  {
-    "id": "A859131C-323B-03A8-1A99-AF19450B5C66",
-    "name": "Sparwood Towing (Shadow Drive)",
-    "lot_address": "25 Shadow Drive",
-    "city": "Sparwood",
-    "phone": "250-425-2721"
-  },
-  {
-    "id": "8A344426-5DB9-0047-70D1-4F0664E85A2F",
-    "name": "Specialized Towing Limited",
-    "lot_address": "150 Glacier Street",
-    "city": "Coquitlam",
-    "phone": "604-209-9917"
-  },
-  {
-    "id": "7A8A74F3-A478-8078-7CD4-ACE7C861010B",
-    "name": "Summerland Towing",
-    "lot_address": "1325 Commercial Way",
-    "city": "Summerland",
-    "phone": "250-493-1991"
-  },
-  {
-    "id": "5A26DFEE-6381-9774-9F69-79DAD74F9BD7",
-    "name": "Sunshine Coast Auto Towing Ltd",
-    "lot_address": "5880 Sechelt Inlet Road",
-    "city": "Sechelt",
-    "phone": "604-740-3939"
-  },
-  {
-    "id": "1D1272EB-5308-48E6-622F-9BAE47E2409B",
-    "name": "Terry's Towing Service",
-    "lot_address": "252 1 Avenue",
-    "city": "Trail",
-    "phone": "250-368-0070"
-  },
-  {
-    "id": "7B5CA6B0-0385-4F2C-45D6-93AAFA543462",
-    "name": "Thunder Valley Towing",
-    "lot_address": "1455 5 Avenue Valemount",
-    "city": "Mcbride",
-    "phone": "250-569-7007"
-  },
-  {
-    "id": "A447C99A-4DE2-89CE-1732-F5BA2745642E",
-    "name": "Tiger Towing Ltd (Duncan)",
-    "lot_address": "4860 Trans Canada Hwy",
-    "city": "Duncan",
-    "phone": "250-701-8697"
-  },
-  {
-    "id": "F1D1EDFD-69DC-4054-0BEA-5B039B0C2D3F",
-    "name": "TJ'S Towing & Storage",
-    "lot_address": "1301 Railway Avenue",
-    "city": "Fernie",
-    "phone": "250-423-1646"
-  },
-  {
-    "id": "1C778CD3-2B80-3BF5-74C5-66D7B46AA758",
-    "name": "TLC Automotive Services Ltd",
-    "lot_address": "1981 Collision Avenue",
-    "city": "Masset",
-    "phone": "250-626-3756"
-  },
-  {
-    "id": "BDEC5EAC-2321-7E24-1565-26D704D363A6",
-    "name": "Totem Towing",
-    "lot_address": "3333 Tennyson Avenue",
-    "city": "Victoria",
-    "phone": "250-475-3211"
-  },
-  {
-    "id": "78899E31-19AC-296D-19F1-B7AEF0116CB1",
-    "name": "Tylers Towing (2013) Ltd",
-    "lot_address": "3435 Victoria Drive",
-    "city": "Smithers",
-    "phone": "250-847-2413"
-  },
-  {
-    "id": "229C731E-5123-3BBB-1299-4BDBDDF671B4",
-    "name": "United Towing Services Inc",
-    "lot_address": "1025 10 Avenue North",
-    "city": "Golden",
-    "phone": "250-344-5900"
-  },
-  {
-    "id": "826E1B34-6EE3-09A6-3EB1-EDD0C473A21F",
-    "name": "Unitow Services (1978) Ltd (Surrey)",
-    "lot_address": "13065 76 Avenue",
-    "city": "Surrey",
-    "phone": "604-592-1255"
-  },
-  {
-    "id": "7B609313-A283-09BA-856E-906BB07868C9",
-    "name": "Unitow Vancouver  (1978) Ltd (Vancouver)",
-    "lot_address": "1717 Vernon Drive",
-    "city": "Vancouver",
-    "phone": "604-659-1255"
-  },
-  {
-    "id": "F80A02D9-7F1C-6318-4CA3-1D6D4DF0181D",
-    "name": "Usher's Towing",
-    "lot_address": "101 11129 115 Street",
-    "city": "Osoyoos",
-    "phone": "250-495-7752"
-  },
-  {
-    "id": "F7F1BF5F-1AD5-50EC-8101-EE2851C3995B",
-    "name": "Van Horne Towing (2000) Ltd",
-    "lot_address": "412 Cobham Avenue W",
-    "city": "Cranbrook",
-    "phone": "250-426-4243"
-  },
-  {
-    "id": "49415E00-22CD-625F-31C4-AC0CA8BA30DC",
-    "name": "Vernon Auto Towing Ltd",
-    "lot_address": "4617 B 34 Street",
-    "city": "Vernon",
-    "phone": "250-545-2311"
-  },
-  {
-    "id": "4CC0B2D5-7882-50E6-79E7-3C3AEAA36485",
-    "name": "Wally's Autobody Ltd",
-    "lot_address": "8832 Young Road",
-    "city": "Chilliwack",
-    "phone": "604-795-9108"
-  },
-  {
-    "id": "B93136F0-1C3E-A283-8AB0-C756FD0B2F35",
-    "name": "Walt's Towing & Automotive Service",
-    "lot_address": "694 Gibsons Way",
-    "city": "Gibsons",
-    "phone": "604-886-9500"
-  },
-  {
-    "id": "0F67F5F1-8B3E-7F3F-0521-15A91E1E3FE4",
-    "name": "Warbrick Towing & Salvage",
-    "lot_address": "170 Hwy 93/95 Shuswap Reserve",
-    "city": "Invermere",
-    "phone": "250-342-5851"
-  },
-  {
-    "id": "19C04C79-84BE-542A-A3DB-E308F000A3CF",
-    "name": "Wayne's Towing Ltd",
-    "lot_address": "140 Metlakatla Road",
-    "city": "Prince Rupert",
-    "phone": "250-627-6166"
-  },
-  {
-    "id": "CAB12875-39E4-1805-26F7-642CBF2B8433",
-    "name": "Western Autowreckers Ltd",
-    "lot_address": "2374 Granite Road",
-    "city": "Nelson",
-    "phone": "250-354-4802"
-  },
-  {
-    "id": "30D7F06E-5CEF-42E7-01A4-76AC0D2E8233",
-    "name": "Westshore Towing Ltd",
-    "lot_address": "1247 Parkdale Drive",
-    "city": "Victoria",
-    "phone": "250-474-1369"
-  },
-  {
-    "id": "3D8CAB0C-5708-336F-05DF-8B8FB6492ED4",
-    "name": "Whistler Towing Ltd",
-    "lot_address": "1212 Alpha Lake Road Lot A (Whistler)",
-    "city": "Whistler",
-    "phone": "604-966-8535"
-  },
-  {
-    "id": "4140D6F5-6A54-66E9-8D9C-996D48E80BF3",
-    "name": "White Knight Auto Rescue Ltd",
-    "lot_address": "601 Bass Ave",
-    "city": "Enderby",
-    "phone": "250-838-6402"
-  },
-  {
-    "id": "840B4843-4260-6694-27B7-348659426443",
-    "name": "Wrench Bender Towing (2004)",
-    "lot_address": "8898 Shaughnessy Street",
-    "city": "Canal Flats",
-    "phone": "250-349-5655"
-  },
-  {
-    "id": "56709777-9819-8A97-8374-12F0B548989F",
-    "name": "Ziggy's Towing",
-    "lot_address": "3558 Victoria Drive Smithers",
-    "city": "Telkwa",
-    "phone": "250-877-8687"
-  }
+ {
+   "name": "24 HOUR TOWING",
+   "lot_address": "728 PAYNE AVE",
+   "city": "CRESTON",
+   "phone": "250-428-2323"
+ },
+ {
+   "name": "5 STAR TOWING INC",
+   "lot_address": "733 2ND AVE",
+   "city": "PRINCE GEORGE",
+   "phone": "250-614-9393"
+ },
+ {
+   "name": "A J TOWING INC",
+   "lot_address": "8945 NOWELL AVE",
+   "city": "CHILLIWACK",
+   "phone": "604-795-3374"
+ },
+ {
+   "name": "A&M TOWING",
+   "lot_address": "305 MOORE AVE",
+   "city": "100 MILE HOUSE",
+   "phone": "250-395-4334"
+ },
+ {
+   "name": "ABLE TOWING",
+   "lot_address": "2384 210 RD",
+   "city": "DAWSON CREEK",
+   "phone": "250-782-4239"
+ },
+ {
+   "name": "AGGRESSIVE AUTO TOWING LTD",
+   "lot_address": "34523 2ND AVE",
+   "city": "ABBOTSFORD",
+   "phone": "604-854-5669"
+ },
+ {
+   "name": "ALBERNI TOWING",
+   "lot_address": "2490 TIMBERLANE RD",
+   "city": "PORT ALBERNI",
+   "phone": "250-724-4050"
+ },
+ {
+   "name": "ALL COAST TOWING SERVICES",
+   "lot_address": "1178 STEWART RD",
+   "city": "GIBSONS",
+   "phone": "604-886-7280"
+ },
+ {
+   "name": "ALL-WAYS TOWING",
+   "lot_address": "647B DUPPLIN RD",
+   "city": "VICTORIA",
+   "phone": "250-381-0110"
+ },
+ {
+   "name": "ANCHORS AWAY",
+   "lot_address": "4068 NIMPKISH CRES",
+   "city": "WOSS",
+   "phone": "250-281-3483"
+ },
+ {
+   "name": "ANTLE TOWING LTD",
+   "lot_address": "802 EXETER RD",
+   "city": "LAC LA HACHE",
+   "phone": "250-396-7306"
+ },
+ {
+   "name": "APPLEWOOD TOWING",
+   "lot_address": "4800 BYNG RD",
+   "city": "PORT HARDY",
+   "phone": "250-949-6042"
+ },
+ {
+   "name": "ARCHIES'S TOWING LTD",
+   "lot_address": "7496 OLD ALASKA HWY",
+   "city": "FORT NELSON",
+   "phone": "250-774-3054"
+ },
+ {
+   "name": "ARROWSMITH TOWING",
+   "lot_address": "20 HILLIERS RD",
+   "city": "QUALICUM BEACH",
+   "phone": "250-752-1662"
+ },
+ {
+   "name": "AURORA TOWING",
+   "lot_address": "2206 N NADINA AVE",
+   "city": "HOUSTON",
+   "phone": "250-845-7600"
+ },
+ {
+   "name": "AUTOW",
+   "lot_address": "402 JUNIPER RD",
+   "city": "QUESNEL",
+   "phone": "250-992-9128"
+ },
+ {
+   "name": "BAILLIE'S TOWING",
+   "lot_address": "4833 GILBERT DR",
+   "city": "BARRIERE",
+   "phone": "250-672-9529"
+ },
+ {
+   "name": "BARRIERE AUTO AND TRUCK TOW",
+   "lot_address": "4403 AIRFIELD RD",
+   "city": "BARRIERE",
+   "phone": "250-319-7767"
+ },
+ {
+   "name": "BAYVIEW AUTO TOWING LTD",
+   "lot_address": "201 155 176 AVE",
+   "city": "SURREY",
+   "phone": "604-538-2032"
+ },
+ {
+   "name": "BEE JAY TOWING",
+   "lot_address": "765 N MACKENZIE AVE",
+   "city": "WILLIAMS LAKE",
+   "phone": "250-398-8311"
+ },
+ {
+   "name": "BEN'S TOWING LTD",
+   "lot_address": "230 42ND AVE SW",
+   "city": "SALMON ARM",
+   "phone": "250-832-6512"
+ },
+ {
+   "name": "BKV TOWING",
+   "lot_address": "13200 BARTLETT RD",
+   "city": "BURNS LAKE",
+   "phone": "250-692-3413"
+ },
+ {
+   "name": "BLACK BEAR TOWING",
+   "lot_address": "1080 INDUSTRIAL WAY",
+   "city": "PARKSVILLE",
+   "phone": "250-468-1458"
+ },
+ {
+   "name": "BOWSER TOWING",
+   "lot_address": "6970 ISLAND HWY W",
+   "city": "BOWSER",
+   "phone": "250-757-8341"
+ },
+ {
+   "name": "BOYCE AUTO TOWING LTD",
+   "lot_address": "15700 RIVER RD",
+   "city": "RICHMOND",
+   "phone": "604-278-1106"
+ },
+ {
+   "name": "BRIDGE LAKE TOWING",
+   "lot_address": "310 MOORE AVE",
+   "city": "100 MILE HOUSE",
+   "phone": "250-593-4056"
+ },
+ {
+   "name": "BUSTER'S TOWING LTD",
+   "lot_address": "435 INDUSTRIAL AVE",
+   "city": "VANCOUVER",
+   "phone": "604-685-7246"
+ },
+ {
+   "name": "BUSTER'S TOWING",
+   "lot_address": "425 INDUSTRIAL AVE",
+   "city": "VANCOUVER",
+   "phone": "604-708-5673"
+ },
+ {
+   "name": "C.A TOWING",
+   "lot_address": "13525 SUNSHINE COAST HWY",
+   "city": "MEDEIRA PARK",
+   "phone": "604-740-1900"
+ },
+ {
+   "name": "CAPITAL TOWING SERVICES LTD",
+   "lot_address": "905 CENTENNIAL AVNEUE",
+   "city": "WHITEHORSE",
+   "phone": "867-667-2403"
+ },
+ {
+   "name": "CARE TOWING (1991) LTD",
+   "lot_address": "4505 23 AVE",
+   "city": "VERNON",
+   "phone": "250-542-0207"
+ },
+ {
+   "name": "CARIBOO TOWING",
+   "lot_address": "750 S MACKENZIE AVE",
+   "city": "WILLIAMS LAKE",
+   "phone": "250-392-2888"
+ },
+ {
+   "name": "CARIBOU SERVICE",
+   "lot_address": "5549 BURTON FRONTAGE RD",
+   "city": "BURTON",
+   "phone": "250-265-3191"
+ },
+ {
+   "name": "CENTRAL TOWING",
+   "lot_address": "10930 WESTDOWN RD",
+   "city": "LADYSMITH",
+   "phone": "250-245-4411"
+ },
+ {
+   "name": "CHANOR TRUCK & AUTO REPAIR LTD",
+   "lot_address": "1371 QUARTZ RD",
+   "city": "CACHE CREEK",
+   "phone": "250-457-6753"
+ },
+ {
+   "name": "CHARLOTTE TIRE LTD",
+   "lot_address": "605 OCEAN VIEW DR",
+   "city": "QUEEN CHARLOTTE ISLAND",
+   "phone": "250-559-4641"
+ },
+ {
+   "name": "CHESNEY TOWING",
+   "lot_address": "8646 GAUDET RD",
+   "city": "POWELL RIVER",
+   "phone": "604-413-1457"
+ },
+ {
+   "name": "CHRISTINA LAKE TOWING",
+   "lot_address": "1648 MAIDA FRONTAGE RD",
+   "city": "CHRISTINA LAKE",
+   "phone": "250-442-9477"
+ },
+ {
+   "name": "CITY MOTORS LTD",
+   "lot_address": "5951 ARBUTUS AVE",
+   "city": "POWELL RIVER",
+   "phone": "604-483-3210"
+ },
+ {
+   "name": "CITY OF NEW WEST TOWING",
+   "lot_address": "420 BOYNE ST",
+   "city": "NEW WESTMINSTER",
+   "phone": "604-519-1026"
+ },
+ {
+   "name": "CLASSIC TOWING (GOLDEN)",
+   "lot_address": "1025 11 AVE N",
+   "city": "GOLDEN",
+   "phone": "250-344-6659"
+ },
+ {
+   "name": "CLASSIC TOWING (REVELSTOKE)",
+   "lot_address": "2100 BIG EDDY RD",
+   "city": "REVELSTOKE",
+   "phone": "250-837-6216"
+ },
+ {
+   "name": "CLEARWATER TOWING LTD",
+   "lot_address": "516 SWANSON AVE",
+   "city": "CLEARWATER",
+   "phone": "250-674-3123"
+ },
+ {
+   "name": "CLOVER TOWING",
+   "lot_address": "5340 192 AVE",
+   "city": "SURREY",
+   "phone": "604-513-1900"
+ },
+ {
+   "name": "CLUB TOWING & HEAVY RECOVERY",
+   "lot_address": "505 INDUSTRIAL RD # 2",
+   "city": "INVERMERE",
+   "phone": "250-342-9551"
+ },
+ {
+   "name": "COASTLINE TOWING",
+   "lot_address": "2-1893 COULTER RD",
+   "city": "CAMPBELL RIVER",
+   "phone": "250-923-8111"
+ },
+ {
+   "name": "COLD COUNTRY TOWING (KIMBERLEY)",
+   "lot_address": "321 316 AVE ",
+   "city": "KIMBERLY",
+   "phone": "250-426-3680"
+ },
+ {
+   "name": "COLD COUNTRY TOWING (CRANBROOK)",
+   "lot_address": "3584 COLLINSON RD",
+   "city": "CRANBROOK",
+   "phone": "250-426-3680"
+ },
+ {
+   "name": "COLLISION CRAFT",
+   "lot_address": "11129 115 AVE",
+   "city": "OSOYOOS",
+   "phone": "250-495-6331"
+ },
+ {
+   "name": "COLUMBIA TOWING LTD (REVELSTOKE)",
+   "lot_address": "96 MACPHERSON AVE",
+   "city": "REVELSTOKE",
+   "phone": "250-837-9391"
+ },
+ {
+   "name": "COLUMBIA TOWING LTD (SICAMOUS)",
+   "lot_address": "729 FRONTAGE RD",
+   "city": "SICAMOUS",
+   "phone": "250-836-2000"
+ },
+ {
+   "name": "COMOX VALLEY DODGE",
+   "lot_address": "2400 COUSINS RD",
+   "city": "COURTENAY",
+   "phone": "250-338-4665"
+ },
+ {
+   "name": "COOPER'S TOWING LTD",
+   "lot_address": "1212 ALPHA LAKE RD",
+   "city": "WHISTLER",
+   "phone": "604-902-1930"
+ },
+ {
+   "name": "COQUITLAM TOWING",
+   "lot_address": "218 CAYRE ST",
+   "city": "COQUITLAM",
+   "phone": "604-939-6474"
+ },
+ {
+   "name": "DAKOTA TOWING",
+   "lot_address": "1505 HARDY AVE",
+   "city": "KELOWNA",
+   "phone": "250-300-3999"
+ },
+ {
+   "name": "DALY'S TOWING",
+   "lot_address": "10514 YOUBOU RD",
+   "city": "YOUBOU",
+   "phone": "250-745-3433"
+ },
+ {
+   "name": "DAY & NITE TOWING",
+   "lot_address": "1933 FIELD RD",
+   "city": "SECHELT",
+   "phone": "604-885-0699"
+ },
+ {
+   "name": "DEL ORO MAIRO'STOWING LTD",
+   "lot_address": "2535 JULIANN RD",
+   "city": "KELOWNA",
+   "phone": "250-769-2100"
+ },
+ {
+   "name": "DIRECT TOWING",
+   "lot_address": "4513 44 AVE NE",
+   "city": "CHETWYND",
+   "phone": "250-788-3001"
+ },
+ {
+   "name": "DOLLAR TOWING",
+   "lot_address": "312 B ENTERPRISE AVE",
+   "city": "KITIMAT",
+   "phone": "250-632-9947"
+ },
+ {
+   "name": "DON'S AUTO TOWING LTD",
+   "lot_address": "671 ATHABASCA AVE",
+   "city": "KAMLOOPS",
+   "phone": "250-374-6281"
+ },
+ {
+   "name": "DOWNTOWN SERVICE & TOWING LTD",
+   "lot_address": "750 MACKENZIE AVE  S",
+   "city": "WILLIAMS LAKE",
+   "phone": "250-392-2888"
+ },
+ {
+   "name": "DRAKE TOWING LTD",
+   "lot_address": "1553 POWELL AVE",
+   "city": "VANCOUVER",
+   "phone": "604-251-3344"
+ },
+ {
+   "name": "DUNN RIGHT TOWING & RECOVERY",
+   "lot_address": "691 MCPHEE AVE",
+   "city": "COURTENAY",
+   "phone": "250-650-8697"
+ },
+ {
+   "name": "DUNNMORE TOWING & RECOVERY",
+   "lot_address": "3447B ROYSTON RD",
+   "city": "COURTENAY",
+   "phone": "250-650-8224"
+ },
+ {
+   "name": "EAGLE EYE MARINE SERVICES",
+   "lot_address": "178 KINGS LANE",
+   "city": "SALT SPRING ISLAND",
+   "phone": "250-883-7865"
+ },
+ {
+   "name": "EAGLE ROCK TOWING (ARMSTRONG)",
+   "lot_address": "1645 EAGLE ROCK RD",
+   "city": "ARMSTRONG",
+   "phone": "250-546-8290"
+ },
+ {
+   "name": "EAGLE ROCK TOWING (SALMON ARM)",
+   "lot_address": "5270 AUTO RD",
+   "city": "ARMSTRONG",
+   "phone": "250-804-4442"
+ },
+ {
+   "name": "EAGLE ROCK TOWING (SICAMOUS)",
+   "lot_address": "901 TRANS CANADA HWY FRONTAGE RD",
+   "city": "ARMSTRONG",
+   "phone": "250-836-0333"
+ },
+ {
+   "name": "EFM TOWING",
+   "lot_address": "741 INDUSTIAL RD 2",
+   "city": "CRANBROOK",
+   "phone": "250-417-7334"
+ },
+ {
+   "name": "EISENKRIEN SERVICES LTD",
+   "lot_address": "101 EXTENSION WONOWN",
+   "city": "WONOWON",
+   "phone": "250-263-8733"
+ },
+ {
+   "name": "ENCORE TOWING & SERVICE",
+   "lot_address": "38926 PRODUCTION WAY",
+   "city": "SQUAMISH",
+   "phone": "604-892-5051"
+ },
+ {
+   "name": "EXCEPTIONAL TOWING & RECOVERY",
+   "lot_address": "1529 99TH AVE",
+   "city": "DAWSON CREEK",
+   "phone": "250-782-4845"
+ },
+ {
+   "name": "FERNIE TOW & GO LTD",
+   "lot_address": "1994 HWY 3",
+   "city": "FERNIE",
+   "phone": "250-423-7860"
+ },
+ {
+   "name": "FIRST CHOICE TOWING (2007) LTD",
+   "lot_address": "10150 ALDER CRES",
+   "city": "FORT ST JOHN",
+   "phone": "250-785-2271"
+ },
+ {
+   "name": "FRASER CANYON TOWING INC",
+   "lot_address": "48150 TRANS CANADA HWY",
+   "city": "BOSTON BAR",
+   "phone": "604-867-9113"
+ },
+ {
+   "name": "FRASER LAKE TOWING",
+   "lot_address": "13936 HIGHWAY 16 W",
+   "city": "FRASER LAKE",
+   "phone": "250-699-6132"
+ },
+ {
+   "name": "FREIGHTLINER OF CRANBROOK LTD",
+   "lot_address": "301 SLATER RD",
+   "city": "CRANBROOK",
+   "phone": "250-489-8781"
+ },
+ {
+   "name": "GAMMOND TOWING",
+   "lot_address": "31539 TELEGRAPH RD",
+   "city": "FORT FRASER",
+   "phone": "250-996-3377"
+ },
+ {
+   "name": "GARRICK AUTOMOTIVE",
+   "lot_address": "246 ALYMER RD",
+   "city": "CHASE",
+   "phone": "250-679-3167"
+ },
+ {
+   "name": "GATEWAY TOWING AND RECOVERY INC.",
+   "lot_address": "524 INDUSTRIAL PARK",
+   "city": "GOLD RIVER",
+   "phone": "250-283-9141"
+ },
+ {
+   "name": "GEM TOWING LTD",
+   "lot_address": "2359 164 AVE",
+   "city": "WHITE ROCK",
+   "phone": "604-531-8765"
+ },
+ {
+   "name": "GEORGIA STRAIGHT TOWING",
+   "lot_address": "2317 COUSINS RD",
+   "city": "COURTENAY",
+   "phone": "250-338-9899"
+ },
+ {
+   "name": "GINO'S TOWING INC",
+   "lot_address": "296 OSILINKA DR",
+   "city": "PORT COQUITLAM",
+   "phone": "250-271-4466"
+ },
+ {
+   "name": "GIVER A YANK TOWING",
+   "lot_address": "611 STEWART ST E",
+   "city": "VANDERHOOF",
+   "phone": "250-570-0077"
+ },
+ {
+   "name": "GOOD SHEPHERD TOWING",
+   "lot_address": "230 SHELLY RD",
+   "city": "PARKSVILLE",
+   "phone": "250-248-3110"
+ },
+ {
+   "name": "GRANTON MOTORS LTD",
+   "lot_address": "RR#2 SITE 140 COMP 8",
+   "city": "ROCK CREEK",
+   "phone": "250-446-2311"
+ },
+ {
+   "name": "GRASS CREEK VENTURES",
+   "lot_address": "HWY MKR 415 HWY 37 N",
+   "city": "ISKUT",
+   "phone": "250-234-3435"
+ },
+ {
+   "name": "GRCC BACKHOE TOWING",
+   "lot_address": "524 INDUSTRIAL PARK PL",
+   "city": "GOLD RIVER",
+   "phone": "250-830-1246"
+ },
+ {
+   "name": "HOGIE'S TOWING",
+   "lot_address": "2310 KIRTON AVE",
+   "city": "ARMSTRONG",
+   "phone": "250-546-3472"
+ },
+ {
+   "name": "HOPE TOWING LTD",
+   "lot_address": "1060 5 AVE",
+   "city": "HOPE",
+   "phone": "604-869-3444"
+ },
+ {
+   "name": "IRWIN COLLISION REPAIRS LTD",
+   "lot_address": "115 DESMOND CRESCENT",
+   "city": "SALTSPRING ISLAND",
+   "phone": "250-537-2513"
+ },
+ {
+   "name": "ISLAND THUNDER TOWING",
+   "lot_address": "1801 TWIN PEAKS RD",
+   "city": "PORT MCNEIL",
+   "phone": "250-956-2656"
+ },
+ {
+   "name": "J D TOWING INC",
+   "lot_address": "6585 INDUSTRIAL PARK WAY",
+   "city": "GRAND FORKS",
+   "phone": "250-442-2551"
+ },
+ {
+   "name": "JACKS TOWING (ABBOTSFORD)",
+   "lot_address": "63 WEST RAILWAY",
+   "city": "ABBOTSFORD",
+   "phone": "604-607-0772"
+ },
+ {
+   "name": "JACKS TOWING (MISSION)",
+   "lot_address": "7168 WREN ST",
+   "city": "MISSION",
+   "phone": "604-607-0772"
+ },
+ {
+   "name": "JAMIE DAVIS TOWING (GOLDEN)",
+   "lot_address": "920 KING PLACE",
+   "city": "GOLDEN",
+   "phone": "250-344-6690"
+ },
+ {
+   "name": "JAMIE DAVIS TOWING (HOPE)",
+   "lot_address": "19683 SILVER SKAGIT RD",
+   "city": "HOPE",
+   "phone": "604-869-8440"
+ },
+ {
+   "name": "JAY'S CUSTOM TOWING",
+   "lot_address": "341 KAIEN RD",
+   "city": "PRINCE RUPERT",
+   "phone": "250-624-8094"
+ },
+ {
+   "name": "JIMCO TOWING LTD",
+   "lot_address": "3982 SQUILAX ANGLEMONT HWY",
+   "city": "SCOTCH CREEK",
+   "phone": "250-319-5250"
+ },
+ {
+   "name": "KBM AUTOWORKS",
+   "lot_address": "1862 VERNON AVE",
+   "city": "LUMBY",
+   "phone": "250-547-2356"
+ },
+ {
+   "name": "KEEGZ SOUTH COUNTRY TOWING",
+   "lot_address": "1010 COMMERCIAL WAY",
+   "city": "GENELLE",
+   "phone": "250-693-8850"
+ },
+ {
+   "name": "KMB AUTOBODY",
+   "lot_address": "1527 TIE LAKE LOOP RD",
+   "city": "JAFFRAY",
+   "phone": "250-429-3413"
+ },
+ {
+   "name": "KOMAR TOWING",
+   "lot_address": "1300 TACHIE RD",
+   "city": "FORT ST JAMES",
+   "phone": "250-996-2206"
+ },
+ {
+   "name": "KOOL COUNTRY AUTO PARTS TOWING & RADS LTD",
+   "lot_address": "LOT 150 INDUSTRIAL RD #2",
+   "city": "INVERMERE",
+   "phone": "250-342-5188"
+ },
+ {
+   "name": "KOOTENAY TOWING",
+   "lot_address": "6635 HWY 31",
+   "city": "KASLO",
+   "phone": "250-353-2110"
+ },
+ {
+   "name": "L J'S TOWING & TRANSPORT",
+   "lot_address": "7519 TRANS CANADA HWY",
+   "city": "CHASE",
+   "phone": "250-679-8600"
+ },
+ {
+   "name": "LANDON TOWING",
+   "lot_address": "4800 BYNG RD",
+   "city": "PORT HARDY",
+   "phone": "250-949-6042"
+ },
+ {
+   "name": "LANE'S AUTO TOWING",
+   "lot_address": "258 GLEN RD",
+   "city": "AVOLA",
+   "phone": "250-678-2300"
+ },
+ {
+   "name": "LILLOOET AUTOBODY & TOWING",
+   "lot_address": "205 MAIN AVE",
+   "city": "LILLOOTE",
+   "phone": "250-256-4687"
+ },
+ {
+   "name": "LITTLE MOUNTAIN TOWING",
+   "lot_address": "1130 DOBLER RD",
+   "city": "ERRINGTON",
+   "phone": "250-248-1132"
+ },
+ {
+   "name": "LONG BEACH TOWING",
+   "lot_address": "#3-671 INDUSTRIAL WAY",
+   "city": "TOFINO",
+   "phone": "250-725-2030"
+ },
+ {
+   "name": "LUMBY TOWING",
+   "lot_address": "1862 VERNON AVE",
+   "city": "LUMBY",
+   "phone": "250-547-2356"
+ },
+ {
+   "name": "MAC'S TOWING (MISSION)",
+   "lot_address": "33201 LONDON AVE",
+   "city": "MISSION",
+   "phone": "604-826-9076"
+ },
+ {
+   "name": "MAC'S TOWING (NEW HAZELTON)",
+   "lot_address": "4167 15TH AVE",
+   "city": "NEW HAZELTON",
+   "phone": "250-842-5404"
+ },
+ {
+   "name": "MAPLE RIDGE TOWING",
+   "lot_address": "23283 MCKAY AVE",
+   "city": "MAPLE RIDGE",
+   "phone": "604-463-5146"
+ },
+ {
+   "name": "MARIO'S TOWING (MERRITT)",
+   "lot_address": "2636 NICOLA AVE",
+   "city": "MERRITT",
+   "phone": "250-378-9241"
+ },
+ {
+   "name": "MARIO'S TOWING (KELOWNA)",
+   "lot_address": "3015 SEXSMITH RD",
+   "city": "KELOWNA",
+   "phone": "250-765-6009"
+ },
+ {
+   "name": "MARIO'S TOWING (BOSTON BAR)",
+   "lot_address": "48150 TRANS CANADA HWY",
+   "city": "BOSTON BAR",
+   "phone": "250-295-1427"
+ },
+ {
+   "name": "MARIO'S TOWING (HOPE)",
+   "lot_address": "64211 FLOOD HOPE RD",
+   "city": "HOPE",
+   "phone": "604-860-0725"
+ },
+ {
+   "name": "MARIOS TOWING (KAMLOOPS)",
+   "lot_address": "726 CARRIER AVE",
+   "city": "KAMLOOPS",
+   "phone": "1-888-292-6054"
+ },
+ {
+   "name": "MARIOS TOWING (PRINCETON)",
+   "lot_address": "401 HWY 3",
+   "city": "PRINCETON",
+   "phone": "1-888-292-6054"
+ },
+ {
+   "name": "MASSULLO MOTORS LTD",
+   "lot_address": "4493 JOYCE AVE",
+   "city": "POWELL RIVER",
+   "phone": "604-485-7981"
+ },
+ {
+   "name": "MCBRIDES TOWING",
+   "lot_address": "9616 CHEMAINUS RD",
+   "city": "CHEMAINUS",
+   "phone": "250-246-3595"
+ },
+ {
+   "name": "ME & RON'S TOWING",
+   "lot_address": "178 KINGS LANGE",
+   "city": "GANGES",
+   "phone": "250-537-9383"
+ },
+ {
+   "name": "MECHAM SALES & SERVICE",
+   "lot_address": "1843 MACKENZIE HWY",
+   "city": "HAGENSBORG",
+   "phone": "250-982-2345"
+ },
+ {
+   "name": "MID ISLAND TOWING",
+   "lot_address": "4900 JORDAN AVE",
+   "city": "NANAIMO",
+   "phone": "250-758-1728"
+ },
+ {
+   "name": "MID-NYTES TOWING INC",
+   "lot_address": "1835 COALCHUTE RD",
+   "city": "GRAND FORKS",
+   "phone": "250-442-2233"
+ },
+ {
+   "name": "MIKES'S AUTOMOTIVE SERVICES",
+   "lot_address": "37024 97 AVE",
+   "city": "OLIVER",
+   "phone": "250-498-2004"
+ },
+ {
+   "name": "MILL BAY TOWING",
+   "lot_address": "3855B TRANS CANADA HWY",
+   "city": "COBBLE HILL",
+   "phone": "250-743-1552"
+ },
+ {
+   "name": "MISSION AUTO WRECKING (AGASSIZ)",
+   "lot_address": "7428 PIONEER AVE",
+   "city": "AGASSIZ",
+   "phone": "604-796-8697"
+ },
+ {
+   "name": "MISSION AUTO WRECKING (MISSION)",
+   "lot_address": "7143 WREN AVE",
+   "city": "MISSION",
+   "phone": "604-826-1251"
+ },
+ {
+   "name": "MITCHELL'S TOWING (VANCOUVER)",
+   "lot_address": "997 1 AVE W",
+   "city": "VANCOUVER",
+   "phone": "604-982-0115"
+ },
+ {
+   "name": "MITCHELL'S TOWING (NORTH VAN)",
+   "lot_address": "1255 WELCH ST",
+   "city": "NORTH VANCOUVER",
+   "phone": "604-982-0115"
+ },
+ {
+   "name": "MODERN TIRE & TOWING INC",
+   "lot_address": "1756 #9 HWY",
+   "city": "AGASSIZ",
+   "phone": "604-796-2611"
+ },
+ {
+   "name": "MONASHEE MOTORS LTD",
+   "lot_address": "3050 BIRCH RD",
+   "city": "VALEMOUNT",
+   "phone": "250-566-4318"
+ },
+ {
+   "name": "MUNDIES TOWING STORAGE & SERVICE LTD",
+   "lot_address": "5917 THORNE AVE",
+   "city": "BURNABY",
+   "phone": "604-526-9677"
+ },
+ {
+   "name": "MURAL TOWN AUTO SERVICE",
+   "lot_address": "3483 HENRY RD",
+   "city": "CHEMAINUS",
+   "phone": "250-246-3322"
+ },
+ {
+   "name": "NANOOSE BAY TOWING",
+   "lot_address": "1130 DOBLER RD",
+   "city": "PARKSVILLE",
+   "phone": "250-468-9700"
+ },
+ {
+   "name": "NEW WESTMINSTER TOWING & STORAGE",
+   "lot_address": "420 BOYNE AVE",
+   "city": "NEW WESTMINSTER",
+   "phone": "604-519-1026"
+ },
+ {
+   "name": "NORTH NAKUSP TOWING LTD",
+   "lot_address": "1350 13 AVE NW",
+   "city": "NAKUSP",
+   "phone": "250-265-2265"
+ },
+ {
+   "name": "NORTH RIVER TOWING (2004) LTD",
+   "lot_address": "5115 BARRIERE TOWN RD",
+   "city": "BARRIERE",
+   "phone": "250-672-0110"
+ },
+ {
+   "name": "NORTHERN CAPITAL TOWING LTD",
+   "lot_address": "1385 FOLEY CRES",
+   "city": "PRINCE GEORGE",
+   "phone": "250-563-6715"
+ },
+ {
+   "name": "O'BRIEN'S SERVICE & REPAIRS LTD",
+   "lot_address": "1007 HWY 23",
+   "city": "NAKUSP",
+   "phone": "250-265-4577"
+ },
+ {
+   "name": "O'CONNOR MOTORS LTD",
+   "lot_address": "44840 YALE RD",
+   "city": "CHILLIWACK",
+   "phone": "604-792-3170"
+ },
+ {
+   "name": "OFF ROAD AUTO BODY LTD",
+   "lot_address": "1901 HIGHWAY 99",
+   "city": "PEMBERTON",
+   "phone": "604-894-6767"
+ },
+ {
+   "name": "OK REGION TOWING",
+   "lot_address": "9403 CEDAR AVE",
+   "city": "SUMMERLAND",
+   "phone": "250-494-8697"
+ },
+ {
+   "name": "ON CALL TOWING & TRAFFIC CONTROL",
+   "lot_address": "851 YELLOWHEAD HWY S",
+   "city": "CLEARWATER",
+   "phone": "250-674-1869"
+ },
+ {
+   "name": "OTTER POINT COLLISION LTD",
+   "lot_address": "3366 OTTER POINT RD",
+   "city": "SOOKE",
+   "phone": "250-642-6488"
+ },
+ {
+   "name": "PARKSVILLE TOWING",
+   "lot_address": "440 ISLAND HWY E",
+   "city": "PARKSVILLE",
+   "phone": "250-248-9913"
+ },
+ {
+   "name": "PARTEL TOWING & RECOVERY",
+   "lot_address": "5933 200 AVE",
+   "city": "LANGLEY",
+   "phone": "604-533-4044"
+ },
+ {
+   "name": "PAYLESS TOWING LTD (NORTH VAN)",
+   "lot_address": "1385 MAIN ST ",
+   "city": "NORTH VANCOUVER",
+   "phone": "604-988-4176"
+ },
+ {
+   "name": "PAYLESS TOWING LTD (PEMBERTON)",
+   "lot_address": "1931 CARPENTER RD",
+   "city": "PEMBERTON",
+   "phone": "604-988-4176"
+ },
+ {
+   "name": "PAYLESS TOWING LTD (SQUAMISH)",
+   "lot_address": "39550 GALBRAITH AVE",
+   "city": "SQUAMISH",
+   "phone": "604-988-4176"
+ },
+ {
+   "name": "PAYLESS TOWING LTD (WHISTLER)",
+   "lot_address": "1212 ALPHA LAKE RD LOT A",
+   "city": "WHISTLER",
+   "phone": "604-988-4176"
+ },
+ {
+   "name": "PENINSULA TOWING",
+   "lot_address": "6678 BERTRAM PL",
+   "city": "SAANICHTON",
+   "phone": "250-656-6911"
+ },
+ {
+   "name": "PENTICTON TOWING LTD",
+   "lot_address": "1325 COMMERCIAL WAY",
+   "city": "PENTICTON",
+   "phone": "250-493-1991"
+ },
+ {
+   "name": "PETE'S TOWING",
+   "lot_address": "2-1893 COULTER RD",
+   "city": "CAMPBELL RIVER",
+   "phone": "250-287-2161"
+ },
+ {
+   "name": "PETRO CAN TOWING",
+   "lot_address": "2040 PENINSULA RD",
+   "city": "UCLUELET",
+   "phone": "250-726-3832"
+ },
+ {
+   "name": "PIONEER MOTORS",
+   "lot_address": "7387 PIONEER AVE",
+   "city": "AGASSIZ",
+   "phone": "604-796-9055"
+ },
+ {
+   "name": "POCO AUTO RESCUE & RECOVERY LTD",
+   "lot_address": "10-2270 TYNER ST",
+   "city": "PORT COQUITLAM",
+   "phone": "604-933-4497"
+ },
+ {
+   "name": "PRISM TOWING",
+   "lot_address": "1443 JADE AVE",
+   "city": "QUESNEL",
+   "phone": "250-992-8868"
+ },
+ {
+   "name": "PRONTO TOWING",
+   "lot_address": "2290 QUEENSWAY DR",
+   "city": "TERRACE",
+   "phone": "250-635-3113"
+ },
+ {
+   "name": "PROTOW",
+   "lot_address": "1 4505 23 AVE",
+   "city": "VERNON",
+   "phone": "250-549-2077"
+ },
+ {
+   "name": "QUIRING MOTORS (1994) LTD",
+   "lot_address": "26744 16 AVE",
+   "city": "ALDERGROVE",
+   "phone": "604-856-8721"
+ },
+ {
+   "name": "RELIABLE TOWING (MISSION)",
+   "lot_address": "7168 WREN AVE",
+   "city": "MISSION",
+   "phone": "604-826-8621"
+ },
+ {
+   "name": "RELIABLE TOWING (MERRITT)",
+   "lot_address": "1141 MCFARLANE WAY",
+   "city": "MERRITT",
+   "phone": "250-378-5000"
+ },
+ {
+   "name": "REZILLIANT TOWING (FORT NELSON)",
+   "lot_address": "4900 44 AVE",
+   "city": "FORT NELSON",
+   "phone": "250-774-8697"
+ },
+ {
+   "name": "REZILLIANT TOWING (FORT ST JOHN)",
+   "lot_address": "10147 TUNDRA ST.",
+   "city": "FORT ST JOHN",
+   "phone": "250-793-7139"
+ },
+ {
+   "name": "RICH BOYZ MECHANICAL LTD",
+   "lot_address": "1098 N/E FRONTAGE RD",
+   "city": "MCBRIDE",
+   "phone": "250-569-2470"
+ },
+ {
+   "name": "ROADHOUSE TOWING LTD",
+   "lot_address": "517 TRANS CANADA HWY S",
+   "city": "CACHE CREEK",
+   "phone": "250-457-9594"
+ },
+ {
+   "name": "ROADKILL TOWING (QUADRA)",
+   "lot_address": "684 PLAZA RD",
+   "city": "QUADRA ISLAND",
+   "phone": "250-287-1686"
+ },
+ {
+   "name": "ROADWAY TOWING",
+   "lot_address": "7391 PROGRESS PL",
+   "city": "DELTA",
+   "phone": "604-940-0329"
+ },
+ {
+   "name": "ROBERT'S TOWING",
+   "lot_address": "6233 WILDMARE RD",
+   "city": "CHETWYND",
+   "phone": "250-788-9194"
+ },
+ {
+   "name": "RON'S TOWING",
+   "lot_address": "1360 FOLEY CRES",
+   "city": "PRINCE GEORGE",
+   "phone": "250-564-8444"
+ },
+ {
+   "name": "ROOKZ'S AUTO BODY LTD.",
+   "lot_address": "1994 HIGHWAY #3",
+   "city": "FERNIE",
+   "phone": "250-423-7900"
+ },
+ {
+   "name": "RUPERT TOWING",
+   "lot_address": "101 SHAWATLAN RD",
+   "city": "PRINCE RUPERT",
+   "phone": "250-624-2722"
+ },
+ {
+   "name": "RUSTY'S TOWING",
+   "lot_address": "15700 RIVER RD",
+   "city": "RICHMOND",
+   "phone": "604-273-1645"
+ },
+ {
+   "name": "SCRAP KING AUTO WRECKING & TOWING",
+   "lot_address": "1660 AIRPORT RD",
+   "city": "SALMO",
+   "phone": "250-357-2091"
+ },
+ {
+   "name": "SEELEY LAKE SERVICE LTD",
+   "lot_address": "3060 HWY 62",
+   "city": "HAZELTON",
+   "phone": "250-842-6465"
+ },
+ {
+   "name": "SKOOKUM TOWING LTD",
+   "lot_address": "414 FOUNTAIN VALLLEY RD",
+   "city": "LILLOOET",
+   "phone": "250-256-4789"
+ },
+ {
+   "name": "SMOKEY CREEK SALVAGE LTD",
+   "lot_address": "3453 YEATMAN RD",
+   "city": "SOUTH SLOCAN",
+   "phone": "250-359-7815"
+ },
+ {
+   "name": "SOOKE TOWING",
+   "lot_address": "3366 OTTERPOINT RD",
+   "city": "SOOKE",
+   "phone": "250-642-3171"
+ },
+ {
+   "name": "SORRENTO TOWING & RECOVERY",
+   "lot_address": "2827 HILLTOP RD",
+   "city": "SORRENTO",
+   "phone": "250-833-7722"
+ },
+ {
+   "name": "SOUTHVIEW AUTO TOWING LTD",
+   "lot_address": "15700 RIVER RD",
+   "city": "RICHMOND",
+   "phone": "604-435-7211"
+ },
+ {
+   "name": "SPARWOOD TOWING (RIDGEMONT AVE)",
+   "lot_address": "INDUSTRIAL 3 RD",
+   "city": "SPARWOOD",
+   "phone": "250-425-2721"
+ },
+ {
+   "name": "SPARWOOD TOWING (SHADOW DR)",
+   "lot_address": "25 SHADOW DR",
+   "city": "SPARWOOD",
+   "phone": "250-425-2721"
+ },
+ {
+   "name": "SPECIALIZED TOWING LIMITED",
+   "lot_address": "150 GLACIER AVE",
+   "city": "COQUITLAM",
+   "phone": "604-209-9917"
+ },
+ {
+   "name": "SPEEDWAY TOWING",
+   "lot_address": "755 WILLOW RD",
+   "city": "VANDERHOOF",
+   "phone": "250-570-8844"
+ },
+ {
+   "name": "SUMMERLAND TOWING",
+   "lot_address": "1325 COMMERCIAL WAY",
+   "city": "SUMMERLAND",
+   "phone": "250-493-1991"
+ },
+ {
+   "name": "SUNSHINE COAST AUTO TOWING LTD",
+   "lot_address": "5880 SECHELT INLET RD",
+   "city": "SECHELT",
+   "phone": "604-740-3939"
+ },
+ {
+   "name": "TERRY'S TOWING SERVICE",
+   "lot_address": "252 1 AVE",
+   "city": "TRAIL",
+   "phone": "250-368-0070"
+ },
+ {
+   "name": "THUNDER VALLEY TOWING",
+   "lot_address": "1455 5 AVE",
+   "city": "MCBRIDE",
+   "phone": "250-569-7007"
+ },
+ {
+   "name": "TIGER TOWING",
+   "lot_address": "4860 TRANS CANADA HWY",
+   "city": "DUNCAN",
+   "phone": "250-701-8697"
+ },
+ {
+   "name": "TIGER TOWING LTD (DUNCAN)",
+   "lot_address": "4860 TRANS CANADA HWY",
+   "city": "DUNCAN",
+   "phone": "250-701-8697"
+ },
+ {
+   "name": "TJ'S TOWING & STORAGE",
+   "lot_address": "1301 RAILWAY AVE",
+   "city": "FERNIE",
+   "phone": "250-423-1646"
+ },
+ {
+   "name": "TLC AUTOMOTIVE SERVICES LTD",
+   "lot_address": "1981 COLLISION AVE",
+   "city": "MASSET",
+   "phone": "250-626-3756"
+ },
+ {
+   "name": "TOTEM TOWING",
+   "lot_address": "3333 TENNYSON AVE",
+   "city": "VICTORIA",
+   "phone": "250-475-3211"
+ },
+ {
+   "name": "TYLER'S TOWING",
+   "lot_address": "3612 VICTORIA DR",
+   "city": "SMITHERS",
+   "phone": "250-847-2413"
+ },
+ {
+   "name": "UNITED TOWING SERVICES INC",
+   "lot_address": "1025 10 AVE NORTH",
+   "city": "GOLDEN",
+   "phone": "250-344-5900"
+ },
+ {
+   "name": "UNITOW (SURREY)",
+   "lot_address": "13065 76 AVE",
+   "city": "SURREY",
+   "phone": "604-592-1255"
+ },
+ {
+   "name": "UNITOW (VANCOUVER)",
+   "lot_address": "1717 VERNON DR",
+   "city": "VANCOUVER",
+   "phone": "604-659-1255"
+ },
+ {
+   "name": "USHER'S TOWING",
+   "lot_address": "101 11129 115 AVE",
+   "city": "OSOYOOS",
+   "phone": "250-495-7752"
+ },
+ {
+   "name": "VAN HORNE TOWING (2000) LTD",
+   "lot_address": "412 COBHAM AVE W",
+   "city": "CRANBROOK",
+   "phone": "250-426-4243"
+ },
+ {
+   "name": "VERNON AUTO TOWING LTD",
+   "lot_address": "4617 B 34 AVE",
+   "city": "VERNON",
+   "phone": "250-545-2311"
+ },
+ {
+   "name": "WALLY'S AUTOBODY LTD",
+   "lot_address": "8832 YOUNG RD",
+   "city": "CHILLIWACK",
+   "phone": "604-795-9108"
+ },
+ {
+   "name": "WALTS TOWING",
+   "lot_address": "694 GIBSONS WAY",
+   "city": "GIBSONS",
+   "phone": "604-886-9500"
+ },
+ {
+   "name": "WARBRICK TOWING & SALVAGE",
+   "lot_address": "170 HWY 93/95",
+   "city": "INVERMERE",
+   "phone": "250-342-5851"
+ },
+ {
+   "name": "WAYNE'S TOWING LTD",
+   "lot_address": "140 METLAKATLA RD",
+   "city": "PRINCE RUPERT",
+   "phone": "250-627-6166"
+ },
+ {
+   "name": "WESTSHORE TOWING",
+   "lot_address": "1247 PARKDALE DR",
+   "city": "VICTORIA",
+   "phone": "250-474-1369"
+ },
+ {
+   "name": "WESTERN AUTOWRECKERS LTD",
+   "lot_address": "2374 GRANITE RD",
+   "city": "NELSON",
+   "phone": "250-354-4802"
+ },
+ {
+   "name": "WHISTLER TOWING LTD",
+   "lot_address": "1212 ALPHA LAKE RD LOT A",
+   "city": "WHISTLER",
+   "phone": "604-966-8535"
+ },
+ {
+   "name": "WHITE KNIGHT AUTO RESCUE LTD",
+   "lot_address": "601 BASS AVE",
+   "city": "ENDERBY",
+   "phone": "250-838-6402"
+ },
+ {
+   "name": "WRENCH BENDER TOWING (2004)",
+   "lot_address": "8898 SHAUGHNESSY AVE",
+   "city": "CANAL FLATS",
+   "phone": "250-349-5655"
+ },
+ {
+   "name": "ZIGGY'S TOWING",
+   "lot_address": "3558 VICTORIA DR",
+   "city": "SMITHERS",
+   "phone": "250-877-8687"
+ }
 ]

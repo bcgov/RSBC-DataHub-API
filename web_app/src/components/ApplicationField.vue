@@ -2,7 +2,7 @@
 <div v-if="visible" class="form-group" :class="fg_class">
     <label v-if="show_label" :for="id"><slot></slot>
     </label>
-    <input type="text"
+    <input :type="input_type"
          class="form-control"
            :class="localErrors.length > 0 ? 'border-danger bg-warning' : ''"
          :id="id"
@@ -43,6 +43,10 @@ export default {
       type: Boolean,
       default: true
     },
+    input_type: {
+      type: String,
+      default: 'text'
+    }
   },
   computed: {
     localErrors() {

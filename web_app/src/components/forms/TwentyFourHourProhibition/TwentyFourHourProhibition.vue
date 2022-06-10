@@ -2,16 +2,23 @@
   <form-container title="Notice of 24 Hour Licence Prohibition" v-if="isMounted">
     <validation-observer v-slot="{handleSubmit, validate}">
       <form @submit.prevent="handleSubmit(onSubmit(validate))">
-        <drivers-information-card></drivers-information-card>
-        <vehicle-information-card></vehicle-information-card>
-        <vehicle-owner-card></vehicle-owner-card>
-        <vehicle-impoundment-card></vehicle-impoundment-card>
-        <return-of-licence-card></return-of-licence-card>
-        <prohibition-information-card></prohibition-information-card>
-        <reasonable-grounds-card></reasonable-grounds-card>
-        <test-administered-alcohol-card v-if="isPrescribedTestUsed && isProhibitionTypeAlcohol"></test-administered-alcohol-card>
-        <test-administered-drugs-card v-if="isPrescribedTestUsed && isProhibitionTypeDrugs"></test-administered-drugs-card>
-        <officer-details-card></officer-details-card>
+        <drivers-information-card :path="getPath"></drivers-information-card>
+        <vehicle-information-card :path="getPath"></vehicle-information-card>
+        <vehicle-owner-card :path="getPath"></vehicle-owner-card>
+        <vehicle-impoundment-card :path="getPath"></vehicle-impoundment-card>
+        <return-of-licence-card :path="getPath"></return-of-licence-card>
+        <prohibition-information-card :path="getPath"></prohibition-information-card>
+        <reasonable-grounds-card :path="getPath"></reasonable-grounds-card>
+        <test-administered-alcohol-card :path="getPath + '/alcohol'"
+                                        v-if="doesAttributeExist(getPath, 'prohibition_type_alcohol')
+                                        && doesAttributeExist(getPath, 'prescribed_device_yes')">
+
+        </test-administered-alcohol-card>
+        <test-administered-drugs-card :path="getPath + '/drugs'"
+                                      v-if="doesAttributeExist(getPath, 'prohibition_type_drugs')
+                                        && doesAttributeExist(getPath, 'prescribed_device_yes')">
+        </test-administered-drugs-card>
+        <officer-details-card :path="getPath"></officer-details-card>
         <form-card title="Generate PDF for Printing">
           <div class="d-flex">
             <print-documents
@@ -31,7 +38,7 @@
 <script>
 
 import FormsCommon from "@/components/forms/FormsCommon";
-import {mapActions, mapGetters, mapMutations} from 'vuex';
+import {mapGetters} from 'vuex';
 import PrintDocuments from "../PrintDocuments";
 import DriversInformationCard from "@/components/forms/TwentyFourHourProhibition/DriversInformationCard";
 import OfficerDetailsCard from "@/components/forms/OfficerDetailsCard";
@@ -68,15 +75,10 @@ export default {
         "getCurrentlyEditedFormData",
         "getCurrentlyEditedFormObject",
         "getCurrentlyEditedForm",
-        "corporateOwner"]),
-    isProhibitionTypeDrugs() {
-      return this.getAttributeValue('prohibition_type') === "Drugs 215(3)";
-    },
-    isProhibitionTypeAlcohol() {
-      return this.getAttributeValue('prohibition_type') === "Alcohol 215(2)";
-    },
+        "doesAttributeExist"]),
+
     isPrescribedTestUsed() {
-      return this.getAttributeValue('prescribed_device').substr(0,3) === "Yes";
+      return this.getAttributeValue(this.getPath, 'prescribed_device') === "Yes";
     }
   },
   props: {
@@ -91,10 +93,6 @@ export default {
     this.setNewFormDefaults(payload)
     this.data = this.getCurrentlyEditedFormData
     this.isMounted = true
-  },
-  methods: {
-    ...mapMutations(["setFormAsPrinted"]),
-    ...mapActions(["saveFormAndGeneratePDF"]),
   }
 }
 </script>

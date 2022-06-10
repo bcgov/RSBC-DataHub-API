@@ -24,22 +24,19 @@
 <script>
 
 import FieldCommon from "@/components/questions/FieldCommon";
-import {mapGetters, mapMutations} from 'vuex';
+import {mapGetters} from 'vuex';
 import moment from 'moment';
 
 export default {
   name: "DoBField",
   mixins: [FieldCommon],
-  methods: {
-    ...mapMutations(['updateFormField']),
-  },
   computed: {
     ...mapGetters(["getAttributeValue", "hasFormBeenPrinted"]),
     yearsOld() {
-      return moment().diff(moment(this.getAttributeValue(this.id)), 'years')
+      return moment().diff(moment(this.getAttributeValue(this.path, this.id)), 'years')
     },
     isValidDate() {
-      return moment(this.getAttributeValue(this.id)).isValid()
+      return moment(this.getAttributeValue(this.path, this.id)).isValid()
     },
   }
 

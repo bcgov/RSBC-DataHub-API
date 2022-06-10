@@ -1,5 +1,6 @@
 import moment from "moment";
 import constants from "../config/constants";
+import nestedFunctions from "@/helpers/nestedFunctions";
 
 export const getters = {
 
@@ -43,6 +44,10 @@ export const getters = {
         return state.forms[form_type][form_id].data;
     },
 
+    getForm: state => (form_type, form_id) => {
+        return state.forms[form_type][form_id];
+    },
+
     getCurrentlyEditedFormData: state => {
         let form_object = state.currently_editing_form_object;
         let root = state.forms[form_object.form_type][form_object.form_id]
@@ -54,22 +59,27 @@ export const getters = {
         return state.forms[form_object.form_type][form_object.form_id]
     },
 
-    getAttributeValue: state => id => {
-        let form_object = state.currently_editing_form_object;
-        let root = state.forms[form_object.form_type][form_object.form_id].data;
-        if (!(id in root)) {
-            return '';
-        }
-        return root[id];
+    getAttributeValue: state => (path, id) => {
+        let pathArray = path.split("/")
+        pathArray.push(id)
+        return nestedFunctions.getProp(state, pathArray)
     },
 
-    checkBoxStatus: state => (id, value) => {
-        let form_object = state.currently_editing_form_object;
-        let root = state.forms[form_object.form_type][form_object.form_id].data;
-        if (!(id in root)) {
-            return false;
+    doesAttributeExist: state => (path, id) => {
+        let pathArray = path.split("/")
+        pathArray.push(id)
+        const value = nestedFunctions.getProp(state, pathArray)
+        return value !== undefined
+    },
+
+    checkBoxStatus: state => (path, id, value) => {
+        let pathArray = path.split("/")
+        pathArray.push(id)
+        const stateValue = nestedFunctions.getProp(state, pathArray)
+        if (stateValue) {
+            return stateValue.includes(value)
         }
-        return root[id].includes(value);
+        return false
     },
 
     getArrayOfBCCityNames: state => {
@@ -159,21 +169,8 @@ export const getters = {
         return state.form_schemas.forms[form_type].documents;
     },
 
-    getPagesToPrint: (state, getters) => form_object => {
-        let variantList = state.form_schemas.forms[form_object.form_type].documents['all'].variants;
-        if ( ! getters.isVehicleImpounded(form_object)) {
-            // remove page for impound lot operator if vehicle not impounded
-            const index = variantList.indexOf("ilo");
-            if (index > -1) {
-              variantList.splice(index, 1);
-            }
-            return variantList
-        }
-        return variantList
-    },
-
-    isVehicleImpounded: state => form_object => {
-        return state.forms[form_object.form_type][form_object.form_id].data.vehicle_impounded === "Yes"
+    isVehicleImpounded: (state, getters) => path => {
+        return getters.doesAttributeExist(path, "vehicle_impounded_yes")
     },
 
     getArrayOfJurisdictions: state => {
@@ -182,6 +179,18 @@ export const getters = {
 
     getArrayOfProvinces: state => {
         return state.provinces;
+    },
+
+    getArrayOfProvinceNames: state => {
+        return state.provinces.map( o => o.objectDsc );
+    },
+
+    getProvinceObjectByName: state => name => {
+        const results =  state.provinces.filter( o => o.objectDsc === name);
+        if (results.length > 0) {
+            return results[0]
+        }
+        return {}
     },
 
     getImpoundLotOperatorObject: state => ilo_string => {
@@ -238,20 +247,14 @@ export const getters = {
         return false;
     },
 
-    corporateOwner: state => {
-        let form_object = state.currently_editing_form_object;
-        let root = state.forms[form_object.form_type][form_object.form_id].data;
-        if( ! root['corporate_owner']) {
-            return false;
-        }
-        return root['corporate_owner'].includes("Owned by corporate entity")
-    },
-
-    areNewUniqueIdsRequiredByType: (state, getters) => form_type => {
-        console.log("inside areNewUniqueIdsRequiredByType", form_type)
+    getNumberOfUniqueIdsRequired: (state, getters) => form_type => {
         // Business rules state that X number of forms must be available to use offline
-        return state.form_schemas.forms[form_type].disabled === false
-            && getters.getFormTypeCount[form_type] < constants.MINIMUM_NUMBER_OF_UNIQUE_IDS_PER_TYPE
+        const numberRequired = constants.MINIMUM_NUMBER_OF_UNIQUE_IDS_PER_TYPE - getters.getFormTypeCount[form_type];
+        if (state.form_schemas.forms[form_type].disabled || numberRequired <= 0) {
+            return 0
+        } else {
+            return numberRequired
+        }
     },
 
     getFormTypeCount: state => {
@@ -467,37 +470,37 @@ export const getters = {
         return ! getters.isAppAvailableToWorkOffline && ! getters.isUserAuthenticated && state.keycloak.ready;
     },
 
-    isTestAdministeredADSE: (state, getters) => {
-      const root = getters.getAttributeValue('test_administered_adse')
+    isTestAdministeredADSE: (state, getters) => (path) =>  {
+      const root = getters.getAttributeValue(path,'test_administered_adse')
       if (Array.isArray(root)) {
         return root.includes("Approved Drug Screening Equipment")
       }
       return false;
     },
-    isTestAdministeredSFST: (state, getters) => {
-      const root = getters.getAttributeValue('test_administered_sfst')
+    isTestAdministeredSFST: (state, getters) => (path) =>  {
+      const root = getters.getAttributeValue(path,'test_administered_sfst')
       if (Array.isArray(root)) {
         return root.includes("Prescribed Physical Coordination Test (SFST)")
       }
       return false;
     },
-    isTestAdministeredDRE: (state, getters) => {
-      const root = getters.getAttributeValue('test_administered_dre')
+    isTestAdministeredDRE: (state, getters) => (path) =>  {
+      const root = getters.getAttributeValue(path,'test_administered_dre')
       if (Array.isArray(root)) {
         return root.includes("Prescribed Physical Coordination Test (DRE)")
       }
       return false;
     },
 
-    isTestAdministeredASD: (state, getters) => {
-      const root = getters.getAttributeValue('test_administered_asd')
+    isTestAdministeredASD: (state, getters) => (path) =>  {
+      const root = getters.getAttributeValue(path, 'test_administered_asd')
       if (Array.isArray(root)) {
         return root.includes("Alco-Sensor FST (ASD)")
       }
       return false;
     },
-    isTestAdministeredApprovedInstrument: (state, getters) => {
-      const root = getters.getAttributeValue('test_administered_instrument')
+    isTestAdministeredApprovedInstrument: (state, getters) => (path) => {
+      const root = getters.getAttributeValue(path, 'test_administered_instrument')
       if (Array.isArray(root)) {
         return root.includes("Approved Instrument")
       }
@@ -522,6 +525,10 @@ export const getters = {
             return ''
         }
     },
+
+    getCurrentUserObject: state => {
+        return state.users
+    }
 
 
 }

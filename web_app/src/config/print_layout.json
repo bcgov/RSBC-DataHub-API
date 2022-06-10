@@ -1,23 +1,20 @@
 {
   "VI": {
-    "orientation": "p",
     "units": "mm",
-    "format": "letter",
     "fields": {
       "BAR_CODE": {
         "field_type": "barcode",
-        "font_size": 42,
         "function": "getFormIdForBarCode",
         "parameters": "",
         "start": {
-          "x": 77,
-          "y": 14
+          "x": 67,
+          "y": 15
         }
       },
       "VIOLATION_NUMBER": {
         "field_type": "text",
         "font_size": 20,
-        "function": "getFormattedFormId",
+        "function": "getFormIdWithCheckDigit",
         "parameters": "",
         "start": {
           "x": 99,
@@ -37,8 +34,8 @@
       "MV2721_DRIVER_DOB": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getDateValue",
-        "parameters": "dob",
+        "function": "getFormattedDate",
+        "parameters": ["dob", "YYYY-MM-DD"],
         "start": {
           "x": 150,
           "y": 35
@@ -97,8 +94,8 @@
       "MV2721_DRIVER_IS_OWNER": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["driver_is_owner", true],
+        "function": "isExists",
+        "parameters": "driver_is_owner_true",
         "start": {
           "x": 18,
           "y": 56
@@ -108,7 +105,7 @@
         "field_type": "text",
         "font_size": 12,
         "function": "getValuesConcatenatedWithCommas",
-        "parameters": ["owners_last_name", "owners_first_name"],
+        "parameters": ["corp_owner_false/owners_last_name", "corp_owner_false/owners_first_name", "corp_owner_true/name"],
         "start": {
           "x": 18,
           "y": 66
@@ -117,8 +114,8 @@
       "MV2721_OWNER_DOB": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getDateValue",
-        "parameters": "owner_dob",
+        "function": "getFormattedDate",
+        "parameters": ["owner_dob", "YYYY-MM-DD"],
         "start": {
           "x": 167,
           "y": 66
@@ -157,7 +154,7 @@
       "MV2721_OWNER_PHONE_AREA_CODE": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getPhoneAreaCodeValue",
+        "function": "getAreaCode",
         "parameters": "owners_phone",
         "start": {
           "x": 18,
@@ -167,7 +164,7 @@
       "MV2721_OWNER_PHONE_NUMBER": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getPhoneValue",
+        "function": "getPhone",
         "parameters": "owners_phone",
         "start": {
           "x": 40,
@@ -258,8 +255,8 @@
       "MV2721_IS_VEHICLE_NSC": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getIsChecked",
-        "parameters": ["is_nsc", "NSC?"],
+        "function": "isExists",
+        "parameters": "is_nsc_nsc",
         "start": {
           "x": 60,
           "y": 118
@@ -278,8 +275,8 @@
       "MV2721_NOTICE_DATE": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getDateValue",
-        "parameters": "prohibition_start_date",
+        "function": "getFormattedDate",
+        "parameters": ["prohibition_start_date", "YYYY-MM-DD"],
         "start": {
           "x": 98,
           "y": 133
@@ -288,8 +285,8 @@
       "MV2721_NOTICE_TIME": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getStringValue",
-        "parameters": "prohibition_start_time",
+        "function": "getFormattedTime",
+        "parameters": ["prohibition_start_time", "HH:mm"],
         "start": {
           "x": 21,
           "y": 141
@@ -318,8 +315,8 @@
       "MV2721_IMPOUNDMENT_DURATION_3": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["impound_duration_3", true],
+        "function": "isExists",
+        "parameters": "impound_duration_3_true",
         "start": {
           "x": 18,
           "y": 163
@@ -328,8 +325,8 @@
       "MV2721_IMPOUNDMENT_DURATION_7": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["impound_duration_7", true],
+        "function": "isExists",
+        "parameters": "impound_duration_7_true",
         "start": {
           "x": 60,
           "y": 163
@@ -338,8 +335,8 @@
       "MV2721_IMPOUNDMENT_DURATION_30": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["impound_duration_30", true],
+        "function": "isExists",
+        "parameters": "impound_duration_30_true",
         "start": {
           "x": 105,
           "y": 163
@@ -358,8 +355,8 @@
       "MV2721_REASON_EXCESSIVE_SPEED": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_excessive_speed", true],
+        "function": "isExists",
+        "parameters": "reason_excessive_speed_true",
         "start": {
           "x": 18,
           "y": 178
@@ -368,8 +365,8 @@
       "MV2721_REASON_PROHIBITED": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_prohibited", true],
+        "function": "isExists",
+        "parameters": "reason_prohibited_true",
         "start": {
           "x": 18,
           "y": 182
@@ -378,8 +375,8 @@
       "MV2721_REASON_SUSPENDED": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_suspended", true],
+        "function": "isExists",
+        "parameters": "reason_suspended_true",
         "start": {
           "x": 18,
           "y": 186
@@ -388,8 +385,8 @@
       "MV2721_REASON_RACING": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_racing", true],
+        "function": "isExists",
+        "parameters": "reason_racing_true",
         "start": {
           "x": 18,
           "y": 190
@@ -398,8 +395,8 @@
       "MV2721_REASON_STUNT_DRIVING": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_stunt", true],
+        "function": "isExists",
+        "parameters": "reason_stunt_true",
         "start": {
           "x": 18,
           "y": 195.3
@@ -408,8 +405,8 @@
       "MV2721_REASON_MOTORCYCLE_SEATING": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_motorcycle_seating", true],
+        "function": "isExists",
+        "parameters": "reason_motorcycle_seating_true",
         "start": {
           "x": 18,
           "y": 199.3
@@ -418,8 +415,8 @@
       "MV2721_REASON_MOTORCYCLE_RESTRICTIONS": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_motorcycle_restrictions", true],
+        "function": "isExists",
+        "parameters": "reason_motorcycle_restrictions_true",
         "start": {
           "x": 18,
           "y": 204
@@ -428,8 +425,8 @@
       "MV2721_REASON_UNLICENSED": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_unlicensed", true],
+        "function": "isExists",
+        "parameters": "reason_unlicensed_true",
         "start": {
           "x": 18,
           "y": 208
@@ -439,7 +436,7 @@
         "field_type": "text",
         "font_size": 12,
         "function": "getStringValue",
-        "parameters": "ul_prohibition_number",
+        "parameters": "reason_unlicensed_true/ul_prohibition_number",
         "start": {
           "x": 162,
           "y": 213
@@ -448,8 +445,8 @@
       "MV2721_IMPOUND_DATE": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getDateValue",
-        "parameters": "impounded_dt",
+        "function": "getFormattedDate",
+        "parameters": ["impounded_dt", "YYYY-MM-DD"],
         "start": {
           "x": 60,
           "y": 227
@@ -458,8 +455,8 @@
       "MV2721_IMPOUND_LOT_NAME": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getImpoundLotOperator",
-        "parameters": "name",
+        "function": "getStringValue",
+        "parameters": "impound_lot_operator/name",
         "start": {
           "x": 119,
           "y": 228
@@ -468,8 +465,8 @@
       "MV2721_IMPOUND_LOT_ADDRESS": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getImpoundLotOperator",
-        "parameters": "lot_address",
+        "function": "getStringValue",
+        "parameters": "impound_lot_operator/lot_address",
         "start": {
           "x": 18,
           "y": 239
@@ -478,8 +475,8 @@
       "MV2721_IMPOUND_LOT_CITY": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getImpoundLotOperator",
-        "parameters": "city",
+        "function": "getStringValue",
+        "parameters": "impound_lot_operator/city",
         "start": {
           "x": 88,
           "y": 239
@@ -488,8 +485,8 @@
       "MV2721_IMPOUND_LOT_PHONE": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getImpoundLotOperator",
-        "parameters": "phone",
+        "function": "getStringValue",
+        "parameters": "impound_lot_operator/phone",
         "start": {
           "x": 148,
           "y": 239
@@ -548,8 +545,8 @@
       "MV2722_REPORT_DATE": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getDateValue",
-        "parameters": "prohibition_start_date",
+        "function": "getFormattedDate",
+        "parameters": ["prohibition_start_date", "YYYY-MM-DD"],
         "start": {
           "x": 62,
           "y": 28
@@ -578,8 +575,8 @@
       "MV2722_SUSPECTED_BC_RESIDENT": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["suspected_bc_resident", "Yes"],
+        "function": "isExists",
+        "parameters": "reason_unlicensed_true/suspected_bc_resident_yes",
         "start": {
           "x": 18,
           "y": 66
@@ -588,8 +585,8 @@
       "MV2722_UL_OUT_OF_PROVINCE": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "isUnlicensedAndOutOfProvince",
-        "parameters": "",
+        "function": "isExistsAndNotBc",
+        "parameters": ["reason_unlicensed_true", "drivers_licence_jurisdiction/objectCd"],
         "start": {
           "x": 18,
           "y": 75
@@ -598,8 +595,9 @@
       "MV2722_UL_DRIVER_DL_NUMBER": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getStringIfUnlicensedAndOutOfProvince",
-        "parameters": "drivers_number",
+        "function": "conditionalAndNotBcGetString",
+        "parameters": ["reason_unlicensed_true", "drivers_licence_jurisdiction/objectCd", "drivers_number" ],
+
         "start": {
           "x": 61,
           "y": 75
@@ -608,8 +606,8 @@
       "MV2722_DRIVER_DL_PROVINCE": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getJurisdictionIfUnlicensedAndOutOfProvince",
-        "parameters": "drivers_licence_jurisdiction",
+        "function": "conditionalAndNotBcGetString",
+        "parameters": ["reason_unlicensed_true", "drivers_licence_jurisdiction/objectCd", "drivers_licence_jurisdiction/objectCd" ],
         "start": {
           "x": 153,
           "y": 75
@@ -618,8 +616,8 @@
       "MV2722_DRIVER_DL_EXPIRY": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getStringIfUnlicensedAndOutOfProvince",
-        "parameters": "expiry_year",
+        "function": "conditionalAndNotBcGetString",
+        "parameters": ["reason_unlicensed_true", "drivers_licence_jurisdiction/objectCd", "expiry_year" ],
         "start": {
           "x": 185,
           "y": 75
@@ -628,8 +626,8 @@
       "MV2722_LINKAGE_KEYS": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["linkage_keys", true],
+        "function": "isExists",
+        "parameters": "linkage_keys_true",
         "start": {
           "x": 17,
           "y": 90
@@ -639,7 +637,7 @@
         "field_type": "text",
         "font_size": 8,
         "function": "getStringValue",
-        "parameters": "vehicle_key_linkage",
+        "parameters": "linkage_keys_true/note",
         "start": {
           "x": 56,
           "y": 90
@@ -648,8 +646,8 @@
       "MV2722_LINKAGE_OPERATOR": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["linkage_principal_operator", true],
+        "function": "isExists",
+        "parameters": "linkage_principal_operator_true",
         "start": {
           "x": 17,
           "y": 95
@@ -658,8 +656,8 @@
       "MV2722_LINKAGE_WITHIN":  {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["linkage_owner_within", true],
+        "function": "isExists",
+        "parameters": "linkage_owner_within_true",
         "start": {
           "x": 17,
           "y": 100
@@ -668,8 +666,8 @@
       "MV2722_LINKAGE_AWARE": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["linkage_owner_aware", true],
+        "function": "isExists",
+        "parameters": "linkage_owner_aware_true",
         "start": {
           "x": 17,
           "y": 105
@@ -678,8 +676,8 @@
       "MV2722_LINKAGE_TRANSFER": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["linkage_transfer", true],
+        "function": "isExists",
+        "parameters": "linkage_transfer_true",
         "start": {
           "x": 17,
           "y": 110
@@ -688,8 +686,8 @@
       "MV2722_LINKAGE_OTHER": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["linkage_other", true],
+        "function": "isExists",
+        "parameters": "linkage_other_true",
         "start": {
           "x": 17,
           "y": 115
@@ -698,7 +696,7 @@
       "MV2722_IS_IRP": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getIsFieldPopulated",
+        "function": "isExists",
         "parameters": "ipr_number",
         "start": {
           "x": 18,
@@ -708,8 +706,8 @@
       "MV2722_IS_EXCESSIVE_SPEED": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_excessive_speed", true],
+        "function": "isExists",
+        "parameters": "reason_excessive_speed_true",
         "start": {
           "x": 18,
           "y": 137
@@ -719,7 +717,7 @@
         "field_type": "text",
         "font_size": 12,
         "function": "getStringValue",
-        "parameters": "speed_limit",
+        "parameters": "reason_excessive_speed_true/speed_limit",
         "start": {
           "x": 77,
           "y": 137
@@ -729,7 +727,7 @@
         "field_type": "text",
         "font_size": 12,
         "function": "getStringValue",
-        "parameters": "vehicle_speed",
+        "parameters": "reason_excessive_speed_true/vehicle_speed",
         "start": {
           "x": 133,
           "y": 137
@@ -738,8 +736,8 @@
       "MV2722_SPEED_IS_VISUAL": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getIsChecked",
-        "parameters": ["speed_estimated", "Visual"],
+        "function": "isExists",
+        "parameters": "reason_excessive_speed_true/speed_estimated_visual",
         "start": {
           "x": 55,
           "y": 144
@@ -748,8 +746,8 @@
       "MV2722_SPEED_IS_PACING": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getIsChecked",
-        "parameters": ["speed_estimated", "Pacing"],
+        "function": "isExists",
+        "parameters": "reason_excessive_speed_true/speed_estimated_pacing",
         "start": {
           "x": 79,
           "y": 144
@@ -758,8 +756,8 @@
       "MV2722_SPEED_IS_LASER": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getIsChecked",
-        "parameters": ["speed_confirmed", "Laser"],
+        "function": "isExists",
+        "parameters": "reason_excessive_speed_true/speed_confirmed_laser",
         "start": {
           "x": 55,
           "y": 149
@@ -768,8 +766,8 @@
       "MV2722_SPEED_IS_RADAR": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getIsChecked",
-        "parameters": ["speed_confirmed", "Radar"],
+        "function": "isExists",
+        "parameters": "reason_excessive_speed_true/speed_confirmed_radar",
         "start": {
           "x": 79,
           "y": 149
@@ -778,8 +776,8 @@
       "MV2722_SPEED_IS_OTHER": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getIsChecked",
-        "parameters": ["speed_confirmed", "Other (explain in incident details)"],
+        "function": "isExists",
+        "parameters": "reason_excessive_speed_true/speed_confirmed_other",
         "start": {
           "x": 106,
           "y": 149
@@ -788,8 +786,8 @@
       "MV2722_REASON_PROHIBITED": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_prohibited", true],
+        "function": "isExists",
+        "parameters": "reason_prohibited_true",
         "start": {
           "x": 19,
           "y": 162
@@ -798,8 +796,8 @@
       "MV2722_REASON_SUSPENDED": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_suspended", true],
+        "function": "isExists",
+        "parameters": "reason_suspended_true",
         "start": {
           "x": 19,
           "y": 167
@@ -808,8 +806,8 @@
       "MV2722_REASON_RACING": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_racing", true],
+        "function": "isExists",
+        "parameters": "reason_racing_true",
         "start": {
           "x": 19,
           "y": 172
@@ -818,8 +816,8 @@
       "MV2722_REASON_STUNT": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_stunt", true],
+        "function": "isExists",
+        "parameters": "reason_stunt_true",
         "start": {
           "x": 19,
           "y": 177
@@ -828,8 +826,8 @@
       "MV2722_REASON_MC_SEATING": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_motorcycle_seating", true],
+        "function": "isExists",
+        "parameters": "reason_motorcycle_seating_true",
         "start": {
           "x": 19,
           "y": 182
@@ -838,8 +836,8 @@
       "MV2722_REASON_MC_RESTRICTIONS": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_motorcycle_restrictions", true],
+        "function": "isExists",
+        "parameters": "reason_motorcycle_restrictions_true",
         "start": {
           "x": 19,
           "y": 186
@@ -848,8 +846,8 @@
       "MV2722_REASON_UNLICENSED": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "getRadioValue",
-        "parameters": ["reason_unlicensed", true],
+        "function": "isExists",
+        "parameters": "reason_unlicensed_true",
         "start": {
           "x": 19,
           "y": 191
@@ -864,7 +862,8 @@
           "x": 37,
           "y": 207
         },
-        "max_width": 165
+        "max_width": 165,
+        "max_height": 40
       },
       "MV2722_OFFICER_LAST_NAME": {
         "field_type": "text",
@@ -951,6 +950,7 @@
       "police": {
         "pages": [
           {
+            "orientation": "Portrait",
             "image": {
               "filename": "assets/MV2721_201502.png",
               "offset_x": 0,
@@ -1022,6 +1022,7 @@
       "driver": {
         "pages": [
           {
+            "orientation": "Portrait",
             "image": {
               "filename": "assets/MV2721_201502.png",
               "offset_x": 0,
@@ -1089,6 +1090,7 @@
             ]
           },
           {
+            "orientation": "Portrait",
             "image": {
               "filename": "assets/MV2721_201502_appeal.png",
               "offset_x": 0,
@@ -1103,6 +1105,7 @@
       "ilo": {
         "pages": [
           {
+            "orientation": "Portrait",
             "image": {
               "filename": "assets/MV2721_201502.png",
               "offset_x": 0,
@@ -1174,6 +1177,7 @@
       "report": {
         "pages": [
           {
+            "orientation": "Portrait",
             "image": {
               "filename": "assets/MV2722_201502.png",
               "offset_x": 0,
@@ -1225,40 +1229,37 @@
           }
         ]
       }
-    }
+    },
+    "viewbox": "2 15 211 271"
   },
   "24Hour": {
-    "orientation": "l",
     "units": "mm",
-    "format": "letter",
     "fields": {
       "VIOLATION_NUMBER": {
         "field_type": "text",
         "font_size": 20,
+        "function": "getFormattedFormId",
+        "parameters": "",
         "start": {
           "x": 30,
           "y": 30
         }
       },
-      "DRIVER_SURNAME": {
+      "DRIVER_NAME": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 10,
+        "function": "getValuesConcatenatedWithCommas",
+        "parameters": ["last_name","first_name"],
         "start": {
           "x": 33.2,
           "y": 38
         }
       },
-      "DRIVER_GIVEN": {
-        "field_type": "text",
-        "font_size": 12,
-        "start": {
-          "x": 83.2,
-          "y": 38
-        }
-      },
       "DRIVER_DL_NUMBER": {
         "field_type": "text",
-        "font_size": 14,
+        "font_size": 10,
+        "function": "getStringValue",
+        "parameters": "drivers_number",
         "start": {
           "x": 33.2,
           "y": 45
@@ -1266,7 +1267,9 @@
       },
       "DRIVER_DL_PROVINCE": {
         "field_type": "text",
-        "font_size": 14,
+        "font_size": 10,
+        "function": "getJurisdictionCode",
+        "parameters": "drivers_licence_jurisdiction",
         "start": {
           "x": 80,
           "y": 45
@@ -1274,7 +1277,9 @@
       },
       "DRIVER_DOB": {
         "field_type": "text",
-        "font_size": 14,
+        "font_size": 10,
+        "function": "getFormattedDate",
+        "parameters": ["dob", "YYYY-MM-DD"],
         "start": {
           "x": 103,
           "y": 45
@@ -1282,7 +1287,9 @@
       },
       "DRIVER_ADDRESS": {
         "field_type": "text",
-        "font_size": 8,
+        "font_size": 10,
+        "function": "getValuesConcatenatedWithCommas",
+        "parameters": ["address1","city","province","postal"],
         "start": {
           "x": 33.2,
           "y": 52
@@ -1291,6 +1298,8 @@
       "REASON_ALCOHOL_215": {
         "field_type": "checkbox",
         "font_size": 12,
+        "function": "isExists",
+        "parameters": "prohibition_type_alcohol",
         "start": {
           "x": 48.8,
           "y": 56
@@ -1299,6 +1308,8 @@
       "REASON_DRUGS_215": {
         "field_type": "checkbox",
         "font_size": 12,
+        "function": "isExists",
+        "parameters": "prohibition_type_drugs",
         "start": {
           "x": 76.7,
           "y": 56
@@ -1306,7 +1317,9 @@
       },
       "NOTICE_TIME": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 10,
+        "function": "getFormattedTime",
+        "parameters": ["prohibition_start_time", "HH:mm"],
         "start": {
           "x": 32.4,
           "y": 72
@@ -1314,7 +1327,9 @@
       },
       "NOTICE_DAY": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 10,
+        "function": "getFormattedDate",
+        "parameters": ["prohibition_start_date", "D"],
         "start": {
           "x": 64.4,
           "y": 72
@@ -1322,7 +1337,9 @@
       },
       "NOTICE_MONTH": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 10,
+        "function": "getFormattedDate",
+        "parameters": ["prohibition_start_date", "MMMM"],
         "start": {
           "x": 84.9,
           "y": 72
@@ -1330,7 +1347,9 @@
       },
       "NOTICE_YEAR": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 10,
+        "function": "getFormattedDate",
+        "parameters": ["prohibition_start_date", "YYYY"],
         "start": {
           "x": 116.8,
           "y": 72
@@ -1339,6 +1358,8 @@
       "DL_SURRENDER_LOCATION": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getValuesConcatenatedWithCommas",
+        "parameters": ["offence_address","offence_city"],
         "start": {
           "x": 30.7,
           "y": 89
@@ -1346,7 +1367,9 @@
       },
       "OFFICER_LAST_NAME": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 10,
+        "function": "getStringValue",
+        "parameters": "officer_name",
         "start": {
           "x": 30.7,
           "y": 95
@@ -1354,7 +1377,9 @@
       },
       "OFFICER_BADGE_NUMBER": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 10,
+        "function": "getStringValue",
+        "parameters": "badge_number",
         "start": {
           "x": 107,
           "y": 95
@@ -1362,7 +1387,9 @@
       },
       "AGENCY_NAME": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 10,
+        "function": "getStringValue",
+        "parameters": "agency",
         "start": {
           "x": 30.7,
           "y": 102
@@ -1370,7 +1397,9 @@
       },
       "AGENCY_FILE_NUMBER": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 10,
+        "function": "getStringValue",
+        "parameters": "file_number",
         "start": {
           "x": 92.2,
           "y": 102
@@ -1379,6 +1408,8 @@
       "OWNER_NAME": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getValuesConcatenatedWithCommas",
+        "parameters": ["corp_owner_false/owners_last_name", "corp_owner_false/owners_first_name", "corp_owner_true/name"],
         "start": {
           "x": 32.4,
           "y": 112
@@ -1387,6 +1418,8 @@
       "OWNER_ADDRESS": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getValuesConcatenatedWithCommas",
+        "parameters": ["owners_address1","owners_city"],
         "start": {
           "x": 32.4,
           "y": 119
@@ -1395,6 +1428,8 @@
       "OWNER_PROVINCE": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "owners_province",
         "start": {
           "x": 102.9,
           "y": 119
@@ -1403,6 +1438,8 @@
       "OWNER_POSTAL_CODE": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "owners_postal",
         "start": {
           "x": 115.2,
           "y": 119
@@ -1411,6 +1448,8 @@
       "VEHICLE_LICENSE_NUMBER": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "plate_number",
         "start": {
           "x": 32.4,
           "y": 126
@@ -1419,6 +1458,8 @@
       "VEHICLE_PROVINCE": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getJurisdictionCode",
+        "parameters": "plate_province",
         "start": {
           "x": 53.7,
           "y": 126
@@ -1427,6 +1468,8 @@
       "VEHICLE_LICENSE_YEAR": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "plate_year",
         "start": {
           "x": 67.6,
           "y": 126
@@ -1435,6 +1478,8 @@
       "VEHICLE_TAG_NUMBER": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "plate_val_tag",
         "start": {
           "x": 79.9,
           "y": 126
@@ -1443,6 +1488,8 @@
       "VEHICLE_REGISTRATION_NUMBER": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "registration_number",
         "start": {
           "x": 96,
           "y": 126
@@ -1451,6 +1498,8 @@
       "VEHICLE_TYPE": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "vehicle_type",
         "start": {
           "x": 116.8,
           "y": 126
@@ -1459,6 +1508,8 @@
       "VEHICLE_MAKE": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "vehicle_make",
         "start": {
           "x": 32.4,
           "y": 132
@@ -1467,6 +1518,8 @@
       "VEHICLE_MODEL": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "vehicle_model",
         "start": {
           "x": 53.7,
           "y": 132
@@ -1475,6 +1528,8 @@
       "VEHICLE_YEAR": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "vehicle_year",
         "start": {
           "x": 69.3,
           "y": 132
@@ -1483,6 +1538,8 @@
       "VEHICLE_COLOR": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "vehicle_color",
         "start": {
           "x": 79.9,
           "y": 132
@@ -1491,6 +1548,8 @@
       "VEHICLE_NSC_PUJ": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "puj_code/objectCd",
         "start": {
           "x": 92.2,
           "y": 132
@@ -1499,6 +1558,8 @@
       "VEHICLE_NSC_NUMBER": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "nsc_number",
         "start": {
           "x": 104.5,
           "y": 132
@@ -1507,6 +1568,8 @@
       "VEHICLE_VIN": {
         "field_type": "text",
         "font_size": 10,
+        "function": "getStringValue",
+        "parameters": "vin_number",
         "start": {
           "x": 32.4,
           "y": 138
@@ -1515,6 +1578,8 @@
       "OWNER_PHONE_AREA_CODE": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getAreaCode",
+        "parameters": "owners_phone",
         "start": {
           "x": 99.6,
           "y": 138
@@ -1523,6 +1588,8 @@
       "OWNER_PHONE_NUMBER": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getPhone",
+        "parameters": "owners_phone",
         "start": {
           "x": 107.8,
           "y": 138
@@ -1531,6 +1598,8 @@
       "NOT_IMPOUNDED": {
         "field_type": "checkbox",
         "font_size": 12,
+        "function": "isExists",
+        "parameters": "vehicle_impounded_no",
         "start": {
           "x": 29.9,
           "y": 145.3
@@ -1539,30 +1608,68 @@
       "IMPOUNDED": {
         "field_type": "checkbox",
         "font_size": 12,
+        "function": "isExists",
+        "parameters": "vehicle_impounded_yes",
         "start": {
           "x": 29.9,
           "y": 148.6
         }
       },
-      "NOT_IMPOUNDED_REASON": {
+      "NOT_IMPOUNDED_REASON_RELEASED": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 10,
+        "function": "conditionalLabel",
+        "parameters": ["vehicle_impounded_no/reason_for_not_impounding_released", "RELEASED TO OTHER DRIVER"],
         "start": {
           "x": 66.8,
-          "y": 145.3
+          "y": 145
+        }
+      },
+      "NOT_IMPOUNDED_REASON_ROADSIDE": {
+        "field_type": "text",
+        "font_size": 10,
+        "function": "conditionalLabel",
+        "parameters": ["vehicle_impounded_no/reason_for_not_impounding_roadside", "LEFT AT ROADSIDE"],
+        "start": {
+          "x": 66.8,
+          "y": 145
+        }
+      },
+      "NOT_IMPOUNDED_REASON_PRIVATE": {
+        "field_type": "text",
+        "font_size": 10,
+        "function": "conditionalLabel",
+        "parameters": ["vehicle_impounded_no/reason_for_not_impounding_private", "PRIVATE TOW"],
+        "start": {
+          "x": 66.8,
+          "y": 145
+        }
+      },
+      "NOT_IMPOUNDED_REASON_INVESTIGATION": {
+        "field_type": "text",
+        "font_size": 10,
+        "function": "conditionalLabel",
+        "parameters": ["vehicle_impounded_no/reason_for_not_impounding_investigation", "SEIZED FOR INVESTIGATION"],
+        "start": {
+          "x": 66.8,
+          "y": 145
         }
       },
       "IMPOUNDED_LOT": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "vehicle_impounded_yes/impound_lot_operator/name",
         "start": {
           "x": 78.3,
-          "y": 154
+          "y": 153.5
         }
       },
       "IMPOUNDED_ADDRESS": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getValuesConcatenatedWithCommas",
+        "parameters": ["vehicle_impounded_yes/impound_lot_operator/lot_address", "vehicle_impounded_yes/impound_lot_operator/city"],
         "start": {
           "x": 29.9,
           "y": 158.7
@@ -1571,6 +1678,8 @@
       "IMPOUNDED_PHONE_AREA_CODE": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "vehicle_impounded_yes/impound_lot_operator/phone",
         "start": {
           "x": 98,
           "y": 158.7
@@ -1579,6 +1688,8 @@
       "IMPOUNDED_PHONE_NUMBER": {
         "field_type": "text",
         "font_size": 8,
+        "function": "label",
+        "parameters": "",
         "start": {
           "x": 107,
           "y": 158.7
@@ -1587,6 +1698,8 @@
       "RELEASE_LOCATION_KEYS": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "vehicle_impounded_yes/location_of_keys",
         "start": {
           "x": 30.7,
           "y": 174.2
@@ -1595,6 +1708,8 @@
       "RELEASE_LOCATION_VEHICLE": {
         "field_type": "text",
         "font_size": 8,
+        "function": "conditionalLabel",
+        "parameters": ["vehicle_impounded_yes", "IMPOUNDED"],
         "start": {
           "x": 80.8,
           "y": 174.2
@@ -1603,22 +1718,38 @@
       "RELEASE_PERSON": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "vehicle_impounded_no/reason_for_not_impounding_released/vehicle_released_to",
         "start": {
           "x": 30.7,
           "y": 179.5
         }
       },
-      "RELEASE_DATETIME": {
+      "RELEASE_DATE": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getFormattedDate",
+        "parameters": ["vehicle_impounded_no/reason_for_not_impounding_released/released_date","YYYY-MM-DD"],
         "start": {
           "x": 106.2,
+          "y": 179.5
+        }
+      },
+      "RELEASE_TIME": {
+        "field_type": "text",
+        "font_size": 8,
+        "function": "getFormattedTime",
+        "parameters": ["vehicle_impounded_no/reason_for_not_impounding_released/released_time","HH:mm"],
+        "start": {
+          "x": 123,
           "y": 179.5
         }
       },
       "DRIVER_WITNESSED_BY_OFFICER": {
         "field_type": "checkbox",
         "font_size": 14,
+        "function": "isExists",
+        "parameters": "operating_grounds_officer",
         "start": {
           "x": 144.5,
           "y": 45.5
@@ -1627,6 +1758,8 @@
       "DRIVER_ADMISSION_BY_DRIVER": {
         "field_type": "checkbox",
         "font_size": 14,
+        "function": "isExists",
+        "parameters": "operating_grounds_admission",
         "start": {
           "x": 185.1,
           "y": 45.5
@@ -1635,6 +1768,8 @@
       "DRIVER_INDEPENDENT_WITNESS": {
         "field_type": "checkbox",
         "font_size": 14,
+        "function": "isExists",
+        "parameters": "operating_grounds_witness",
         "start": {
           "x": 144.5,
           "y": 49.9
@@ -1643,6 +1778,8 @@
       "DRIVER_OTHER": {
         "field_type": "checkbox",
         "font_size": 14,
+        "function": "isExists",
+        "parameters": "operating_grounds_other",
         "start": {
           "x": 185.1,
           "y": 49.9
@@ -1651,15 +1788,20 @@
       "DRIVER_ADDITIONAL_INFORMATION": {
         "field_type": "memo",
         "font_size": 10,
+        "function": "officerReport",
+        "parameters": "operating_grounds_other/operating_ground_other",
         "start": {
           "x": 144.5,
           "y": 55
         },
-        "max_width": 110
+        "max_width": 99,
+        "max_height": 14
       },
       "REASONABLE_GROUNDS_YES": {
         "field_type": "checkbox",
         "font_size": 14,
+        "function": "isExists",
+        "parameters": "prescribed_device_yes",
         "start": {
           "x": 144.5,
           "y": 92.7
@@ -1668,22 +1810,30 @@
       "REASONABLE_GROUNDS_NO": {
         "field_type": "checkbox",
         "font_size": 14,
+        "function": "isExists",
+        "parameters": "prescribed_device_no",
         "start": {
           "x": 157.5,
           "y": 92.7
         }
       },
       "REASON_PRESCRIBED_TEST_NOT_USED": {
-        "field_type": "text",
+        "field_type": "memo",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "prescribed_device_no/reason_prescribed_test_not_used",
         "start": {
           "x": 167.8,
-          "y": 92.7
-        }
+          "y": 88
+        },
+        "max_width": 80,
+        "max_height": 10
       },
       "REASONABLE_GROUNDS_TEST_ALCO_SENSOR": {
         "field_type": "checkbox",
         "font_size": 14,
+        "function": "isExists",
+        "parameters": "alcohol/test_administered_asd_true",
         "start": {
           "x": 144.5,
           "y": 102.3
@@ -1692,14 +1842,18 @@
       "REASONABLE_GROUNDS_TEST_ASD_EXPIRY_DATE": {
         "field_type": "text",
         "font_size": 10,
+        "function": "getFormattedDate",
+        "parameters": ["alcohol/test_administered_asd_true/asd_expiry_date", "YYYY-MM-DD"],
         "start": {
           "x": 207.4,
-          "y": 103.1
+          "y": 102
         }
       },
       "REASONABLE_GROUNDS_TEST_APPROVED_INSTRUMENT": {
         "field_type": "checkbox",
         "font_size": 14,
+        "function": "isExistsOr",
+        "parameters": ["alcohol/test_administered_instrument_true", "drugs/test_administered_adse_true"],
         "start": {
           "x": 144.5,
           "y": 107.5
@@ -1708,6 +1862,8 @@
       "REASONABLE_GROUNDS_TEST_APPROVED_INSTRUMENT_SPECIFY": {
         "field_type": "text",
         "font_size": 10,
+        "function": "conditionalMultiLabel",
+        "parameters": [["alcohol/test_administered_instrument_true", "Intox EC/IR II"],["drugs/test_administered_adse_true", "ADSE"]],
         "start": {
           "x": 190.2,
           "y": 107.5
@@ -1716,6 +1872,8 @@
       "REASONABLE_GROUNDS_TEST_PHYSICAL_COORDINATION": {
         "field_type": "checkbox",
         "font_size": 14,
+        "function": "isExistsOr",
+        "parameters": ["alcohol/test_administered_sfst_true", "drugs/test_administered_sfst_true"],
         "start": {
           "x": 144.5,
           "y": 111.9
@@ -1724,6 +1882,8 @@
       "REASONABLE_GROUNDS_TEST_TIME": {
         "field_type": "text",
         "font_size": 10,
+        "function": "concatenateDateAndTime",
+        "parameters": [["alcohol/test_date", "alcohol/test_time"], ["drugs/test_date", "drugs/test_time"]],
         "start": {
           "x": 160.9,
           "y": 117
@@ -1732,6 +1892,8 @@
       "REASONABLE_GROUNDS_ALCOHOL_51-99": {
         "field_type": "checkbox",
         "font_size": 14,
+        "function": "isExists",
+        "parameters": "alcohol/test_administered_asd_true/result_alcohol_under",
         "start": {
           "x": 144.5,
           "y": 126.7
@@ -1740,6 +1902,8 @@
       "REASONABLE_GROUNDS_ALCOHOL_OVER_99": {
         "field_type": "checkbox",
         "font_size": 14,
+        "function": "isExists",
+        "parameters": "alcohol/test_administered_asd_true/result_alcohol_over",
         "start": {
           "x": 168.7,
           "y": 126.7
@@ -1748,6 +1912,8 @@
       "REASONABLE_GROUNDS_ALCOHOL_BAC": {
         "field_type": "checkbox",
         "font_size": 14,
+        "function": "isExists",
+        "parameters": "alcohol/test_administered_instrument_true",
         "start": {
           "x": 195.4,
           "y": 126.7
@@ -1756,6 +1922,8 @@
       "REASONABLE_GROUNDS_ALCOHOL_BAC_VALUE": {
         "field_type": "text",
         "font_size": 10,
+        "function": "getStringValueWithSuffix",
+        "parameters": ["alcohol/test_administered_instrument_true/test_result_bac", "mg%"],
         "start": {
           "x": 207.4,
           "y": 126.7
@@ -1764,30 +1932,47 @@
       "REASONABLE_GROUNDS_DRUG_ABILITY_TO_DRIVE_AFFECTED": {
         "field_type": "checkbox",
         "font_size": 14,
+        "function": "isExists",
+        "parameters": "drugs",
         "start": {
           "x": 144.5,
           "y": 136.3
         }
       },
-      "ADSE_RESULTS": {
+      "ADSE_RESULTS_THC": {
         "field_type": "text",
         "font_size": 10,
+        "function": "conditionalMultiLabel",
+        "parameters": [["drugs/test_administered_adse_true/positive_adse_thc", "THC"],["drugs/test_administered_adse_true/positive_adse_cocaine", "COCAINE"]],
         "start": {
           "x": 194.5,
           "y": 136.3
         }
       },
-      "PHYSICAL_TEST_SPECIFICS": {
+      "PHYSICAL_TEST_SPECIFICS_DRE": {
         "field_type": "text",
         "font_size": 10,
+        "function": "conditionalMultiLabel",
+        "parameters": [["drugs/test_administered_sfst_true", "SFST"], ["drugs/test_administered_dre_true", "DRE"]],
+        "start": {
+          "x": 203.1,
+          "y": 113.3
+        }
+      },
+      "PHYSICAL_TEST_SPECIFICS_SFST": {
+        "field_type": "text",
+        "font_size": 10,
+        "function": "conditionalLabel",
+        "parameters": ["alcohol/test_administered_sfst_true", "SFST"],
         "start": {
           "x": 203.1,
           "y": 113.3
         }
       },
       "DRIVER_COPY": {
-        "field_type": "label",
-        "value": "DRIVER COPY",
+        "field_type": "text",
+        "function": "label",
+        "parameters": "DRIVER COPY",
         "font_size": 10,
         "start": {
           "x": 100,
@@ -1795,8 +1980,9 @@
         }
       },
       "POLICE_COPY": {
-        "field_type": "label",
-        "value": "POLICE COPY",
+        "field_type": "text",
+        "function": "label",
+        "parameters": "POLICE COPY",
         "font_size": 10,
         "start": {
           "x": 100,
@@ -1804,8 +1990,9 @@
         }
       },
       "ILO_COPY": {
-        "field_type": "label",
-        "value": "ILO COPY",
+        "field_type": "text",
+        "function": "label",
+        "parameters": "ILO COPY",
         "font_size": 10,
         "start": {
           "x": 100,
@@ -1813,30 +2000,32 @@
         }
       },
       "ICBC_COPY": {
-        "field_type": "label",
-        "value": "SEND TO ICBC",
+        "field_type": "text",
         "font_size": 10,
+        "function": "label",
+        "parameters": "SEND TO ICBC",
         "start": {
           "x": 100,
           "y": 199.6
         }
       }
     },
+    "viewbox": "0 0 223 210",
     "variants": {
       "driver": {
         "pages": [
           {
+            "orientation": "Landscape",
             "image": {
               "filename": "assets/MV2634_102018_driver.png",
-              "offset_x": 25,
-              "offset_y": 6,
+              "offset_x": 0,
+              "offset_y": 0,
               "width": 223,
-              "height": 201
+              "height": 202
             },
             "show_fields": [
               "VIOLATION_NUMBER",
-              "DRIVER_SURNAME",
-              "DRIVER_GIVEN",
+              "DRIVER_NAME",
               "DRIVER_DL_NUMBER",
               "DRIVER_DL_PROVINCE",
               "DRIVER_DOB",
@@ -1873,7 +2062,10 @@
               "OWNER_PHONE_NUMBER",
               "NOT_IMPOUNDED",
               "IMPOUNDED",
-              "NOT_IMPOUNDED_REASON",
+              "NOT_IMPOUNDED_REASON_RELEASED",
+              "NOT_IMPOUNDED_REASON_ROADSIDE",
+              "NOT_IMPOUNDED_REASON_PRIVATE",
+              "NOT_IMPOUNDED_REASON_INVESTIGATION",
               "IMPOUNDED_LOT",
               "IMPOUNDED_ADDRESS",
               "IMPOUNDED_PHONE_AREA_CODE",
@@ -1881,7 +2073,8 @@
               "RELEASE_LOCATION_KEYS",
               "RELEASE_LOCATION_VEHICLE",
               "RELEASE_PERSON",
-              "RELEASE_DATETIME",
+              "RELEASE_DATE",
+              "RELEASE_TIME",
               "DRIVER_COPY"
             ]
           }
@@ -1890,10 +2083,11 @@
       "ilo": {
         "pages": [
           {
+            "orientation": "Landscape",
             "image": {
               "filename": "assets/MV2634_102018_driver.png",
-              "offset_x": 25,
-              "offset_y": 6,
+              "offset_x": 0,
+              "offset_y": 0,
               "width": 223,
               "height": 201
             },
@@ -1928,7 +2122,10 @@
               "OWNER_PHONE_NUMBER",
               "NOT_IMPOUNDED",
               "IMPOUNDED",
-              "NOT_IMPOUNDED_REASON",
+              "NOT_IMPOUNDED_REASON_RELEASED",
+              "NOT_IMPOUNDED_REASON_ROADSIDE",
+              "NOT_IMPOUNDED_REASON_PRIVATE",
+              "NOT_IMPOUNDED_REASON_INVESTIGATION",
               "IMPOUNDED_LOT",
               "IMPOUNDED_ADDRESS",
               "IMPOUNDED_PHONE_AREA_CODE",
@@ -1936,7 +2133,8 @@
               "RELEASE_LOCATION_KEYS",
               "RELEASE_LOCATION_VEHICLE",
               "RELEASE_PERSON",
-              "RELEASE_DATETIME",
+              "RELEASE_DATE",
+              "RELEASE_TIME",
               "ILO_COPY"
             ]
           }
@@ -1945,17 +2143,17 @@
       "police": {
         "pages": [
           {
+            "orientation": "Landscape",
             "image": {
               "filename": "assets/MV2634_102018_police.png",
-              "offset_x": 25,
-              "offset_y": 6,
+              "offset_x": 0,
+              "offset_y": 0,
               "width": 223,
-              "height": 201
+              "height": 202
             },
             "show_fields": [
               "VIOLATION_NUMBER",
-              "DRIVER_SURNAME",
-              "DRIVER_GIVEN",
+              "DRIVER_NAME",
               "DRIVER_DL_NUMBER",
               "DRIVER_DL_PROVINCE",
               "DRIVER_DOB",
@@ -1992,7 +2190,10 @@
               "OWNER_PHONE_NUMBER",
               "NOT_IMPOUNDED",
               "IMPOUNDED",
-              "NOT_IMPOUNDED_REASON",
+              "NOT_IMPOUNDED_REASON_RELEASED",
+              "NOT_IMPOUNDED_REASON_ROADSIDE",
+              "NOT_IMPOUNDED_REASON_PRIVATE",
+              "NOT_IMPOUNDED_REASON_INVESTIGATION",
               "IMPOUNDED_LOT",
               "IMPOUNDED_ADDRESS",
               "IMPOUNDED_PHONE_AREA_CODE",
@@ -2000,7 +2201,8 @@
               "RELEASE_LOCATION_KEYS",
               "RELEASE_LOCATION_VEHICLE",
               "RELEASE_PERSON",
-              "RELEASE_DATETIME",
+              "RELEASE_DATE",
+              "RELEASE_TIME",
               "POLICE_COPY",
               "DRIVER_WITNESSED_BY_OFFICER",
               "DRIVER_ADMISSION_BY_DRIVER",
@@ -2021,8 +2223,9 @@
               "REASONABLE_GROUNDS_ALCOHOL_BAC_VALUE",
               "REASONABLE_GROUNDS_DRUG_ABILITY_TO_DRIVE_AFFECTED",
               "REASON_PRESCRIBED_TEST_NOT_USED",
-              "ADSE_RESULTS",
-              "PHYSICAL_TEST_SPECIFICS"
+              "ADSE_RESULTS_THC",
+              "PHYSICAL_TEST_SPECIFICS_SFST",
+              "PHYSICAL_TEST_SPECIFICS_DRE"
             ]
           }
         ]
@@ -2030,17 +2233,17 @@
       "icbc": {
         "pages": [
           {
+            "orientation": "Landscape",
             "image": {
               "filename": "assets/MV2634_102018_police.png",
-              "offset_x": 25,
-              "offset_y": 6,
+              "offset_x": 0,
+              "offset_y": 0,
               "width": 223,
-              "height": 201
+              "height": 202
             },
             "show_fields": [
               "VIOLATION_NUMBER",
-              "DRIVER_SURNAME",
-              "DRIVER_GIVEN",
+              "DRIVER_NAME",
               "DRIVER_DL_NUMBER",
               "DRIVER_DL_PROVINCE",
               "DRIVER_DOB",
@@ -2077,7 +2280,10 @@
               "OWNER_PHONE_NUMBER",
               "NOT_IMPOUNDED",
               "IMPOUNDED",
-              "NOT_IMPOUNDED_REASON",
+              "NOT_IMPOUNDED_REASON_RELEASED",
+              "NOT_IMPOUNDED_REASON_ROADSIDE",
+              "NOT_IMPOUNDED_REASON_PRIVATE",
+              "NOT_IMPOUNDED_REASON_INVESTIGATION",
               "IMPOUNDED_LOT",
               "IMPOUNDED_ADDRESS",
               "IMPOUNDED_PHONE_AREA_CODE",
@@ -2085,7 +2291,8 @@
               "RELEASE_LOCATION_KEYS",
               "RELEASE_LOCATION_VEHICLE",
               "RELEASE_PERSON",
-              "RELEASE_DATETIME",
+              "RELEASE_DATE",
+              "RELEASE_TIME",
               "ICBC_COPY",
               "DRIVER_WITNESSED_BY_OFFICER",
               "DRIVER_ADMISSION_BY_DRIVER",
@@ -2106,46 +2313,44 @@
               "REASONABLE_GROUNDS_ALCOHOL_BAC_VALUE",
               "REASONABLE_GROUNDS_DRUG_ABILITY_TO_DRIVE_AFFECTED",
               "REASON_PRESCRIBED_TEST_NOT_USED",
-              "ADSE_RESULTS",
-              "PHYSICAL_TEST_SPECIFICS"
+              "ADSE_RESULTS_THC",
+              "PHYSICAL_TEST_SPECIFICS_SFST",
+              "PHYSICAL_TEST_SPECIFICS_DRE"
             ]
           }
         ]
       }
     }
+
   },
   "12Hour": {
-    "orientation": "l",
     "units": "mm",
-    "format": "letter",
     "fields": {
       "VIOLATION_NUMBER": {
         "field_type": "text",
         "font_size": 18,
+        "function": "getFormattedFormId",
+        "parameters": "",
         "start": {
           "x": 31,
           "y": 28.9
         }
       },
-      "DRIVER_SURNAME": {
+      "DRIVER_NAME": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 10,
+        "function": "getValuesConcatenatedWithCommas",
+        "parameters": ["last_name","first_name"],
         "start": {
           "x": 33.2,
           "y": 35.4
         }
       },
-      "DRIVER_GIVEN": {
-        "field_type": "text",
-        "font_size": 12,
-        "start": {
-          "x": 83.2,
-          "y": 35.4
-        }
-      },
       "DRIVER_DL_NUMBER": {
         "field_type": "text",
-        "font_size": 14,
+        "font_size": 10,
+        "function": "getStringValue",
+        "parameters": "drivers_number",
         "start": {
           "x": 33.2,
           "y": 42.8
@@ -2153,7 +2358,9 @@
       },
       "DRIVER_DOB": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 10,
+        "function": "getFormattedDate",
+        "parameters": ["dob", "YYYY-MM-DD"],
         "start": {
           "x": 98,
           "y": 43
@@ -2161,7 +2368,9 @@
       },
       "DRIVER_ADDRESS": {
         "field_type": "text",
-        "font_size": 8,
+        "font_size": 10,
+        "function": "getValuesConcatenatedWithCommas",
+        "parameters": ["address1","city","province","postal"],
         "start": {
           "x": 33.2,
           "y": 49.5
@@ -2170,6 +2379,8 @@
       "DRIVER_PHONE_AREA_CODE": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getAreaCode",
+        "parameters": "driver_phone",
         "start": {
           "x": 32,
           "y": 57
@@ -2178,6 +2389,8 @@
       "DRIVER_PHONE": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getPhone",
+        "parameters": "driver_phone",
         "start": {
           "x": 45,
           "y": 57
@@ -2186,6 +2399,8 @@
       "VEHICLE_NSC_PUJ": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "puj_code",
         "start": {
           "x": 75,
           "y": 57
@@ -2194,6 +2409,8 @@
       "VEHICLE_NSC_NUMBER": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "nsc_number",
         "start": {
           "x": 85,
           "y": 57
@@ -2202,6 +2419,8 @@
       "REASON_ALCOHOL_90": {
         "field_type": "checkbox",
         "font_size": 12,
+        "function": "isExists",
+        "parameters": "prohibition_type_12hr_alcohol",
         "start": {
           "x": 47,
           "y": 65
@@ -2210,6 +2429,8 @@
       "REASON_DRUGS_90": {
         "field_type": "checkbox",
         "font_size": 12,
+        "function": "isExists",
+        "parameters": "prohibition_type_12hr_drugs",
         "start": {
           "x": 78,
           "y": 65
@@ -2218,6 +2439,8 @@
       "NOTICE_TIME": {
         "field_type": "text",
         "font_size": 10,
+        "function": "getFormattedTime",
+        "parameters": ["prohibition_start_time", "HH:mm"],
         "start": {
           "x": 34.8,
           "y": 99
@@ -2226,6 +2449,8 @@
       "NOTICE_DAY": {
         "field_type": "text",
         "font_size": 10,
+        "function": "getFormattedDate",
+        "parameters": ["prohibition_start_date", "Do"],
         "start": {
           "x": 64.4,
           "y": 99
@@ -2234,6 +2459,8 @@
       "NOTICE_MONTH": {
         "field_type": "text",
         "font_size": 10,
+        "function": "getFormattedDate",
+        "parameters": ["prohibition_start_date", "MMMM"],
         "start": {
           "x": 87,
           "y": 99
@@ -2242,6 +2469,8 @@
       "NOTICE_YEAR": {
         "field_type": "text",
         "font_size": 10,
+        "function": "getFormattedDate",
+        "parameters": ["prohibition_start_date", "YYYY"],
         "start": {
           "x": 113,
           "y": 99
@@ -2249,7 +2478,9 @@
       },
       "DL_SURRENDER_LOCATION": {
         "field_type": "text",
-        "font_size": 8,
+        "font_size": 10,
+        "function": "getValuesConcatenatedWithCommas",
+        "parameters": ["offence_address","offence_city"],
         "start": {
           "x": 30.7,
           "y": 120.1
@@ -2257,7 +2488,9 @@
       },
       "OFFICER_LAST_NAME": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 10,
+        "function": "getStringValue",
+        "parameters": "officer_name",
         "start": {
           "x": 30.7,
           "y": 128.9
@@ -2265,7 +2498,9 @@
       },
       "OFFICER_BADGE_NUMBER": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 10,
+        "function": "getStringValue",
+        "parameters": "badge_number",
         "start": {
           "x": 107,
           "y": 128.9
@@ -2273,7 +2508,9 @@
       },
       "AGENCY_NAME": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 10,
+        "function": "getStringValue",
+        "parameters": "agency",
         "start": {
           "x": 30.7,
           "y": 136.9
@@ -2281,7 +2518,9 @@
       },
       "AGENCY_FILE_NUMBER": {
         "field_type": "text",
-        "font_size": 12,
+        "font_size": 10,
+        "function": "getStringValue",
+        "parameters": "file_number",
         "start": {
           "x": 94.7,
           "y": 136.9
@@ -2290,6 +2529,8 @@
       "VEHICLE_LICENSE_NUMBER": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "plate_number",
         "start": {
           "x": 107,
           "y": 149
@@ -2298,6 +2539,8 @@
       "VEHICLE_PROVINCE": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getJurisdictionCode",
+        "parameters": "plate_province",
         "start": {
           "x": 94.7,
           "y": 149
@@ -2306,6 +2549,8 @@
       "VEHICLE_LICENSE_YEAR": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "plate_year",
         "start": {
           "x": 33.2,
           "y": 149
@@ -2314,6 +2559,8 @@
       "VEHICLE_MAKE": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "vehicle_make",
         "start": {
           "x": 43,
           "y": 149
@@ -2322,6 +2569,8 @@
       "VEHICLE_MODEL": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "vehicle_model",
         "start": {
           "x": 60,
           "y": 149
@@ -2330,6 +2579,8 @@
       "VEHICLE_YEAR": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "vehicle_year",
         "start": {
           "x": 30.7,
           "y": 149
@@ -2338,6 +2589,8 @@
       "VEHICLE_COLOR": {
         "field_type": "text",
         "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "vehicle_color",
         "start": {
           "x": 77,
           "y": 149
@@ -2345,7 +2598,9 @@
       },
       "IMPOUNDED_LOT": {
         "field_type": "text",
-        "font_size": 8,
+        "font_size": 10,
+        "function": "getStringValue",
+        "parameters": "vehicle_impounded_yes/impound_lot_operator/name",
         "start": {
           "x": 30.7,
           "y": 169.2
@@ -2354,30 +2609,28 @@
       "IMPOUNDED_ADDRESS": {
         "field_type": "text",
         "font_size": 10,
+        "function": "getValuesConcatenatedWithCommas",
+        "parameters": ["vehicle_impounded_yes/impound_lot_operator/lot_address", "vehicle_impounded_yes/impound_lot_operator/city", "vehicle_impounded_yes/impound_lot_operator/phone"],
         "start": {
           "x": 30.7,
           "y": 163.1
         }
       },
-      "IMPOUNDED_PHONE_AREA_CODE": {
+      "RELEASE_LOCATION_KEYS_VEHICLE": {
         "field_type": "text",
         "font_size": 8,
+        "function": "conditionalLabel",
+        "parameters": ["vehicle_impounded_yes/location_of_keys_vehicle", "With Vehicle"],
         "start": {
-          "x": 103,
-          "y": 169.2
+          "x": 30.7,
+          "y": 155.8
         }
       },
-      "IMPOUNDED_PHONE_NUMBER": {
+      "RELEASE_LOCATION_KEYS_DRIVER": {
         "field_type": "text",
         "font_size": 8,
-        "start": {
-          "x": 110,
-          "y": 169.2
-        }
-      },
-      "RELEASE_LOCATION_KEYS": {
-        "field_type": "text",
-        "font_size": 8,
+        "function": "conditionalLabel",
+        "parameters": ["vehicle_impounded_yes/location_of_keys_driver", "With Driver"],
         "start": {
           "x": 30.7,
           "y": 155.8
@@ -2385,7 +2638,19 @@
       },
       "RELEASE_LOCATION_VEHICLE": {
         "field_type": "text",
-        "font_size": 8,
+        "font_size": 10,
+        "function": "conditionalLabel",
+        "parameters": ["vehicle_impounded_yes", ""],
+        "start": {
+          "x": 30.7,
+          "y": 163
+        }
+      },
+      "NOT_IMPOUNDED_REASON_ROADSIDE": {
+        "field_type": "text",
+        "font_size": 10,
+        "function": "conditionalLabel",
+        "parameters": ["vehicle_impounded_no/reason_for_not_impounding_roadside", "LEFT AT ROADSIDE"],
         "start": {
           "x": 30.7,
           "y": 163
@@ -2393,7 +2658,9 @@
       },
       "RELEASE_PERSON": {
         "field_type": "text",
-        "font_size": 8,
+        "font_size": 10,
+        "function": "getStringValue",
+        "parameters": "vehicle_impounded_no/reason_for_not_impounding_released/vehicle_released_to",
         "start": {
           "x": 30.7,
           "y": 169.5
@@ -2401,15 +2668,18 @@
       },
       "RELEASE_DATETIME": {
         "field_type": "text",
-        "font_size": 8,
+        "font_size": 10,
+        "function": "concatenateDateAndTime",
+        "parameters": [["vehicle_impounded_no/reason_for_not_impounding_released/released_date", "vehicle_impounded_no/reason_for_not_impounding_released/released_time"]],
         "start": {
           "x": 98,
           "y": 176
         }
       },
       "DRIVER_COPY": {
-        "field_type": "label",
-        "value": "DRIVER COPY",
+        "field_type": "text",
+        "function": "label",
+        "parameters": "DRIVER COPY",
         "font_size": 10,
         "start": {
           "x": 90,
@@ -2417,8 +2687,9 @@
         }
       },
       "POLICE_COPY": {
-        "field_type": "label",
-        "value": "POLICE COPY",
+        "field_type": "text",
+        "function": "label",
+        "parameters": "POLICE COPY",
         "font_size": 10,
         "start": {
           "x": 90,
@@ -2426,30 +2697,32 @@
         }
       },
       "ICBC_COPY": {
-        "field_type": "label",
-        "value": "SEND TO ICBC",
+        "field_type": "text",
         "font_size": 10,
+        "function": "label",
+        "parameters": "SEND TO ICBC",
         "start": {
           "x": 90,
           "y": 199.5
         }
       }
     },
+    "viewbox": "0 0 223 210",
     "variants": {
       "driver": {
         "pages": [
           {
+            "orientation": "Landscape",
             "image": {
               "filename": "assets/MV2906_102018.png",
-              "offset_x": 25,
+              "offset_x": 0,
               "offset_y": 0,
               "width": 223,
-              "height": 201
+              "height": 202
             },
             "show_fields": [
               "VIOLATION_NUMBER",
-              "DRIVER_SURNAME",
-              "DRIVER_GIVEN",
+              "DRIVER_NAME",
               "DRIVER_DL_NUMBER",
               "DRIVER_DOB",
               "DRIVER_ADDRESS",
@@ -2477,10 +2750,10 @@
               "VEHICLE_NSC_NUMBER",
               "IMPOUNDED_LOT",
               "IMPOUNDED_ADDRESS",
-              "IMPOUNDED_PHONE_AREA_CODE",
-              "IMPOUNDED_PHONE_NUMBER",
-              "RELEASE_LOCATION_KEYS",
+              "RELEASE_LOCATION_KEYS_VEHICLE",
+              "RELEASE_LOCATION_KEYS_DRIVER",
               "RELEASE_LOCATION_VEHICLE",
+              "NOT_IMPOUNDED_REASON_ROADSIDE",
               "RELEASE_PERSON",
               "RELEASE_DATETIME",
               "DRIVER_COPY"
@@ -2491,17 +2764,17 @@
       "police": {
         "pages": [
           {
+            "orientation": "Landscape",
             "image": {
               "filename": "assets/MV2906_102018.png",
-              "offset_x": 25,
+              "offset_x": 0,
               "offset_y": 0,
               "width": 223,
-              "height": 201
+              "height": 202
             },
             "show_fields": [
               "VIOLATION_NUMBER",
-              "DRIVER_SURNAME",
-              "DRIVER_GIVEN",
+              "DRIVER_NAME",
               "DRIVER_DL_NUMBER",
               "DRIVER_DOB",
               "DRIVER_ADDRESS",
@@ -2529,10 +2802,10 @@
               "VEHICLE_NSC_NUMBER",
               "IMPOUNDED_LOT",
               "IMPOUNDED_ADDRESS",
-              "IMPOUNDED_PHONE_AREA_CODE",
-              "IMPOUNDED_PHONE_NUMBER",
-              "RELEASE_LOCATION_KEYS",
+              "RELEASE_LOCATION_KEYS_VEHICLE",
+              "RELEASE_LOCATION_KEYS_DRIVER",
               "RELEASE_LOCATION_VEHICLE",
+              "NOT_IMPOUNDED_REASON_ROADSIDE",
               "RELEASE_PERSON",
               "RELEASE_DATETIME",
               "POLICE_COPY"
@@ -2543,17 +2816,17 @@
       "icbc": {
         "pages": [
           {
+            "orientation": "Landscape",
             "image": {
               "filename": "assets/MV2906_102018.png",
-              "offset_x": 25,
+              "offset_x": 0,
               "offset_y": 0,
               "width": 223,
-              "height": 201
+              "height": 202
             },
             "show_fields": [
               "VIOLATION_NUMBER",
-              "DRIVER_SURNAME",
-              "DRIVER_GIVEN",
+              "DRIVER_NAME",
               "DRIVER_DL_NUMBER",
               "DRIVER_DOB",
               "DRIVER_ADDRESS",
@@ -2581,10 +2854,10 @@
               "VEHICLE_NSC_NUMBER",
               "IMPOUNDED_LOT",
               "IMPOUNDED_ADDRESS",
-              "IMPOUNDED_PHONE_AREA_CODE",
-              "IMPOUNDED_PHONE_NUMBER",
-              "RELEASE_LOCATION_KEYS",
+              "RELEASE_LOCATION_KEYS_VEHICLE",
+              "RELEASE_LOCATION_KEYS_DRIVER",
               "RELEASE_LOCATION_VEHICLE",
+              "NOT_IMPOUNDED_REASON_ROADSIDE",
               "RELEASE_PERSON",
               "RELEASE_DATETIME",
               "ICBC_COPY"

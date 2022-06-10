@@ -1,0 +1,14 @@
+FROM python:3.6
+
+COPY icbc_mock_svc/requirements.txt /tmp/
+
+RUN pip install --upgrade pip
+RUN pip install -r /tmp/requirements.txt
+
+RUN useradd --create-home appuser
+WORKDIR /home/appuser
+USER appuser
+
+COPY icbc_mock_svc /home/appuser/python/icbc_mock_svc
+
+CMD [ "gunicorn", "--bind", "0.0.0.0:5000", "--pythonpath", "/home/appuser/python/icbc_mock_svc", "wsgi" ]

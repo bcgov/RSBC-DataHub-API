@@ -2,16 +2,18 @@
   <form-container title="Vehicle Impoundment" v-if="isMounted">
     <validation-observer v-slot="{handleSubmit, validate}">
       <form @submit.prevent="handleSubmit(onSubmit(validate))">
-        <drivers-information-card></drivers-information-card>
-        <vehicle-information-card></vehicle-information-card>
-        <vehicle-owner-card></vehicle-owner-card>
-        <vehicle-impoundment-card></vehicle-impoundment-card>
-        <reasonable-grounds-card></reasonable-grounds-card>
-        <excessive-speed-card v-if="getAttributeValue('reason_excessive_speed')"></excessive-speed-card>
-
-        <linkage-card></linkage-card>
-        <incident-details-card></incident-details-card>
-        <officer-details-card></officer-details-card>
+        <drivers-information-card :path="getPath"></drivers-information-card>
+        <vehicle-information-card :path="getPath"></vehicle-information-card>
+        <vehicle-owner-card :path="getPath"></vehicle-owner-card>
+        <vehicle-impoundment-card :path="getPath"></vehicle-impoundment-card>
+        <reasonable-grounds-card :path="getPath"></reasonable-grounds-card>
+        <excessive-speed-card
+            :path="getPath + '/reason_excessive_speed_true'"
+            v-if="getAttributeValue(getPath, 'reason_excessive_speed_true')">
+        </excessive-speed-card>
+        <linkage-card :path="getPath"></linkage-card>
+        <incident-details-card :path="getPath"></incident-details-card>
+        <officer-details-card :path="getPath"></officer-details-card>
         <form-card title="Generate PDF for Printing">
           <div class="d-flex">
             <print-documents
@@ -34,7 +36,7 @@ import FormsCommon from "@/components/forms/FormsCommon";
 import {mapGetters} from 'vuex';
 import PrintDocuments from "../PrintDocuments";
 import DriversInformationCard from "@/components/forms/VehicleImpoundment/DriversInformationCard";
-import OfficerDetailsCard from "@/components/forms/VehicleImpoundment/OfficerDetailsCard";
+import OfficerDetailsCard from "@/components/forms/OfficerDetailsCard";
 import VehicleInformationCard from "@/components/forms/VehicleImpoundment/VehicleInformationCard";
 import VehicleOwnerCard from "@/components/forms/VehicleImpoundment/VehicleOwnerCard";
 import VehicleImpoundmentCard from "@/components/forms/VehicleImpoundment/VehicleImpoundmentCard";
@@ -84,9 +86,7 @@ export default {
         "getCurrentlyEditedForm",
         "getCurrentlyEditedFormData",
         "getCurrentlyEditedFormObject",
-        "corporateOwner",
         "getPdfFileNameString",
-        "getPagesToPrint"
     ]),
   }
 }

@@ -14,6 +14,7 @@
 import moment from "moment-timezone";
 import fadeText from "../FadeText";
 import {mapActions, mapGetters, mapMutations} from "vuex";
+import constants from "@/config/constants";
 
 export default {
   name: "PrintDocuments",
@@ -39,35 +40,38 @@ export default {
         "getCurrentlyEditedForm",
         "getCurrentlyEditedFormData",
         "getCurrentlyEditedFormObject",
-        "corporateOwner",
-        "getPdfFileNameString",
-        "getPagesToPrint"
     ]),
   },
   methods: {
+    ...mapActions(["tellApiFormIsPrinted", "saveCurrentFormToDB"]),
     ...mapMutations(["setFormAsPrinted"]),
-    ...mapActions(["saveFormAndGeneratePDF"]),
     async onSubmit (validate, variantList, form_object) {
       this.display_spinner = true;
       const is_validated = await validate()
       console.log('inside onSubmit()', is_validated, variantList);
       if(is_validated) {
-        const current_timestamp = moment.now()
+        const current_timestamp = moment().tz(constants.TIMEZONE).format()
         let payload = {}
         payload['form_object'] = form_object
-        payload['filename'] = this.getPdfFileNameString(form_object, variantList[0]);
         payload['variants'] = variantList;
         payload['form_data'] = form_object.data;
         payload['timestamp'] = current_timestamp
-        await this.saveFormAndGeneratePDF(payload)
+        this.setFormAsPrinted(payload)
+        this.saveCurrentFormToDB(form_object)
+        this.tellApiFormIsPrinted(form_object)
           .then( (response) => {
-              console.log('form generated successfully', response)
-              this.display_spinner = false;
-            })
-          .catch((error) => {
-              console.log('form did not generate successfully', error)
-              this.display_spinner = false;
-            })
+              console.log("response from tellApiFormIsPrinted()", response)
+          })
+          .catch( (error) => {
+              console.log("no response from tellApiFormIsPrinted()", error)
+          })
+        this.display_spinner = false;
+        this.$router.replace({
+          name: "print", params: {
+            "form_type": form_object.form_type,
+            "id": form_object.form_id
+          }
+        })
       } else {
         this.rerender++;
         this.isNotValid = true;
@@ -80,7 +84,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

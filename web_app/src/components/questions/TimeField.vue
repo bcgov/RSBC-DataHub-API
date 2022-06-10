@@ -25,17 +25,13 @@
 <script>
 
 import FieldCommon from "@/components/questions/FieldCommon";
-import {mapGetters, mapMutations} from "vuex";
+import {mapGetters} from "vuex";
 
 export default {
   name: "TimeField",
   mixins: [FieldCommon],
    computed: {
      ...mapGetters(["getAttributeValue", "hasFormBeenPrinted"])
-   },
-  methods: {
-    ...mapMutations(["updateFormField"])
-  }
-
+   }
 }
 </script>

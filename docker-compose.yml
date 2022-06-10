@@ -132,9 +132,11 @@ services:
       build:
         context: python
         dockerfile: prohibition_web_svc/Dockerfile-local
+      depends_on:
+        - icbc_mock_svc
       environment:
         FLASK_SECRET_KEY: "${FLASK_SECRET_KEY}"
-        ICBC_API_ROOT: "${ICBC_API_ROOT}"
+        ICBC_API_ROOT: "http://icbc_mock_svc:5000/vips/icbc"
         ICBC_LOGIN_USER_ID: "${ICBC_LOGIN_USER_ID}"
         ICBC_API_USERNAME: "${ICBC_API_USERNAME}"
         ICBC_API_PASSWORD: "${ICBC_API_PASSWORD}"
@@ -152,37 +154,21 @@ services:
         - "5002:5000"
 
 
-    geocoder:
+    icbc_mock_svc:
       build:
         context: python
-        dockerfile: geocodersvc/Dockerfile-local
+        dockerfile: icbc_mock_svc/Dockerfile-local
       environment:
-        LOG_LEVEL: "WARNING"
-        ENCRYPT_KEY: "${ENCRYPT_KEY}"
+        FLASK_SECRET_KEY: "${FLASK_SECRET_KEY}"
+        ICBC_API_USERNAME: "${ICBC_API_USERNAME}"
+        ICBC_API_PASSWORD: "${ICBC_API_PASSWORD}"
+        LOG_LEVEL: "DEBUG"
 
-    writer:
-      build:
-        context: python
-        dockerfile: writer/Dockerfile-local
-      depends_on:
-        - rabbitmq
-      environment:
-        RABBITMQ_URL: "${RABBITMQ_URL}"
-        # The RABBITMQ_USER is used to watch for validated
-        # events and write them to the database
-        RABBITMQ_USER: "${RABBITMQ_USER}"
-        RABBITMQ_PASS: "${RABBITMQ_PASS}"
-        LOG_LEVEL: "INFO"
-        DB_HOST: "${DB_HOST}"
-        DB_NAME: "${DB_NAME}"
-        DB_USERNAME: "${DB_USERNAME}"
-        DB_PASSWORD: "${DB_PASSWORD}"
-        VIPS_API_USERNAME: "${VIPS_API_USERNAME}"
-        VIPS_API_PASSWORD: "${VIPS_API_PASSWORD}"
-        VIPS_API_ROOT_URL: "${VIPS_API_ROOT_URL}"
-        GEOCODER_API_URI: "${GEOCODER_URL}"
-        GEOCODE_BASIC_AUTH_USER: "${GEOCODE_BASIC_AUTH_USER}"
-        GEOCODE_BASIC_AUTH_PASS: "${GEOCODE_BASIC_AUTH_PASS}"
+      networks:
+        - docker-network
+      ports:
+        - "5003:5000"
+
 
 
 networks:

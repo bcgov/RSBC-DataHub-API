@@ -11,24 +11,31 @@
           </div>
       </div>
     </div>
-      <div class="card-body lightgray" v-if="! isReadOnly">
+      <div class="card-body lightgray">
         <div>
           <form-row>
-            <check-field fg_class="col-sm-12" :show_label="false" id="corporate_owner" :options="['Owned by corporate entity']" >Corporation</check-field>
+            <in-line-check-box fg_class="col-sm-12"
+                         id="corp_owner"
+                         :path="path" :option="true">Owned by corporate entity</in-line-check-box>
+          </form-row>
+          <form-row v-if="doesAttributeExist(path, 'corp_owner_true')">
+            <text-field id="name" :path="path + '/corp_owner_true'" fg_class="col-sm-12" rules="max:40">
+              Corporation Name</text-field>
+          </form-row>
+          <form-row v-if="! doesAttributeExist(path, 'corp_owner_true')">
+            <text-field id="owners_last_name" :path="path + '/corp_owner_false'"  fg_class="col-sm-6" rules="max:20">
+              Owner's Last Name</text-field>
+            <text-field id="owners_first_name" :path="path + '/corp_owner_false'" fg_class="col-sm-6" rules="max:20">
+              Owner's First Name</text-field>
           </form-row>
           <form-row>
-            <text-field v-if="corporateOwner" id="owners_corporation" fg_class="col-sm-12" rules="max:40">Corporation Name</text-field>
-            <text-field v-if="!corporateOwner" id="owners_last_name" fg_class="col-sm-6" rules="max:20">Owner's Last Name</text-field>
-            <text-field v-if="!corporateOwner" id="owners_first_name" fg_class="col-sm-6" rules="max:20">Owner's First Name</text-field>
+            <text-field id="owners_address1" :path="path" fg_class="col-sm-12" placeholder="Address" rules="max:25">Address Line</text-field>
           </form-row>
           <form-row>
-            <text-field id="owners_address1" fg_class="col-sm-12" placeholder="Address" rules="max:25">Address Line</text-field>
-          </form-row>
-          <form-row>
-            <type-ahead-field id="owners_city" fg_class="col-sm-4" :suggestions="getArrayOfBCCityNames" rules="max:20">City</type-ahead-field>
-            <province-field id="owners_province" fg_class="col-sm-2">Prov / State</province-field>
-            <text-field id="owners_postal" fg_class="col-sm-2">Postal / Zip</text-field>
-            <phone-field id="owners_phone" fg_class="col-sm-4" rules="phone">Phone</phone-field>
+            <text-field id="owners_city" :path=path fg_class="col-sm-4" rules="max:20">City</text-field>
+            <province-field id="owners_province" :path=path fg_class="col-sm-2">Prov / State</province-field>
+            <text-field id="owners_postal" :path=path fg_class="col-sm-2">Postal / Zip</text-field>
+            <phone-field id="owners_phone" :path=path fg_class="col-sm-4" rules="phone">Phone</phone-field>
           </form-row>
         </div>
       </div>
@@ -56,7 +63,7 @@ export default {
     ...mapMutations(["populateOwnerFromDriver"])
   },
   computed: {
-    ...mapGetters(["checkBoxStatus", "corporateOwner"])
+    ...mapGetters(["checkBoxStatus"])
   }
 }
 </script>

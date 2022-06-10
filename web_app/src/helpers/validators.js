@@ -155,7 +155,7 @@ extend('plate_year', {
 extend('phone', {
   validate(value) {
     let result = false;
-    const regexMatch = value.match("^[0-9]{10}$")
+    const regexMatch = value.match("^[0-9]{3}-[0-9]{3}-[0-9]{4}$")
     if (Array.isArray(regexMatch)) {
        result = regexMatch[0] === value;
     }
@@ -163,7 +163,7 @@ extend('phone', {
       valid: result
     };
   },
-  message: "Phone number format ##########"
+  message: "Phone number format ###-###-####"
 });
 
 extend('email', {
