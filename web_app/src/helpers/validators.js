@@ -56,9 +56,10 @@ extend('validDt', {
 
 extend('validTime', {
   validate(value) {
+    const not24 = parseInt(value.slice(0,2)) < 24
     return {
       required: true,
-      valid: moment(value, "HHmm", true).isValid()
+      valid: moment(value, "HHmm", true).isValid() && not24
     }
   },
   message: "That's not a valid time"
