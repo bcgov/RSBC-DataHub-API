@@ -27,7 +27,6 @@ import ReadOnlyElement from "@/components/questions/ReadOnlyElement";
 import InLineCheckBox from "@/components/questions/InLineCheckBox";
 import ImpoundLotOperator from "@/components/questions/ImpoundLotOperator";
 import {mapGetters} from "vuex";
-import ProvinceAutocomplete from "@/components/questions/ProvinceAutocomplete";
 
 
 export default {
@@ -73,7 +72,6 @@ export default {
     PhoneField,
     PlateNumber,
     ProvinceField,
-    ProvinceAutocomplete,
     RadioField,
     RadioDescription,
     ReadOnlyElement,

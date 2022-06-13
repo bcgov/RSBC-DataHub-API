@@ -10,7 +10,7 @@
     <vehicle-colour :path=path fg_class="col-sm-3"></vehicle-colour>
   </form-row>
   <form-row>
-    <province-field id="puj_code" :path="path"  fg_class="col-sm-2" :default-to-bc=false>PUJ Code</province-field>
+    <province-field id="puj_code" :path="path"  fg_class="col-sm-2" :default-to-bc=false>NSC Prov / State</province-field>
     <text-field id="nsc_number" :path="path"  fg_class="col-sm-7" rules="max:14">NSC Number</text-field>
   </form-row>
 </form-card>
