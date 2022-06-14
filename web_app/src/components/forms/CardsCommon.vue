@@ -4,12 +4,12 @@ import TextField from "@/components/questions/TextField";
 import ProvinceField from "@/components/questions/ProvinceField";
 import JurisdictionField from "@/components/questions/JurisdictionField";
 import DriverLicenceNumber from "@/components/questions/DriverLicenceNumber";
-import TypeAheadField from "@/components/questions/TypeAheadField";
 import GenderField from "@/components/questions/GenderField";
 import PhoneField from "@/components/questions/PhoneField";
 import EmailField from "@/components/questions/EmailField";
 import DateField from "@/components/questions/DateField";
 import DobField from "@/components/questions/DoBField";
+import OffenceCity from "@/components/questions/OffenceCity";
 import PlateNumber from "@/components/questions/PlateNumber";
 import RadioField from "@/components/questions/RadioField";
 import RadioDescription from "@/components/questions/RadioDescription";
@@ -69,6 +69,7 @@ export default {
     InLineCheckBox,
     ImpoundLotOperator,
     JurisdictionField,
+    OffenceCity,
     PhoneField,
     PlateNumber,
     ProvinceField,
@@ -78,7 +79,6 @@ export default {
     ShadowBox,
     TextField,
     TimeField,
-    TypeAheadField,
     VehicleColour,
     VehicleMakeModel,
     VehicleStyle,

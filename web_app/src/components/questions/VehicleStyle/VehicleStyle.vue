@@ -1,6 +1,6 @@
 <template>
 <div v-if="visible" class="form-group" :class="fg_class">
-  <validation-provider :rules="rules" :name="id" v-slot="{ errors }">
+  <validation-provider :rules="rules" :name="id" v-slot="{ errors, required }">
     <div class="d-flex justify-content-between mb-2">
       <div>
         <label :for="id">Vehicle Style

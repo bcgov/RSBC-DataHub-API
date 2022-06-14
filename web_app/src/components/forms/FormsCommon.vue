@@ -15,7 +15,6 @@ import ProvinceField from "@/components/questions/ProvinceField";
 import RadioField from "@/components/questions/RadioField";
 import ShadowBox from "@/components/forms/ShadowBox";
 import TextField from "@/components/questions/TextField";
-import TypeAheadField from "@/components/questions/TypeAheadField";
 import { ValidationObserver } from 'vee-validate';
 import {mapGetters, mapMutations} from "vuex";
 
@@ -63,7 +62,6 @@ export default {
     RadioField,
     ShadowBox,
     TextField,
-    TypeAheadField,
     ValidationObserver
   }
 }

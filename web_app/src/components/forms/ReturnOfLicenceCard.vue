@@ -9,9 +9,9 @@
         <radio-field id="return_of_licence" fg_class="col-sm-12" :options='["By mail", "Pickup in person"]'>How will licence be returned?</radio-field>
       </form-row>
       <form-row v-if="licencePickupInPerson && isLicenceSurrendered">
-        <type-ahead-field id="pickup_address" :suggestions="getArrayOfPickupLocations" fg_class="col-sm-6">
-          Pickup address and city
-        </type-ahead-field>
+<!--        <type-ahead-field id="pickup_address" :suggestions="getArrayOfPickupLocations" fg_class="col-sm-6">-->
+<!--          Pickup address and city-->
+<!--        </type-ahead-field>-->
       </form-row>
     </form-card>
   </div>

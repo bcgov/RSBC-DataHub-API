@@ -1,9 +1,11 @@
 <template>
 <div v-if="visible" class="form-group" :class="fg_class">
-  <validation-provider :rules="rules" :name="id" v-slot="{ errors }">
+  <validation-provider :rules="rules" :name="id" v-slot="{ errors, required }">
       <div class="d-flex justify-content-between mb-2">
         <div>
-          <label :for="id">Vehicle Colour(s)</label>
+          <label :for="id">Vehicle Colour(s)
+          <span v-if="required" class="text-danger"> *</span>
+          </label>
         </div>
         <b-button v-b-modal:vehicle-colour class="btn btn-primary">Edit</b-button>
       </div>
