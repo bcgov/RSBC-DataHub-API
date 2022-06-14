@@ -18,7 +18,6 @@
           button-only
           right
           :id="id"
-          :value="getDatePickerValue"
           :disabled="disabled || hasFormBeenPrinted"
           @input="updateDate"
           reset-button
