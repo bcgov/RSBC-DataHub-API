@@ -9,12 +9,12 @@
         <return-of-licence-card :path="getPath"></return-of-licence-card>
         <prohibition-information-card :path="getPath"></prohibition-information-card>
         <reasonable-grounds-card :path="getPath"></reasonable-grounds-card>
-        <test-administered-alcohol-card :path="getPath + '/alcohol'"
+        <test-administered-alcohol-card :path="getPath + '/prohibition_type_alcohol'"
                                         v-if="doesAttributeExist(getPath, 'prohibition_type_alcohol')
                                         && doesAttributeExist(getPath, 'prescribed_device_yes')">
 
         </test-administered-alcohol-card>
-        <test-administered-drugs-card :path="getPath + '/drugs'"
+        <test-administered-drugs-card :path="getPath + '/prohibition_type_drugs'"
                                       v-if="doesAttributeExist(getPath, 'prohibition_type_drugs')
                                         && doesAttributeExist(getPath, 'prescribed_device_yes')">
         </test-administered-drugs-card>

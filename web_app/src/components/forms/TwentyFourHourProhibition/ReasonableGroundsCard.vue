@@ -32,6 +32,12 @@
           Why was a prescribed test not used?
         </radio-description>
       </form-row>
+      <form-row v-if="doesAttributeExist(this.path, 'prescribed_device_yes')">
+        <date-field id="test_date" :path="path + '/prescribed_device_yes'" fg_class="col-sm-3"
+                  rules="required|validDt|notFutureDt|notGtYearAgo">Date of test</date-field>
+        <time-field id="test_time" :path="path + '/prescribed_device_yes'" fg_class="col-sm-3"
+                    rules="required|validTime|notFutureDateTime:@test_date|notBeforeCareDateTime:@prohibition_start_date,@prohibition_start_time,@test_date">Time</time-field>
+      </form-row>
     </div>
 </form-card>
 </template>

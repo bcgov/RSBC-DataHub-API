@@ -1833,7 +1833,7 @@
         "field_type": "checkbox",
         "font_size": 14,
         "function": "isExists",
-        "parameters": "alcohol/test_administered_asd_true",
+        "parameters": "prohibition_type_alcohol/test_administered_asd",
         "start": {
           "x": 144.5,
           "y": 102.3
@@ -1843,7 +1843,7 @@
         "field_type": "text",
         "font_size": 10,
         "function": "getFormattedDate",
-        "parameters": ["alcohol/test_administered_asd_true/asd_expiry_date", "YYYY-MM-DD"],
+        "parameters": ["prohibition_type_alcohol/test_administered_asd/asd_expiry_date", "YYYY-MM-DD"],
         "start": {
           "x": 207.4,
           "y": 102
@@ -1853,7 +1853,7 @@
         "field_type": "checkbox",
         "font_size": 14,
         "function": "isExistsOr",
-        "parameters": ["alcohol/test_administered_instrument_true", "drugs/test_administered_adse_true"],
+        "parameters": ["prohibition_type_alcohol/test_administered_instrument", "prohibition_type_drugs/test_administered_adse"],
         "start": {
           "x": 144.5,
           "y": 107.5
@@ -1863,7 +1863,7 @@
         "field_type": "text",
         "font_size": 10,
         "function": "conditionalMultiLabel",
-        "parameters": [["alcohol/test_administered_instrument_true", "Intox EC/IR II"],["drugs/test_administered_adse_true", "ADSE"]],
+        "parameters": [["prohibition_type_alcohol/test_administered_instrument", "Intox EC/IR II"],["prohibition_type_drugs/test_administered_adse", "ADSE"]],
         "start": {
           "x": 190.2,
           "y": 107.5
@@ -1873,7 +1873,7 @@
         "field_type": "checkbox",
         "font_size": 14,
         "function": "isExistsOr",
-        "parameters": ["alcohol/test_administered_sfst_true", "drugs/test_administered_sfst_true"],
+        "parameters": ["prohibition_type_alcohol/test_administered_sfst", "prohibition_type_drugs/test_administered_sfst"],
         "start": {
           "x": 144.5,
           "y": 111.9
@@ -1883,7 +1883,7 @@
         "field_type": "text",
         "font_size": 10,
         "function": "concatenateDateAndTime",
-        "parameters": [["alcohol/test_date", "alcohol/test_time"], ["drugs/test_date", "drugs/test_time"]],
+        "parameters": [["prescribed_device_yes/test_date", "prescribed_device_yes/test_time"]],
         "start": {
           "x": 160.9,
           "y": 117
@@ -1893,7 +1893,7 @@
         "field_type": "checkbox",
         "font_size": 14,
         "function": "isExists",
-        "parameters": "alcohol/test_administered_asd_true/result_alcohol_under",
+        "parameters": "prohibition_type_alcohol/test_administered_asd/result_alcohol_under",
         "start": {
           "x": 144.5,
           "y": 126.7
@@ -1903,7 +1903,7 @@
         "field_type": "checkbox",
         "font_size": 14,
         "function": "isExists",
-        "parameters": "alcohol/test_administered_asd_true/result_alcohol_over",
+        "parameters": "prohibition_type_alcohol/test_administered_asd/result_alcohol_over",
         "start": {
           "x": 168.7,
           "y": 126.7
@@ -1913,7 +1913,7 @@
         "field_type": "checkbox",
         "font_size": 14,
         "function": "isExists",
-        "parameters": "alcohol/test_administered_instrument_true",
+        "parameters": "prohibition_type_alcohol/test_administered_instrument",
         "start": {
           "x": 195.4,
           "y": 126.7
@@ -1923,7 +1923,7 @@
         "field_type": "text",
         "font_size": 10,
         "function": "getStringValueWithSuffix",
-        "parameters": ["alcohol/test_administered_instrument_true/test_result_bac", "mg%"],
+        "parameters": ["prohibition_type_alcohol/test_administered_instrument/test_result_bac", "mg%"],
         "start": {
           "x": 207.4,
           "y": 126.7
@@ -1943,7 +1943,7 @@
         "field_type": "text",
         "font_size": 10,
         "function": "conditionalMultiLabel",
-        "parameters": [["drugs/test_administered_adse_true/positive_adse_thc", "THC"],["drugs/test_administered_adse_true/positive_adse_cocaine", "COCAINE"]],
+        "parameters": [["prohibition_type_drugs/test_administered_adse/positive_adse_thc", "THC"],["prohibition_type_drugs/test_administered_adse/positive_adse_cocaine", "COCAINE"]],
         "start": {
           "x": 194.5,
           "y": 136.3
@@ -1953,7 +1953,7 @@
         "field_type": "text",
         "font_size": 10,
         "function": "conditionalMultiLabel",
-        "parameters": [["drugs/test_administered_sfst_true", "SFST"], ["drugs/test_administered_dre_true", "DRE"]],
+        "parameters": [["prohibition_type_drugs/test_administered_sfst", "SFST"], ["prohibition_type_drugs/test_administered_dre", "DRE"]],
         "start": {
           "x": 203.1,
           "y": 113.3
@@ -1963,7 +1963,7 @@
         "field_type": "text",
         "font_size": 10,
         "function": "conditionalLabel",
-        "parameters": ["alcohol/test_administered_sfst_true", "SFST"],
+        "parameters": ["prohibition_type_alcohol/test_administered_sfst", "SFST"],
         "start": {
           "x": 203.1,
           "y": 113.3
