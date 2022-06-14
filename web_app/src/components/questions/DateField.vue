@@ -4,21 +4,31 @@
     <label :for="id"><slot></slot>
       <span v-if="required" class="text-danger"> *</span>
       <span class="small text-muted"> YYYYMMDD</span>
-<!--      <span class="text-muted" v-if="isValidDate"> ({{ timeAgo }})</span>-->
     </label>
-    <div class="col-xs-10">
-      <div class="input-group mb-1">
-        <input type="text"
-           class="form-control "
-               :class="errors.length > 0 ? 'border-danger bg-warning' : ''"
-           :disabled="disabled || hasFormBeenPrinted"
-           placeholder="YYYYMMDD"
-           :id="id"
-           :name="id"
-           v-model="attribute">
-      </div>
-      <div class="small text-danger ml-1">{{ errors[0] }}</div>
-    </div>
+    <b-input-group class="mb-3">
+      <b-form-input
+        :id="id"
+        v-model="attribute"
+        type="text"
+        placeholder="YYYYMMDD"
+        autocomplete="off"
+      ></b-form-input>
+      <b-input-group-append>
+        <b-form-datepicker
+          button-only
+          right
+          :id="id"
+          :value="getDatePickerValue"
+          :disabled="disabled || hasFormBeenPrinted"
+          @input="updateDate"
+          reset-button
+          locale="en-CA"
+          label-reset-button="Clear"
+          placeholder="Choose a date"
+        ></b-form-datepicker>
+      </b-input-group-append>
+    </b-input-group>
+    <div class="small text-danger ml-1">{{ errors[0] }}</div>
   </validation-provider>
 </div>
 </template>
@@ -34,10 +44,27 @@ export default {
 
   methods: {
     ...mapMutations(["updateFormField"]),
+    updateDate(event) {
+      const payload = {"target": {
+          "id": this.id,
+          "path": this.path,
+          "value": event.replace(/-/gi, "")
+        }}
+      this.updateFormField(payload);
+    },
   },
 
   computed: {
     ...mapGetters(["getAttributeValue", "hasFormBeenPrinted"]),
+    getDatePickerValue() {
+      const dateString = this.getAttributeValue(this.path, this.id)
+      if (dateString) {
+        return dateString.slice(0,4) + '-' + dateString.slice(5,2) + '-' + dateString.slice(7,2)
+      } else {
+        return ''
+      }
+
+    }
   }
 
 }
