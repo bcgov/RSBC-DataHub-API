@@ -115,4 +115,18 @@ export default {
   border-color: white;
 }
 
+::-webkit-scrollbar {
+    width: 2em;
+    height: 2em
+}
+::-webkit-scrollbar-button {
+    background: #ccc
+}
+::-webkit-scrollbar-track-piece {
+    background: #888
+}
+::-webkit-scrollbar-thumb {
+    background: #eee
+}
+
 </style>
