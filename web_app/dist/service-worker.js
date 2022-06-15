@@ -1,12 +1,14 @@
-importScripts("/roadside-forms/precache-manifest.68441980317cda09f1febf60c6648675.js", "/roadside-forms/workbox-v4.3.1/workbox-sw.js");
+importScripts("/roadside-forms/precache-manifest.b96b2c4358eefb93c5db212294df5fb5.js", "/roadside-forms/workbox-v4.3.1/workbox-sw.js");
 workbox.setConfig({modulePathPrefix: "/roadside-forms/workbox-v4.3.1"});
 self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {
     ignoreURLParametersMatching: [/.*/]
 });
 
-self.addEventListener("message", msg => {
-    if (msg.data.action === 'SKIP_WAITING') self.skipWaiting();
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting()
+  }
 })
 
 // Cache CSS, JS, and Web Worker requests with a Stale While Revalidate strategy
@@ -54,8 +56,7 @@ workbox.routing.registerRoute(({request, url}) =>
     url.pathname.includes('/api/v1/static/jurisdictions') ||
     url.pathname.includes('/api/v1/static/provinces') ||
     url.pathname.includes('/api/v1/static/vehicles') ||
-    url.pathname.includes('/api/v1/static/vehicle_styles') ||
-    url.pathname.includes('/api/v1/static/colors'),
+    url.pathname.includes('/api/v1/static/vehicle_styles'),
   new workbox.strategies.CacheFirst({
     cacheName: 'static-api',
     plugins: [
