@@ -7,7 +7,7 @@
     </form-row>
     <form-row>
       <text-field id="last_name" :path="path"  fg_class="col-sm-4" placeholder="Last Name" rules="required|max:20">Last Name</text-field>
-      <text-field id="first_name" :path="path"  fg_class="col-sm-4" placeholder="Given Names" rules="required|max:20">Given Names</text-field>
+      <text-field id="first_name" :path="path"  fg_class="col-sm-4" placeholder="Given Names" rules="max:20">Given Names</text-field>
       <dob-field id="dob" :path="path"  fg_class="col-sm-4">Date of Birth</dob-field>
     </form-row>
     <form-row>
