@@ -31,7 +31,7 @@ workbox.routing.registerRoute(
 
 // Cache frequently changing API resources using "StaleWhileRevalidate" method
 workbox.routing.registerRoute(({request, url}) =>
-    url.pathname.includes('/api/v1/impound_lot_operators') ||
+    url.pathname.includes('/api/v1/static/impound_lot_operators') ||
     url.pathname.includes('/api/v1/users') ||
     url.pathname.includes('/api/v1/user_roles'),
   new workbox.strategies.StaleWhileRevalidate({
@@ -46,7 +46,7 @@ workbox.routing.registerRoute(({request, url}) =>
 );
 
 
-// Cache static API resources for 2 days
+// Cache these API resources for 2 days
 workbox.routing.registerRoute(({request, url}) =>
     url.pathname.includes('/api/v1/static/agencies') ||
     url.pathname.includes('/api/v1/static/cities') ||
