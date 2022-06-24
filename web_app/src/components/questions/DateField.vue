@@ -17,7 +17,7 @@
         <b-form-datepicker
           button-only
           right
-          :id="id"
+          :id="id + '_button'"
           :disabled="disabled || hasFormBeenPrinted"
           @input="updateDate"
           reset-button
