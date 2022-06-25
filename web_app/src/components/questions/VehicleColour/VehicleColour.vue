@@ -16,6 +16,7 @@
                    placeholder="Search for a car colour"
                    label="display_name"
                    track-by="code"
+                   :max=2
                    :options="colours"
                    :multiple="true" :taggable="true"></multiselect>
     <div class="small text-danger">{{ errors[0] }}</div>
@@ -35,6 +36,7 @@
                    placeholder="Search for a car colour"
                    label="display_name"
                    track-by="code"
+                   :max=2
                    :options="colours"
                    :multiple="true" :taggable="true"></multiselect>
         </div>
