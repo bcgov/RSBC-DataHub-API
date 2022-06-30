@@ -35,9 +35,11 @@ export default {
   mixins: [FieldCommon],
   mounted () {
     if(this.defaultToBc) {
-      // set initial value to BC
-      const bc = this.getArrayOfProvinces.filter(j => j.objectCd === "BC")[0]
-      this.$store.commit("updateFormField", { target: { id: this.id, path: this.path, value: bc}})
+      // set initial value to BC if value not set
+      if( ! this.getAttributeValue(this.path, this.id)) {
+        const bc = this.getArrayOfProvinces.filter(j => j.objectCd === "BC")[0]
+        this.$store.commit("updateFormField", { target: { id: this.id, path: this.path, value: bc}})
+      }
     }
   },
   computed: {

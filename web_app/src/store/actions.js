@@ -115,8 +115,31 @@ export const actions = {
         )
     },
 
-    async lookupDriverFromICBC(context, icbcPayload) {
-        console.log("inside actions.js lookupDriverFromICBC(): " + icbcPayload)
+    // call to action that looks up the province code from the data that ICBC provides
+    // if promise resolves successfully then mutate province field with jurisdiction object
+    // if promise fails, do nothing
+    async lookupDriverProvince(context, [pathString, icbcPayload]) {
+        console.log("inside actions.js lookupDriverProvince(): ", pathString, icbcPayload)
+        const icbcProvince = icbcPayload['party']['addresses'][0]['region']
+        const jurisdictionObject = context.state.jurisdictions.filter(o => o.objectCd === icbcProvince)
+        return await new Promise((resolve, reject) => {
+            if (jurisdictionObject) {
+                const event = {
+                    "target": {
+                        "value": jurisdictionObject,
+                        "path": pathString,
+                        "id": "province"
+                    }
+                }
+                resolve(context.commit("updateFormField", event))
+            } else {
+                reject({"error": "Can't find " + icbcProvince + " in list of jurisdictions"})
+            }
+        })
+    },
+
+    async lookupDriverFromICBC(context, [pathString, icbcPayload]) {
+        console.log("inside actions.js lookupDriverFromICBC():", pathString, icbcPayload)
         let dlNumber = icbcPayload['dlNumber']
         const url = constants.API_ROOT_URL + "/api/v1/icbc/drivers/" + dlNumber
         return await new Promise((resolve, reject) => {
@@ -126,13 +149,13 @@ export const actions = {
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log("data", data)
+                    console.log("ICBC driver data", data)
                     if ("error" in data) {
                         reject("message" in data['error'] ? {"description": data['error'].message }: {"description": "No valid response"})
                     } else {
+                        context.dispatch("lookupDriverProvince", [pathString, data])
                         resolve(context.commit("populateDriverFromICBC", data ))
                     }
-
                 })
                 .catch( (error) => {
                     if (error) {
