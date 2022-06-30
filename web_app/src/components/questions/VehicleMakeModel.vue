@@ -5,6 +5,7 @@
         <span v-if="required" class="text-danger"> *</span>
       </label>
       <multiselect :value="getAttributeValue(path, id)"
+                    :id="id"
                      @input="updateVehicle"
                      tag-placeholder="That make and model isn't found"
                      placeholder="Search for a vehicle make and model"

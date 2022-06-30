@@ -7,9 +7,10 @@
           <span v-if="required" class="text-danger"> *</span>
         </label>
       </div>
-      <b-button v-b-modal:vehicle-style class="btn btn-primary">Edit</b-button>
+      <b-button v-b-modal:vehicle-style class="btn btn-primary" id="vehicle-style-button">Edit</b-button>
     </div>
     <multiselect :value="getAttributeValue(path, id)"
+                   :id="id"
                    @input="updateStyle"
                    :disabled="disabled || hasFormBeenPrinted"
                    tag-placeholder="That style isn't an option"

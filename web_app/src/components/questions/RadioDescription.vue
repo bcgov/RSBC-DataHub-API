@@ -5,7 +5,7 @@
       <span v-if="required" class="small text-danger"> *</span>
       <div class="form-check" v-for="option in options" :key="option[0]">
         <input class="form-check-input"
-               :id="id"
+               :id="id + '_' + option"
                v-model="attribute"
                type="radio" v-bind:value="option[1]" :name="id"
                :disabled="disabled || hasFormBeenPrinted">

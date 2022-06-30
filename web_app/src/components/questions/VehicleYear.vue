@@ -2,6 +2,7 @@
   <div class="form-group" :class="fg_class">
     <label :for="id">Vehicle Year</label>
     <multiselect :value="getAttributeValue(path, id)"
+                   :id="id"
                    @input="updateVehicle"
                    tag-placeholder="That year isn't found"
                    placeholder="Select a vehicle year"

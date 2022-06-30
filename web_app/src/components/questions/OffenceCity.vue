@@ -4,6 +4,7 @@
       <label :for="id"><slot></slot></label>
       <span v-if="required" class="small text-danger"> *</span>
       <multiselect v-model="attribute"
+                   :id="id"
                    tag-placeholder="That's not an option"
                    :disabled="disabled || hasFormBeenPrinted"
                    placeholder="Search for a BC city or town name"

@@ -5,7 +5,7 @@
         <a :href="`${publicPath}`" id="home"><img width="300px" :src="`${publicPath}assets/BCID_RoadSafetyBC_logo_transparent.png`" ></a>
         <div class="d-flex align-items-end flex-column">
           <div class="font-weight-bold text-warning">
-            PILOT <span class="text-light small">{{ getAppVersion }}</span>
+            PILOT <span class="text-light small" id="app-version">{{ getAppVersion }}</span>
           </div>
 
           <div class="mt-auto small">

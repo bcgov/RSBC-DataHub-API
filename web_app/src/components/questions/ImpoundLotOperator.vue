@@ -4,6 +4,7 @@
       <form-row>
          <multiselect v-model="query"
                       @input="typeAheadUpdate"
+                      id="ilo_multiselect"
                    tag-placeholder="That's not an option"
                    :disabled="disabled || hasFormBeenPrinted"
                    placeholder="Search for an Impound Lot Operator"

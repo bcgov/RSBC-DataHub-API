@@ -7,9 +7,10 @@
           <span v-if="required" class="text-danger"> *</span>
           </label>
         </div>
-        <b-button v-b-modal:vehicle-colour class="btn btn-primary">Edit</b-button>
+        <b-button v-b-modal:vehicle-colour class="btn btn-primary" id="colour-edit-button">Edit</b-button>
       </div>
       <multiselect :value="getAttributeValue(path, id)"
+                   :id="id"
                    @input="updateColor"
                    tag-placeholder="That colour isn't an option"
                    :disabled="disabled || hasFormBeenPrinted"
@@ -32,6 +33,7 @@
         <div class="h4" v-if="currentValue.length > 0">
           <multiselect :value="getAttributeValue(path, id)"
                        @input="updateColor"
+                       :id="id + '_modal'"
                    tag-placeholder="That colour isn't an option"
                    placeholder="Search for a car colour"
                    label="display_name"
