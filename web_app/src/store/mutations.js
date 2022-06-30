@@ -80,6 +80,7 @@ export const mutations = {
     populateDriverFromICBC(state, data) {
         let form_object = state.currently_editing_form_object
         const address = data['party']['addresses'][0]
+        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "dob", data['birthDate'].replace("-",""));
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "drivers_number", data['dlNumber']);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "last_name", data['party']['lastName']);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "first_name", data['party']['firstName']);
@@ -130,6 +131,7 @@ export const mutations = {
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_city", root.city);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_province", root.province);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_postal", root.postal);
+        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owner_dob", root.dob);
         // delete any corporate owner that may have been created
         Vue.delete(state.forms[form_object.form_type][form_object.form_id].data, "corp_owner_true");
     },
