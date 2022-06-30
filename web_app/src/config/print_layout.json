@@ -1289,7 +1289,7 @@
         "field_type": "text",
         "font_size": 10,
         "function": "getValuesConcatenatedWithCommas",
-        "parameters": ["address1","city","province","postal"],
+        "parameters": ["address1","city","province/objectCd","postal"],
         "start": {
           "x": 33.2,
           "y": 52
@@ -2370,7 +2370,7 @@
         "field_type": "text",
         "font_size": 10,
         "function": "getValuesConcatenatedWithCommas",
-        "parameters": ["address1","city","province","postal"],
+        "parameters": ["address1","city","province/objectCd","postal"],
         "start": {
           "x": 33.2,
           "y": 49.5
