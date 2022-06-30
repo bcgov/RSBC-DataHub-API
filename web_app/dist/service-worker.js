@@ -1,4 +1,4 @@
-importScripts("/roadside-forms/precache-manifest.b96b2c4358eefb93c5db212294df5fb5.js", "/roadside-forms/workbox-v4.3.1/workbox-sw.js");
+importScripts("/roadside-forms/precache-manifest.bd623bcee49cb4bddde7ea4a935b5472.js", "/roadside-forms/workbox-v4.3.1/workbox-sw.js");
 workbox.setConfig({modulePathPrefix: "/roadside-forms/workbox-v4.3.1"});
 self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {
@@ -33,7 +33,7 @@ workbox.routing.registerRoute(
 
 // Cache frequently changing API resources using "StaleWhileRevalidate" method
 workbox.routing.registerRoute(({request, url}) =>
-    url.pathname.includes('/api/v1/impound_lot_operators') ||
+    url.pathname.includes('/api/v1/static/impound_lot_operators') ||
     url.pathname.includes('/api/v1/users') ||
     url.pathname.includes('/api/v1/user_roles'),
   new workbox.strategies.StaleWhileRevalidate({
@@ -48,7 +48,7 @@ workbox.routing.registerRoute(({request, url}) =>
 );
 
 
-// Cache static API resources for 2 days
+// Cache these API resources for 2 days
 workbox.routing.registerRoute(({request, url}) =>
     url.pathname.includes('/api/v1/static/agencies') ||
     url.pathname.includes('/api/v1/static/cities') ||
