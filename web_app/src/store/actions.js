@@ -121,12 +121,12 @@ export const actions = {
     async lookupDriverProvince(context, [pathString, icbcPayload]) {
         console.log("inside actions.js lookupDriverProvince(): ", pathString, icbcPayload)
         const icbcProvince = icbcPayload['party']['addresses'][0]['region']
-        const jurisdictionObject = context.state.jurisdictions.filter(o => o.objectCd === icbcProvince)
+        const jurisdictionArray = context.state.jurisdictions.filter(o => o.objectCd === icbcProvince)
         return await new Promise((resolve, reject) => {
-            if (jurisdictionObject) {
+            if (jurisdictionArray.length > 0) {
                 const event = {
                     "target": {
-                        "value": jurisdictionObject,
+                        "value": jurisdictionArray[0],
                         "path": pathString,
                         "id": "province"
                     }
