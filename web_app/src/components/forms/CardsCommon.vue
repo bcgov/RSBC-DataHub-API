@@ -40,7 +40,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getAttributeValue", "getArrayOfBCCityNames", "getArrayOfAgencies", "doesAttributeExist"]),
+    ...mapGetters([
+        "getAttributeValue",
+        "getArrayOfBCCityNames",
+        "getArrayOfAgencies",
+        "doesAttributeExist",
+        "hasFormBeenPrinted"
+    ]),
     offenceCityRules() {
       return {
         required: true,

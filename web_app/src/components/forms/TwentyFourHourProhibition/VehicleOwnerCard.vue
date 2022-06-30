@@ -6,7 +6,10 @@
           <div class="col-6 pt-1 pl-0">Registered Owner</div>
           <div class="col-6 text-right">
             <div class="custom-control custom-switch">
-              <div type="button" @click="populateOwnerFromDriver" class="btn btn-secondary btn-sm small">Fill from driver</div>
+              <div type="button"
+                   :disabled="hasFormBeenPrinted"
+                   @click="populateOwnerFromDriver"
+                   class="btn btn-secondary btn-sm small">Fill from driver</div>
            </div>
           </div>
       </div>
