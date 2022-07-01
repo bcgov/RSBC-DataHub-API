@@ -113,8 +113,6 @@ objects:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
                   key: splunk-token
-            - name: FLASK_ENV
-              value: ${FLASK_ENV}
             - name: PYTHONPATH
               value: ${PYTHONPATH}
             - name: LOG_LEVEL

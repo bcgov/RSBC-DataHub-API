@@ -55,7 +55,6 @@ This endpoint is only available in the DEV and PR environments.
 
  The ingestor can be configured using environment variables.  
  - `SECRET_KEY` - is an alpha numerical string that Flask uses to keep client-side sessions secure. Each instance **MUST** set a unique key.
- - `FLASK_ENV` - can be set to "Development" for debugging purposes. By default, this environment variable is not set which turns off the debugging info.
  - `INGEST_USER` & `INGEST_PASS` - are the credentials the ingestor should use when connecting to RabbitMQ.  It is recommended that these credentials be different from the credentials used to administer RabbitMQ
 
  - `RABBITMQ_URL` - is the URL that the ingestor uses to connect to RabbitMQ.  By default, the URL is set to 'localhost'.

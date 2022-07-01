@@ -14,8 +14,6 @@ parameters:
   value: 'DEBUG'
 - name: ICBC_API_USERNAME
 - name: ICBC_API_PASSWORD
-- name: FLASK_ENV
-  value: 'development'
 - name: URL_SUFFIX
   required: true
 - name: CPU_REQUEST
