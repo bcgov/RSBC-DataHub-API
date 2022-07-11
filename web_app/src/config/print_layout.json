@@ -135,7 +135,7 @@
         "field_type": "text",
         "font_size": 12,
         "function": "getStringValue",
-        "parameters": "owners_province",
+        "parameters": "owners_province/objectCd",
         "start": {
           "x": 170,
           "y": 80
@@ -1429,7 +1429,7 @@
         "field_type": "text",
         "font_size": 8,
         "function": "getStringValue",
-        "parameters": "owners_province",
+        "parameters": "owners_province/objectCd",
         "start": {
           "x": 102.9,
           "y": 119
