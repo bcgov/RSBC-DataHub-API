@@ -176,8 +176,8 @@ def test_unauthorized_user_can_get_vehicles(as_guest, monkeypatch, roles):
                         follow_redirects=True,
                         content_type="application/json")
     assert resp.status_code == 200
-    assert "ABAR" == resp.json[0]['mk']
-    assert "ABARTH - " == resp.json[0]['search']
+    assert "AMGN" == resp.json[0]['mk']
+    assert " - Hummer" == resp.json[0]['search']
     assert responses.calls[0].request.body.decode() == json.dumps({
         'event': {
             'event': 'get static resource',
