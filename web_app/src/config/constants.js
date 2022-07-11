@@ -16,7 +16,7 @@ export default {
     // The maximum number of times app will attempt to retrieve unique IDs
     MAX_NUMBER_UNIQUE_ID_FETCH_ATTEMPTS: 2,
 
-    MIN_VEHICLE_YEAR: 1920,
+    MIN_VEHICLE_YEAR: 1900,
     MAX_VEHICLE_YEAR: moment().add(1, "years").format("YYYY"),
 
     TIMEZONE: "America/Vancouver",
