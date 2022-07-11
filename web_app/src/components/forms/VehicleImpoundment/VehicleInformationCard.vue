@@ -6,7 +6,7 @@
   </form-row>
   <form-row>
     <vehicle-year :path=path input_type="number" fg_class="col-sm-2" rules="max:4">Vehicle Year</vehicle-year>
-    <vehicle-make-model :path=path fg_class="col-sm-5" rules="max:7">Vehicle Make</vehicle-make-model>
+    <vehicle-make-model :path=path fg_class="col-sm-5">Vehicle Make</vehicle-make-model>
     <vehicle-colour :path=path fg_class="col-sm-3"></vehicle-colour>
   </form-row>
   <form-row>
