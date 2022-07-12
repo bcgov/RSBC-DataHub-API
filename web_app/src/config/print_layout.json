@@ -1873,7 +1873,7 @@
         "field_type": "checkbox",
         "font_size": 14,
         "function": "isExistsOr",
-        "parameters": ["prohibition_type_alcohol/test_administered_sfst", "prohibition_type_drugs/test_administered_sfst"],
+        "parameters": ["prohibition_type_alcohol/test_administered_sfst", "prohibition_type_drugs/test_administered_dre"],
         "start": {
           "x": 144.5,
           "y": 111.9
