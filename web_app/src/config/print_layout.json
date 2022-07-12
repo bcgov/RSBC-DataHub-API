@@ -1933,7 +1933,7 @@
         "field_type": "checkbox",
         "font_size": 14,
         "function": "isExists",
-        "parameters": "drugs",
+        "parameters": "prohibition_type_drugs",
         "start": {
           "x": 144.5,
           "y": 136.3
