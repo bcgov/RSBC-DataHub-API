@@ -25,8 +25,11 @@ export default {
   name: "JurisdictionObject",
   mixins: [FieldCommon],
   mounted () {
-    // set initial value to BC
-    this.updateJurisdictionByName("British Columbia")
+    // set initial value to BC if value not set
+    if( ! this.getAttributeValue(this.path, this.id)) {
+      const bc = this.getArrayOfProvinces.filter(j => j.objectCd === "BC")[0]
+      this.$store.commit("updateFormField", { target: { id: this.id, path: this.path, value: bc}})
+    }
   },
   computed: {
     ...mapGetters(["getArrayOfJurisdictions", "getAttributeValue", "hasFormBeenPrinted", "getJurisdictionByFullName"]),
