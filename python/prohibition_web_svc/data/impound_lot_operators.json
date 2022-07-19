@@ -156,12 +156,6 @@
    "phone": "250-593-4056"
  },
  {
-   "name": "BUSTER'S TOWING LTD",
-   "lot_address": "435 INDUSTRIAL AVE",
-   "city": "VANCOUVER",
-   "phone": "604-685-7246"
- },
- {
    "name": "BUSTER'S TOWING",
    "lot_address": "425 INDUSTRIAL AVE",
    "city": "VANCOUVER",
@@ -319,7 +313,7 @@
  },
  {
    "name": "COQUITLAM TOWING",
-   "lot_address": "218 CAYRE ST",
+   "lot_address": "218 CAYER ST",
    "city": "COQUITLAM",
    "phone": "604-939-6474"
  },
