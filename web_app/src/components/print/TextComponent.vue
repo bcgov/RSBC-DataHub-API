@@ -60,10 +60,6 @@ export default {
       return ''
     },
 
-    getJurisdictionCode(form_path, attribute) {
-      return this.getStringValue(form_path + '/' + attribute, 'objectCd')
-    },
-
     conditionalLabel(form_path, [attribute, label]) {
       if(this.isExists(form_path, attribute)) {
         return label

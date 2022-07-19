@@ -64,7 +64,7 @@
       "MV2721_DRIVER_DL_PROVINCE": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getJurisdictionCode",
+        "function": "getStringValue",
         "parameters": "drivers_licence_jurisdiction/objectCd",
         "start": {
           "x": 115,
@@ -195,7 +195,7 @@
       "MV2721_VEHICLE_PROVINCE": {
         "field_type": "text",
         "font_size": 12,
-        "function": "getJurisdictionCode",
+        "function": "getStringValue",
         "parameters": "plate_province/objectCd",
         "start": {
           "x": 60,
@@ -1268,7 +1268,7 @@
       "DRIVER_DL_PROVINCE": {
         "field_type": "text",
         "font_size": 10,
-        "function": "getJurisdictionCode",
+        "function": "getStringValue",
         "parameters": "drivers_licence_jurisdiction/objectCd",
         "start": {
           "x": 80,
@@ -1458,7 +1458,7 @@
       "VEHICLE_PROVINCE": {
         "field_type": "text",
         "font_size": 8,
-        "function": "getJurisdictionCode",
+        "function": "getStringValue",
         "parameters": "plate_province/objectCd",
         "start": {
           "x": 53.7,
@@ -2539,7 +2539,7 @@
       "VEHICLE_PROVINCE": {
         "field_type": "text",
         "font_size": 8,
-        "function": "getJurisdictionCode",
+        "function": "getStringValue",
         "parameters": "plate_province/objectCd",
         "start": {
           "x": 94.7,
