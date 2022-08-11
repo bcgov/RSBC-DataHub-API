@@ -1,0 +1,18 @@
+FROM python:3.7.3-stretch
+
+COPY vips_mock_svc/requirements.txt /tmp/
+
+RUN pip install -U pip
+RUN pip install -r /tmp/requirements.txt
+
+RUN useradd --create-home appuser
+WORKDIR /home/appuser
+USER appuser
+
+COPY vips_mock_svc /home/appuser/python/vips_mock_svc
+
+RUN [ "ls", "-R" ]
+
+RUN ["python", "-m", "pytest"]
+
+CMD [ "gunicorn", "--bind", "0.0.0.0:5000", "--pythonpath", "/home/appuser/python/vips_mock_svc", "vips_mock_svc.app:create_app()" ]
