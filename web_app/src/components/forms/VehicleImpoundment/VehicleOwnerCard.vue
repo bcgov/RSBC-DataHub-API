@@ -8,7 +8,7 @@
             <div class="custom-control custom-switch">
               <div type="button"
                    :disabled="hasFormBeenPrinted"
-                   @click="populateOwnerFromDriver"
+                   @click="populateOwnerFromDriver(path)"
                    class="btn btn-outline-primary btn-sm small">Fill from driver</div>
            </div>
           </div>
@@ -30,7 +30,7 @@
               Owner's Last Name</text-field>
             <text-field id="owners_first_name" :path="path + '/corp_owner_false'" fg_class="col-sm-5" rules="max:20">
               Owner's First Name</text-field>
-            <dob-field id="owner_dob" :path=path fg_class="col-sm-3" rules="dob8|dob">Date of Birth</dob-field>
+            <dob-field id="owner_dob" :path="path + '/corp_owner_false'" fg_class="col-sm-3" rules="dob8|dob">Date of Birth</dob-field>
           </form-row>
           <form-row>
             <text-field id="owners_address1" :path=path fg_class="col-sm-8" placeholder="Address" rules="lt25">Street Address</text-field>
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import {mapMutations} from "vuex";
+import {mapActions} from "vuex";
 import CardsCommon from "@/components/forms/CardsCommon";
 
 export default {
@@ -68,7 +68,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["populateOwnerFromDriver"])
+    ...mapActions(["populateOwnerFromDriver"])
   }
 }
 </script>

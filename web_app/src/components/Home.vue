@@ -1,9 +1,10 @@
 <template>
   <div>
+    <loading-resources v-if=" ! allResourcesLoaded"></loading-resources>
     <user-not-permitted-banner v-if="isDisplayUserNotAuthorizedBanner"></user-not-permitted-banner>
     <welcome-login-card v-if="isDisplayWelcomeLoginCard"></welcome-login-card>
     <issue-prohibitions v-if="isDisplayIssueProhibitions"></issue-prohibitions>
-    <recent-prohibitions v-if="isRecentProhibitions"></recent-prohibitions>
+    <recent-prohibitions v-if="isRecentProhibitions && allResourcesLoaded"></recent-prohibitions>
     <feedback-welcome v-if="isDisplayFeedbackBanner"></feedback-welcome>
   </div>
 </template>
@@ -16,10 +17,12 @@ import RecentProhibitions from "@/components/RecentProhibitions";
 import UserNotPermittedBanner from "@/components/UserNotPermittedBanner";
 import {mapGetters} from "vuex";
 import WelcomeLoginCard from "@/components/WelcomeLoginCard";
+import LoadingResources from "@/components/loading/LoadingResources";
 
 export default {
   name: "Home",
   components: {
+    LoadingResources,
      WelcomeLoginCard,
      UserNotPermittedBanner,
      RecentProhibitions,
@@ -28,6 +31,7 @@ export default {
   },
   computed: {
     ...mapGetters([
+      "allResourcesLoaded",
       "isUserHasAtLeastOneFormId",
       'isRecentProhibitions',
       'getFormData',

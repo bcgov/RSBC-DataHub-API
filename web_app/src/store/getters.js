@@ -1,6 +1,7 @@
 import moment from "moment";
 import constants from "../config/constants";
 import nestedFunctions from "@/helpers/nestedFunctions";
+import checkDigit from "@/helpers/checkDigit";
 
 export const getters = {
 
@@ -82,7 +83,7 @@ export const getters = {
         return false
     },
 
-    getArrayOfBCCityNames: state => {
+    getArrayOfBCCityObjects: state => {
         return state.cities;
     },
 
@@ -215,7 +216,7 @@ export const getters = {
         let root = state.forms[form_object.form_type][form_object.form_id].data;
         if ('plate_province' in root) {
             if ('objectDsc' in root['plate_province']) {
-                return root['plate_province'].objectDsc === "British Columbia" && getters.isUserAuthorized
+                return root['plate_province'].objectCd === "BC" && getters.isUserAuthorized
             }
         }
     },
@@ -229,7 +230,7 @@ export const getters = {
         let root = state.forms[form_object.form_type][form_object.form_id].data;
         if (root['drivers_licence_jurisdiction']) {
             if ("objectDsc" in root['drivers_licence_jurisdiction']) {
-                return root['drivers_licence_jurisdiction'].objectDsc === "British Columbia"
+                return root['drivers_licence_jurisdiction'].objectCd === "BC"
             }
         }
 
@@ -395,16 +396,7 @@ export const getters = {
     },
 
     isUserAuthorized: state => {
-        if (Array.isArray(state.user_roles)) {
-            for (const role of state.user_roles) {
-                if ('approved_dt' in role) {
-                    if (role.approved_dt) {
-                        return true
-                    }
-                }
-            }
-        }
-        return false
+        return state.isUserAuthorized;
     },
 
     getAllUsers: state => {
@@ -422,7 +414,7 @@ export const getters = {
     },
 
     isAppAvailableToWorkOffline: (state, getters) => {
-        return getters.isUserHasAtLeastOneFormId && getters.getArrayOfVehicleStyles.length > 0;
+        return getters.isUserHasAtLeastOneFormId;
     },
 
     isUserHasAtLeastOneFormId: (state, getters) => {
@@ -436,11 +428,11 @@ export const getters = {
     },
 
     isDisplayUserNotAuthorizedBanner: (state, getters) => {
-        return getters.isUserAuthenticated && ! getters.isUserAuthorized && state.keycloak.ready;
+        return getters.isUserAuthenticated && getters.isUserAuthorized === false && state.keycloak.ready;
     },
 
     isDisplayIssueProhibitions: (state, getters) => {
-        return getters.isUserAuthorized || getters.isAppAvailableToWorkOffline;
+        return getters.allResourcesLoaded  && (getters.isUserAuthorized || getters.isAppAvailableToWorkOffline);
     },
 
     isDisplayFeedbackBanner: (state, getters) => {
@@ -517,8 +509,30 @@ export const getters = {
 
     getCurrentUserObject: state => {
         return state.users
-    }
+    },
 
+    getEnvironment: state => {
+        return state.configuration.environment;
+    },
+
+    getFormIdCheckDigit: state => form_object => {
+        if (state.form_schemas.forms[form_object.form_type].check_digit) {
+            const sixDigitString = form_object.form_id.substr(2,7)
+            return checkDigit.checkDigit(sixDigitString).toString()
+        } else {
+            return ''
+        }
+    },
+
+    allResourcesLoaded: state => {
+        let status = true;
+        for (const key in state.loaded) {
+            if ( ! state.loaded[key]) {
+                status = false
+            }
+        }
+        return status;
+    },
 
 }
 

@@ -9,7 +9,7 @@ import VueMask from 'v-mask'
 
 
 import "@/config/custom_stylesheet.scss";
-import {store} from "@/store/store.js"
+import {rsiStore} from "@/store/store.js"
 
 import './registerServiceWorker'
 import constants from "@/config/constants";
@@ -38,41 +38,47 @@ Vue.use(VueKeyCloak, {
   },
   config: constants.API_ROOT_URL + '/api/v1/static/keycloak',
   onReady: () => {
-    store.commit("setKeycloak", Vue.prototype.$keycloak)
+    rsiStore.commit("setKeycloak", Vue.prototype.$keycloak)
   }
 });
 
 
 new Vue({
   router,
-  store: store,
+  store: rsiStore,
   async created() {
 
-    await store.dispatch("getAllFormsFromDB");
+    await rsiStore.dispatch("getAllFormsFromDB");
 
     // download lookup tables while offline
-    await store.dispatch("downloadLookupTables")
+    await rsiStore.dispatch("downloadLookupTables")
 
-    this.$store.subscribe((mutation) => {
+  },
+  render: h => h(App),
+}).$mount('#app')
+
+
+rsiStore.subscribe((mutation) => {
       if (mutation.type === 'setKeycloak') {
-        store.dispatch("getMoreFormsFromApiIfNecessary")
+        rsiStore.dispatch("getMoreFormsFromApiIfNecessary")
         // TODO - store.dispatch("renewFormLeasesFromApiIfNecessary")
-        store.dispatch("fetchStaticLookupTables", {"resource": "user_roles", "admin": false, "static": false})
-        store.dispatch("fetchStaticLookupTables", {"resource": "users", "admin": false, "static": false})
+        rsiStore.dispatch("fetchStaticLookupTables", {"resource": "user_roles", "admin": false, "static": false})
+            .then(data => {
+                rsiStore.dispatch("updateUserIsAuthenticated", data)
+            })
+        rsiStore.dispatch("fetchStaticLookupTables", {"resource": "users", "admin": false, "static": false})
       }
       if (mutation.type === 'updateFormField' ||
+          mutation.type === 'updateFormAttribute' ||
           mutation.type === 'updateCheckBox' ||
           mutation.type === 'populateDriverFromICBC' ||
           mutation.type === 'populateVehicleFromICBC' ||
           mutation.type === 'typeAheadUpdate'
       ) {
-        store.dispatch("saveCurrentFormToDB", store.state.currently_editing_form_object)
+        rsiStore.dispatch("saveCurrentFormToDB", rsiStore.state.currently_editing_form_object)
       }
     });
 
-  },
-  render: h => h(App),
-}).$mount('#app')
 
 
 

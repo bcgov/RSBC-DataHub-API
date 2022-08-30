@@ -12,6 +12,8 @@ class Form(db.Model):
     printed_timestamp = db.Column(db.DateTime, nullable=True)
     user_guid = db.Column(db.String(80), db.ForeignKey('user.user_guid'), nullable=True)
 
+    # Note: The printed timestamp prior to v0.4.17 was saved in local Pacific time instead of GMT
+
     def __init__(self, form_id, form_type, printed=None, lease_expiry=None, user_guid=None):
         self.id = form_id
         self.form_type = form_type

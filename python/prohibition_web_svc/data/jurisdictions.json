@@ -1,422 +1,338 @@
 [
-  {
-    "objectCd": "AL",
-    "objectDsc": "Alabama",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "AK",
-    "objectDsc": "Alaska",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "AB",
-    "objectDsc": "Alberta",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "AZ",
-    "objectDsc": "Arizona",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "AR",
-    "objectDsc": "Arkansas",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "BC",
-    "objectDsc": "British Columbia",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "CA",
-    "objectDsc": "California",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "CF",
-    "objectDsc": "Canadian Forces",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "CO",
-    "objectDsc": "Colorado",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "CT",
-    "objectDsc": "Connecticut",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "DE",
-    "objectDsc": "Delaware",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "DC",
-    "objectDsc": "District of Columbia",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "FL",
-    "objectDsc": "Florida",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "GA",
-    "objectDsc": "Georgia",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "HI",
-    "objectDsc": "Hawaii",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "ID",
-    "objectDsc": "Idaho",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "IL",
-    "objectDsc": "Illinois",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "IN",
-    "objectDsc": "Indiana",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "IA",
-    "objectDsc": "Iowa",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "KS",
-    "objectDsc": "Kansas",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "KY",
-    "objectDsc": "Kentucky",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "LA",
-    "objectDsc": "Louisiana",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "ME",
-    "objectDsc": "Maine",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "MB",
-    "objectDsc": "Manitoba",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "MD",
-    "objectDsc": "Maryland",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "MA",
-    "objectDsc": "Massachusetts",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "MX",
-    "objectDsc": "Mexico",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "MI",
-    "objectDsc": "Michigan",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "MN",
-    "objectDsc": "Minnesota",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "MS",
-    "objectDsc": "Mississippi",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "MO",
-    "objectDsc": "Missouri",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "MT",
-    "objectDsc": "Montana",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "NE",
-    "objectDsc": "Nebraska",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "NV",
-    "objectDsc": "Nevada",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "NB",
-    "objectDsc": "New Brunswick",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "NH",
-    "objectDsc": "New Hampshire",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "NJ",
-    "objectDsc": "New Jersey",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "NM",
-    "objectDsc": "New Mexico",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "NY",
-    "objectDsc": "New York",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "NF",
-    "objectDsc": "Newfoundland",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "NR",
-    "objectDsc": "Non Reciprocity",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "NC",
-    "objectDsc": "North Carolina",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "ND",
-    "objectDsc": "North Dakota",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "NT",
-    "objectDsc": "North West Territories",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "NS",
-    "objectDsc": "Nova Scotia",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "NU",
-    "objectDsc": "Nunavut",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "OH",
-    "objectDsc": "Ohio",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "OK",
-    "objectDsc": "Oklahoma",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "ON",
-    "objectDsc": "Ontario",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "OR",
-    "objectDsc": "Oregon",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "FD",
-    "objectDsc": "Other Foreign Licence",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "PA",
-    "objectDsc": "Pennsylvania",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "PE",
-    "objectDsc": "Prince Edward Island",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "PR",
-    "objectDsc": "Puerto Rico",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "QC",
-    "objectDsc": "Quebec",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "RI",
-    "objectDsc": "Rhode Island",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "SK",
-    "objectDsc": "Saskatchewan",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "SC",
-    "objectDsc": "South Carolina",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "SD",
-    "objectDsc": "South Dakota",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "TN",
-    "objectDsc": "Tennessee",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "TX",
-    "objectDsc": "Texas",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "XX",
-    "objectDsc": "Unknown",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "UT",
-    "objectDsc": "Utah",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "VT",
-    "objectDsc": "Vermont",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "VA",
-    "objectDsc": "Virginia",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "WA",
-    "objectDsc": "Washington",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "WV",
-    "objectDsc": "West Virginia",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "WI",
-    "objectDsc": "Wisconsin",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "WY",
-    "objectDsc": "Wyoming",
-    "activeYN": "Y",
-    "internalYN": null
-  },
-  {
-    "objectCd": "YT",
-    "objectDsc": "Yukon Territory",
-    "activeYN": "Y",
-    "internalYN": null
-  }
+ {
+   "objectCd": "AL",
+   "objectDsc": "ALABAMA"
+ },
+ {
+   "objectCd": "AK",
+   "objectDsc": "ALASKA"
+ },
+ {
+   "objectCd": "AB",
+   "objectDsc": "ALBERTA"
+ },
+ {
+   "objectCd": "AZ",
+   "objectDsc": "ARIZONA"
+ },
+ {
+   "objectCd": "AR",
+   "objectDsc": "ARKANSAS"
+ },
+ {
+   "objectCd": "AT",
+   "objectDsc": "AUSTRIA"
+ },
+ {
+   "objectCd": "BC",
+   "objectDsc": "BRITISH COLUMBIA"
+ },
+ {
+   "objectCd": "CA",
+   "objectDsc": "CALIFORNIA"
+ },
+ {
+   "objectCd": "CF",
+   "objectDsc": "CANADIAN FORCES"
+ },
+ {
+   "objectCd": "CO",
+   "objectDsc": "COLORADO"
+ },
+ {
+   "objectCd": "CT",
+   "objectDsc": "CONNECTICUT"
+ },
+ {
+   "objectCd": "DE",
+   "objectDsc": "DELAWARE"
+ },
+ {
+   "objectCd": "DC",
+   "objectDsc": "DISTRICT OF COLUMBIA"
+ },
+ {
+   "objectCd": "ZZ",
+   "objectDsc": "EUROPE"
+ },
+ {
+   "objectCd": "FL",
+   "objectDsc": "FLORIDA"
+ },
+ {
+   "objectCd": "FR",
+   "objectDsc": "FRANCE"
+ },
+ {
+   "objectCd": "GA",
+   "objectDsc": "GEORGIA"
+ },
+ {
+   "objectCd": "DL",
+   "objectDsc": "GERMANY"
+ },
+ {
+   "objectCd": "HI",
+   "objectDsc": "HAWAII"
+ },
+ {
+   "objectCd": "ID",
+   "objectDsc": "IDAHO"
+ },
+ {
+   "objectCd": "IL",
+   "objectDsc": "ILLINOIS"
+ },
+ {
+   "objectCd": "IN",
+   "objectDsc": "INDIANA"
+ },
+ {
+   "objectCd": "IC",
+   "objectDsc": "INSURANCE CRIME PREVENTION BUREAU"
+ },
+ {
+   "objectCd": "ZZ",
+   "objectDsc": "INTERNATIONAL"
+ },
+ {
+   "objectCd": "IR",
+   "objectDsc": "INTERNATIONAL LICENCE"
+ },
+ {
+   "objectCd": "IA",
+   "objectDsc": "IOWA"
+ },
+ {
+   "objectCd": "JA",
+   "objectDsc": "JAPAN"
+ },
+ {
+   "objectCd": "KS",
+   "objectDsc": "KANSAS"
+ },
+ {
+   "objectCd": "KY",
+   "objectDsc": "KENTUCKY"
+ },
+ {
+   "objectCd": "LA",
+   "objectDsc": "LOUISIANA"
+ },
+ {
+   "objectCd": "ME",
+   "objectDsc": "MAINE"
+ },
+ {
+   "objectCd": "MB",
+   "objectDsc": "MANITOBA"
+ },
+ {
+   "objectCd": "MD",
+   "objectDsc": "MARYLAND"
+ },
+ {
+   "objectCd": "MA",
+   "objectDsc": "MASSACHUSETTS"
+ },
+ {
+   "objectCd": "MX",
+   "objectDsc": "MEXICO"
+ },
+ {
+   "objectCd": "MX",
+   "objectDsc": "MEXICO"
+ },
+ {
+   "objectCd": "MI",
+   "objectDsc": "MICHIGAN"
+ },
+ {
+   "objectCd": "MN",
+   "objectDsc": "MINNESOTA"
+ },
+ {
+   "objectCd": "MS",
+   "objectDsc": "MISSISSIPPI"
+ },
+ {
+   "objectCd": "MO",
+   "objectDsc": "MISSOURI"
+ },
+ {
+   "objectCd": "MT",
+   "objectDsc": "MONTANA"
+ },
+ {
+   "objectCd": "NE",
+   "objectDsc": "NEBRASKA"
+ },
+ {
+   "objectCd": "NV",
+   "objectDsc": "NEVADA"
+ },
+ {
+   "objectCd": "NB",
+   "objectDsc": "NEW BRUNSWICK"
+ },
+ {
+   "objectCd": "NH",
+   "objectDsc": "NEW HAMPSHIRE"
+ },
+ {
+   "objectCd": "NJ",
+   "objectDsc": "NEW JERSEY"
+ },
+ {
+   "objectCd": "NM",
+   "objectDsc": "NEW MEXICO"
+ },
+ {
+   "objectCd": "NY",
+   "objectDsc": "NEW YORK"
+ },
+ {
+   "objectCd": "NF",
+   "objectDsc": "NEWFOUNDLAND"
+ },
+ {
+   "objectCd": "NR",
+   "objectDsc": "NON-RECIPROCITY"
+ },
+ {
+   "objectCd": "NC",
+   "objectDsc": "NORTH CAROLINA"
+ },
+ {
+   "objectCd": "ND",
+   "objectDsc": "NORTH DAKOTA"
+ },
+ {
+   "objectCd": "NT",
+   "objectDsc": "NORTHWEST TERRITORY"
+ },
+ {
+   "objectCd": "NS",
+   "objectDsc": "NOVA SCOTIA"
+ },
+ {
+   "objectCd": "NU",
+   "objectDsc": "NUNAVUT"
+ },
+ {
+   "objectCd": "OH",
+   "objectDsc": "OHIO"
+ },
+ {
+   "objectCd": "OK",
+   "objectDsc": "OKLAHOMA"
+ },
+ {
+   "objectCd": "ON",
+   "objectDsc": "ONTARIO"
+ },
+ {
+   "objectCd": "OR",
+   "objectDsc": "OREGON"
+ },
+ {
+   "objectCd": "ZZ",
+   "objectDsc": "OTHER"
+ },
+ {
+   "objectCd": "FD",
+   "objectDsc": "OTHER FOREIGN LICENCE"
+ },
+ {
+   "objectCd": "PA",
+   "objectDsc": "PENNSYLVANIA"
+ },
+ {
+   "objectCd": "PE",
+   "objectDsc": "PRINCE EDWARD ISLAND"
+ },
+ {
+   "objectCd": "PR",
+   "objectDsc": "PUERTO RICO"
+ },
+ {
+   "objectCd": "QC",
+   "objectDsc": "QUEBEC"
+ },
+ {
+   "objectCd": "KR",
+   "objectDsc": "REPUBLIC OF KOREA"
+ },
+ {
+   "objectCd": "RI",
+   "objectDsc": "RHODE ISLAND"
+ },
+ {
+   "objectCd": "SK",
+   "objectDsc": "SASKATCHEWAN"
+ },
+ {
+   "objectCd": "SC",
+   "objectDsc": "SOUTH CAROLINA"
+ },
+ {
+   "objectCd": "SD",
+   "objectDsc": "SOUTH DAKOTA"
+ },
+ {
+   "objectCd": "CH",
+   "objectDsc": "SWITZERLAND"
+ },
+ {
+   "objectCd": "TN",
+   "objectDsc": "TENNESSEE"
+ },
+ {
+   "objectCd": "TX",
+   "objectDsc": "TEXAS"
+ },
+ {
+   "objectCd": "ZZ",
+   "objectDsc": "UNITED KINGDOM"
+ },
+ {
+   "objectCd": "XX",
+   "objectDsc": "UNKNOWN"
+ },
+ {
+   "objectCd": "UT",
+   "objectDsc": "UTAH"
+ },
+ {
+   "objectCd": "VT",
+   "objectDsc": "VERMONT"
+ },
+ {
+   "objectCd": "ZZ",
+   "objectDsc": "VIRGIN ISLANDS"
+ },
+ {
+   "objectCd": "VA",
+   "objectDsc": "VIRGINIA"
+ },
+ {
+   "objectCd": "WA",
+   "objectDsc": "WASHINGTON"
+ },
+ {
+   "objectCd": "WV",
+   "objectDsc": "WEST VIRGINIA"
+ },
+ {
+   "objectCd": "WI",
+   "objectDsc": "WISCONSIN"
+ },
+ {
+   "objectCd": "WY",
+   "objectDsc": "WYOMING"
+ },
+ {
+   "objectCd": "YT",
+   "objectDsc": "YUKON TERRITORY"
+ }
 ]

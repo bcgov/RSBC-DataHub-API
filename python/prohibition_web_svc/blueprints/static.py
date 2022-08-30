@@ -25,6 +25,13 @@ def index(resource):
     """
     if request.method == 'GET':
         kwargs = middle_logic([
+              {"try": _is_not_configuration, "fail": [
+                  {"try": splunk_middleware.log_static_get, "fail": []},
+                  {"try": _get_configuration, "fail": [
+                      {"try": http_responses.server_error_response, "fail": []},
+                  ]},
+                  {"try": log_to_splunk, "fail": []},
+              ]},
               {"try": _is_not_keycloak, "fail": [
                   {"try": splunk_middleware.log_static_get, "fail": []},
                   {"try": _get_keycloak, "fail": [
@@ -114,6 +121,18 @@ def _is_resource_agencies(**kwargs) -> tuple:
 
 def _is_not_keycloak(**kwargs) -> tuple:
     return kwargs.get('resource') != 'keycloak', kwargs
+
+
+def _is_not_configuration(**kwargs) -> tuple:
+    return kwargs.get('resource') != 'configuration', kwargs
+
+
+def _get_configuration(**kwargs) -> tuple:
+    config = {
+        "environment": Config.ENVIRONMENT,
+    }
+    kwargs['response'] = make_response(config, 200)
+    return True, kwargs
 
 
 def _get_resource(**kwargs) -> tuple:

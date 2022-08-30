@@ -1,14 +1,16 @@
 <template>
   <div v-if="visible" class="form-group" :class="fg_class">
-    <validation-provider :rules="rules" :name="id" v-slot="{ errors, required }">
+    <validation-provider :rules="ruleObject" :name="id" v-slot="{ errors, required }">
       <label :for="id"><slot></slot></label>
       <span v-if="required" class="small text-danger"> *</span>
       <multiselect v-model="attribute"
                    :id="id"
+                   label="objectDsc"
+                   track-by="objectCd"
                    tag-placeholder="That's not an option"
                    :disabled="disabled || hasFormBeenPrinted"
                    placeholder="Search for a BC city or town name"
-                   :options="getArrayOfBCCityNames"></multiselect>
+                   :options="getArrayOfBCCityObjects"></multiselect>
       <div class="small text-danger">{{ errors[0] }}</div>
     </validation-provider>
   </div>
@@ -40,7 +42,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getAttributeValue", "hasFormBeenPrinted", "getArrayOfBCCityNames"]),
-  },
+    ...mapGetters(["getAttributeValue", "hasFormBeenPrinted", "getArrayOfBCCityObjects"]),
+    ruleObject() {
+      return {
+        required: true,
+        offenceCityRules: this.getArrayOfBCCityObjects
+      }
+    }
+  }
 }
 </script>

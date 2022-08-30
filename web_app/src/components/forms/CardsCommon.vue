@@ -42,17 +42,10 @@ export default {
   computed: {
     ...mapGetters([
         "getAttributeValue",
-        "getArrayOfBCCityNames",
         "getArrayOfAgencies",
         "doesAttributeExist",
         "hasFormBeenPrinted"
     ]),
-    offenceCityRules() {
-      return {
-        required: true,
-        inCities: this.getArrayOfBCCityNames
-      }
-    },
     bcdlNumberRules() {
       if (this.getAttributeValue(this.path + '/drivers_licence_jurisdiction', 'objectDsc') === "British Columbia") {
         return {

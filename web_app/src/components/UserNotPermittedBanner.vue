@@ -1,7 +1,7 @@
 <template>
   <div class="card bg-light border-secondary mb-3">
       <div class="card-body text-dark">
-        <div v-if="! hasUserApplied">
+        <div v-if="! showApplicationReceived">
           <p>
             <span class="font-weight-bold">Welcome!</span> You currently do not have access to the Digital Forms system.
           </p>
@@ -12,10 +12,10 @@
           </p>
         </div>
 
-        <div class="btn btn-primary" v-if="! hasUserApplied && ! showApplication" @click="showApplication = true">
+        <div class="btn btn-primary" v-if="! showApplicationReceived && ! showApplication" @click="showApplication = true">
           Apply for Access
         </div>
-        <div v-if="showApplication && ! hasUserApplied">
+        <div v-if="showApplication && ! showApplicationReceived">
           <div class="d-flex justify-content-center mt-2">
             <div class="form-row pl-2">
               <application-field id="last_name" @modified="modified_event" :errors="errors">Last Name</application-field>
@@ -38,11 +38,9 @@
           </div>
         </div>
 
-        <div v-if="hasUserApplied">
+        <div v-if="showApplicationReceived">
           <p>
-            <span class="font-weight-bold">Application received.</span>
-            If you do not receive a response within 1 business day, please contact us at:
-            <a href="mailto:RSIOpsSupport@gov.bc.ca">RSIOpsSupport@gov.bc.ca</a>
+            <span class="font-weight-bold">Application received.</span> Thank you!
           </p>
         </div>
     </div>
@@ -74,6 +72,7 @@ export default {
       },
       showApplication: false,
       showSpinner: false,
+      showApplicationReceived: false
     }
   },
   methods: {
@@ -84,6 +83,7 @@ export default {
         .then(() => {
           this.showSpinner = false
           this.showApplication = false
+          this.showApplicationReceived = true
         })
         .catch((errors) => {
           errors.then( (data) => {

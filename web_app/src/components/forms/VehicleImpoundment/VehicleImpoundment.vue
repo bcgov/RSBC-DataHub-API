@@ -1,5 +1,5 @@
 <template>
-  <form-container title="Vehicle Impoundment" v-if="isMounted">
+  <form-container title="Vehicle Impoundment" :form_object="formObject" v-if="isMounted">
     <validation-observer v-slot="{handleSubmit, validate}">
       <form @submit.prevent="handleSubmit(onSubmit(validate))">
         <drivers-information-card :path="getPath"></drivers-information-card>
@@ -11,6 +11,7 @@
             :path="getPath + '/reason_excessive_speed_true'"
             v-if="getAttributeValue(getPath, 'reason_excessive_speed_true')">
         </excessive-speed-card>
+        <immediate-roadside-prohibition :path="getPath"></immediate-roadside-prohibition>
         <linkage-card :path="getPath"></linkage-card>
         <incident-details-card :path="getPath"></incident-details-card>
         <officer-details-card :path="getPath"></officer-details-card>
@@ -44,10 +45,12 @@ import ReasonableGroundsCard from "@/components/forms/VehicleImpoundment/Reasona
 import ExcessiveSpeedCard from "@/components/forms/VehicleImpoundment/ExcessiveSpeedCard";
 import LinkageCard from "@/components/forms/VehicleImpoundment/LinkageCard";
 import IncidentDetailsCard from "@/components/forms/VehicleImpoundment/IncidentDetailsCard";
+import ImmediateRoadsideProhibition from "@/components/forms/VehicleImpoundment/ImmediateRoadsideProhibition";
 
 export default {
   name: "VehicleImpoundment",
   components: {
+    ImmediateRoadsideProhibition,
     IncidentDetailsCard,
     LinkageCard,
     ExcessiveSpeedCard,

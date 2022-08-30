@@ -118,10 +118,9 @@ export const actions = {
     // call to action that looks up the province code from the data that ICBC provides
     // if promise resolves successfully then mutate province field with jurisdiction object
     // if promise fails, do nothing
-    async lookupDriverProvince(context, [pathString, icbcPayload]) {
-        console.log("inside actions.js lookupDriverProvince(): ", pathString, icbcPayload)
-        const icbcProvince = icbcPayload['party']['addresses'][0]['region']
-        const jurisdictionArray = context.state.jurisdictions.filter(o => o.objectCd === icbcProvince)
+    async lookupDriverProvince(context, [pathString, provinceCode]) {
+        console.log("inside actions.js lookupDriverProvince(): ", pathString, provinceCode)
+        const jurisdictionArray = context.state.jurisdictions.filter(o => o.objectCd === provinceCode)
         return await new Promise((resolve, reject) => {
             if (jurisdictionArray.length > 0) {
                 const event = {
@@ -133,7 +132,7 @@ export const actions = {
                 }
                 resolve(context.commit("updateFormField", event))
             } else {
-                reject({"error": "Can't find " + icbcProvince + " in list of jurisdictions"})
+                reject({"error": "Can't find " + provinceCode + " in list of jurisdictions"})
             }
         })
     },
@@ -153,7 +152,8 @@ export const actions = {
                     if ("error" in data) {
                         reject("message" in data['error'] ? {"description": data['error'].message }: {"description": "No valid response"})
                     } else {
-                        context.dispatch("lookupDriverProvince", [pathString, data])
+                        const provinceCode = data['party']['addresses'][0]['region']
+                        context.dispatch("lookupDriverProvince", [pathString, provinceCode])
                         resolve(context.commit("populateDriverFromICBC", data ))
                     }
                 })
@@ -219,7 +219,8 @@ export const actions = {
             url = constants.API_ROOT_URL + "/api/v1/" + payload.resource
         }
         console.log("fetchStaticLookupTables()", url)
-        fetch(url, {
+        return await new Promise((resolve, reject) => {
+            fetch(url, {
             "method": 'GET',
             "headers": context.getters.apiHeader})
             .then( response => {
@@ -228,10 +229,14 @@ export const actions = {
             .then( data => {
                 const admin_prefix = payload.admin ? 'admin_' : ''
                 context.commit("populateStaticLookupTables", { "type": admin_prefix + payload.resource, "data": data })
+                resolve(data)
             })
-            .catch(() => {
+            .catch((error) => {
                 console.log("fetchStaticLookupTables network fetch failed")
+                reject(error)
             })
+        })
+
     },
 
     async deleteFormFromDB(context, form_id) {
@@ -273,9 +278,6 @@ export const actions = {
                             if (response.status === 201) {
                                 console.log("applyToUnlockApplication() - success", data)
                                 resolve(data)
-                                data.then((user_role) => {
-                                    context.commit("pushInitialUserRole", user_role)
-                                })
                             } else {
                                 reject(data)
                             }
@@ -381,16 +383,44 @@ export const actions = {
                 })
     },
 
-    async downloadLookupTables(context) {
+    downloadLookupTables(context) {
 
-        await context.dispatch("fetchStaticLookupTables", {"resource": "agencies", "admin": false, "static": true})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "impound_lot_operators", "admin": false, "static": true})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "countries", "admin": false, "static": true})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "jurisdictions", "admin": false, "static": true})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "provinces", "admin": false, "static": true})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "cities", "admin": false, "static": true})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "vehicles", "admin": false, "static": true})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "vehicle_styles", "admin": false, "static": true})
+        context.dispatch("fetchStaticLookupTables", {"resource": "agencies", "admin": false, "static": true})
+            .then(() => {
+                context.commit("resourceLoaded", "agencies")
+            })
+        context.dispatch("fetchStaticLookupTables", {"resource": "impound_lot_operators", "admin": false, "static": true})
+            .then(() => {
+                context.commit("resourceLoaded", "impound_lot_operators")
+            })
+        context.dispatch("fetchStaticLookupTables", {"resource": "countries", "admin": false, "static": true})
+            .then(() => {
+                context.commit("resourceLoaded", "countries")
+            })
+        context.dispatch("fetchStaticLookupTables", {"resource": "jurisdictions", "admin": false, "static": true})
+            .then(() => {
+                context.commit("resourceLoaded", "jurisdictions")
+            })
+        context.dispatch("fetchStaticLookupTables", {"resource": "provinces", "admin": false, "static": true})
+            .then(() => {
+                context.commit("resourceLoaded", "provinces")
+            })
+        context.dispatch("fetchStaticLookupTables", {"resource": "cities", "admin": false, "static": true})
+            .then(() => {
+                context.commit("resourceLoaded", "cities")
+            })
+        context.dispatch("fetchStaticLookupTables", {"resource": "vehicles", "admin": false, "static": true})
+            .then(() => {
+                context.commit("resourceLoaded", "vehicles")
+            })
+        context.dispatch("fetchStaticLookupTables", {"resource": "vehicle_styles", "admin": false, "static": true})
+            .then(() => {
+                context.commit("resourceLoaded", "vehicle_styles")
+            })
+        context.dispatch("fetchStaticLookupTables", {"resource": "configuration", "admin": false, "static": true})
+            .then(() => {
+                context.commit("resourceLoaded", "configuration")
+            })
 
     },
 
@@ -424,5 +454,44 @@ export const actions = {
                 })
             }
         })
+    },
+
+    // copy some driver fields to the registered owner fields
+    // in the event the driver field is null or does not exist, do not copy
+    populateOwnerFromDriver(context, form_path) {
+        // trigger the following mutation
+        context.commit("updateFormAttribute", [form_path, "corp_owner_false", {}])
+        context.dispatch("copyIfExists", [form_path, "last_name", "corp_owner_false/owners_last_name"])
+        context.dispatch("copyIfExists", [form_path, "first_name", "corp_owner_false/owners_first_name"])
+        context.dispatch("copyIfExists", [form_path, "address1", "owners_address1"])
+        context.dispatch("copyIfExists", [form_path, "city", "owners_city"])
+        context.dispatch("copyIfExists", [form_path, "province", "owners_province"])
+        context.dispatch("copyIfExists", [form_path, "postal", "owners_postal"])
+        context.dispatch("copyIfExists", [form_path, "dob", "corp_owner_false/owner_dob"])
+        context.commit("deleteFormAttribute", [form_path, "corp_owner_true" ])
+    },
+
+    copyIfExists(context, [form_path, source_attribute, destination_attribute]) {
+        if (context.getters.doesAttributeExist(form_path, source_attribute)) {
+            context.commit("updateFormAttribute", [
+                form_path,
+                destination_attribute,
+                context.getters.getAttributeValue(form_path, source_attribute)])
+        }
+    },
+
+    updateUserIsAuthenticated(context, payload) {
+        if (Array.isArray(payload)) {
+            for (const role of payload) {
+                if ('approved_dt' in role) {
+                    if (role.approved_dt) {
+                        context.commit("userIsAuthenticated", true)
+                    }
+                }
+            }
+        } else {
+            context.commit("userIsAuthenticated", false)
+        }
+
     }
 }

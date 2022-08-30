@@ -10,12 +10,26 @@ export const mutations = {
     },
 
     updateFormField (state, event) {
+        // DEPRECATED - use updateFormAttribute instead"
         let pathArray = event.target.path.split("/")
         pathArray.push(event.target.id)
         nestedFunctions.setProp(state, pathArray, event.target.value)
     },
 
+    updateFormAttribute(state, [formPath, path_and_attribute, value]) {
+        let pathArray = formPath.split("/")
+        pathArray = pathArray.concat(path_and_attribute.split('/'))
+        nestedFunctions.setProp(state, pathArray, value)
+    },
+
+    deleteFormAttribute (state, [formPath, attribute_id]) {
+        let pathArray = formPath.split("/")
+        pathArray.push(attribute_id)
+        nestedFunctions.deleteProp(state, pathArray)
+    },
+
     deleteFormField (state, event) {
+        // DEPRECATED - use deleteFormAttribute instead"
         let pathArray = event.target.path.split("/")
         pathArray.push(event.target.id)
         nestedFunctions.deleteProp(state, pathArray)
@@ -121,21 +135,6 @@ export const mutations = {
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_postal", address['postalCode']);
     },
 
-    populateOwnerFromDriver(state) {
-        let form_object = state.currently_editing_form_object
-        let root = state.forms[form_object.form_type][form_object.form_id].data
-        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "corp_owner_false", {});
-        Vue.set(state.forms[form_object.form_type][form_object.form_id].data['corp_owner_false'], "owners_last_name", root.last_name);
-        Vue.set(state.forms[form_object.form_type][form_object.form_id].data['corp_owner_false'], "owners_first_name", root.first_name);
-        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_address1", root.address1);
-        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_city", root.city);
-        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_province", root.province);
-        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_postal", root.postal);
-        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owner_dob", root.dob);
-        // delete any corporate owner that may have been created
-        Vue.delete(state.forms[form_object.form_type][form_object.form_id].data, "corp_owner_true");
-    },
-
     pushFormToStore(state, form_object) {
         console.log("inside pushFormToStore()", form_object)
         Vue.set(state.forms[form_object.form_type], form_object.form_id, form_object)
@@ -164,10 +163,6 @@ export const mutations = {
         state.admin_users.push(payload)
     },
 
-    pushInitialUserRole(state, payload) {
-        Vue.set(state, "user_roles", [payload])
-    },
-
     networkIsOnline(state) {
         Vue.set(state, "isOnline", true)
     },
@@ -182,12 +177,19 @@ export const mutations = {
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "drivers_number", data['number']);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "address1", data['address']['street']);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "city", data['address']['city']);
-        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "province", data['address']['province']);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "postal", data['address']['postalCode']);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "dob", data['dob']);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "first_name", data['name']['given']);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "last_name", data['name']['surname']);
     },
+
+    userIsAuthenticated(state, boolean_payload) {
+        Vue.set(state, "isUserAuthorized", boolean_payload)
+    },
+
+    resourceLoaded(state, resource) {
+        Vue.set(state.loaded, resource, true)
+    }
 }
 
 

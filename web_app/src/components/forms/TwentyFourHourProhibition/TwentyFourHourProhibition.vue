@@ -1,5 +1,5 @@
 <template>
-  <form-container title="Notice of 24 Hour Licence Prohibition" v-if="isMounted">
+  <form-container title="Notice of 24 Hour Licence Prohibition" :form_object="formObject" v-if="isMounted">
     <validation-observer v-slot="{handleSubmit, validate}">
       <form @submit.prevent="handleSubmit(onSubmit(validate))">
         <drivers-information-card :path="getPath"></drivers-information-card>

@@ -50,6 +50,7 @@ workbox.routing.registerRoute(({request, url}) =>
 workbox.routing.registerRoute(({request, url}) =>
     url.pathname.includes('/api/v1/static/agencies') ||
     url.pathname.includes('/api/v1/static/cities') ||
+    url.pathname.includes('/api/v1/static/configuration') ||
     url.pathname.includes('/api/v1/static/countries') ||
     url.pathname.includes('/api/v1/static/jurisdictions') ||
     url.pathname.includes('/api/v1/static/provinces') ||

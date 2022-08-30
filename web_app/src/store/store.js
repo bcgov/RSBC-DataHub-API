@@ -9,13 +9,16 @@ import {plugins} from "@/store/plugins";
 Vue.use(Vuex)
 
 
-export const store = new Vuex.Store ({
+export const rsiStore = new Vuex.Store ({
   state: {
     admin_users: {},
     agencies: [],
     db_ready: false,
     cities: [],
     countries: [],
+    configuration: {
+      environment: 'prod'
+    },
     currently_editing_form_object: {
       "form_type": null,
       "form_id": null
@@ -41,7 +44,8 @@ export const store = new Vuex.Store ({
               "variants": ['icbc', 'driver', 'police']
             }
           },
-          "disabled": false
+          "disabled": false,
+          "check_digit": false
         },
         "24Hour": {
           "component": "TwentyFourHourProhibition",
@@ -56,7 +60,8 @@ export const store = new Vuex.Store ({
               "variants": ['icbc', 'driver', 'ilo', 'police']
             }
           },
-          "disabled": false
+          "disabled": false,
+          "check_digit": false
         },
         "VI": {
           "component": "VehicleImpoundment",
@@ -71,7 +76,8 @@ export const store = new Vuex.Store ({
               "variants": ['driver', 'police', 'ilo', 'report']
             }
           },
-          "disabled": false
+          "disabled": false,
+          "check_digit": true
         },
         "IRP": {
           "component": "ImmediateRoadsideProhibition",
@@ -80,15 +86,28 @@ export const store = new Vuex.Store ({
           "description": "Immediate Roadside Prohibition",
           "full_name": "MV2723",
           "documents": {},
-          "disabled": true
+          "disabled": true,
+          "check_digit": true
         }
       }
     },
     icbc_vehicle_lookup: [],
     impound_lot_operators: [],
+    isUserAuthorized: null,
     isOnline: true,
     jurisdictions: [],
     keycloak: {},
+    loaded: {
+      "agencies": false,
+      "impound_lot_operators": false,
+      "countries": false,
+      "jurisdictions": false,
+      "provinces": false,
+      "cities": false,
+      "vehicles": false,
+      "vehicle_styles": false,
+      "configuration": false,
+    },
     pickup_locations: [],
     provinces: [],
     user_roles: {},

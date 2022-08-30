@@ -5,7 +5,8 @@
       </div>
       <div class="card-header mt-0 mb-0 pt-2 pb-0 text-dark">
         <p class="text-right pb-0 mb-2">
-          <span class="prohibition_number">{{ getCurrentlyEditedFormId }} </span>
+          <span class="prohibition_number">{{ getCurrentlyEditedFormId }}<check-digit :form_object="form_object"></check-digit>
+          </span>
         </p>
       </div>
       <slot></slot>
@@ -15,14 +16,26 @@
 <script>
 
 import { mapGetters } from 'vuex'
+import CheckDigit from "@/components/forms/CheckDigit";
 
 export default {
   name: "FormContainer",
+  components: {CheckDigit},
   props: {
-    title: String
+    title: String,
+    form_object: Object
   },
   computed: {
-    ...mapGetters(['getCurrentlyEditedFormId'])
+    ...mapGetters(['getCurrentlyEditedFormId', 'getFormIdCheckDigit'])
   }
 }
 </script>
+
+<style scoped>
+
+#check-digit {
+  background: lightgrey;
+  padding: 0 2px 0 2px;
+}
+
+</style>

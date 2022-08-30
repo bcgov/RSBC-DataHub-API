@@ -1,7 +1,9 @@
 <template>
-    <div id="debug-component" class="card-footer bg-transparent border-0 text-muted small">Version: {{ getAppVersion }}
+    <div id="debug-component" class="card-footer bg-transparent border-0 text-muted small">
+      Version: {{ getAppVersion }}
       <span @click="toggleVisible" class="small text-muted">*</span>
       <div class="small text-muted" v-if="showDetails">
+        <div>Environment: {{ getEnvironment.toUpperCase() }}</div>
         <div>isUserHasAtLeastOneFormId: {{ isUserHasAtLeastOneFormId }}</div>
         <div>getArrayOfVehicleStyles.length: {{ getArrayOfVehicleStyles.length }}</div>
         <div>isUserAuthenticated: {{ isUserAuthenticated }}</div>
@@ -30,19 +32,20 @@ export default {
   },
   computed: {
       ...mapGetters([
-        "getAppVersion",
-        "isUserAuthenticated",
-        "isUserAuthorized",
-        "getArrayOfVehicleStyles",
-        "isUserHasAtLeastOneFormId",
-        'getCurrentlyEditedFormObject',
-        'getFormData',
-        'isDisplayFeedbackBanner',
-        'isDisplayIssueProhibitions',
-        'isDisplaySearchRecentProhibition',
-        'isDisplayUserNotAuthorizedBanner',
-        'isDisplayWelcomeLoginCard',
-        'isRecentProhibitions',
+          "getAppVersion",
+          "isUserAuthenticated",
+          "isUserAuthorized",
+          "getArrayOfVehicleStyles",
+          "isUserHasAtLeastOneFormId",
+          'getCurrentlyEditedFormObject',
+          'getFormData',
+          'isDisplayFeedbackBanner',
+          'isDisplayIssueProhibitions',
+          'isDisplaySearchRecentProhibition',
+          'isDisplayUserNotAuthorizedBanner',
+          'isDisplayWelcomeLoginCard',
+          'isRecentProhibitions',
+          'getEnvironment'
     ]),
   }
 }

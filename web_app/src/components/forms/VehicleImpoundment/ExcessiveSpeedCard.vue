@@ -4,7 +4,7 @@
       <text-field id="speed_limit" :path="path" input_type="number" rules="required" fg_class="col-sm-3">Speed Limit (km/h)</text-field>
     </form-row>
     <form-row>
-      <text-field id="vehicle_speed" :path="path" input_type="number" rules="required" fg_class="col-sm-3">Vehicle Speed (km/h)</text-field>
+      <text-field id="vehicle_speed" :path="path" input_type="number" rules="required|excessiveSpeed:@speed_limit" fg_class="col-sm-3">Vehicle Speed (km/h)</text-field>
     </form-row>
     <form-row>
       <radio-field id="speed_estimated" :path="path" fg_class="col-sm-12" :options='[["visual", "Visual"], ["pacing", "Pacing"]]'>

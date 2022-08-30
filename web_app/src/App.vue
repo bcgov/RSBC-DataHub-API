@@ -1,29 +1,36 @@
 <template>
   <div id="app" class="card border-0 ml-4 mr-4">
-    <div id="roadsafety-header" class="card-header">
-      <div class="d-flex justify-content-between">
-        <a :href="`${publicPath}`" id="home"><img width="300px" :src="`${publicPath}assets/BCID_RoadSafetyBC_logo_transparent.png`" ></a>
-        <div class="d-flex align-items-end flex-column">
-          <div class="font-weight-bold text-warning">
-            PILOT <span class="text-light small" id="app-version">{{ getAppVersion }}</span>
+    <div class="container-fluid">
+      <div id='primary-content' :class="primaryContentClass">
+
+        <div id="roadsafety-header" class="card-header">
+          <div class="d-flex justify-content-between">
+            <a :href="`${publicPath}`" id="home"><img width="300px" :src="`${publicPath}assets/BCID_RoadSafetyBC_logo_transparent.png`" ></a>
+            <div class="d-flex align-items-end flex-column">
+              <div class="font-weight-bold text-warning">
+                PILOT <span class="text-light small" id="app-version">{{ getAppVersion }}</span>
+              </div>
+
+              <div class="mt-auto small">
+                <router-link to="/admin" v-if="isUserAnAdmin && isUserAnAdmin" class="text-white font-weight-bold" id="admin">
+                  <span>Admin</span>
+                </router-link>
+                {{ getKeycloakUsername }}
+                <div v-if="isUserAuthenticated" class="btn btn-light btn-sm ml-3" @click="$store.state.keycloak.logoutFn()">Logout</div>
+              </div>
+            </div>
           </div>
 
-          <div class="mt-auto small">
-            <router-link to="/admin" v-if="isUserAnAdmin" class="text-white font-weight-bold" id="admin">
-              <span>Admin</span>
-            </router-link>
-            <span v-if="! isUserAnAdmin && isUserAuthenticated">User</span> {{ getKeycloakUsername }}
-          </div>
+        </div>
+        <not-logged-in-banner v-if="isDisplayNotLoggedInBanner"></not-logged-in-banner>
+        <update-available></update-available>
+        <div class="card-body">
+          <offline-banner v-if="! $store.state.isOnline"></offline-banner>
+          <router-view></router-view>
+          <debug-component></debug-component>
         </div>
       </div>
 
-    </div>
-    <not-logged-in-banner v-if="isDisplayNotLoggedInBanner"></not-logged-in-banner>
-    <update-available></update-available>
-    <div class="card-body">
-      <offline-banner v-if="! $store.state.isOnline"></offline-banner>
-      <router-view></router-view>
-      <debug-component></debug-component>
     </div>
   </div>
 </template>
@@ -40,8 +47,23 @@ export default {
   name: 'App',
   components: {DebugComponent, NotLoggedInBanner, OfflineBanner, UpdateAvailable},
   computed: {
-    ...mapGetters(['getAppVersion', "getKeycloakUsername", "isUserAnAdmin", "isUserAuthenticated",
-    "isDisplayNotLoggedInBanner"]),
+    ...mapGetters([
+        'getEnvironment',
+        'getAppVersion',
+        "getKeycloakUsername",
+        "isUserAnAdmin",
+        "isUserAuthenticated",
+        "isDisplayNotLoggedInBanner"
+    ]),
+    primaryContentClass() {
+      const env = this.getEnvironment;
+      const contentClass = {
+        "dev": 'dev-banner',
+        "test": 'test-banner',
+        "prod": ''
+      }
+      return contentClass[env]
+    }
   },
   data () {
     return {
@@ -53,6 +75,14 @@ export default {
 </script>
 
 <style>
+.dev-banner {
+  border-left: hotpink 12px solid;
+}
+
+.test-banner {
+  border-left: yellow 12px solid;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   font-size: large;

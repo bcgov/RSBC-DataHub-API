@@ -1,4 +1,4 @@
-importScripts("/roadside-forms/precache-manifest.f8fafec028b588b6a3b26e1fe33dfc02.js", "/roadside-forms/workbox-v4.3.1/workbox-sw.js");
+importScripts("/roadside-forms/precache-manifest.534067d998a9385a931e0ff316035f2e.js", "/roadside-forms/workbox-v4.3.1/workbox-sw.js");
 workbox.setConfig({modulePathPrefix: "/roadside-forms/workbox-v4.3.1"});
 self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {
@@ -52,6 +52,7 @@ workbox.routing.registerRoute(({request, url}) =>
 workbox.routing.registerRoute(({request, url}) =>
     url.pathname.includes('/api/v1/static/agencies') ||
     url.pathname.includes('/api/v1/static/cities') ||
+    url.pathname.includes('/api/v1/static/configuration') ||
     url.pathname.includes('/api/v1/static/countries') ||
     url.pathname.includes('/api/v1/static/jurisdictions') ||
     url.pathname.includes('/api/v1/static/provinces') ||

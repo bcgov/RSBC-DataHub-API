@@ -7,7 +7,7 @@
     </form-row>
     <form-row>
       <text-field id="offence_address" :path="path" fg_class="col-sm-8" rules="required">Intersection or Address of Offence</text-field>
-      <offence-city :path="path" fg_class="col-sm-4" :rules="offenceCityRules">City</offence-city>
+      <offence-city :path="path" fg_class="col-sm-4">City</offence-city>
     </form-row>
     <form-row>
       <text-field id="file_number" :path="path" fg_class="col-sm-2" rules="required">Agency File Number</text-field>

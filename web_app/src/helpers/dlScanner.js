@@ -39,8 +39,10 @@ export default {
     
     async readFromScanner(device, reportId, data) {
         console.log(`readDataFromScanner(): Received input report ${reportId} from ${device.productName}`);
-        var magStripe = String.fromCharCode.apply(null, new Uint8Array(data.buffer)); // convert BufferSource into string
-        return this.parseAAMVA2009(magStripe)
+        return await new Promise((resolve) => {
+            const magStripe = String.fromCharCode.apply(null, new Uint8Array(data.buffer)); // convert BufferSource into string
+            resolve(this.parseAAMVA2009(magStripe))
+        })
     },
 
     // parse AAMVA 2009 data (NB: no track 3 support - not required for RSI Digital Forms project)

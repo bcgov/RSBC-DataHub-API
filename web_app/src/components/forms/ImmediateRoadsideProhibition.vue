@@ -1,5 +1,5 @@
 <template>
-  <form-container title="Immediate Roadside Prohibition">
+  <form-container title="Immediate Roadside Prohibition" :form_object="formObject">
     <form-card title="Vehicle Licence Plate">
       <form-row>
         <province-field id="plate_province" fg_class="col-sm-2">Jurisdiction</province-field>

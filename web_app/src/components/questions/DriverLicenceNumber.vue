@@ -81,7 +81,7 @@ export default {
   },
   methods: {
     ...mapMutations(["populateDriverFromBarCode"]),
-    ...mapActions(['lookupDriverFromICBC']),
+    ...mapActions(['lookupDriverFromICBC', "lookupDriverProvince"]),
     triggerDriversLookup() {
       console.log("inside triggerDriversLookup()")
       this.fetch_error = ''
@@ -102,6 +102,12 @@ export default {
       dlScanner.readFromScanner(device, reportId, data)
       .then( dl_data => {
         this.populateDriverFromBarCode(dl_data)
+        return dl_data['address']['province']
+      })
+      .then( provinceCode => {
+        this.lookupDriverProvince([this.path, provinceCode])
+      })
+      .then( () => {
         this.$bvModal.hide('dl-scanner')
       })
     },
