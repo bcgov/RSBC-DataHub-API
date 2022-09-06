@@ -28,27 +28,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/roadside-forms/assets/MV2906_102018.png"
   },
   {
-<<<<<<< HEAD:web_app/dist/precache-manifest.f8fafec028b588b6a3b26e1fe33dfc02.js
-    "revision": "d414df460febf2da7ff3",
-    "url": "/roadside-forms/css/app.d394b1c4.css"
-  },
-  {
-    "revision": "65d57fe679d61f7d5e21",
-    "url": "/roadside-forms/css/chunk-vendors.ac5b10c9.css"
-  },
-  {
-    "revision": "b8b640dba9a95afc0bb65150ece78352",
-    "url": "/roadside-forms/index.html"
-  },
-  {
-    "revision": "d414df460febf2da7ff3",
-    "url": "/roadside-forms/js/app.c4b07954.js"
-  },
-  {
-    "revision": "65d57fe679d61f7d5e21",
-    "url": "/roadside-forms/js/chunk-vendors.e861a4c6.js"
-=======
-    "revision": "8095dbe2103f4f2eea32",
+    "revision": "23225a5ee7e6306948a8",
     "url": "/roadside-forms/css/app.ff4b03b5.css"
   },
   {
@@ -56,17 +36,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/roadside-forms/css/chunk-vendors.ac5b10c9.css"
   },
   {
-    "revision": "64a1bcdece8eadcee8caf2ee136ed349",
+    "revision": "2042c341a66bf17fa451ea112809c9db",
     "url": "/roadside-forms/index.html"
   },
   {
-    "revision": "8095dbe2103f4f2eea32",
-    "url": "/roadside-forms/js/app.67213f70.js"
+    "revision": "23225a5ee7e6306948a8",
+    "url": "/roadside-forms/js/app.91f995b9.js"
   },
   {
     "revision": "6d52aaea695234144bf4",
     "url": "/roadside-forms/js/chunk-vendors.d8ba5584.js"
->>>>>>> release/s163:web_app/dist/precache-manifest.534067d998a9385a931e0ff316035f2e.js
   },
   {
     "revision": "d614e0fcb8d493b145b2ccefdb520a31",
