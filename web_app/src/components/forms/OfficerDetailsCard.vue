@@ -19,13 +19,9 @@
 
 <script>
 import CardsCommon from "@/components/forms/CardsCommon";
-import {mapGetters} from "vuex";
 
 export default {
   name: "OfficerDetailsCard",
   mixins: [CardsCommon],
-  computed: {
-    ...mapGetters(["getCurrentUserObject"])
-  }
 }
 </script>

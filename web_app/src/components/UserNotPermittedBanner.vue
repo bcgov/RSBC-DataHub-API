@@ -27,7 +27,8 @@
               <application-field id="agency" @modified="modified_event" :errors="errors">Agency Name</application-field>
             </div>
             <div class="form-row pl-2">
-              <application-field id="badge_number" input_type="number" @modified="modified_event" :errors="errors">Badge Number</application-field>
+              <application-field id="badge_number" input_type="number" @modified="modified_event" :errors="errors">
+                PIN / HRMIS <span class="text-muted small">(no leading zeros)</span></application-field>
             </div>
           </div>
           <div>

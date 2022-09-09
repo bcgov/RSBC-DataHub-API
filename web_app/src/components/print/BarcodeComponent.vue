@@ -1,6 +1,6 @@
 <template>
   <text :x="adjustedStart.x" :y="adjustedStart.y" v-if="renderValue"
-        class="fontText"
+        :class="field.class"
         :id="field_name"
         fill="darkblue">{{ renderValue }}
   </text>
@@ -8,6 +8,7 @@
 
 <script>
 import RenderCommon from "@/components/print/RenderCommon";
+import checkDigit from "@/helpers/checkDigit";
 
 export default {
   name: "BarcodeComponent",
@@ -16,13 +17,26 @@ export default {
     value: {
       type: String
     }
+  },
+  methods: {
+    getFormIdForBarCode() {
+        const sixDigitString = this.form_id.substr(2,7)
+        const digit = checkDigit.checkDigit(sixDigitString)
+        return "*" + sixDigitString + digit + "*"
+    },
   }
 }
 </script>
 
 <style scoped>
 
-  .fontText {
+  .font12 {
+    font-family: "barcode",serif;
+    font-weight: normal;
+    font-size: 12pt;
+  }
+
+  .font14 {
     font-family: "barcode",serif;
     font-weight: normal;
     font-size: 14pt;

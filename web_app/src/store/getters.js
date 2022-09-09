@@ -142,6 +142,11 @@ export const getters = {
         return "Not Printed"
     },
 
+    isDocumentServed: (state, getters) => path => {
+        const rootPath = path.replace("/data", '')
+        return getters.getAttributeValue(rootPath, "printed_timestamp") !== null;
+    },
+
     getPdfFileNameString: state => (form_object, document_type) => {
         let file_extension = ".pdf"
         let root = state.forms[form_object.form_type][form_object.form_id]
@@ -177,6 +182,14 @@ export const getters = {
 
     getProvinceObjectByName: state => name => {
         const results =  state.provinces.filter( o => o.objectDsc === name);
+        if (results.length > 0) {
+            return results[0]
+        }
+        return {}
+    },
+
+    getProvinceObjectByCode: state => code => {
+        const results =  state.provinces.filter( o => o.objectCd === code);
         if (results.length > 0) {
             return results[0]
         }
@@ -511,6 +524,73 @@ export const getters = {
         return state.users
     },
 
+    getArrayOfRecentViNumbers: state => {
+        const localViNumbers = Object.keys(state.forms.VI);
+        let optionsArray = []
+        localViNumbers.forEach( n => {
+            if ('data' in state.forms.VI[n]) {
+                optionsArray.push({
+                    vi_number: n,
+                    label: state.forms.VI[n].data.last_name +
+                        ", " + state.forms.VI[n].data.first_name + " (" + n + ")"
+                })
+            }
+        })
+        return optionsArray
+    },
+
+    getArrayOfUserRoles: state => {
+        let roles = []
+        if (Array.isArray(state.user_roles)) {
+            state.user_roles.forEach( r => {
+                if (r.approved_dt !== null) {
+                    roles.push(r.role_name)
+                }
+            })
+        }
+        return roles
+    },
+
+    getPrintedDate: (state, getters) => path => {
+        const rootPath = path.replace("/data", "")
+        const isoDateString = getters.getAttributeValue(rootPath, "printed_timestamp")
+        const date_time = moment.tz(isoDateString, 'YYYY-MM-DDTHH:mm:ss', false, constants.TIMEZONE)
+
+        return date_time.format("Do of MMMM YYYY")
+    },
+
+    // At present the printed date and certified date are the same
+    // but if the prohibition is served around midnight, we might
+    // need to separate the date served from the date certified
+    getCertifiedDate: (state, getters) => path => {
+        const rootPath = path.replace("/data", "")
+        const isoDateString = getters.getAttributeValue(rootPath, "printed_timestamp")
+        const date_time = moment.tz(isoDateString, 'YYYY-MM-DDTHH:mm:ss', false, constants.TIMEZONE)
+
+        return date_time.format("YYYY-MM-DD")
+    },
+
+    formattedNoticeNumber: (state, getters) => path => {
+        const rootPath = path.replace("/data", "")
+        const form_id = getters.getAttributeValue(rootPath, "form_id")
+        return form_id.substr(0,2) + "-" + form_id.substr(2);
+    },
+
+    concatenateDriverName: (state, getters) => path => {
+        return getters.getAttributeValue(path, "last_name") + ", " +
+            getters.getAttributeValue(path, "first_name")
+    },
+
+    getOfficialFormName: (state, getters) => path => {
+        const rootPath = path.replace("/data", "")
+        return getters.getAttributeValue(rootPath, "description")
+    },
+
+    isCertificateOfServiceEnabled: (state, getters) => path => {
+        const rootPath = path.replace("/data", "")
+        return getters.getAttributeValue(rootPath, "showCertificate")
+    },
+
     getEnvironment: state => {
         return state.configuration.environment;
     },
@@ -533,6 +613,7 @@ export const getters = {
         }
         return status;
     },
+
 
 }
 

@@ -38,30 +38,43 @@ Vue.use(VueKeyCloak, {
   },
   config: constants.API_ROOT_URL + '/api/v1/static/keycloak',
   onReady: () => {
-    rsiStore.commit("setKeycloak", Vue.prototype.$keycloak)
+      rsiStore.commit("setKeycloak", Vue.prototype.$keycloak)
+
+      new Vue({
+          router,
+          store: rsiStore,
+          async created() {
+
+            await rsiStore.dispatch("getAllFormsFromDB")
+                .then( () => {
+                    rsiStore.dispatch("getMoreFormsFromApiIfNecessary")
+                });
+            await rsiStore.dispatch("downloadLookupTables");
+
+          },
+          render: h => h(App),
+        }).$mount('#app')
+  },
+
+  onInitError: () => {
+      new Vue({
+          router,
+          store: rsiStore,
+          async created() {
+
+            await rsiStore.dispatch("getAllFormsFromDB");
+            // download lookup tables from service worker
+            await rsiStore.dispatch("downloadLookupTables")
+
+          },
+          render: h => h(App),
+        }).$mount('#app')
   }
 });
 
 
-new Vue({
-  router,
-  store: rsiStore,
-  async created() {
-
-    await rsiStore.dispatch("getAllFormsFromDB");
-
-    // download lookup tables while offline
-    await rsiStore.dispatch("downloadLookupTables")
-
-  },
-  render: h => h(App),
-}).$mount('#app')
-
-
 rsiStore.subscribe((mutation) => {
       if (mutation.type === 'setKeycloak') {
-        rsiStore.dispatch("getMoreFormsFromApiIfNecessary")
-        // TODO - store.dispatch("renewFormLeasesFromApiIfNecessary")
         rsiStore.dispatch("fetchStaticLookupTables", {"resource": "user_roles", "admin": false, "static": false})
             .then(data => {
                 rsiStore.dispatch("updateUserIsAuthenticated", data)
@@ -73,7 +86,8 @@ rsiStore.subscribe((mutation) => {
           mutation.type === 'updateCheckBox' ||
           mutation.type === 'populateDriverFromICBC' ||
           mutation.type === 'populateVehicleFromICBC' ||
-          mutation.type === 'typeAheadUpdate'
+          mutation.type === 'typeAheadUpdate' ||
+          mutation.type === 'deleteFormField'
       ) {
         rsiStore.dispatch("saveCurrentFormToDB", rsiStore.state.currently_editing_form_object)
       }

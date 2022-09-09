@@ -12,6 +12,8 @@
           <div class="d-flex justify-content-between">
             <print-documents
               v-for="(document, index) in getDocumentsToPrint(name)" v-bind:key="index"
+              :show_certificate="isCertificateOfServiceEnabled(getPath)"
+              :path="getPath"
               :form_object="getCurrentlyEditedForm"
               :validate="validate"
               :variants="document.variants">

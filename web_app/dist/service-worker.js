@@ -1,4 +1,4 @@
-importScripts("/roadside-forms/precache-manifest.534067d998a9385a931e0ff316035f2e.js", "/roadside-forms/workbox-v4.3.1/workbox-sw.js");
+importScripts("/roadside-forms/precache-manifest.615ea33d4e88f6af8cafed47a8a0f486.js", "/roadside-forms/workbox-v4.3.1/workbox-sw.js");
 workbox.setConfig({modulePathPrefix: "/roadside-forms/workbox-v4.3.1"});
 self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {
@@ -48,13 +48,14 @@ workbox.routing.registerRoute(({request, url}) =>
 );
 
 
-// Cache these API resources for 2 days
+// Cache these API resources for 7 days
 workbox.routing.registerRoute(({request, url}) =>
     url.pathname.includes('/api/v1/static/agencies') ||
     url.pathname.includes('/api/v1/static/cities') ||
     url.pathname.includes('/api/v1/static/configuration') ||
     url.pathname.includes('/api/v1/static/countries') ||
     url.pathname.includes('/api/v1/static/jurisdictions') ||
+    url.pathname.includes('/api/v1/static/keycloak') ||
     url.pathname.includes('/api/v1/static/provinces') ||
     url.pathname.includes('/api/v1/static/vehicles') ||
     url.pathname.includes('/api/v1/static/vehicle_styles'),
@@ -66,7 +67,7 @@ workbox.routing.registerRoute(({request, url}) =>
         statuses: [200],
       }),
       new workbox.expiration.Plugin({
-        maxAgeSeconds: 60 * 60 * 24 * 2, // 2 Days
+        maxAgeSeconds: 60 * 60 * 24 * 7, // 7 Days
       }),
     ],
   }),

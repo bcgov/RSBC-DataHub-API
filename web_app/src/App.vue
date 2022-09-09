@@ -12,16 +12,19 @@
               </div>
 
               <div class="mt-auto small">
-                <router-link to="/admin" v-if="isUserAnAdmin && isUserAnAdmin" class="text-white font-weight-bold" id="admin">
-                  <span>Admin</span>
-                </router-link>
-                {{ getKeycloakUsername }}
-                <div v-if="isUserAuthenticated" class="btn btn-light btn-sm ml-3" @click="$store.state.keycloak.logoutFn()">Logout</div>
+                <b-navbar type="dark" class="p-0">
+                  <b-navbar-nav class="ml-auto">
+                    <b-nav-item v-if="isUserAnAdmin && isUserAuthenticated" @click="$router.replace({name: 'Admin'})">Admin</b-nav-item>
+                    <b-nav-item-dropdown v-if="isUserAuthenticated" text="User" right>
+                      <b-dropdown-item @click="$store.state.keycloak.logoutFn()">Logout</b-dropdown-item>
+                    </b-nav-item-dropdown>
+                  </b-navbar-nav>
+                </b-navbar>
               </div>
             </div>
           </div>
-
         </div>
+
         <not-logged-in-banner v-if="isDisplayNotLoggedInBanner"></not-logged-in-banner>
         <update-available></update-available>
         <div class="card-body">
@@ -30,7 +33,6 @@
           <debug-component></debug-component>
         </div>
       </div>
-
     </div>
   </div>
 </template>

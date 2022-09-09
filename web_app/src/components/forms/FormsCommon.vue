@@ -1,5 +1,5 @@
 <script>
-import CheckField from "@/components/questions/CheckField";
+import CheckField from "@/components/questions/CheckField/CheckField";
 import DateField from "@/components/questions/DateField";
 import DobField from "@/components/questions/DoBField";
 import DriverLicenceNumber from "@/components/questions/DriverLicenceNumber";
@@ -7,9 +7,10 @@ import EmailField from "@/components/questions/EmailField";
 import FormCard from "@/components/forms/FormCard";
 import FormContainer from "@/components/forms/FormContainer";
 import FormRow from "@/components/forms/FormRow";
-import FormStep from "@/components/forms/FormStep";
 import GenderField from "@/components/questions/GenderField";
+import JurisdictionField from "@/components/questions/JurisdictionField";
 import PhoneField from "@/components/questions/PhoneField";
+import PrintDocuments from "@/components/forms/PrintDocuments";
 import PlateNumber from "@/components/questions/PlateNumber";
 import ProvinceField from "@/components/questions/ProvinceField";
 import RadioField from "@/components/questions/RadioField";
@@ -37,7 +38,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getFormData", "getCurrentlyEditedForm"]),
+    ...mapGetters(["getFormData", "getCurrentlyEditedForm", "getDocumentsToPrint", "isCertificateOfServiceEnabled"]),
     getPath() {
       return `forms/${this.name}/${this.id}/data`
     },
@@ -60,10 +61,11 @@ export default {
     FormCard,
     FormContainer,
     FormRow,
-    FormStep,
     GenderField,
+    JurisdictionField,
     PhoneField,
     PlateNumber,
+    PrintDocuments,
     ProvinceField,
     RadioField,
     ShadowBox,

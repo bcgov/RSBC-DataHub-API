@@ -18,16 +18,10 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex";
 import CardsCommon from "@/components/forms/CardsCommon";
-import DriverLicenceClass from "@/components/questions/DriverLicenceClass";
 
 export default {
   name: "DriversInformationCard",
-  components: {DriverLicenceClass},
   mixins: [CardsCommon],
-  computed: {
-    ...mapGetters(["isLicenceJurisdictionBC"])
-  }
 }
 </script>

@@ -4,6 +4,7 @@
     "fields": {
       "BAR_CODE": {
         "field_type": "barcode",
+        "class": "font14",
         "function": "getFormIdForBarCode",
         "parameters": "",
         "start": {
@@ -2861,6 +2862,464 @@
               "RELEASE_PERSON",
               "RELEASE_DATETIME",
               "ICBC_COPY"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "IRP": {
+    "units": "mm",
+    "fields": {
+      "BAR_CODE": {
+        "field_type": "barcode",
+        "class": "font12",
+        "function": "getFormIdForBarCode",
+        "parameters": "",
+        "start": {
+          "x": 135,
+          "y": 35
+        }
+      },
+      "BAR_CODE_LABEL": {
+        "field_type": "text",
+        "font_size": 12,
+        "function": "label",
+        "parameters": "IRP No.",
+        "start": {
+          "x": 158,
+          "y": 40
+        }
+      },
+      "VIOLATION_NUMBER": {
+        "field_type": "text",
+        "font_size": 12,
+        "function": "getFormIdWithCheckDigit",
+        "parameters": "",
+        "start": {
+          "x": 178,
+          "y": 40
+        }
+      },
+      "MV2723_DRIVER_NAME": {
+        "field_type": "text",
+        "font_size": 12,
+        "function": "getValuesConcatenatedWithCommas",
+        "parameters": ["last_name","first_name"],
+        "start": {
+          "x": 18,
+          "y": 55
+        }
+      },
+      "MV2723_DOB": {
+        "field_type": "text",
+        "font_size": 12,
+        "function": "getFormattedDate",
+        "parameters": ["dob", "YYYY/MM/DD"],
+        "start": {
+          "x": 155,
+          "y": 55
+        }
+      },
+      "MV2723_GENDER": {
+        "field_type": "text",
+        "font_size": 12,
+        "function": "getStringValue",
+        "parameters": "driver_gender",
+        "start": {
+          "x": 190,
+          "y": 55
+        }
+      },
+      "MV2723_ADDRESS": {
+        "field_type": "text",
+        "font_size": 12,
+        "function": "getValuesConcatenatedWithCommas",
+        "parameters": ["address1","city"],
+        "start": {
+          "x": 18,
+          "y": 65
+        }
+      },
+      "MV2723_PROVINCE": {
+        "field_type": "text",
+        "font_size": 12,
+        "function": "getStringValue",
+        "parameters": "province/objectCd",
+        "start": {
+          "x": 150,
+          "y": 65
+        }
+      },
+      "MV2723_POSTAL": {
+        "field_type": "text",
+        "font_size": 12,
+        "function": "getStringValue",
+        "parameters": "postal",
+        "start": {
+          "x": 170,
+          "y": 65
+        }
+      },
+      "MV2723_BCDL": {
+        "field_type": "text",
+        "font_size": 12,
+         "function": "conditionalAndBcGetString",
+        "parameters": ["drivers_number", "drivers_licence_jurisdiction/objectCd", "drivers_number" ],
+        "start": {
+          "x": 18,
+          "y": 74
+        }
+      },
+      "MV2723_DL_CLASS": {
+        "field_type": "text",
+        "font_size": 12,
+        "function": "getStringValue",
+        "parameters": "dl_class",
+        "start": {
+          "x": 70,
+          "y": 74
+        }
+      },
+      "MV2723_DL_EXPIRY": {
+        "field_type": "text",
+        "font_size": 12,
+        "function": "getStringValue",
+        "parameters": "expiry_year",
+        "start": {
+          "x": 85,
+          "y": 74
+        }
+      },
+      "MV2723_NON_BC_DL": {
+        "field_type": "text",
+        "font_size": 12,
+         "function": "conditionalAndNotBcGetString",
+        "parameters": ["drivers_number", "drivers_licence_jurisdiction/objectCd", "drivers_number" ],
+        "start": {
+          "x": 112,
+          "y": 74
+        }
+      },
+      "MV2723_NON_BC_JURISDICTION": {
+        "field_type": "text",
+        "font_size": 12,
+         "function": "conditionalAndNotBcGetString",
+        "parameters": ["drivers_number", "drivers_licence_jurisdiction/objectCd", "drivers_licence_jurisdiction/objectCd" ],
+        "start": {
+          "x": 187,
+          "y": 74
+        }
+      },
+      "MV2723_DL_SEIZED_YES": {
+        "field_type": "checkbox",
+        "font_size": 12,
+        "function": "isExists",
+        "parameters": "license_seized_yes",
+        "start": {
+          "x": 24,
+          "y": 83
+        }
+      },
+      "MV2723_DL_SEIZED_NO": {
+        "field_type": "checkbox",
+        "font_size": 12,
+        "function": "isExists",
+        "parameters": "license_seized_no",
+        "start": {
+          "x": 45,
+          "y": 83
+        }
+      },
+      "MV2723_IMPOUNDED_YES": {
+        "field_type": "checkbox",
+        "font_size": 12,
+        "function": "isExists",
+        "parameters": "vehicle_impounded_yes",
+        "start": {
+          "x": 79,
+          "y": 83
+        }
+      },
+      "MV2723_IMPOUNDED_NO": {
+        "field_type": "checkbox",
+        "font_size": 12,
+        "function": "isExists",
+        "parameters": "vehicle_impounded_no",
+        "start": {
+          "x": 122,
+          "y": 83
+        }
+      },
+      "MV2723_VI_NUMBER": {
+        "field_type": "text",
+        "font_size": 12,
+        "function": "getStringValue",
+        "parameters": "vehicle_impounded_yes/vi_number",
+        "start": {
+          "x": 153,
+          "y": 83
+        }
+      },
+      "MV2723_PROHIBITION_DATE": {
+        "field_type": "text",
+        "font_size": 12,
+        "function": "getFormattedDate",
+        "parameters": ["prohibition_start_date", "YYYY-MM-DD"],
+        "start": {
+          "x": 120,
+          "y": 93
+        }
+      },
+      "MV2723_PROHIBITION_TIME": {
+        "field_type": "text",
+        "font_size": 12,
+        "function": "getFormattedTime",
+        "parameters": ["prohibition_start_time", "HH:mm"],
+        "start": {
+          "x": 14,
+          "y": 100
+        }
+      },
+      "MV2723_OFFENCE_ADDRESS": {
+        "field_type": "text",
+        "font_size": 12,
+        "function": "getStringValue",
+        "parameters": "offence_address",
+        "start": {
+          "x": 40,
+          "y": 100
+        }
+      },
+      "MV2723_OFFENCE_CITY": {
+        "field_type": "text",
+        "font_size": 12,
+        "function": "getStringValue",
+        "parameters": "offence_city/objectDsc",
+        "start": {
+          "x": 112,
+          "y": 100
+        }
+      },
+      "MV2723_3_DAYS_WARN": {
+        "field_type": "checkbox",
+        "font_size": 12,
+        "function": "isExists",
+        "parameters": "prohibition_type_3-days-warn",
+        "start": {
+          "x": 11,
+          "y": 121
+        }
+      },
+      "MV2723_7_DAYS_WARN": {
+        "field_type": "checkbox",
+        "font_size": 12,
+        "function": "isExists",
+        "parameters": "prohibition_type_7-days-warn",
+        "start": {
+          "x": 11,
+          "y": 131
+        }
+      },
+      "MV2723_30_DAYS_WARN": {
+        "field_type": "checkbox",
+        "font_size": 12,
+        "function": "isExists",
+        "parameters": "prohibition_type_30-days-warn",
+        "start": {
+          "x": 11,
+          "y": 140
+        }
+      },
+      "MV2723_90_DAYS_FAIL": {
+        "field_type": "checkbox",
+        "font_size": 12,
+        "function": "isExists",
+        "parameters": "prohibition_type_90-days-fail",
+        "start": {
+          "x": 11,
+          "y": 150
+        }
+      },
+      "MV2723_90_DAYS_REFUSE": {
+        "field_type": "checkbox",
+        "font_size": 12,
+        "function": "isExists",
+        "parameters": "prohibition_type_90-days-refuse",
+        "start": {
+          "x": 11,
+          "y": 159
+        }
+      },
+      "MV2723_OFFICER_NAME": {
+        "field_type": "text",
+        "font_size": 12,
+        "function": "getStringValue",
+        "parameters": "officer_name",
+        "start": {
+          "x": 10,
+          "y": 171
+        }
+      },
+      "MV2723_OFFICER_SIGNATURE": {
+        "field_type": "text",
+        "font_size": 12,
+        "function": "getStringValue",
+        "parameters": "officer_name",
+        "start": {
+          "x": 70,
+          "y": 171
+        }
+      },
+      "MV2723_OFFICER_BADGE": {
+        "field_type": "text",
+        "font_size": 12,
+        "function": "getStringValue",
+        "parameters": "badge_number",
+        "start": {
+          "x": 164,
+          "y": 171
+        }
+      },
+      "MV2723_AGENCY_NAME": {
+        "field_type": "text",
+        "font_size": 12,
+        "function": "getStringValue",
+        "parameters": "agency",
+        "start": {
+          "x": 10,
+          "y": 178
+        }
+      },
+      "MV2723_AGENCY_FILE_NUMBER": {
+        "field_type": "text",
+        "font_size": 12,
+        "function": "getStringValue",
+        "parameters": "file_number",
+        "start": {
+          "x": 135,
+          "y": 178
+        }
+      },
+      "DRIVER_COPY": {
+        "field_type": "text",
+        "font_size": 12,
+        "function": "label",
+        "parameters": "DRIVER COPY",
+        "start": {
+          "x": 175,
+          "y": 237
+        }
+      },
+      "POLICE_COPY": {
+        "field_type": "text",
+        "font_size": 12,
+        "function": "label",
+        "parameters": "POLICE COPY",
+        "start": {
+          "x": 175,
+          "y": 237
+        }
+      }
+    },
+    "viewbox": "6 18 204 269",
+    "variants": {
+      "driver": {
+        "pages": [
+          {
+            "orientation": "Portrait",
+            "image": {
+              "filename": "assets/MV2723_201602.png",
+              "offset_x": 0,
+              "offset_y": -10,
+              "width": 215,
+              "height": 307
+            },
+            "show_fields": [
+              "BAR_CODE",
+              "BAR_CODE_LABEL",
+              "VIOLATION_NUMBER",
+              "MV2723_DRIVER_NAME",
+              "MV2723_DOB",
+              "MV2723_GENDER",
+              "MV2723_ADDRESS",
+              "MV2723_PROVINCE",
+              "MV2723_POSTAL",
+              "MV2723_BCDL",
+              "MV2723_DL_CLASS",
+              "MV2723_DL_EXPIRY",
+              "MV2723_NON_BC_DL",
+              "MV2723_NON_BC_JURISDICTION",
+              "MV2723_DL_SEIZED_YES",
+              "MV2723_DL_SEIZED_NO",
+              "MV2723_IMPOUNDED_YES",
+              "MV2723_IMPOUNDED_NO",
+              "MV2723_VI_NUMBER",
+              "MV2723_PROHIBITION_DATE",
+              "MV2723_PROHIBITION_TIME",
+              "MV2723_OFFENCE_ADDRESS",
+              "MV2723_OFFENCE_CITY",
+              "MV2723_3_DAYS_WARN",
+              "MV2723_7_DAYS_WARN",
+              "MV2723_30_DAYS_WARN",
+              "MV2723_90_DAYS_FAIL",
+              "MV2723_90_DAYS_REFUSE",
+              "MV2723_OFFICER_NAME",
+              "MV2723_OFFICER_SIGNATURE",
+              "MV2723_OFFICER_BADGE",
+              "MV2723_AGENCY_NAME",
+              "MV2723_AGENCY_FILE_NUMBER",
+              "DRIVER_COPY"
+            ]
+          }
+        ]
+      },
+      "police": {
+        "pages": [
+          {
+            "orientation": "Portrait",
+            "image": {
+              "filename": "assets/MV2723_201602.png",
+              "offset_x": 0,
+              "offset_y": -10,
+              "width": 215,
+              "height": 307
+            },
+            "show_fields": [
+              "BAR_CODE",
+              "BAR_CODE_LABEL",
+              "VIOLATION_NUMBER",
+              "MV2723_DRIVER_NAME",
+              "MV2723_DOB",
+              "MV2723_GENDER",
+              "MV2723_ADDRESS",
+              "MV2723_PROVINCE",
+              "MV2723_POSTAL",
+              "MV2723_BCDL",
+              "MV2723_DL_CLASS",
+              "MV2723_DL_EXPIRY",
+              "MV2723_NON_BC_DL",
+              "MV2723_NON_BC_JURISDICTION",
+              "MV2723_DL_SEIZED_YES",
+              "MV2723_DL_SEIZED_NO",
+              "MV2723_IMPOUNDED_YES",
+              "MV2723_IMPOUNDED_NO",
+              "MV2723_VI_NUMBER",
+              "MV2723_PROHIBITION_DATE",
+              "MV2723_PROHIBITION_TIME",
+              "MV2723_OFFENCE_ADDRESS",
+              "MV2723_OFFENCE_CITY",
+              "MV2723_3_DAYS_WARN",
+              "MV2723_7_DAYS_WARN",
+              "MV2723_30_DAYS_WARN",
+              "MV2723_90_DAYS_FAIL",
+              "MV2723_90_DAYS_REFUSE",
+              "MV2723_OFFICER_NAME",
+              "MV2723_OFFICER_SIGNATURE",
+              "MV2723_OFFICER_BADGE",
+              "MV2723_AGENCY_NAME",
+              "MV2723_AGENCY_FILE_NUMBER",
+              "POLICE_COPY"
             ]
           }
         ]

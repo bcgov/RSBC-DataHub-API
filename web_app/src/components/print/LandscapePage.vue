@@ -1,4 +1,5 @@
 <template>
+  <div>
     <svg v-if="formData" class="svg-wrapper" :viewBox="viewbox">
       <image :href="baseURL + page.image.filename" :height="page.image.height + 'px'" :width="page.image.width + 'px'"/>
       <component
@@ -14,6 +15,8 @@
       </component>
      Sorry, your browser does not support inline SVG.
     </svg>
+  </div>
+
 </template>
 
 <script>

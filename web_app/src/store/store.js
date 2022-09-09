@@ -45,6 +45,8 @@ export const rsiStore = new Vuex.Store ({
             }
           },
           "disabled": false,
+          "adminOnly": false,
+          "showCertificate": false,
           "check_digit": false
         },
         "24Hour": {
@@ -61,6 +63,8 @@ export const rsiStore = new Vuex.Store ({
             }
           },
           "disabled": false,
+          "adminOnly": false,
+          "showCertificate": false,
           "check_digit": false
         },
         "VI": {
@@ -77,6 +81,8 @@ export const rsiStore = new Vuex.Store ({
             }
           },
           "disabled": false,
+          "adminOnly": false,
+          "showCertificate": false,
           "check_digit": true
         },
         "IRP": {
@@ -85,8 +91,16 @@ export const rsiStore = new Vuex.Store ({
           "label": "IRP",
           "description": "Immediate Roadside Prohibition",
           "full_name": "MV2723",
-          "documents": {},
-          "disabled": true,
+          "documents": {
+            "all": {
+              "name": "Print All Copies",
+              "reprint": true,
+              "variants": ['police', 'driver', 'report']
+            }
+          },
+          "disabled": false,
+          "adminOnly": true,
+          "showCertificate": true,
           "check_digit": true
         }
       }

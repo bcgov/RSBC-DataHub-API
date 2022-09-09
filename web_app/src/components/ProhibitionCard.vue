@@ -36,8 +36,11 @@ export default {
       form: {}
   },
   computed: {
-    ...mapGetters(["getFormTypeCount", "getNextAvailableUniqueIdByType"]),
+    ...mapGetters(["getFormTypeCount", "getNextAvailableUniqueIdByType", "isUserAnAdmin"]),
     isFormAvailable() {
+      if (this.form.adminOnly) {
+        return this.getFormTypeCount[this.form.form_type] > 0 && ! this.form.disabled && this.isUserAnAdmin
+      }
       return this.getFormTypeCount[this.form.form_type] > 0 && ! this.form.disabled
     }
   }

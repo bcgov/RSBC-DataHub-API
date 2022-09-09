@@ -13,9 +13,8 @@ import OffenceCity from "@/components/questions/OffenceCity";
 import PlateNumber from "@/components/questions/PlateNumber";
 import RadioField from "@/components/questions/RadioField";
 import RadioDescription from "@/components/questions/RadioDescription";
-import CheckField from "@/components/questions/CheckField";
+import CheckField from "@/components/questions/CheckField/CheckField";
 import ShadowBox from "@/components/forms/ShadowBox";
-import FormStep from "@/components/forms/FormStep";
 import FormCard from "@/components/forms/FormCard";
 import FormRow from "@/components/forms/FormRow";
 import TimeField from "@/components/questions/TimeField";
@@ -26,6 +25,7 @@ import VehicleYear from "@/components/questions/VehicleYear";
 import ReadOnlyElement from "@/components/questions/ReadOnlyElement";
 import InLineCheckBox from "@/components/questions/InLineCheckBox";
 import ImpoundLotOperator from "@/components/questions/ImpoundLotOperator";
+import DriverLicenceClass from "@/components/questions/DriverLicenceClass";
 import {mapGetters} from "vuex";
 
 
@@ -44,10 +44,12 @@ export default {
         "getAttributeValue",
         "getArrayOfAgencies",
         "doesAttributeExist",
-        "hasFormBeenPrinted"
+        "hasFormBeenPrinted",
+        "isLicenceJurisdictionBC",
+        "getCurrentUserObject"
     ]),
     bcdlNumberRules() {
-      if (this.getAttributeValue(this.path + '/drivers_licence_jurisdiction', 'objectDsc') === "British Columbia") {
+      if (this.getAttributeValue(this.path + '/drivers_licence_jurisdiction', 'objectCd') === "BC") {
         return {
           'bcdlNumberRule': true
         }
@@ -60,10 +62,10 @@ export default {
     DateField,
     DobField,
     DriverLicenceNumber,
+    DriverLicenceClass,
     EmailField,
     FormCard,
     FormRow,
-    FormStep,
     GenderField,
     InLineCheckBox,
     ImpoundLotOperator,

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # This script adds form ids to the prohibition web service
 
 import requests

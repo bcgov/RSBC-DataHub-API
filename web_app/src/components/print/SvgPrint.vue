@@ -1,5 +1,10 @@
 <template>
   <div>
+    <print-confirmation
+        :form_type="form_type"
+        :id="id"
+        :show_certificate="isCertificateOfServiceEnabled(getPath)">
+    </print-confirmation>
     <variant v-for="(value, name) in getVariants"
        v-bind:key="name"
        :document="document"
@@ -15,6 +20,7 @@
 import print_layout from "../../config/print_layout.json";
 import variant from "./variant"
 import {mapGetters} from "vuex";
+import PrintConfirmation from "@/components/print/PrintConfirmation";
 
 export default {
     name: "SvgPrint",
@@ -27,7 +33,7 @@ export default {
       },
     },
     computed: {
-      ...mapGetters(['getFormData', "isVehicleImpounded"]),
+      ...mapGetters(['getFormData', "isVehicleImpounded", "isCertificateOfServiceEnabled"]),
       document() {
         return print_layout[this.form_type]
       },
@@ -46,8 +52,21 @@ export default {
     }
     },
     components: {
-      variant
+      variant,
+      PrintConfirmation
     }
 }
 </script>
+
+<style scoped>
+
+  @media print {
+
+     #is-served {
+       display: none;
+     }
+
+  }
+
+</style>
 

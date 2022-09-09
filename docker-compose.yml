@@ -154,6 +154,19 @@ services:
         - "5002:5000"
 
 
+    prohibition_web_app:
+      build:
+        context: web_app
+        dockerfile: Dockerfile-local
+      depends_on:
+        - icbc_mock_svc
+        - prohibition_web_svc
+      networks:
+        - docker-network
+      ports:
+        - "8080:5000"
+
+
     icbc_mock_svc:
       build:
         context: python

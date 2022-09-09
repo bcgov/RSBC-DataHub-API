@@ -131,7 +131,6 @@ export const mutations = {
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owner_is_driver", []);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_address1", address['addressLine1']);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_city", address['city']);
-        Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_province", address['region']);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "owners_postal", address['postalCode']);
     },
 

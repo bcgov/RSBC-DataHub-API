@@ -196,6 +196,8 @@ export const actions = {
                                 .catch( (error) => {
                                     console.log("findVehicleByFuzzySearch() - error", error)
                                 })
+                            const provinceObject = context.getters.getProvinceObjectByCode(data[0].vehicleParties[0].party.addresses[0].region)
+                            context.commit("updateFormAttribute", [path, "owners_province", provinceObject])
                             resolve(context.commit("populateVehicleFromICBC", data))
                         }
                     })

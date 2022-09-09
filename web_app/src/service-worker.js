@@ -46,13 +46,14 @@ workbox.routing.registerRoute(({request, url}) =>
 );
 
 
-// Cache these API resources for 2 days
+// Cache these API resources for 7 days
 workbox.routing.registerRoute(({request, url}) =>
     url.pathname.includes('/api/v1/static/agencies') ||
     url.pathname.includes('/api/v1/static/cities') ||
     url.pathname.includes('/api/v1/static/configuration') ||
     url.pathname.includes('/api/v1/static/countries') ||
     url.pathname.includes('/api/v1/static/jurisdictions') ||
+    url.pathname.includes('/api/v1/static/keycloak') ||
     url.pathname.includes('/api/v1/static/provinces') ||
     url.pathname.includes('/api/v1/static/vehicles') ||
     url.pathname.includes('/api/v1/static/vehicle_styles'),
@@ -64,7 +65,7 @@ workbox.routing.registerRoute(({request, url}) =>
         statuses: [200],
       }),
       new workbox.expiration.Plugin({
-        maxAgeSeconds: 60 * 60 * 24 * 2, // 2 Days
+        maxAgeSeconds: 60 * 60 * 24 * 7, // 7 Days
       }),
     ],
   }),

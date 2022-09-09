@@ -115,6 +115,18 @@ export default {
       return ''
     },
 
+    conditionalAndBcGetString(form_path, [isExistsAttribute, jurisdictionCd, valueAttribute]) {
+      // the last item in the attributes_array is the attribute to display
+      const value = this.getStringValue(form_path, valueAttribute)
+      const jurisdiction = this.getStringValue(form_path, jurisdictionCd)
+      if (jurisdiction && jurisdiction === 'BC') {
+        if (this.isExists(form_path, isExistsAttribute)) {
+          return value;
+        }
+      }
+      return ''
+    },
+
     getCarColourCodes(form_path, attribute) {
       const colourArray = this.getAttributeValue(form_path, attribute)
       if (colourArray) {

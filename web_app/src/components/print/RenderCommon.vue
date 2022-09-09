@@ -100,12 +100,6 @@ export default {
 
     },
 
-    getFormIdForBarCode() {
-        const sixDigitString = this.form_id.substr(2,7)
-        const digit = checkDigit.checkDigit(sixDigitString)
-        return "*" + sixDigitString + digit + "*"
-    },
-
     isExists(form_path, attribute) {
       return this.getStringValue(form_path, attribute) !== undefined
     },

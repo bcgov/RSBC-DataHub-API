@@ -3,6 +3,7 @@ import {extend} from "vee-validate";
 import { max } from 'vee-validate/dist/rules';
 import constants from "@/config/constants";
 
+
 extend('max', {
   ...max,
   message: 'Too many characters'
