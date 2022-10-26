@@ -4,7 +4,7 @@ chardet==3.0.4
 charset-normalizer==2.0.9
 click==8.0.3
 cryptography==3.3.2
-dparse==0.5.1
+dparse==0.5.2
 idna==2.10
 iso8601==0.1.12
 Jinja2==3.0.3
