@@ -31,7 +31,7 @@ class Config(BaseConfig):
 
     URL_PREFIX                          = os.getenv('URL_PREFIX', '')  # no trailing slash!
 
-    MAX_RECORDS_RETURNED = 200
+    MAX_RECORDS_RETURNED = 500
     VANCOUVER_TIMEZONE = 'America/Vancouver'
 
 
