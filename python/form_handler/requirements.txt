@@ -7,7 +7,7 @@ charset-normalizer==2.0.9
 click==8.0.3
 convertdate==2.2.0
 cryptography==3.3.2
-dparse==0.5.1
+dparse==0.5.2
 ecdsa==0.17.0
 holidays==0.10.4
 idna==2.10
