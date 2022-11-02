@@ -102,6 +102,8 @@ CREATE TABLE [etk].[issuances](
     [enforcement_officer_number] [varchar](400) NULL,
     [enforcement_officer_name] [varchar](400) NULL,
     [sent_date] [date] NULL,
+    [enforcement_org_unit_cd] [varchar](30),
+	[enforcement_org_unit_cd_txt] [varchar](400),
 CONSTRAINT [pk_issuance] PRIMARY KEY CLUSTERED
 (
     [event_id] ASC,
