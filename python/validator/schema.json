@@ -11,7 +11,7 @@
       "event_version": {
         "type": "string",
         "required": true,
-        "allowed": ["1.4","1.5"]
+        "allowed": ["1.4","1.5", "1.6"]
       },
       "event_date_time": {
         "type": "string",
@@ -49,6 +49,14 @@
             "required": true
           },
           "enforcement_jurisdiction_code": {
+            "type": "string",
+            "required": true
+          },
+          "enforcement_org_unit_cd": {
+            "type": "string",
+            "required": true
+          },
+          "enforcement_org_unit_cd_txt": {
             "type": "string",
             "required": true
           },

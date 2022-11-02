@@ -16,6 +16,8 @@
         "enforcement_jurisdiction_code":"1501",
         "enforcement_officer_number": "1111",
         "enforcement_officer_name": "SMITH, JANE",
+        "enforcement_org_unit_cd": "BUTRF",
+        "enforcement_org_unit_cd_txt": "TRAFFIC",
         "offender_type_name": "DRIVER",
         "certificate_of_service_date": "2019-09-02",
         "certificate_of_service_number": "2345",

@@ -25,6 +25,8 @@ curl --request POST \
         "enforcement_jurisdiction_code":"1501",
         "enforcement_officer_number": "1111",
         "enforcement_officer_name": "SMITH, JANE",
+        "enforcement_org_unit_cd": "BUTRF",
+        "enforcement_org_unit_cd_txt": "TRAFFIC",
         "count_quantity": 2,
         "counts": [
             {

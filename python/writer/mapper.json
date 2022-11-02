@@ -170,6 +170,14 @@
                             "destination_name": "enforcement_officer_name"
                         },
                         {
+                            "json_name": "evt_issuance.enforcement_org_unit_cd",
+                            "destination_name": "enforcement_org_unit_cd"
+                        },
+                        {
+                            "json_name": "evt_issuance.enforcement_org_unit_cd_txt",
+                            "destination_name": "enforcement_org_unit_cd_txt"
+                        },
+                        {
                             "json_name": "evt_issuance.count_quantity",
                             "destination_name": "count_quantity"
                         }
