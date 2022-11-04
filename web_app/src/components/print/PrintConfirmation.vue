@@ -25,10 +25,10 @@
           <div class="text-left float-child">
               <button class="btn btn-primary mr-3" id="btn_print_form" @click="printWindow">Print</button>
           </div>
-          <!-- <div class="text-right float-child">
+          <div class="text-right float-child">
               <b-button variant="success" @click="onSuccessfulServe">{{ servedWording }}</b-button>
               <b-button class="ml-3 mr-3" variant="danger" @click="onUnsuccessfulServe">Not {{ servedWording }}</b-button>
-          </div> -->
+          </div>
       </div>
 
     </div>
@@ -101,7 +101,7 @@ export default {
     ServiceCertificateWording
   },
   methods: {
-    ...mapActions(["tellApiFormIsPrinted", "saveCurrentFormToDB"]),
+    ...mapActions(["tellApiFormIsPrinted", "saveCurrentFormToDB", "generatePdfFromFormData"]),
     ...mapMutations(["setFormAsPrinted"]),
     onSuccessfulServe() {
       const current_timestamp = moment().tz(constants.TIMEZONE).format()
@@ -120,6 +120,9 @@ export default {
         .catch( (error) => {
             console.log("no response from tellApiFormIsPrinted()", error)
         })
+
+      //this.generatePdfFromFormData(payload)
+
       if(this.show_certificate) {
         this.$router.replace({
           name: 'cos', params: {"form_type": this.form_type, "id": this.id}

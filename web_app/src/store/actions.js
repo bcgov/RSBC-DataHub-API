@@ -115,6 +115,35 @@ export const actions = {
         )
     },
 
+
+//    async generatePdfFromFormData (context, payload) {
+//        //console.log("inside generatePdfFromFormData()", JSON.stringify(context.state.forms[payload.form_object.form_type][payload.form_object.form_id]))
+//
+////        let form_object_to_get = context.state.forms[payload.form_object.form_type][payload.form_object.form_id]
+////        if (form_object_to_get) {
+////            await persistence.get(form_object.form_id, form_object_to_save)
+//        //}
+////        const url = constants.API_ROOT_URL + "/api/v1/forms/" +
+////            payload.form_type + "/" + payload.form_id
+////        return await new Promise((resolve, reject) => {
+////            fetch(url, {
+////                "method": "PATCH",
+////                "headers": context.getters.apiHeader,
+////                "credentials": "same-origin",
+////                body: JSON.stringify(context.state.forms[payload.form_type][payload.form_id])})
+////                .then(response => response.json())
+////                .then((data) => {
+////                    resolve(data)
+////                })
+////                .catch(function (error) {
+////                    console.log(error)
+////                    reject({error: error})
+////                });
+////            }
+////        )
+//    },
+
+
     // call to action that looks up the province code from the data that ICBC provides
     // if promise resolves successfully then mutate province field with jurisdiction object
     // if promise fails, do nothing

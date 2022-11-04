@@ -107,6 +107,8 @@ def update(form_type, form_id):
                     # TODO - Write to RabbitMQ fail queue
                     {"try": http_responses.record_not_found, "fail": []},
                 ]},
+                # write method to generate a pdf from form data form_middleware.generatepdffromformdata
+                {"try": form_middleware.generate_pdf_from_form_data, "fail": []},
                 # TODO - Write to RabbitMQ ingested queue
                 {"try": http_responses.successful_update_response, "fail": []}
             ],

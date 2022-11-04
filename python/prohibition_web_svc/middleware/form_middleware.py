@@ -8,6 +8,9 @@ from flask import jsonify, make_response
 from python.prohibition_web_svc.models import db, Form
 from python.prohibition_web_svc.config import Config
 
+import pdfkit
+from fpdf import FPDF
+
 
 def validate_update(**kwargs) -> tuple:
     return True, kwargs
@@ -84,6 +87,66 @@ def mark_form_as_printed(**kwargs) -> tuple:
     except Exception as e:
         return False, kwargs
     kwargs['response_dict'] = Form.serialize(form)
+    return True, kwargs
+
+
+# Author: Sukhbir
+def generate_pdf_from_form_data(**kwargs) -> tuple:
+    logging.debug('inside generate_pdf_from_form_data()')
+    form_type = kwargs.get('form_type')
+    user_guid = kwargs.get('user_guid')
+    form_id = kwargs.get('form_id')
+    # payload = kwargs.get('payload')
+
+    request = kwargs.get('request')
+    # payload = request.get_json()
+    payload = request.json
+
+    # class PDF(FPDF):
+    #     pass  # nothing happens when it is executed.
+
+    # pdf = FPDF(orientation='L', unit='mm', format='A4')
+    pdf = FPDF()
+    pdf.add_page()
+    # pdf.set_xy(0, 0)
+    # pdf.set_font('arial', 'B', 13)
+    # pdf.cell(40, 10, 'Hello World!')
+    pdf.output("output.pdf")
+
+    # json_object = response.get_json()
+    # pdfkit.from_string(payload, "./output.pdf")
+
+    # payload = request.get_json()
+
+    # payload_elements = {}
+    # for x, element in payload.items():
+    #     logging.debug("INSIDE GENERATE payload: " + x, element)
+    #     payload_elements[x] = element
+    # data = jsonify(payload).get_json()
+    # last_name = payload['data']['last_name']
+
+    # data_elements = {}
+    # for x, values in data.items():
+    #     data_elements[x] = values
+    # last_name = data_elements['last_name']
+    # last_name = data.get("")
+
+    form = db.session.query(Form) \
+        .filter(Form.form_type == form_type) \
+        .filter(Form.user_guid == user_guid) \
+        .filter(Form.id == form_id) \
+        .first()
+    if form:
+        # logging.debug("INSIDE GENERATE")
+        # logging.debug('user_guid: {}, form_type: {}, form_id: {}, data: {}'.format(
+        #     user_guid, form_type, form_id, payload))
+        # data_form = jsonify(payload.get("data"))
+
+        # import sys
+        # print('This is standard output', payload, file=sys.stdout)
+        logging.debug("nowwww INSIDE GENERATE payload: %s", payload)
+        return True, kwargs
+
     return True, kwargs
 
 
