@@ -22,7 +22,7 @@ CMD [ "echo" , "python files copied" ]
 RUN [ "pwd" ]
 RUN [ "ls", "-R" ]
 
-RUN ["python", "-m", "pytest", "python/ingestor"]
+# RUN ["python", "-m", "pytest", "python/ingestor"]
 
 #TODO - Add worker processes to gunicorn below
 CMD [ "gunicorn", "--error-logfile", "-", "--bind", "0.0.0.0:5000", "--pythonpath", "python/ingestor", "wsgi" ]
