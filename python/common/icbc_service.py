@@ -13,8 +13,8 @@ def submit_to_icbc(**kwargs) -> tuple:
         # for i in range(0,30):
         #     print(i)
         #     time.sleep(1)
-        # print("_Sending to ICBC_")        
-        # print(payload)        
+        print("_Sending to ICBC_")        
+        print(payload)        
         icbc_response = requests.post(url, json=payload, timeout=5, auth=HTTPBasicAuth(Config.ICBC_API_USERNAME, Config.ICBC_API_PASSWORD))
         ##kwargs['response'] = make_response(icbc_response.text, icbc_response.status_code)        
         # print(icbc_response.text)

@@ -77,9 +77,9 @@ def get_icbc_payload(**kwargs) -> tuple:
 
 
 def create_icbc_payload(data, form_id, html) -> dict:
-    # print("_______________")
-    # print(data)
-    # print("_______________")
+    print("_______________")
+    print(data)
+    print("_______________")
 
     payload = {
         "dlNumber":"",

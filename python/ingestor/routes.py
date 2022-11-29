@@ -51,6 +51,9 @@ def basic_auth_required(f):
 def ingest_e_ticket_event():
     if request.method == 'POST' and request.content_type == 'application/json':
         payload = request.json
+        print("_______________")
+        print(payload)
+        print("_______________")
         encoded_message = encode_message(payload, Config.ENCRYPT_KEY)
         if payload is not None and g.writer.publish('ingested', encoded_message):
             return jsonify(payload), 200

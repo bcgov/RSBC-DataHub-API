@@ -36,6 +36,10 @@ class Listener:
 
         message_dict = decode_message(body, self.config.ENCRYPT_KEY)
 
+        print("_______________")
+        print(message_dict)
+        print("_______________")
+
         result = self.validator.validate(message_dict)
         logging.info("write to: " + result['queue'])
         if result['isSuccess']:
