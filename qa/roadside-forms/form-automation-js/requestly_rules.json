@@ -1,0 +1,140 @@
+[
+  {
+    "createdBy": "KJKpsjitsRcMT4GXOHp88wh0ARM2",
+    "creationDate": 1660771050194,
+    "currentOwner": "KJKpsjitsRcMT4GXOHp88wh0ARM2",
+    "description": "",
+    "groupId": "",
+    "id": "Script_qki1m",
+    "isSample": false,
+    "lastModified": 1666716090280,
+    "lastModifiedBy": "KJKpsjitsRcMT4GXOHp88wh0ARM2",
+    "modificationDate": 1665603065712,
+    "name": "DF DEV",
+    "objectType": "rule",
+    "pairs": [
+      {
+        "id": "fl00p",
+        "scripts": [
+          {
+            "codeType": "js",
+            "fileName": "",
+            "id": "3ja4k",
+            "loadTime": "afterPageLoad",
+            "type": "url",
+            "value": "http://localhost:8088/rsf-model.js"
+          },
+          {
+            "codeType": "js",
+            "fileName": "",
+            "id": "vtgdn",
+            "loadTime": "afterPageLoad",
+            "type": "url",
+            "value": "http://localhost:8088/rsf-view.js"
+          },
+          {
+            "codeType": "js",
+            "fileName": "",
+            "id": "hnutn",
+            "loadTime": "afterPageLoad",
+            "type": "url",
+            "value": "http://localhost:8088/rsf-controller.js"
+          },
+          {
+            "codeType": "js",
+            "fileName": "",
+            "id": "8ffno",
+            "loadTime": "afterPageLoad",
+            "type": "url",
+            "value": "https://chancejs.com/chance.min.js"
+          },
+          {
+            "codeType": "js",
+            "fileName": "",
+            "id": "t0rwm",
+            "loadTime": "afterPageLoad",
+            "type": "url",
+            "value": "http://localhost:8088/form-record-01.js"
+          },
+          {
+            "codeType": "js",
+            "fileName": "",
+            "id": "3b8mg",
+            "loadTime": "afterPageLoad",
+            "type": "url",
+            "value": "http://localhost:8088/form-record-02.js"
+          }
+        ],
+        "source": {
+          "key": "Url",
+          "operator": "Contains",
+          "value": "jag.gov.bc.ca/roadside-forms"
+        }
+      }
+    ],
+    "ruleType": "Script",
+    "status": "Active"
+  },
+  {
+    "createdBy": null,
+    "creationDate": 1662773383198,
+    "currentOwner": "KJKpsjitsRcMT4GXOHp88wh0ARM2",
+    "description": "",
+    "groupId": "",
+    "id": "Response_3pdpj",
+    "isSample": false,
+    "lastModified": 1669742696077,
+    "lastModifiedBy": null,
+    "modificationDate": 1669742696077,
+    "name": "ICBC DL lookup",
+    "objectType": "rule",
+    "pairs": [
+      {
+        "id": "djgiy",
+        "response": {
+          "statusCode": "",
+          "type": "static",
+          "value": "{\"birthDate\":\"2001-01-01\",\"dlNumber\":\"1234567\",\"party\":{\"ICBCEnterpriseID\":\"3098823513581\",\"addresses\":[{\"additionalDeliveryInfo\":\"\",\"addressLine1\":\"911 My Street\",\"addressLine2\":\"\",\"addressLine3\":\"\",\"addressType\":\"Residence\",\"boxNumber\":\"\",\"city\":\"VICTORIA\",\"country\":\"CAN\",\"location\":\"\",\"postalCode\":\"V8V3W8\",\"postalStationName\":\"\",\"postalStationQualifier\":\"\",\"postalStationType\":\"\",\"region\":\"BC\",\"routeServiceClass\":\"\",\"routeServiceNumber\":\"\",\"streetDirection\":\"\",\"streetName\":\"COOK\",\"streetNumber\":\"123\",\"streetType\":\"ST\",\"unitNumber\":\"\"}],\"birthDate\":\"1999-09-09\",\"dlNumber\":\"1234567\",\"dlPlaceOfIssue\":\"BC\",\"firstName\":\"Frankie Firstname\",\"lastName\":\"Lisa Lastname\",\"nameType\":\"Legal\",\"partyType\":\"Person\",\"secondName\":\"\",\"thirdName\":\"\"}}"
+        },
+        "source": {
+          "key": "Url",
+          "operator": "Contains",
+          "value": "jag.gov.bc.ca/roadside-forms/api/v1/icbc/drivers/1234567"
+        }
+      }
+    ],
+    "ruleType": "Response",
+    "status": "Active"
+  },
+  {
+    "createdBy": null,
+    "creationDate": 1662773556813,
+    "currentOwner": "KJKpsjitsRcMT4GXOHp88wh0ARM2",
+    "description": "",
+    "groupId": "",
+    "id": "Response_7kcma",
+    "isSample": false,
+    "lastModified": 1669765253245,
+    "lastModifiedBy": null,
+    "modificationDate": 1669765253245,
+    "name": "ICBC LP look-up",
+    "objectType": "rule",
+    "pairs": [
+      {
+        "id": "htrgo",
+        "response": {
+          "statusCode": "",
+          "type": "static",
+          "value": "[{\"plateNumber\":\"888HHH\",\"registrationNumber\":\"13473297\",\"vehicleIdNumber\":\"19UUB1F34GA000999\",\"effectiveDate\":\"2022-02-01T22:28:54+00:00\",\"vehicleMake\":\"ACURA\",\"vehicleModel\":\"TLX\",\"vehicleStyle\":\"FourDoorSedan\",\"vehicleModelYear\":\"2011\",\"vehicleColour\":\"White\",\"vehicleType\":\"Passenger\",\"nscNumber\":\"\",\"vehicleParties\":[{\"roleType\":\"RegisteredOwner\",\"party\":{\"ICBCEnterpriseID\":\"400333726180174\",\"partyType\":\"Person\",\"lastName\":\"LNOUSRSR\",\"firstName\":\"BHBCCACB\",\"secondName\":\"\",\"thirdName\":\"\",\"nameType\":\"Legal\",\"birthDate\":\"1988-02-28\",\"dlNumber\":\"5180319\",\"dlPlaceOfIssue\":\"AB\",\"addresses\":[{\"addressType\":\"Residence\",\"addressLine1\":\"151 ESPLANADE WEST\",\"addressLine2\":\"\",\"addressLine3\":\"\",\"city\":\"NORTH VANCOUVER\",\"region\":\"BC\",\"country\":\"CAN\",\"postalCode\":\"V7M3H9\",\"unitNumber\":\"\",\"streetNumber\":\"151\",\"streetName\":\"ESPLANADE\",\"streetType\":\"\",\"streetDirection\":\"W\",\"boxNumber\":\"\",\"location\":\"\",\"postalStationName\":\"\",\"postalStationQualifier\":\"\",\"postalStationType\":\"\",\"routeServiceClass\":\"\",\"routeServiceNumber\":\"\",\"additionalDeliveryInfo\":\"\"}]}}]}]"
+        },
+        "source": {
+          "key": "Url",
+          "operator": "Contains",
+          "value": "jag.gov.bc.ca/roadside-forms/api/v1/icbc/vehicles/888HHH"
+        }
+      }
+    ],
+    "ruleType": "Response",
+    "status": "Active"
+  }
+]

@@ -1,4 +1,10 @@
-I arrived at an answer without looking at the Vue.js or Cypress source code, though that was my next step, and doing so may yield a better solution. For now, this works well on complex Vuex elements on the forms I'm working with, and allows individual sections or the entire form to be filled out programmatically with JavaScript, using the browser's own rendering engine.
+# Form fill automation for Vue.js projects
+
+This is a JavaScript project to automate the Digital Forms (12-hour, 24-hour, IRP, VI). It uses a local web server to serve scripts, a free Chrome extension to load the automation into your web browser when the form loads. Then you can press hotkeys or click buttons on the web page to fill out the form.
+
+This automation was created to save time when working with roadside forms. Many form-filling features and extensions are unable to fill RSI's digital forms because Vue.js has custom (complicated) form objects.
+
+For now, this works well on complex Vuex elements, and allows individual sections or the entire form to be filled out programmatically with JavaScript, using the browser's own rendering engine.
 
 ## How it works
 

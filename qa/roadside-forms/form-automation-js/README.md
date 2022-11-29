@@ -25,6 +25,13 @@ However, filling out Vuex forms with automated tools is non-trivial, but essenti
 
 The scripts allow form sections to be filled out with pre-configured data using a hotkey or keypress, or as part of an automated test suite.
 
+## Local web server
+
+You need a local web server to host the files, as Requestly is unable to use the file:/// schema to retrieve the files directly from your local file system (Chromium-based browsers seem to prevent local file access, for user security reasons). You can use a simple web server like Python or PowerShell. Use your own tools or commands, or call the script wrappers in this folder:
+
+- start-local-powershell-server.ps1 (for PowerShell on Windows)
+- start-local-python-server.ps1 (for Python on Windows)
+- start-local-python-server.sh (for Python on Linux/Mac)
 
 ## Scripts
 
@@ -39,7 +46,9 @@ These scripts can be injected onto the form page using a proxy like [Requestly](
 
 ## Configuration
 
-Inject the scripts in Requestly by going to **HTTP Rules** > **+ New Rule** > **Insert Scripts**. On the **Insert Scripts Rule** page, configure three JavaScripts to load from URL and be inserted after page load if request URL contains `jag.gov.bc.ca/roadside-forms`. For example:
+You can import my exported Requestly rules by using the file requestly_rules.json in this folder.
+
+Alternatively, creat them manually by following these steps. Inject the scripts in Requestly by going to **HTTP Rules** > **+ New Rule** > **Insert Scripts**. On the **Insert Scripts Rule** page, configure three JavaScripts to load from URL and be inserted after page load if request URL contains `jag.gov.bc.ca/roadside-forms`. For example:
 
 ![Requestly configuration](images/requestly-config.png "Requestly configuration")
 
