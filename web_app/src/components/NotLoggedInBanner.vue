@@ -13,15 +13,11 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
 
+@Component
+export default class OfflineBanner extends Vue {
 
-import {mapGetters} from "vuex";
-
-export default {
-  name: "offline-banner",
-  computed: {
-    ...mapGetters(['isUserAuthenticated'])
-  }
 }
 </script>

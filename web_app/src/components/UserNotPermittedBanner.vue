@@ -27,7 +27,10 @@
               <application-field id="agency" @modified="modified_event" :errors="errors">Agency Name</application-field>
             </div>
             <div class="form-row pl-2">
-              <application-field id="badge_number" input_type="number" @modified="modified_event" :errors="errors">Badge Number</application-field>
+              <application-field id="badge_number" input_type="number" @modified="modified_event" :errors="errors">
+                PIN / HRMIS
+                <span class="text-muted small">(no leading zeros)</span>
+              </application-field>
             </div>
           </div>
           <div>
@@ -52,7 +55,7 @@
 import {mapGetters, mapActions} from "vuex";
 import ApplicationField from "@/components/ApplicationField";
 import Vue from 'vue'
-
+import {applyToUnlockApplication} from "@/utils/application"
 
 export default {
   name: "UserNotPermittedBanner",
@@ -68,7 +71,7 @@ export default {
         first_name: '',
         last_name: '',
         badge_number: '',
-        agency: this.$store.getters.getAgencyName
+        agency: this.getAgencyName
       },
       showApplication: false,
       showSpinner: false,
@@ -76,10 +79,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['applyToUnlockApplication']),
+    // ...mapActions(['applyToUnlockApplication']),
     async dispatchUnlock() {
       this.showSpinner = true
-      await this.applyToUnlockApplication(this.application)
+      await applyToUnlockApplication(this.application)
         .then(() => {
           this.showSpinner = false
           this.showApplication = false
@@ -100,7 +103,21 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getKeycloakUsername', 'hasUserApplied', 'getAgencyName'])
+    getAgencyName(){
+        if (this.$store.state.keycloak) {
+            if (this.$store.state.keycloak.idTokenParsed) {
+                if (this.$store.state.keycloak.idTokenParsed.bceid_business_name) {
+                    return this.$store.state.keycloak.idTokenParsed.bceid_business_name;
+                }
+            }
+        }
+        return ''
+    },
+    ...mapGetters([
+      // 'getKeycloakUsername', 
+      // 'hasUserApplied', 
+      // 'getAgencyName'
+      ])
   },
   components: {
     ApplicationField

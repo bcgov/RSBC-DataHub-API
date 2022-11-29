@@ -3,7 +3,7 @@
     <div class="card-body">
         <div class="row small alert text-dark py-0 my-0">
         <div class="col-1 my-0">
-          <b-spinner v-if=" ! allResourcesLoaded" small></b-spinner>
+          <b-spinner v-if=" ! allResourcesLoadedInfo" small></b-spinner>
         </div>
         <div class="col-11 text-left">Loading resources ...</div>
       </div>
@@ -14,11 +14,15 @@
 
 <script>
 import {mapGetters} from "vuex";
+import {allResourcesLoaded} from "@/utils/display"
 
 export default {
   name: "LoadingResources",
   computed: {
-  ...mapGetters(["allResourcesLoaded"])
+    allResourcesLoadedInfo(){
+      return allResourcesLoaded()
+    }
+  // ...mapGetters(["allResourcesLoaded"])
   }
 }
 </script>

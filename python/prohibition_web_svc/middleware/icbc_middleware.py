@@ -7,11 +7,11 @@ from python.prohibition_web_svc.config import Config
 
 
 def get_icbc_api_authorization_header(**kwargs) -> tuple:
-    username = kwargs.get('username')
+    username = kwargs.get("username")
     try:
-        encoded_bytes = base64.b64encode("{}:{}".format(Config.ICBC_API_USERNAME, Config.ICBC_API_PASSWORD).encode('utf-8'))
-        kwargs['icbc_header'] = {
-            "Authorization": 'Basic {}'.format(str(encoded_bytes, "utf-8")),
+        encoded_bytes = base64.b64encode("{}:{}".format(Config.ICBC_API_USERNAME, Config.ICBC_API_PASSWORD).encode("utf-8"))
+        kwargs["icbc_header"] = {
+            "Authorization": "Basic {}".format(str(encoded_bytes, "utf-8")),
             "loginUserId": username
         }
     except Exception as e:
@@ -21,10 +21,10 @@ def get_icbc_api_authorization_header(**kwargs) -> tuple:
 
 
 def get_icbc_driver(**kwargs) -> tuple:
-    url = "{}/drivers/{}".format(Config.ICBC_API_ROOT, kwargs.get('dl_number'))
+    url = "{}/drivers/{}".format(Config.ICBC_API_ROOT, kwargs.get("dl_number"))
     try:
-        icbc_response = requests.get(url, headers=kwargs.get('icbc_header'))
-        kwargs['response'] = make_response(icbc_response.json(), icbc_response.status_code)
+        icbc_response = requests.get(url, headers=kwargs.get("icbc_header"))
+        kwargs["response"] = make_response(icbc_response.json(), icbc_response.status_code)
     except Exception as e:
         return False, kwargs
     return True, kwargs
@@ -33,34 +33,106 @@ def get_icbc_driver(**kwargs) -> tuple:
 def get_icbc_vehicle(**kwargs) -> tuple:
     url = "{}/vehicles".format(Config.ICBC_API_ROOT)
     url_parameters = {
-        "plateNumber": kwargs.get('plate_number'),
+        "plateNumber": kwargs.get("plate_number"),
         # TODO - removed effectiveDate for debugging purposes
         # "effectiveDate": datetime.now().astimezone().replace(microsecond=0).isoformat()
     }
     try:
-        icbc_response = requests.get(url, headers=kwargs.get('icbc_header'), params=url_parameters)
+        icbc_response = requests.get(url, headers=kwargs.get("icbc_header"), params=url_parameters)
         logging.warning("icbc url:" + icbc_response.url)
-        kwargs['response'] = make_response(icbc_response.json(), icbc_response.status_code)
+        kwargs["response"] = make_response(icbc_response.json(), icbc_response.status_code)
     except Exception as e:
         return False, kwargs
     return True, kwargs
 
 
 def splunk_get_driver(**kwargs) -> tuple:
-    kwargs['splunk_data'] = {
+    kwargs["splunk_data"] = {
         "event": "icbc_get_driver",
-        "username": kwargs.get('username'),
-        "user_guid": kwargs.get('user_guid'),
+        "username": kwargs.get("username"),
+        "user_guid": kwargs.get("user_guid"),
         "queried_bcdl": kwargs.get("dl_number")
     }
     return True, kwargs
 
 
 def splunk_get_vehicle(**kwargs) -> tuple:
-    kwargs['splunk_data'] = {
+    kwargs["splunk_data"] = {
         "event": "icbc_get_vehicle",
-        "username": kwargs.get('username'),
-        "user_guid": kwargs.get('user_guid'),
-        "queried_plate": kwargs.get('plate_number')
+        "username": kwargs.get("username"),
+        "user_guid": kwargs.get("user_guid"),
+        "queried_plate": kwargs.get("plate_number")
     }
     return True, kwargs
+
+
+def get_icbc_payload(**kwargs) -> tuple:
+    
+    pdfhtml=""
+    if "html" in kwargs["payload"]:
+        pdfhtml = kwargs["payload"]["html"]
+
+    kwargs["icbc_payload"] = create_icbc_payload(kwargs["payload"]["data"],kwargs["payload"]["form_id"], pdfhtml)
+    return True, kwargs
+
+
+def create_icbc_payload(data, form_id, html) -> dict:
+    # print("_______________")
+    # print(data)
+    # print("_______________")
+
+    payload = {
+        "dlNumber":"",
+        "dlJurisdiction": "",
+        "lastName": "",
+        "firstName": "",
+        "birthdate": "",
+        "plateJurisdiction": "",
+        "plateNumber": "",
+        "pujCode": "",
+        "nscNumber": "",
+        "section": "215.2",
+        "violationLocation": "",
+        "noticeNumber": "VA" + form_id[2:8],
+        "violationDate": "",
+        "violationTime": "",
+        "officerDetachment": "",        
+        "officerNumber": "",
+        "officerName": "",
+        "pdf": html,        
+    }
+
+    if "driversNumber" in data: payload["dlNumber"]=data["driversNumber"]
+    
+    if "driversLicenceJurisdiction" in data and "objectCd" in data["driversLicenceJurisdiction"]: 
+        payload["dlJurisdiction"]=data["driversLicenceJurisdiction"]["objectCd"]
+    
+    if "lastName" in  data: payload["lastName"]=data["lastName"].upper()
+    if "givenName" in data: payload["firstName"]=data["givenName"].upper()
+    if "dob" in data: payload["birthdate"]=data["dob"]
+
+    if "plateProvince" in data and "objectCd" in data["plateProvince"]: 
+        payload["plateJurisdiction"]=data["plateProvince"]["objectCd"]
+
+    if "plateNumber" in data: payload["plateNumber"]=data["plateNumber"].upper()
+
+    if "puj_code" in data and "objectCd" in data["puj_code"]: 
+        payload["pujCode"]=data["puj_code"]["objectCd"]  
+
+    #Some validation required for NSC-Number. ICBC does not accept all values.
+    # if "nscNumber" in data: payload["nscNumber"]=data["nscNumber"]
+
+    if "offenceCity" in data and "objectCd" in data["offenceCity"]:
+        payload["violationLocation"]=data["offenceCity"]["objectCd"].upper()
+
+    if "prohibitionStartDate" in data: payload["violationDate"]=data["prohibitionStartDate"]
+    if "prohibitionStartTime" in data: payload["violationTime"]=data["prohibitionStartTime"]
+    if "agency" in data: payload["officerDetachment"]=data["agency"].upper()
+
+    #TODO -- Need to add agency name abbr to the begining of officerNumber
+    if "badge_number" in data: payload["officerNumber"]="AB"+ data["badge_number"]
+    if "officer_name" in data: payload["officerName"]=data["officer_name"].upper()
+
+    # print(payload)
+
+    return {"icbc_submission":payload, "event_type":"icbc_submission", "event_version":"1.5"}

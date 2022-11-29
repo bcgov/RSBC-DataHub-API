@@ -4,6 +4,8 @@ from flask import request, Blueprint, make_response, jsonify
 from flask_cors import CORS
 import logging.config
 import python.common.splunk as splunk
+import python.prohibition_web_svc.middleware.icbc_middleware as icbc_middleware
+import python.prohibition_web_svc.middleware.ingestor_middleware  as ingestor_middleware
 import python.prohibition_web_svc.middleware.splunk_middleware as splunk_middleware
 import python.prohibition_web_svc.middleware.form_middleware as form_middleware
 import python.prohibition_web_svc.http_responses as http_responses
@@ -102,12 +104,18 @@ def update(form_type, form_id):
                 ]},
                 # Request contains a payload - process submitted form
                 {"try": splunk_middleware.form_submitted, "fail": []},
-                {"try": splunk.log_to_splunk, "fail": []},
+                {"try": splunk.log_to_splunk, "fail": []},                
                 {"try": form_middleware.mark_form_as_printed, "fail": [
-                    # TODO - Write to RabbitMQ fail queue
+                    # TODO - Write to RabbitMQ fail queue                    
                     {"try": http_responses.record_not_found, "fail": []},
                 ]},
                 # TODO - Write to RabbitMQ ingested queue
+                {"try": ingestor_middleware.get_ingestor_api_authorization_header, "fail": [
+                    {"try": http_responses.server_error_response, "fail": []},
+                ]},
+                {"try": icbc_middleware.get_icbc_payload, "fail":[]},
+                # For ICBC uncomment next line, for local backend comment next line.
+                {"try": ingestor_middleware.send_to_ingestor, "fail":[]},
                 {"try": http_responses.successful_update_response, "fail": []}
             ],
             required_permission='forms-update',

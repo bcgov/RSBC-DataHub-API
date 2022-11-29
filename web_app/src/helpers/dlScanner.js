@@ -15,7 +15,7 @@ export default {
     async requestAccessToScanner() {
         // ask user for permission to access hardware scanner
         console.log("inside connectToScanner()")
-        let devices = await navigator.hid.requestDevice({
+        const devices = await navigator.hid.requestDevice({
             filters: supportedScanners,
         });
         console.log("openDevice(): device list", devices);
@@ -49,18 +49,18 @@ export default {
     // See: https://www2.gov.bc.ca/assets/gov/health/practitioner-pro/medical-services-plan/teleplan-ch4.pdf
     parseAAMVA2009(magStripe) {
 
-        let tracks = magStripe.split("?")
+        const tracks = magStripe.split("?")
 
         // province, city, name: [surname, given name], address: [street, city, province, postal code]
         const track1 = tracks[0].match(/%([A-Z]{2})([^^]{0,13})\^?([^^]{0,35})\^?([^^]{0,74})?/);
 
         // ISO Issuer Identification Number, DL number, DL expiration, date of birth
-        var track2 = tracks[1].match(/;(\d{6})(\d{0,13})(=)(\d{4})(\d{8})(\d{0,5})?/);
+        const track2 = tracks[1].match(/;(\d{6})(\d{0,13})(=)(\d{4})(\d{8})(\d{0,5})?/);
 
-        var province = track1[1];
-        var city = track1[2];
-        var name = track1[3].match(/([^$]{0,35}),\$?([^$]{0,35})?/);
-        var address = track1[4].match(new RegExp("^(.+)\\$(.+)\\s(" + province + ")\\s*(.{6,7})$"));
+        const province = track1[1];
+        const city = track1[2];
+        const name = track1[3].match(/([^$]{0,35}),\$?([^$]{0,35})?/);
+        const address = track1[4].match(new RegExp("^(.+)\\$(.+)\\s(" + province + ")\\s*(.{6,7})$"));
 
         return {
             // track 1
@@ -87,7 +87,7 @@ export default {
             "number": track2[2],
             "expiration": this.parseDate(track2[4]),
             "dob": function () {
-                var dob = track2[5].match(/(\d{4})(\d{2})(\d{2})/);
+                const dob = track2[5].match(/(\d{4})(\d{2})(\d{2})/);
                 if (!dob) return;
                 return dob[1] + dob[2] + dob[3];
             }()
@@ -96,7 +96,7 @@ export default {
 
     // parse date into a string (yyyymmdd)
     parseDate(date) {
-        var start = parseInt(date[0] + date[1]);
+        const start = parseInt(date[0] + date[1]);
         if (start < 13) {
             return date[4] + date[5] + date[6] + date[7] + date[0] + date[1] + date[2] + date[3];
         }

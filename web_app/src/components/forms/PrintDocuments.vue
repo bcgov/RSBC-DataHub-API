@@ -15,6 +15,7 @@ import moment from "moment-timezone";
 import fadeText from "../FadeText";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import constants from "@/config/constants";
+import {tellApiFormIsPrinted, saveCurrentFormToDB} from "@/utils/forms"
 
 export default {
   name: "PrintDocuments",
@@ -35,15 +36,15 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([
-        "getAttributeValue",
-        "getCurrentlyEditedForm",
-        "getCurrentlyEditedFormData",
-        "getCurrentlyEditedFormObject",
-    ]),
+    // ...mapGetters([
+        // "getAttributeValue",
+        // "getCurrentlyEditedForm",
+        // "getCurrentlyEditedFormData",
+        // "getCurrentlyEditedFormObject",
+    // ]),
   },
   methods: {
-    ...mapActions(["tellApiFormIsPrinted", "saveCurrentFormToDB"]),
+    // ...mapActions(["saveCurrentFormToDB"]),
     ...mapMutations(["setFormAsPrinted"]),
     async onSubmit (validate, variantList, form_object) {
       this.display_spinner = true;
@@ -51,14 +52,14 @@ export default {
       console.log('inside onSubmit()', is_validated, variantList);
       if(is_validated) {
         const current_timestamp = moment().tz(constants.TIMEZONE).format()
-        let payload = {}
+        const payload = {}
         payload['form_object'] = form_object
         payload['variants'] = variantList;
         payload['form_data'] = form_object.data;
         payload['timestamp'] = current_timestamp
         this.setFormAsPrinted(payload)
-        this.saveCurrentFormToDB(form_object)
-        this.tellApiFormIsPrinted(form_object)
+        saveCurrentFormToDB(form_object)
+        tellApiFormIsPrinted(form_object)
           .then( (response) => {
               console.log("response from tellApiFormIsPrinted()", response)
           })

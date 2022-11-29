@@ -1,0 +1,30 @@
+$bcgov-font-path: ('~@/fonts');
+
+@font-face {
+  src: url($bcgov-font-path+'/BCSans-Regular.woff2') format('woff2'),
+    url("#{$bcgov-font-path}/BCSans-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-family: "BCSans";
+}
+@font-face {
+  src: url("#{$bcgov-font-path}/BCSans-BoldItalic.woff2") format("woff2"),
+    url("#{$bcgov-font-path}/BCSans-BoldItalic.woff") format("woff");
+  font-weight: 700;
+  font-style: italic;
+  font-family: "BCSans";
+}
+@font-face {
+  src: url("#{$bcgov-font-path}/BCSans-Italic.woff2") format("woff2"),
+    url("#{$bcgov-font-path}/BCSans-Italic.woff") format("woff");
+  font-weight: 400;
+  font-style: italic;
+  font-family: "BCSans";
+}
+@font-face {
+  src: url("#{$bcgov-font-path}/BCSans-Bold.woff2") format("woff2"),
+    url("#{$bcgov-font-path}/BCSans-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-family: "BCSans";
+}

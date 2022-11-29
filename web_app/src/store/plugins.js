@@ -1,11 +1,11 @@
 export const plugins = [
   store => {
     window.addEventListener("online", async () => {
-      store.commit('networkIsOnline')
+      store.commit('Common/setIsOnline',true)
       console.log(`Network is online`)
     })
     window.addEventListener("offline", async () => {
-      store.commit('networkIsOffline')
+      store.commit('Common/setIsOnline',false)
       console.log(`Network is offline`)
     })
   }

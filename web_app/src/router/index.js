@@ -5,9 +5,9 @@ import Admin from "@/components/Admin";
 import Login from "@/components/Login";
 import TwentyFourHourProhibition from "@/components/forms/TwentyFourHourProhibition/TwentyFourHourProhibition";
 import TwelveHourProhibition from "@/components/forms/TwelveHourSuspension/TwelveHourProhibition";
-import ImmediateRoadsideProhibition from "@/components/forms/ImmediateRoadsideProhibition";
+import ImmediateRoadsideProhibition from "@/components/forms/ImmediateRoadsideProhibition/ImmediateRoadsideProhibition";
 import VehicleImpoundment from "@/components/forms/VehicleImpoundment/VehicleImpoundment";
-import SVGPrint from "@/components/print/SvgPrint";
+import FormsPdf from "@/components/print/FormsPdf.vue"
 import NotFound from "@/components/NotFound";
 
 Vue.use(Router)
@@ -64,7 +64,7 @@ const router = new Router({
     {
       path: '/:form_type/:id/print',
       name: 'print',
-      component: SVGPrint,
+      component: FormsPdf,
       props: true
     },
     {
