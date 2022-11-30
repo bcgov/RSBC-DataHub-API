@@ -8,12 +8,14 @@ on:
   pull_request:
     types: [opened, reopened, edited, synchronize]
     paths:
+      - python/common
       - python/form_handler
       - .github/workflows/form-handler-ci.yml
 
 env:
   IMAGE_NAME: form-handler
-  WORKING_DIR: python/form_handler
+  WORKING_DIR: python
+  DOCKER_FILE: form-handler/Dockerfile
 
 jobs:
   build:
@@ -28,4 +30,4 @@ jobs:
 
       - name: Build image
         working-directory: ${{ env.WORKING_DIR }}
-        run: docker build --tag $IMAGE_NAME .
+        run: docker build -f $DOCKER_FILE --tag $IMAGE_NAME .
