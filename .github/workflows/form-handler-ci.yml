@@ -27,5 +27,5 @@ jobs:
           install: true
 
       - name: Build image
-        working-directory: ${{ WORKING_DIR }}
+        working-directory: ${{ env.WORKING_DIR }}
         run: docker build --tag $IMAGE_NAME .
