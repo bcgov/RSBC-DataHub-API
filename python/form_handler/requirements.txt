@@ -9,6 +9,7 @@ convertdate==2.2.0
 cryptography==3.3.2
 dparse==0.5.1
 ecdsa==0.17.0
+Flask==2.0.3
 holidays==0.10.4
 idna==2.10
 iniconfig==1.1.1
