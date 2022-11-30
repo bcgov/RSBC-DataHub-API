@@ -9,12 +9,12 @@ convertdate==2.2.0
 cryptography==3.3.2
 dparse==0.5.1
 ecdsa==0.17.0
-Flask==2.0.3
+Flask==2.0.2
 holidays==0.10.4
 idna==2.10
 iniconfig==1.1.1
 iso8601==0.1.12
-Jinja2==2.11.3
+Jinja2==3.0.3
 korean-lunar-calendar==0.2.1
 MarkupSafe==2.0.1
 packaging==21.3
