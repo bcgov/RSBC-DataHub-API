@@ -1,5 +1,10 @@
 name: form-handler-ci
 
+defaults:
+  run:
+    shell: bash
+    working-directory: python
+
 on:
   push:
     branches:
@@ -14,8 +19,8 @@ on:
 
 env:
   IMAGE_NAME: form-handler
-  DOCKER_CONTEXT: ./python
-  DOCKER_FILE: ./python/form-handler/Dockerfile
+  DOCKER_CONTEXT: .
+  DOCKER_FILE: form-handler/Dockerfile
 
 jobs:
   build:
