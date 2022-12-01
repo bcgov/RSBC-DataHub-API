@@ -19,7 +19,7 @@ on:
 
 env:
   IMAGE_NAME: form-handler
-  DOCKER_CONTEXT: .
+  DOCKER_CONTEXT_DIR: .
   DOCKER_FILE: form-handler/Dockerfile
 
 jobs:
@@ -37,7 +37,7 @@ jobs:
       - name: Build
         uses: docker/build-push-action@v3
         with:
-          context: '{{ env.DOCKER_CONTEXT }}'
+          context: '{{ env.DOCKER_CONTEXT_DIR }}'
           file: '{{ env.DOCKER_FILE }}'
           push: false
           tags: '{{ env.IMAGE_NAME }}'
