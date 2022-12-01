@@ -14,8 +14,8 @@ on:
       - .github/workflows/form-handler-ci.yml
 
 env:
-  BUILD_CONTEXT_DIR: python
-  BUILD_FILE: python/form-handler/Dockerfile
+  BUILD_CONTEXT: python
+  BUILD_FILE: python/form_handler/Dockerfile
 
 jobs:
   build:
@@ -32,8 +32,8 @@ jobs:
       - name: Build
         uses: docker/build-push-action@v3
         with:
-          # context: "{{ env.BUILD_CONTEXT_DIR }}"
-          # file: "{{ env.BUILD_FILE }}"
-          context: python
-          file: python/form_handler/Dockerfile
+          context: {{ env.BUILD_CONTEXT }}
+          file: {{ env.BUILD_FILE }}
+          # context: python
+          # file: python/form_handler/Dockerfile
           push: false
