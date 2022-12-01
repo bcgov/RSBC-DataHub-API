@@ -1,10 +1,5 @@
 name: form-handler-ci
 
-defaults:
-  run:
-    shell: bash
-    working-directory: python
-
 on:
   push:
     branches:
@@ -13,14 +8,14 @@ on:
   pull_request:
     types: [opened, reopened, edited, synchronize]
     paths:
+      - python/*.py
       - python/common
       - python/form_handler
       - .github/workflows/form-handler-ci.yml
 
 env:
-  IMAGE_NAME: form-handler
-  DOCKER_CONTEXT_DIR: .
-  DOCKER_FILE: form-handler/Dockerfile
+  BUILD_CONTEXT_DIR: python
+  BUILD_FILE: python/form-handler/Dockerfile
 
 jobs:
   build:
@@ -37,6 +32,6 @@ jobs:
       - name: Build
         uses: docker/build-push-action@v3
         with:
-          context: "{{ env.DOCKER_CONTEXT_DIR }}"
-          file: "{{ env.DOCKER_FILE }}"
+          context: "{{ env.BUILD_CONTEXT_DIR }}"
+          file: "{{ env.BUILD_FILE }}"
           push: false
