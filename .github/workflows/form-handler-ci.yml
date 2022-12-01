@@ -35,5 +35,5 @@ jobs:
           # context: "{{ env.BUILD_CONTEXT_DIR }}"
           # file: "{{ env.BUILD_FILE }}"
           context: python
-          file: python/form-handler/Dockerfile
+          file: python/form_handler/Dockerfile
           push: false
