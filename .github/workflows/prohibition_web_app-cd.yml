@@ -5,9 +5,7 @@ on:
     branches:
       - master
     paths:
-      - python/*.py
-      - python/common
-      - python/prohibition_web_svc
+      - web_app
       - .github/workflows/prohibition_web_app-cd.yml
 
 jobs:
