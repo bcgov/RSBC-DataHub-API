@@ -1,0 +1,20 @@
+name: prohibition_web_app-cd
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - python/*.py
+      - python/common
+      - python/prohibition_web_svc
+      - .github/workflows/prohibition_web_app-cd.yml
+
+jobs:
+  CI:
+    uses: ./.github/workflows/cd-workflow.yml
+    with:
+      DOCKER_CONTEXT: web_app
+      DOCKER_FILE: Dockerfile
+      DOCKER_IMAGE_NAME: dh-prohibition-web-app
+    secrets: inherit

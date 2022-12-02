@@ -1,4 +1,4 @@
-FROM nginx:latest
+FROM registry.redhat.io/ubi8/nginx-118:latest
 COPY nginx.conf /app/nginx.conf
 WORKDIR /app
 COPY dist /app/dist
