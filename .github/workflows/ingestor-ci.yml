@@ -1,0 +1,21 @@
+name: ingestor-ci
+
+on:
+  push:
+    branches:
+      - master
+
+  pull_request:
+    types: [opened, reopened, edited, synchronize]
+    paths:
+      - python/*.py
+      - python/common
+      - python/ingestor
+      - .github/workflows/ingestor-ci.yml
+
+jobs:
+  CI:
+    uses: ytqsl/RSBC-DataHub-API/.github/workflows/ci-workflow.yml@master
+    with:
+      docker-context: python
+      docker-file: python/ingestor/Dockerfile
