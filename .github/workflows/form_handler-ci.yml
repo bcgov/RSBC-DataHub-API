@@ -11,7 +11,7 @@ on:
 
 jobs:
   CI:
-    uses: ./.github/workflows/ci-workflow.yml@master
+    uses: ./.github/workflows/ci-workflow.yml
     with:
       DOCKER_CONTEXT: python
       DOCKER_FILE: python/form_handler/Dockerfile
