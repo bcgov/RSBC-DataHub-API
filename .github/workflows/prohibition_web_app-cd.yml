@@ -15,6 +15,6 @@ jobs:
     uses: ./.github/workflows/cd-workflow.yml
     with:
       DOCKER_CONTEXT: web_app
-      DOCKER_FILE: Dockerfile
+      DOCKER_FILE: web_app/Dockerfile
       DOCKER_IMAGE_NAME: dh-prohibition-web-app
     secrets: inherit

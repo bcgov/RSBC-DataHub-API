@@ -12,4 +12,4 @@ jobs:
     uses: ./.github/workflows/ci-workflow.yml
     with:
       DOCKER_CONTEXT: web_app
-      DOCKER_FILE: Dockerfile
+      DOCKER_FILE: web_app/Dockerfile
