@@ -6,8 +6,8 @@ on:
       - master
     paths:
       - python/*.py
-      - python/common
-      - python/ingestor
+      - python/common/**
+      - python/ingestor/**
       - .github/workflows/ingestor-cd.yml
 
 jobs:

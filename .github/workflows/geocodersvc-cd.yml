@@ -6,8 +6,8 @@ on:
       - master
     paths:
       - python/*.py
-      - python/common
-      - python/geocodersvc
+      - python/common/**
+      - python/geocodersvc/**
       - .github/workflows/geocodersvc-cd.yml
 
 jobs:

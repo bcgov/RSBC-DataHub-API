@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - web_app
+      - web_app/**
       - .github/workflows/prohibition_web_app-cd.yml
 
 jobs:

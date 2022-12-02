@@ -5,8 +5,8 @@ on:
     types: [opened, reopened, edited, synchronize]
     paths:
       - python/*.py
-      - python/common
-      - python/paybc_api
+      - python/common/**
+      - python/paybc_api/**
       - .github/workflows/paybc-ci.yml
 
 jobs:

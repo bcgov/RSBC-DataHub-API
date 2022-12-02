@@ -6,8 +6,8 @@ on:
       - master
     paths:
       - python/*.py
-      - python/common
-      - python/prohibition_web_svc
+      - python/common/**
+      - python/prohibition_web_svc/**
       - .github/workflows/prohibition_web_svc-cd.yml
 
 jobs:

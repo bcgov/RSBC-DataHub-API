@@ -5,8 +5,8 @@ on:
     types: [opened, reopened, edited, synchronize]
     paths:
       - python/*.py
-      - python/common
-      - python/geocodersvc
+      - python/common/**
+      - python/geocodersvc/**
       - .github/workflows/geocodersvc-ci.yml
 
 jobs:

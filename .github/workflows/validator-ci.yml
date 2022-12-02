@@ -5,8 +5,8 @@ on:
     types: [opened, reopened, edited, synchronize]
     paths:
       - python/*.py
-      - python/common
-      - python/validator
+      - python/common/**
+      - python/validator/**
       - .github/workflows/validator-ci.yml
 
 jobs:

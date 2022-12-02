@@ -6,8 +6,8 @@ on:
       - master
     paths:
       - python/*.py
-      - python/common
-      - python/writer
+      - python/common/**
+      - python/writer/**
       - .github/workflows/writer-cd.yml
 
 jobs:

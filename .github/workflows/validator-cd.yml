@@ -6,8 +6,8 @@ on:
       - master
     paths:
       - python/*.py
-      - python/common
-      - python/validator
+      - python/common/**
+      - python/validator/**
       - .github/workflows/validator-cd.yml
 
 jobs:

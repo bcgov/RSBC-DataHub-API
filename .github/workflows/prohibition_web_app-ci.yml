@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [opened, reopened, edited, synchronize]
     paths:
-      - web_app
+      - web_app/**
       - .github/workflows/prohibition_web_app-ci.yml
 
 jobs:

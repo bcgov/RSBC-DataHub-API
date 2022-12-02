@@ -5,8 +5,8 @@ on:
     types: [opened, reopened, edited, synchronize]
     paths:
       - python/*.py
-      - python/common
-      - python/form_handler
+      - python/common/**
+      - python/form_handler/**
       - .github/workflows/form_handler-ci.yml
 
 jobs:

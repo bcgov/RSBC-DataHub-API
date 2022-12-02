@@ -6,8 +6,8 @@ on:
       - master
     paths:
       - python/*.py
-      - python/common
-      - python/form_handler
+      - python/common/**
+      - python/form_handler/**
       - .github/workflows/form_handler-cd.yml
 
 jobs:
