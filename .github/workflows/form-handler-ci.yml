@@ -14,7 +14,7 @@ on:
       - .github/workflows/form-handler-ci.yml
 
 jobs:
-  call-workflow-passing-data:
+  CI:
     uses: ytqsl/RSBC-DataHub-API/.github/workflows/ci-workflow.yml@master
     with:
       docker-context: python

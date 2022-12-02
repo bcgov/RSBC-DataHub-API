@@ -26,5 +26,5 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ${{ inputs.docker-context }}
-          file: ${{ inputs.docker-context }}
+          file: ${{ inputs.docker-file }}
           push: false
