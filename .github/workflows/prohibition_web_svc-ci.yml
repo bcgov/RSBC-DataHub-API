@@ -1,4 +1,4 @@
-name: prohibition-ci
+name: prohibition_web_svc-ci
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
       - python/*.py
       - python/common
       - python/prohibition_web_svc
-      - .github/workflows/prohibition-ci.yml
+      - .github/workflows/prohibition_web_svc-ci.yml
 
 jobs:
   CI:

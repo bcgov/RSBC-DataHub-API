@@ -1,4 +1,4 @@
-name: prohibition-cd
+name: prohibition_web_svc-cd
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
       - python/*.py
       - python/common
       - python/prohibition_web_svc
-      - .github/workflows/prohibition-cd.yml
+      - .github/workflows/prohibition_web_svc-cd.yml
 
 jobs:
   CI:
