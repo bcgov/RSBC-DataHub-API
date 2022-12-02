@@ -1,0 +1,20 @@
+name: validator-cd
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - python/*.py
+      - python/common
+      - python/validator
+      - .github/workflows/validator-cd.yml
+
+jobs:
+  CI:
+    uses: ./.github/workflows/cd-workflow.yml
+    with:
+      DOCKER_CONTEXT: python
+      DOCKER_FILE: python/validator/Dockerfile
+      DOCKER_IMAGE_NAME: dh-validator
+    secrets: inherit
