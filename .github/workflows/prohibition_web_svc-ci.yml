@@ -1,0 +1,17 @@
+name: prohibition_web_svc-ci
+
+on:
+  pull_request:
+    types: [opened, reopened, edited, synchronize]
+    paths:
+      - python/*.py
+      - python/common/**
+      - python/prohibition_web_svc/**
+      - .github/workflows/prohibition_web_svc-ci.yml
+
+jobs:
+  CI:
+    uses: ./.github/workflows/ci-workflow.yml
+    with:
+      DOCKER_CONTEXT: python
+      DOCKER_FILE: python/prohibition_web_svc/Dockerfile

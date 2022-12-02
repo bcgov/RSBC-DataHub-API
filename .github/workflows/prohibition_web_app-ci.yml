@@ -1,0 +1,15 @@
+name: prohibition_web_app-ci
+
+on:
+  pull_request:
+    types: [opened, reopened, edited, synchronize]
+    paths:
+      - web_app/**
+      - .github/workflows/prohibition_web_app-ci.yml
+
+jobs:
+  CI:
+    uses: ./.github/workflows/ci-workflow.yml
+    with:
+      DOCKER_CONTEXT: web_app
+      DOCKER_FILE: web_app/Dockerfile

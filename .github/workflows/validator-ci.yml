@@ -1,0 +1,17 @@
+name: validator-ci
+
+on:
+  pull_request:
+    types: [opened, reopened, edited, synchronize]
+    paths:
+      - python/*.py
+      - python/common/**
+      - python/validator/**
+      - .github/workflows/validator-ci.yml
+
+jobs:
+  CI:
+    uses: ./.github/workflows/ci-workflow.yml
+    with:
+      DOCKER_CONTEXT: python
+      DOCKER_FILE: python/validator/Dockerfile

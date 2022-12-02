@@ -1,4 +1,4 @@
-FROM python:3.7.3-stretch
+FROM registry.access.redhat.com/rhscl/python-36-rhel7:latest
 RUN [ "pwd" ]
 RUN [ "ls", "-R" ]
 

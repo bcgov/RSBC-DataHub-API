@@ -1,4 +1,4 @@
-FROM python:3.7.3-stretch
+FROM registry.access.redhat.com/rhscl/python-36-rhel7:latest
 
 COPY validator/requirements.txt ${APP_ROOT}/src/
 RUN source /opt/app-root/etc/scl_enable && \

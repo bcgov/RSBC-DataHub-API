@@ -1,0 +1,20 @@
+name: ingestor-cd
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - python/*.py
+      - python/common/**
+      - python/ingestor/**
+      - .github/workflows/ingestor-cd.yml
+
+jobs:
+  CI:
+    uses: ./.github/workflows/cd-workflow.yml
+    with:
+      DOCKER_CONTEXT: python
+      DOCKER_FILE: python/ingestor/Dockerfile
+      DOCKER_IMAGE_NAME: dh-ingestor
+    secrets: inherit

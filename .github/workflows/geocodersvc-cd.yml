@@ -1,0 +1,20 @@
+name: geocodersvc-cd
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - python/*.py
+      - python/common/**
+      - python/geocodersvc/**
+      - .github/workflows/geocodersvc-cd.yml
+
+jobs:
+  CI:
+    uses: ./.github/workflows/cd-workflow.yml
+    with:
+      DOCKER_CONTEXT: python
+      DOCKER_FILE: python/geocodersvc/Dockerfile
+      DOCKER_IMAGE_NAME: dh-geocodersvc
+    secrets: inherit
