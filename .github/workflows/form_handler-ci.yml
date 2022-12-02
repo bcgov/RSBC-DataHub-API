@@ -11,7 +11,7 @@ on:
 
 jobs:
   CI:
-    uses: ytqsl/RSBC-DataHub-API/.github/workflows/ci-workflow.yml@master
+    uses: ./.github/workflows/ci-workflow.yml@master
     with:
       DOCKER_CONTEXT: python
       DOCKER_FILE: python/form_handler/Dockerfile
