@@ -3,10 +3,10 @@ name: ci-workflow
 on:
   workflow_call:
     inputs:
-      docker-context:
+      DOCKER_CONTEXT:
         required: true
         type: string
-      docker-file:
+      DOCKER_FILE:
         required: true
         type: string
 
@@ -25,6 +25,6 @@ jobs:
       - name: Build
         uses: docker/build-push-action@v3
         with:
-          context: ${{ inputs.docker-context }}
-          file: ${{ inputs.docker-file }}
+          context: ${{ inputs.DOCKER_CONTEXT }}
+          file: ${{ inputs.DOCKER_FILE }}
           push: false

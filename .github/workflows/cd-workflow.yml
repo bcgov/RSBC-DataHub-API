@@ -1,21 +1,28 @@
-name: ci-workflow
+name: cd-workflow
 
 on:
   workflow_call:
     inputs:
-      docker-context:
+      DOCKER_CONTEXT:
         required: true
         type: string
-      docker-file:
+      DOCKER_FILE:
         required: true
         type: string
-      docker-image-name:
+      DOCKER_IMAGE_NAME:
         required: true
         type: string
-      docker-image-label:
+      DOCKER_IMAGE_TAG:
         required: false
         type: string
         default: latest
+    secrets:
+      DOCKER_REGISTRY:
+        required: true
+      DOCKER_USERNAME:
+        required: true
+      DOCKER_PASSWORD:
+        required: true
 
 jobs:
   build:
@@ -39,7 +46,7 @@ jobs:
       - name: Build
         uses: docker/build-push-action@v3
         with:
-          context: ${{ inputs.docker-context }}
-          file: ${{ inputs.docker-file }}
+          context: ${{ inputs.DOCKER_CONTEXT }}
+          file: ${{ inputs.DOCKER_FILE }}
           push: true          
-          tags: ${{ secrets.DOCKER_REGISTRY }}/${{ inputs.docker-image-name }}:${{ inputs.docker-image-label }}
+          tags: ${{ secrets.DOCKER_REGISTRY }}/${{ inputs.DOCKER_IMAGE_NAME }}:${{ inputs.DOCKER_IMAGE_TAG }}
