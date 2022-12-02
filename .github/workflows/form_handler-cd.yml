@@ -1,4 +1,4 @@
-name: form_handler-ci
+name: form_handler-cd
 
 on:
   push:
