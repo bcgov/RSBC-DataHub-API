@@ -1,0 +1,20 @@
+name: prohibition-cd
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - python/*.py
+      - python/common
+      - python/prohibition_web_svc
+      - .github/workflows/prohibition-cd.yml
+
+jobs:
+  CI:
+    uses: ./.github/workflows/cd-workflow.yml
+    with:
+      DOCKER_CONTEXT: python
+      DOCKER_FILE: python/prohibition_web_svc/Dockerfile
+      DOCKER_IMAGE_NAME: dh-prohibition-web-svc
+    secrets: inherit
