@@ -18,9 +18,12 @@ Test-LoggedInToOpenShift
 
 $tagSwitch = ""
 if ("$tags" -ne "") {
-    Write-Host "Running tests tagged with: $tags"
-    $tagSwitch = "--include $tags"
+    Write-Host "Running tests tagged with: ${tags}"
+    robot --include ${tags} --exclude disabled --outputdir results --debugfile debug.txt --name "DF VI-IRP API test suite" --variablefile env.py  .
+}
+else
+{
+    robot --exclude disabled --outputdir results --debugfile debug.txt --name "DF VI-IRP API test suite" --variablefile env.py  .
 }
 
 # Recursively execute all suites with *.robot name
-robot --include grr --outputdir results --debugfile debug.txt --name "DF VI-IRP API test suite" --variablefile env.py  .

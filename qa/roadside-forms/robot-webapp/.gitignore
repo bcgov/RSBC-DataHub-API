@@ -1,0 +1,7 @@
+forms.robot
+*.svg
+*.png
+*.html
+*.xml
+*.swp
+logs

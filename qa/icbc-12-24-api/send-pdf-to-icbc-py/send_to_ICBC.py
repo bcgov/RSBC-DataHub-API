@@ -88,10 +88,10 @@ def set_payload(base64_encode_pdf_string) -> dict:
                              # 12-hour drugs:   90.321  24-hour drugs:   215.3
         "violationLocation": "100 MILE HOUSE",
         "noticeNumber": "JZ100694",
-        "violationDate": "20220707",
-        "violationTime": "01:01",
+        "violationDate": "20221020",
+        "violationTime": "09:09",
         "officerDetachment": "RSI",
-        "officerNumber": "110",
+        "officerNumber": "DE110",
         "officerName": "FORSYTH",
         "pdf": base64_encode_pdf_string
     }

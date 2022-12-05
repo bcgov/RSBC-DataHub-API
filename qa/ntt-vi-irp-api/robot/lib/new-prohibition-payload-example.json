@@ -1,0 +1,53 @@
+{
+  "vipsDocumentIdArray": [
+  ],
+  "vipsProhibitionCreate": {
+    "cityNm": "Ashcroft",
+    "dreEvaluationCds": [],
+    "driverLicenceSeizedYN": "Y",
+    "effectiveDt": "2022-09-27T00:10:00.100-07:00",
+    "expiryDt": null,
+    "incidentDtm":    "2022-09-27T00:00:00.100-07:00",
+    "noticeServedDt": "2022-09-27T00:10:00.100-07:00",
+    "noticeSubjectCd": "PERS",
+    "noticeTypeCd": "IRP",
+    "originalCauseCd": "IRPINDEF",
+    "policeDetatchmentId": 138,
+    "policeFileNo": "RSI-1234",
+    "policeOfficerNm": "Lungpayne",
+    "policeOfficerNo": "RSI111",
+    "provinceCd": "BC",
+    "prohibitionNoticeNo": "20100155",
+    "streetDetailsTxt": "ANT AVE @ LAMA LANE",
+    "tempDlEffectiveDt": null,
+    "tempDlExpiryDt": null
+  },
+  "vipsRegistrationCreate": {
+    "dataSourceCd": "ICBC",
+    "firstGivenNm": "Davey",
+    "icbcEnterpriseId": "1",
+    "organizationNm": null,
+    "registrationRoleCd": "DRVR",
+    "secondGivenNm": "Damien",
+    "surnameNm": "Dogsneeze",
+    "thirdGivenNm": "Dinglebert",
+    "vipsAddressArray": [
+      {
+        "additionalDeliveryLineTxt": null,
+        "addressFirstLineTxt": "425 Tiwje View",
+        "addressSecondLineTxt": "Sludge Manor",
+        "addressThirdLineTxt": "Basement Suite",
+        "cityNm": "Ashcroft",
+        "countryNm": "CAN",
+        "postalCodeTxt": "S8Q 2B2",
+        "provinceCd": "BC",
+        "registrationAddressTypeCd": "MAIL"
+      }
+    ],
+    "vipsLicenceCreateObj": {
+      "birthDt": "1975-01-01T00:00:00.000-08:00",
+      "dlJurisdictionCd": "BC",
+      "driverLicenceNo": "1975001"
+    }
+  }
+}

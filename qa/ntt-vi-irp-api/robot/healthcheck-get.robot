@@ -13,18 +13,24 @@ Library      DateTime         # https://robotframework.org/robotframework/latest
 # Settings for the DEV environment
 #Variables   dev.Variables              # Environment settings
 
-Resource   lib/keywords.resource        # Keywords
 Resource   lib/kw-requests.resource     # Keywords for server requests
 Resource   lib/kw-responses.resource    # Keywords for server responses
 
 *** Variables ***
 # See env.py
+${CORRELATION} =    robot-healthcheck-01
 
 *** Keywords ***
 # See lib/*.robot
 
 *** Test Cases ***
 
+#     _   _
+#    | | | | __ _ _ __  _ __  _   _
+#    | |_| |/ _` | '_ \| '_ \| | | |
+#    |  _  | (_| | |_) | |_) | |_| |
+#    |_| |_|\__,_| .__/| .__/ \__, |
+#                |_|   |_|    |___/
 
 Healthcheck GET authenticated
     [Tags]           healthcheck  authenticated    GET    happy
@@ -36,16 +42,6 @@ Healthcheck GET authenticated
     And Response content type is  application/json
     And Response body is  {"responseMessage":{"VIPS ORDS Health Status":"success","DIGITAL FORMS ORDS Health Status":"success"}}
 
-Healthcheck GET not logged in
-    [Tags]           healthcheck  unauthenticated    GET    unhappy
-    [Documentation]  Should return HTTP 401
-    ...
-    ...              Example: ``$ https ://digitalforms-viirp-api-c220ad-dev.apps.silver.devops.gov.bc.ca/digitalforms-viirp/v1/utility/ords/ping/${CORRELATION}``
-    Given An unauthenticated GET request expecting HTTP 401 from /v1/utility/ords/ping/${CORRELATION}
-    Then Response code is HTTP  401
-    And Response content type is  application/json
-    And Response body is  {"status_message":"401 - Unauthorized entry, please authenticate"}
-
 Healthcheck OPTIONS authenticated
     [Tags]           healthcheck    authenticated    OPTIONS    happy
     [Documentation]  Should show supported headers
@@ -55,15 +51,6 @@ Healthcheck OPTIONS authenticated
     Then Response code is HTTP  200
     And Response body is empty
     And Response allow header should contain value GET,HEAD,OPTIONS
-
-Healthcheck OPTIONS not logged in
-    [Tags]           healthcheck    unauthenticated    OPTIONS    unhappy
-    [Documentation]  Should return HTTP 401
-    ...
-    ...              Example: ``$ https OPTIONS ://digitalforms-viirp-api-c220ad-dev.apps.silver.devops.gov.bc.ca/digitalforms-viirp/v1/utility/ords/ping/${CORRELATION}``
-    Given An unauthenticated OPTIONS request expecting HTTP 401 from /v1/utility/ords/ping/${CORRELATION}
-    Then Response code is HTTP  401
-    And Response body is  {"status_message":"401 - Unauthorized entry, please authenticate"}
 
 Healthcheck HEAD authenticated
     [Tags]           healthcheck    authenticated    HEAD    happy
@@ -79,6 +66,34 @@ Healthcheck HEAD authenticated
     And Response x-content-type-options header should contain value nosniff
     And Response x-frame-options header should contain value DENY
     And Response x-xss-protection header should contain value 1; mode=block
+
+
+#     _   _       _
+#    | | | |_ __ | |__   __ _ _ __  _ __  _   _
+#    | | | | '_ \| '_ \ / _` | '_ \| '_ \| | | |
+#    | |_| | | | | | | | (_| | |_) | |_) | |_| |
+#     \___/|_| |_|_| |_|\__,_| .__/| .__/ \__, |
+#                            |_|   |_|    |___/
+
+Healthcheck GET not logged in
+    [Tags]           healthcheck  unauthenticated    GET    unhappy
+    [Documentation]  Should return HTTP 401
+    ...
+    ...              Example: ``$ https ://digitalforms-viirp-api-c220ad-dev.apps.silver.devops.gov.bc.ca/digitalforms-viirp/v1/utility/ords/ping/${CORRELATION}``
+    Given An unauthenticated GET request expecting HTTP 401 from /v1/utility/ords/ping/${CORRELATION}
+    Then Response code is HTTP  401
+    And Response content type is  application/json
+    And Response body is  {"status_message":"401 - Unauthorized entry, please authenticate"}
+
+
+Healthcheck OPTIONS not logged in
+    [Tags]           healthcheck    unauthenticated    OPTIONS    unhappy
+    [Documentation]  Should return HTTP 401
+    ...
+    ...              Example: ``$ https OPTIONS ://digitalforms-viirp-api-c220ad-dev.apps.silver.devops.gov.bc.ca/digitalforms-viirp/v1/utility/ords/ping/${CORRELATION}``
+    Given An unauthenticated OPTIONS request expecting HTTP 401 from /v1/utility/ords/ping/${CORRELATION}
+    Then Response code is HTTP  401
+    And Response body is  {"status_message":"401 - Unauthorized entry, please authenticate"}
 
 Healthcheck HEAD not logged in
     [Tags]           healthcheck    unauthenticated    HEAD    unhappy

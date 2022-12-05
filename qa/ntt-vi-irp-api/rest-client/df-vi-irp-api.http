@@ -1,0 +1,382 @@
+#   ____  _____  __     _____     ___ ____  ____       _    ____ ___
+#  |  _ \|  ___| \ \   / /_ _|   |_ _|  _ \|  _ \     / \  |  _ \_ _|
+#  | | | | |_     \ \ / / | |_____| || |_) | |_) |   / _ \ | |_) | |
+#  | |_| |  _|     \ V /  | |_____| ||  _ <|  __/   / ___ \|  __/| |
+#  |____/|_|        \_/  |___|   |___|_| \_\_|     /_/   \_\_|  |___|
+#  ------------------------------------------------------------------
+#  Digital Forms API for VIPS integration, vehicle impoundments (VI)
+#  and immediate roadside prohibitions (IRP).
+#  ------------------------------------------------------------------
+#
+#  This HTTP client file is used for exploratory testing in Visual Studio Code with the REST
+#  Client plugin. See: https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+#
+#  NOTE: To use this file, you must have settings for each environment in VSCode's Settings.json
+#        file, under "rest-client.environmentVariables". See HTTP CLient documentation. Example:
+#         "DF-VI-IRP-API-DEV":{
+#             "name": "DEV c220ad-dev svc/digitalforms-viirp-api-svc",
+#             "host": "digitalforms-viirp-api-c220ad-dev.apps.silver.devops.gov.bc.ca",
+#             "api_path": "/digitalforms-viirp/v1",
+#             "api_username": "_________",
+#             "api_password": "_________"
+#         },
+#
+# Project information
+# -------------------
+# Documentation: https://justice.gov.bc.ca/wiki/pages/viewpage.action?pageId=361235260
+# OpenAPI spec:  https://digitalforms-viirp-api-c220ad-dev.apps.silver.devops.gov.bc.ca/digitalforms-viirp/v1/swagger-ui
+# GitHub repo:   https://github.com/bcgov/jag-rsbc-digital-forms-viirp-integration
+# Design:        https://justice.gov.bc.ca/wiki/pages/viewpage.action?pageId=343835390
+# Requirements:  https://justice.gov.bc.ca/wiki/download/attachments/343835390/IRP-VI%20Interfaces%2031Mar22.estimate%20removed.docx?version=1&modificationDate=1653673345000&api=v2
+#                https://justice.gov.bc.ca/wiki/display/RDFP/VIPS+integration
+# VIPS DEV:      https://dev.justice.gov.bc.ca/vips/prohibitions/search
+# VIPS TEST:     https://test.justice.gov.bc.ca/vips/prohibitions/search
+# Splunk logs:   DF-VI-IRP-API: https://jag.gov.bc.ca/splunk/en-US/app/search/search?q=search%20index%3Ddev_jboss%20source%3D%22%2Fapp%2Fjboss%2FEAP-7.4.0%2Fjboss-eap%2Fdomain%2Fservers%2Fvipsws-0%2Flog%2Faccess_log.log%22&display.page.search.mode=smart&dispatch.sample_ratio=1&earliest=-15m&latest=now&display.page.search.tab=events&display.general.type=events&display.prefs.statistics.count=100&sid=1667404662.1793263
+#                VIPS: https://jag.gov.bc.ca/splunk/en-US/app/search/search?q=search%20index%3Ddev_jboss%20source%3D%22%2Fapp%2Fjboss%2FEAP-7.4.0%2Fjboss-eap%2Fdomain%2Fservers%2Fvipsws-0%2Flog%2Faccess_log.log%22&display.page.search.mode=smart&dispatch.sample_ratio=1&earliest=-15m&latest=now&display.page.search.tab=events&display.general.type=events&display.prefs.statistics.count=100&sid=1667404583.1793227
+#
+#
+# OpenShift commands
+# ------------------
+# FOLLOW DF VI-IRP API POD LOGS:
+# oc --namespace=c220ad-dev logs svc/digitalforms-viirp-api-svc --follow
+# oc --namespace=c220ad-test logs svc/digitalforms-viirp-api-svc --follow
+
+
+
+### OpenAPI specification
+GET https://{{host}}{{api_path}}/v3/api-docs
+
+### ORDS Healthcheck
+GET https://{{host}}{{api_path}}/utility/ords/ping/steve-test-{{$guid}}
+Authorization: Basic {{api_username}} {{api_password}}
+
+
+###
+#   ____          _        _        _     _
+#  / ___|___   __| | ___  | |_ __ _| |__ | | ___  ___
+# | |   / _ \ / _` |/ _ \ | __/ _` | '_ \| |/ _ \/ __|
+# | |__| (_) | (_| |  __/ | || (_| | |_) | |  __/\__ \
+#  \____\___/ \__,_|\___|  \__\__,_|_.__/|_|\___||___/
+
+# Working with VIPS code tables
+# -----------------------------
+# Use a tool like jq to parse and list code table entries. For example:
+# 1. List tables
+# curl --silent --request GET --silent --user "user:${PASSWORD}"  https://digitalforms-viirp-api-c220ad-dev.apps.silver.devops.gov.bc.ca/digitalforms-viirp/v1/codetables/steve-test-9b022161-38ed-4688-92a8-12308128cd3f | jq '.configuration | keys'
+#
+# 2. Show individual table values
+# curl --silent --request GET --silent --user "user:${PASSWORD}"  https://digitalforms-viirp-api-c220ad-dev.apps.silver.devops.gov.bc.ca/digitalforms-viirp/v1/codetables/steve-test-9b022161-38ed-4688-92a8-12308128cd3f | jq '.configuration | .addresses'
+#
+# 3. List sub-element matching codes
+# - curl --silent --request GET --silent --user "user:${PASSWORD}"  https://digitalforms-viirp-api-c220ad-dev.apps.silver.devops.gov.bc.ca/digitalforms-viirp/v1/codetables/steve-test-9b022161-38ed-4688-92a8-12308128cd3f | jq '.configuration | .originalCauses[] | select(.noticeTypeCd=="IMP")'
+#
+# 4. List values for a table
+# curl --silent --request GET --silent --user "user:${PASSWORD}"  https://digitalforms-viirp-api-c220ad-dev.apps.silver.devops.gov.bc.ca/digitalforms-viirp/v1/codetables/steve-test-9b022161-38ed-4688-92a8-12308128cd3f | jq -r '.configuration | .addresses[] | .objectCd'
+
+### Code tables
+GET https://{{host}}{{api_path}}/codetables/steve-test-{{$guid}}
+Authorization: Basic {{api_username}} {{api_password}}
+Accept: application/json
+
+
+###
+#  ____                                        _
+# |  _ \  ___   ___ _   _ _ __ ___   ___ _ __ | |_ ___
+# | | | |/ _ \ / __| | | | '_ ` _ \ / _ \ '_ \| __/ __|
+# | |_| | (_) | (__| |_| | | | | | |  __/ | | | |_\__ \
+# |____/ \___/ \___|\__,_|_| |_| |_|\___|_| |_|\__|___/
+
+@DOCUMENT_ID = 615
+@NOTICE_NO = 22900827
+
+### Document GET /documents/<document>/<correlation>
+GET https://{{host}}{{api_path}}/documents/{{DOCUMENT_ID}}/steve-test-{{$guid}}
+Authorization: Basic {{api_username}} {{api_password}}
+Accept: application/json
+
+### Document POST
+# Example command-line:
+# https --verbose --auth "${USERNAME}:${PASSWORD}" POST digitalforms-viirp-api-c220ad-dev.apps.silver.devops.gov.bc.ca/digitalforms-viirp/v1/documents/steve-test-2 < document-post-payload.json
+POST https://{{host}}{{api_path}}/documents/steve-test-{{$guid}}
+Authorization: Basic {{api_username}} {{api_password}}
+Content-Type: application/json
+
+{
+  "type_code": "MV2702A",
+  "mime_type": "application",
+  "mime_sub_type": "pdf",
+  "file_object": 
+    // Tiny base64-encoded PDF: https://stackoverflow.com/questions/17279712/what-is-the-smallest-possible-valid-pdf
+    "JVBERi0xLjIgCjkgMCBvYmoKPDwKPj4Kc3RyZWFtCkJULyAzMiBUZiggIFlPVVIgVEVYVCBIRVJFICAgKScgRVQKZW5kc3RyZWFtCmVuZG9iago0IDAgb2JqCjw8Ci9UeXBlIC9QYWdlCi9QYXJlbnQgNSAwIFIKL0NvbnRlbnRzIDkgMCBSCj4+CmVuZG9iago1IDAgb2JqCjw8Ci9LaWRzIFs0IDAgUiBdCi9Db3VudCAxCi9UeXBlIC9QYWdlcwovTWVkaWFCb3ggWyAwIDAgMjUwIDUwIF0KPj4KZW5kb2JqCjMgMCBvYmoKPDwKL1BhZ2VzIDUgMCBSCi9UeXBlIC9DYXRhbG9nCj4+CmVuZG9iagp0cmFpbGVyCjw8Ci9Sb290IDMgMCBSCj4+CiUlRU9G",
+  "notice_type_code": "IRP",
+  "notice_subject_code": "VEHI",
+  "pageCount": 1
+}
+
+### Document GET /documents/list/<noticeNo>>/<correlation>
+GET https://{{host}}{{api_path}}/documents/list/{{NOTICE_NO}}/steve-test-{{$guid}}
+Authorization: Basic {{api_username}} {{api_password}}
+Accept: application/json
+
+### Document POST association with prohibition
+# Example command-line:
+# https --verbose --auth "${USERNAME}:${PASSWORD}" POST digitalforms-viirp-api-c220ad-dev.apps.silver.devops.gov.bc.ca/digitalforms-viirp/v1/documents/association/notice/611/steve-test-2 noticeNo=20100155 noticeTypeCd=IRP
+POST https://{{host}}{{api_path}}/documents/association/notice/{{DOCUMENT_ID}}/steve-test-{{$guid}}
+Authorization: Basic {{api_username}} {{api_password}}
+Content-Type: application/json
+
+{
+  "noticeNo":   {{NOTICE_NO}},
+  "noticeTypeCd": "IMP"
+}
+
+
+###
+#  ____   __ ____             _                 _
+# |  _ \ / _|  _ \ __ _ _   _| | ___   __ _  __| |___
+# | | | | |_| |_) / _` | | | | |/ _ \ / _` |/ _` / __|
+# | |_| |  _|  __/ (_| | |_| | | (_) | (_| | (_| \__ \
+# |____/|_| |_|   \__,_|\__, |_|\___/ \__,_|\__,_|___/
+#                       |___/
+@noticeNo = 77776791
+
+### GET DF payloads
+
+GET https://{{host}}{{api_path}}/dfpayloads/{{noticeNo}}/steve-test-{{$guid}}
+Authorization: Basic {{api_username}} {{api_password}}
+Accept: application/json
+
+### POST DF payloads
+POST https://{{host}}{{api_path}}/dfpayloads/{{noticeNo}}/steve-test-{{$guid}}
+Authorization: Basic {{api_username}} {{api_password}}
+Content-Type: application/json
+
+{
+  "noticeTypeCd": "IRP",
+  "payload":"{\"name\":\"John\",\"noticeType\":\"IRP\",\"car\":\"Buick\",\"age\":36}",
+  "active": true,
+  "processed": true
+}
+
+### PUT DF payloads
+PUT https://{{host}}{{api_path}}/dfpayloads/{{noticeNo}}/steve-test-{{$guid}}
+Authorization: Basic {{api_username}} {{api_password}}
+Content-Type: application/json
+
+{
+  "noticeTypeCd": "IRP",
+  "payload":"{\"name\":\"Frank\",\"noticeType\":\"IRP\",\"car\":\"Buick\",\"age\":36}",
+  "active": true,
+  "processed": true
+}
+
+### DELETE DF payloads
+DELETE https://{{host}}{{api_path}}/dfpayloads/{{noticeNo}}/steve-test-{{$guid}}
+Authorization: Basic {{api_username}} {{api_password}}
+Accept: application/json
+
+
+###
+#  ___ ____  ____    ____            _     _ _     _ _   _
+# |_ _|  _ \|  _ \  |  _ \ _ __ ___ | |__ (_) |__ (_) |_(_) ___  _ __  ___
+#  | || |_) | |_) | | |_) | '__/ _ \| '_ \| | '_ \| | __| |/ _ \| '_ \/ __|
+#  | ||  _ <|  __/  |  __/| | | (_) | | | | | |_) | | |_| | (_) | | | \__ \
+# |___|_| \_\_|     |_|   |_|  \___/|_| |_|_|_.__/|_|\__|_|\___/|_| |_|___/
+
+@IRP_PROHIBITION = 20100160
+
+### Prohibitions GET /prohibitions/<prohibition>/<correlation>
+GET https://{{host}}{{api_path}}/prohibitions/{{IRP_PROHIBITION}}/steve-test-{{$guid}}
+Authorization: Basic {{api_username}} {{api_password}}
+Accept: application/json
+
+### Prohibitions OPTIONS /prohibitions/<prohibition>/<correlation>
+OPTIONS https://{{host}}{{api_path}}/prohibitions/{{IRP_PROHIBITION}}/steve-test-{{$guid}}
+Authorization: Basic {{api_username}} {{api_password}}
+Accept: application/json
+
+### Prohibitions HEAD /prohibitions/<prohibition>/<correlation>
+HEAD https://{{host}}{{api_path}}/prohibitions/{{IRP_PROHIBITION}}/steve-test-{{$guid}}
+Authorization: Basic {{api_username}} {{api_password}}
+Accept: application/json
+
+### Prohibitions POST IRP /prohibitions/<correlation>
+# Look it up in VIPS here: https://dev.justice.gov.bc.ca/vips/prohibitions/
+POST https://{{host}}{{api_path}}/prohibitions/steve-test-{{$guid}}
+Authorization: Basic {{api_username}} {{api_password}}
+Content-Type: application/json
+
+{
+  "vipsDocumentIdArray": [
+  ],
+  "vipsProhibitionCreate": {
+    "cityNm":                 "Ashcroft",
+    "dreEvaluationCds":       [],
+    "driverLicenceSeizedYN":  "Y",
+    "effectiveDt":            "2022-09-27T00:10:00.000-07:00",
+    "expiryDt":               null,
+    "incidentDtm":            "2022-09-27T00:01:00.000-07:00",
+    "noticeServedDt":         "2022-09-27T00:10:00.000-07:00",
+    "noticeSubjectCd":        "PERS",
+    "noticeTypeCd":           "IRP",
+    "originalCauseCd":        "IRPINDEF",
+    "policeDetatchmentId":    138,
+    "policeFileNo":           "RSI-1234",
+    "policeOfficerNm":        "Lungpayne",
+    "policeOfficerNo":        "RSI111",
+    "prohibitionNoticeNo":    "20100161",
+    "provinceCd":             "BC",
+    "streetDetailsTxt":       "ANT AVE @ LAMA LANE",
+    "tempDlEffectiveDt":      null,
+    "tempDlExpiryDt":         null
+  },
+  "vipsRegistrationCreate": {
+    "dataSourceCd":           "ICBC",
+    "firstGivenNm":           "Davey",
+    "icbcEnterpriseId":       "1",
+    "organizationNm":         null,
+    "registrationRoleCd":     "DRVR",
+    "secondGivenNm":          "Damien",
+    "surnameNm":              "Dogsneeze",
+    "thirdGivenNm":           "Dinglebert",
+    "vipsAddressArray": [
+      {
+        "additionalDeliveryLineTxt":  null,
+        "addressFirstLineTxt":        "425 Tiwje View",
+        "addressSecondLineTxt":       "Sludge Manor",
+        "addressThirdLineTxt":        "Basement Suite",
+        "cityNm":                     "Ashcroft",
+        "countryNm":                  "CAN",
+        "postalCodeTxt":              "S8Q 2B2",
+        "provinceCd":                 "BC",
+        "registrationAddressTypeCd":  "MAIL"
+      }
+    ],
+    "vipsLicenceCreateObj": {
+      "birthDt":              "1975-01-01T00:00:00.000-08:00",
+      "dlJurisdictionCd":     "BC",
+      "driverLicenceNo":      "1975001"
+    }
+  }
+}
+
+
+###
+# Defects:
+# - Time zone issue in birth date field
+# - If country is "CA" not "CAD", API returns 500.
+
+
+# __     __   _     _      _        ___                                       _                      _
+# \ \   / /__| |__ (_) ___| | ___  |_ _|_ __ ___  _ __   ___  _   _ _ __   __| |_ __ ___   ___ _ __ | |_ ___
+#  \ \ / / _ \ '_ \| |/ __| |/ _ \  | || '_ ` _ \| '_ \ / _ \| | | | '_ \ / _` | '_ ` _ \ / _ \ '_ \| __/ __|
+#   \ V /  __/ | | | | (__| |  __/  | || | | | | | |_) | (_) | |_| | | | | (_| | | | | | |  __/ | | | |_\__ \
+#    \_/ \___|_| |_|_|\___|_|\___| |___|_| |_| |_| .__/ \___/ \__,_|_| |_|\__,_|_| |_| |_|\___|_| |_|\__|___/
+#                                                |_|
+@VI_PROHIBITION = 22900827
+
+### Impoundments GET /impoundments/<prohibition>/<correlation>
+GET https://{{host}}{{api_path}}/impoundments/{{VI_PROHIBITION}}/steve-test-{{$guid}}
+Authorization: Basic {{api_username}} {{api_password}}
+Accept: application/json
+
+### Impoundments OPTIONS /impoundments/<prohibition>/<correlation>
+OPTIONS https://{{host}}{{api_path}}/impoundments/{{VI_PROHIBITION}}/steve-test-{{$guid}}
+Authorization: Basic {{api_username}} {{api_password}}
+Accept: application/json
+
+### Impoundments HEAD /impoundments/<prohibition>/<correlation>
+HEAD https://{{host}}{{api_path}}/impoundments/{{VI_PROHIBITION}}/steve-test-{{$guid}}
+Authorization: Basic {{api_username}} {{api_password}}
+Accept: application/json
+
+### Impoundments POST VI
+# View impoundment in VIPS here: https://dev.justice.gov.bc.ca/vips/impoundments/
+POST https://{{host}}{{api_path}}/impoundments/steve-test-{{$guid}}
+Authorization: Basic {{api_username}} {{api_password}}
+Content-Type: application/json
+
+{
+  "vipsImpoundCreate": {
+    // curl --silent --request GET --silent --user "user:${PASSWORD}"  https://digitalforms-viirp-api-c220ad-dev.apps.silver.devops.gov.bc.ca/digitalforms-viirp/v1/codetables/steve-test-9b022161-38ed-4688-92a8-12308128cd3f | jq '.configuration | .provinces'
+    "dlJurisdictionCd": "BC",
+    "driverLicenceNo": "1975003",
+    // curl --silent --request GET --silent --user "user:${PASSWORD}"  https://digitalforms-viirp-api-c220ad-dev.apps.silver.devops.gov.bc.ca/digitalforms-viirp/v1/codetables/steve-test-9b022161-38ed-4688-92a8-12308128cd3f | jq '.configuration | .impoundLotOperators'
+    "impoundLotOperatorId": 80, 
+    "impoundmentDt": "2022-11-02T00:01:01.100-07:00",
+    "impoundmentNoticeNo": {{VI_PROHIBITION}},
+    "impoundmentReleaseDt": "six",
+    // There is no code table for noticeSubject. It is always "VEHI"?
+    "noticeSubjectCd": "VEHI",
+    // curl --silent --request GET --silent --user "user:${PASSWORD}"  https://digitalforms-viirp-api-c220ad-dev.apps.silver.devops.gov.bc.ca/digitalforms-viirp/v1/codetables/steve-test-9b022161-38ed-4688-92a8-12308128cd3f | jq '.configuration | .noticeTypes'
+    "noticeTypeCd": "IMP",
+    // curl --silent --request GET --silent --user "user:${PASSWORD}"  https://digitalforms-viirp-api-c220ad-dev.apps.silver.devops.gov.bc.ca/digitalforms-viirp/v1/codetables/steve-test-9b022161-38ed-4688-92a8-12308128cd3f | jq '.configuration | .originalCauses[] | select(.noticeTypeCd=="IMP")'
+    "originalCauseCds": ["STUNT","RACE","BACFAIL"],
+    // curl --silent --request GET --silent --user "user:${PASSWORD}"  https://digitalforms-viirp-api-c220ad-dev.apps.silver.devops.gov.bc.ca/digitalforms-viirp/v1/codetables/steve-test-9b022161-38ed-4688-92a8-12308128cd3f | jq '.configuration | .policeDetachments'
+    "policeDetatchmentId": 41,
+    "policeOfficerNm": "RATH",
+    "policeOfficerNo": "DE112",
+    "policeFileNo": "RSI-1234",
+    "projectedReleaseDt": null,
+    "seizureLocationTxt": "Victoria",
+    "vehicleReturnedDt": null
+  },
+  "vipsRegistrationCreateArray": [
+    { 
+      // curl --silent --request GET --silent --user "user:${PASSWORD}"  https://digitalforms-viirp-api-c220ad-dev.apps.silver.devops.gov.bc.ca/digitalforms-viirp/v1/codetables/steve-test-9b022161-38ed-4688-92a8-12308128cd3f | jq '.configuration | .data_sources'
+      "dataSourceCd": "VIPS",
+      "firstGivenNm": "HARRY",
+      "icbcEnterpriseId": "123",
+      "organizationNm": null,
+      // curl --silent --request GET --silent --user "user:${PASSWORD}"  https://digitalforms-viirp-api-c220ad-dev.apps.silver.devops.gov.bc.ca/digitalforms-viirp/v1/codetables/steve-test-9b022161-38ed-4688-92a8-12308128cd3f | jq '.configuration | .registration_roles'
+      "registrationRoleCd": "REGOWN",
+      "secondGivenNm": "BARRY",
+      "surnameNm": "LUNGPAYNE",
+      "thirdGivenNm": "LARRY",
+      "vipsAddressArray": [
+        {
+          "additionalDeliveryLineTxt": null,
+          "addressFirstLineTxt": "100 Main St",
+          "addressSecondLineTxt": "Basement Suite",
+          "addressThirdLineTxt": "Green Door",
+          "cityNm": "Ashcroft",
+          "countryNm": "CAN",
+          "postalCodeTxt": "V1A2A2",
+          "provinceCd": "BC",
+          // curl --silent --request GET --silent --user "user:${PASSWORD}"  https://digitalforms-viirp-api-c220ad-dev.apps.silver.devops.gov.bc.ca/digitalforms-viirp/v1/codetables/steve-test-9b022161-38ed-4688-92a8-12308128cd3f | jq '.configuration | .addresses'
+          "registrationAddressTypeCd": "MAIL"
+        }
+      ],
+      "vipsLicenceCreateObj": {
+    	"birthDt": "1975-01-08T00:00:00.000-07:00",
+    	"driverLicenceNo": "1975002",
+      // curl --silent --request GET --silent --user "user:${PASSWORD}"  https://digitalforms-viirp-api-c220ad-dev.apps.silver.devops.gov.bc.ca/digitalforms-viirp/v1/codetables/steve-test-9b022161-38ed-4688-92a8-12308128cd3f | jq '.configuration | .provinces'
+    	"dlJurisdictionCd": "BC"
+	  }
+    }
+  ],
+  "vipsVehicleCreate": {
+    "commercialMotorCarrierId": "NSC0123456789",
+    "licencePlateNo": "888HHH",
+    "lpDecalValidYy": 2022,
+    // curl --silent --request GET --silent --user "user:${PASSWORD}"  https://digitalforms-viirp-api-c220ad-dev.apps.silver.devops.gov.bc.ca/digitalforms-viirp/v1/codetables/steve-test-9b022161-38ed-4688-92a8-12308128cd3f | jq '.configuration | .provinces'
+    "lpJurisdictionCd": "BC",
+    "manufacturedYy": 1982,
+    "nscJurisdictionTxt": "BC",
+    "registrationNo": "8762133",
+    "vehicleColourTxt": "Brown",
+    // https://vingenerator.org/
+    "vehicleIdentificationNo": "1G8DC18H4CF114023",
+    "vehicleMakeTxt": "Chevrolet",
+    "vehicleModelTxt": "Blazer",
+    "vehicleStyleTxt": "4DR",
+    // curl --silent --request GET --silent --user "user:${PASSWORD}"  https://digitalforms-viirp-api-c220ad-dev.apps.silver.devops.gov.bc.ca/digitalforms-viirp/v1/codetables/steve-test-9b022161-38ed-4688-92a8-12308128cd3f | jq '.configuration | .vehicleTypes'
+    "vehicleTypeCd": "1"
+  },
+   "vipsDocumentIdArray": [ 605
+  ],
+   "vipsImpoundmentArray": [
+  ]
+}
+
+

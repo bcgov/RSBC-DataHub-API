@@ -1,5 +1,7 @@
 *** Settings ***
 Library    RPA.JSON    # https://github.com/robocorp/rpaframework/
+Library    Process     # https://robotframework.org/robotframework/latest/libraries/Process.html
+Library    String
 
 *** Keywords ***
 
@@ -19,7 +21,7 @@ Response code is not HTTP
 Response body contains
     [Arguments]  ${substring}
     Log  ${substring}
-    Should contain  ${test_response.text}  ${substring}  Response body does not contain '${substring}'. Body received: '${test_response.text'
+    Should contain  ${test_response.text}  ${substring}  Response body does not contain '${substring}'. Body received: '${test_response.text}'
 
 Response body does not contain
     [Arguments]  ${substring}
@@ -71,12 +73,98 @@ JSON payload includes ${section_name} section
 
 
 JSON structure ${section_name} should have at least ${min_length} records
-    Log  Checking ${section_name}
-    ${json_records} =    Get values from JSON    ${test_response.json()}    $.configuration.${section_name}.objectCd
-    Log    ${json_records}
-    ${length} =  Get Length  ${json_records}
+    ${json_records} =    Get values from JSON    ${test_response.json()}    $.configuration.${section_name}
+    Log    Found records: ${json_records}[0]    # 'Get values from JSON' returns results in an array
+    ${length} =  Get Length  ${json_records}[0]
     Log    Found ${length} in ${section_name}
-    Should be true  ${length} > ${min_length}  ${TEST NAME}: Not enough records (found ${length}, expected at least ${min_length}).
+    Should be true  ${length} >= ${min_length}  ${TEST NAME}: Not enough records (found ${length}, expected at least ${min_length}).
+
+Code table ${section_name} should have at least ${min_length} records
+    ${json_records} =    Get values from JSON    ${TEST_TABLE}    $.configuration.${section_name}
+    Log    Found records: ${json_records}[0]    # 'Get values from JSON' returns results in an array
+    ${length} =  Get Length  ${json_records}[0]
+    Log    Found ${length} in ${section_name}
+    Should be true  ${length} >= ${min_length}  ${TEST NAME}: Not enough records (found ${length}, expected at least ${min_length}).
+
+
+Get keys from ${section_name} table
+    ${json_records} =    Get values from JSON    ${CODE_TABLES}    $.configuration.${section_name}
+    Log    Found records: ${json_records}[0]    # 'Get values from JSON' returns results in an array
+    ${length} =  Get Length  @${json_records}[0]
+    Log    Found ${length} in ${section_name}
+    ${codes} =  Create List
+    FOR  ${item}  IN  @{json_records}[0]
+        ${cd} =  JSONLibrary.Get Value From Json    ${item}    $..objectCd
+        Log  ${cd}
+        Append to list  ${codes}  ${cd[0]}
+    END
+    Log  ${codes}
+    Set Test Variable   ${TEST_TABLE}  ${codes}
+
+Get keys from ${section_name} table with identityId
+    ${json_records} =    Get values from JSON    ${CODE_TABLES}    $.configuration.${section_name}
+    Log    Found records: ${json_records}[0]    # 'Get values from JSON' returns results in an array
+    ${length} =  Get Length  @${json_records}[0]
+    Log    Found ${length} in ${section_name}
+    ${codes} =  Create List
+    FOR  ${item}  IN  @{json_records}[0]
+        ${cd} =  JSONLibrary.Get Value From Json    ${item}    $..identityId
+        Log  ${cd}
+        Append to list  ${codes}  ${cd[0]}
+    END
+    Log  ${codes}
+    Set Test Variable   ${TEST_TABLE}  ${codes}
+
+Get keys from ${section_name} table with reviewAppTypeCd
+    ${json_records} =    Get values from JSON    ${CODE_TABLES}    $.configuration.${section_name}
+    Log    Found records: ${json_records}[0]    # 'Get values from JSON' returns results in an array
+    ${length} =  Get Length  @${json_records}[0]
+    Log    Found ${length} in ${section_name}
+    ${codes} =  Create List
+    FOR  ${item}  IN  @{json_records}[0]
+        ${cd} =  JSONLibrary.Get Value From Json    ${item}    $..reviewAppTypeCd
+        Log  ${cd}
+        Append to list  ${codes}  ${cd[0]}
+    END
+    Log  ${codes}
+    Set Test Variable   ${TEST_TABLE}  ${codes}
+
+Get keys from ${section_name} table with documentTypeCd
+    ${json_records} =    Get values from JSON    ${CODE_TABLES}    $.configuration.${section_name}
+    Log    Found records: ${json_records}[0]    # 'Get values from JSON' returns results in an array
+    ${length} =  Get Length  @${json_records}[0]
+    Log    Found ${length} in ${section_name}
+    ${codes} =  Create List
+    FOR  ${item}  IN  @{json_records}[0]
+        ${cd} =  JSONLibrary.Get Value From Json    ${item}    $..documentTypeCd
+        Log  ${cd}
+        Append to list  ${codes}  ${cd[0]}
+    END
+    Log  ${codes}
+    Set Test Variable   ${TEST_TABLE}  ${codes}
+
+Get ${type} keys from ${section} section
+    [Documentation]  Calls jq command-line tool with query to extract values from JSON. This is easier than trying to
+    ...              query JSON in RF. Note that Run Process will freeze if output is too large. Mitigate by redirecting
+    ...              to a file, as mentioned in https://github.com/robotframework/robotframework/issues/3661. For example:
+    ...              add stdout=filename.txt to redirect output to a file.
+    ...              This works with structures like 'documents' and 'decisionOutcomes'.
+    ${jq_query} =  Set variable  .configuration | .${section}\[] | select(.noticeTypeCd==\"${type}\") | .codes[] | select(.activeYN==\"Y\") | .objectCd
+    ${result} =  Run process  jq  ${jq_query}  -r  stdin=${CODE_TABLES_TEXT}  timeout=5s  on_timeout=continue
+    Log  STDOUT: ${result.stdout}
+    Log  STDERR: ${result.stderr}
+    # Iterate through lines in output and add to list, for easy comparison of results
+    ${codes} =  Create List
+    @{lines}=  Split to lines  ${result.stdout}
+    FOR  ${line}   IN   @{lines}
+        Append to list  ${codes}  ${line}
+    END
+    Set Test Variable   ${TEST_TABLE}  ${codes}
+
+
+
+
+
 
 
 
