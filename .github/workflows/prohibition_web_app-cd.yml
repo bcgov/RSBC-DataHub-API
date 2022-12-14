@@ -9,7 +9,7 @@ on:
       - .github/workflows/prohibition_web_app-cd.yml
 
 jobs:
-  CI:
+  CD:
     uses: ./.github/workflows/cd-workflow.yml
     with:
       DOCKER_CONTEXT: web_app
