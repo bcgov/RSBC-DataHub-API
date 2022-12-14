@@ -11,7 +11,7 @@ on:
       - .github/workflows/paybc-cd.yml
 
 jobs:
-  CI:
+  CD:
     uses: ./.github/workflows/cd-workflow.yml
     with:
       DOCKER_CONTEXT: python
