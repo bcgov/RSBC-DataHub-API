@@ -52,7 +52,9 @@ def decode_keycloak_access_token(**kwargs) -> tuple:
 def get_username_from_decoded_access_token(**kwargs) -> tuple:
     decoded_access_token = kwargs.get('decoded_access_token')
     try:
-        kwargs['username'] = decoded_access_token['preferred_username']
+        tmpusername=f"{decoded_access_token['idir_username']}@idir"
+        # kwargs['username'] = decoded_access_token['preferred_username']
+        kwargs['username'] = tmpusername
         logging.debug("username from access token: " + kwargs.get('username'))
     except Exception as e:
         kwargs['error'] = "preferred_username not present in decoded access token: " + str(e)
