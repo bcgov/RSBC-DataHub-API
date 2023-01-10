@@ -20,7 +20,7 @@
   "license": "ISC",
   "devDependencies": {
     "js-automation-tools": "^1.2.0",
-    "testcafe": "^1.18.2"
+    "testcafe": "^2.2.0"
   },
   "dependencies": {
     "prettier": "^2.5.1"
