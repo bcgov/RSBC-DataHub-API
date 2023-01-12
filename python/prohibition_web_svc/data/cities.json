@@ -1588,10 +1588,6 @@
    "objectDsc": "GREAT BEAVER LAKE"
  },
  {
-   "objectCd": "9GVN",
-   "objectDsc": "GREATER VANCOUVER"
- },
- {
    "objectCd": "GREL",
    "objectDsc": "GREEN LAKE"
  },
@@ -4149,7 +4145,7 @@
  },
  {
    "objectCd": "UBC",
-   "objectDsc": "UBC - VANCOUVER"
+   "objectDsc": "VANCOUVER (UBC)"
  },
  {
    "objectCd": "UCLT",
