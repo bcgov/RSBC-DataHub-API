@@ -5,6 +5,8 @@ import requests
 
 def application_accepted(**args) -> tuple:
     args['splunk_data'] = {"event": "application_accepted", "prohibition_number": args.get('prohibition_number')}
+    logging.info("this is from splunk function")
+    logging.info(args)
     return True, args
 
 

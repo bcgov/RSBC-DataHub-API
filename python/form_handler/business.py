@@ -3,6 +3,7 @@ import python.common.actions as actions
 import python.common.rsi_email as rsi_email
 import python.common.splunk_application_for_review as splunk
 import python.common.splunk as common_splunk
+import python.common.ride_actions as ride_actions
 
 
 def process_incoming_form() -> dict:
@@ -172,6 +173,7 @@ def process_incoming_form() -> dict:
             {"try": splunk.application_accepted, "fail": []},
             {"try": common_splunk.log_to_splunk, "fail": []},
             {"try": rsi_email.application_accepted, "fail": []},
+            {"try": ride_actions.app_accepted_event, "fail": []},
             {"try": middleware.is_applicant_ineligible_for_oral_review_but_requested_oral, "fail": [
                 # end of successful application process
             ]},

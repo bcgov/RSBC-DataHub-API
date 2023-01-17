@@ -689,6 +689,8 @@ def determine_current_datetime(**args) -> tuple:
     """
     tz = pytz.timezone('America/Vancouver')
     args['today_date'] = datetime.now(tz)
+    logging.info("this is from determine_current_datetime function")
+    logging.info(args)
     return True, args
 
 

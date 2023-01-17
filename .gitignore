@@ -10,3 +10,5 @@ node_modules/
 *.sqlite
 .nvm/
 trigger
+*.iml
+form.xml

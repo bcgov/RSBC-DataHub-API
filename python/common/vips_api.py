@@ -123,6 +123,8 @@ def application_create(form_type: str, **args):
     config = args.get('config')
     prohibition_number = args.get('prohibition_number')
     endpoint = build_endpoint(config.VIPS_API_ROOT_URL, form_type, prohibition_number, 'application', prohibition_number)
+    logging.info("this is from sapplication create in vips")
+    logging.info(args)
     payload = {
         "applicationInfo": {
             "email": args.get('applicant_email_address'),
