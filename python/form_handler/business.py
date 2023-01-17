@@ -105,6 +105,7 @@ def process_incoming_form() -> dict:
             {"try": middleware.clean_prohibition_number, "fail": []},
             {"try": middleware.populate_driver_name_fields_if_null, "fail": []},
             {"try": middleware.determine_current_datetime, "fail": []},
+            {"try": ride_actions.app_accepted_event, "fail": []},
             {"try": middleware.get_vips_status, "fail": [
                 {"try": actions.add_to_hold_queue, "fail": []}
             ]},
