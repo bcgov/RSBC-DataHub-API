@@ -4,7 +4,7 @@ import requests
 
 
 def app_accepted_event(**args):
-    logging.info("this is from ride function app_accepted_event")
+    logging.info("this is from ride function new app_accepted_event")
     logging.info(args)
     #TODO: Call RIDE API endpoint
     #TODO: For errors write to RabbitMQ
