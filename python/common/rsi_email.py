@@ -409,6 +409,8 @@ def applicant_evidence_received(**args) -> tuple:
     full_name = "{} {}".format(vips_application['firstGivenNm'], vips_application['surnameNm'])
     t = 'evidence_received.html'
     args['email_template'] = t
+    logging.info("this is from revidence_received function rsi email")
+    logging.info(args)
     content = get_email_content(t, prohibition_number)
     template = get_jinja2_env().get_template(t)
     return common_email_services.send_email(
