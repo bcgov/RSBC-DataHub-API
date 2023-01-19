@@ -227,8 +227,7 @@ def applicant_has_not_applied_previously(**args) -> tuple:
     error = 'this prohibition already has an application on file'
     logging.info(error)
     args['error_string'] = "An application to review this prohibition has already been submitted."
-    # return False, args
-    return True, args
+    return False, args
 
 
 def applicant_is_eligible_to_reapply(**args) -> tuple:

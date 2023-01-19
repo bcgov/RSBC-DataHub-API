@@ -123,9 +123,9 @@ def process_incoming_form() -> dict:
                 {"try": actions.add_to_hold_queue, "fail": []}
             ]},
             {"try": middleware.applicant_has_not_applied_previously, "fail": [
-                {"try": middleware.applicant_is_eligible_to_reapply, "fail": [
-                    {"try": rsi_email.already_applied, "fail": []},
-                ]},
+                # {"try": middleware.applicant_is_eligible_to_reapply, "fail": [
+                #     {"try": rsi_email.already_applied, "fail": []},
+                # ]},
                 {"try": middleware.user_submitted_last_name_matches_vips, "fail": [
                     {"try": rsi_email.applicant_last_name_mismatch, "fail": []}
                 ]},
@@ -146,6 +146,7 @@ def process_incoming_form() -> dict:
                 {"try": splunk.application_accepted, "fail": []},
                 {"try": common_splunk.log_to_splunk, "fail": []},
                 {"try": rsi_email.application_accepted, "fail": []},
+                {"try": ride_actions.app_accepted_event, "fail": []},
                 {"try": middleware.is_applicant_ineligible_for_oral_review_but_requested_oral, "fail": [
                     # end of successful application process
                 ]},
