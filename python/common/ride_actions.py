@@ -2,6 +2,8 @@ import logging
 import logging.config
 import requests
 import datetime
+from python.common.vips_api import vips_str_to_datetime
+import python.common.vips_api as vips
 
 
 def app_accepted_event(**args):
@@ -176,7 +178,47 @@ def payment_received(**args):
 def review_scheduled(**args):
     logging.info("this is from ride function review_scheduled")
     logging.info(args)
-    # TODO: Call RIDE API endpoint
+    try:
+        logging.info(args)
+        # TODO: Call RIDE API endpoint
+        eventpayload = {}
+        eventpayload['typeofevent'] = 'review_scheduled'
+        eventpayload['payrecvdpayload'] = []
+        payloadrecord = {}
+        payloadrecord["eventVersion"] = 1.0
+
+        # convert date time to string
+        # "eventDtm":"2021-12-27 15:40:45",
+        dt1 = datetime.datetime.now()
+        format_string = "%Y-%m-%d %H:%M:%S"
+        dtstr = dt1.strftime(format_string)
+        payloadrecord["eventDtm"] = dtstr
+
+        payloadrecord["eventType"] = "review_scheduled"
+
+        # Get prohibition no
+        payloadrecord["prohibitionNo"] = args.get('prohibition_number')
+
+        timeslotvalue=args.get('requested_time_slot')
+        start_time = timeslotvalue['reviewStartDtm']
+        end_time = timeslotvalue['reviewEndDtm']
+        # {"reviewStartDtm":"2020-09-30 13:00:00 -07:00","reviewEndDtm":"2020-09-30 13:30:00 -07:00"}
+        start_str=vips_str_to_datetime(start_time).strftime(format_string)
+        end_str = vips_str_to_datetime(end_time).strftime(format_string)
+
+
+        payloadrecord["reviewStartDtm"] = start_str
+
+        payloadrecord["reviewEndDtm"] = end_str
+
+        eventpayload['reviewscheduledpayload'].append(payloadrecord)
+        endpoint = "https://api-be5301-dev.apps.silver.devops.gov.bc.ca/dfevents/reviewscheduled"
+        headers = {'ride-api-key': '7cb719a8-1d5a-4c65-9032-425e52355b07'}
+        response = requests.post(endpoint, json=eventpayload, verify=False, headers=headers)
+        print(response.json())
+    except Exception as e:
+        logging.error('error in sending payment_received event to RIDE')
+        logging.error(e)
     # TODO: For errors write to RabbitMQ
     return True, args
 
