@@ -4,6 +4,7 @@ import requests
 import datetime
 from python.common.vips_api import vips_str_to_datetime
 import python.common.vips_api as vips
+import iso8601
 
 
 def app_accepted_event(**args):
@@ -82,7 +83,50 @@ def app_accepted_event(**args):
 def disclosure_sent(**args):
     logging.info("this is from ride function disclosure_sent")
     logging.info(args)
-    # TODO: Call RIDE API endpoint
+    try:
+        logging.info(args)
+        # TODO: Call RIDE API endpoint
+        eventpayload = {}
+        eventpayload['typeofevent'] = 'disclosure_sent'
+        eventpayload['disclosuresentpayload'] = []
+        payloadrecord = {}
+        payloadrecord["eventVersion"] = 1.0
+
+        # convert date time to string
+        dt1 = datetime.datetime.now()
+        format_string = "%Y-%m-%d %H:%M:%S"
+        dtstr = dt1.strftime(format_string)
+        payloadrecord["eventDtm"] = dtstr
+
+        payloadrecord["eventType"] = "disclosure_sent"
+
+        # Get prohibition no
+        payloadrecord["prohibitionNo"] = args.get('prohibition_number')
+        # payloadrecord["prohibitionNo"] = args['message']['prohibition_review']['form']['prohibition-information'][
+        #     'prohibition-number-clean']
+
+        payloadrecord["applicantNm"] = args.get('applicant_name')
+        payloadrecord["applicantEmail"] = args.get('applicant_email_address')
+
+        message = args.get('message')
+        # hold_hours = int(config.HOURS_TO_HOLD_BEFORE_DISCLOSURE)
+        # message['hold_until'] = (datetime.datetime.today() + datetime.timedelta(hours=hold_hours)).isoformat()
+        hold_until_val=""
+        if 'hold_until' not in message:
+            pass
+        else:
+            tmpval=iso8601.parse_date(message['hold_until'], "")
+            hold_until_val=tmpval.strftime(format_string)
+        payloadrecord["holdUntil"] = hold_until_val
+
+        eventpayload['disclosuresentpayload'].append(payloadrecord)
+        endpoint = "https://api-be5301-dev.apps.silver.devops.gov.bc.ca/dfevents/evidencesubmitted"
+        headers = {'ride-api-key': '7cb719a8-1d5a-4c65-9032-425e52355b07'}
+        response = requests.post(endpoint, json=eventpayload, verify=False, headers=headers)
+        print(response.json())
+    except Exception as e:
+        logging.error('error in sending disclosure_sent event to RIDE')
+        logging.error(e)
     # TODO: For errors write to RabbitMQ
     return True, args
 
@@ -100,11 +144,15 @@ def evidence_submitted(**args):
         payloadrecord["eventVersion"] = 1.0
 
         # convert date time to string
-        tvalue = args['message']['event_date_time']
-        tformat = "%Y-%m-%dT%H:%M:%S.%f"
-        tformatted = datetime.datetime.strptime(tvalue, tformat)
+        # tvalue = args['message']['event_date_time']
+        # tformat = "%Y-%m-%dT%H:%M:%S.%f"
+        # tformatted = datetime.datetime.strptime(tvalue, tformat)
+        # format_string = "%Y-%m-%d %H:%M:%S"
+        # dtstr = tformatted.strftime(format_string)
+        # payloadrecord["eventDtm"] = dtstr
+        dt1 = datetime.datetime.now()
         format_string = "%Y-%m-%d %H:%M:%S"
-        dtstr = tformatted.strftime(format_string)
+        dtstr = dt1.strftime(format_string)
         payloadrecord["eventDtm"] = dtstr
 
         payloadrecord["eventType"] = "evidence_submitted"
