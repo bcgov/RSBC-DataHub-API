@@ -120,7 +120,7 @@ def disclosure_sent(**args):
         payloadrecord["holdUntil"] = hold_until_val
 
         eventpayload['disclosuresentpayload'].append(payloadrecord)
-        endpoint = "https://api-be5301-dev.apps.silver.devops.gov.bc.ca/dfevents/evidencesubmitted"
+        endpoint = "https://api-be5301-dev.apps.silver.devops.gov.bc.ca/dfevents/disclosuresent"
         headers = {'ride-api-key': '7cb719a8-1d5a-4c65-9032-425e52355b07'}
         response = requests.post(endpoint, json=eventpayload, verify=False, headers=headers)
         print(response.json())
