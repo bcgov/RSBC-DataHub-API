@@ -186,6 +186,11 @@ def payment_received(**args):
         # logging.info(args)
         if len(args.keys()) == 0:
             return True, args
+        else:
+            tmpPayload=args.get('payload')
+            tmpRecpt=tmpPayload['receipt_number']
+            if tmpRecpt=='ABCD-1234':
+                return True, args
         payload = args.get('payload')
         # TODO: Call RIDE API endpoint
         eventpayload = {}
