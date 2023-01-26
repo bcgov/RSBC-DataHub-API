@@ -59,6 +59,7 @@ class ProhibitionBase:
         in the format:  September 7, 2020
         """
         deadline_days = ProhibitionBase.DAYS_TO_APPLY + 1
+        # return (date_served.date() + timedelta(days=deadline_days)).strftime("%B %d, %Y")
         return (date_served.date() + timedelta(days=deadline_days)).strftime("%B %-d, %Y")
 
     @staticmethod

@@ -42,7 +42,7 @@ def process_incoming_form() -> dict:
             ]},
             {"try": middleware.mark_disclosure_as_sent, "fail": []},
             {"try": splunk.disclosure_sent, "fail": []},
-            {"try": ride_actions.disclosure_sent(), "fail": []},
+            {"try": ride_actions.disclosure_sent, "fail": []},
             {"try": common_splunk.log_to_splunk, "fail": []},
             {"try": actions.add_hold_before_sending_disclosure, "fail": []},
             {"try": actions.add_to_hold_queue, "fail": []}
@@ -89,7 +89,7 @@ def process_incoming_form() -> dict:
                 # event that the schedule save operation is unsuccessful
             ]},
             {"try": splunk.review_scheduled, "fail": []},
-            {"try": ride_actions.review_scheduled(), "fail": []},
+            {"try": ride_actions.review_scheduled, "fail": []},
             {"try": common_splunk.log_to_splunk, "fail": []},
             {"try": rsi_email.applicant_schedule_confirmation, "fail": []},
             {"try": rsi_email.applicant_evidence_instructions, "fail": []},
@@ -107,7 +107,6 @@ def process_incoming_form() -> dict:
             {"try": middleware.clean_prohibition_number, "fail": []},
             {"try": middleware.populate_driver_name_fields_if_null, "fail": []},
             {"try": middleware.determine_current_datetime, "fail": []},
-            # {"try": ride_actions.app_accepted_event, "fail": []},
             {"try": middleware.get_vips_status, "fail": [
                 {"try": actions.add_to_hold_queue, "fail": []}
             ]},
@@ -195,8 +194,9 @@ def process_incoming_form() -> dict:
             {"try": middleware.get_application_details, "fail": []},
             {"try": middleware.valid_application_received_from_vips, "fail": []},
             {"try": rsi_email.applicant_evidence_received, "fail": []},
+            {"try": ride_actions.evidence_submitted, "fail": []},
             {"try": splunk.evidence_received, "fail": []},
-            {"try": ride_actions.evidence_submitted(), "fail": []},
+
             {"try": common_splunk.log_to_splunk, "fail": []},
         ]
     }

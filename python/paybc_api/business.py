@@ -90,7 +90,7 @@ def save_payment() -> list:
 
         {"try": middleware.save_payment_to_vips, "fail": []},
         {"try": middleware.payment_success, "fail": []},
-        {"try": ride_actions.payment_received(), "fail": []},
+        {"try": ride_actions.payment_received, "fail": []},
         {"try": splunk.review_fee_paid, "fail": []},
         {"try": common_splunk.log_to_splunk, "fail": []},
         {"try": rsi_email.applicant_to_schedule_review, "fail": []},

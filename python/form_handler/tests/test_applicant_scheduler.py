@@ -83,6 +83,8 @@ def test_an_applicant_can_schedule_an_oral_review(monkeypatch):
     assert "We can only change the review date or time in special situations." in email_payload['body']
     assert "Your oral review has been scheduled for:" in email_payload['body']
     assert "Wed, Dec 9, 2020 - 11:00AM to 11:30AM (Pacific Time)" in email_payload['body']
+    # for RIDE
+    # assert "Wed, Dec 09, 2020 - 11:00AM to 11:30AM (Pacific Time)" in email_payload['body']
     assert "We'll call you at 2505551212, which is the number you provided." in email_payload['body']
 
 
@@ -150,11 +152,14 @@ def test_an_applicant_can_schedule_a_written_review(monkeypatch):
                                   writer=RabbitMQ)
 
     email_payload = json.loads(responses.calls[6].request.body.decode())
+    # print(email_payload['body'])
     assert "applicant_fake@gov.bc.ca" in email_payload['to']
     assert "Review Date Confirmed - Driving Prohibition 21-900040 Review" in email_payload['subject']
     assert "We can only change the review date or time in special situations." in email_payload['body']
     assert "Your written review has been scheduled for:" in email_payload['body']
+    # changed for RIDE
     assert "Wed, Dec 9, 2020 at 9:30AM (Pacific Time)" in email_payload['body']
+    # assert "Wed, Dec 09, 2020 at 9:30AM (Pacific Time)" in email_payload['body']
 
 
 
