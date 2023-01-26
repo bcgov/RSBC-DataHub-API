@@ -11,7 +11,7 @@ def app_accepted_event(**args):
     try:
         logging.info("this is from ride function new app_accepted_event")
         logging.info(args)
-        if len(args.keys()==0):
+        if len(args.keys())==0:
             return True, args
         #TODO: Call RIDE API endpoint
         eventpayload = {}
@@ -87,7 +87,7 @@ def disclosure_sent(**args):
     logging.info(args)
     try:
         # logging.info(args)
-        if len(args.keys()==0):
+        if len(args.keys()) == 0:
             return True, args
         # TODO: Call RIDE API endpoint
         eventpayload = {}
@@ -140,7 +140,7 @@ def evidence_submitted(**args):
     try:
         # logging.info("this is from ride function new evidence_submitted")
         # logging.info(args)
-        if len(args.keys()==0):
+        if len(args.keys()) == 0:
             return True, args
         # TODO: Call RIDE API endpoint
         eventpayload = {}
@@ -184,7 +184,7 @@ def payment_received(**args):
     logging.info(args)
     try:
         # logging.info(args)
-        if len(args.keys()==0):
+        if len(args.keys()) == 0:
             return True, args
         payload = args.get('payload')
         # TODO: Call RIDE API endpoint
@@ -236,7 +236,7 @@ def review_scheduled(**args):
     logging.info(args)
     try:
         # logging.info(args)
-        if len(args.keys()==0):
+        if len(args.keys()) == 0:
             return True, args
         # TODO: Call RIDE API endpoint
         eventpayload = {}
