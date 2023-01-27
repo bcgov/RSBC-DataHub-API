@@ -528,5 +528,98 @@
         }
       }
     }
+  },
+  "icbc_submission": {
+    "allow_unknown": true,
+    "valid-queue": "DF.valid",
+    "invalid-queue": "DF.not-valid",
+    "cerberus_rules": {
+      "event_version": {
+        "type": "string",
+        "required": true        
+      },
+      "event_type": {
+        "type": "string",
+        "required": true        
+      },
+      "icbc_submission": {
+        "type": "dict",
+        "required": true,
+        "schema": {          
+          "dlNumber": {
+            "type": "string",
+            "required": true
+          }, 
+          "dlJurisdiction": {
+            "type": "string",
+            "required": true
+          },
+          "lastName": {
+            "type": "string",
+            "required": true
+          },
+          "firstName": {
+            "type": "string",
+            "required": true
+          },
+          "birthdate": {
+            "type": "string",
+            "required": true
+          },
+          "plateJurisdiction": {
+            "type": "string",
+            "required": true
+          },
+          "plateNumber": {
+            "type": "string",
+            "required": true
+          },
+          "pujCode": {
+            "type": "string",
+            "required": true
+          },
+          "nscNumber": {
+            "type": "string",
+            "required": true
+          },
+          "section": {
+            "type": "string",
+            "required": true
+          },
+          "violationLocation": {
+            "type": "string",
+            "required": true
+          },
+          "noticeNumber": {
+            "type": "string",
+            "required": true
+          },
+          "violationDate": {
+            "type": "string",
+            "required": true
+          },
+          "violationTime": {
+            "type": "string",
+            "required": true
+          },
+          "officerDetachment": {
+            "type": "string",
+            "required": true
+          },              
+          "officerNumber": {
+            "type": "string",
+            "required": true
+          },
+          "officerName": {
+            "type": "string",
+            "required": true
+          },
+          "pdf": {
+            "type": "string",
+            "required": true
+          }
+        }
+      }
+    }
   }
 }

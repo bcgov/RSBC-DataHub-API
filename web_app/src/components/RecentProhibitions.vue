@@ -6,11 +6,11 @@
       <div class="card-body text-left pb-1">
         <table class="table table-striped">
           <tbody>
-            <recent-prohibition-row v-for="(prohibition, index) in getAllEditedFormsNotPrinted"
+            <recent-prohibition-row v-for="(prohibition, index) in getAllEditedFormsNotPrinted()"
                                     :key="index"
-                                    :prohibition="prohibition">
+                                    :prohibition="prohibition">                                    
             </recent-prohibition-row>
-            <div class="text-muted small" v-if="getAllEditedFormsNotPrinted.length === 0">
+            <div class="text-muted small" v-if="getAllEditedFormsNotPrinted().length === 0">
               There are no recently created prohibitions that have not been printed
             </div>
           </tbody>
@@ -27,7 +27,21 @@ import {mapGetters} from 'vuex';
 export default {
   name: "RecentProhibitions",
   computed: {
-    ...mapGetters(["getAllEditedFormsNotPrinted"]),
+    //  ...mapGetters(["getAllEditedFormsNotPrinted"]),
+  },
+  methods: {
+    getAllEditedFormsNotPrinted(){
+      const state = this.$store.state
+      const edited_forms = [];
+      for (const form_type in state.forms) {
+          for (const form_id in state.forms[form_type]) {
+              if ("data" in state.forms[form_type][form_id] && ! state.forms[form_type][form_id].printed_timestamp) {
+                  edited_forms.push(state.forms[form_type][form_id])
+              }
+          }
+      }
+      return edited_forms;
+    }
   },
   components: {
     RecentProhibitionRow

@@ -1,0 +1,137 @@
+[
+    {
+      "code": "BGE",
+      "display_name": "BEIGE",
+      "colour_class": "beige"
+    },
+    {
+      "code": "BLK",
+      "display_name": "BLACK",
+      "colour_class": "black"
+    },
+    {
+      "code": "BLU",
+      "display_name": "BLUE",
+      "colour_class": "blue"
+    },
+    {
+      "code": "BRN",
+      "display_name": "BROWN",
+      "colour_class": "brown"
+    },
+    {
+      "code": "BRZ",
+      "display_name": "BRONZE",
+      "colour_class": "bronze"
+    },
+    {
+      "code": "BUR",
+      "display_name": "BURGUNDY",
+      "colour_class": "burgundy"
+    },
+    {
+      "code": "CPR",
+      "display_name": "COPPER",
+      "colour_class": "copper"
+    },
+    {
+      "code": "CRM",
+      "display_name": "CREAM/IVORY",
+      "colour_class": "ivory"
+    },
+    {
+      "code": "DBL",
+      "display_name": "DARK BLUE",
+      "colour_class": "darkblue"
+    },
+    {
+      "code": "DGR",
+      "display_name": "DARK GREEN",
+      "colour_class": "darkgreen"
+    },
+    {
+      "code": "GLD",
+      "display_name": "GOLD",
+      "colour_class": "gold"
+    },
+    {
+      "code": "GRN",
+      "display_name": "GREEN",
+      "colour_class": "green"
+    },
+    {
+      "code": "GRY",
+      "display_name": "GREY",
+      "colour_class": "grey"
+    },
+    {
+      "code": "LBL",
+      "display_name": "LIGHT BLUE",
+      "colour_class": "lightblue"
+    },
+    {
+      "code": "LGR",
+      "display_name": "LIGHT GREEN",
+      "colour_class": "lightgreen"
+    },
+    {
+      "code": "MRN",
+      "display_name": "MAROON",
+      "colour_class": "maroon"
+    },
+    {
+      "code": "ONG",
+      "display_name": "ORANGE",
+      "colour_class": "orange"
+    },
+    {
+      "code": "OTH",
+      "display_name": "OTHER",
+      "colour_class": "other"
+    },
+    {
+      "code": "PLE",
+      "display_name": "PURPLE",
+      "colour_class": "purple"
+    },
+    {
+      "code": "PNK",
+      "display_name": "PINK",
+      "colour_class": "pink"
+    },
+    {
+      "code": "PRI",
+      "display_name": "PRIMER",
+      "colour_class": "primer"
+    },
+    {
+      "code": "RED",
+      "display_name": "RED",
+      "colour_class": "red"
+    },
+    {
+      "code": "SIL",
+      "display_name": "SILVER",
+      "colour_class": "silver"
+    },
+    {
+      "code": "TAN",
+      "display_name": "TAN",
+      "colour_class": "tan"
+    },
+    {
+      "code": "TRQ",
+      "display_name": "TURQUOISE",
+      "colour_class": "turquoise"
+    },
+    {
+      "code": "WHI",
+      "display_name": "WHITE",
+      "colour_class": "white"
+    },
+    {
+      "code": "YEL",
+      "display_name": "YELLOW",
+      "colour_class": "yellow"
+    }
+  ]

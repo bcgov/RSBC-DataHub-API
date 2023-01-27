@@ -31,16 +31,21 @@ import {mapActions, mapGetters} from "vuex";
 import AdminUserRole from "@/components/AdminUserRole";
 import AddUserRole from "@/components/AddUserRole";
 
+import {fetchStaticLookupTables} from "../utils/calls"
+
 export default {
   name: "Admin",
   computed: {
-    ...mapGetters(['isUserAnAdmin', 'getAllUsers']),
+    getAllUsers(){
+        return this.$store.state.admin_users
+    },
+    ...mapGetters(['isUserAnAdmin']),
   },
-  methods: {
-    ...mapActions(['fetchStaticLookupTables'])
-  },
+  // methods: {
+  //   ...mapActions(['fetchStaticLookupTables'])
+  // },
   created() {
-    this.fetchStaticLookupTables({"resource": "users", "admin": true, "static": false})
+    fetchStaticLookupTables({"resource": "users", "admin": true, "static": false})
   },
   components: {
     AddUserRole,

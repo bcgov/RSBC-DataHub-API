@@ -5,6 +5,9 @@ import python.common.splunk_application_for_review as splunk
 import python.common.splunk as common_splunk
 import python.common.ride_actions as ride_actions
 
+import python.common.icbc_service as icbc_service
+import python.common.pdf_service as pdf_service
+
 
 def process_incoming_form() -> dict:
     """
@@ -198,5 +201,11 @@ def process_incoming_form() -> dict:
             {"try": splunk.evidence_received, "fail": []},
 
             {"try": common_splunk.log_to_splunk, "fail": []},
+        ],
+        "icbc_submission": [
+            {"try": pdf_service.generate_pdf, "fail":[]},
+            {"try": icbc_service.submit_to_icbc, "fail": [
+                {"try": actions.add_to_hold_queue, "fail": []}
+            ]},            
         ]
     }

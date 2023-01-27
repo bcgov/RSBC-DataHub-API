@@ -4,7 +4,7 @@
       <div class="input-group mb-3">
 
        <select class="form-control" id="username" v-model="newUser">
-          <option v-for="(user, id) in getAllUsers"
+          <option v-for="(user, id) in getAllUsers()"
                   :value="user"
                   :key="id">
             {{ user.username }}
@@ -22,6 +22,7 @@
 <script>
 
 import {mapActions, mapGetters} from "vuex";
+import {adminAddUserRole} from "@/utils/admin"
 
 export default {
   name: "AddUserRole",
@@ -32,13 +33,16 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isUserAnAdmin', 'getAllUsers']),
+    ...mapGetters(['isUserAnAdmin']),
   },
   methods: {
-    ...mapActions(['adminAddUserRole']),
+    getAllUsers(){
+        return this.$store.state.admin_users
+    },
+    // ...mapActions(['adminAddUserRole']),
     triggerAddUserRole() {
       this.showSpinner = true;
-      this.adminAddUserRole(this.newUser)
+      adminAddUserRole(this.newUser)
         .then( () => {
           this.showSpinner = false;
           this.newUser = {}

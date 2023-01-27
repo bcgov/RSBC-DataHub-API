@@ -1,0 +1,383 @@
+<template>
+    <div v-if="dataReady">
+
+        <div class="row outer_table_class-1" style="margin:0.5rem 0 0 0; line-height:0.25rem;">
+            <div class="text-left ml-3" style="font-size:7pt; width:100%;"><b>This Report is related to:</b></div>            
+        </div>
+
+        <div class="row outer_table_class" style="font-size:6pt; margin:0.2rem 0 0 0; padding:0rem;">
+
+            <table class="text-left" style="border:2px solid #151515; width:100%; line-height:0.5rem;">
+                
+                <tr style="height:0.01rem; line-height:0.01rem;">                    
+                    <td v-for="inx in Array(100)" :key="inx" class="border-0" style="width:1% !important;" />                                                                                   
+                </tr>
+
+<!-- <Side Title> -->
+                <tr class="spacer-high" style="color:#FFF; height:0.15rem;  line-height:0.15rem;"><td colspan="100">.</td></tr>
+                <tr style="height:0.1rem;  line-height:0.1rem; border-top:0px solid;">
+                    <th class="side-name" style="font-size:8pt; transform:rotate(-90deg) translate(-130px,-80px);" colspan="26">CHECK ALL APPLICABLE REASONS</th>                    
+                    <td class="" style="" colspan="74" />
+                </tr>
+
+<!-- <ROW-1> -->
+                <tr style="height:1rem;  line-height:1rem; border-top:0px solid;">                  
+                    <td class="" style="" colspan="4" />
+                    <td class="" style="" colspan="2">
+                        <check-box
+                            shiftBox="16px,-3px"
+                            shiftmark="-1px,-4px"                                   
+                            checkColor="#2134AB"
+                            boxSize="1.5em" 
+                            :check="true"
+                            checkFontSize="15pt"
+                            text="" />
+                    </td>                    
+                    <th class="font-size-8" style="" colspan="4">IRP</th>
+                    <td class="font-size-8" style="" colspan="90">This Vehicle Impoundment is a result of an Immediate Roadside Prohibition (explain in incident details – refer to row 23/24 )</td>                    
+                </tr>               
+                
+<!-- <LINE> -->
+                <tr style="height:0.35rem; line-height:0.35rem;">
+                    <td colspan="4"/>
+                    <td colspan="95" style="border-bottom:1px solid #151515;"/>
+                    <td colspan="1"/>
+                </tr>
+                <tr style="color:#FFF; height:0.5rem; line-height:0.5rem;"><td colspan="100">.</td></tr>
+
+<!-- <ROW-2> -->
+                <tr style="height:1.5rem;  line-height:1rem; border-top:0px solid;">                  
+                    <td class="" style="" colspan="4" />
+                    <td class="" style="" colspan="2">
+                        <check-box
+                            shiftBox="16px,-3px"
+                            shiftmark="-1px,-4px"                                   
+                            checkColor="#2134AB"
+                            boxSize="1.5em" 
+                            :check="true"
+                            checkFontSize="15pt"
+                            text="" />
+                    </td>
+                    <th class="font-size-8" style="" colspan="15">Excessive Speed</th>
+                    <td class="font-size-8" style="" colspan="7">Speed Limit</td>  
+                    <td class="answer2" style="border:1px solid #656565;" colspan="20">100 KM/H</td>
+                    <td class="" style="" colspan="7" />
+                    <td class="font-size-8" style="" colspan="9">Vehicle Speed</td>  
+                    <td class="answer2" style="border:1px solid #656565;" colspan="20">200 KM/H</td>
+                    <td class="" style="" colspan="16" />
+                </tr>
+                <tr style="color:#FFF; height:0.25rem; line-height:0.25rem;"><td colspan="100">.</td></tr>
+
+<!-- <ROW-3> -->
+                <tr style="height:1rem;  line-height:1rem; border-top:0px solid;">                  
+                    <td class="" style="" colspan="4" />
+                    <td class="font-size-8" style="" colspan="17">Vehicle speed estimated by:</td>
+                    <td class="" style="" colspan="2">
+                        <check-box
+                            shiftBox="16px,-3px"
+                            shiftmark="-1px,-4px"                                   
+                            checkColor="#2134AB"
+                            boxSize="1.5em" 
+                            :check="true"
+                            checkFontSize="15pt"
+                            text="" />
+                    </td>
+                    <td class="font-size-8" style="" colspan="8">Visual</td>
+                    <td class="" style="" colspan="2">
+                        <check-box
+                            shiftBox="16px,-3px"
+                            shiftmark="-1px,-4px"                                   
+                            checkColor="#2134AB"
+                            boxSize="1.5em" 
+                            :check="true"
+                            checkFontSize="15pt"
+                            text="" />
+                    </td>
+                    <td class="font-size-8" style="" colspan="8">Pacing</td>
+                    <td class="" style="" colspan="59" />
+                </tr>
+                <tr style="color:#FFF; height:0.25rem; line-height:0.25rem;"><td colspan="100">.</td></tr>
+<!-- <ROW-4> -->
+                <tr style="height:1rem;  line-height:1rem; border-top:0px solid;">                  
+                    <td class="" style="" colspan="4" />
+                    <td class="font-size-8" style="" colspan="17">Vehicle speed confirmed by:</td>
+                    <td class="" style="" colspan="2">
+                        <check-box
+                            shiftBox="16px,-3px"
+                            shiftmark="-1px,-4px"                                   
+                            checkColor="#2134AB"
+                            boxSize="1.5em" 
+                            :check="true"
+                            checkFontSize="15pt"
+                            text="" />
+                    </td>
+                    <td class="font-size-8" style="" colspan="8">Laser</td>
+                    <td class="" style="" colspan="2">
+                        <check-box
+                            shiftBox="16px,-3px"
+                            shiftmark="-1px,-4px"                                   
+                            checkColor="#2134AB"
+                            boxSize="1.5em" 
+                            :check="true"
+                            checkFontSize="15pt"
+                            text="" />
+                    </td>
+                    <td class="font-size-8" style="" colspan="8">Radar</td>
+                    <td class="" style="" colspan="2">
+                        <check-box
+                            shiftBox="16px,-3px"
+                            shiftmark="-1px,-4px"                                   
+                            checkColor="#2134AB"
+                            boxSize="1.5em" 
+                            :check="true"
+                            checkFontSize="15pt"
+                            text="" />
+                    </td>
+                    <td class="font-size-8" style="" colspan="57">Other <b>(explain in incident details – refer to row 23/24)</b></td>
+                </tr>
+                <tr style="color:#FFF; height:0.25rem; line-height:0.25rem;"><td colspan="100">.</td></tr> 
+
+<!-- <LINE-2> -->
+                <tr style="height:0.35rem; line-height:0.35rem;">
+                    <td colspan="4"/>
+                    <td colspan="95" style="border-bottom:1px solid #151515;"/>
+                    <td colspan="1"/>
+                </tr>
+                <tr style="color:#FFF; height:0.15rem; line-height:0.15rem;"><td colspan="100">.</td></tr>
+
+<!-- <ROW-5> -->
+                <tr style="height:1rem;  line-height:1rem; border-top:0px solid;">                  
+                    <td class="" style="" colspan="4" />
+                    <th class="font-size-8" style="" colspan="96">For items 16 through 22 below – explain in incident details – refer to row 23/24</th>
+                </tr>
+                <tr style="color:#FFF; height:0.15rem; line-height:0.15rem;"><td colspan="100">.</td></tr>
+
+<!-- <ROW-6> -->
+                <tr style="height:1rem;  line-height:1rem; border-top:0px solid;">                  
+                    <td class="" style="" colspan="4" />
+                    <td class="" style="" colspan="2">
+                        <check-box
+                            shiftBox="16px,-3px"
+                            shiftmark="-1px,-4px"                                   
+                            checkColor="#2134AB"
+                            boxSize="1.5em" 
+                            :check="true"
+                            checkFontSize="15pt"
+                            text="" />
+                    </td>
+                    <th class="font-size-7" style="" colspan="94">Prohibited Driver</th>
+                </tr>
+                <tr style="color:#FFF; height:0.25rem; line-height:0.25rem;"><td colspan="100">.</td></tr>
+<!-- <ROW-7> -->
+                <tr style="height:1rem;  line-height:1rem; border-top:0px solid;">                  
+                    <td class="" style="" colspan="4" />
+                    <td class="" style="" colspan="2">
+                        <check-box
+                            shiftBox="16px,-3px"
+                            shiftmark="-1px,-4px"                                   
+                            checkColor="#2134AB"
+                            boxSize="1.5em" 
+                            :check="true"
+                            checkFontSize="15pt"
+                            text="" />
+                    </td>
+                    <th class="font-size-7" style="" colspan="94">Suspended Driver</th>
+                </tr>
+                <tr style="color:#FFF; height:0.25rem; line-height:0.25rem;"><td colspan="100">.</td></tr>
+<!-- <ROW-8> -->
+                <tr style="height:1rem;  line-height:1rem; border-top:0px solid;">                  
+                    <td class="" style="" colspan="4" />
+                    <td class="" style="" colspan="2">
+                        <check-box
+                            shiftBox="16px,-3px"
+                            shiftmark="-1px,-4px"                                   
+                            checkColor="#2134AB"
+                            boxSize="1.5em" 
+                            :check="true"
+                            checkFontSize="15pt"
+                            text="" />
+                    </td>
+                    <th class="font-size-7" style="" colspan="94">Street Racing</th>
+                </tr>
+                <tr style="color:#FFF; height:0.25rem; line-height:0.25rem;"><td colspan="100">.</td></tr>
+<!-- <ROW-9> -->
+                <tr style="height:1rem;  line-height:1rem; border-top:0px solid;">                  
+                    <td class="" style="" colspan="4" />
+                    <td class="" style="" colspan="2">
+                        <check-box
+                            shiftBox="16px,-3px"
+                            shiftmark="-1px,-4px"                                   
+                            checkColor="#2134AB"
+                            boxSize="1.5em" 
+                            :check="true"
+                            checkFontSize="15pt"
+                            text="" />
+                    </td>
+                    <th class="font-size-7" style="" colspan="94">Stunt Driving</th>
+                </tr>
+                <tr style="color:#FFF; height:0.25rem; line-height:0.25rem;"><td colspan="100">.</td></tr>
+<!-- <ROW-10> -->
+                <tr style="height:1rem;  line-height:1rem; border-top:0px solid;">                  
+                    <td class="" style="" colspan="4" />
+                    <td class="" style="" colspan="2">
+                        <check-box
+                            shiftBox="16px,-3px"
+                            shiftmark="-1px,-4px"                                   
+                            checkColor="#2134AB"
+                            boxSize="1.5em" 
+                            :check="true"
+                            checkFontSize="15pt"
+                            text="" />
+                    </td>
+                    <th class="font-size-7" style="" colspan="94">Motorcycle – contrary to seating</th>
+                </tr>
+                <tr style="color:#FFF; height:0.25rem; line-height:0.25rem;"><td colspan="100">.</td></tr>
+<!-- <ROW-11> -->
+                <tr style="height:1rem;  line-height:1rem; border-top:0px solid;">                  
+                    <td class="" style="" colspan="4" />
+                    <td class="" style="" colspan="2">
+                        <check-box
+                            shiftBox="16px,-3px"
+                            shiftmark="-1px,-4px"                                   
+                            checkColor="#2134AB"
+                            boxSize="1.5em" 
+                            :check="true"
+                            checkFontSize="15pt"
+                            text="" />
+                    </td>
+                    <th class="font-size-7" style="" colspan="94">Motorcycle – contrary to restrictions</th>
+                </tr>
+                <tr style="color:#FFF; height:0.25rem; line-height:0.25rem;"><td colspan="100">.</td></tr>
+<!-- <ROW-12> -->
+                <tr style="height:1rem;  line-height:1rem; border-top:0px solid;">                  
+                    <td class="" style="" colspan="4" />
+                    <td class="" style="" colspan="2">
+                        <check-box
+                            shiftBox="16px,-3px"
+                            shiftmark="-1px,-4px"                                   
+                            checkColor="#2134AB"
+                            boxSize="1.5em" 
+                            :check="true"
+                            checkFontSize="15pt"
+                            text="" />
+                    </td>
+                    <th class="font-size-7" style="" colspan="94">Unlicensed Driver (UL) – VI Flag on Driving record</th>
+                </tr>
+                <tr style="color:#FFF; height:0.25rem; line-height:0.25rem;"><td colspan="100">.</td></tr>
+            
+
+            </table>
+        </div>
+    </div>           
+</template>     
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator';
+
+
+import CheckBox from "../../pdfUtil/CheckBox.vue";
+
+@Component({
+    components:{       
+        CheckBox           
+    }
+})
+export default class FormRtsTable3 extends Vue {
+
+    // @Prop({required:true})
+    // result!: form20DataInfoType;
+
+    dataReady = false;
+
+
+    mounted(){
+        this.dataReady = false;
+        // this.extractInfo();
+        this.dataReady = true;
+    }
+
+    // public extractInfo(){
+
+    //     if (this.result.withdrawingLawyerName == 'Other'){
+    //         this.lawyerName = this.result.withdrawingLawyerNameOther;
+    //     } else {
+    //         this.lawyerName = this.result.withdrawingLawyerName;
+    //     }
+
+    //     const index = this.result.objectingParties.indexOf('Other')
+
+    //     if (index != -1){
+
+    //         const partiesList = this.result.objectingParties.splice(index, 1);
+    //         partiesList.push(this.result.objectingPartiesOther);
+    //         this.parties = partiesList.join(', ');
+
+    //     } else {
+    //         this.parties = this.result.objectingParties.join(', ');
+    //     }     
+           
+    // }
+
+    
+}
+
+</script>
+
+<style scoped>
+
+.answer2 {
+    color: rgb(3, 19, 165);
+    font-size: 10pt;
+    font-weight: 600;
+    padding-left:0.25rem;
+}
+
+.font-size-6{
+    font-size: 6pt !important;
+}
+
+.font-size-8{
+    font-size: 8pt !important;
+}
+
+.font-size-7{
+    font-size: 7pt !important;
+}
+.font-size-7-2{
+    font-size: 7.2pt !important;
+}
+
+.side-name{
+    transform:rotate(-90deg) translate(-140px,-97px) !important;
+}
+
+@media print {
+    .side-name{
+        transform:rotate(-90deg) translate(-140px,-97px) !important;
+    }
+}
+
+
+
+.spacer-low{
+    line-height:0.05rem !important;
+    font-size: 1pt !important;
+    height: 0.01rem !important;
+}
+
+.spacer-high{
+    line-height:0.15rem !important;
+    font-size: 1pt !important;
+    height: 0.15rem !important;
+}
+
+.outer_table_class-1{
+    margin: 0.5rem 0 0 0 !important;
+    padding: 0 0.2rem !important;
+}
+
+.outer_table_class{
+    margin: 0.25rem 0 0 0 !important;
+    padding: 0 0.2rem !important;
+}
+
+</style>

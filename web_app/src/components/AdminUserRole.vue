@@ -24,7 +24,7 @@
 
 import {mapActions, mapGetters} from "vuex";
 import moment from 'moment-timezone'
-
+import {adminApproveUserRole, adminDeleteUserRole} from "@/utils/admin"
 export default {
   name: "AdminUserRole",
   data() {
@@ -46,7 +46,10 @@ export default {
       }
   },
   computed: {
-    ...mapGetters(['isUserAnAdmin', 'getAllUsers']),
+    ...mapGetters([
+      'isUserAnAdmin', 
+    // 'getAllUsers'
+    ]),
     isApproved() {
       return this.user.approved_dt
     },
@@ -55,10 +58,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['adminApproveUserRole', 'adminDeleteUserRole']),
+    // ...mapActions([, 'adminDeleteUserRole']),
     triggerApproveUserRole() {
       this.approveSpinner = true;
-      this.adminApproveUserRole(this.user)
+      adminApproveUserRole(this.user)
         .then( () => {
           this.approveSpinner = false;
         })
@@ -72,7 +75,7 @@ export default {
         user_guid: this.user.user_guid,
         role_name: this.user.role_name
       }
-      this.adminDeleteUserRole(payload)
+      adminDeleteUserRole(payload)
         .then( () => {
           this.deleteSpinner = false;
         })

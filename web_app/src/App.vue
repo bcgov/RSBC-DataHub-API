@@ -8,24 +8,24 @@
             <a :href="`${publicPath}`" id="home"><img width="300px" :src="`${publicPath}assets/BCID_RoadSafetyBC_logo_transparent.png`" ></a>
             <div class="d-flex align-items-end flex-column">
               <div class="font-weight-bold text-warning">
-                PILOT <span class="text-light small" id="app-version">{{ getAppVersion }}</span>
+                PILOT <span class="text-light small" id="app-version">{{ getAppVersion() }}</span>
               </div>
 
               <div class="mt-auto small">
                 <router-link to="/admin" v-if="isUserAnAdmin && isUserAnAdmin" class="text-white font-weight-bold" id="admin">
                   <span>Admin</span>
                 </router-link>
-                {{ getKeycloakUsername }}
+                {{ getKeycloakUsernameInfo }}
                 <div v-if="isUserAuthenticated" class="btn btn-light btn-sm ml-3" @click="$store.state.keycloak.logoutFn()">Logout</div>
               </div>
             </div>
           </div>
 
         </div>
-        <not-logged-in-banner v-if="isDisplayNotLoggedInBanner"></not-logged-in-banner>
+        <not-logged-in-banner v-if="isDisplayNotLoggedInBannerInfo"></not-logged-in-banner>
         <update-available></update-available>
-        <div class="card-body">
-          <offline-banner v-if="! $store.state.isOnline"></offline-banner>
+        <div id="router-container" class="card-body">
+          <offline-banner v-if="! $store.state.Common.isOnline"></offline-banner>
           <router-view></router-view>
           <debug-component></debug-component>
         </div>
@@ -43,20 +43,29 @@ import NotLoggedInBanner from "@/components/NotLoggedInBanner";
 import OfflineBanner from '@/components/OfflineBanner'
 import DebugComponent from "@/components/debugComponent";
 
+import {getKeycloakUsername} from "@/utils/auth"
+import {isDisplayNotLoggedInBanner} from "@/utils/display"
+
 export default {
   name: 'App',
   components: {DebugComponent, NotLoggedInBanner, OfflineBanner, UpdateAvailable},
   computed: {
+    getKeycloakUsernameInfo(){
+      return getKeycloakUsername()
+    },
+    isDisplayNotLoggedInBannerInfo(){
+      return isDisplayNotLoggedInBanner()
+    },
     ...mapGetters([
-        'getEnvironment',
-        'getAppVersion',
-        "getKeycloakUsername",
+        // 'getEnvironment',
+        // 'getAppVersion',
+        // "getKeycloakUsername",
         "isUserAnAdmin",
         "isUserAuthenticated",
-        "isDisplayNotLoggedInBanner"
+        // "isDisplayNotLoggedInBanner"
     ]),
     primaryContentClass() {
-      const env = this.getEnvironment;
+      const env = this.$store.state.Common.configuration.environment //this.getEnvironment;
       const contentClass = {
         "dev": 'dev-banner',
         "test": 'test-banner',
@@ -69,7 +78,12 @@ export default {
     return {
       publicPath: process.env.BASE_URL
     }
-  }
+  },
+  methods: {
+    getAppVersion(){
+      return this.$store.state.Common.version
+    }
+  } 
 
 }
 </script>

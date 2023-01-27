@@ -13,3 +13,7 @@ trigger
 *.iml
 form.xml
 appenv
+env/
+local.sh
+local-rabbitmq-docker.yml
+appenv

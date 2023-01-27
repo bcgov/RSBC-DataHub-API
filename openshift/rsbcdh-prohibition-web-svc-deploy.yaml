@@ -20,6 +20,8 @@ parameters:
 - name: KEYCLOAK_CLIENT_ID
 - name: FLASK_BASIC_AUTH_USER
 - name: FLASK_BASIC_AUTH_PASS
+- name: INGESTOR_URL
+- name: PDF_SERVICE_URL
 - name: LOG_LEVEL
   value: 'INFO'
 - name: URL_SUFFIX
@@ -163,6 +165,16 @@ objects:
               value: ${PHASE}
             - name: AUTHLIB_INSECURE_TRANSPORT
               value: "True"
+            - name: INGESTOR_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: ingestor-url
+            - name: PDF_SERVICE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: pdf-service-url
           resources:
             limits:
               cpu: 80m

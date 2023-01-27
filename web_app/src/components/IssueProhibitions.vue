@@ -30,7 +30,7 @@ export default {
   },
   computed: {
      allForms() {
-       return this.$store.getters.getAllAvailableForms;
+        return this.$store.state.form_schemas.forms;
      }
   },
   components: {
