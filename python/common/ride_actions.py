@@ -5,9 +5,12 @@ import datetime
 from python.common.vips_api import vips_str_to_datetime
 import python.common.vips_api as vips
 import iso8601
+from python.common.config import Config
 
+ride_url=Config.RIDE_API_URL
+ride_key=Config.RIDE_API_KEY
 
-def app_accepted_event(**args):
+def app_accepted_event(**args):    
     try:
         logging.info("this is from ride function new app_accepted_event")
         logging.info(args)
@@ -69,8 +72,8 @@ def app_accepted_event(**args):
         payloadrecord["applicantDtSigned"] = args['message']['prohibition_review']['form']['consent-and-submission']['date-signed']
 
         eventpayload['appacceptedpayload'].append(payloadrecord)
-        endpoint = "https://api-be5301-dev.apps.silver.devops.gov.bc.ca/dfevents/appaccepted"
-        headers = {'ride-api-key': '7cb719a8-1d5a-4c65-9032-425e52355b07'}
+        endpoint = f"{ride_url}/dfevents/appaccepted"
+        headers = {'ride-api-key': ride_key}
         response = requests.post(endpoint, json=eventpayload, verify=False,headers=headers)
         print(response.json())
     except Exception as e:
@@ -123,9 +126,9 @@ def disclosure_sent(**args):
             hold_until_val=tmpval.strftime(format_string)
         payloadrecord["holdUntil"] = hold_until_val
 
-        eventpayload['disclosuresentpayload'].append(payloadrecord)
-        endpoint = "https://api-be5301-dev.apps.silver.devops.gov.bc.ca/dfevents/disclosuresent"
-        headers = {'ride-api-key': '7cb719a8-1d5a-4c65-9032-425e52355b07'}
+        eventpayload['disclosuresentpayload'].append(payloadrecord)        
+        endpoint = f"{ride_url}/dfevents/disclosuresent"
+        headers = {'ride-api-key': ride_key}
         response = requests.post(endpoint, json=eventpayload, verify=False, headers=headers)
         print(response.json())
     except Exception as e:
@@ -169,8 +172,8 @@ def evidence_submitted(**args):
         #     'prohibition-number-clean']
 
         eventpayload['evidencesubmittedpayload'].append(payloadrecord)
-        endpoint = "https://api-be5301-dev.apps.silver.devops.gov.bc.ca/dfevents/evidencesubmitted"
-        headers = {'ride-api-key': '7cb719a8-1d5a-4c65-9032-425e52355b07'}
+        endpoint = f"{ride_url}/dfevents/evidencesubmitted"
+        headers = {'ride-api-key': ride_key}
         response = requests.post(endpoint, json=eventpayload, verify=False, headers=headers)
         print(response.json())
     except Exception as e:
@@ -226,8 +229,8 @@ def payment_received(**args):
         payloadrecord["receiptDtm"] = receipt_datetime_object.strftime(format_string)
 
         eventpayload['payrecvdpayload'].append(payloadrecord)
-        endpoint = "https://api-be5301-dev.apps.silver.devops.gov.bc.ca/dfevents/paymentreceived"
-        headers = {'ride-api-key': '7cb719a8-1d5a-4c65-9032-425e52355b07'}
+        endpoint = f"{ride_url}/dfevents/paymentreceived"
+        headers = {'ride-api-key': ride_key}
         response = requests.post(endpoint, json=eventpayload, verify=False, headers=headers)
         print(response.json())
     except Exception as e:
@@ -275,8 +278,8 @@ def review_scheduled(**args):
         payloadrecord["reviewEndDtm"] = end_str
 
         eventpayload['reviewscheduledpayload'].append(payloadrecord)
-        endpoint = "https://api-be5301-dev.apps.silver.devops.gov.bc.ca/dfevents/reviewscheduled"
-        headers = {'ride-api-key': '7cb719a8-1d5a-4c65-9032-425e52355b07'}
+        endpoint = f"{ride_url}/dfevents/reviewscheduled"
+        headers = {'ride-api-key': ride_key}
         response = requests.post(endpoint, json=eventpayload, verify=False, headers=headers)
         print(response.json())
     except Exception as e:

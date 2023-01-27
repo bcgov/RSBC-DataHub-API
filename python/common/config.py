@@ -27,6 +27,11 @@ class Config:
     ADMIN_EMAIL_ADDRESS                 = os.getenv('ADMIN_EMAIL_ADDRESS')
     REPLY_EMAIL_ADDRESS                 = os.getenv('REPLY_EMAIL_ADDRESS', 'do-not-reply-rsi@gov.bc.ca')
 
+
+    # RIDE Details
+    RIDE_API_URL                         = os.getenv('RIDE_API_URL', 'http://localhost')
+    RIDE_API_KEY                         = os.getenv('RIDE_API_KEY', 'http://localhost')
+
     # comma separated list of email addresses to receive a bcc of all outgoing emails
     BCC_EMAIL_ADDRESSES                 = os.getenv('BCC_EMAIL_ADDRESSES', 'fake1@gov.bc.ca, fake2@gov.bc.ca')
 
