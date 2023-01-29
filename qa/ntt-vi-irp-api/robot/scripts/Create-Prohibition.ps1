@@ -143,8 +143,6 @@ else {
     $StatusCode, $Response = Create-Prohibition -ServerUri ${ServerUri} -Environment ${Environment} -ProhibitionType ${ProhibitionType} -TemplateFile ${TemplateFile} 
 }
 
-Write-Host ${Response}
-
 if (${StatusCode} -ne 200) {
     if (${Verbose}) {
         Write-Host "HTTP ${StatusCode}: unsuccessful."
@@ -155,3 +153,5 @@ if (${StatusCode} -ne 200) {
 if (${Verbose}) {
     Write-Host "HTTP 200: successful."
 }
+
+return ${Response}

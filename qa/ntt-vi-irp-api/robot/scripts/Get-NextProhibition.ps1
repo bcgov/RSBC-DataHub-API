@@ -1,4 +1,4 @@
-# PowerShell script to iterate the DF VI-IRP API, looking for free record numbers.
+# PowerShell script to iterate the DF VI-IRP API, looking for free prohibition numbers.
 #
 # Because VIPS records are not assigned in order, developers and testers create test records
 # with any available number. This makes it impossible to get the next available record number
@@ -18,20 +18,20 @@
 # This script has named arguments. You can use the names, or just call them in order.
 #
 # -NUMBER_TYPE <ADP|IRP|UL|IMP|NUMBER>: either a record type or record number
-# -SPECIFIED_NUMBER <NUMBER>: the first record number to check before iterating.
-# -ENVIRONMENT <DEV|TEST>
+# -SPECIFIED_NUMBER [<NUMBER>:] the first record number to check before iterating.
+# -ENVIRONMENT [<DEV|TEST>]
 #
 # Example:
 #
-#   > .\get-next-available-vips-number.ps1 -number_type adp -specificed_number 00123456 -environment dev
+#   > .\Get-NextProhibition.ps1 -number_type adp -specificed_number 00123456 -environment dev
 #
 # You can also call this script from the PowerShell prompt in four different ways without
 # named arguments:
 #
 # 1) With a record number to check. Example:
 #
-#    > .\get-next-available-vips-number.ps1 <RECORD_NUMBER>
-#    > .\get-next-available-vips-number.ps1 00123456
+#    > .\Get-NextProhibition.ps1 <RECORD_NUMBER>
+#    > .\Get-NextProhibition.ps1 00123456
 #
 #    The script will iterate the number in the first parameter until it finds a free record number.
 #    The first found record number is stored in a memory file in your home folder:
@@ -39,7 +39,7 @@
 #
 # 2) With no record number. Example:
 #
-#    > .\get-next-available-vips-number.ps1
+#    > .\Get-NextProhibition.ps1
 #
 #    The script will get the last found record number from the memory file and check to see if it
 #    is still free. If it's no longer free, it will iterate until a free number is found. The
@@ -47,8 +47,8 @@
 #
 # 3) With a record type and a record number. Example:
 #
-#    > .\get-next-available-vips-number.ps1 [ADP|IRP|UL|IMP] <RECORD_NUMBER>
-#    > .\get-next-available-vips-number.ps1 adp 00123456
+#    > .\Get-NextProhibition.ps1 [ADP|IRP|UL|IMP] <RECORD_NUMBER>
+#    > .\Get-NextProhibition.ps1 adp 00123456
 #
 #    The script will check that the number sequence is correct for a record type (e.g. ADP numbers
 #    start with '00') and will store the first found ADP record number in a memory file.
@@ -56,8 +56,8 @@
 #
 # 4) With a record type and no record number. Example:
 #
-#    > .\get-next-available-vips-number.ps1 [ADP|IRP|UL|IMP]
-#    > .\get-next-available-vips-number.ps1 adp
+#    > .\Get-NextProhibition.ps1 [ADP|IRP|UL|IMP]
+#    > .\Get-NextProhibition.ps1 adp
 #
 #    The script will get the last found record number from the memory file and check to see if it is
 #    still available. If not, it will iterate the number until a new record number is found.

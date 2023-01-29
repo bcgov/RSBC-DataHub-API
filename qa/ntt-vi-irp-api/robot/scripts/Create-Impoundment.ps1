@@ -11,23 +11,11 @@ The URI for the server. If omitted, will default to the DEV environment.
 .PARAMETER Environment
 The OpenShift environment to use: either DEV or TEST. If omitted, will default to the DEV environment.
 
-.PARAMETER PdfBase64
-A base64-encoded string from a PDF. If omitted, a small placeholder PDF will be used instead.
-
-.PARAMETER DocumentId
-An explicit document id to use for creation. If omitted, the next available document number will be used.
-
-.PARAMETER DocumentType
-The type of document to create.
-
-.PARAMETER NoticeType
-The type of notice to use when creating the document (ADP, IRP, UL, IMP).
-
 .EXAMPLE
 PS> .\Create-Impoundment.ps1
 
 .EXAMPLE
-PS> .\Create-Impoundment.ps1 -noticetype imp -environment dev -verbose
+PS> .\Create-Impoundment.ps1 -environment dev -verbose
 #>
 
 param(

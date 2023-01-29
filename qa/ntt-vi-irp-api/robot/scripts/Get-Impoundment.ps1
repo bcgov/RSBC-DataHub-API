@@ -101,9 +101,6 @@ else {
     $StatusCode, $Response = Get-Impoundment -ServerUri ${ServerUri} -Environment ${Environment} -ImpoundmentNumber ${ImpoundmentNumber}
 }
 
-
-Write-Host ${Response}
-
 if (${StatusCode} -ne 200) {
     if (${Verbose}) {
         Write-Host "HTTP ${StatusCode}: unsuccessful."
@@ -115,10 +112,4 @@ if (${Verbose}) {
     Write-Host "HTTP 200: successful."
 }
 
-
-# if (${Format}){
-#     $Response.Content | jq
-# }
-# else {
-#     $Response.Content
-# }
+return ${Response}

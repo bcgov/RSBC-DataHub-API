@@ -101,9 +101,6 @@ else {
     $StatusCode, $Response = Get-Prohibition -ServerUri ${ServerUri} -Environment ${Environment} -ProhibitionNumber ${ProhibitionNumber}
 }
 
-
-Write-Host ${Response}
-
 if (${StatusCode} -ne 200) {
     if (${Verbose}) {
         Write-Host "HTTP ${StatusCode}: unsuccessful."
@@ -115,10 +112,11 @@ if (${Verbose}) {
     Write-Host "HTTP 200: successful."
 }
 
-
 # if (${Format}){
 #     $Response.Content | jq
 # }
 # else {
 #     $Response.Content
 # }
+
+return ${Response}

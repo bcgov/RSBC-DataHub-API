@@ -40,7 +40,26 @@
 # FOLLOW DF VI-IRP API POD LOGS:
 # oc --namespace=c220ad-dev logs svc/digitalforms-viirp-api-svc --follow
 # oc --namespace=c220ad-test logs svc/digitalforms-viirp-api-svc --follow
+#
+# API AUTHENTICATION
+# ====++++==========
+#
+## PowerShell directly from DFAPI pod
+# $USERNAME64 = oc --namespace=c220ad-dev get secret digitalforms-api -o jsonpath="{.data.DIGITALFORMS_BASICAUTH_USER}"
+# $PASSWORD64 = oc --namespace=c220ad-dev get secret digitalforms-api -o jsonpath="{.data.DIGITALFORMS_BASICAUTH_PASSWORD}"
+# $USERNAME   = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String(${USERNAME64}))
+# $PASSWORD   = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String(${PASSWORD64}))
 
+## Bash from DFAPI pod:
+# DFAPI_USERNAME=$(oc --namespace=c220ad-dev get secret digitalforms-api -o jsonpath="{.data.DIGITALFORMS_BASICAUTH_USER}" | base64 --decode)
+# DFAPI_PASSWORD=$(oc --namespace=c220ad-dev get secret digitalforms-api -o jsonpath="{.data.DIGITALFORMS_BASICAUTH_PASSWORD}" | base64 --decode)
+# echo ${DFAPI_USERNAME}:${DFAPI_PASSWORD}
+
+## Bash from environment variables in DF pod DEV
+# oc --namespace=be78d6-dev exec dc/rsbc-dh-form-handler-dev -- sh -c 'env' | grep VIPS_API
+# DFAPI_USERNAME=$(oc --namespace=be78d6-dev exec dc/rsbc-dh-form-handler-dev -- sh -c 'echo ${VIPS_API_USERNAME}')
+# DFAPI_PASSWORD=$(oc --namespace=be78d6-dev exec dc/rsbc-dh-form-handler-dev -- sh -c 'echo ${VIPS_API_PASSWORD}')
+# echo ${DFAPI_USERNAME}:${DFAPI_PASSWORD}
 
 
 ### OpenAPI specification
@@ -67,7 +86,7 @@ Authorization: Basic {{api_username}} {{api_password}}
 # 2. Show individual table values
 # curl --silent --request GET --silent --user "user:${PASSWORD}"  https://digitalforms-viirp-api-c220ad-dev.apps.silver.devops.gov.bc.ca/digitalforms-viirp/v1/codetables/steve-test-9b022161-38ed-4688-92a8-12308128cd3f | jq '.configuration | .addresses'
 #
-# 3. List sub-element matching codes
+# 3. List sub-element matching codes. Codes for impoundments.
 # - curl --silent --request GET --silent --user "user:${PASSWORD}"  https://digitalforms-viirp-api-c220ad-dev.apps.silver.devops.gov.bc.ca/digitalforms-viirp/v1/codetables/steve-test-9b022161-38ed-4688-92a8-12308128cd3f | jq '.configuration | .originalCauses[] | select(.noticeTypeCd=="IMP")'
 #
 # 4. List values for a table

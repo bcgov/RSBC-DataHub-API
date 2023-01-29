@@ -24,5 +24,5 @@ if ("$tags" -ne "") {
 }
 else
 {
-    robot --exclude disabled --outputdir results --debugfile debug.txt --name "DF VI-IRP API test suite" --variablefile env.py  prohibitions-get.robot
+    robot --exclude disabled --outputdir results --debugfile debug.txt --name "DF VI-IRP API test suite" --variablefile env.py  .
 }

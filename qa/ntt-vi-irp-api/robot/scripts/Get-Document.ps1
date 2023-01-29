@@ -1,25 +1,122 @@
 # Get a document record from DEV
+<#
+.SYNOPSIS
+    Retrieve document from VIPS using the DF VI-IRP API.
+
+.DESCRIPTION
+    Calls the DF VI-IRP API endpoint GET /v1/documents/correlation endpoint to retrieve a VIPS document.
+
+.PARAMETER ServerUri
+The URI for the server. If omitted, will default to the DEV environment.
+
+.PARAMETER Environment
+The OpenShift environment to use: either DEV or TEST. If omitted, will default to the DEV environment.
+
+.PARAMETER Verbose
+Print details about what the script is doing.
+
+.EXAMPLE
+PS> .\Get-Document.ps1 22197503
+
+#>
+
 param (
-    [string] $DOCUMENT_NUMBER,      # Example: 00197501
-    [string] $ENVIRONMENT = "DEV"      # Example, DEV, TEST. Defaults to DEV.
+    [string] $DocumentNumber,      # Example: 00197501
+    [string] $Environment,
+    [string] $ServerUri,
+    [switch] $Format,
+    [switch] $Verbose
 )
 
-if (${Headers} -eq "") {
-    $USERNAME64 = oc --namespace=c220ad-dev get secret digitalforms-api -o jsonpath="{.data.DIGITALFORMS_BASICAUTH_USER}"
-    $PASSWORD64 = oc --namespace=c220ad-dev get secret digitalforms-api -o jsonpath="{.data.DIGITALFORMS_BASICAUTH_PASSWORD}"
-    $USERNAME   = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String(${USERNAME64}))
-    $PASSWORD   = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String(${PASSWORD64}))
-    $Headers    = @{ Authorization = "Basic {0}" -f [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f "${USERNAME}","${PASSWORD}"))) }
+function KubernetesTokenIsValid {
+    oc whoami 2>&1 | Out-Null
+    return $?
 }
 
-$URL = "https://digitalforms-viirp-api-c220ad-${ENVIRONMENT}.apps.silver.devops.gov.bc.ca/digitalforms-viirp/v1/documents/${DOCUMENT_NUMBER}/Get-Document.ps1"
+function Get-Document {
+    param (
+        [string] $DocumentNumber,      # Example: 00197501
+        [string] $Environment,
+        [string] $ServerUri,
+        [switch] $Format,
+        [switch] $Verbose
+    )
 
-try {
-    $Response = Invoke-WebRequest -UseBasicParsing -Method GET -Headers $Headers ${URL}
-    $Response.Content
+    Begin {
+            Set-Variable -Name "DefaultEnv" -Value "dev"
+            Set-Variable -Name "OcNamespace" -Value "c220ad"
+            Set-Variable -Name "OcUsernameSecret" -Value "DIGITALFORMS_BASICAUTH_USER"
+            Set-Variable -Name "OcPasswordSecret" -Value "DIGITALFORMS_BASICAUTH_PASSWORD"
+            Set-Variable -Name "ApiPath" -Value "v1/documents"
+            Set-Variable -Name "Correlation" -Value "GetDocument"
+
+        if (-Not ${Environment}) {
+            Set-Variable -Name "Environment" -Value ${DefaultEnv}
+        }
+
+        if (-Not ${ServerUri}) {
+            Set-Variable -Name "ServerUri" -Value "https://digitalforms-viirp-api-${OcNamespace}-${Environment}.apps.silver.devops.gov.bc.ca/digitalforms-viirp/${ApiPath}/${DocumentNumber}/${Correlation}"
+        } 
+
+        if (${Env:Headers} -eq $null) {
+            if (KubernetesTokenIsValid)
+            {
+                # Retrieve secret values from OpenShift/Kubernetes. Must be logged in.
+                $USERNAME64 = oc --namespace=${OcNamespace}-${Environment} get secret digitalforms-api -o jsonpath="{.data.${OcUsernameSecret}}"
+                $PASSWORD64 = oc --namespace=${OcNamespace}-${Environment} get secret digitalforms-api -o jsonpath="{.data.${OcPasswordSecret}}"
+                # Build header with calculated Auth token
+                $USERNAME   = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String(${USERNAME64}))
+                $PASSWORD   = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String(${PASSWORD64}))
+                $Headers    = @{ Authorization = "Basic {0}" -f [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f "${USERNAME}","${PASSWORD}"))) }
+            }
+            else {
+                Write-Host "OpenShift/Kubernetes token has expired. Cannot retrieve API credentials."
+                exit 1
+            }
+        }
+
+        if (${Verbose}) { 
+            Write-Host "Calling:      ${ServerUri}"
+        }
+    }
+
+    Process {
+        try {
+            $Response = Invoke-WebRequest -UseBasicParsing -Method GET -Headers $Headers ${ServerUri}
+            return ${Response}.StatusCode, $Response.Content
+        }
+        catch {
+            $ReturnCode = $_.Exception.Response.StatusCode.Value__
+            $Error = $_.ErrorDetails.Message
+            return ${ReturnCode}, ${Error}
+        }
+    }
 }
-catch {
-    $ReturnCode = $_.Exception.Response.StatusCode.Value__
-    $Error = $_.ErrorDetails.Message
-    "HTTP ${ReturnCode}: ${Error}"
+
+# Invoke function with or without Verbose switch
+if (${Verbose}) {
+    $StatusCode, $Response = Get-Document -ServerUri ${ServerUri} -Environment ${Environment} -DocumentNumber ${DocumentNumber} -Verbose
 }
+else {
+    $StatusCode, $Response = Get-Document -ServerUri ${ServerUri} -Environment ${Environment} -DocumentNumber ${DocumentNumber}
+}
+
+if (${StatusCode} -ne 200) {
+    if (${Verbose}) {
+        Write-Host "HTTP ${StatusCode}: unsuccessful."
+    }
+    exit ${StatusCode}
+}
+
+if (${Verbose}) {
+    Write-Host "HTTP 200: successful."
+}
+
+# if (${Format}){
+#     $Response.Content | jq
+# }
+# else {
+#     $Response.Content
+# }
+
+return ${Response}

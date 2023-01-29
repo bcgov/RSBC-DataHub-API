@@ -99,7 +99,7 @@ function Create-Document {
         } 
 
         if (-Not ${PdfBase64}) {
-            Set-Variable -Name "PdfBase64" -Value "JVBERi0xLjIgCjkgMCBvYmoKPDwKPj4Kc3RyZWFtCkJULyAzMiBUZiggIFlPVVIgVEVYVCBIRVJFICAgKScgRVQKZW5kc3RyZWFtCmVuZG9iago0IDAgb2JqCjw8Ci9UeXBlIC9QYWdlCi9QYXJlbnQgNSAwIFIKL0NvbnRlbnRzIDkgMCBSCj4+CmVuZG9iago1IDAgb2JqCjw8Ci9LaWRzIFs0IDAgUiBdCi9Db3VudCAxCi9UeXBlIC9QYWdlcwovTWVkaWFCb3ggWyAwIDAgMjUwIDUwIF0KPj4KZW5kb2JqCjMgMCBvYmoKPDwKL1BhZ2VzIDUgMCBSCi9UeXBlIC9DYXRhbG9nCj4+CmVuZG9iagp0cmFpbGVyCjw8Ci9Sb290IDMgMCBSCj4+CiUlRU9G"
+            Set-Variable -Name "PdfBase64" -Value "JVBERi0xLjIgCjkgMCBvYmoKPDwKPj4Kc3RyZWFtCkJULyA5IFRmKFRlc3QpJyBFVAplbmRzdHJlYW0KZW5kb2JqCjQgMCBvYmoKPDwKL1R5cGUgL1BhZ2UKL1BhcmVudCA1IDAgUgovQ29udGVudHMgOSAwIFIKPj4KZW5kb2JqCjUgMCBvYmoKPDwKL0tpZHMgWzQgMCBSIF0KL0NvdW50IDEKL1R5cGUgL1BhZ2VzCi9NZWRpYUJveCBbIDAgMCA5OSA5IF0KPj4KZW5kb2JqCjMgMCBvYmoKPDwKL1BhZ2VzIDUgMCBSCi9UeXBlIC9DYXRhbG9nCj4+CmVuZG9iagp0cmFpbGVyCjw8Ci9Sb290IDMgMCBSCj4+CiUlRU9G"
         }
 
         if (-Not ${DocumentType}) {
@@ -138,7 +138,7 @@ function Create-Document {
             "type_code" = "${DocumentType}"
             "mime_sub_type" = "pdf"
             "mime_type" = "application"
-            "file_object" = "${TINY_PDF_BASE64}"
+            "file_object" = "${PdfBase64}"
             "notice_type_code" = "${NoticeType}"
             "notice_subject_code" = "${SubjectCode}"
             "pageCount" = 1
@@ -169,8 +169,6 @@ if (${Verbose}) {
 else {
     $StatusCode, $Response = Create-Document -ServerUri ${ServerUri} -Environment ${Environment} -PdfBase64 ${PdfBase64} -DocumentId ${DocumentId} -DocumentType ${DocumentType} -NoticeType  -NoticeCode ${NoticeCode} ${NoticeType}
 }
- 
-Write-Host ${Response}
 
 if (${StatusCode} -ne 200) {
     if (${Verbose}) {
@@ -182,3 +180,5 @@ if (${StatusCode} -ne 200) {
 if (${Verbose}) {
     Write-Host "HTTP 200: successful."
 }
+
+return ${Response}

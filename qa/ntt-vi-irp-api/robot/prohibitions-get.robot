@@ -41,7 +41,7 @@ Prohibitions GET authenticated
     Given An authenticated GET request to /v1/prohibitions/${NOTICE_NUM}/${CORRELATION}
     Then Response code is HTTP  200
     And Response content type is  application/json
-    And Response body is  {"responseMessage":{}}
+    And Response should include text  {"result":{
 
 Prohibitions OPTIONS authenticated
     [Tags]           prohibitions    authenticated    OPTIONS    happy
