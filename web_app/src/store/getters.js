@@ -295,6 +295,15 @@ export const getters = {
 
     getKeycloakUsername: state => {
         if (state.keycloak) {
+            // if (state.keycloak.idTokenParsed) {
+            //     if (state.keycloak.idTokenParsed.bceid_business_name) {
+            //         return state.keycloak.idTokenParsed.display_name;
+            //     }else{
+            //         return state.keycloak.fullName;
+            //     }
+            // }else{
+            //     return state.keycloak.fullName;
+            // }
             // return state.keycloak.userName;
             return state.keycloak.fullName;
         }
