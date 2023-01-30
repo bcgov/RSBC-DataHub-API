@@ -12,7 +12,8 @@ export function apiHeader(){
 
 export function getKeycloakUsername(){
     if (rsiStore.state.keycloak) {
-        return rsiStore.state.keycloak.userName;
+        // return rsiStore.state.keycloak.userName;
+        return rsiStore.state.keycloak.fullName;
     }
     return ''
 }
