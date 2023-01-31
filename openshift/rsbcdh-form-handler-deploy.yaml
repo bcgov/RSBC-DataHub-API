@@ -202,6 +202,16 @@ objects:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
                   key: splunk-token
+            - name: INGESTOR_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: ingestor-url
+            - name: PDF_SERVICE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: pdf-service-url
             - name: LINK_TO_ICBC
               value: ${LINK_TO_ICBC}
             - name: LINK_TO_SERVICE_BC

@@ -193,6 +193,11 @@ objects:
               value: ${LOG_LEVEL}
             - name: ENVIRONMENT
               value: ${PHASE}
+            - name: PDF_SERVICE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: pdf-service-url
           resources:
             limits:
               cpu: 80m
