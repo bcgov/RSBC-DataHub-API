@@ -1,11 +1,15 @@
 from flask import jsonify, make_response
 from cerberus import Validator
+from cerberus import errors
 import logging
 import json
 from datetime import datetime
 import pytz
 from python.prohibition_web_svc.models import db, User, UserRole
 
+class CustomErrorHandler(errors.BasicErrorHandler):
+    messages = errors.BasicErrorHandler.messages.copy()
+    messages[errors.REGEX_MISMATCH.code] = "must be 2 letters + 4 digits OR 6 digits (HRMIS)"
 
 def user_has_not_applied_previously(**kwargs) -> tuple:
     try:
@@ -99,19 +103,17 @@ def request_contains_a_payload(**kwargs) -> tuple:
     logging.warning("payload: " + json.dumps(payload))
     return payload is not None, kwargs
 
-
 def validate_create_user_payload(**kwargs) -> tuple:
     schema = {
         "badge_number": {
             "type": "string",
-            'minlength': 2,
-            'maxlength': 8,
+            "regex": "^([A-Z0-9]{2}[0-9]{4})$",
             "required": True
         },
         "agency": {
             "type": "string",
-            'minlength': 4,
-            'maxlength': 40,
+            'minlength': 5,
+            'maxlength': 30,
             "required": True
         },
         "first_name": {
@@ -127,14 +129,13 @@ def validate_create_user_payload(**kwargs) -> tuple:
             "required": True
         }
     }
-    cerberus = Validator(schema)
+    cerberus = Validator(schema, error_handler=CustomErrorHandler)
     cerberus.allow_unknown = False
     if cerberus.validate(kwargs.get('payload')):
         return True, kwargs
     logging.warning("validation error: " + json.dumps(cerberus.errors))
     kwargs['validation_errors'] = cerberus.errors
     return False, kwargs
-
 
 def get_user(**kwargs) -> tuple:
     try:

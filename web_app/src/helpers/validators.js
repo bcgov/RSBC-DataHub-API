@@ -1,5 +1,5 @@
 import moment from 'moment-timezone';
-import {extend} from "vee-validate";
+import { extend } from "vee-validate";
 import { max } from 'vee-validate/dist/rules';
 import constants from "@/config/constants";
 
@@ -8,7 +8,7 @@ extend('max', {
   message: 'Too many characters'
 });
 
-extend('bcdlNumberRule',  {
+extend('bcdlNumberRule', {
   validate(value) {
     const regX = new RegExp(/^(\d{7})$/);
     return {
@@ -125,7 +125,7 @@ extend('notBeforeCareDateTime', {
     }
   },
   hasTarget: true,
-  message: "Cannot be before care or control date / time"
+  message: "Cannot be before date/time of care or control"
 });
 
 extend('bac_result', {
@@ -254,6 +254,16 @@ extend("offenceCityRules", {
       valid: arrayOfCityCodes.includes(value.objectCd)
     }
   },
-  message: 'Not a city in the list!'
+  message: 'Not a city in the list'
 });
 
+extend('primeLogin', {
+  validate(value) {
+    const regX = new RegExp(/^([A-Z0-9]{2}\d{4})$/);
+    return {
+      required: true,
+      valid: regX.test(value)
+    };
+  },
+  message: 'PRIME ID must exactly 2 letters + 4 digits OR 6 digits (HRMIS)'
+});
