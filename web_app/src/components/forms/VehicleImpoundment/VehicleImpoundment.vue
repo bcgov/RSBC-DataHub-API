@@ -5,8 +5,9 @@
         <drivers-information-card :path="getPath"></drivers-information-card>
         <vehicle-information-card :path="getPath"></vehicle-information-card>
         <vehicle-owner-card :path="getPath"></vehicle-owner-card>
-        <vehicle-impoundment-card :path="getPath"></vehicle-impoundment-card>
-        <reasonable-grounds-card :path="getPath"></reasonable-grounds-card>
+        <time-and-place-card :path="getPath"></time-and-place-card>
+        <impoundment-lot-card :path="getPath"></impoundment-lot-card>
+        <seven-day-impound-card :path="getPath"></seven-day-impound-card>
         <excessive-speed-card
             :path="getPath + '/reason_excessive_speed_true'"
             v-if="getAttributeValue(getPath, 'reason_excessive_speed_true')">
@@ -32,69 +33,68 @@
 </template>
 
 <script>
-
-import FormsCommon from "@/components/forms/FormsCommon";
-import {mapGetters} from 'vuex';
-import PrintDocuments from "../PrintDocuments";
-import DriversInformationCard from "@/components/forms/VehicleImpoundment/DriversInformationCard";
-import OfficerDetailsCard from "@/components/forms/OfficerDetailsCard";
-import VehicleInformationCard from "@/components/forms/VehicleImpoundment/VehicleInformationCard";
-import VehicleOwnerCard from "@/components/forms/VehicleImpoundment/VehicleOwnerCard";
-import VehicleImpoundmentCard from "@/components/forms/VehicleImpoundment/VehicleImpoundmentCard";
-import ReasonableGroundsCard from "@/components/forms/VehicleImpoundment/ReasonableGroundsCard";
-import ExcessiveSpeedCard from "@/components/forms/VehicleImpoundment/ExcessiveSpeedCard";
-import LinkageCard from "@/components/forms/VehicleImpoundment/LinkageCard";
-import IncidentDetailsCard from "@/components/forms/VehicleImpoundment/IncidentDetailsCard";
-import ImmediateRoadsideProhibition from "@/components/forms/VehicleImpoundment/ImmediateRoadsideProhibition";
-
-export default {
-  name: "VehicleImpoundment",
-  components: {
-    ImmediateRoadsideProhibition,
-    IncidentDetailsCard,
-    LinkageCard,
-    ExcessiveSpeedCard,
-    ReasonableGroundsCard,
-    VehicleImpoundmentCard,
-    DriversInformationCard,
-    OfficerDetailsCard,
-    VehicleInformationCard,
-    VehicleOwnerCard,
-    PrintDocuments
-  },
-  mixins: [FormsCommon],
-  props: {
-    name: {
-      type: String,
-      default: 'VI'
+  import FormsCommon from "@/components/forms/FormsCommon";
+  import {mapGetters} from 'vuex';
+  import PrintDocuments from "../PrintDocuments";
+  import DriversInformationCard from "@/components/forms/VehicleImpoundment/DriversInformationCard";
+  import OfficerDetailsCard from "@/components/forms/OfficerDetailsCard";
+  import VehicleInformationCard from "@/components/forms/VehicleImpoundment/VehicleInformationCard";
+  import VehicleOwnerCard from "@/components/forms/VehicleImpoundment/VehicleOwnerCard";
+  import TimeAndPlaceCard from "@/components/forms/VehicleImpoundment/TimeAndPlaceCard";
+  import ImpoundmentLotCard from "@/components/forms/VehicleImpoundment/ImpoundmentLotCard";
+  import SevenDayImpoundCard from "@/components/forms/VehicleImpoundment/SevenDayImpoundCard";
+  import ExcessiveSpeedCard from "@/components/forms/VehicleImpoundment/ExcessiveSpeedCard";
+  import LinkageCard from "@/components/forms/VehicleImpoundment/LinkageCard";
+  import IncidentDetailsCard from "@/components/forms/VehicleImpoundment/IncidentDetailsCard";
+  import ImmediateRoadsideProhibition from "@/components/forms/VehicleImpoundment/ImmediateRoadsideProhibition";
+  export default {
+    name: "VehicleImpoundment",
+    components: {
+      ImmediateRoadsideProhibition,
+      IncidentDetailsCard,
+      LinkageCard,
+      ExcessiveSpeedCard,
+      ImpoundmentLotCard,
+      TimeAndPlaceCard,
+      SevenDayImpoundCard,
+      DriversInformationCard,
+      OfficerDetailsCard,
+      VehicleInformationCard,
+      VehicleOwnerCard,
+      PrintDocuments
+    },
+    mixins: [FormsCommon],
+    props: {
+      name: {
+        type: String,
+        default: 'VI'
+      }
+    },
+    data() {
+      return {
+        isNotValid: false,
+        rerender: 1
+      }
+    },
+    mounted() {
+      let payload = {form_type: this.name, form_id: this.id}
+      this.editExistingForm(payload)
+      this.setNewFormDefaults(payload)
+      this.data = this.getCurrentlyEditedFormData
+      this.isMounted = true
+    },
+    computed: {
+      ...mapGetters([
+          "getDocumentsToPrint",
+          "getAttributeValue",
+          "getCurrentlyEditedForm",
+          "getCurrentlyEditedFormData",
+          "getCurrentlyEditedFormObject",
+          "getPdfFileNameString",
+      ]),
     }
-  },
-  data() {
-    return {
-      isNotValid: false,
-      rerender: 1
-    }
-  },
-  mounted() {
-    let payload = {form_type: this.name, form_id: this.id}
-    this.editExistingForm(payload)
-    this.setNewFormDefaults(payload)
-    this.data = this.getCurrentlyEditedFormData
-    this.isMounted = true
-  },
-  computed: {
-    ...mapGetters([
-        "getDocumentsToPrint",
-        "getAttributeValue",
-        "getCurrentlyEditedForm",
-        "getCurrentlyEditedFormData",
-        "getCurrentlyEditedFormObject",
-        "getPdfFileNameString",
-    ]),
   }
-}
 </script>
-
 <style scoped>
   .lightgray {
     background-color: lightgray;

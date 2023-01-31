@@ -1,25 +1,8 @@
 <template>
-<form-card title="Reasonable Grounds">
+<form-card title="Impoundment for Driving Behaviour">
     <div>
       <shadow-box>
-        <form-row>
-          <text-field id="offence_address" :path=path fg_class="col-sm-8" rules="required|max:22">Intersection or Address of Offence</text-field>
-          <offence-city :path=path fg_class="col-sm-4">City</offence-city>
-        </form-row>
-        <form-row>
-          <text-field id="file_number" :path=path fg_class="col-sm-3" rules="required">Agency File #</text-field>
-          <date-field id="prohibition_start_date" :path=path fg_class="col-sm-5"
-                      rules="required|validDt|notFutureDt|notGtYearAgo">
-            Date of Driving, care or control
-          </date-field>
-          <time-field id="prohibition_start_time" :path=path fg_class="col-sm-4"
-                      rules="required|validTime|notFutureDateTime:@prohibition_start_date">
-            Time
-          </time-field>
-        </form-row>
-      </shadow-box>
-      <shadow-box>
-        <p>"7-Day Impoundment (<span style='font-weight:bold'>Not IRP</span>) for the following reason(s)</p>
+        <p>7-Day Impoundment (<span style='font-weight:bold'>Not for IRP</span>) for the following reason(s)</p>
         <form-row>
           <in-line-check-box id="reason_excessive_speed" :path=path :option="true">Excessive Speed
             <span class='text-muted'>- Committing an offence under section 148 of the Motor Vehicle Act</span>
@@ -87,7 +70,7 @@ import CardsCommon from "@/components/forms/CardsCommon";
 import InLineCheckBox from "@/components/questions/InLineCheckBox";
 
 export default {
-  name: "ReasonableGroundsCard",
+  name: "SevenDayImpoundCard",
   components: {InLineCheckBox},
   mixins: [CardsCommon],
 }
