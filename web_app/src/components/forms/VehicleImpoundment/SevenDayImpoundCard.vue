@@ -66,12 +66,11 @@
 </template>
 
 <script>
-import CardsCommon from "@/components/forms/CardsCommon";
-import InLineCheckBox from "@/components/questions/InLineCheckBox";
-
-export default {
-  name: "SevenDayImpoundCard",
-  components: {InLineCheckBox},
-  mixins: [CardsCommon],
-}
+  import CardsCommon from "@/components/forms/CardsCommon";
+  import InLineCheckBox from "@/components/questions/InLineCheckBox";
+  export default {
+    name: "SevenDayImpoundCard",
+    components: {InLineCheckBox},
+    mixins: [CardsCommon],
+  }
 </script>
