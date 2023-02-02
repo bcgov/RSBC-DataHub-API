@@ -2,7 +2,7 @@
 <form-card title="Impoundment for Driving Behaviour">
     <div>
       <shadow-box>
-        <p>7-Day Impoundment (<span style='font-weight:bold'>Not for IRP</span>) for the following reason(s)</p>
+        <p>7-Day Impoundment for the following reason(s):</p>
         <form-row>
           <in-line-check-box id="reason_excessive_speed" :path=path :option="true">Excessive Speed
             <span class='text-muted'>- Committing an offence under section 148 of the Motor Vehicle Act</span>

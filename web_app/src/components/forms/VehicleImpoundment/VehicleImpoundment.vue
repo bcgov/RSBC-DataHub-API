@@ -7,12 +7,12 @@
         <vehicle-owner-card :path="getPath"></vehicle-owner-card>
         <time-and-place-card :path="getPath"></time-and-place-card>
         <impoundment-lot-card :path="getPath"></impoundment-lot-card>
+        <immediate-roadside-prohibition :path="getPath"></immediate-roadside-prohibition>
         <seven-day-impound-card :path="getPath"></seven-day-impound-card>
         <excessive-speed-card
             :path="getPath + '/reason_excessive_speed_true'"
             v-if="getAttributeValue(getPath, 'reason_excessive_speed_true')">
         </excessive-speed-card>
-        <immediate-roadside-prohibition :path="getPath"></immediate-roadside-prohibition>
         <linkage-card :path="getPath"></linkage-card>
         <incident-details-card :path="getPath"></incident-details-card>
         <officer-details-card :path="getPath"></officer-details-card>
