@@ -540,13 +540,13 @@
    "phone": "250-442-2551"
  },
  {
-   "name": "JACKS TOWING (ABBOTSFORD)",
+   "name": "JACK'S TOWING (ABBOTSFORD)",
    "lot_address": "63 WEST RAILWAY",
    "city": "ABBOTSFORD",
    "phone": "604-607-0772"
  },
  {
-   "name": "JACKS TOWING (MISSION)",
+   "name": "JACK'S TOWING (MISSION)",
    "lot_address": "7168 WREN ST",
    "city": "MISSION",
    "phone": "604-607-0772"
@@ -702,7 +702,13 @@
    "phone": "604-485-7981"
  },
  {
-   "name": "MCBRIDES TOWING",
+   "name": "MAYNE ISLAND TOWING",
+   "lot_address": "273 WOODDALE DR",
+   "city": "MAYNE ISLAND",
+   "phone": "250-508-8908"
+ },
+ {
+   "name": "MCBRIDE'S TOWING",
    "lot_address": "9616 CHEMAINUS RD",
    "city": "CHEMAINUS",
    "phone": "250-246-3595"
@@ -947,6 +953,12 @@
    "phone": "604-796-9055"
  },
  {
+   "name": "PIRATE TOWING",
+   "lot_address": "417 TILLER RD",
+   "city": "PENDER ISLAND",
+   "phone": "250-538-7067"
+ },
+ {
    "name": "POCO AUTO RESCUE & RECOVERY",
    "lot_address": "10-2270 TYNER ST",
    "city": "PORT COQUITLAM",
@@ -1013,7 +1025,7 @@
    "phone": "250-457-9594"
  },
  {
-   "name": "ROADKILL TOWING (QUADRA)",
+   "name": "ROADKILL TOWING",
    "lot_address": "684 PLAZA RD",
    "city": "QUADRA ISLAND",
    "phone": "250-287-1686"
