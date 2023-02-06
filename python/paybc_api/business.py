@@ -5,6 +5,8 @@ import python.paybc_api.website.api_responses as api_responses
 import python.common.splunk_application_for_review as splunk
 import python.common.splunk as common_splunk
 
+import python.common.ride_actions as ride_actions
+
 
 def search_for_invoice() -> list:
     """
@@ -88,6 +90,7 @@ def save_payment() -> list:
         {"try": middleware.transform_receipt_date_from_pay_bc_format, "fail": []},
         {"try": middleware.save_payment_to_vips, "fail": []},
         {"try": middleware.payment_success, "fail": []},
+        {"try": ride_actions.payment_received, "fail": []},
         {"try": splunk.review_fee_paid, "fail": []},
         {"try": common_splunk.log_to_splunk, "fail": []},
         {"try": rsi_email.applicant_to_schedule_review, "fail": []},
