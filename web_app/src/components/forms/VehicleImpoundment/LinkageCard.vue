@@ -1,5 +1,5 @@
 <template>
-  <form-card title="Linkage">
+  <form-card title="Linkage Factors">
     <p>The officer determined the following (relationship between driver, owner and the vehicle)</p>
     <form-row>
       <in-line-check-box id="linkage_keys" :path=path :option="true">{{ keyText }}</in-line-check-box>

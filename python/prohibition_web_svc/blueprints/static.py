@@ -80,10 +80,13 @@ def update(resource, static_id):
 
 
 def _get_agencies(**kwargs) -> tuple:
+    resource = kwargs.get('resource')
     try:
-        static = helper.load_json_into_dict('python/prohibition_web_svc/data/agencies.json')
-        ids = [o['id'] for o in static]
-        kwargs['response'] = make_response(jsonify(ids), 200)
+        data = helper.load_json_into_dict('python/prohibition_web_svc/data/agencies.json'.format(resource))
+        kwargs['response'] = make_response(data, 200)
+        # static = helper.load_json_into_dict('python/prohibition_web_svc/data/agencies.json')
+        # ids = [o['id'] for o in static]
+        # kwargs['response'] = make_response(jsonify(ids), 200)
         return True, kwargs
     except Exception as e:
         logging.warning("error getting static data")
