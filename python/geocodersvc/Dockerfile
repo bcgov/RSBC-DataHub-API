@@ -1,9 +1,13 @@
 FROM registry.access.redhat.com/rhscl/python-36-rhel7:latest
+ARG VERSION
+ENV VERSION=$VERSION
+
 RUN [ "pwd" ]
 RUN [ "ls", "-R" ]
 
 COPY geocodersvc/ ${APP_ROOT}/src/python/geocodersvc/
 COPY common/ ${APP_ROOT}/src/python/common/
+
 RUN [ "echo" , "repo source files copied" ]
 
 RUN source /opt/app-root/etc/scl_enable && \
@@ -13,7 +17,9 @@ RUN source /opt/app-root/etc/scl_enable && \
     cd ${APP_ROOT}/src/python/geocodersvc && pip install -r requirements.txt
 
 RUN [ "echo" , "requirements installed" ]
+
 WORKDIR ${APP_ROOT}/src/
+
 RUN [ "pwd" ]
 RUN [ "ls", "-R" ]
 
@@ -21,4 +27,3 @@ RUN ["python", "-m", "pytest", "python/geocodersvc/tests"]
 
 #TODO - Add worker processes to gunicorn below
 CMD [ "gunicorn", "--error-logfile", "-", "--bind", "0.0.0.0:5000", "--pythonpath", "python/geocodersvc", "wsgi" ]
-

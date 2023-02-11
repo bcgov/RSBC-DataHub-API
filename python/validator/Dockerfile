@@ -1,6 +1,9 @@
 FROM registry.access.redhat.com/rhscl/python-36-rhel7:latest
+ARG VERSION
+ENV VERSION=$VERSION
 
 COPY validator/requirements.txt ${APP_ROOT}/src/
+
 RUN source /opt/app-root/etc/scl_enable && \
     set -x && \
     pip install -U pip setuptools wheel && \
