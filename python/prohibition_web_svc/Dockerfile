@@ -1,4 +1,6 @@
 FROM registry.access.redhat.com/rhscl/python-36-rhel7:latest
+ARG VERSION
+ENV VERSION=$VERSION
 
 COPY prohibition_web_svc/requirements.txt ${APP_ROOT}/src/
 
@@ -15,4 +17,3 @@ COPY prohibition_web_svc ${APP_ROOT}/src/python/prohibition_web_svc
 RUN ["python", "-m", "pytest", "python/prohibition_web_svc"]
 
 CMD [ "gunicorn", "--error-logfile", "-", "--bind", "0.0.0.0:5000", "--pythonpath", "python/prohibition_web_svc", "app:create_app()" ]
-

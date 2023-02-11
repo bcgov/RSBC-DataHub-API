@@ -1,7 +1,10 @@
 FROM registry.access.redhat.com/rhscl/python-36-rhel7:latest
+ARG VERSION
+ENV VERSION=$VERSION
 
 COPY writer/requirements.txt ${APP_ROOT}/src/
 USER root
+
 RUN source /opt/app-root/etc/scl_enable && \
     set -x && \
     yum -y update && \
@@ -25,4 +28,5 @@ COPY writer/mapper.json ${APP_ROOT}/src/python/writer/
 ADD writer/entrypoint.sh .
 RUN chmod 766 /etc/passwd
 RUN chmod 754 ${APP_ROOT}/src/entrypoint.sh
+
 ENTRYPOINT ${APP_ROOT}/src/entrypoint.sh

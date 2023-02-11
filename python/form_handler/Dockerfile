@@ -1,6 +1,10 @@
 # FROM python:3.7.3-stretch
 FROM registry.access.redhat.com/rhscl/python-36-rhel7:latest
+ARG VERSION
+ENV VERSION=$VERSION
+
 COPY form_handler/requirements.txt ${APP_ROOT}/src/
+
 RUN ls /opt/app-root/etc/
 RUN source /opt/app-root/etc/scl_enable && \
     set -x && \
