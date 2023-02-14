@@ -14,7 +14,7 @@ import ImpoundLotOperator from "@/components/questions/ImpoundLotOperator";
 
 
 export default {
-name: "VehicleImpoundmentCard",
+name: "ImpoundmentLotCard",
   components: {ImpoundLotOperator},
   mixins: [CardsCommon]
 }

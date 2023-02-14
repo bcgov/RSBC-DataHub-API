@@ -9,3 +9,5 @@ __pycache__/
 node_modules/
 *.sqlite
 .nvm/
+env/
+dist_old/
