@@ -3,10 +3,12 @@
     <label v-if="show_label" :for="id">
       <slot></slot>
     </label>
+    <span class="small text-danger"> *</span>
     <input :type="input_type" class="form-control" :class="localErrors.length > 0 ? 'border-danger bg-warning' : ''" :id="id" :disabled="disabled" :placeholder="placeholder" @change="modified" v-model="attribute" />
     <div class="small text-danger">{{ localErrors[0] }}</div>
   </div>
 </template>
+
 <script>
   import Vue from 'vue'
   export default {
