@@ -295,8 +295,8 @@ export const getters = {
 
     getKeycloakUsername: state => {
         if (state.keycloak) {
-            // return state.keycloak.userName;
-            return state.keycloak.fullName;
+            return state.keycloak.userName;
+            // return state.keycloak.fullName;
         }
         return ''
     },
