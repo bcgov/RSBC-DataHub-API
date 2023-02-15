@@ -8,14 +8,31 @@
     <div class="small text-danger">{{ localErrors[0] }}</div>
   </div>
 </template>
-
 <script>
   import Vue from 'vue'
   export default {
     name: "ApplicationField",
+    computed: {
+      localErrors() {
+        if (this.id in this.errors) {
+          return this.errors[this.id]
+        } else {
+          return []
+        }
+      }
+    },
     data() {
       return {
         attribute: ''
+      }
+    },
+    methods: {
+      modified() {
+        Vue.set(this.errors, this.id, [])
+        this.$emit('modified', {
+          id: this.id,
+          value: this.attribute
+        });
       }
     },
     props: {
@@ -39,24 +56,6 @@
       visible: {
         type: Boolean,
         default: true
-      }
-    },
-    computed: {
-      localErrors() {
-        if (this.id in this.errors) {
-          return this.errors[this.id]
-        } else {
-          return []
-        }
-      }
-    },
-    methods: {
-      modified() {
-        Vue.set(this.errors, this.id, [])
-        this.$emit('modified', {
-          id: this.id,
-          value: this.attribute
-        });
       }
     }
   }
