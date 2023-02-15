@@ -22,7 +22,7 @@
         <div class="d-flex justify-content-center mt-2">
           <div class="form-row pl-2">
             <application-field id="last_name" :errors="errors" fe_class="uppercase" fg_class="col-sm-3" @modified="modified_event">SURNAME</application-field>
-            <application-field id="first_name" :errors="errors" fe_class="capitalize" @fg_class="col-sm-3" modified="modified_event">Given</application-field>
+            <application-field id="first_name" :errors="errors" fe_class="capitalize" fg_class="col-sm-3" @modified="modified_event">Given</application-field>
             <application-field-agency id="agency" :errors="errors" fg_class="col-sm-4" @modified="modified_event">Agency or RCMP Detachment</application-field-agency>
             <application-field id="badge_number" :errors="errors" fe_class="lowercase" fg_class="col-sm-2" @modified="modified_event">PRIME ID</application-field>
           </div>
