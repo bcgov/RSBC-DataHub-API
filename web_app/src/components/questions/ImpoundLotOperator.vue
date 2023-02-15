@@ -1,9 +1,10 @@
 <template>
   <div>
-    <shadow-box>
+    <shadow-box class="bg-info">
       <form-row>
          <multiselect id="ilo_multiselect" :disabled="disabled || hasFormBeenPrinted" @input="typeAheadUpdate" :options="getArrayOfImpoundLotOperators" placeholder="Search for an Impound Lot Operator" tag-placeholder="That's not an option" v-model="query"></multiselect>
       </form-row>
+    </shadow-box>
       <br />
       <form-row>
         <text-field id="name" :disabled="disabled || hasFormBeenPrinted" fe_class="uppercase" fg_class="col-sm-12" :path="getPath" rules="required">Impound Lot Operator Name</text-field>
@@ -11,7 +12,6 @@
         <text-field id="city" :disabled="disabled || hasFormBeenPrinted" fe_class="uppercase" fg_class="col-sm-4" :path="getPath" rules="required">City</text-field>
         <text-field id="phone" :disabled="disabled || hasFormBeenPrinted" fg_class="col-sm-3" input_mask="###-###-####" :path="getPath" rules="required">Public Phone Number</text-field>
       </form-row>
-    </shadow-box>
   </div>
 </template>
 <script>

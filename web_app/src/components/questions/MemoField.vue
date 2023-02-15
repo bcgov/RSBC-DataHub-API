@@ -5,7 +5,7 @@
         <slot></slot>
         <span v-if="!isShowOptional" class="text-danger"> *</span>
       </label>
-      <span class="small text-muted" style="float:right"> ({{ charsRemaining }} / {{  max_length }})</span>
+      <span class="small text-muted" style="float:right"> {{ charsRemaining }} / {{  max_length }} characters</span>
       <textarea class="form-control" :class="errors.length > 0 ? fe_class + 'border-danger bg-warning' : fe_class" :disabled="disabled || hasFormBeenPrinted" :id="id" @input="assertMaxChars()" :placeholder="placeholder" rows="10" v-model="attribute" v-uppercase></textarea>
       <div class="small text-danger">{{ errors[0] }}</div>
     </validation-provider>
