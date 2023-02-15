@@ -4,7 +4,8 @@
       <label v-if="show_label" :for="id">
         <slot></slot>
       </label>
-      <span v-if=" ! isShowOptional" class="text-danger"> *</span>
+      <span v-if="!isShowOptional" class="text-danger"> *</span>
+      <span v-if="!!hint_text" class="small text-muted"> {{ hint_text }}</span>
       <div class="form-check" v-for="option in options" :key="option[0]">
         <input class="form-check-input" :disabled="disabled || hasFormBeenPrinted" :id="id + '_' + option" :name="id" type="radio" v-bind:value="option[0]" v-model="attribute">
         <label class="form-check-label" :for="option[0]">{{ option[1] }}</label>
@@ -58,8 +59,9 @@
     },
     mixins: [ FieldCommon ],
     props: {
-      type: String(),
-      options: null
+      hint_text: String,
+      options: null,
+      type: String()
     }
   }
 </script>

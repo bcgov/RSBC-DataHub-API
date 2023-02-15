@@ -3,6 +3,7 @@
     <validation-provider :name="id" :rules="rules" v-slot="{ errors }">
       <label v-if="show_label" :for="id"><slot></slot>
         <span v-if="!isShowOptional" class="text-danger"> *</span>
+        <span v-if="!!hint_text" class="small text-muted"> {{ hint_text }}</span>
       </label>
       <input class="form-control" :class="errors.length > 0 ? fe_class + 'border-danger bg-warning' : fe_class" :disabled="disabled || hasFormBeenPrinted" :id="id" :placeholder="placeholder" :type="input_type" v-mask="input_mask" v-model="attribute">
       <div class="small text-danger">
@@ -29,15 +30,16 @@
       }
     },
     props: {
-      placeholder: String,
       default_value: {
         type: String
       },
+      hint_text: String,
       input_mask: String,
       input_type: {
         default: "text",
         type: String
-      }
+      },
+      placeholder: String
     }
   }
 </script>
