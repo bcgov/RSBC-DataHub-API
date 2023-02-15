@@ -4,7 +4,7 @@
       <slot></slot>
     </label>
     <span class="small text-danger"> *</span>
-    <input :type="input_type" class="form-control" :class="localErrors.length > 0 ? 'border-danger bg-warning' : ''" :id="id" :disabled="disabled" :placeholder="placeholder" @change="modified" v-model="attribute" />
+    <input :type="input_type" class="form-control" :class="localErrors.length > 0 ? fe_class + 'border-danger bg-warning' : fe_class" :id="id" :disabled="disabled" :placeholder="placeholder" @change="modified" v-model="attribute" />
     <div class="small text-danger">{{ localErrors[0] }}</div>
   </div>
 </template>
@@ -25,7 +25,12 @@
       },
       errors: [],
       fg_class: String,
+      fe_class: String,
       id: String,
+      input_type: {
+        type: String,
+        default: 'text'
+      },
       placeholder: String,
       show_label: {
         type: Boolean,
@@ -34,10 +39,6 @@
       visible: {
         type: Boolean,
         default: true
-      },
-      input_type: {
-        type: String,
-        default: 'text'
       }
     },
     computed: {

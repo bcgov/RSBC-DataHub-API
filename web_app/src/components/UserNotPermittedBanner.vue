@@ -21,10 +21,10 @@
       <div v-if="showApplication && ! showApplicationReceived">
         <div class="d-flex justify-content-center mt-2">
           <div class="form-row pl-2">
-            <application-field fg_class="col-sm-3" id="last_name" @modified="modified_event" :errors="errors">SURNAME</application-field>
-            <application-field fg_class="col-sm-3" id="first_name" @modified="modified_event" :errors="errors">Given</application-field>
-            <application-field-agency fg_class="col-sm-4" id="agency" @modified="modified_event" :errors="errors">Agency</application-field-agency>
-            <application-field fg_class="col-sm-2" id="badge_number" @modified="modified_event" :errors="errors">PRIME ID</application-field>
+            <application-field fg_class="col-sm-3" fe_class="uppercase" id="last_name" @modified="modified_event" :errors="errors">SURNAME</application-field>
+            <application-field fg_class="col-sm-3" fe_class="capitalize" id="first_name" @modified="modified_event" :errors="errors">Given</application-field>
+            <application-field-agency fg_class="col-sm-4" id="agency" @modified="modified_event" :errors="errors">Agency or Detachment</application-field-agency>
+            <application-field fg_class="col-sm-2" fe_class="lowercase" id="badge_number" @modified="modified_event" :errors="errors">PRIME ID</application-field>
           </div>
         </div>
         <div>
