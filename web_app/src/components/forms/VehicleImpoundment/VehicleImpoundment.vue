@@ -1,5 +1,5 @@
 <template>
-  <form-container v-if="isMounted" title="Vehicle Impoundment" :form_object="formObject">
+  <form-container v-if="isMounted" :form_object="formObject" title="Vehicle Impoundment">
     <validation-observer v-slot="{ handleSubmit, validate }">
       <form @submit.prevent="handleSubmit(onSubmit(validate))">
         <drivers-information-card :path="getPath"></drivers-information-card>
@@ -7,7 +7,7 @@
         <vehicle-owner-card :path="getPath"></vehicle-owner-card>
         <time-and-place-card :path="getPath"></time-and-place-card>
         <impoundment-lot-card :path="getPath"></impoundment-lot-card>
-        <immediate-roadside-prohibition :path="getPath"></immediate-roadside-prohibition>
+        <immediate-roadside-prohibition :form_object="formObject" :path="getPath"></immediate-roadside-prohibition>
         <seven-day-impound-card :path="getPath"></seven-day-impound-card>
         <excessive-speed-card v-if="getAttributeValue(getPath, 'reason_excessive_speed_true')" :path="getPath + '/reason_excessive_speed_true'"></excessive-speed-card>
         <unlicensed-driver-card v-if="getAttributeValue(getPath, 'reason_unlicensed_true')" :path="getPath + '/reason_unlicensed_true'"></unlicensed-driver-card>
@@ -60,12 +60,12 @@
     },
     computed: {
       ...mapGetters([
-        "getAttributeValue",
-        "getCurrentlyEditedForm",
-        "getCurrentlyEditedFormData",
-        "getCurrentlyEditedFormObject",
-        "getDocumentsToPrint",
-        "getPdfFileNameString"
+        'getAttributeValue',
+        'getCurrentlyEditedForm',
+        'getCurrentlyEditedFormData',
+        'getCurrentlyEditedFormObject',
+        'getDocumentsToPrint',
+        'getPdfFileNameString'
       ])
     },
     data() {
