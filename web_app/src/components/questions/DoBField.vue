@@ -8,7 +8,7 @@
         <span v-if="isValidDate" class="text-muted"> ({{ yearsOld }} yrs)</span>
       </label>
       <div class="col-xs-10">
-        <input class="form-control" :class="errors.length > 0 ? 'border-danger bg-warning' : ''" :disabled="disabled || hasFormBeenPrinted" :id="id" placeholder="YYYYMMDD" type="text" v-mask="'########'" v-model="attribute">
+        <input class="form-control" :class="errors.length > 0 ? 'border-danger bg-warning' : ''" :disabled="disabled || hasFormBeenPrinted" :id="id" placeholder="" type="text" v-mask="'########'" v-model="attribute">
         <div class="small text-danger">{{ errors[0] }}</div>
       </div>
     </validation-provider>
