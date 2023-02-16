@@ -8,7 +8,7 @@
       <div style="float:right">
         <span class="text-dark" > {{ charsRemaining }} / {{  max_length }}</span><span class="small text-muted"> &nbsp;characters</span>
       </div>
-      <textarea class="form-control" :class="errors.length > 0 ? fe_class + 'border-danger bg-warning' : fe_class" :disabled="disabled || hasFormBeenPrinted" :id="id" @input="assertMaxChars()" :placeholder="placeholder" rows="5" v-model="attribute" v-uppercase></textarea>
+      <textarea class="form-control" :class="errors.length > 0 ? fe_class + 'border-danger bg-warning' : fe_class" :disabled="disabled || hasFormBeenPrinted" :id="id" @input="assertMaxChars()" :placeholder="placeholder" rows="5" v-model="attribute"></textarea>
       <div class="small text-danger">{{ errors[0] }}</div>
     </validation-provider>
   </div>
@@ -32,13 +32,6 @@
         }
           return true;
         }
-    },
-    directives: {
-      uppercase: {
-        update(el) {
-          el.value = el.value.toUpperCase();
-        }
-      }
     },
     methods: {
       ...mapMutations([

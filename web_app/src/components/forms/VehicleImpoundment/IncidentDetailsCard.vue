@@ -4,7 +4,7 @@
       <in-line-check-box id="incident_details_attached" :option="true" :path=path>Incident Details Attached</in-line-check-box>
     </form-row>
     <form-row>
-      <memo-field id="incident_details" fe_class="uppercase" fg_class="col-sm-12" max_length="765" :path=path rules="max:765" :show_label=false>Incident details</memo-field>
+      <memo-field id="incident_details" fe_class="uppercase" fg_class="col-sm-12" max_length="650" :path=path rules="max:650" :show_label=false>Incident details</memo-field>
     </form-row>
   </form-card>
 </template>
@@ -14,7 +14,10 @@
   import MemoField from "@/components/questions/MemoField";
   export default {
     name: "IncidentDetailsCard",
-    components: { InLineCheckBox, MemoField },
+    components: {
+      InLineCheckBox,
+      MemoField
+    },
     mixins: [ CardsCommon ]
   }
 </script>
