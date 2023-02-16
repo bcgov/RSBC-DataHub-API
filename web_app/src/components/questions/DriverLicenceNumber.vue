@@ -18,7 +18,7 @@
       </div>
       <b-modal id="dl-scanner" hide-footer>
         <template #modal-title>
-          Scan Driver'se Licence
+          Scan Driver's Licence
         </template>
         <div class="d-block text-center">
             <div v-if="scanner_opened">
