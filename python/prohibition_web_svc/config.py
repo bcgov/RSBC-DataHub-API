@@ -3,7 +3,6 @@ from python.common.config import Config as BaseConfig
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-
 class Config(BaseConfig):
     FLASK_SECRET_KEY                    = os.getenv('FLASK_SECRET_KEY')
 
@@ -31,7 +30,5 @@ class Config(BaseConfig):
 
     URL_PREFIX                          = os.getenv('URL_PREFIX', '')  # no trailing slash!
 
-    MAX_RECORDS_RETURNED = 500
-    VANCOUVER_TIMEZONE = 'America/Vancouver'
-
-
+    MAX_RECORDS_RETURNED                = 1000
+    VANCOUVER_TIMEZONE                  = 'America/Vancouver'

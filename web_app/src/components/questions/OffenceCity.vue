@@ -7,7 +7,6 @@
                    :id="id"
                    label="objectDsc"
                    track-by="objectCd"
-                   tag-placeholder="That's not an option"
                    :disabled="disabled || hasFormBeenPrinted"
                    placeholder="Search for a BC city or town name"
                    :options="getArrayOfBCCityObjects"></multiselect>

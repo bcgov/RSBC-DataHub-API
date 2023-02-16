@@ -51,7 +51,7 @@ def test_unauthorized_can_get_agencies(as_guest, monkeypatch, roles):
                         follow_redirects=True,
                         content_type="application/json")
     assert resp.status_code == 200
-    assert "1002" in resp.json[0]['vjur']
+    assert "AB" in resp.json[0]['vjur']
     assert responses.calls[0].request.body.decode() == json.dumps({
         'event': {
             'event': 'get static resource',
