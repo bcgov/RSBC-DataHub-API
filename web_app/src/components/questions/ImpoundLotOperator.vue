@@ -5,13 +5,15 @@
          <multiselect id="ilo_multiselect" :disabled="disabled || hasFormBeenPrinted" @input="typeAheadUpdate" :options="getArrayOfImpoundLotOperators" placeholder="Search for an Impound Lot Operator" tag-placeholder="That's not an option" v-model="query"></multiselect>
       </form-row>
     </shadow-box>
-      <br />
+    <br />
+    <shadow-box class="p-3" style="background-color: lightgray;">
       <form-row>
-        <text-field id="name" :disabled="disabled || hasFormBeenPrinted" fe_class="uppercase" fg_class="col-sm-12" :path="getPath" rules="required">Impound Lot Operator Name</text-field>
-        <text-field id="lot_address" :disabled="disabled || hasFormBeenPrinted" fe_class="uppercase" fg_class="col-sm-5" :path="getPath" rules="required" >Public Lot Address</text-field>
-        <text-field id="city" :disabled="disabled || hasFormBeenPrinted" fe_class="uppercase" fg_class="col-sm-4" :path="getPath" rules="required">City</text-field>
-        <text-field id="phone" :disabled="disabled || hasFormBeenPrinted" fg_class="col-sm-3" input_mask="###-###-####" :path="getPath" rules="required">Public Phone Number</text-field>
+          <text-field id="name" :disabled="disabled || hasFormBeenPrinted" fe_class="uppercase" fg_class="col-sm-12" :path="getPath" rules="required">Impound Lot Operator Name</text-field>
+          <text-field id="lot_address" :disabled="disabled || hasFormBeenPrinted" fe_class="uppercase" fg_class="col-sm-5" :path="getPath" rules="required" >Public Lot Address</text-field>
+          <text-field id="city" :disabled="disabled || hasFormBeenPrinted" fe_class="uppercase" fg_class="col-sm-4" :path="getPath" rules="required">City</text-field>
+          <text-field id="phone" :disabled="disabled || hasFormBeenPrinted" fg_class="col-sm-3" input_mask="###-###-####" :path="getPath" rules="required">Public Phone Number</text-field>
       </form-row>
+    </shadow-box>
   </div>
 </template>
 <script>

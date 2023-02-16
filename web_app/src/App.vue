@@ -14,8 +14,8 @@
                  <span>Admin Console</span>
                 </router-link>
                 &nbsp; {{ getKeycloakUsername }}
-                <div v-if="isUserAuthenticated" class="btn btn-light btn-sm ml-3" @click="$store.state.keycloak.logoutFn()">
-                  Logout
+                <div v-if="isUserAuthenticated" class="btn btn-light btn-sm ml-3 p-2" @click="$store.state.keycloak.logoutFn()">
+                  Sign Out
                 </div>
               </div>
             </div>
