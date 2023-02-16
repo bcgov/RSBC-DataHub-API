@@ -13,8 +13,12 @@
       </form-row>
       <form-row>
         <text-field id="ipr_number" fg_class="col-sm-3" :path="path + '/irp_yes'" v-mask="'##-#######'">IRP Number</text-field>
+        <div class="col-sm-">
           This VI Number <span class="small muted">(repeated here for your records)</span>
-          <span class="prohibition_number">{{ getCurrentlyEditedFormId }}<check-digit :form_object="form_object"></check-digit></span>
+          <p class="shadow p-1 mt-2 border bg-light rounded">
+            <span class="prohibition_number">{{ getDashedFormNumber }}<check-digit :form_object="form_object"></check-digit></span>
+          </p>
+        </div>
       </form-row>
     </div>
   </form-card>
@@ -31,6 +35,13 @@
         'getCurrentlyEditedFormId',
         'getFormIdCheckDigit'
       ]),
+      getDashedFormNumber() {
+        let dashedFormNumber = "";
+        for (let x = 0; x < this.getCurrentlyEditedFormId.length; x++) {
+          (x == 2) ? dashedFormNumber += "-" + this.getCurrentlyEditedFormId[x] : dashedFormNumber += this.getCurrentlyEditedFormId[x];
+        }
+        return dashedFormNumber;
+      },
       rootPath() {
         return this.path.replace("/data", "");
       }
@@ -43,7 +54,7 @@
 </script>
 <style scoped>
   #check-digit {
-    background: whitesmoke;
+    background: lightgrey;
     padding: 0 2px 0 2px;
   }
 </style>
