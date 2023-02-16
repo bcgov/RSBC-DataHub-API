@@ -2,7 +2,7 @@
   <div>
     <shadow-box class="bg-info p-3">
       <form-row>
-         <multiselect id="ilo_multiselect" :disabled="disabled || hasFormBeenPrinted" @input="typeAheadUpdate" :options="getArrayOfImpoundLotOperators" placeholder="Search for an Impound Lot Operator" tag-placeholder="That's not an option" v-model="query"></multiselect>
+         <multiselect id="ilo_multiselect" :disabled="disabled || hasFormBeenPrinted" @input="typeAheadUpdate" :options="getArrayOfImpoundLotOperators" placeholder="Search for an Impound Lot Operator" v-model="query"></multiselect>
       </form-row>
     </shadow-box>
     <br />

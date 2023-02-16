@@ -4,7 +4,7 @@
       <label :for="id">Vehicle Make and Model
         <span v-if="required" class="text-danger"> *</span>
       </label>
-      <multiselect :id="id" @input="updateVehicle" label="search" :options="getArrayOfVehicleMakeModel" placeholder="Search for a vehicle make and model" tag-placeholder="That make and model isn't found" track-by="search" :value="getAttributeValue(path, id)"></multiselect>
+      <multiselect :id="id" @input="updateVehicle" label="search" :options="getArrayOfVehicleMakeModel" placeholder="Search for a vehicle make and model" track-by="search" :value="getAttributeValue(path, id)"></multiselect>
       <div class="small text-danger">{{ errors[0] }}</div>
     </validation-provider>
   </div>

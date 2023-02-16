@@ -1,7 +1,7 @@
 <template>
   <div class="form-group" :class="fg_class">
     <label :for="id">Vehicle Year</label>
-    <multiselect :id="id" @input="updateVehicle" :options="getArrayOfVehicleYears" placeholder="Select a vehicle year" tag-placeholder="That year isn't found" :value="getAttributeValue(path, id)"></multiselect>
+    <multiselect :id="id" @input="updateVehicle" :options="getArrayOfVehicleYears" placeholder="Select a vehicle year" :value="getAttributeValue(path, id)"></multiselect>
   </div>
 </template>
 <script>
