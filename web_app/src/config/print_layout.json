@@ -697,10 +697,10 @@
         "field_type": "checkbox",
         "font_size": 12,
         "function": "isExists",
-        "parameters": "ipr_number",
+        "parameters": "irp_yes/ipr_number",
         "start": {
-          "x": 18,
-          "y": 128.3
+          "x": 18.2,
+          "y": 128.4
         }
       },
       "MV2722_IS_EXCESSIVE_SPEED": {
