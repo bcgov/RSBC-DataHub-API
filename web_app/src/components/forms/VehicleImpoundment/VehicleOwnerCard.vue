@@ -6,7 +6,7 @@
           <div class="col-6 pt-1 pl-0">Registered Owner</div>
           <div class="col-6 text-right">
             <div class="custom-control custom-switch">
-              <div type="button" :disabled="hasFormBeenPrinted" @click="populateOwnerFromDriver(path)" class="btn btn-outline-primary btn-sm small">Fill from driver</div>
+              <div class="btn btn-outline-primary btn-sm small" @click="populateOwnerFromDriver(path)" :disabled="hasFormBeenPrinted" type="button">Copy from Driver's Information</div>
             </div>
           </div>
         </div>
@@ -14,25 +14,25 @@
       <div class="card-body lightgray">
         <div>
           <form-row>
-            <in-line-check-box fg_class="col-sm-12" id="corp_owner" :path="path" :option="true" >Owned by corporate entity</in-line-check-box>
+            <in-line-check-box fg_class="col-sm-12" id="corp_owner" :path="path" :option="true" >Vehicle is owned by a company?</in-line-check-box>
           </form-row>
           <form-row v-if="doesAttributeExist(path, 'corp_owner_true')">
-            <text-field id="name" :path="path + '/corp_owner_true'" fg_class="col-sm-12" rules="max:40">Corporation Name</text-field>
+            <text-field fe_class="uppercase" fg_class="col-sm-12" id="name" :path="path + '/corp_owner_true'" rules="max:40">Company Name</text-field>
           </form-row>
           <form-row v-if="!doesAttributeExist(path, 'corp_owner_true')">
-            <text-field id="owners_last_name" :path="path + '/corp_owner_false'" fg_class="col-sm-4" rules="max:20">Owner's Last Name</text-field>
-            <text-field id="owners_first_name" :path="path + '/corp_owner_false'" fg_class="col-sm-5" rules="max:20">Owner's First Name</text-field>
-            <dob-field id="owner_dob" :path="path + '/corp_owner_false'" fg_class="col-sm-3" rules="dob8|dob">Date of Birth</dob-field>
+            <text-field id="owners_last_name" fe_class="uppercase" fg_class="col-sm-4" :path="path + '/corp_owner_false'" rules="max:20">Owner's Surname</text-field>
+            <text-field id="owners_first_name" fe_class="capitalize" fg_class="col-sm-5" :path="path + '/corp_owner_false'" rules="max:20">Owner's First Name</text-field>
+            <dob-field id="owner_dob" fg_class="col-sm-3" :path="path + '/corp_owner_false'" rules="dob8|dob"></dob-field>
           </form-row>
           <form-row>
-            <text-field id="owners_address1" :path="path" fg_class="col-sm-8" placeholder="Address" rules="lt25">Street Address</text-field>
-            <text-field id="owners_city" :path="path" fg_class="col-sm-4" rules="max:20">City</text-field>
+            <text-field id="owners_address1" fe_class="uppercase" fg_class="col-sm-8" :path="path" placeholder="" rules="lt25">Street Address</text-field>
+            <text-field id="owners_city" fe_class="uppercase" fg_class="col-sm-4" :path="path" rules="max:20">City</text-field>
           </form-row>
           <form-row>
-            <province-field id="owners_province" :path="path" fg_class="col-sm-2">Province</province-field>
-            <text-field id="owners_postal" :path="path" fg_class="col-sm-2">Postal / Zip</text-field>
-            <phone-field id="owners_phone" :path="path" fg_class="col-sm-4" rules="phone">Phone Number</phone-field>
-            <email-field id="owners_email" :path="path" fg_class="col-sm-4" rules="email">Email Address</email-field>
+            <province-field id="owners_province" fg_class="col-sm-2" :path="path">Province / State</province-field>
+            <text-field id="owners_postal" fe_class="uppercase" fg_class="col-sm-2" :path="path">Postal / ZIP</text-field>
+            <phone-field id="owners_phone" fg_class="col-sm-4" :path="path" rules="phone">Phone Number</phone-field>
+            <email-field id="owners_email" fg_class="col-sm-4" :path="path" rules="email">Email Address</email-field>
           </form-row>
           <!--
           <form-row>
@@ -45,22 +45,24 @@
   </div>
 </template>
 <script>
-import { mapActions } from "vuex";
-import CardsCommon from "@/components/forms/CardsCommon";
-export default {
-  name: "VehicleOwnerCard",
-  props: {
-    title: String,
-  },
-  mixins: [CardsCommon],
-  data() {
-    return {
-      owner_id: "owner_is_driver",
-      owner_option: "Driver is the vehicle owner",
-    };
-  },
-  methods: {
-    ...mapActions(["populateOwnerFromDriver"]),
-  },
-};
+  import CardsCommon from "@/components/forms/CardsCommon";
+  import { mapActions } from "vuex";
+  export default {
+    name: "VehicleOwnerCard",
+    data() {
+      return {
+        owner_id: "owner_is_driver",
+        owner_option: "Driver is the vehicle owner",
+      };
+    },
+    methods: {
+      ...mapActions([
+        "populateOwnerFromDriver"
+      ]),
+    },
+    mixins: [ CardsCommon ],
+    props: {
+      title: String,
+    }
+  };
 </script>

@@ -107,7 +107,7 @@ def validate_create_user_payload(**kwargs) -> tuple:
     schema = {
         "badge_number": {
             "type": "string",
-            "regex": "^([A-Z0-9]{2}[0-9]{4})$",
+            "regex": "^([a-zA-Z0-9]{2}[0-9]{4})$",
             "required": True
         },
         "agency": {

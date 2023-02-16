@@ -3,7 +3,8 @@
     <label v-if="show_label" :for="id">
       <slot></slot>
     </label>
-    <input :type="input_type" class="form-control" :class="localErrors.length > 0 ? 'border-danger bg-warning' : ''" :id="id" :disabled="disabled" :placeholder="placeholder" @change="modified" v-model="attribute" />
+    <span class="small text-danger"> *</span>
+    <input :type="input_type" class="form-control" :class="localErrors.length > 0 ? fe_class + 'border-danger bg-warning' : fe_class" :id="id" :disabled="disabled" :placeholder="placeholder" @change="modified" v-model="attribute" />
     <div class="small text-danger">{{ localErrors[0] }}</div>
   </div>
 </template>
@@ -11,33 +12,6 @@
   import Vue from 'vue'
   export default {
     name: "ApplicationField",
-    data() {
-      return {
-        attribute: ''
-      }
-    },
-    props: {
-      disabled: {
-        default: false,
-        type: Boolean
-      },
-      errors: [],
-      fg_class: String,
-      id: String,
-      placeholder: String,
-      show_label: {
-        type: Boolean,
-        default: true
-      },
-      visible: {
-        type: Boolean,
-        default: true
-      },
-      input_type: {
-        type: String,
-        default: 'text'
-      }
-    },
     computed: {
       localErrors() {
         if (this.id in this.errors) {
@@ -47,6 +21,11 @@
         }
       }
     },
+    data() {
+      return {
+        attribute: ''
+      }
+    },
     methods: {
       modified() {
         Vue.set(this.errors, this.id, [])
@@ -54,6 +33,29 @@
           id: this.id,
           value: this.attribute
         });
+      }
+    },
+    props: {
+      disabled: {
+        default: false,
+        type: Boolean
+      },
+      errors: [],
+      fg_class: String,
+      fe_class: String,
+      id: String,
+      input_type: {
+        type: String,
+        default: 'text'
+      },
+      placeholder: String,
+      show_label: {
+        type: Boolean,
+        default: true
+      },
+      visible: {
+        type: Boolean,
+        default: true
       }
     }
   }

@@ -5,17 +5,11 @@
         <span v-if="required" class="text-danger"> *</span>
       </label>
       <div class="input-group mb-3">
-        <input type=text
-             class="form-control"
-             :id="id"
-             :disabled="disabled || hasFormBeenPrinted"
-             placeholder="Plate"
-             v-model="attribute">
+        <input type=text class="form-control" :class="fe_class" :disabled="disabled || hasFormBeenPrinted" :id="id" placeholder="" v-model="attribute">
         <div class="input-group-append">
-          <button type="button" @click="triggerPlateLookup" class="btn-sm btn-secondary font-weight-bold" id="icbc-prefill"
-                  :disabled="hasFormBeenPrinted || ! isDisplayIcbcPlateLookup">
+          <button type="button" @click="triggerPlateLookup" class="btn-sm btn-secondary font-weight-bold" :disabled="hasFormBeenPrinted || ! isDisplayIcbcPlateLookup" id="icbc-prefill">
             ICBC Prefill
-            <b-spinner v-if="display_spinner" small label="Loading..."></b-spinner>
+            <b-spinner v-if="display_spinner" label="Loading..." small></b-spinner>
           </button>
         </div>
       </div>
@@ -26,54 +20,51 @@
     </validation-provider>
   </div>
 </template>
-
 <script>
+  import FadeText from "@/components/FadeText";
+  import FieldCommon from "@/components/questions/FieldCommon";
+  import { mapActions, mapGetters,  mapMutations} from "vuex";
+  export default {
 
-import FieldCommon from "@/components/questions/FieldCommon";
-import {mapGetters, mapMutations, mapActions} from "vuex";
-import FadeText from "@/components/FadeText";
-
-export default {
-  name: "PlateNumber",
-  mixins: [FieldCommon],
-  data() {
-    return {
-      display_spinner: false,
-      fetch_error: ''
-    }
-  },
-  computed: {
-    ...mapGetters(["getAttributeValue", "isDisplayIcbcPlateLookup", "getCurrentlyEditedFormId", "hasFormBeenPrinted"]),
-    icbcPayload() {
+    name: "PlateNumber",
+    components: {
+      FadeText
+    },
+    computed: {
+      ...mapGetters([
+          "getAttributeValue",
+          "getCurrentlyEditedFormId",
+          "hasFormBeenPrinted",
+          "isDisplayIcbcPlateLookup"
+      ]),
+      icbcPayload() {
+        return {
+          "plateNumber": this.getAttributeValue(this.path, this.id)
+        }
+      },
+    },
+    data() {
       return {
-        "plateNumber": this.getAttributeValue(this.path, this.id)
+        display_spinner: false,
+        fetch_error: ''
       }
     },
-  },
-  methods: {
-    ...mapMutations(["updateFormField"]),
+    methods: {
     ...mapActions(["lookupPlateFromICBC"]),
-    triggerPlateLookup() {
-      console.log("inside triggerPlateLookup()")
-      this.fetch_error = ''
-      this.display_spinner = true;
-      this.lookupPlateFromICBC([this.icbcPayload, this.path])
-          .then( () => {
-            this.display_spinner = false
-          })
-          .catch( error => {
-            console.log("error", error)
-            this.display_spinner = false
-            this.fetch_error = error.description;
-          })
-    }
-  },
-  components: {
-    FadeText
+    ...mapMutations(["updateFormField"]),
+      triggerPlateLookup() {
+        this.fetch_error = '';
+        this.display_spinner = true;
+        this.lookupPlateFromICBC([this.icbcPayload, this.path])
+        .then( () => {
+          this.display_spinner = false
+        })
+        .catch( error => {
+          this.display_spinner = false
+          this.fetch_error = error.description;
+        })
+      }
+    },
+    mixins: [ FieldCommon ]
   }
-}
 </script>
-
-<style scoped>
-
-</style>

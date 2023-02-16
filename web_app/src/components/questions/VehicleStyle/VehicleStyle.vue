@@ -13,7 +13,6 @@
                    :id="id"
                    @input="updateStyle"
                    :disabled="disabled || hasFormBeenPrinted"
-                   tag-placeholder="That style isn't an option"
                    placeholder="Search for a vehicle style"
                    label="name"
                    track-by="code"
