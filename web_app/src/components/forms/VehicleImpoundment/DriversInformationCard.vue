@@ -12,7 +12,7 @@
     <form-row>
       <gender-field id="driver_gender" fg_class="col-sm-4" :path=path>Gender</gender-field>
       <text-field id="expiry_year" fg_class="col-sm-4" :path=path placeholder="" rules="bcdlExpiryYear" v-mask="'####'">License Expiry Year</text-field>
-      <driver-licence-class v-if="isLicenceJurisdictionBC" id="dl_class" fg_class="col-sm-1" :path=path>BCDL Class</driver-licence-class>
+      <driver-licence-class v-if="isLicenceJurisdictionBC" id="dl_class" fg_class="col-sm-2" :path=path>BCDL Class</driver-licence-class>
     </form-row>
   </form-card>
 </template>
