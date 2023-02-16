@@ -46,3 +46,10 @@ Additional documentation is available for each container / pod:
 - [Geocoder](./python/docs/geocoder.md)
 - [PayBC API](./python/docs/paybc_api.md)  
 - [Form Handler](./python/docs/form_handler.md)
+
+
+## How to Contribute
+
+If you would like to contribute, please see our [Contributing](./CONTRIBUTING.md) guidelines.
+
+Please note that this project is released with a [Contributor Code of Conduct](./CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
