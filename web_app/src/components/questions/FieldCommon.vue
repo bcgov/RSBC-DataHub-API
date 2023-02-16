@@ -61,7 +61,10 @@
       }
     },
     methods: {
-      ...mapMutations(["updateFormField", "deleteFormField"])
+      ...mapMutations([
+        "deleteFormField",
+        "updateFormField"
+    ])
     }
   }
 </script>

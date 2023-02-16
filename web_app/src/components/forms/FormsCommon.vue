@@ -66,10 +66,10 @@
       ])
     },
     props: {
-        name: {
-          type: String
-        },
-        id: {}
+      name: {
+        type: String
+      },
+      id: {}
     }
   }
 </script>
