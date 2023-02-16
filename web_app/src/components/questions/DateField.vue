@@ -7,7 +7,7 @@
         <span class="small text-muted"> YYYYMMDD</span>
       </label>
       <b-input-group class="mb-3">
-        <b-form-input autocomplete="off" :id="id" placeholder="YYYYMMDD" type="text" v-mask="'########'" v-model="attribute"></b-form-input>
+        <b-form-input autocomplete="off" :id="id" placeholder="" type="text" v-mask="'########'" v-model="attribute"></b-form-input>
         <b-input-group-append>
           <b-form-datepicker button-only :disabled="disabled || hasFormBeenPrinted" :id="id + '_button'" @input="updateDate" label-reset-button="Clear" locale="en-CA" right reset-button></b-form-datepicker>
         </b-input-group-append>

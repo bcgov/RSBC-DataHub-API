@@ -7,7 +7,7 @@
       </label>
       <div class="col-xs-10">
         <div class="form-row">
-          <input class="form-control" :class="errors.length > 0 ? 'border-danger bg-warning' : ''" :disabled="disabled || hasFormBeenPrinted" :id="id" :name="id" placeholder="HHMM" type="text" v-mask="'####'" v-model="attribute">
+          <input class="form-control" :class="errors.length > 0 ? 'border-danger bg-warning' : ''" :disabled="disabled || hasFormBeenPrinted" :id="id" :name="id" placeholder="" type="text" v-mask="'####'" v-model="attribute">
         </div>
         <div class="small text-danger ml-1">{{ errors[0] }}</div>
       </div>
