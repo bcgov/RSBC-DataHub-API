@@ -29,7 +29,7 @@
             <text-field id="owners_city" fe_class="uppercase" fg_class="col-sm-4" :path="path" rules="max:20">City</text-field>
           </form-row>
           <form-row>
-            <province-field id="owners_province" fg_class="col-sm-2" :path="path">Province</province-field>
+            <province-field id="owners_province" fg_class="col-sm-2" :path="path">Province / State</province-field>
             <text-field id="owners_postal" fe_class="uppercase" fg_class="col-sm-2" :path="path">Postal / ZIP</text-field>
             <phone-field id="owners_phone" fg_class="col-sm-4" :path="path" rules="phone">Phone Number</phone-field>
             <email-field id="owners_email" fg_class="col-sm-4" :path="path" rules="email">Email Address</email-field>

@@ -2,7 +2,7 @@
   <form-card title="Driver's Information">
     <form-row>
       <driver-licence-number id="drivers_number" :path=path fg_class="col-sm-6">Driver's Licence Number</driver-licence-number>
-      <jurisdiction-field id="drivers_licence_jurisdiction" :path=path fg_class="col-sm-3">Prov / State / International</jurisdiction-field>
+      <jurisdiction-field id="drivers_licence_jurisdiction" :path=path fg_class="col-sm-3">Province / State</jurisdiction-field>
     </form-row>
     <form-row>
       <text-field id="last_name" fe_class="uppercase" fg_class="col-sm-4" :path=path rules="required|lt25">Surname</text-field>
