@@ -249,7 +249,7 @@ def review_scheduled(**args):
         # TODO: Call RIDE API endpoint
         eventpayload = {}
         eventpayload['typeofevent'] = 'review_scheduled'
-        eventpayload['payrecvdpayload'] = []
+        eventpayload['reviewscheduledpayload'] = []
         payloadrecord = {}
         payloadrecord["eventVersion"] = 1.0
 
@@ -283,7 +283,7 @@ def review_scheduled(**args):
         response = requests.post(endpoint, json=eventpayload, verify=False, headers=headers)
         print(response.json())
     except Exception as e:
-        logging.error('error in sending payment_received event to RIDE')
+        logging.error('error in sending review_scheduled event to RIDE')
         logging.error(e)
     # TODO: For errors write to RabbitMQ
     return True, args
