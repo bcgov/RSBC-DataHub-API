@@ -124,7 +124,8 @@ def disclosure_sent(**args):
         # elif 'hold_until' not in message['send_disclosure']:
         #     pass
         else:
-            tmpval=message['send_disclosure']['hold_until']
+            # tmpval=message['send_disclosure']['hold_until']
+            tmpval=message['hold_until']
             tformat="%Y-%m-%dT%H:%M:%S.%f"
             tformatted=datetime.datetime.strptime(tmpval,tformat)
             tmpdtstr=tformatted.strftime(format_string)
