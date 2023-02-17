@@ -121,9 +121,16 @@ def disclosure_sent(**args):
         hold_until_val=""
         if 'hold_until' not in message:
             pass
+        elif 'hold_until' not in message['send_disclosure']:
+            pass
         else:
-            tmpval=iso8601.parse_date(message['hold_until'], "")
-            hold_until_val=tmpval.strftime(format_string)
+            tmpval=message['send_disclosure']['hold_until']
+            tformat="%Y-%m-%dT%H:%M:%S.%f"
+            tformatted=datetime.datetime.strptime(tmpval,tformat)
+            tmpdtstr=tformatted.strftime(format_string)
+            hold_until_val=tmpdtstr
+            # tmpval=iso8601.parse_date(message['hold_until'], "")
+            # hold_until_val=tmpval.strftime(format_string)
         payloadrecord["holdUntil"] = hold_until_val
 
         eventpayload['disclosuresentpayload'].append(payloadrecord)        
