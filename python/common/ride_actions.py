@@ -118,11 +118,11 @@ def disclosure_sent(**args):
         message = args.get('message')
         # hold_hours = int(config.HOURS_TO_HOLD_BEFORE_DISCLOSURE)
         # message['hold_until'] = (datetime.datetime.today() + datetime.timedelta(hours=hold_hours)).isoformat()
-        hold_until_val=""
+        hold_until_val=dtstr
         if 'hold_until' not in message:
             pass
-        elif 'hold_until' not in message['send_disclosure']:
-            pass
+        # elif 'hold_until' not in message['send_disclosure']:
+        #     pass
         else:
             tmpval=message['send_disclosure']['hold_until']
             tformat="%Y-%m-%dT%H:%M:%S.%f"
