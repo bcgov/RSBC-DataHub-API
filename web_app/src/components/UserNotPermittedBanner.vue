@@ -24,7 +24,7 @@
             <application-field id="last_name" :errors="errors" fe_class="uppercase" fg_class="col-sm-3" @modified="modified_event">SURNAME</application-field>
             <application-field id="first_name" :errors="errors" fe_class="capitalize" fg_class="col-sm-3" @modified="modified_event">Given</application-field>
             <application-field-agency id="agency" :errors="errors" fg_class="col-sm-4" @modified="modified_event">Agency or RCMP Detachment</application-field-agency>
-            <application-field id="badge_number" :errors="errors" fe_class="lowercase" fg_class="col-sm-2" @modified="modified_event">PRIME ID</application-field>
+            <application-field id="badge_number" :errors="errors" fe_class="lowercase" fe_mask="NN####" fg_class="col-sm-2" @modified="modified_event">PRIME ID</application-field>
           </div>
         </div>
         <div>
@@ -45,7 +45,7 @@
 <script>
   import ApplicationField from "@/components/ApplicationField";
   import ApplicationFieldAgency from "@/components/ApplicationFieldAgency";
-  import Vue from 'vue'
+  import Vue from 'vue';
   import { mapActions, mapGetters } from "vuex";
   export default {
     name: "UserNotPermittedBanner",
@@ -62,21 +62,21 @@
     },
     data() {
       return {
-        errors: {
-          first_name: [],
-          last_name: [],
-          badge_number: [],
-          agency: []
-        },
         application: {
-          first_name: '',
-          last_name: '',
+          agency: '',
           badge_number: '',
-          agency: ''
+          first_name: '',
+          last_name: ''
+        },
+        errors: {
+          agency: [],
+          badge_number: [],
+          first_name: [],
+          last_name: []
         },
         showApplication: false,
-        showSpinner: false,
-        showApplicationReceived: false
+        showApplicationReceived: false,
+        showSpinner: false
       }
     },
     methods: {
@@ -91,7 +91,7 @@
           })
           .catch((errors) => {
             errors.then( (data) => {
-              console.log("applyToUnlockApplication failed", data.errors)
+              console.log("applyToUnlockApplication() failed", data.errors)
               Vue.set(this, "errors", data.errors)
             })
             this.showApplication = true
@@ -99,9 +99,26 @@
           })
       },
       modified_event(payload) {
-        console.log(payload)
         Vue.set(this.application, payload['id'], payload['value'])
       }
+    },
+    watch: {
+      'application.badge_number'() {
+        this.application.badge_number = this.application.badge_number.toLowerCase();
+      },
+      'application.first_name'() {
+        this.application.first_name = toMixedCase(this.application.first_name);
+      },
+      'application.last_name'() {
+        this.application.last_name = this.application.last_name.toUpperCase();
+      }
+    }
+  };
+  function toMixedCase(data) {
+    if (data.length !== undefined) {
+      return (data.charAt(0).toUpperCase() + data.slice(1));
+    } else {
+      return (data);
     }
   }
 </script>
