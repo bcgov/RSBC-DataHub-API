@@ -12,7 +12,7 @@
           You currently do not have access to the Digital Forms system.
         </p>
         <p>
-          Please apply for access after completing the training course and with the approval of your unit commander.
+          Please apply for access after completing the training course, and with the approval of your unit commander.
         </p>
       </div>
       <div v-if="!showApplicationReceived && !showApplication" class="btn btn-primary" @click="showApplication = true">
@@ -32,7 +32,7 @@
             <div class="col" />
             <div class="col-9 text-left">
               <p>
-                <b-icon-exclamation-triangle-fill class="text-info" /> <span class="font-weight-bold">PRIME ID</span> is the username you use use to log into the MDT (CAD) and the MRE.<br />
+                <b-icon-exclamation-triangle-fill class="text-danger" /> <span class="font-weight-bold">PRIME ID</span> is the username you use to log into the MDT (CAD) and the MRE.<br />
               </p>
               <ul>
                   <li>For independents, this is your agency's two-letter abbreviation followed by 2 to 4 numbers.</li><br />
