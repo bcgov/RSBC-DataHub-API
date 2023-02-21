@@ -9,7 +9,7 @@ from python.prohibition_web_svc.models import db, User, UserRole
 
 class CustomErrorHandler(errors.BasicErrorHandler):
     messages = errors.BasicErrorHandler.messages.copy()
-    messages[errors.REGEX_MISMATCH.code] = "must be 2 letters + 4 digits OR 6 digits (HRMIS)"
+    messages[errors.REGEX_MISMATCH.code] = "must be 2 letters + 2-4 digits OR 6 digits (HRMIS)"
 
 def user_has_not_applied_previously(**kwargs) -> tuple:
     try:
@@ -107,7 +107,7 @@ def validate_create_user_payload(**kwargs) -> tuple:
     schema = {
         "badge_number": {
             "type": "string",
-            "regex": "^([a-zA-Z0-9]{2}[0-9]{4})$",
+            "regex": "^([A-Z]{2}\d{2,4})|(\d{6})$",
             "required": True
         },
         "agency": {

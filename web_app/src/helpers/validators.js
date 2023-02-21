@@ -259,11 +259,11 @@ extend("offenceCityRules", {
 
 extend('primeLogin', {
   validate(value) {
-    const regX = new RegExp(/^([A-Z0-9]{2}\d{4})$/);
+    const regX = new RegExp(/^([A-Z0-9]{2}\d{2-4})$/);
     return {
       required: true,
       valid: regX.test(value)
     };
   },
-  message: 'PRIME ID must exactly 2 letters + 4 digits OR 6 digits (HRMIS)'
+  message: 'PRIME ID must exactly 2 letters + 2-4 digits (independent agencies) OR 6 digits (RCMP)'
 });

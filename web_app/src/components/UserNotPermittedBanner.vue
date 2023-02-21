@@ -6,7 +6,7 @@
           <span class="font-weight-bold" style="font-size:x-large">Welcome to the Digital Forms system</span>
         </p>
         <p>
-          <em>Warning: This system is available to authorized law enforcement officers only.</em>
+          <em>WARNING: This system is for use by authorized law enforcement officers only.</em>
         </p>
         <p>
           You currently do not have access to the Digital Forms system.
@@ -24,12 +24,27 @@
             <application-field id="last_name" :errors="errors" fe_class="uppercase" fg_class="col-sm-3" @modified="modified_event">SURNAME</application-field>
             <application-field id="first_name" :errors="errors" fe_class="capitalize" fg_class="col-sm-3" @modified="modified_event">Given</application-field>
             <application-field-agency id="agency" :errors="errors" fg_class="col-sm-4" @modified="modified_event">Agency or RCMP Detachment</application-field-agency>
-            <application-field id="badge_number" :errors="errors" fe_class="lowercase" fg_class="col-sm-2" @modified="modified_event">PRIME ID</application-field>
+            <application-field id="badge_number" :errors="errors" fe_class="uppercase" fe_mask="NN####" fg_class="col-sm-2" @modified="modified_event">PRIME ID</application-field>
           </div>
         </div>
+        <div class="container">
+          <div class="row">
+            <div class="col" />
+            <div class="col-9 text-left">
+              <p>
+                <b-icon-exclamation-triangle-fill class="text-info" /> <span class="font-weight-bold">PRIME ID</span> is the username you use use to log into the MDT (CAD) and the MRE.<br />
+              </p>
+              <ul>
+                  <li>For independents, this is your agency's two-letter abbreviation followed by 2 to 4 numbers.</li><br />
+                  <li>For RCMP members, this will be your 6 digit HRMIS.</li>
+              </ul>
+            </div>
+            <div class="col" />
+          </div>
+        </div>     
         <div>
           <button class="btn btn-secondary" @click="dispatchUnlock">
-            Apply
+            Apply for Access
             <b-spinner v-if="showSpinner" small></b-spinner>
           </button>
         </div>
@@ -38,6 +53,9 @@
         <p>
           <span class="font-weight-bold">Application received.</span> Thank-you!
         </p>
+        <p>
+          Your application will be reviewed and approved within 24 business hours.
+        </p>
       </div>
     </div>
   </div>
@@ -45,7 +63,7 @@
 <script>
   import ApplicationField from "@/components/ApplicationField";
   import ApplicationFieldAgency from "@/components/ApplicationFieldAgency";
-  import Vue from 'vue'
+  import Vue from 'vue';
   import { mapActions, mapGetters } from "vuex";
   export default {
     name: "UserNotPermittedBanner",
@@ -62,21 +80,21 @@
     },
     data() {
       return {
-        errors: {
-          first_name: [],
-          last_name: [],
-          badge_number: [],
-          agency: []
-        },
         application: {
-          first_name: '',
-          last_name: '',
+          agency: '',
           badge_number: '',
-          agency: ''
+          first_name: '',
+          last_name: ''
+        },
+        errors: {
+          agency: [],
+          badge_number: [],
+          first_name: [],
+          last_name: []
         },
         showApplication: false,
-        showSpinner: false,
-        showApplicationReceived: false
+        showApplicationReceived: false,
+        showSpinner: false
       }
     },
     methods: {
@@ -91,7 +109,7 @@
           })
           .catch((errors) => {
             errors.then( (data) => {
-              console.log("applyToUnlockApplication failed", data.errors)
+              console.log("applyToUnlockApplication() failed", data.errors)
               Vue.set(this, "errors", data.errors)
             })
             this.showApplication = true
@@ -99,9 +117,26 @@
           })
       },
       modified_event(payload) {
-        console.log(payload)
         Vue.set(this.application, payload['id'], payload['value'])
       }
+    },
+    watch: {
+      'application.badge_number'() {
+        this.application.badge_number = this.application.badge_number.toUpperCase();
+      },
+      'application.first_name'() {
+        this.application.first_name = toMixedCase(this.application.first_name);
+      },
+      'application.last_name'() {
+        this.application.last_name = this.application.last_name.toUpperCase();
+      }
+    }
+  };
+  function toMixedCase(data) {
+    if (data.length !== undefined) {
+      return (data.charAt(0).toUpperCase() + data.slice(1));
+    } else {
+      return (data);
     }
   }
 </script>
