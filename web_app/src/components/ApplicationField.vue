@@ -4,12 +4,14 @@
       <slot></slot>
     </label>
     <span class="small text-danger"> *</span>
-    <input :type="input_type" class="form-control" :class="localErrors.length > 0 ? fe_class + 'border-danger bg-warning' : fe_class" :id="id" :disabled="disabled" :placeholder="placeholder" @change="modified" v-model="attribute" />
+    <input :type="input_type" class="form-control" :class="localErrors.length > 0 ? fe_class + 'border-danger bg-warning' : fe_class" :id="id" :disabled="disabled" :placeholder="placeholder" @change="modified" v-model="attribute" v-mask="fe_mask" />
     <div class="small text-danger">{{ localErrors[0] }}</div>
   </div>
 </template>
 <script>
-  import Vue from 'vue'
+  import Vue from 'vue';
+  import VueMask from 'v-mask';
+  Vue.use(VueMask);
   export default {
     name: "ApplicationField",
     computed: {
@@ -43,6 +45,7 @@
       errors: [],
       fg_class: String,
       fe_class: String,
+      fe_mask: String,
       id: String,
       input_type: {
         type: String,

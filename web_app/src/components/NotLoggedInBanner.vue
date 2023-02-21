@@ -1,14 +1,18 @@
 <template>
-  <div id="not-authenticated-banner" class="card-header bg-secondary text-left small pt-1 pb-1">
+  <div class="card-header bg-danger pt-2 pb-2">
     <div class="d-flex justify-content-between align-items-center">
       <div>
-        <span class="font-weight-bold h4" id="logged-in-status"><b-icon-exclamation-triangle-fill variant="warning"></b-icon-exclamation-triangle-fill>&nbsp; Not signed in!</span>
         &nbsp;
-        <span class="h5">Driver's licence and vehicle licence plate lookups are not available.</span>
+      </div>
+      <div class="text-white">
+        <span class="font-weight-bold h4" id="logged-in-status"><b-icon-exclamation-triangle-fill variant="warning" />&nbsp; <span style="text-decoration: underline;">You are not signed in!</span></span>
+        &nbsp;
+        <span class="h5">Driver's licence and plate lookups will be unavailable.</span>
       </div>
       <div>
+        <b-icon icon="arrow-right" animation="cylon" scale="2.5" variant="white"></b-icon> &nbsp; &nbsp;
         <router-link to="/login">
-          <div class="btn btn-warning btn-lg m-1 text-dark font-weight-bold" id="login-button">SIGN IN</div>
+          <div class="btn btn-warning m-1 text-dark font-weight-bold" id="login-button">Sign In</div>
         </router-link>
       </div>
     </div>
