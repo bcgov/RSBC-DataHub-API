@@ -52,23 +52,23 @@ def app_accepted_event(**args):
         payloadrecord["applicantRole"] = args['message']['prohibition_review']['form']['identification-information']['applicant-role']
 
         # get applicant details
-        payloadrecord["applicantFirstNm"] = args['message']['prohibition_review']['form']['identification-information']['first-name-applicant']
-        payloadrecord["applicantLastNm"] = args['message']['prohibition_review']['form']['identification-information']['last-name-applicant']
-        payloadrecord["applicantPhoneNo"] = args['message']['prohibition_review']['form']['identification-information']['applicant-phone-number']
-        payloadrecord["applicantEmailAddr"] = args['message']['prohibition_review']['form']['identification-information']['applicant-email-address']
-        payloadrecord["applicantEmailConfirm"] = args['message']['prohibition_review']['form']['identification-information']['applicant-email-confirm']
+        # payloadrecord["applicantFirstNm"] = args['message']['prohibition_review']['form']['identification-information']['first-name-applicant']
+        # payloadrecord["applicantLastNm"] = args['message']['prohibition_review']['form']['identification-information']['last-name-applicant']
+        # payloadrecord["applicantPhoneNo"] = args['message']['prohibition_review']['form']['identification-information']['applicant-phone-number']
+        # payloadrecord["applicantEmailAddr"] = args['message']['prohibition_review']['form']['identification-information']['applicant-email-address']
+        # payloadrecord["applicantEmailConfirm"] = args['message']['prohibition_review']['form']['identification-information']['applicant-email-confirm']
 
         # Get driver deails
-        payloadrecord["driverFirstNm"] = args['message']['prohibition_review']['form']['identification-information']['driver-first-name']
-        payloadrecord["driverLastNm"] = args['message']['prohibition_review']['form']['identification-information']['driver-last-name']
+        # payloadrecord["driverFirstNm"] = args['message']['prohibition_review']['form']['identification-information']['driver-first-name']
+        # payloadrecord["driverLastNm"] = args['message']['prohibition_review']['form']['identification-information']['driver-last-name']
         payloadrecord["driverInformationDriverDl"] = args['message']['prohibition_review']['form']['identification-information']['driver-bcdl']
-        payloadrecord["streetInformationStreetAddr"] = args['message']['prohibition_review']['form']['identification-information']['street-address']
-        payloadrecord["driverCityTown"] = args['message']['prohibition_review']['form']['identification-information']['control-driver-city-town']
-        payloadrecord["driverProvince"] = args['message']['prohibition_review']['form']['identification-information']['control-driver-province']
-        payloadrecord["driverPostalCde"] = args['message']['prohibition_review']['form']['identification-information']['control-driver-postal-code']
+        # payloadrecord["streetInformationStreetAddr"] = args['message']['prohibition_review']['form']['identification-information']['street-address']
+        # payloadrecord["driverCityTown"] = args['message']['prohibition_review']['form']['identification-information']['control-driver-city-town']
+        # payloadrecord["driverProvince"] = args['message']['prohibition_review']['form']['identification-information']['control-driver-province']
+        # payloadrecord["driverPostalCde"] = args['message']['prohibition_review']['form']['identification-information']['control-driver-postal-code']
 
         # get applicant signatue info
-        payloadrecord["applicantSignature"] = args['message']['prohibition_review']['form']['consent-and-submission']['signature-applicant-name']
+        # payloadrecord["applicantSignature"] = args['message']['prohibition_review']['form']['consent-and-submission']['signature-applicant-name']
         payloadrecord["applicantDtSigned"] = args['message']['prohibition_review']['form']['consent-and-submission']['date-signed']
 
         eventpayload['appacceptedpayload'].append(payloadrecord)
@@ -112,8 +112,8 @@ def disclosure_sent(**args):
         # payloadrecord["prohibitionNo"] = args['message']['prohibition_review']['form']['prohibition-information'][
         #     'prohibition-number-clean']
 
-        payloadrecord["applicantNm"] = args.get('applicant_name')
-        payloadrecord["applicantEmail"] = args.get('applicant_email_address')
+        # payloadrecord["applicantNm"] = args.get('applicant_name')
+        # payloadrecord["applicantEmail"] = args.get('applicant_email_address')
 
         message = args.get('message')
         # hold_hours = int(config.HOURS_TO_HOLD_BEFORE_DISCLOSURE)
