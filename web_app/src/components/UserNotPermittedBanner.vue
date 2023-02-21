@@ -6,7 +6,7 @@
           <span class="font-weight-bold" style="font-size:x-large">Welcome to the Digital Forms system</span>
         </p>
         <p>
-          <em>Warning: This system is available to authorized law enforcement officers only.</em>
+          <em>WARNING: This system is for use by authorized law enforcement officers only.</em>
         </p>
         <p>
           You currently do not have access to the Digital Forms system.
@@ -24,12 +24,27 @@
             <application-field id="last_name" :errors="errors" fe_class="uppercase" fg_class="col-sm-3" @modified="modified_event">SURNAME</application-field>
             <application-field id="first_name" :errors="errors" fe_class="capitalize" fg_class="col-sm-3" @modified="modified_event">Given</application-field>
             <application-field-agency id="agency" :errors="errors" fg_class="col-sm-4" @modified="modified_event">Agency or RCMP Detachment</application-field-agency>
-            <application-field id="badge_number" :errors="errors" fe_class="lowercase" fe_mask="NN####" fg_class="col-sm-2" @modified="modified_event">PRIME ID</application-field>
+            <application-field id="badge_number" :errors="errors" fe_class="uppercase" fe_mask="NN####" fg_class="col-sm-2" @modified="modified_event">PRIME ID</application-field>
           </div>
         </div>
+        <div class="container">
+          <div class="row">
+            <div class="col" />
+            <div class="col-9 text-left">
+              <p>
+                <b-icon-exclamation-triangle-fill class="text-info" /> <span class="font-weight-bold">PRIME ID</span> is the username you use use to log into the MDT (CAD) and the MRE.<br />
+              </p>
+              <ul>
+                  <li>For independents, this is your agency's two-letter abbreviation followed by 2 to 4 numbers.</li><br />
+                  <li>For RCMP members, this will be your 6 digit HRMIS.</li>
+              </ul>
+            </div>
+            <div class="col" />
+          </div>
+        </div>     
         <div>
           <button class="btn btn-secondary" @click="dispatchUnlock">
-            Apply
+            Apply for Access
             <b-spinner v-if="showSpinner" small></b-spinner>
           </button>
         </div>
@@ -37,6 +52,9 @@
       <div v-if="showApplicationReceived">
         <p>
           <span class="font-weight-bold">Application received.</span> Thank-you!
+        </p>
+        <p>
+          Your application will be reviewed and approved within 24 business hours.
         </p>
       </div>
     </div>
@@ -104,7 +122,7 @@
     },
     watch: {
       'application.badge_number'() {
-        this.application.badge_number = this.application.badge_number.toLowerCase();
+        this.application.badge_number = this.application.badge_number.toUpperCase();
       },
       'application.first_name'() {
         this.application.first_name = toMixedCase(this.application.first_name);
