@@ -25,10 +25,16 @@ def app_accepted_event(**args):
 
         # convert date time to string
         tvalue = args['message']['event_date_time']
+        # tformat = "%Y-%m-%dT%H:%M:%S.%f"
+        # tformatted = datetime.datetime.strptime(tvalue, tformat)
+        # format_string = "%Y-%m-%d %H:%M:%S"
+        # dtstr = tformatted.strftime(format_string)
         tformat = "%Y-%m-%dT%H:%M:%S.%f"
         tformatted = datetime.datetime.strptime(tvalue, tformat)
+        tmp_formatted=tformatted.replace(tzinfo=datetime.timezone.utc).astimezone(tz=None)
         format_string = "%Y-%m-%d %H:%M:%S"
-        dtstr = tformatted.strftime(format_string)
+        # dtstr = tformatted.strftime(format_string)
+        dtstr = tmp_formatted.strftime(format_string)
         payloadrecord["eventDtm"] = dtstr
 
         payloadrecord["eventType"] = "app_accepted"
@@ -102,7 +108,10 @@ def disclosure_sent(**args):
         # convert date time to string
         dt1 = datetime.datetime.now()
         format_string = "%Y-%m-%d %H:%M:%S"
-        dtstr = dt1.strftime(format_string)
+        tmp_formatted=dt1.replace(tzinfo=datetime.timezone.utc).astimezone(tz=None)
+        # dtstr = tformatted.strftime(format_string)
+        dtstr = tmp_formatted.strftime(format_string)
+        # dtstr = dt1.strftime(format_string)
         payloadrecord["eventDtm"] = dtstr
 
         payloadrecord["eventType"] = "disclosure_sent"
@@ -168,8 +177,13 @@ def evidence_submitted(**args):
         # dtstr = tformatted.strftime(format_string)
         # payloadrecord["eventDtm"] = dtstr
         dt1 = datetime.datetime.now()
+        # format_string = "%Y-%m-%d %H:%M:%S"
+        # dtstr = dt1.strftime(format_string)
+
         format_string = "%Y-%m-%d %H:%M:%S"
-        dtstr = dt1.strftime(format_string)
+        tmp_formatted=dt1.replace(tzinfo=datetime.timezone.utc).astimezone(tz=None)
+        # dtstr = tformatted.strftime(format_string)
+        dtstr = tmp_formatted.strftime(format_string)
         payloadrecord["eventDtm"] = dtstr
 
         payloadrecord["eventType"] = "evidence_submitted"
@@ -213,8 +227,12 @@ def payment_received(**args):
         # convert date time to string
         # "eventDtm":"2021-12-27 15:40:45",
         dt1 = datetime.datetime.now()
+        # format_string = "%Y-%m-%d %H:%M:%S"
+        # dtstr = dt1.strftime(format_string)
         format_string = "%Y-%m-%d %H:%M:%S"
-        dtstr = dt1.strftime(format_string)
+        tmp_formatted=dt1.replace(tzinfo=datetime.timezone.utc).astimezone(tz=None)
+        # dtstr = tformatted.strftime(format_string)
+        dtstr = tmp_formatted.strftime(format_string)
         payloadrecord["eventDtm"] = dtstr
 
         payloadrecord["eventType"] = "payment_received"
@@ -233,8 +251,13 @@ def payment_received(**args):
         payloadrecord["cardType"] = payload.get('cardtype')
 
         receipt_datetime_object = args.get('receipt_date')
+        # change timezone
+        tmp_formatted=receipt_datetime_object.replace(tzinfo=datetime.timezone.utc).astimezone(tz=None)
+        # dtstr = tformatted.strftime(format_string)
+        dtstr = tmp_formatted.strftime(format_string)
 
-        payloadrecord["receiptDtm"] = receipt_datetime_object.strftime(format_string)
+        # payloadrecord["receiptDtm"] = receipt_datetime_object.strftime(format_string)
+        payloadrecord["receiptDtm"] = dtstr
 
         eventpayload['payrecvdpayload'].append(payloadrecord)
         endpoint = f"{ride_url}/dfevents/paymentreceived"
@@ -268,8 +291,12 @@ def review_scheduled(**args):
         # convert date time to string
         # "eventDtm":"2021-12-27 15:40:45",
         dt1 = datetime.datetime.now()
+        # format_string = "%Y-%m-%d %H:%M:%S"
+        # dtstr = dt1.strftime(format_string)
         format_string = "%Y-%m-%d %H:%M:%S"
-        dtstr = dt1.strftime(format_string)
+        tmp_formatted=dt1.replace(tzinfo=datetime.timezone.utc).astimezone(tz=None)
+        # dtstr = tformatted.strftime(format_string)
+        dtstr = tmp_formatted.strftime(format_string)
         payloadrecord["eventDtm"] = dtstr
 
         payloadrecord["eventType"] = "review_scheduled"
