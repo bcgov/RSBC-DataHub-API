@@ -6,9 +6,11 @@ from python.common.vips_api import vips_str_to_datetime
 import python.common.vips_api as vips
 import iso8601
 from python.common.config import Config
+import pytz
 
 ride_url=Config.RIDE_API_URL
 ride_key=Config.RIDE_API_KEY
+local_tz = pytz.timezone('Canada/Pacific')
 
 def app_accepted_event(**args):    
     try:
@@ -31,7 +33,7 @@ def app_accepted_event(**args):
         # dtstr = tformatted.strftime(format_string)
         tformat = "%Y-%m-%dT%H:%M:%S.%f"
         tformatted = datetime.datetime.strptime(tvalue, tformat)
-        tmp_formatted=tformatted.replace(tzinfo=datetime.timezone.utc).astimezone(tz=None)
+        tmp_formatted=tformatted.replace(tzinfo=datetime.timezone.utc).astimezone(tz=local_tz)
         format_string = "%Y-%m-%d %H:%M:%S"
         # dtstr = tformatted.strftime(format_string)
         dtstr = tmp_formatted.strftime(format_string)
@@ -108,7 +110,7 @@ def disclosure_sent(**args):
         # convert date time to string
         dt1 = datetime.datetime.now()
         format_string = "%Y-%m-%d %H:%M:%S"
-        tmp_formatted=dt1.replace(tzinfo=datetime.timezone.utc).astimezone(tz=None)
+        tmp_formatted=dt1.replace(tzinfo=datetime.timezone.utc).astimezone(tz=local_tz)
         # dtstr = tformatted.strftime(format_string)
         dtstr = tmp_formatted.strftime(format_string)
         # dtstr = dt1.strftime(format_string)
@@ -181,7 +183,7 @@ def evidence_submitted(**args):
         # dtstr = dt1.strftime(format_string)
 
         format_string = "%Y-%m-%d %H:%M:%S"
-        tmp_formatted=dt1.replace(tzinfo=datetime.timezone.utc).astimezone(tz=None)
+        tmp_formatted=dt1.replace(tzinfo=datetime.timezone.utc).astimezone(tz=local_tz)
         # dtstr = tformatted.strftime(format_string)
         dtstr = tmp_formatted.strftime(format_string)
         payloadrecord["eventDtm"] = dtstr
@@ -230,7 +232,7 @@ def payment_received(**args):
         # format_string = "%Y-%m-%d %H:%M:%S"
         # dtstr = dt1.strftime(format_string)
         format_string = "%Y-%m-%d %H:%M:%S"
-        tmp_formatted=dt1.replace(tzinfo=datetime.timezone.utc).astimezone(tz=None)
+        tmp_formatted=dt1.replace(tzinfo=datetime.timezone.utc).astimezone(tz=local_tz)
         # dtstr = tformatted.strftime(format_string)
         dtstr = tmp_formatted.strftime(format_string)
         payloadrecord["eventDtm"] = dtstr
@@ -252,7 +254,7 @@ def payment_received(**args):
 
         receipt_datetime_object = args.get('receipt_date')
         # change timezone
-        tmp_formatted=receipt_datetime_object.replace(tzinfo=datetime.timezone.utc).astimezone(tz=None)
+        tmp_formatted=receipt_datetime_object.replace(tzinfo=datetime.timezone.utc).astimezone(tz=local_tz)
         # dtstr = tformatted.strftime(format_string)
         dtstr = tmp_formatted.strftime(format_string)
 
@@ -294,7 +296,7 @@ def review_scheduled(**args):
         # format_string = "%Y-%m-%d %H:%M:%S"
         # dtstr = dt1.strftime(format_string)
         format_string = "%Y-%m-%d %H:%M:%S"
-        tmp_formatted=dt1.replace(tzinfo=datetime.timezone.utc).astimezone(tz=None)
+        tmp_formatted=dt1.replace(tzinfo=datetime.timezone.utc).astimezone(tz=local_tz)
         # dtstr = tformatted.strftime(format_string)
         dtstr = tmp_formatted.strftime(format_string)
         payloadrecord["eventDtm"] = dtstr
