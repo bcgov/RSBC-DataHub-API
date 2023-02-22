@@ -71,8 +71,8 @@ def app_accepted_event(**args):
         # payloadrecord["driverLastNm"] = args['message']['prohibition_review']['form']['identification-information']['driver-last-name']
         payloadrecord["driverInformationDriverDl"] = args['message']['prohibition_review']['form']['identification-information']['driver-bcdl']
         # payloadrecord["streetInformationStreetAddr"] = args['message']['prohibition_review']['form']['identification-information']['street-address']
-        # payloadrecord["driverCityTown"] = args['message']['prohibition_review']['form']['identification-information']['control-driver-city-town']
-        # payloadrecord["driverProvince"] = args['message']['prohibition_review']['form']['identification-information']['control-driver-province']
+        payloadrecord["driverCityTown"] = args['message']['prohibition_review']['form']['identification-information']['control-driver-city-town']
+        payloadrecord["driverProvince"] = args['message']['prohibition_review']['form']['identification-information']['control-driver-province']
         # payloadrecord["driverPostalCde"] = args['message']['prohibition_review']['form']['identification-information']['control-driver-postal-code']
 
         # get applicant signatue info
@@ -242,11 +242,11 @@ def payment_received(**args):
         # Get prohibition no
         payloadrecord["prohibitionNo"] = args.get('prohibition_number')
 
-        payloadrecord["recieptNo"] = payload['receipt_number']
+        # payloadrecord["recieptNo"] = payload['receipt_number']
 
         payloadrecord["receiptAmt"] = payload['receipt_amount']
 
-        payloadrecord["transactionId"] = payload.get('transaction_id')
+        # payloadrecord["transactionId"] = payload.get('transaction_id')
 
         payloadrecord["paymentMethod"] = payload.get('payment_method')
 
