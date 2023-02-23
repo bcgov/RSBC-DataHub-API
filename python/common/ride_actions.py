@@ -70,6 +70,8 @@ def app_accepted_event(**args):
         # payloadrecord["driverFirstNm"] = args['message']['prohibition_review']['form']['identification-information']['driver-first-name']
         # payloadrecord["driverLastNm"] = args['message']['prohibition_review']['form']['identification-information']['driver-last-name']
         payloadrecord["driverInformationDriverDl"] = args['message']['prohibition_review']['form']['identification-information']['driver-bcdl']
+        if (payloadrecord["driverInformationDriverDl"]==None or payloadrecord["driverInformationDriverDl"]=='null' or payloadrecord["driverInformationDriverDl"]=='Null' or payloadrecord["driverInformationDriverDl"]==''):
+            payloadrecord["driverInformationDriverDl"]=''
         # payloadrecord["streetInformationStreetAddr"] = args['message']['prohibition_review']['form']['identification-information']['street-address']
         payloadrecord["driverCityTown"] = args['message']['prohibition_review']['form']['identification-information']['control-driver-city-town']
         payloadrecord["driverProvince"] = args['message']['prohibition_review']['form']['identification-information']['control-driver-province']
