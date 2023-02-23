@@ -88,7 +88,9 @@ def app_accepted_event(**args):
         print(response.json())
     except Exception as e:
         logging.error('error in sending app_accepted event to RIDE')
-        logging.error(e)
+        logging.error(e)  
+
+
     
 
 
