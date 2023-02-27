@@ -210,6 +210,16 @@ objects:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
                   key: splunk-token
+            - name: RIDE_API_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: RIDE_API_URL
+            - name: RIDE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: RIDE_API_KEY
             - name: LOG_LEVEL
               value: ${LOG_LEVEL}
             - name: ENVIRONMENT

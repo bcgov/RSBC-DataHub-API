@@ -1,42 +1,33 @@
 <template>
-  <form-card title="Linkage">
-    <p>The officer determined the following (relationship between driver, owner and the vehicle)</p>
+  <form-card title="Linkage Factors">
+    <p>The officer determined the following: (relationship between driver, owner and the vehicle)</p>
     <form-row>
-      <in-line-check-box id="linkage_keys" :path=path :option="true">{{ keyText }}</in-line-check-box>
+      <in-line-check-box id="linkage_keys" :option="true" :path=path>Location of vehicle key(s) (explain below or in incident details)</in-line-check-box>
     </form-row>
     <form-row v-if="doesAttributeExist(path, 'linkage_keys_true')">
-      <text-field id="note" :path="path + '/linkage_keys_true'" fg_class="col-sm-12">Where were the keys located?</text-field>
+      <text-field id="note" fe_class="uppercase" fg_class="col-sm-12" :path="path + '/linkage_keys_true'">Where are the keys located?</text-field>
     </form-row>
     <form-row>
-      <in-line-check-box id="linkage_principal_operator" :path=path :option="true">The driver is a principal operator</in-line-check-box>
+      <in-line-check-box id="linkage_principal_operator" :option="true" :path=path>The driver is a principal operator</in-line-check-box>
     </form-row>
     <form-row>
-      <in-line-check-box id="linkage_owner_within" :path=path :option="true">The owner was in the vehicle</in-line-check-box>
+      <in-line-check-box id="linkage_owner_within" :option="true" :path=path>The owner was in the vehicle</in-line-check-box>
     </form-row>
     <form-row>
-      <in-line-check-box id="linkage_owner_aware" :path=path :option="true">The owner was aware
-        the driver was in possession of the vehicle (explain in the incident details)</in-line-check-box>
+      <in-line-check-box id="linkage_owner_aware" :option="true" :path=path>The owner was aware the driver was in possession of the vehicle (explain in incident details)</in-line-check-box>
     </form-row>
     <form-row>
-      <in-line-check-box id="linkage_transfer" :path=path :option="true">Vehicle subject to a
-          transfer notice (explain in the incident details)</in-line-check-box>
+      <in-line-check-box id="linkage_transfer" :option="true" :path=path>Vehicle subject to a transfer notice (explain in incident details)</in-line-check-box>
     </form-row>
     <form-row>
-      <in-line-check-box id="linkage_other" :path=path :option="true">Other (explain in the incident details)</in-line-check-box>
+      <in-line-check-box id="linkage_other" :option="true" :path=path>Other (explain in incident details)</in-line-check-box>
     </form-row>
   </form-card>
 </template>
-
 <script>
-import CardsCommon from "@/components/forms/CardsCommon";
-
-export default {
-  name: "LinkageCard",
-  mixins: [CardsCommon],
-  computed: {
-    keyText() {
-      return "Location of vehicle key(s) (explain below or in the incident details)"
-    }
+  import CardsCommon from "@/components/forms/CardsCommon";
+  export default {
+    name: "LinkageCard",
+    mixins: [CardsCommon],
   }
-}
 </script>

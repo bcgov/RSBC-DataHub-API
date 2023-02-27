@@ -8,7 +8,6 @@
                    @input="updateJurisdiction"
                    :disabled="disabled || hasFormBeenPrinted"
                    :id="id"
-                   tag-placeholder="That isn't an option"
                    label="objectDsc"
                    track-by="objectCd"
                    placeholder="Search for a Jurisdiction"

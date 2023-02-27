@@ -57,6 +57,8 @@ parameters:
   displayName: Memory upper limit
   description: Memory upper limit
   required: true
+- name: RIDE_API_URL
+- name: RIDE_API_KEY
 objects:
 - apiVersion: image.openshift.io/v1
   kind: ImageStream
@@ -202,6 +204,16 @@ objects:
                 secretKeyRef:
                   name: ${NAME}-${PHASE}
                   key: splunk-token
+            - name: RIDE_API_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: RIDE_API_URL
+            - name: RIDE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ${NAME}-${PHASE}
+                  key: RIDE_API_KEY
             - name: LINK_TO_ICBC
               value: ${LINK_TO_ICBC}
             - name: LINK_TO_SERVICE_BC

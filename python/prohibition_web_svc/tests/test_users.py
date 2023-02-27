@@ -61,8 +61,8 @@ def test_applying_user_must_supply_an_agency_name_of_at_least_4_characters(as_gu
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_keycloak_user_who_has_not_applied)
     resp = as_guest.post(Config.URL_PREFIX + "/api/v1/users",
                          json={
-                             "agency": "AAA",
-                             "badge_number": "8044",
+                             "agency": "RCMP",
+                             "badge_number": "108044",
                              "first_name": "New",
                              "last_name": "Officer"
                          },
@@ -70,7 +70,7 @@ def test_applying_user_must_supply_an_agency_name_of_at_least_4_characters(as_gu
                          headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
     assert resp.status_code == 400
     assert resp.json['message'] == "failed validation"
-    assert resp.json['errors'] == {'agency': ['min length is 4']}
+    assert resp.json['errors'] == {'agency': ['min length is 5']}
 
 
 @responses.activate
@@ -80,7 +80,7 @@ def test_user_without_authorization_can_apply_to_use_the_app(as_guest, monkeypat
     resp = as_guest.post(Config.URL_PREFIX + "/api/v1/users",
                          json={
                              "agency": "RCMP Terrace",
-                             "badge_number": "8044",
+                             "badge_number": "108044",
                              "first_name": "New",
                              "last_name": "Officer"
                          },
@@ -90,7 +90,7 @@ def test_user_without_authorization_can_apply_to_use_the_app(as_guest, monkeypat
     assert database.session.query(User) \
                .filter(User.user_guid == 'new-officer@idir') \
                .filter(User.agency == 'RCMP Terrace') \
-               .filter(User.badge_number == "8044") \
+               .filter(User.badge_number == "108044") \
                .filter(User.first_name == "New") \
                .filter(User.last_name == "Officer") \
                .count() == 1
@@ -105,7 +105,7 @@ def test_user_without_authorization_can_apply_to_use_the_app(as_guest, monkeypat
             'event': 'officer has applied',
             'user_guid': 'new-officer@idir',
             'username': 'new-officer@idir',
-            'badge_number': '8044'
+            'badge_number': '108044'
         },
         'source': 'be78d6'
     })
@@ -118,7 +118,7 @@ def test_bceid_user_can_apply_to_use_the_app(as_guest, monkeypatch, roles, datab
     resp = as_guest.post(Config.URL_PREFIX + "/api/v1/users",
                          json={
                              "agency": "RCMP Terrace",
-                             "badge_number": "8044",
+                             "badge_number": "108044",
                              "first_name": "New",
                              "last_name": "Officer"
                          },
@@ -144,7 +144,7 @@ def test_bceid_user_can_apply_to_use_the_app(as_guest, monkeypatch, roles, datab
             'event': 'officer has applied',
             'user_guid': 'aaa-bbb-ccc-fff',
             'username': 'new-officer@bceid',
-            'badge_number': '8044'
+            'badge_number': '108044'
         },
         'source': 'be78d6'
     })
@@ -157,7 +157,7 @@ def test_idir_user_can_apply_to_use_the_app(as_guest, monkeypatch, roles, databa
     resp = as_guest.post(Config.URL_PREFIX + "/api/v1/users",
                          json={
                              "agency": "RCMP Terrace",
-                             "badge_number": "8044",
+                             "badge_number": "108044",
                              "first_name": "New",
                              "last_name": "Officer"
                          },
@@ -182,7 +182,7 @@ def test_idir_user_can_apply_to_use_the_app(as_guest, monkeypatch, roles, databa
             'event': 'officer has applied',
             'user_guid': 'aaa-bbb-ccc-fff',
             'username': 'new-officer@idir',
-            'badge_number': '8044'
+            'badge_number': '108044'
         },
         'source': 'be78d6'
     })
@@ -194,7 +194,7 @@ def test_user_with_keycloak_token_cannot_apply_again_to_use_the_app(as_guest, mo
     resp = as_guest.post(Config.URL_PREFIX + "/api/v1/users",
                          json={
                              "agency": "RCMP Terrace",
-                             "badge_number": "8044",
+                             "badge_number": "108044",
                              "first_name": "New",
                              "last_name": "Officer"
                          },

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <loading-resources v-if=" ! allResourcesLoaded"></loading-resources>
+    <loading-resources v-if="!allResourcesLoaded"></loading-resources>
     <user-not-permitted-banner v-if="isDisplayUserNotAuthorizedBanner"></user-not-permitted-banner>
     <welcome-login-card v-if="isDisplayWelcomeLoginCard"></welcome-login-card>
     <issue-prohibitions v-if="isDisplayIssueProhibitions"></issue-prohibitions>
@@ -8,44 +8,37 @@
     <feedback-welcome v-if="isDisplayFeedbackBanner"></feedback-welcome>
   </div>
 </template>
-
 <script>
-
-import IssueProhibitions from "@/components/IssueProhibitions";
 import FeedbackWelcome from "@/components/FeedbackWelcome";
+import IssueProhibitions from "@/components/IssueProhibitions";
+import LoadingResources from "@/components/loading/LoadingResources";
 import RecentProhibitions from "@/components/RecentProhibitions";
 import UserNotPermittedBanner from "@/components/UserNotPermittedBanner";
-import {mapGetters} from "vuex";
 import WelcomeLoginCard from "@/components/WelcomeLoginCard";
-import LoadingResources from "@/components/loading/LoadingResources";
-
+import { mapGetters } from "vuex";
 export default {
   name: "Home",
   components: {
+    FeedbackWelcome,
+    IssueProhibitions,
     LoadingResources,
-     WelcomeLoginCard,
-     UserNotPermittedBanner,
-     RecentProhibitions,
-     FeedbackWelcome,
-     IssueProhibitions
+    RecentProhibitions,
+    UserNotPermittedBanner,
+    WelcomeLoginCard
   },
   computed: {
     ...mapGetters([
       "allResourcesLoaded",
       "isUserHasAtLeastOneFormId",
-      'isRecentProhibitions',
-      'getFormData',
-      'isDisplayIssueProhibitions',
       'getCurrentlyEditedFormObject',
-      'isDisplayUserNotAuthorizedBanner',
+      'getFormData',
       'isDisplayFeedbackBanner',
+      'isDisplayIssueProhibitions',
       'isDisplaySearchRecentProhibition',
-      'isDisplayWelcomeLoginCard'
+      'isDisplayUserNotAuthorizedBanner',
+      'isDisplayWelcomeLoginCard',
+      'isRecentProhibitions'
     ]),
   },
 }
 </script>
-
-<style scoped>
-
-</style>

@@ -44,6 +44,11 @@ class Config:
     SPLUNK_TOKEN                        = os.getenv('SPLUNK_TOKEN', 'aaaa-bbbb-cccc')
     LOGGERS_IN_USE                      = os.getenv('LOGGERS_IN_USE', 'console').split()
 
+    # RIDE Details
+    RIDE_API_URL                         = os.getenv('RIDE_API_URL', 'http://localhost')
+    RIDE_API_KEY                         = os.getenv('RIDE_API_KEY', 'http://localhost')
+
+
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,
