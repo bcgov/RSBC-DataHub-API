@@ -32,7 +32,7 @@
             <div class="col" />
             <div class="col-9 text-left">
               <p>
-                <b-icon-exclamation-triangle-fill class="text-info" /> <span class="font-weight-bold">PRIME ID</span> is the username you use to log into the MDT (CAD) and the MRE.<br />
+                <b-icon-exclamation-triangle-fill class="text-warning" /> <span class="font-weight-bold">PRIME ID</span> is the username you use to log into the MDT (CAD) and the MRE.<br />
               </p>
               <ul>
                   <li>For independents, this is your agency's two-letter abbreviation followed by 2 to 4 numbers.</li><br />
