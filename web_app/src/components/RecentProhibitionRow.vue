@@ -12,16 +12,12 @@
       <h6 v-if="isFormEditable(prohibition)">
         <router-link :to="{ name: prohibition.form_type, params: { id: prohibition.form_id } }">
           <span class="btn btn-success mr-3">&nbsp; Edit &nbsp;</span>
-          <!-- <b-icon-pen variant="primary"></b-icon-pen> -->
         </router-link>
-        &nbsp; &nbsp;
-        <!-- <b-icon-trash variant="danger" @click="deleteSpecificForm(prohibition)"></b-icon-trash> -->
-
-        <b-button class="btn btn-danger mr-3 color-warning" v-b-modal.modal-1>Delete</b-button>
-        <b-modal id="modal-1" title="Delete Form" hide-footer>
-          <p>Are you sure you want to delete this form?</p>
-          <p class="text-muted">This function cannot be undone.</p>
-          <b-button class="btn btn-danger mr-3 color-warning" @click="deleteSpecificForm(prohibition)">Delete</b-button>
+        &nbsp;
+        <b-button class="btn btn-danger mr-3 color-warning" v-b-modal="'modal_' + prohibition.form_id">Delete</b-button>
+        <b-modal :id="'modal_' + prohibition.form_id" title="Confirm Delete" @ok="deleteSpecificForm(prohibition)" ok-title="Delete" ok-variant="danger">
+          <p>Form has not been printed. Are you sure you want to delete it?</p>
+          <p class="text-danger"><b-icon-exclamation-triangle-fill variant="warning" />&nbsp; WARNING: This cannot be undone.</p>
         </b-modal>
       </h6>
       <div v-if="!isFormEditable(prohibition)">
