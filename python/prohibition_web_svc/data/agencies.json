@@ -61,7 +61,7 @@
 	},
 	{
 		"vjur": "NW",
-		"agency_name": "New Westminster Police Dept"
+		"agency_name": "New Westminster Police Dept."
 	},
 	{
 		"vjur": "OB",
@@ -172,6 +172,10 @@
 		"agency_name": "RCMP Creston"
 	},
 	{
+		"vjur": "3607",
+		"agency_name": "RCMP Daajing Giids (Queen Charlotte)"
+	},
+	{
 		"vjur": "3403",
 		"agency_name": "RCMP Dawson Creek"
 	},
@@ -273,7 +277,7 @@
 	},
 	{
 		"vjur": "3102",
-		"agency_name": "RCMP Mcbride"
+		"agency_name": "RCMP McBride"
 	},
 	{
 		"vjur": "2207",
@@ -309,7 +313,7 @@
 	},
 	{
 		"vjur": "4106",
-		"agency_name": "RCMP North Saanich/Sidney"
+		"agency_name": "RCMP Sidney/North Saanich"
 	},
 	{
 		"vjur": "1101",
@@ -317,7 +321,7 @@
 	},
 	{
 		"vjur": "3402",
-		"agency_name": "RCMP Northern Rockies"
+		"agency_name": "RCMP Northern Rockies (Fort Nelson)"
 	},
 	{
 		"vjur": "4302",
@@ -345,7 +349,7 @@
 	},
 	{
 		"vjur": "4320",
-		"agency_name": "RCMP Port Mcneill"
+		"agency_name": "RCMP Port McNeill"
 	},
 	{
 		"vjur": "4306",
@@ -366,10 +370,6 @@
 	{
 		"vjur": "4316",
 		"agency_name": "RCMP Quadra Island"
-	},
-	{
-		"vjur": "3607",
-		"agency_name": "RCMP Queen Charlotte"
 	},
 	{
 		"vjur": "3301",
