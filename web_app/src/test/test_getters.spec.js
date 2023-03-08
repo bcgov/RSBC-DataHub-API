@@ -44,7 +44,7 @@ test('test getAllEditedForm() returns an array of edited forms', () => {
            }
        }
       }
-    let result = getters.getAllEditedFormsNotPrinted(state)
+    let result = getters.getAllEditedForms(state)
     expect(result).toEqual([
         {
            "form_id": "AA-111111",
