@@ -97,11 +97,11 @@ objects:
                 secretKeyRef:
                   name: ${NAME}${SUFFIX}
                   key: prohibition-flask-secret
-            - name: ICBC_API_ROOT
-              valueFrom:
-                secretKeyRef:
-                  name: ${NAME}${SUFFIX}
-                  key: icbc-api-root
+#             - name: ICBC_API_ROOT
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: ${NAME}${SUFFIX}
+#                   key: icbc-api-root
             - name: ICBC_API_USERNAME
               valueFrom:
                 secretKeyRef:
