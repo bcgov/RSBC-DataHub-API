@@ -53,9 +53,10 @@ def get_username_from_decoded_access_token(**kwargs) -> tuple:
     decoded_access_token = kwargs.get('decoded_access_token')
     try:
         kwargs['username'] = decoded_access_token['preferred_username']
-        logging.debug("username from access token: " + kwargs.get('username'))
+        kwargs['display_name'] = decoded_access_token['display_name']
+        logging.debug("username and display_name from access token: " + kwargs.get('username') + kwargs.get('display_name'))
     except Exception as e:
-        kwargs['error'] = "preferred_username not present in decoded access token: " + str(e)
+        kwargs['error'] = "preferred_username or display_name not present in decoded access token: " + str(e)
         return False, kwargs
     return True, kwargs
 
