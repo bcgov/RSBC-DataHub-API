@@ -89,8 +89,7 @@ def get_user(**kwargs) -> tuple:
     kwargs['splunk_data'] = {
         "event": "get user",
         "user_guid": kwargs.get('user_guid', ''),
-        "username": kwargs.get('username'),
-        "display_name": kwargs.get('display_name')
+        "username": kwargs.get('username')
     }
     return True, kwargs
 
@@ -108,8 +107,7 @@ def admin_get_users(**kwargs) -> tuple:
     kwargs['splunk_data'] = {
         "event": "admin get users",
         "user_guid": kwargs.get('user_guid', ''),
-        "username": kwargs.get('username'),
-        "display_name": kwargs.get('display_name')
+        "username": kwargs.get('username')
     }
     return True, kwargs
 

@@ -117,8 +117,7 @@ export const rsiStore = new Vuex.Store ({
       first_name: '',
       last_name: '',
       user_guid: '',
-      username: '',
-      display_name: ''
+      username: ''
     },
     vehicles: [],
     vehicle_styles: [],
