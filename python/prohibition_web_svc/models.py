@@ -62,8 +62,9 @@ class User(db.Model):
     badge_number = db.Column(db.String(12), nullable=False)
     last_name = db.Column(db.String(40), nullable=False)
     first_name = db.Column(db.String(40), nullable=True)
+    display_name = db.Column(db.String(80), nullable=True)
 
-    def __init__(self, username, user_guid, agency, badge_number, last_name, first_name, business_guid=''):
+    def __init__(self, username, user_guid, agency, badge_number, last_name, first_name, business_guid,display_name=''):
         self.username = username
         self.user_guid = user_guid
         self.agency = agency
@@ -71,6 +72,7 @@ class User(db.Model):
         self.last_name = last_name
         self.first_name = first_name
         self.business_guid = business_guid
+        self.display_name = display_name
 
     @staticmethod
     def serialize(user):
@@ -80,7 +82,8 @@ class User(db.Model):
             "agency": user.agency,
             "badge_number": user.badge_number,
             "first_name": user.first_name,
-            "last_name": user.last_name
+            "last_name": user.last_name,
+            "display_name": user.display_name
         }
 
 
@@ -117,6 +120,7 @@ class UserRole(db.Model):
             "submitted_dt": rows.submitted_dt,
             "user_guid": rows.user_guid,
             "username": rows.username,
+            "display_name": rows.display_name
         }
 
     @staticmethod

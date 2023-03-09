@@ -44,6 +44,7 @@ def update_the_user(**kwargs) -> tuple:
             .first()
         user.username = kwargs.get('username')
         user.user_guid = kwargs.get('user_guid')
+        user.display_name = kwargs.get('display_name')
         user.badge_number = kwargs.get('payload')['badge_number']
         user.agency = kwargs.get('payload')['agency']
         user.first_name = kwargs.get('payload')['first_name']
@@ -61,6 +62,7 @@ def create_a_user(**kwargs) -> tuple:
             username=kwargs.get('username'),
             user_guid=kwargs.get('user_guid'),
             business_guid=kwargs.get('business_guid'),
+            display_name=kwargs.get('display_name'),
             badge_number=kwargs.get('payload')['badge_number'],
             agency=kwargs.get('payload')['agency'],
             first_name=kwargs.get('payload')['first_name'],

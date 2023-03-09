@@ -12,6 +12,7 @@
               <th>Prime ID</th>
               <th>Agency</th>
               <th>BCeID Username</th>
+              <th>Display Name</th>
               <th>Role</th>
               <th>Date Applied</th>
               <th colspan="2">Action</th>
