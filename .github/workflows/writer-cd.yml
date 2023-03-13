@@ -1,7 +1,11 @@
 name: writer-cd
 
 on:
-  push:
+  # push:
+  #   branches:
+  #     - master
+  pull_request:
+    types: [opened, reopened, edited, synchronize]
     branches:
       - master
     paths:
