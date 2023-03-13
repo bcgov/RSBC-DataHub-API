@@ -6,6 +6,7 @@ on:
     paths:
       - web_app/**
       - .github/workflows/prohibition_web_app-ci.yml
+      - trigger.txt
 
 jobs:
   CI:

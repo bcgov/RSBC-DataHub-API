@@ -9,6 +9,7 @@ on:
       - python/common/**
       - python/validator/**
       - .github/workflows/validator-cd.yml
+      - trigger.txt
 
 jobs:
   CD:

@@ -7,6 +7,7 @@ on:
     paths:
       - web_app/**
       - .github/workflows/prohibition_web_app-cd.yml
+      - trigger.txt
 
 jobs:
   CD:

@@ -9,6 +9,7 @@ on:
       - python/common/**
       - python/form_handler/**
       - .github/workflows/form_handler-cd.yml
+      - trigger.txt
 
 jobs:
   CD:
