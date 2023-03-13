@@ -9,6 +9,7 @@ on:
       - python/common/**
       - python/writer/**
       - .github/workflows/writer-cd.yml
+      - trigger.txt
 
 jobs:
   CD:

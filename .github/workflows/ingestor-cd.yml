@@ -9,6 +9,7 @@ on:
       - python/common/**
       - python/ingestor/**
       - .github/workflows/ingestor-cd.yml
+      - trigger.txt
 
 jobs:
   CD:

@@ -9,6 +9,7 @@ on:
       - python/common/**
       - python/geocodersvc/**
       - .github/workflows/geocodersvc-cd.yml
+      - trigger.txt
 
 jobs:
   CD:

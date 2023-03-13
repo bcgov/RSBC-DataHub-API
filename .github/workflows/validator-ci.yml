@@ -8,6 +8,7 @@ on:
       - python/common/**
       - python/validator/**
       - .github/workflows/validator-ci.yml
+      - trigger.txt
 
 jobs:
   CI:

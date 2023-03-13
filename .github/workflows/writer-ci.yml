@@ -8,6 +8,7 @@ on:
       - python/common/**
       - python/writer/**
       - .github/workflows/writer-ci.yml
+      - trigger.txt
 
 jobs:
   CI:

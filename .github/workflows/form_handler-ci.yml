@@ -8,6 +8,7 @@ on:
       - python/common/**
       - python/form_handler/**
       - .github/workflows/form_handler-ci.yml
+      - trigger.txt
 
 jobs:
   CI:
