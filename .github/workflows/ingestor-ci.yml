@@ -1,13 +1,19 @@
 name: ingestor-ci
 
 on:
+  # push:
+  #   branches_ignore:
+  #     - master
   pull_request:
     types: [opened, reopened, edited, synchronize]
+    branches-ignore:
+      - master
     paths:
       - python/*.py
       - python/common/**
       - python/ingestor/**
       - .github/workflows/ingestor-ci.yml
+      - trigger.txt
 
 jobs:
   CI:
