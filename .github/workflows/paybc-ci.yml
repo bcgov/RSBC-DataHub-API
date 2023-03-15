@@ -3,7 +3,7 @@ name: paybc-ci
 on:
   pull_request:
     types: [opened, reopened, edited, synchronize]
-    branches_ignore:
+    branches-ignore:
       - master
     paths:
       - python/*.py
