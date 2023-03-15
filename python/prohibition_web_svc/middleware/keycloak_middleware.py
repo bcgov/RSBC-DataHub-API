@@ -54,9 +54,18 @@ def get_username_from_decoded_access_token(**kwargs) -> tuple:
     try:
         kwargs['username'] = decoded_access_token['preferred_username']
         kwargs['display_name'] = decoded_access_token['display_name']
-        logging.debug("username and display_name from access token: " + kwargs.get('username') + kwargs.get('display_name'))
+        kwargs['identity_provider'] = decoded_access_token['identity_provider']
+        logging.debug("username and identity_provider from access token: " +  kwargs.get('username') + decoded_access_token['identity_provider'])
+        if decoded_access_token.get('bceid_user_guid'):
+            logging.debug('BCeID user')
+            kwargs['bceid_username'] = decoded_access_token['bceid_username']
+            kwargs['login'] = str(kwargs.get('bceid_username', '')) + '@' + str(kwargs.get('identity_provider', ''))
+        if decoded_access_token.get('idir_user_guid'):
+            logging.debug('IDIR user')
+            kwargs['idir_username'] = decoded_access_token['idir_username']
+            kwargs['login'] = str(kwargs.get('idir_username', '')) + '@' + str(kwargs.get('identity_provider', ''))
     except Exception as e:
-        kwargs['error'] = "preferred_username or display_name not present in decoded access token: " + str(e)
+        kwargs['error'] = "preferred_username or login not present in decoded access token: " + str(e)
         return False, kwargs
     return True, kwargs
 
