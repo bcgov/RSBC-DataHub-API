@@ -14,7 +14,7 @@ name: form_handler-ci
 on:
   pull_request:
     types: [opened, reopened, edited, synchronize]
-    branches_ignore:
+    branches-ignore:
       - master
     paths:
       - python/*.py
