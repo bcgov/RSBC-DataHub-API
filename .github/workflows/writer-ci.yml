@@ -3,11 +3,14 @@ name: writer-ci
 on:
   pull_request:
     types: [opened, reopened, edited, synchronize]
+    branches-ignore:
+      - master
     paths:
       - python/*.py
       - python/common/**
       - python/writer/**
       - .github/workflows/writer-ci.yml
+      - trigger.txt
 
 jobs:
   CI:
