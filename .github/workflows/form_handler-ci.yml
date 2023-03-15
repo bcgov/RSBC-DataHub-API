@@ -1,13 +1,27 @@
 name: form_handler-ci
 
+# on:
+#   push:
+#     branches_ignore:
+#       - master
+#     paths:
+#       - python/*.py
+#       - python/common/**
+#       - python/form_handler/**
+#       - .github/workflows/form_handler-ci.yml
+#       - trigger.txt
+
 on:
   pull_request:
     types: [opened, reopened, edited, synchronize]
+    branches-ignore:
+      - master
     paths:
       - python/*.py
       - python/common/**
       - python/form_handler/**
       - .github/workflows/form_handler-ci.yml
+      - trigger.txt
 
 jobs:
   CI:
