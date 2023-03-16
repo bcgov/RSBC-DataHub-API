@@ -1,13 +1,19 @@
 name: geocodersvc-ci
 
 on:
+  # push:
+  #   branches_ignore:
+  #     - master
   pull_request:
     types: [opened, reopened, edited, synchronize]
+    branches-ignore:
+      - master
     paths:
       - python/*.py
       - python/common/**
       - python/geocodersvc/**
       - .github/workflows/geocodersvc-ci.yml
+      - trigger.txt
 
 jobs:
   CI:
