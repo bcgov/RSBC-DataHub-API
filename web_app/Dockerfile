@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi8/nginx-118:latest AS build
+FROM registry.redhat.io/rhel8/nodejs-18:latest AS build
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
