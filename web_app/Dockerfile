@@ -1,4 +1,5 @@
-FROM registry.access.redhat.com/ubi8/nodejs-16-minimal:latest AS build
+# FROM registry.access.redhat.com/ubi8/nodejs-16-minimal:latest AS build
+FROM node:16 AS build
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
