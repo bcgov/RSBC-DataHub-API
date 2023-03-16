@@ -3,11 +3,14 @@ name: validator-ci
 on:
   pull_request:
     types: [opened, reopened, edited, synchronize]
+    branches-ignore:
+      - master
     paths:
       - python/*.py
       - python/common/**
       - python/validator/**
       - .github/workflows/validator-ci.yml
+      - trigger.txt
 
 jobs:
   CI:
