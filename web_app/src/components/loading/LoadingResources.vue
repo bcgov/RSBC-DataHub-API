@@ -5,7 +5,7 @@
         <div class="col-1 my-0">
           <b-spinner v-if="!allResourcesLoaded" small></b-spinner>
         </div>
-        <div class="col-11 text-left">Loading resources now come on ...</div>
+        <div class="col-11 text-left">Loading resources now come on ok once ...</div>
       </div>
     </div>
   </div>
