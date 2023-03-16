@@ -3,11 +3,14 @@ name: prohibition_web_svc-ci
 on:
   pull_request:
     types: [opened, reopened, edited, synchronize]
+    branches-ignore:
+      - master
     paths:
       - python/*.py
       - python/common/**
       - python/prohibition_web_svc/**
       - .github/workflows/prohibition_web_svc-ci.yml
+      - trigger.txt
 
 jobs:
   CI:
