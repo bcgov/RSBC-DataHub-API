@@ -3,11 +3,14 @@ name: paybc-ci
 on:
   pull_request:
     types: [opened, reopened, edited, synchronize]
+    branches-ignore:
+      - master
     paths:
       - python/*.py
       - python/common/**
       - python/paybc_api/**
       - .github/workflows/paybc-ci.yml
+      - trigger.txt
 
 jobs:
   CI:
