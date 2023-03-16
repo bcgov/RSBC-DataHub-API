@@ -5,7 +5,7 @@
         &nbsp;
       </div>
       <div class="text-white">
-        <span class="font-weight-bold h4" id="logged-in-status"><b-icon-exclamation-triangle-fill variant="warning" />&nbsp; <span style="text-decoration: underline;">You are not signed in!</span></span>
+        <span class="font-weight-bold h4" id="logged-in-status"><b-icon-exclamation-triangle-fill variant="warning" />&nbsp; <span style="text-decoration: underline;">You are not signed in!13</span></span>
         &nbsp;
         <span class="h5">Driver's licence and plate lookups will be unavailable.</span>
       </div>
