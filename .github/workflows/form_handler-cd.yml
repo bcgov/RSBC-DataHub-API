@@ -1,7 +1,11 @@
 name: form_handler-cd
 
 on:
-  push:
+  # push:
+  #   branches:
+  #     - master
+  pull_request:
+    types: [opened, reopened, edited, synchronize]
     branches:
       - master
     paths:
@@ -9,6 +13,7 @@ on:
       - python/common/**
       - python/form_handler/**
       - .github/workflows/form_handler-cd.yml
+      - trigger.txt
 
 jobs:
   CD:
