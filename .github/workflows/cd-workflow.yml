@@ -27,6 +27,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # if: ${{ !(
+    #     github.event.pull_request.head.ref =~ '^hotfixrelease/' ||
+    #     github.event.pull_request.head.ref =~ '^hotfix/' ||
+    #     github.event.pull_request.head.ref =~ '^dependabot/'||
+    #     github.event.pull_request.head.ref =~ '^feature/'
+    #   )}}
+    if: ${{ github.event.pull_request.head.ref =~ '^release/' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
