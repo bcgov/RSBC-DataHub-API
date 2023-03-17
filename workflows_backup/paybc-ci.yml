@@ -1,20 +1,17 @@
-name: validator-ci
+name: paybc-ci
 
 on:
   pull_request:
     types: [opened, reopened, edited, synchronize]
-    branches-ignore:
-      - master
     paths:
       - python/*.py
       - python/common/**
-      - python/validator/**
-      - .github/workflows/validator-ci.yml
-      - trigger.txt
+      - python/paybc_api/**
+      - .github/workflows/paybc-ci.yml
 
 jobs:
   CI:
     uses: ./.github/workflows/ci-workflow.yml
     with:
       DOCKER_CONTEXT: python
-      DOCKER_FILE: python/validator/Dockerfile
+      DOCKER_FILE: python/paybc_api/Dockerfile
