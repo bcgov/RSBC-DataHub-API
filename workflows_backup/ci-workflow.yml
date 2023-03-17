@@ -1,0 +1,30 @@
+name: ci-workflow
+
+on:
+  workflow_call:
+    inputs:
+      DOCKER_CONTEXT:
+        required: true
+        type: string
+      DOCKER_FILE:
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup
+        uses: docker/setup-buildx-action@v2
+        with:
+          install: true
+
+      - name: Build
+        uses: docker/build-push-action@v3
+        with:
+          context: ${{ inputs.DOCKER_CONTEXT }}
+          file: ${{ inputs.DOCKER_FILE }}
+          push: false

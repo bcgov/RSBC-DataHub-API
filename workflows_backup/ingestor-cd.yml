@@ -1,11 +1,7 @@
 name: ingestor-cd
 
 on:
-  # push:
-  #   branches:
-  #     - master
-  pull_request:
-    types: [opened, reopened, edited, synchronize]
+  push:
     branches:
       - master
     paths:
@@ -13,7 +9,6 @@ on:
       - python/common/**
       - python/ingestor/**
       - .github/workflows/ingestor-cd.yml
-      - trigger.txt
 
 jobs:
   CD:

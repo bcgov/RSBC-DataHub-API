@@ -1,11 +1,7 @@
 name: prohibition_web_svc-cd
 
 on:
-  # push:
-  #   branches:
-  #     - master
-  pull_request:
-    types: [opened, reopened, edited, synchronize]
+  push:
     branches:
       - master
     paths:
@@ -13,7 +9,6 @@ on:
       - python/common/**
       - python/prohibition_web_svc/**
       - .github/workflows/prohibition_web_svc-cd.yml
-      - trigger.txt
 
 jobs:
   CD:
