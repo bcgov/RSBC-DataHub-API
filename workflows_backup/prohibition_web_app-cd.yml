@@ -1,17 +1,12 @@
 name: prohibition_web_app-cd
 
 on:
-  # push:
-  #   branches:
-  #     - master
-  pull_request:
-    types: [opened, reopened, edited, synchronize]
+  push:
     branches:
       - master
     paths:
       - web_app/**
       - .github/workflows/prohibition_web_app-cd.yml
-      - trigger.txt
 
 jobs:
   CD:

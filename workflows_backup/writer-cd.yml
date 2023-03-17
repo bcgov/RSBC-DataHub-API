@@ -1,11 +1,7 @@
 name: writer-cd
 
 on:
-  # push:
-  #   branches:
-  #     - master
-  pull_request:
-    types: [opened, reopened, edited, synchronize]
+  push:
     branches:
       - master
     paths:
@@ -13,7 +9,6 @@ on:
       - python/common/**
       - python/writer/**
       - .github/workflows/writer-cd.yml
-      - trigger.txt
 
 jobs:
   CD:
