@@ -28,7 +28,7 @@ namespace kc;
 
 class Program {
     static async Task<int> Main(string[] args) {
-
+        /*
         // Create a file stream
         FileStream filestream = new FileStream("out.txt", FileMode.Create);
         // Create a stream writer
@@ -39,6 +39,7 @@ class Program {
         Console.SetError(streamwriter);
         // Write some text that causes an error
         Console.Error.WriteLine("This is an error message");
+        */
 
         // Command-line arguments supplied by System.Commandline
         // https://learn.microsoft.com/en-us/dotnet/standard/commandline/
@@ -105,7 +106,7 @@ class Program {
           .SetBasePath(GetHomeFolder())
           .AddJsonFile(configFile, optional: false)
           .Build();
-
+/*
         Console.WriteLine("-------------------------------------------------------------------------");
         Console.WriteLine("Config file:     " + configFile);
         Console.WriteLine("Host:            " + configuration.GetSection("Server")["bootstrap"]);
@@ -116,7 +117,7 @@ class Program {
 
         // Inspect configuration object using a breakpoint here
         Console.WriteLine("-------------------------------------------------------------------------");
-
+*/
         try {
             /* For reference, this is my client.properties file
              * 
@@ -147,14 +148,8 @@ class Program {
             // Confluent documentation:
             // https://docs.confluent.io/platform/current/clients/confluent-kafka-dotnet/_site/api/Confluent.Kafka.ConsumerConfig.html
             var kafkaConfig = new ConsumerConfig {
-                GroupId = "saf-group-application-accepted-decoded-04",
                 BootstrapServers = configuration.GetSection("Server")["bootstrap"],
                 SecurityProtocol = SecurityProtocol.Ssl,
-                EnableAutoOffsetStore = false,
-                EnableAutoCommit = true,
-                AutoOffsetReset = AutoOffsetReset.Earliest,
-                EnablePartitionEof = false,
-                Debug = "false",
 
                 // CA certificates key (Path to CA certificate key, for verifying the broker's key)
                 // oc --namespace=be5301-test get secret rsbc-ride-redhat-kafka-cluster-ca-cert -o jsonpath='{.data.ca\.crt}' | base64 --decode > ca.crt
@@ -181,7 +176,7 @@ class Program {
 
         }
         catch (Exception ex) {
-            Console.WriteLine("\n\nException.\n");
+            Console.WriteLine("\n\nException: " + ex.Message);
             System.Diagnostics.Debug.WriteLine(ex.Message);
         }
 
@@ -295,12 +290,14 @@ class Program {
                             var time = consumer.Timestamp;
 
                             if (!observedMessages.Contains(consumer.TopicPartitionOffset)) {
+                                DateTime pacificTime = TimeZoneInfo.ConvertTimeFromUtc(consumer.Message.Timestamp.UtcDateTime, TimeZoneInfo.Local);
+                                Console.Write(pacificTime.ToString("yyyy-MM-dd HH:mm:ss.fff zz "));
                                 Console.WriteLine(consumer.Message.Value);
                                 observedMessages.Add(consumer.TopicPartitionOffset);
                             }
 
                         }
-
+/*
                         // Check if any key has been pressed
                         if (Console.KeyAvailable) {
                             // Read the last key pressed
@@ -326,7 +323,7 @@ class Program {
                                 }
 
                             }
-                        }
+                        }*/
                     }
                 }
                 catch (OperationCanceledException) {
@@ -336,7 +333,7 @@ class Program {
             }
         }
         catch (Exception ex) {
-            Console.WriteLine("\n\nException.\n");
+            Console.WriteLine("\n\nException: " + ex.Message);
             System.Diagnostics.Debug.WriteLine(ex.Message);
         }
     }
@@ -373,10 +370,21 @@ Examples of usage:
 
 Examples of usage when redirecting STDOUT and STDERR:
 
-    kc tail rsbc.apr.application.accepted.decoded --env test 2> stderr.log | Tee-Object -FilePath stdout.log
+    kc tail rsbc.apr.application.accepted.decoded --env test 2>$null
 
-        Redirect STDERR to file stderr.log, and STDOUT to stdout and the console.
+        Suppress STDERR output from the Kafka library.
 
+    kc tail rsbc.apr.application.accepted.decoded --env test 2> $null | Tee-Object -FilePath stdout.log
+
+        Suppress STDERR and send STDOUT to a file and the console.
+
+    kc tail rsbc.apr.application.accepted.decoded 2> $null | jq --color-output .
+
+        Use jq to colourise the output.
+
+    kc tail rsbc.apr.application.accepted.decoded 2> $null | jq --color-output -c .
+
+        Use jq to colourise the output, but keep records condensed on one line.
 
 Interactions when consuming topics
     
