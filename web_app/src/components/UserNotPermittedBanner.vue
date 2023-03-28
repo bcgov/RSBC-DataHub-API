@@ -43,7 +43,7 @@
           </div>
         </div>     
         <div>
-          <button class="btn btn-secondary" v-bind:disabled="true" @click="dispatchUnlock">
+          <button class="btn btn-secondary" @click="dispatchUnlock">
             Apply for Access
             <b-spinner v-if="showSpinner" small></b-spinner>
           </button>
