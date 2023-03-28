@@ -76,11 +76,13 @@ def get_user_guid_from_decoded_access_token(**kwargs) -> tuple:
     if decoded_access_token.get('bceid_user_guid'):
         logging.debug('BCeID user')
         kwargs['business_guid'] = decoded_access_token.get('bceid_business_guid')
-        kwargs['user_guid'] = decoded_access_token.get('bceid_user_guid')
+        kwargs['user_guid'] = kwargs.get('username')
+        # kwargs['user_guid'] = decoded_access_token.get('bceid_user_guid')
         return True, kwargs
     if decoded_access_token.get('idir_user_guid'):
         logging.debug('IDIR user')
-        kwargs['user_guid'] = decoded_access_token.get('idir_user_guid')
+        kwargs['user_guid'] = kwargs.get('username')
+        # kwargs['user_guid'] = decoded_access_token.get('idir_user_guid')
         return True, kwargs
     logging.debug('Github user? - no user GUID')
     kwargs['user_guid'] = kwargs.get('username')
