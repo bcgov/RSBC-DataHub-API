@@ -2,7 +2,8 @@
 
 # Road Safety DataHub API
 
-A series of Python components that process eTicketing and digital forms for RoadSafety BC. 
+A series of Python components that process eTicketing and digital forms for RoadSafety BC.   
+
 
 ![img](https://img.shields.io/badge/Lifecycle-Stable-97ca00)
 
