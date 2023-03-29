@@ -11,3 +11,4 @@ node_modules/
 .nvm/
 env/
 dist_old/
+dist
