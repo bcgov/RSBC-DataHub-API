@@ -53,23 +53,36 @@ def get_username_from_decoded_access_token(**kwargs) -> tuple:
     decoded_access_token = kwargs.get('decoded_access_token')
     try:
         kwargs['username'] = decoded_access_token['preferred_username']
-        logging.debug("username from access token: " + kwargs.get('username'))
+        kwargs['display_name'] = decoded_access_token['display_name']
+        kwargs['identity_provider'] = decoded_access_token['identity_provider']
+        logging.debug("username and identity_provider from access token: " +  kwargs.get('username') + kwargs.get('identity_provider'))
+        if decoded_access_token.get('bceid_user_guid'):
+            logging.debug('BCeID user')
+            kwargs['bceid_username'] = decoded_access_token['bceid_username']
+            kwargs['login'] = str(kwargs.get('bceid_username', '')) + '@' + str(kwargs.get('identity_provider', ''))
+        if decoded_access_token.get('idir_user_guid'):
+            logging.debug('IDIR user')
+            kwargs['idir_username'] = decoded_access_token['idir_username']
+            kwargs['login'] = str(kwargs.get('idir_username', '')) + '@' + str(kwargs.get('identity_provider', ''))
+        logging.debug("login id from access token: " +  kwargs.get('login'))
     except Exception as e:
-        kwargs['error'] = "preferred_username not present in decoded access token: " + str(e)
+        kwargs['error'] = "preferred_username or login not present in decoded access token: " + str(e)
         return False, kwargs
     return True, kwargs
 
 
 def get_user_guid_from_decoded_access_token(**kwargs) -> tuple:
     decoded_access_token = kwargs.get('decoded_access_token')
-    if decoded_access_token.get('bceid_userid'):
+    if decoded_access_token.get('bceid_user_guid'):
         logging.debug('BCeID user')
         kwargs['business_guid'] = decoded_access_token.get('bceid_business_guid')
-        kwargs['user_guid'] = decoded_access_token.get('bceid_userid')
+        kwargs['user_guid'] = kwargs.get('username')
+        # kwargs['user_guid'] = decoded_access_token.get('bceid_user_guid')
         return True, kwargs
-    if decoded_access_token.get('idir_guid'):
+    if decoded_access_token.get('idir_user_guid'):
         logging.debug('IDIR user')
-        kwargs['user_guid'] = decoded_access_token.get('idir_guid')
+        kwargs['user_guid'] = kwargs.get('username')
+        # kwargs['user_guid'] = decoded_access_token.get('idir_user_guid')
         return True, kwargs
     logging.debug('Github user? - no user GUID')
     kwargs['user_guid'] = kwargs.get('username')

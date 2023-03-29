@@ -119,7 +119,9 @@ def query_all_users(**kwargs) -> tuple:
             User.agency,
             User.badge_number,
             User.first_name,
-            User.last_name)\
+            User.last_name,
+            User.display_name,
+            User.login)\
             .join(User) \
             .limit(Config.MAX_RECORDS_RETURNED)\
             .all()

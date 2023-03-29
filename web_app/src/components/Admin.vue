@@ -11,7 +11,8 @@
               <th>Given</th>
               <th>Prime ID</th>
               <th>Agency</th>
-              <th>BCeID Username</th>
+              <th>Keycloak GUID</th>
+              <th>Username</th>
               <th>Role</th>
               <th>Date Applied</th>
               <th colspan="2">Action</th>

@@ -368,6 +368,7 @@ export const actions = {
                             last_name: new_user.last_name,
                             badge_number: new_user.badge_number,
                             agency: new_user.agency,
+                            display_name: new_user.display_name,
                             role_name: payload.role_name,
                             approved_dt: moment().tz("America/Vancouver"),
                             submitted_dt: moment().tz("America/Vancouver")

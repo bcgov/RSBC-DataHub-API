@@ -5,6 +5,7 @@
       <td class="small">{{ user.badge_number }}</td>
       <td class="small">{{ user.agency }}</td>
       <td class="small">{{ user.username }}</td>
+      <td class="small">{{ user.login }}</td>
       <td><h2 class="badge badge-secondary">{{ user.role_name }}</h2></td>
       <td class="text-muted small">{{ submittedDate }}</td>
       <td>
@@ -83,7 +84,8 @@
         role_name: {},
         submitted_dt: {},
         user_guid: '',
-        username: {}
+        username: {},
+        login: {}
       }
     }    
   }
