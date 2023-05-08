@@ -12,6 +12,7 @@ on:
       - python/*.py
       - python/common/**
       - python/prohibition_web_svc/**
+      - python/prohibition_web_svc/data/**
       - .github/workflows/prohibition_web_svc-cd.yml
       - trigger.txt
 
