@@ -193,7 +193,7 @@
  },
  {
    "name": "CENTRAL TOWING",
-   "lot_address": "10930 WESTDOWN RD",
+   "lot_address": "10930 WESTDOWNE RD",
    "city": "LADYSMITH",
    "phone": "250-245-4411"
  },
@@ -448,6 +448,12 @@
    "lot_address": "301 SLATER RD",
    "city": "CRANBROOK",
    "phone": "250-489-8781"
+ },
+ {
+  "name": "GABRIOLA TOWING",
+  "lot_address": "631 SOUTH RD",
+  "city": "GABRIOLA ISLAND",
+  "phone": "250-714-9914"
  },
  {
    "name": "GAMMOND TOWING",
