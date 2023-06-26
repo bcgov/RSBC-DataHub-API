@@ -1,530 +1,690 @@
 [
 	{
-		"vjur": "AB",
-		"agency_name": "Abbotsford Police Dept."
+	  "vjur": "AB",
+	  "agency_name": "Abbotsford Police Dept."
 	},
 	{
-		"vjur": "1003",
-		"agency_name": "BCHP Burnaby"
+	  "vjur": "3303",
+	  "agency_name": "BCHP 100 Mile House"
 	},
 	{
-		"vjur": "4110",
-		"agency_name": "BCHP CRD IRSU"
+	  "vjur": "2100",
+	  "agency_name": "BCHP Ashcroft"
 	},
 	{
-		"vjur": "4323",
-		"agency_name": "BCHP Campbell River"
+	  "vjur": "1003",
+	  "agency_name": "BCHP Burnaby"
 	},
 	{
-		"vjur": "4206",
-		"agency_name": "BCHP Chemainus"
+	  "vjur": "4110",
+	  "agency_name": "BCHP CRD IRSU"
 	},
 	{
-		"vjur": "1501",
-		"agency_name": "BCHP Chilliwack"
+	  "vjur": "4323",
+	  "agency_name": "BCHP Campbell River"
 	},
 	{
-		"vjur": "1004",
-		"agency_name": "BCHP Deas Island"
+	  "vjur": "4206",
+	  "agency_name": "BCHP Chemainus"
 	},
 	{
-		"vjur": "1305",
-		"agency_name": "BCHP Fraser Coast IRSU"
+	  "vjur": "1501",
+	  "agency_name": "BCHP Chilliwack"
 	},
 	{
-		"vjur": "1207",
-		"agency_name": "BCHP Greater Vancouver IRSU"
+	  "vjur": "2100",
+	  "agency_name": "BCHP Clearwater"
 	},
 	{
-		"vjur": "4308",
-		"agency_name": "BCHP North Island IRSU"
+	  "vjur": "3403",
+	  "agency_name": "BCHP Dawson Creek"
 	},
 	{
-		"vjur": "4307",
-		"agency_name": "BCHP Parksville"
+	  "vjur": "2100",
+	  "agency_name": "BCHP Falkland"
 	},
 	{
-		"vjur": "7001",
-		"agency_name": "BCHP Vancouver Island"
+	  "vjur": "3402",
+	  "agency_name": "BCHP Fort Nelson"
 	},
 	{
-		"vjur": "CS",
-		"agency_name": "Central Saanich Police Svc."
+	  "vjur": "3401",
+	  "agency_name": "BCHP Fort St. John"
 	},
 	{
-		"vjur": "DE",
-		"agency_name": "Delta Police Dept."
+	  "vjur": "1305",
+	  "agency_name": "BCHP Fraser Coast IRSU"
 	},
 	{
-		"vjur": "GV",
-		"agency_name": "Metro Vancouver Transit Police"
+	  "vjur": "2100",
+	  "agency_name": "BCHP Golden"
 	},
 	{
-		"vjur": "NP",
-		"agency_name": "Nelson Police Dept."
+	  "vjur": "2100",
+	  "agency_name": "BCHP Kamloops"
 	},
 	{
-		"vjur": "NW",
-		"agency_name": "New Westminster Police Dept."
+	  "vjur": "2100",
+	  "agency_name": "BCHP Kelowna"
 	},
 	{
-		"vjur": "OB",
-		"agency_name": "Oak Bay Police Dept."
+	  "vjur": "2100",
+	  "agency_name": "BCHP Keremeos"
 	},
 	{
-		"vjur": "PO",
-		"agency_name": "Port Moody Police Dept."
+	  "vjur": "2100",
+	  "agency_name": "BCHP Merritt"
 	},
 	{
-		"vjur": "3303",
-		"agency_name": "RCMP 100 Mile House"
+	  "vjur": "2301",
+	  "agency_name": "BCHP Nelson"
 	},
 	{
-		"vjur": "4322",
-		"agency_name": "RCMP Alert Bay"
+	  "vjur": "4307",
+	  "agency_name": "BCHP Parksville"
 	},
 	{
-		"vjur": "3305",
-		"agency_name": "RCMP Alexis Creek"
+	  "vjur": "3100",
+	  "agency_name": "BCHP Prince George"
 	},
 	{
-		"vjur": "3306",
-		"agency_name": "RCMP Anahim Lake"
+	  "vjur": "3301",
+	  "agency_name": "BCHP Quesnel"
 	},
 	{
-		"vjur": "2208",
-		"agency_name": "RCMP Ashcroft"
+	  "vjur": "2100",
+	  "agency_name": "BCHP Revelstoke"
 	},
 	{
-		"vjur": "3608",
-		"agency_name": "RCMP Atlin"
+	  "vjur": "3305",
+	  "agency_name": "BCHP Smithers"
 	},
 	{
-		"vjur": "2204",
-		"agency_name": "RCMP Barriere"
+	  "vjur": "1104",
+	  "agency_name": "BCHP Squamish"
 	},
 	{
-		"vjur": "3308",
-		"agency_name": "RCMP Bella Bella"
+	  "vjur": "3501",
+	  "agency_name": "BCHP Terrace"
 	},
 	{
-		"vjur": "3307",
-		"agency_name": "RCMP Bella Coola"
+	  "vjur": "3201",
+	  "agency_name": "BCHP Vanderhoof"
 	},
 	{
-		"vjur": "2305",
-		"agency_name": "RCMP Boundary"
+	  "vjur": "3304",
+	  "agency_name": "BCHP Williams Lake"
 	},
 	{
-		"vjur": "1103",
-		"agency_name": "RCMP Bowen Island"
+	  "vjur": "CS",
+	  "agency_name": "Central Saanich Police Svc."
 	},
 	{
-		"vjur": "1202",
-		"agency_name": "RCMP Burnaby"
+	  "vjur": "DE",
+	  "agency_name": "Delta Police Dept."
 	},
 	{
-		"vjur": "3205",
-		"agency_name": "RCMP Burns Lake"
+	  "vjur": "GV",
+	  "agency_name": "Metro Vancouver Transit Police"
 	},
 	{
-		"vjur": "4315",
-		"agency_name": "RCMP Campbell River"
+	  "vjur": "NP",
+	  "agency_name": "Nelson Police Dept."
 	},
 	{
-		"vjur": "2303",
-		"agency_name": "RCMP Castlegar"
+	  "vjur": "NW",
+	  "agency_name": "New Westminster Police Dept."
 	},
 	{
-		"vjur": "2301",
-		"agency_name": "RCMP Central Kootenay"
+	  "vjur": "OB",
+	  "agency_name": "Oak Bay Police Dept."
 	},
 	{
-		"vjur": "2203",
-		"agency_name": "RCMP Chase"
+	  "vjur": "PO",
+	  "agency_name": "Port Moody Police Dept."
 	},
 	{
-		"vjur": "3405",
-		"agency_name": "RCMP Chetwynd"
+	  "vjur": "3303",
+	  "agency_name": "RCMP 100 Mile House"
 	},
 	{
-		"vjur": "2205",
-		"agency_name": "RCMP Clearwater"
+	  "vjur": "1501",
+	  "agency_name": "RCMP Agassiz"
 	},
 	{
-		"vjur": "2211",
-		"agency_name": "RCMP Clinton"
+	  "vjur": "4304",
+	  "agency_name": "RCMP Ahousaht"
 	},
 	{
-		"vjur": "2405",
-		"agency_name": "RCMP Columbia Valley"
+	  "vjur": "4322",
+	  "agency_name": "RCMP Alert Bay"
 	},
 	{
-		"vjur": "4301",
-		"agency_name": "RCMP Comox Valley"
+	  "vjur": "3305",
+	  "agency_name": "RCMP Alexis Creek"
 	},
 	{
-		"vjur": "1203",
-		"agency_name": "RCMP Coquitlam"
+	  "vjur": "3306",
+	  "agency_name": "RCMP Anahim Lake"
 	},
 	{
-		"vjur": "2401",
-		"agency_name": "RCMP Cranbrook/Kimberley"
+	  "vjur": "2109",
+	  "agency_name": "RCMP Armstrong"
 	},
 	{
-		"vjur": "2404",
-		"agency_name": "RCMP Creston"
+	  "vjur": "2208",
+	  "agency_name": "RCMP Ashcroft"
 	},
 	{
-		"vjur": "3607",
-		"agency_name": "RCMP Daajing Giids (Queen Charlotte)"
+	  "vjur": "3608",
+	  "agency_name": "RCMP Atlin"
 	},
 	{
-		"vjur": "3403",
-		"agency_name": "RCMP Dawson Creek"
+	  "vjur": "2204",
+	  "agency_name": "RCMP Barriere"
 	},
 	{
-		"vjur": "3604",
-		"agency_name": "RCMP Dease Lake"
+	  "vjur": "3308",
+	  "agency_name": "RCMP Bella Bella"
 	},
 	{
-		"vjur": "2403",
-		"agency_name": "RCMP Elk Valley"
+	  "vjur": "3307",
+	  "agency_name": "RCMP Bella Coola"
 	},
 	{
-		"vjur": "3202",
-		"agency_name": "RCMP Fort St. James"
+	  "vjur": "1501",
+	  "agency_name": "RCMP Boston Bar"
 	},
 	{
-		"vjur": "3401",
-		"agency_name": "RCMP Fort St. John"
+	  "vjur": "1103",
+	  "agency_name": "RCMP Bowen Island"
 	},
 	{
-		"vjur": "3204",
-		"agency_name": "RCMP Fraser Lake"
+	  "vjur": "1202",
+	  "agency_name": "RCMP Burnaby"
 	},
 	{
-		"vjur": "4202",
-		"agency_name": "RCMP Gabriola Island"
+	  "vjur": "3205",
+	  "agency_name": "RCMP Burns Lake"
 	},
 	{
-		"vjur": "2406",
-		"agency_name": "RCMP Golden"
+	  "vjur": "4315",
+	  "agency_name": "RCMP Campbell River"
 	},
 	{
-		"vjur": "3503",
-		"agency_name": "RCMP Houston"
+	  "vjur": "2303",
+	  "agency_name": "RCMP Castlegar"
 	},
 	{
-		"vjur": "3406",
-		"agency_name": "RCMP Hudson's Hope"
+	  "vjur": "2203",
+	  "agency_name": "RCMP Chase"
 	},
 	{
-		"vjur": "4100",
-		"agency_name": "RCMP Island Dist."
+	  "vjur": "3405",
+	  "agency_name": "RCMP Chetwynd"
 	},
 	{
-		"vjur": "2201",
-		"agency_name": "RCMP Kamloops City"
+	  "vjur": "1501",
+	  "agency_name": "RCMP Chilliwack"
 	},
 	{
-		"vjur": "2101",
-		"agency_name": "RCMP Kelowna"
+	  "vjur": "2205",
+	  "agency_name": "RCMP Clearwater"
 	},
 	{
-		"vjur": "2105",
-		"agency_name": "RCMP Keremeos"
+	  "vjur": "2211",
+	  "agency_name": "RCMP Clinton"
 	},
 	{
-		"vjur": "3502",
-		"agency_name": "RCMP Kitimat"
+	  "vjur": "2405",
+	  "agency_name": "RCMP Columbia Valley"
 	},
 	{
-		"vjur": "4203",
-		"agency_name": "RCMP Ladysmith"
+	  "vjur": "4301",
+	  "agency_name": "RCMP Comox Valley"
 	},
 	{
-		"vjur": "4208",
-		"agency_name": "RCMP Lake Cowichan"
+	  "vjur": "1203",
+	  "agency_name": "RCMP Coquitlam"
 	},
 	{
-		"vjur": "1303",
-		"agency_name": "RCMP Langley"
+	  "vjur": "2401",
+	  "agency_name": "RCMP Cranbrook"
 	},
 	{
-		"vjur": "2209",
-		"agency_name": "RCMP Lillooet"
+	  "vjur": "2404",
+	  "agency_name": "RCMP Creston"
 	},
 	{
-		"vjur": "3602",
-		"agency_name": "RCMP Lisims/Nass Valley"
+	  "vjur": "3607",
+	  "agency_name": "RCMP Daajing Giids"
 	},
 	{
-		"vjur": "2206",
-		"agency_name": "RCMP Logan Lake"
+	  "vjur": "3403",
+	  "agency_name": "RCMP Dawson Creek"
 	},
 	{
-		"vjur": "1002",
-		"agency_name": "RCMP Lower Mainland Dist."
+	  "vjur": "3604",
+	  "agency_name": "RCMP Dease Lake"
 	},
 	{
-		"vjur": "2210",
-		"agency_name": "RCMP Lytton"
+	  "vjur": "2403",
+	  "agency_name": "RCMP Elkford"
 	},
 	{
-		"vjur": "3104",
-		"agency_name": "RCMP Mackenzie"
+	  "vjur": "2109",
+	  "agency_name": "RCMP Enderby"
 	},
 	{
-		"vjur": "3606",
-		"agency_name": "RCMP Masset"
+	  "vjur": "2403",
+	  "agency_name": "RCMP Fernie"
 	},
 	{
-		"vjur": "3102",
-		"agency_name": "RCMP McBride"
+	  "vjur": "3402",
+	  "agency_name": "RCMP Fort Nelson"
 	},
 	{
-		"vjur": "2207",
-		"agency_name": "RCMP Merritt"
+	  "vjur": "3202",
+	  "agency_name": "RCMP Fort St. James"
 	},
 	{
-		"vjur": "1503",
-		"agency_name": "RCMP Mission"
+	  "vjur": "3401",
+	  "agency_name": "RCMP Fort St. John"
 	},
 	{
-		"vjur": "4201",
-		"agency_name": "RCMP Nanaimo"
+	  "vjur": "3204",
+	  "agency_name": "RCMP Fraser Lake"
 	},
 	{
-		"vjur": "3506",
-		"agency_name": "RCMP New Hazelton"
+	  "vjur": "4202",
+	  "agency_name": "RCMP Gabriola"
 	},
 	{
-		"vjur": "4317",
-		"agency_name": "RCMP Nootka Sound"
+	  "vjur": "1106",
+	  "agency_name": "RCMP Gibsons"
 	},
 	{
-		"vjur": "4204",
-		"agency_name": "RCMP North Cowichan/Duncan"
+	  "vjur": "2406",
+	  "agency_name": "RCMP Golden/Field"
 	},
 	{
-		"vjur": "3100",
-		"agency_name": "RCMP North Dist."
+	  "vjur": "2305",
+	  "agency_name": "RCMP Grand Forks"
 	},
 	{
-		"vjur": "2111",
-		"agency_name": "RCMP North Okanagan"
+	  "vjur": "3503",
+	  "agency_name": "RCMP Granisle"
 	},
 	{
-		"vjur": "4106",
-		"agency_name": "RCMP Sidney/North Saanich"
+	  "vjur": "1501",
+	  "agency_name": "RCMP Hope"
 	},
 	{
-		"vjur": "1101",
-		"agency_name": "RCMP North Vancouver"
+	  "vjur": "3503",
+	  "agency_name": "RCMP Houston"
 	},
 	{
-		"vjur": "3402",
-		"agency_name": "RCMP Northern Rockies (Fort Nelson)"
+	  "vjur": "3406",
+	  "agency_name": "RCMP Hudson's Hope"
 	},
 	{
-		"vjur": "4302",
-		"agency_name": "RCMP Oceanside"
+	  "vjur": "2201",
+	  "agency_name": "RCMP Kamloops"
 	},
 	{
-		"vjur": "4109",
-		"agency_name": "RCMP Outer Gulf Islands"
+	  "vjur": "2301",
+	  "agency_name": "RCMP Kaslo"
 	},
 	{
-		"vjur": "2102",
-		"agency_name": "RCMP Penticton"
+	  "vjur": "2101",
+	  "agency_name": "RCMP Kelowna"
 	},
 	{
-		"vjur": "4303",
-		"agency_name": "RCMP Port Alberni"
+	  "vjur": "2105",
+	  "agency_name": "RCMP Keremeos"
 	},
 	{
-		"vjur": "4321",
-		"agency_name": "RCMP Port Alice"
+	  "vjur": "2401",
+	  "agency_name": "RCMP Kimberley"
 	},
 	{
-		"vjur": "4319",
-		"agency_name": "RCMP Port Hardy"
+	  "vjur": "3502",
+	  "agency_name": "RCMP Kitimat"
 	},
 	{
-		"vjur": "4320",
-		"agency_name": "RCMP Port McNeill"
+	  "vjur": "4203",
+	  "agency_name": "RCMP Ladysmith"
 	},
 	{
-		"vjur": "4306",
-		"agency_name": "RCMP Powell River"
+	  "vjur": "2101",
+	  "agency_name": "RCMP Lake Country"
 	},
 	{
-		"vjur": "3101",
-		"agency_name": "RCMP Prince George"
+	  "vjur": "4208",
+	  "agency_name": "RCMP Lake Cowichan"
 	},
 	{
-		"vjur": "3601",
-		"agency_name": "RCMP Prince Rupert"
+	  "vjur": "1303",
+	  "agency_name": "RCMP Langley"
 	},
 	{
-		"vjur": "2106",
-		"agency_name": "RCMP Princeton"
+	  "vjur": "2209",
+	  "agency_name": "RCMP Lillooet"
 	},
 	{
-		"vjur": "4316",
-		"agency_name": "RCMP Quadra Island"
+	  "vjur": "3602",
+	  "agency_name": "RCMP Lisims/Nass Valley"
 	},
 	{
-		"vjur": "3301",
-		"agency_name": "RCMP Quesnel"
+	  "vjur": "2206",
+	  "agency_name": "RCMP Logan Lake"
 	},
 	{
-		"vjur": "2114",
-		"agency_name": "RCMP Revelstoke"
+	  "vjur": "2111",
+	  "agency_name": "RCMP Lumby"
 	},
 	{
-		"vjur": "1401",
-		"agency_name": "RCMP Richmond"
+	  "vjur": "2210",
+	  "agency_name": "RCMP Lytton"
 	},
 	{
-		"vjur": "1206",
-		"agency_name": "RCMP Ridge Meadows"
+	  "vjur": "3104",
+	  "agency_name": "RCMP Mackenzie"
 	},
 	{
-		"vjur": "2112",
-		"agency_name": "RCMP Salmon Arm"
+	  "vjur": "3606",
+	  "agency_name": "RCMP Masset"
 	},
 	{
-		"vjur": "4108",
-		"agency_name": "RCMP Salt Spring Island"
+	  "vjur": "3102",
+	  "agency_name": "RCMP McBride"
 	},
 	{
-		"vjur": "4318",
-		"agency_name": "RCMP Sayward"
+	  "vjur": "2207",
+	  "agency_name": "RCMP Merritt"
 	},
 	{
-		"vjur": "4205",
-		"agency_name": "RCMP Shawnigan Lake"
+	  "vjur": "2305",
+	  "agency_name": "RCMP Midway"
 	},
 	{
-		"vjur": "2113",
-		"agency_name": "RCMP Sicamous"
+	  "vjur": "1503",
+	  "agency_name": "RCMP Mission"
 	},
 	{
-		"vjur": "3505",
-		"agency_name": "RCMP Smithers"
+	  "vjur": "2301",
+	  "agency_name": "RCMP Nakusp"
 	},
 	{
-		"vjur": "4107",
-		"agency_name": "RCMP Sooke"
+	  "vjur": "4201",
+	  "agency_name": "RCMP Nanaimo"
 	},
 	{
-		"vjur": "2104",
-		"agency_name": "RCMP South Okanagan"
+	  "vjur": "2301",
+	  "agency_name": "RCMP Nelson"
 	},
 	{
-		"vjur": "2100",
-		"agency_name": "RCMP Southeast Dist."
+	  "vjur": "3506",
+	  "agency_name": "RCMP New Hazelton"
 	},
 	{
-		"vjur": "1104",
-		"agency_name": "RCMP Squamish"
+	  "vjur": "4317",
+	  "agency_name": "RCMP Nootka Sound"
 	},
 	{
-		"vjur": "3603",
-		"agency_name": "RCMP Stewart"
+	  "vjur": "4204",
+	  "agency_name": "RCMP North Cowichan/Duncan"
 	},
 	{
-		"vjur": "2103",
-		"agency_name": "RCMP Summerland"
+	  "vjur": "1101",
+	  "agency_name": "RCMP North Vancouver"
 	},
 	{
-		"vjur": "1106",
-		"agency_name": "RCMP Sunshine Coast"
+	  "vjur": "4302",
+	  "agency_name": "RCMP Oceanside"
 	},
 	{
-		"vjur": "1301",
-		"agency_name": "RCMP Surrey"
+	  "vjur": "2104",
+	  "agency_name": "RCMP Oliver"
 	},
 	{
-		"vjur": "3203",
-		"agency_name": "RCMP Takla Landing"
+	  "vjur": "2104",
+	  "agency_name": "RCMP Osoyoos"
 	},
 	{
-		"vjur": "3501",
-		"agency_name": "RCMP Terrace"
+	  "vjur": "4109",
+	  "agency_name": "RCMP Outer Gulf Islands"
 	},
 	{
-		"vjur": "4304",
-		"agency_name": "RCMP Tofino (Ahousaht)"
+	  "vjur": "4302",
+	  "agency_name": "RCMP Parksville"
 	},
 	{
-		"vjur": "2304",
-		"agency_name": "RCMP Trail & Greater Dist."
+	  "vjur": "2101",
+	  "agency_name": "RCMP Peachland"
 	},
 	{
-		"vjur": "3105",
-		"agency_name": "RCMP Tsay Keh Dene"
+	  "vjur": "1105",
+	  "agency_name": "RCMP Pemberton"
 	},
 	{
-		"vjur": "3404",
-		"agency_name": "RCMP Tumbler Ridge"
+	  "vjur": "2102",
+	  "agency_name": "RCMP Penticton"
 	},
 	{
-		"vjur": "4305",
-		"agency_name": "RCMP Ucluelet"
+	  "vjur": "4303",
+	  "agency_name": "RCMP Port Alberni"
 	},
 	{
-		"vjur": "1402",
-		"agency_name": "RCMP University"
+	  "vjur": "4321",
+	  "agency_name": "RCMP Port Alice"
 	},
 	{
-		"vjur": "1501",
-		"agency_name": "RCMP Upper Fraser Valley"
+	  "vjur": "4319",
+	  "agency_name": "RCMP Port Hardy"
 	},
 	{
-		"vjur": "3103",
-		"agency_name": "RCMP Valemount"
+	  "vjur": "4320",
+	  "agency_name": "RCMP Port McNeill"
 	},
 	{
-		"vjur": "3201",
-		"agency_name": "RCMP Vanderhoof"
+	  "vjur": "4306",
+	  "agency_name": "RCMP Powell River"
 	},
 	{
-		"vjur": "4207",
-		"agency_name": "RCMP West Coast Marine"
+	  "vjur": "3101",
+	  "agency_name": "RCMP Prince George"
 	},
 	{
-		"vjur": "4105",
-		"agency_name": "RCMP West Shore"
+	  "vjur": "3601",
+	  "agency_name": "RCMP Prince Rupert"
 	},
 	{
-		"vjur": "1105",
-		"agency_name": "RCMP Whistler/Pemberton"
+	  "vjur": "2106",
+	  "agency_name": "RCMP Princeton"
 	},
 	{
-		"vjur": "1304",
-		"agency_name": "RCMP White Rock"
+	  "vjur": "4316",
+	  "agency_name": "RCMP Quadra Island"
 	},
 	{
-		"vjur": "3304",
-		"agency_name": "RCMP Williams Lake"
+	  "vjur": "3301",
+	  "agency_name": "RCMP Quesnel"
 	},
 	{
-		"vjur": "SA",
-		"agency_name": "Saanich Police Dept."
+	  "vjur": "2114",
+	  "agency_name": "RCMP Revelstoke"
 	},
 	{
-		"vjur": "1107",
-		"agency_name": "Stl'atl'imx Tribal Police Svc."
+	  "vjur": "1401",
+	  "agency_name": "RCMP Richmond"
 	},
 	{
-		"vjur": "VA",
-		"agency_name": "Vancouver Police Dept."
+	  "vjur": "1206",
+	  "agency_name": "RCMP Ridge Meadows"
 	},
 	{
-		"vjur": "WV",
-		"agency_name": "West Vancouver Police Dept."
+	  "vjur": "2301",
+	  "agency_name": "RCMP Salmo"
+	},
+	{
+	  "vjur": "2112",
+	  "agency_name": "RCMP Salmon Arm"
+	},
+	{
+	  "vjur": "4108",
+	  "agency_name": "RCMP Salt Spring"
+	},
+	{
+	  "vjur": "4318",
+	  "agency_name": "RCMP Sayward"
+	},
+	{
+	  "vjur": "4205",
+	  "agency_name": "RCMP Shawnigan Lake"
+	},
+	{
+	  "vjur": "2113",
+	  "agency_name": "RCMP Sicamous"
+	},
+	{
+	  "vjur": "4106",
+	  "agency_name": "RCMP Sidney/North Saanich"
+	},
+	{
+	  "vjur": "2301",
+	  "agency_name": "RCMP Slocan Lake"
+	},
+	{
+	  "vjur": "3505",
+	  "agency_name": "RCMP Smithers"
+	},
+	{
+	  "vjur": "4107",
+	  "agency_name": "RCMP Sooke"
+	},
+	{
+	  "vjur": "2403",
+	  "agency_name": "RCMP Sparwood"
+	},
+	{
+	  "vjur": "1104",
+	  "agency_name": "RCMP Squamish"
+	},
+	{
+	  "vjur": "3603",
+	  "agency_name": "RCMP Stewart"
+	},
+	{
+	  "vjur": "2103",
+	  "agency_name": "RCMP Summerland"
+	},
+	{
+	  "vjur": "1106",
+	  "agency_name": "RCMP Sunshine Coast"
+	},
+	{
+	  "vjur": "1301",
+	  "agency_name": "RCMP Surrey"
+	},
+	{
+	  "vjur": "3203",
+	  "agency_name": "RCMP Takla Landing"
+	},
+	{
+	  "vjur": "3604",
+	  "agency_name": "RCMP Telegraph Creek"
+	},
+	{
+	  "vjur": "3501",
+	  "agency_name": "RCMP Terrace"
+	},
+	{
+	  "vjur": "4306",
+	  "agency_name": "RCMP Texada Island"
+	},
+	{
+	  "vjur": "2201",
+	  "agency_name": "RCMP Tk'emlúps Rural"
+	},
+	{
+	  "vjur": "4304",
+	  "agency_name": "RCMP Tofino"
+	},
+	{
+	  "vjur": "2304",
+	  "agency_name": "RCMP Trail"
+	},
+	{
+	  "vjur": "3105",
+	  "agency_name": "RCMP Tsay Keh Dene"
+	},
+	{
+	  "vjur": "3404",
+	  "agency_name": "RCMP Tumbler Ridge"
+	},
+	{
+	  "vjur": "4305",
+	  "agency_name": "RCMP Ucluelet"
+	},
+	{
+	  "vjur": "1402",
+	  "agency_name": "RCMP University BC"
+	},
+	{
+	  "vjur": "3103",
+	  "agency_name": "RCMP Valemount"
+	},
+	{
+	  "vjur": "3201",
+	  "agency_name": "RCMP Vanderhoof"
+	},
+	{
+	  "vjur": "2111",
+	  "agency_name": "RCMP Vernon"
+	},
+	{
+	  "vjur": "2101",
+	  "agency_name": "RCMP West Kelowna"
+	},
+	{
+	  "vjur": "4105",
+	  "agency_name": "RCMP West Shore"
+	},
+	{
+	  "vjur": "1105",
+	  "agency_name": "RCMP Whistler"
+	},
+	{
+	  "vjur": "1304",
+	  "agency_name": "RCMP White Rock"
+	},
+	{
+	  "vjur": "3304",
+	  "agency_name": "RCMP Williams Lake"
+	},
+	{
+	  "vjur": "SA",
+	  "agency_name": "Saanich Police Dept."
+	},
+	{
+	  "vjur": "1107",
+	  "agency_name": "Stl'atl'imx Tribal Police Svc."
+	},
+	{
+	  "vjur": "SP",
+	  "agency_name": "Surrey Police Svc."
+	},
+	{
+	  "vjur": "VA",
+	  "agency_name": "Vancouver Police Dept."
+	},
+	{
+	  "vjur": "VI",
+	  "agency_name": "Victoria Police Dept."
+	},
+	{
+	  "vjur": "WV",
+	  "agency_name": "West Vancouver Police Dept."
 	}
-]
+  ]
