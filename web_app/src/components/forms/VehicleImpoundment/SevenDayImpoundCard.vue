@@ -38,7 +38,7 @@
           </in-line-check-box>
         </form-row>
         <form-row>
-          <in-line-check-box id="reason_motorcycle_restrictions" :option="true" :path=path>Motorcycle (restrictions)
+          <in-line-check-box id="reason_motorcycle_restrictions" v-b-tooltip.hover title="This impound reason is currently under review by RSBC policy and is currently unenforceable under the MVA until changes are enacted." :disabled="true" :option="true" :path=path>Motorcycle (restrictions)
             <span class='text-muted'>- Committing an offence under section 25(15) of the Motor Vehicle Act
               relating to a restriction or condition of a motorcycle learner or novice driver’s licence.</span>
           </in-line-check-box>
