@@ -6,7 +6,7 @@
     "test": "jest src/test/test_*.spec.js",
     "staging": "vue-cli-service build --mode staging",
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "npm version patch && vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
