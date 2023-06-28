@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import App from './App.vue'
-import { BootstrapVue, BootstrapVueIcons, ModalPlugin } from 'bootstrap-vue'
+import { BootstrapVue, BootstrapVueIcons, ModalPlugin, BTooltip  } from 'bootstrap-vue'
 import { ValidationProvider } from 'vee-validate';
 import VueKeyCloak from '@dsb-norge/vue-keycloak-js'
 import router from '@/router'
@@ -22,6 +22,7 @@ Vue.use(BootstrapVue)
 Vue.use(ModalPlugin)
 Vue.use(BootstrapVueIcons)
 Vue.use(VueMask);
+Vue.component('b-tooltip', BTooltip);
 
 
 // import custom validation rules
