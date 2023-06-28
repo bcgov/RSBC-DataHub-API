@@ -1,5 +1,5 @@
 <template>
-  <div class="card-header bg-danger pt-2 pb-2">
+  <div id="not-authenticated-banner" class="card-header bg-danger pt-2 pb-2">
     <div class="d-flex justify-content-between align-items-center">
       <div>
         &nbsp;
