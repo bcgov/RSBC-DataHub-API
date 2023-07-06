@@ -1,22 +1,27 @@
 [
   {
-    "mk": "AMGN",
-    "search": " - Hummer",
-    "md": "HUMM"
+    "mk": "AC",
+    "search": "A C (GREAT BRITAIN)",
+    "md": ""
   },
   {
     "mk": "AC",
-    "search": "A C (GREAT BRITIAN) - 3000 ME",
+    "search": "A C (GREAT BRITAIN) - 3000 ME",
     "md": "300"
   },
   {
     "mk": "ABAR",
-    "search": "ABARTH - ",
+    "search": "ABARTH",
     "md": ""
   },
   {
     "mk": "COBR",
-    "search": "AC COBRA - ",
+    "search": "AC COBRA",
+    "md": ""
+  },
+  {
+    "mk": "ACAD",
+    "search": "ACADIAN (GM OF CANADA)",
     "md": ""
   },
   {
@@ -33,6 +38,11 @@
     "mk": "ACAD",
     "search": "ACADIAN (GM OF CANADA) - INVADER SERIES",
     "md": "INVA"
+  },
+  {
+    "mk": "ACUR",
+    "search": "ACURA",
+    "md": ""
   },
   {
     "mk": "ACUR",
@@ -151,22 +161,27 @@
   },
   {
     "mk": "ADET",
-    "search": "ADETTE - ",
+    "search": "ADETTE",
     "md": ""
   },
   {
     "mk": "ADVA",
-    "search": "ADVANCED - ",
+    "search": "ADVANCED",
     "md": ""
   },
   {
     "mk": "AERO",
-    "search": "AEROCAR - ",
+    "search": "AEROCAR",
     "md": ""
   },
   {
     "mk": "AETA",
-    "search": "AETA - ",
+    "search": "AETA",
+    "md": ""
+  },
+  {
+    "mk": "ALFA",
+    "search": "ALFA ROMEO",
     "md": ""
   },
   {
@@ -246,42 +261,47 @@
   },
   {
     "mk": "ALLS",
-    "search": "ALL STATE - ",
+    "search": "ALL STATE",
     "md": ""
   },
   {
     "mk": "ALLA",
-    "search": "ALLARD - ",
+    "search": "ALLARD",
     "md": ""
   },
   {
     "mk": "ALCI",
-    "search": "ALLEN COACHWORKS INC. - ",
+    "search": "ALLEN COACHWORKS INC.",
     "md": ""
   },
   {
     "mk": "ALLF",
-    "search": "ALLISONS FIBERGLASS MFG.INC. - ",
+    "search": "ALLISONS FIBERGLASS MFG.INC.",
     "md": ""
   },
   {
     "mk": "ALMA",
-    "search": "ALMA - ",
+    "search": "ALMA",
     "md": ""
   },
   {
     "mk": "ALPI",
-    "search": "ALPHINE - ",
+    "search": "ALPHINE",
     "md": ""
   },
   {
     "mk": "ALTA",
-    "search": "ALTA - ",
+    "search": "ALTA",
     "md": ""
   },
   {
     "mk": "ALVI",
-    "search": "ALVIS - ",
+    "search": "ALVIS",
+    "md": ""
+  },
+  {
+    "mk": "AMER",
+    "search": "AMERICAN MOTORS",
     "md": ""
   },
   {
@@ -376,52 +396,57 @@
   },
   {
     "mk": "AMPH",
-    "search": "AMPHICAR - ",
+    "search": "AMPHICAR",
     "md": ""
   },
   {
     "mk": "ANSE",
-    "search": "ANSER MANUFACTURING LTD - ",
+    "search": "ANSER MANUFACTURING LTD",
     "md": ""
   },
   {
     "mk": "ARGO",
-    "search": "ARGONAUT STATE LIMOUSINE - ",
+    "search": "ARGONAUT STATE LIMOUSINE",
     "md": ""
   },
   {
     "mk": "ARIS",
-    "search": "ARISTA - ",
+    "search": "ARISTA",
     "md": ""
   },
   {
     "mk": "ARMS",
-    "search": "ARMSTRONG SIDDELEY - ",
+    "search": "ARMSTRONG SIDDELEY",
     "md": ""
   },
   {
     "mk": "ARNO",
-    "search": "ARNOLT-BRISTOL - ",
+    "search": "ARNOLT-BRISTOL",
     "md": ""
   },
   {
     "mk": "ASA",
-    "search": "ASA - ",
+    "search": "ASA",
     "md": ""
   },
   {
     "mk": "ASCO",
-    "search": "ASCORT - ",
+    "search": "ASCORT",
     "md": ""
   },
   {
     "mk": "ASHL",
-    "search": "ASHLEY - ",
+    "search": "ASHLEY",
     "md": ""
   },
   {
     "mk": "ASVE",
-    "search": "ASSEMBLED VEHICLE - ",
+    "search": "ASSEMBLED VEHICLE",
+    "md": ""
+  },
+  {
+    "mk": "ASTO",
+    "search": "ASTON-MARTIN",
     "md": ""
   },
   {
@@ -456,6 +481,11 @@
   },
   {
     "mk": "ASUN",
+    "search": "ASUNA",
+    "md": ""
+  },
+  {
+    "mk": "ASUN",
     "search": "ASUNA - GT",
     "md": "GT"
   },
@@ -476,7 +506,12 @@
   },
   {
     "mk": "AUBU",
-    "search": "AUBURN - ",
+    "search": "AUBURN",
+    "md": ""
+  },
+  {
+    "mk": "AUDI",
+    "search": "AUDI",
     "md": ""
   },
   {
@@ -537,7 +572,7 @@
   {
     "mk": "AUDI",
     "search": "AUDI - A4",
-    "md": "A4"
+    "md": "AA4"
   },
   {
     "mk": "AUDI",
@@ -547,7 +582,7 @@
   {
     "mk": "AUDI",
     "search": "AUDI - A6",
-    "md": "A6"
+    "md": "AA6"
   },
   {
     "mk": "AUDI",
@@ -557,7 +592,7 @@
   {
     "mk": "AUDI",
     "search": "AUDI - A8",
-    "md": "A8"
+    "md": "AA8"
   },
   {
     "mk": "AUDI",
@@ -671,7 +706,12 @@
   },
   {
     "mk": "AURO",
-    "search": "AURORA - ",
+    "search": "AURORA",
+    "md": ""
+  },
+  {
+    "mk": "AUST",
+    "search": "AUSTIN-HEALY",
     "md": ""
   },
   {
@@ -746,32 +786,37 @@
   },
   {
     "mk": "AUTU",
-    "search": "AUTO UNION - ",
+    "search": "AUTO UNION",
     "md": ""
   },
   {
     "mk": "AUTA",
-    "search": "AUTOBIANCHI - ",
+    "search": "AUTOBIANCHI",
     "md": ""
   },
   {
     "mk": "AUTB",
-    "search": "AUTOBIEU - ",
+    "search": "AUTOBIEU",
     "md": ""
   },
   {
     "mk": "AUTO",
-    "search": "AUTOCAR - ",
+    "search": "AUTOCAR",
     "md": ""
   },
   {
     "mk": "AUTR",
-    "search": "AUTOCARRIER AND A.C. - ",
+    "search": "AUTOCARRIER AND A.C.",
     "md": ""
   },
   {
     "mk": "AUKR",
-    "search": "AUTOKRAFT - ",
+    "search": "AUTOKRAFT",
+    "md": ""
+  },
+  {
+    "mk": "AVAN",
+    "search": "AVANTI",
     "md": ""
   },
   {
@@ -786,12 +831,17 @@
   },
   {
     "mk": "AVEN",
-    "search": "AVENGER - ",
+    "search": "AVENGER",
     "md": ""
   },
   {
     "mk": "AVIA",
-    "search": "AVIA - ",
+    "search": "AVIA",
+    "md": ""
+  },
+  {
+    "mk": "BZEL",
+    "search": "B & Z ELECTRIC CAR CO.",
     "md": ""
   },
   {
@@ -806,33 +856,48 @@
   },
   {
     "mk": "BMC",
+    "search": "B M C",
+    "md": ""
+  },
+  {
+    "mk": "BMC",
     "search": "B M C - PRINCESS",
     "md": "PRI"
   },
   {
     "mk": "BANT",
-    "search": "BANTAM - ",
+    "search": "BANTAM",
     "md": ""
   },
   {
     "mk": "BAY",
-    "search": "BAYLINER - ",
+    "search": "BAYLINER",
     "md": ""
   },
   {
     "mk": "BEAR",
-    "search": "BEARDMORE - ",
+    "search": "BEARDMORE",
     "md": ""
   },
   {
     "mk": "BEDF",
-    "search": "BEDFORD - ",
+    "search": "BEDFORD",
+    "md": ""
+  },
+  {
+    "mk": "BEJE",
+    "search": "BEIJING JEEP",
     "md": ""
   },
   {
     "mk": "BEJE",
     "search": "BEIJING JEEP - GANG STAR",
     "md": "TK"
+  },
+  {
+    "mk": "BENT",
+    "search": "BENTLEY",
+    "md": ""
   },
   {
     "mk": "BENT",
@@ -876,12 +941,17 @@
   },
   {
     "mk": "BERG",
-    "search": "BERGANTINE - ",
+    "search": "BERGANTINE",
     "md": ""
   },
   {
     "mk": "BERK",
-    "search": "BERKELEY - ",
+    "search": "BERKELEY",
+    "md": ""
+  },
+  {
+    "mk": "BERO",
+    "search": "BERTONE",
     "md": ""
   },
   {
@@ -901,8 +971,18 @@
   },
   {
     "mk": "BESA",
+    "search": "BESASIE AUTOMOBILE CO. INC.",
+    "md": ""
+  },
+  {
+    "mk": "BESA",
     "search": "BESASIE AUTOMOBILE CO. INC. - BACI",
     "md": "BAC"
+  },
+  {
+    "mk": "BIGT",
+    "search": "BIG TEX",
+    "md": ""
   },
   {
     "mk": "BIGT",
@@ -911,17 +991,22 @@
   },
   {
     "mk": "BITT",
-    "search": "BITTER - ",
+    "search": "BITTER",
     "md": ""
   },
   {
     "mk": "BIZZ",
-    "search": "BIZZARRINI - ",
+    "search": "BIZZARRINI",
     "md": ""
   },
   {
     "mk": "BLUE",
-    "search": "BLUEBIRD - ",
+    "search": "BLUEBIRD",
+    "md": ""
+  },
+  {
+    "mk": "BMW",
+    "search": "BMW",
     "md": ""
   },
   {
@@ -1246,6 +1331,11 @@
   },
   {
     "mk": "BMW",
+    "search": "BMW - I8",
+    "md": "I8"
+  },
+  {
+    "mk": "BMW",
     "search": "BMW - ISETTA",
     "md": "ISLE"
   },
@@ -1268,6 +1358,11 @@
     "mk": "BMW",
     "search": "BMW - M3",
     "md": "M3"
+  },
+  {
+    "mk": "BMW",
+    "search": "BMW - M340i",
+    "md": "M340"
   },
   {
     "mk": "BMW",
@@ -1330,33 +1425,33 @@
     "md": "Z4"
   },
   {
-    "mk": "BMW",
-    "search": "BMW - i8",
-    "md": "I8"
-  },
-  {
     "mk": "BOBB",
-    "search": "BOBBI-KAR - ",
+    "search": "BOBBI-KAR",
     "md": ""
   },
   {
     "mk": "BOCA",
-    "search": "BOCAR - ",
+    "search": "BOCAR",
     "md": ""
   },
   {
     "mk": "BOM",
-    "search": "BOMBARDIER - ",
+    "search": "BOMBARDIER",
     "md": ""
   },
   {
     "mk": "BONA",
-    "search": "BONAIR LEISURE PRODUCTS LTD. - ",
+    "search": "BONAIR LEISURE PRODUCTS LTD.",
     "md": ""
   },
   {
     "mk": "BOND",
-    "search": "BOND - ",
+    "search": "BOND",
+    "md": ""
+  },
+  {
+    "mk": "BORG",
+    "search": "BORGWARD",
     "md": ""
   },
   {
@@ -1386,17 +1481,22 @@
   },
   {
     "mk": "BOS",
-    "search": "BOSTON WHALER - ",
+    "search": "BOSTON WHALER",
     "md": ""
   },
   {
     "mk": "BRDL",
-    "search": "BRADLEY GT - ",
+    "search": "BRADLEY GT",
     "md": ""
   },
   {
     "mk": "BRAS",
-    "search": "BRASINCA - ",
+    "search": "BRASINCA",
+    "md": ""
+  },
+  {
+    "mk": "BREM",
+    "search": "BREMEN SPORT EQUIPMENT",
     "md": ""
   },
   {
@@ -1426,28 +1526,38 @@
   },
   {
     "mk": "BRIC",
-    "search": "BRICKLIN - ",
+    "search": "BRICKLIN",
     "md": ""
   },
   {
     "mk": "BRIS",
-    "search": "BRISTOL - ",
+    "search": "BRISTOL",
     "md": ""
   },
   {
     "mk": "BROD",
-    "search": "BRODEX - ",
+    "search": "BRODEX",
     "md": ""
   },
   {
     "mk": "BUEL",
-    "search": "BUELL - ",
+    "search": "BUELL",
+    "md": ""
+  },
+  {
+    "mk": "BUGA",
+    "search": "BUGATTI",
     "md": ""
   },
   {
     "mk": "BUGA",
     "search": "BUGATTI - EB110",
     "md": "E10"
+  },
+  {
+    "mk": "BUIC",
+    "search": "BUICK",
+    "md": ""
   },
   {
     "mk": "BUIC",
@@ -1518,6 +1628,11 @@
     "mk": "BUIC",
     "search": "BUICK - INVICTA",
     "md": "INVI"
+  },
+  {
+    "mk": "BUIC",
+    "search": "BUICK - LACROSSE",
+    "md": "LACR"
   },
   {
     "mk": "BUIC",
@@ -1611,7 +1726,12 @@
   },
   {
     "mk": "BUTT",
-    "search": "BUTTERFIELD MUSKETEER - ",
+    "search": "BUTTERFIELD MUSKETEER",
+    "md": ""
+  },
+  {
+    "mk": "CBTR",
+    "search": "C & B TRAILER",
     "md": ""
   },
   {
@@ -1650,8 +1770,8 @@
     "md": "UTTR"
   },
   {
-    "mk": "CHR",
-    "search": "C-HR - ",
+    "mk": "CADI",
+    "search": "CADILLAC",
     "md": ""
   },
   {
@@ -1781,32 +1901,37 @@
   },
   {
     "mk": "CAM",
-    "search": "CAMPION - ",
+    "search": "CAMPION",
     "md": ""
   },
   {
     "mk": "CAPR",
-    "search": "CAPRI - ",
+    "search": "CAPRI",
     "md": ""
   },
   {
     "mk": "CASE",
-    "search": "CASE - ",
+    "search": "CASE",
     "md": ""
   },
   {
     "mk": "CATE",
-    "search": "CATERPILLAR - ",
+    "search": "CATERPILLAR",
     "md": ""
   },
   {
     "mk": "CHAI",
-    "search": "CHAIKA - ",
+    "search": "CHAIKA",
     "md": ""
   },
   {
     "mk": "CHA",
-    "search": "CHAMPION - ",
+    "search": "CHAMPION",
+    "md": ""
+  },
+  {
+    "mk": "CHEC",
+    "search": "CHECKER",
     "md": ""
   },
   {
@@ -1828,6 +1953,16 @@
     "mk": "CHEC",
     "search": "CHECKER - SUPERBA",
     "md": "SUPE"
+  },
+  {
+    "mk": "CHEV",
+    "search": "CHEVROLET",
+    "md": ""
+  },
+  {
+    "mk": "CHEV",
+    "search": "CHEVROLET - 210 SERIES",
+    "md": "210"
   },
   {
     "mk": "CHEV",
@@ -2226,7 +2361,12 @@
   },
   {
     "mk": "CHIN",
-    "search": "CHING-KAN-SHAN - ",
+    "search": "CHING-KAN-SHAN",
+    "md": ""
+  },
+  {
+    "mk": "CHRY",
+    "search": "CHRYSLER",
     "md": ""
   },
   {
@@ -2406,12 +2546,17 @@
   },
   {
     "mk": "CISI",
-    "search": "CISITALIA - ",
+    "search": "CISITALIA",
     "md": ""
   },
   {
     "mk": "CITI",
-    "search": "CITICAR (ELECTRIC CAR) - ",
+    "search": "CITICAR (ELECTRIC CAR)",
+    "md": ""
+  },
+  {
+    "mk": "CITR",
+    "search": "CITROEN",
     "md": ""
   },
   {
@@ -2450,18 +2595,18 @@
     "md": "SM"
   },
   {
-    "mk": "CITY",
-    "search": "CITY EXPRESS - ",
-    "md": ""
-  },
-  {
     "mk": "CLAI",
-    "search": "CLASSIC MOTOR CARRIAGES INC. - ",
+    "search": "CLASSIC MOTOR CARRIAGES INC.",
     "md": ""
   },
   {
     "mk": "CLAC",
-    "search": "CLASSIC ROADSTERS LTD. - ",
+    "search": "CLASSIC ROADSTERS LTD.",
+    "md": ""
+  },
+  {
+    "mk": "CLEN",
+    "search": "CLENET COACH WORKS",
     "md": ""
   },
   {
@@ -2471,7 +2616,12 @@
   },
   {
     "mk": "CLUA",
-    "search": "CLUA - ",
+    "search": "CLUA",
+    "md": ""
+  },
+  {
+    "mk": "COMV",
+    "search": "COMMUTER VEHICLES INC",
     "md": ""
   },
   {
@@ -2481,67 +2631,82 @@
   },
   {
     "mk": "COCP",
-    "search": "CONCEPTOR INDUSTRIES INC - ",
+    "search": "CONCEPTOR INDUSTRIES INC",
     "md": ""
   },
   {
     "mk": "CONN",
-    "search": "CONNAUGHT - ",
+    "search": "CONNAUGHT",
     "md": ""
   },
   {
     "mk": "CONS",
-    "search": "CONSULIER - ",
+    "search": "CONSULIER",
     "md": ""
   },
   {
     "mk": "CONT",
-    "search": "CONTESSA - ",
+    "search": "CONTESSA",
     "md": ""
   },
   {
     "mk": "CNTL",
-    "search": "CONTINENTAL - CARGO",
-    "md": "CARG"
+    "search": "CONTINENTAL",
+    "md": ""
+  },
+  {
+    "mk": "COOP",
+    "search": "COOPER",
+    "md": ""
+  },
+  {
+    "mk": "COOP",
+    "search": "COOPER - MINI",
+    "md": "MINI"
   },
   {
     "mk": "CORD",
-    "search": "CORD - ",
+    "search": "CORD",
     "md": ""
   },
   {
     "mk": "CRI",
-    "search": "CRISCRAFT - ",
+    "search": "CRISCRAFT",
     "md": ""
   },
   {
     "mk": "CROF",
-    "search": "CROFTON CUB - ",
+    "search": "CROFTON CUB",
     "md": ""
   },
   {
     "mk": "CROS",
-    "search": "CROSLEY - ",
+    "search": "CROSLEY",
     "md": ""
   },
   {
     "mk": "CUBS",
-    "search": "CUBSTER - ",
+    "search": "CUBSTER",
     "md": ""
   },
   {
     "mk": "CUNN",
-    "search": "CUNNINGHAM - ",
+    "search": "CUNNINGHAM",
     "md": ""
   },
   {
     "mk": "DAIN",
-    "search": "D & A VEHICLES INC. - ",
+    "search": "D & A VEHICLES INC.",
     "md": ""
   },
   {
     "mk": "DB",
-    "search": "D.B. - ",
+    "search": "D.B.",
+    "md": ""
+  },
+  {
+    "mk": "DAEW",
+    "search": "DAEWOO",
     "md": ""
   },
   {
@@ -2561,7 +2726,12 @@
   },
   {
     "mk": "DAF",
-    "search": "DAF - ",
+    "search": "DAF",
+    "md": ""
+  },
+  {
+    "mk": "DAIH",
+    "search": "DAIHATSU",
     "md": ""
   },
   {
@@ -2576,7 +2746,12 @@
   },
   {
     "mk": "DAIM",
-    "search": "DAIMLER - ",
+    "search": "DAIMLER",
+    "md": ""
+  },
+  {
+    "mk": "DATS",
+    "search": "DATSUN",
     "md": ""
   },
   {
@@ -2676,7 +2851,12 @@
   },
   {
     "mk": "DAVI",
-    "search": "DAVIS - ",
+    "search": "DAVIS",
+    "md": ""
+  },
+  {
+    "mk": "DAYT",
+    "search": "DAYTONA",
     "md": ""
   },
   {
@@ -2691,12 +2871,17 @@
   },
   {
     "mk": "DELO",
-    "search": "DE LOREAN - ",
+    "search": "DE LOREAN",
     "md": ""
   },
   {
     "mk": "DEBO",
-    "search": "DEBONAIR - ",
+    "search": "DEBONAIR",
+    "md": ""
+  },
+  {
+    "mk": "DECO",
+    "search": "DECOURVILLE",
     "md": ""
   },
   {
@@ -2706,17 +2891,22 @@
   },
   {
     "mk": "DEEP",
-    "search": "DEEP SANDERSON - ",
+    "search": "DEEP SANDERSON",
     "md": ""
   },
   {
     "mk": "DELL",
-    "search": "DELLOW - ",
+    "search": "DELLOW",
     "md": ""
   },
   {
     "mk": "DENZ",
-    "search": "DENZEL - ",
+    "search": "DENZEL",
+    "md": ""
+  },
+  {
+    "mk": "DESO",
+    "search": "DESOTO",
     "md": ""
   },
   {
@@ -2756,6 +2946,11 @@
   },
   {
     "mk": "DETO",
+    "search": "DETOMASO",
+    "md": ""
+  },
+  {
+    "mk": "DETO",
     "search": "DETOMASO - DEAUVILLE",
     "md": "DEA"
   },
@@ -2776,12 +2971,17 @@
   },
   {
     "mk": "DITE",
-    "search": "DI TELLA - ",
+    "search": "DI TELLA",
     "md": ""
   },
   {
     "mk": "DIVA",
-    "search": "DIVA - ",
+    "search": "DIVA",
+    "md": ""
+  },
+  {
+    "mk": "DKW",
+    "search": "DKW",
     "md": ""
   },
   {
@@ -2798,6 +2998,11 @@
     "mk": "DKW",
     "search": "DKW - VEMAG",
     "md": "VEM"
+  },
+  {
+    "mk": "DODG",
+    "search": "DODGE",
+    "md": ""
   },
   {
     "mk": "DODG",
@@ -3091,6 +3296,11 @@
   },
   {
     "mk": "DODG",
+    "search": "DODGE - STEALTH",
+    "md": "STEA"
+  },
+  {
+    "mk": "DODG",
     "search": "DODGE - STRATUS",
     "md": "STRA"
   },
@@ -3111,37 +3321,47 @@
   },
   {
     "mk": "DODG",
+    "search": "DODGE - W250",
+    "md": "W250"
+  },
+  {
+    "mk": "DODG",
     "search": "DODGE - WAYFARER",
     "md": "WAY"
   },
   {
     "mk": "DONG",
-    "search": "DONG FENG  (EAST WIND) - ",
+    "search": "DONG FENG  (EAST WIND)",
     "md": ""
   },
   {
     "mk": "DBL",
-    "search": "DOUBLE EAGLE - ",
+    "search": "DOUBLE EAGLE",
     "md": ""
   },
   {
     "mk": "DUCA",
-    "search": "DUCATI - ",
+    "search": "DUCATI",
     "md": ""
   },
   {
     "mk": "DUEL",
-    "search": "DUEL - ",
+    "search": "DUEL",
     "md": ""
   },
   {
     "mk": "DUES",
-    "search": "DUESENBERG - ",
+    "search": "DUESENBERG",
     "md": ""
   },
   {
     "mk": "DURA",
-    "search": "DURANT - ",
+    "search": "DURANT",
+    "md": ""
+  },
+  {
+    "mk": "DUTC",
+    "search": "DUTCHMAN MANUFACTURING INC.",
     "md": ""
   },
   {
@@ -3206,6 +3426,11 @@
   },
   {
     "mk": "EAGL",
+    "search": "EAGLE",
+    "md": ""
+  },
+  {
+    "mk": "EAGL",
     "search": "EAGLE - MEDALLION",
     "md": "MEDA"
   },
@@ -3228,6 +3453,11 @@
     "mk": "EAGL",
     "search": "EAGLE - VISION",
     "md": "VISI"
+  },
+  {
+    "mk": "EDSE",
+    "search": "EDSEL",
+    "md": ""
   },
   {
     "mk": "EDSE",
@@ -3256,17 +3486,22 @@
   },
   {
     "mk": "ELVC",
-    "search": "ELECTRIC VEHICLE CORP. - ",
+    "search": "ELECTRIC VEHICLE CORP.",
     "md": ""
   },
   {
     "mk": "ELVA",
-    "search": "ELVA - ",
+    "search": "ELVA",
     "md": ""
   },
   {
     "mk": "EMW",
-    "search": "EMW - ",
+    "search": "EMW",
+    "md": ""
+  },
+  {
+    "mk": "ENGF",
+    "search": "ENGLISH FORD (BRITISH)",
     "md": ""
   },
   {
@@ -3351,37 +3586,47 @@
   },
   {
     "mk": "ENVO",
+    "search": "ENVOY",
+    "md": ""
+  },
+  {
+    "mk": "ENVO",
     "search": "ENVOY - EPIC",
     "md": "EPI"
   },
   {
     "mk": "ENZM",
-    "search": "ENZMANN - ",
+    "search": "ENZMANN",
     "md": ""
   },
   {
     "mk": "ERSK",
-    "search": "ERSKINE - ",
+    "search": "ERSKINE",
     "md": ""
   },
   {
     "mk": "ESCO",
-    "search": "ESCORT BOAT TRAILER MFG. - ",
+    "search": "ESCORT BOAT TRAILER MFG.",
     "md": ""
   },
   {
     "mk": "ESHL",
-    "search": "ESHELMAN SPORTABOUT - ",
+    "search": "ESHELMAN SPORTABOUT",
     "md": ""
   },
   {
     "mk": "ESSE",
-    "search": "ESSEX - ",
+    "search": "ESSEX",
     "md": ""
   },
   {
     "mk": "EVRY",
-    "search": "EVERYBODYS MOTOR CAR MFG. - ",
+    "search": "EVERYBODYS MOTOR CAR MFG.",
+    "md": ""
+  },
+  {
+    "mk": "EXCA",
+    "search": "EXCALIBUR",
     "md": ""
   },
   {
@@ -3411,7 +3656,12 @@
   },
   {
     "mk": "EZLO",
-    "search": "EZ LOADER BOAT TRAILERS INC. - ",
+    "search": "EZ LOADER BOAT TRAILERS INC.",
+    "md": ""
+  },
+  {
+    "mk": "FACE",
+    "search": "FACEL VEGA",
     "md": ""
   },
   {
@@ -3446,17 +3696,22 @@
   },
   {
     "mk": "FAIR",
-    "search": "FAIRTHORPE - ",
+    "search": "FAIRTHORPE",
     "md": ""
   },
   {
     "mk": "FALC",
-    "search": "FALCON (BRITISH) - ",
+    "search": "FALCON (BRITISH)",
     "md": ""
   },
   {
     "mk": "FELB",
-    "search": "FELBER - ",
+    "search": "FELBER",
+    "md": ""
+  },
+  {
+    "mk": "FERR",
+    "search": "FERRARI",
     "md": ""
   },
   {
@@ -3556,6 +3811,11 @@
   },
   {
     "mk": "FIAT",
+    "search": "FIAT",
+    "md": ""
+  },
+  {
+    "mk": "FIAT",
     "search": "FIAT - 1100 - D or R",
     "md": "110"
   },
@@ -3641,17 +3901,22 @@
   },
   {
     "mk": "FIAA",
-    "search": "FIAT-ABARTH - ",
+    "search": "FIAT-ABARTH",
     "md": ""
   },
   {
     "mk": "FIBE",
-    "search": "FIBERFAB INC. (MINNEAPOLIS MN) - ",
+    "search": "FIBERFAB INC. (MINNEAPOLIS MN)",
     "md": ""
   },
   {
     "mk": "FIES",
-    "search": "FIESTA (IMPORTED BY FORD) - ",
+    "search": "FIESTA (IMPORTED BY FORD)",
+    "md": ""
+  },
+  {
+    "mk": "FISK",
+    "search": "FISKER",
     "md": ""
   },
   {
@@ -3661,8 +3926,18 @@
   },
   {
     "mk": "FLEE",
+    "search": "FLEETWOOD ENTERPRISES INC",
+    "md": ""
+  },
+  {
+    "mk": "FLEE",
     "search": "FLEETWOOD ENTERPRISES INC - TERRY",
     "md": "TERR"
+  },
+  {
+    "mk": "FLYE",
+    "search": "FLYER",
+    "md": ""
   },
   {
     "mk": "FLYE",
@@ -3671,7 +3946,12 @@
   },
   {
     "mk": "FNM",
-    "search": "FNM - ",
+    "search": "FNM",
+    "md": ""
+  },
+  {
+    "mk": "FORD",
+    "search": "FORD",
     "md": ""
   },
   {
@@ -4086,27 +4366,32 @@
   },
   {
     "mk": "FOUN",
-    "search": "FOUNTAIN - ",
+    "search": "FOUNTAIN",
     "md": ""
   },
   {
     "mk": "FRAN",
-    "search": "FRANKLIN - ",
+    "search": "FRANKLIN",
     "md": ""
   },
   {
     "mk": "FRNA",
-    "search": "FRAZER-NASH - ",
+    "search": "FRAZER-NASH",
     "md": ""
   },
   {
     "mk": "FRAZ",
-    "search": "FRAZIER - ",
+    "search": "FRAZIER",
     "md": ""
   },
   {
     "mk": "FREI",
-    "search": "FREIGHTLINER - ",
+    "search": "FREIGHTLINER",
+    "md": ""
+  },
+  {
+    "mk": "FREF",
+    "search": "FRENCH FORD",
     "md": ""
   },
   {
@@ -4126,7 +4411,12 @@
   },
   {
     "mk": "FRIS",
-    "search": "FRISKY - ",
+    "search": "FRISKY",
+    "md": ""
+  },
+  {
+    "mk": "GAZ",
+    "search": "GAZ",
     "md": ""
   },
   {
@@ -4141,13 +4431,23 @@
   },
   {
     "mk": "GZL",
-    "search": "GAZELLE - ",
+    "search": "GAZELLE",
+    "md": ""
+  },
+  {
+    "mk": "GM",
+    "search": "GENERAL MOTORS",
     "md": ""
   },
   {
     "mk": "GM",
     "search": "GENERAL MOTORS - EV1",
     "md": "EV1"
+  },
+  {
+    "mk": "GMC",
+    "search": "GENERAL MOTORS CORP.",
+    "md": ""
   },
   {
     "mk": "GMC",
@@ -4246,6 +4546,11 @@
   },
   {
     "mk": "GENE",
+    "search": "GENESIS",
+    "md": ""
+  },
+  {
+    "mk": "GENE",
     "search": "GENESIS - G70",
     "md": "G70"
   },
@@ -4263,6 +4568,11 @@
     "mk": "GENE",
     "search": "GENESIS - G90",
     "md": "G90"
+  },
+  {
+    "mk": "GEO",
+    "search": "GEO",
+    "md": ""
   },
   {
     "mk": "GEO",
@@ -4286,22 +4596,27 @@
   },
   {
     "mk": "GIAN",
-    "search": "GIANNINI - ",
+    "search": "GIANNINI",
     "md": ""
   },
   {
     "mk": "GILB",
-    "search": "GILBERN - ",
+    "search": "GILBERN",
     "md": ""
   },
   {
     "mk": "GINE",
-    "search": "GINETTA - ",
+    "search": "GINETTA",
     "md": ""
   },
   {
     "mk": "GITA",
-    "search": "GITANE - ",
+    "search": "GITANE",
+    "md": ""
+  },
+  {
+    "mk": "GLAS",
+    "search": "GLAS",
     "md": ""
   },
   {
@@ -4311,32 +4626,37 @@
   },
   {
     "mk": "GLSC",
-    "search": "GLASSIC - ",
+    "search": "GLASSIC",
     "md": ""
   },
   {
     "mk": "GOLI",
-    "search": "GOLIATH - ",
+    "search": "GOLIATH",
     "md": ""
   },
   {
     "mk": "GORD",
-    "search": "GORDON - ",
+    "search": "GORDON",
     "md": ""
   },
   {
     "mk": "GRAC",
-    "search": "GRACIELA - ",
+    "search": "GRACIELA",
     "md": ""
   },
   {
     "mk": "GRAH",
-    "search": "GRAHAM - ",
+    "search": "GRAHAM",
     "md": ""
   },
   {
     "mk": "GRAP",
-    "search": "GRAHAM-PAIGE - ",
+    "search": "GRAHAM-PAIGE",
+    "md": ""
+  },
+  {
+    "mk": "GDNE",
+    "search": "GREAT DANE",
     "md": ""
   },
   {
@@ -4356,57 +4676,62 @@
   },
   {
     "mk": "GRIF",
-    "search": "GRIFFITH - ",
+    "search": "GRIFFITH",
     "md": ""
   },
   {
     "mk": "GSM",
-    "search": "GSM - ",
+    "search": "GSM",
     "md": ""
   },
   {
     "mk": "HAN",
-    "search": "HANS CHRISTIAN - ",
+    "search": "HANS CHRISTIAN",
     "md": ""
   },
   {
     "mk": "HAR",
-    "search": "HARBORCRAFT - ",
+    "search": "HARBORCRAFT",
     "md": ""
   },
   {
     "mk": "HARL",
-    "search": "HARLEY DAVIDSON - ",
+    "search": "HARLEY DAVIDSON",
     "md": ""
   },
   {
     "mk": "HARM",
-    "search": "HARMON TANK CO. INC. - ",
+    "search": "HARMON TANK CO. INC.",
     "md": ""
   },
   {
     "mk": "HAUL",
-    "search": "HAULMARK - ",
+    "search": "HAULMARK",
     "md": ""
   },
   {
     "mk": "HEIN",
-    "search": "HEINKEL - ",
+    "search": "HEINKEL",
     "md": ""
   },
   {
     "mk": "HENR",
-    "search": "HENRY J. - ",
+    "search": "HENRY J.",
     "md": ""
   },
   {
     "mk": "HICK",
-    "search": "HICKEY TRAIL-BLAZER - ",
+    "search": "HICKEY TRAIL-BLAZER",
     "md": ""
   },
   {
     "mk": "HIGH",
-    "search": "HIGHLINER - ",
+    "search": "HIGHLINER",
+    "md": ""
+  },
+  {
+    "mk": "HILL",
+    "search": "HILLMAN",
     "md": ""
   },
   {
@@ -4451,22 +4776,27 @@
   },
   {
     "mk": "HIND",
-    "search": "HINDUSTAN - ",
+    "search": "HINDUSTAN",
     "md": ""
   },
   {
     "mk": "HINO",
-    "search": "HINO - ",
+    "search": "HINO",
     "md": ""
   },
   {
     "mk": "HOB",
-    "search": "HOBIE CAT - ",
+    "search": "HOBIE CAT",
     "md": ""
   },
   {
     "mk": "HOLD",
-    "search": "HOLDEN - ",
+    "search": "HOLDEN",
+    "md": ""
+  },
+  {
+    "mk": "HOND",
+    "search": "HONDA",
     "md": ""
   },
   {
@@ -4478,6 +4808,11 @@
     "mk": "HOND",
     "search": "HONDA - CIVIC (AND CRX)",
     "md": "CIVI"
+  },
+  {
+    "mk": "HOND",
+    "search": "HONDA - CLARITY",
+    "md": "CLAR"
   },
   {
     "mk": "HOND",
@@ -4556,22 +4891,27 @@
   },
   {
     "mk": "HONG",
-    "search": "HONGKI OR HONG-CHI - ",
+    "search": "HONGKI OR HONG-CHI",
     "md": ""
   },
   {
     "mk": "HORC",
-    "search": "HORCH LIMOUSINE - ",
+    "search": "HORCH LIMOUSINE",
     "md": ""
   },
   {
     "mk": "HOTC",
-    "search": "HOTCHKISS - ",
+    "search": "HOTCHKISS",
     "md": ""
   },
   {
     "mk": "HRG",
-    "search": "HRG - ",
+    "search": "HRG",
+    "md": ""
+  },
+  {
+    "mk": "HUDS",
+    "search": "HUDSON",
     "md": ""
   },
   {
@@ -4621,7 +4961,12 @@
   },
   {
     "mk": "HUME",
-    "search": "HUMBEE SURREY - ",
+    "search": "HUMBEE SURREY",
+    "md": ""
+  },
+  {
+    "mk": "HUMB",
+    "search": "HUMBER",
     "md": ""
   },
   {
@@ -4633,6 +4978,11 @@
     "mk": "HUMB",
     "search": "HUMBER - SNIPE",
     "md": "SNI"
+  },
+  {
+    "mk": "HUMM",
+    "search": "HUMMER",
+    "md": ""
   },
   {
     "mk": "HUMM",
@@ -4656,7 +5006,12 @@
   },
   {
     "mk": "HUPM",
-    "search": "HUPMOBILE - ",
+    "search": "HUPMOBILE",
+    "md": ""
+  },
+  {
+    "mk": "HYUN",
+    "search": "HYUNDAI",
     "md": ""
   },
   {
@@ -4716,6 +5071,11 @@
   },
   {
     "mk": "HYUN",
+    "search": "HYUNDAI - PALISADE",
+    "md": "PALI"
+  },
+  {
+    "mk": "HYUN",
     "search": "HYUNDAI - PONY",
     "md": "PONY"
   },
@@ -4756,6 +5116,11 @@
   },
   {
     "mk": "HYUN",
+    "search": "HYUNDAI - VENUE",
+    "md": "VENU"
+  },
+  {
+    "mk": "HYUN",
     "search": "HYUNDAI - XG300",
     "md": "XG30"
   },
@@ -4766,17 +5131,22 @@
   },
   {
     "mk": "IAME",
-    "search": "I.A.M.E. - ",
+    "search": "I.A.M.E.",
     "md": ""
   },
   {
     "mk": "IKA",
-    "search": "I.K.A. - ",
+    "search": "I.K.A.",
     "md": ""
   },
   {
     "mk": "IMPB",
-    "search": "I.M.P. (U.S.) - ",
+    "search": "I.M.P. (U.S.)",
+    "md": ""
+  },
+  {
+    "mk": "IMPE",
+    "search": "IMPERIAL",
     "md": ""
   },
   {
@@ -4793,6 +5163,11 @@
     "mk": "IMPE",
     "search": "IMPERIAL - LE BARON",
     "md": "LEBA"
+  },
+  {
+    "mk": "INFI",
+    "search": "INFINITI",
+    "md": ""
   },
   {
     "mk": "INFI",
@@ -4916,12 +5291,17 @@
   },
   {
     "mk": "INNO",
-    "search": "INNOCENTI - ",
+    "search": "INNOCENTI",
     "md": ""
   },
   {
     "mk": "INME",
-    "search": "INTERMECCANICA - ",
+    "search": "INTERMECCANICA",
+    "md": ""
+  },
+  {
+    "mk": "INTE",
+    "search": "INTERNATIONAL",
     "md": ""
   },
   {
@@ -4996,12 +5376,17 @@
   },
   {
     "mk": "ISET",
-    "search": "ISETTA - ",
+    "search": "ISETTA",
     "md": ""
   },
   {
     "mk": "ISO",
-    "search": "ISO - ",
+    "search": "ISO",
+    "md": ""
+  },
+  {
+    "mk": "ISUZ",
+    "search": "ISUZU",
     "md": ""
   },
   {
@@ -5051,13 +5436,23 @@
   },
   {
     "mk": "ITAI",
-    "search": "ITALIA - ",
+    "search": "ITALIA",
+    "md": ""
+  },
+  {
+    "mk": "ITAF",
+    "search": "ITALIAN FORD",
     "md": ""
   },
   {
     "mk": "ITAF",
     "search": "ITALIAN FORD - ANGLIA",
     "md": "ANG"
+  },
+  {
+    "mk": "JAGU",
+    "search": "JAGUAR",
+    "md": ""
   },
   {
     "mk": "JAGU",
@@ -5091,7 +5486,7 @@
   },
   {
     "mk": "JAGU",
-    "search": "JAGUAR - E-PAC",
+    "search": "JAGUAR - E-PACE",
     "md": "EPAC"
   },
   {
@@ -5101,7 +5496,7 @@
   },
   {
     "mk": "JAGU",
-    "search": "JAGUAR - F-PAC",
+    "search": "JAGUAR - F-PACE",
     "md": "FPAC"
   },
   {
@@ -5111,7 +5506,7 @@
   },
   {
     "mk": "JAGU",
-    "search": "JAGUAR - I-PAC",
+    "search": "JAGUAR - I-PACE",
     "md": "IPAC"
   },
   {
@@ -5221,6 +5616,11 @@
   },
   {
     "mk": "JEEP",
+    "search": "JEEP",
+    "md": ""
+  },
+  {
+    "mk": "JEEP",
     "search": "JEEP - CHEROKEE/GRAND CHEROKEE",
     "md": "CHER"
   },
@@ -5296,6 +5696,11 @@
   },
   {
     "mk": "JENS",
+    "search": "JENSEN",
+    "md": ""
+  },
+  {
+    "mk": "JENS",
     "search": "JENSEN - HEALY",
     "md": "HEAL"
   },
@@ -5306,22 +5711,27 @@
   },
   {
     "mk": "JETM",
-    "search": "JETMOBILE - ",
+    "search": "JETMOBILE",
     "md": ""
   },
   {
     "mk": "JOHN",
-    "search": "JOHN DEERE - ",
+    "search": "JOHN DEERE",
     "md": ""
   },
   {
     "mk": "JOWE",
-    "search": "JOWETT - ",
+    "search": "JOWETT",
     "md": ""
   },
   {
     "mk": "KLIN",
-    "search": "K-LINE - ",
+    "search": "K-LINE",
+    "md": ""
+  },
+  {
+    "mk": "KAIS",
+    "search": "KAISER",
     "md": ""
   },
   {
@@ -5351,12 +5761,17 @@
   },
   {
     "mk": "KAWA",
-    "search": "KAWASAKI - ",
+    "search": "KAWASAKI",
     "md": ""
   },
   {
     "mk": "KENW",
-    "search": "KENWORTH - ",
+    "search": "KENWORTH",
+    "md": ""
+  },
+  {
+    "mk": "KIA",
+    "search": "KIA MOTORS CORPORATION",
     "md": ""
   },
   {
@@ -5426,6 +5841,11 @@
   },
   {
     "mk": "KIA",
+    "search": "KIA MOTORS CORPORATION - SELTOS",
+    "md": "SELT"
+  },
+  {
+    "mk": "KIA",
     "search": "KIA MOTORS CORPORATION - SEPHIA",
     "md": "SEPH"
   },
@@ -5461,7 +5881,12 @@
   },
   {
     "mk": "KIMI",
-    "search": "KING MIDGET - ",
+    "search": "KING MIDGET",
+    "md": ""
+  },
+  {
+    "mk": "KIOT",
+    "search": "KIOTI",
     "md": ""
   },
   {
@@ -5476,7 +5901,12 @@
   },
   {
     "mk": "KNIG",
-    "search": "KNIGHT - ",
+    "search": "KNIGHT",
+    "md": ""
+  },
+  {
+    "mk": "KUBO",
+    "search": "KUBOTA",
     "md": ""
   },
   {
@@ -5511,7 +5941,12 @@
   },
   {
     "mk": "KURT",
-    "search": "KURTIS KRAFT - ",
+    "search": "KURTIS KRAFT",
+    "md": ""
+  },
+  {
+    "mk": "LADA",
+    "search": "LADA",
     "md": ""
   },
   {
@@ -5521,7 +5956,12 @@
   },
   {
     "mk": "LAGO",
-    "search": "LAGONDA - ",
+    "search": "LAGONDA",
+    "md": ""
+  },
+  {
+    "mk": "LAMO",
+    "search": "LAMBORGHINI",
     "md": ""
   },
   {
@@ -5576,12 +6016,17 @@
   },
   {
     "mk": "LAMB",
-    "search": "LAMBRETTA - ",
+    "search": "LAMBRETTA",
     "md": ""
   },
   {
     "mk": "LANC",
-    "search": "LANCHESTER - ",
+    "search": "LANCHESTER",
+    "md": ""
+  },
+  {
+    "mk": "LNCI",
+    "search": "LANCIA",
     "md": ""
   },
   {
@@ -5618,6 +6063,11 @@
     "mk": "LNCI",
     "search": "LANCIA - ZAGATO",
     "md": "ZAG"
+  },
+  {
+    "mk": "LAND",
+    "search": "LAND ROVER",
+    "md": ""
   },
   {
     "mk": "LAND",
@@ -5691,17 +6141,22 @@
   },
   {
     "mk": "LALL",
-    "search": "LASALLE - ",
+    "search": "LASALLE",
     "md": ""
   },
   {
     "mk": "LASE",
-    "search": "LASER - ",
+    "search": "LASER",
     "md": ""
   },
   {
     "mk": "LEAF",
-    "search": "LEA-FRANCIS - ",
+    "search": "LEA-FRANCIS",
+    "md": ""
+  },
+  {
+    "mk": "LEXU",
+    "search": "LEXUS",
     "md": ""
   },
   {
@@ -5841,6 +6296,26 @@
   },
   {
     "mk": "LEXU",
+    "search": "LEXUS - NX 250",
+    "md": "NX25"
+  },
+  {
+    "mk": "LEXU",
+    "search": "LEXUS - NX 350",
+    "md": "NX35"
+  },
+  {
+    "mk": "LEXU",
+    "search": "LEXUS - NX 350h",
+    "md": "NX3H"
+  },
+  {
+    "mk": "LEXU",
+    "search": "LEXUS - NX 450h+",
+    "md": "NX45"
+  },
+  {
+    "mk": "LEXU",
     "search": "LEXUS - NX300",
     "md": "NX30"
   },
@@ -5898,6 +6373,11 @@
     "mk": "LEXU",
     "search": "LEXUS - SC430",
     "md": "SC43"
+  },
+  {
+    "mk": "LINC",
+    "search": "LINCOLN-CONTINENTAL",
+    "md": ""
   },
   {
     "mk": "LINC",
@@ -6026,7 +6506,12 @@
   },
   {
     "mk": "LLOY",
-    "search": "LLOYD - ",
+    "search": "LLOYD",
+    "md": ""
+  },
+  {
+    "mk": "LDTR",
+    "search": "LOAD TRAIL",
     "md": ""
   },
   {
@@ -6036,27 +6521,32 @@
   },
   {
     "mk": "LOCO",
-    "search": "LOCOMOBILE - ",
+    "search": "LOCOMOBILE",
     "md": ""
   },
   {
     "mk": "LOLA",
-    "search": "LOLA - ",
+    "search": "LOLA",
     "md": ""
   },
   {
     "mk": "LOND",
-    "search": "LONDON MOTORS - ",
+    "search": "LONDON MOTORS",
     "md": ""
   },
   {
     "mk": "LONE",
-    "search": "LONESTAR - ",
+    "search": "LONESTAR",
     "md": ""
   },
   {
     "mk": "LOOD",
-    "search": "LOODCRAFT - ",
+    "search": "LOODCRAFT",
+    "md": ""
+  },
+  {
+    "mk": "LOTU",
+    "search": "LOTUS",
     "md": ""
   },
   {
@@ -6096,32 +6586,37 @@
   },
   {
     "mk": "MBM",
-    "search": "M.B.M. - ",
+    "search": "M.B.M.",
     "md": ""
   },
   {
     "mk": "MACK",
-    "search": "MACK - ",
+    "search": "MACK",
     "md": ""
   },
   {
     "mk": "MAL",
-    "search": "MALIBU - ",
+    "search": "MALIBU",
     "md": ""
   },
   {
     "mk": "MANA",
-    "search": "MANAC - ",
+    "search": "MANAC",
     "md": ""
   },
   {
     "mk": "MARC",
-    "search": "MARCOS - ",
+    "search": "MARCOS",
     "md": ""
   },
   {
     "mk": "MARM",
-    "search": "MARMON - ",
+    "search": "MARMON",
+    "md": ""
+  },
+  {
+    "mk": "MASE",
+    "search": "MASERATI",
     "md": ""
   },
   {
@@ -6231,6 +6726,11 @@
   },
   {
     "mk": "MASS",
+    "search": "MASSEY FERGUSON",
+    "md": ""
+  },
+  {
+    "mk": "MASS",
     "search": "MASSEY FERGUSON - 1500",
     "md": "1500"
   },
@@ -6281,17 +6781,22 @@
   },
   {
     "mk": "MAS",
-    "search": "MASTERCRAFT - ",
+    "search": "MASTERCRAFT",
     "md": ""
   },
   {
     "mk": "MATR",
-    "search": "MATRA - ",
+    "search": "MATRA",
     "md": ""
   },
   {
     "mk": "MAXL",
-    "search": "MAXWELL - ",
+    "search": "MAXWELL",
+    "md": ""
+  },
+  {
+    "mk": "MAZD",
+    "search": "MAZDA",
     "md": ""
   },
   {
@@ -6496,7 +7001,12 @@
   },
   {
     "mk": "MBCC",
-    "search": "MCBURNIE COACH CRAFT INC. - ",
+    "search": "MCBURNIE COACH CRAFT INC.",
+    "md": ""
+  },
+  {
+    "mk": "MCLA",
+    "search": "MCLAREN",
     "md": ""
   },
   {
@@ -6506,7 +7016,12 @@
   },
   {
     "mk": "MEAN",
-    "search": "MEAN - ",
+    "search": "MEAN",
+    "md": ""
+  },
+  {
+    "mk": "MERZ",
+    "search": "MERCEDES-BENZ",
     "md": ""
   },
   {
@@ -6671,6 +7186,11 @@
   },
   {
     "mk": "MERZ",
+    "search": "MERCEDES-BENZ - C43",
+    "md": "C43"
+  },
+  {
+    "mk": "MERZ",
     "search": "MERCEDES-BENZ - C55",
     "md": "C55"
   },
@@ -6707,7 +7227,7 @@
   {
     "mk": "MERZ",
     "search": "MERCEDES-BENZ - CLA45",
-    "md": "CLA4"
+    "md": "CL45"
   },
   {
     "mk": "MERZ",
@@ -6836,13 +7356,13 @@
   },
   {
     "mk": "MERZ",
-    "search": "MERCEDES-BENZ - G65",
-    "md": "G65"
+    "search": "MERCEDES-BENZ - GL350",
+    "md": "GL35"
   },
   {
     "mk": "MERZ",
-    "search": "MERCEDES-BENZ - GL350",
-    "md": "GL35"
+    "search": "MERCEDES-BENZ - GL450",
+    "md": "G450"
   },
   {
     "mk": "MERZ",
@@ -6893,11 +7413,6 @@
     "mk": "MERZ",
     "search": "MERCEDES-BENZ - GLK350",
     "md": "GLK3"
-  },
-  {
-    "mk": "MERZ",
-    "search": "MERCEDES-BENZ - GLK450",
-    "md": "G450"
   },
   {
     "mk": "MERZ",
@@ -7003,6 +7518,11 @@
     "mk": "MERZ",
     "search": "MERCEDES-BENZ - SPRINTER",
     "md": "SPRI"
+  },
+  {
+    "mk": "MERC",
+    "search": "MERCURY",
+    "md": ""
   },
   {
     "mk": "MERC",
@@ -7186,6 +7706,11 @@
   },
   {
     "mk": "MERK",
+    "search": "MERKUR",
+    "md": ""
+  },
+  {
+    "mk": "MERK",
     "search": "MERKUR - SCORPIO",
     "md": "SCOR"
   },
@@ -7193,6 +7718,11 @@
     "mk": "MERK",
     "search": "MERKUR - XR4Ti",
     "md": "XR4"
+  },
+  {
+    "mk": "MESS",
+    "search": "MESSERSCHMITT",
+    "md": ""
   },
   {
     "mk": "MESS",
@@ -7208,6 +7738,11 @@
     "mk": "MESS",
     "search": "MESSERSCHMITT - TIGER",
     "md": "TIG"
+  },
+  {
+    "mk": "METE",
+    "search": "METEOR (CANADIAN MERCURY)",
+    "md": ""
   },
   {
     "mk": "METE",
@@ -7251,7 +7786,12 @@
   },
   {
     "mk": "METR",
-    "search": "METROPOLITAN - ",
+    "search": "METROPOLITAN",
+    "md": ""
+  },
+  {
+    "mk": "MG",
+    "search": "MG",
     "md": ""
   },
   {
@@ -7331,12 +7871,17 @@
   },
   {
     "mk": "MIKA",
-    "search": "MIKASA - ",
+    "search": "MIKASA",
     "md": ""
   },
   {
     "mk": "MIKR",
-    "search": "MIKRUS - ",
+    "search": "MIKRUS",
+    "md": ""
+  },
+  {
+    "mk": "MINI",
+    "search": "MINI",
     "md": ""
   },
   {
@@ -7346,7 +7891,12 @@
   },
   {
     "mk": "MIST",
-    "search": "MISTRAL - ",
+    "search": "MISTRAL",
+    "md": ""
+  },
+  {
+    "mk": "MITS",
+    "search": "MITSUBISHI",
     "md": ""
   },
   {
@@ -7461,6 +8011,11 @@
   },
   {
     "mk": "MODE",
+    "search": "MODEL A & MODEL T MOTOR CAR REPRODUCTION CORP.",
+    "md": ""
+  },
+  {
+    "mk": "MODE",
     "search": "MODEL A & MODEL T MOTOR CAR REPRODUCTION CORP. - GT250",
     "md": "250"
   },
@@ -7473,6 +8028,11 @@
     "mk": "MODE",
     "search": "MODEL A & MODEL T MOTOR CAR REPRODUCTION CORP. - THUNDERBIRD",
     "md": "THUN"
+  },
+  {
+    "mk": "MONA",
+    "search": "MONARCH",
+    "md": ""
   },
   {
     "mk": "MONA",
@@ -7491,12 +8051,17 @@
   },
   {
     "mk": "MONK",
-    "search": "MONK - ",
+    "search": "MONK",
     "md": ""
   },
   {
     "mk": "MORE",
-    "search": "MORETTI - ",
+    "search": "MORETTI",
+    "md": ""
+  },
+  {
+    "mk": "MORG",
+    "search": "MORGAN",
     "md": ""
   },
   {
@@ -7508,6 +8073,11 @@
     "mk": "MORG",
     "search": "MORGAN - PLUS 4 SERIES",
     "md": "PL4"
+  },
+  {
+    "mk": "MORR",
+    "search": "MORRIS",
+    "md": ""
   },
   {
     "mk": "MORR",
@@ -7546,7 +8116,12 @@
   },
   {
     "mk": "MOSK",
-    "search": "MOSKOVITCH - ",
+    "search": "MOSKOVITCH",
+    "md": ""
+  },
+  {
+    "mk": "MOTO",
+    "search": "MOTO GUZZI",
     "md": ""
   },
   {
@@ -7561,7 +8136,12 @@
   },
   {
     "mk": "MCI",
-    "search": "MOTOR COACH INDUSTRIES - ",
+    "search": "MOTOR COACH INDUSTRIES",
+    "md": ""
+  },
+  {
+    "mk": "MUNT",
+    "search": "MUNTZ",
     "md": ""
   },
   {
@@ -7571,22 +8151,27 @@
   },
   {
     "mk": "MURE",
-    "search": "MURENA - ",
+    "search": "MURENA",
     "md": ""
   },
   {
     "mk": "MZMA",
-    "search": "MZMA - ",
+    "search": "MZMA",
     "md": ""
   },
   {
     "mk": "NAHA",
-    "search": "NAHANNI MANUFACTURING LTD - ",
+    "search": "NAHANNI MANUFACTURING LTD",
     "md": ""
   },
   {
     "mk": "NARD",
-    "search": "NARDI-DANESE - ",
+    "search": "NARDI-DANESE",
+    "md": ""
+  },
+  {
+    "mk": "NASH",
+    "search": "NASH",
     "md": ""
   },
   {
@@ -7616,18 +8201,28 @@
   },
   {
     "mk": "NAHE",
-    "search": "NASH-HEALY - ",
+    "search": "NASH-HEALY",
     "md": ""
   },
   {
     "mk": "NECK",
-    "search": "NECKAR - ",
+    "search": "NECKAR",
+    "md": ""
+  },
+  {
+    "mk": "NEFL",
+    "search": "NEW FLYER",
     "md": ""
   },
   {
     "mk": "NEFL",
     "search": "NEW FLYER - BUS",
     "md": "BUS"
+  },
+  {
+    "mk": "NEWM",
+    "search": "NEWMAR",
+    "md": ""
   },
   {
     "mk": "NEWM",
@@ -7663,6 +8258,11 @@
     "mk": "NEWM",
     "search": "NEWMAR - VENTANA",
     "md": "VENT"
+  },
+  {
+    "mk": "NISS",
+    "search": "NISSAN",
+    "md": ""
   },
   {
     "mk": "NISS",
@@ -7851,13 +8451,28 @@
   },
   {
     "mk": "NORT",
+    "search": "NORTHWOOD MANUFACTURING",
+    "md": ""
+  },
+  {
+    "mk": "NORT",
     "search": "NORTHWOOD MANUFACTURING - ARCTIC FOX",
     "md": "ARCT"
   },
   {
     "mk": "NOVA",
+    "search": "NOVABUS",
+    "md": ""
+  },
+  {
+    "mk": "NOVA",
     "search": "NOVABUS - HEV",
     "md": "HEV"
+  },
+  {
+    "mk": "NSU",
+    "search": "NSU PRINZ",
+    "md": ""
   },
   {
     "mk": "NSU",
@@ -7886,22 +8501,27 @@
   },
   {
     "mk": "NSUF",
-    "search": "NSU-FIAT - ",
+    "search": "NSU-FIAT",
     "md": ""
   },
   {
     "mk": "OAKL",
-    "search": "OAKLAND - ",
+    "search": "OAKLAND",
     "md": ""
   },
   {
     "mk": "OGLE",
-    "search": "OGLE - ",
+    "search": "OGLE",
     "md": ""
   },
   {
     "mk": "OHTA",
-    "search": "OHTA - ",
+    "search": "OHTA",
+    "md": ""
+  },
+  {
+    "mk": "OLDS",
+    "search": "OLDSMOBILE",
     "md": ""
   },
   {
@@ -8076,7 +8696,12 @@
   },
   {
     "mk": "OMEG",
-    "search": "OMEGA (ITALIAN) - ",
+    "search": "OMEGA (ITALIAN)",
+    "md": ""
+  },
+  {
+    "mk": "OPEL",
+    "search": "OPEL",
     "md": ""
   },
   {
@@ -8141,32 +8766,37 @@
   },
   {
     "mk": "OPER",
-    "search": "OPEN ROADSTERS OF TEXAS - ",
+    "search": "OPEN ROADSTERS OF TEXAS",
     "md": ""
   },
   {
     "mk": "ORIO",
-    "search": "ORION BUS INDUSTRIES - ",
+    "search": "ORION BUS INDUSTRIES",
     "md": ""
   },
   {
     "mk": "OSCA",
-    "search": "OSCA - ",
+    "search": "OSCA",
     "md": ""
   },
   {
     "mk": "OSI",
-    "search": "OSI - ",
+    "search": "OSI",
     "md": ""
   },
   {
     "mk": "OTOS",
-    "search": "OTOSAN - ",
+    "search": "OTOSAN",
     "md": ""
   },
   {
     "mk": "OVER",
-    "search": "OVERLAND - ",
+    "search": "OVERLAND",
+    "md": ""
+  },
+  {
+    "mk": "PACK",
+    "search": "PACKARD",
     "md": ""
   },
   {
@@ -8206,18 +8836,28 @@
   },
   {
     "mk": "PALL",
-    "search": "PALLISER (RACING CAR) - ",
+    "search": "PALLISER (RACING CAR)",
     "md": ""
   },
   {
     "mk": "PANH",
-    "search": "PANHARD - ",
+    "search": "PANHARD",
+    "md": ""
+  },
+  {
+    "mk": "PANZ",
+    "search": "PANOZ AUTO DEVELOPMENT",
     "md": ""
   },
   {
     "mk": "PANZ",
     "search": "PANOZ AUTO DEVELOPMENT - ROADSTER",
     "md": "ROD"
+  },
+  {
+    "mk": "PANE",
+    "search": "PANTHER WESTWINDS LTD.",
+    "md": ""
   },
   {
     "mk": "PANE",
@@ -8241,32 +8881,42 @@
   },
   {
     "mk": "PASS",
+    "search": "PASSPORT",
+    "md": ""
+  },
+  {
+    "mk": "PASS",
     "search": "PASSPORT - OPTIMA",
     "md": "OPTI"
   },
   {
     "mk": "PEAC",
-    "search": "PEACE - ",
+    "search": "PEACE",
     "md": ""
   },
   {
     "mk": "PEEL",
-    "search": "PEEL - ",
+    "search": "PEEL",
     "md": ""
   },
   {
     "mk": "PEER",
-    "search": "PEERLESS - ",
+    "search": "PEERLESS",
     "md": ""
   },
   {
     "mk": "PEGA",
-    "search": "PEGASO - ",
+    "search": "PEGASO",
     "md": ""
   },
   {
     "mk": "PETE",
-    "search": "PETERBILT - ",
+    "search": "PETERBILT",
+    "md": ""
+  },
+  {
+    "mk": "PEUG",
+    "search": "PEUGEOT",
     "md": ""
   },
   {
@@ -8311,7 +8961,12 @@
   },
   {
     "mk": "PHOE",
-    "search": "PHOENIX - ",
+    "search": "PHOENIX",
+    "md": ""
+  },
+  {
+    "mk": "PIAG",
+    "search": "PIAGGIO",
     "md": ""
   },
   {
@@ -8321,12 +8976,17 @@
   },
   {
     "mk": "PRCA",
-    "search": "PIERCE ARROW - ",
+    "search": "PIERCE ARROW",
     "md": ""
   },
   {
     "mk": "PINI",
-    "search": "PINIFARINA - ",
+    "search": "PINIFARINA",
+    "md": ""
+  },
+  {
+    "mk": "PJ",
+    "search": "PJ",
     "md": ""
   },
   {
@@ -8336,7 +8996,12 @@
   },
   {
     "mk": "PLAY",
-    "search": "PLAYBOY - ",
+    "search": "PLAYBOY",
+    "md": ""
+  },
+  {
+    "mk": "PLYM",
+    "search": "PLYMOUTH",
     "md": ""
   },
   {
@@ -8506,7 +9171,12 @@
   },
   {
     "mk": "POIR",
-    "search": "POIRIER - ",
+    "search": "POIRIER",
+    "md": ""
+  },
+  {
+    "mk": "PONT",
+    "search": "PONTIAC",
     "md": ""
   },
   {
@@ -8761,8 +9431,8 @@
   },
   {
     "mk": "PORS",
-    "search": "PORSCHE - 1300",
-    "md": "130"
+    "search": "PORSCHE",
+    "md": ""
   },
   {
     "mk": "PORS",
@@ -8881,38 +9551,63 @@
   },
   {
     "mk": "PRAI",
-    "search": "PRAIRIE SCHOONER - ",
+    "search": "PRAIRIE SCHOONER",
     "md": ""
   },
   {
     "mk": "PRMO",
-    "search": "PRINCE MOTORS - ",
+    "search": "PRINCE MOTORS",
     "md": ""
   },
   {
     "mk": "PROG",
-    "search": "PROGRESS - ",
+    "search": "PROGRESS",
     "md": ""
   },
   {
     "mk": "PTV",
-    "search": "PTV - ",
+    "search": "PTV",
     "md": ""
   },
   {
     "mk": "PUCH",
-    "search": "PUCH - ",
+    "search": "PUCH",
     "md": ""
   },
   {
     "mk": "PUMM",
-    "search": "PUMA - ",
+    "search": "PUMA",
     "md": ""
+  },
+  {
+    "mk": "RAM",
+    "search": "RAM",
+    "md": ""
+  },
+  {
+    "mk": "RAM",
+    "search": "RAM - 1500",
+    "md": "1500"
+  },
+  {
+    "mk": "RAM",
+    "search": "RAM - 2500",
+    "md": "2500"
+  },
+  {
+    "mk": "RAM",
+    "search": "RAM - 3500",
+    "md": "3500"
   },
   {
     "mk": "RAM",
     "search": "RAM - ProMaster",
     "md": "PROM"
+  },
+  {
+    "mk": "RAMB",
+    "search": "RAMBLER",
+    "md": ""
   },
   {
     "mk": "RAMB",
@@ -8951,17 +9646,22 @@
   },
   {
     "mk": "RAMS",
-    "search": "RAMSES - ",
+    "search": "RAMSES",
     "md": ""
   },
   {
     "mk": "REI",
-    "search": "REINELL - ",
+    "search": "REINELL",
     "md": ""
   },
   {
     "mk": "RELI",
-    "search": "RELIANT - ",
+    "search": "RELIANT",
+    "md": ""
+  },
+  {
+    "mk": "RENA",
+    "search": "RENAULT",
     "md": ""
   },
   {
@@ -9056,7 +9756,12 @@
   },
   {
     "mk": "REO",
-    "search": "REO - ",
+    "search": "REO",
+    "md": ""
+  },
+  {
+    "mk": "REXH",
+    "search": "REXHALL",
     "md": ""
   },
   {
@@ -9086,27 +9791,32 @@
   },
   {
     "mk": "RIND",
-    "search": "RICH INDUSTRIES - ",
+    "search": "RICH INDUSTRIES",
     "md": ""
   },
   {
     "mk": "RILE",
-    "search": "RILEY - ",
+    "search": "RILEY",
     "md": ""
   },
   {
     "mk": "ROAD",
-    "search": "ROADRUNNER TRAILERS MFG. - ",
+    "search": "ROADRUNNER TRAILERS MFG.",
     "md": ""
   },
   {
     "mk": "ROCH",
-    "search": "ROCHDALE - ",
+    "search": "ROCHDALE",
     "md": ""
   },
   {
     "mk": "ROK",
-    "search": "ROCKNE - ",
+    "search": "ROCKNE",
+    "md": ""
+  },
+  {
+    "mk": "ROLL",
+    "search": "ROLLS-ROYCE",
     "md": ""
   },
   {
@@ -9171,6 +9881,11 @@
   },
   {
     "mk": "ROOT",
+    "search": "ROOTES",
+    "md": ""
+  },
+  {
+    "mk": "ROOT",
     "search": "ROOTES - ALPINE",
     "md": "ALP"
   },
@@ -9188,6 +9903,11 @@
     "mk": "ROOT",
     "search": "ROOTES - TIGER",
     "md": "TIG"
+  },
+  {
+    "mk": "ROVE",
+    "search": "ROVER",
+    "md": ""
   },
   {
     "mk": "ROVE",
@@ -9216,13 +9936,18 @@
   },
   {
     "mk": "RYCS",
-    "search": "RYCSA - ",
+    "search": "RYCSA",
     "md": ""
   },
   {
     "mk": "SAAB",
-    "search": "SAAB - 9-3",
-    "md": "9-3"
+    "search": "SAAB",
+    "md": ""
+  },
+  {
+    "mk": "SAAB",
+    "search": "SAAB - 03-Sep",
+    "md": "03-Sep"
   },
   {
     "mk": "SAAB",
@@ -9286,7 +10011,12 @@
   },
   {
     "mk": "SABR",
-    "search": "SABRA - ",
+    "search": "SABRA",
+    "md": ""
+  },
+  {
+    "mk": "SANG",
+    "search": "SANGYONG",
     "md": ""
   },
   {
@@ -9298,6 +10028,11 @@
     "mk": "SANG",
     "search": "SANGYONG - JEEP",
     "md": "JEEP"
+  },
+  {
+    "mk": "SATU",
+    "search": "SATURN",
+    "md": ""
   },
   {
     "mk": "SATU",
@@ -9361,6 +10096,11 @@
   },
   {
     "mk": "SCIO",
+    "search": "SCION",
+    "md": ""
+  },
+  {
+    "mk": "SCIO",
     "search": "SCION - FR-S",
     "md": "FRS"
   },
@@ -9386,22 +10126,27 @@
   },
   {
     "mk": "SEA",
-    "search": "SEADOO - ",
+    "search": "SEADOO",
     "md": ""
   },
   {
     "mk": "RAY",
-    "search": "SEARAY - ",
+    "search": "SEARAY",
     "md": ""
   },
   {
     "mk": "SEAT",
-    "search": "SEAT - ",
+    "search": "SEAT",
     "md": ""
   },
   {
     "mk": "SERA",
-    "search": "SERA - ",
+    "search": "SERA",
+    "md": ""
+  },
+  {
+    "mk": "SHEB",
+    "search": "SHELBY AMERICAN",
     "md": ""
   },
   {
@@ -9421,12 +10166,17 @@
   },
   {
     "mk": "SIAT",
-    "search": "SIATA - ",
+    "search": "SIATA",
     "md": ""
   },
   {
     "mk": "SILA",
-    "search": "SILA AUTORETTA - ",
+    "search": "SILA AUTORETTA",
+    "md": ""
+  },
+  {
+    "mk": "SIM",
+    "search": "SIMCA",
     "md": ""
   },
   {
@@ -9466,6 +10216,11 @@
   },
   {
     "mk": "SIN",
+    "search": "SINGER",
+    "md": ""
+  },
+  {
+    "mk": "SIN",
     "search": "SINGER - CHAMOIS",
     "md": "CHA"
   },
@@ -9476,12 +10231,17 @@
   },
   {
     "mk": "SKI",
-    "search": "SKI NAUTIQUE - ",
+    "search": "SKI NAUTIQUE",
     "md": ""
   },
   {
     "mk": "SKOD",
-    "search": "SKODA - ",
+    "search": "SKODA",
+    "md": ""
+  },
+  {
+    "mk": "SMAR",
+    "search": "SMART",
     "md": ""
   },
   {
@@ -9491,7 +10251,12 @@
   },
   {
     "mk": "SNOW",
-    "search": "SNOWBEAR LIMITED - ",
+    "search": "SNOWBEAR LIMITED",
+    "md": ""
+  },
+  {
+    "mk": "SOUT",
+    "search": "SOUTHLAND",
     "md": ""
   },
   {
@@ -9501,32 +10266,32 @@
   },
   {
     "mk": "SOVA",
-    "search": "SOVAM - ",
+    "search": "SOVAM",
     "md": ""
   },
   {
     "mk": "SPAR",
-    "search": "SPARTAN - ",
+    "search": "SPARTAN",
     "md": ""
   },
   {
     "mk": "STAN",
-    "search": "STANDARD - ",
+    "search": "STANDARD",
     "md": ""
   },
   {
     "mk": "STLY",
-    "search": "STANLEY - ",
+    "search": "STANLEY",
     "md": ""
   },
   {
     "mk": "STAR",
-    "search": "STAR - ",
+    "search": "STAR",
     "md": ""
   },
   {
-    "mk": "STEA",
-    "search": "STEALTH - ",
+    "mk": "STLG",
+    "search": "STERLING",
     "md": ""
   },
   {
@@ -9546,17 +10311,22 @@
   },
   {
     "mk": "STEW",
-    "search": "STEWART - ",
+    "search": "STEWART",
     "md": ""
   },
   {
     "mk": "STEY",
-    "search": "STEYR-PUCH - ",
+    "search": "STEYR-PUCH",
     "md": ""
   },
   {
     "mk": "STRA",
-    "search": "STRALE - ",
+    "search": "STRALE",
+    "md": ""
+  },
+  {
+    "mk": "STUD",
+    "search": "STUDEBAKER",
     "md": ""
   },
   {
@@ -9631,7 +10401,12 @@
   },
   {
     "mk": "STUZ",
-    "search": "STUTZ - ",
+    "search": "STUTZ",
+    "md": ""
+  },
+  {
+    "mk": "SUBA",
+    "search": "SUBARU",
     "md": ""
   },
   {
@@ -9781,6 +10556,11 @@
   },
   {
     "mk": "SUNB",
+    "search": "SUNBEAM",
+    "md": ""
+  },
+  {
+    "mk": "SUNB",
     "search": "SUNBEAM - ALPINE",
     "md": "ALP"
   },
@@ -9816,7 +10596,12 @@
   },
   {
     "mk": "SUPT",
-    "search": "SUPER TWO - ",
+    "search": "SUPER TWO",
+    "md": ""
+  },
+  {
+    "mk": "SUZU",
+    "search": "SUZUKI",
     "md": ""
   },
   {
@@ -9886,37 +10671,42 @@
   },
   {
     "mk": "SUZL",
-    "search": "SUZULIGHT SU - ",
+    "search": "SUZULIGHT SU",
     "md": ""
   },
   {
     "mk": "SYRE",
-    "search": "SYRENA - ",
+    "search": "SYRENA",
     "md": ""
   },
   {
     "mk": "TAMA",
-    "search": "TAMA - ",
+    "search": "TAMA",
     "md": ""
   },
   {
     "mk": "TATR",
-    "search": "TATRA - ",
+    "search": "TATRA",
     "md": ""
   },
   {
     "mk": "TAUN",
-    "search": "TAUNUS (GERMAN FORD) - ",
+    "search": "TAUNUS (GERMAN FORD)",
     "md": ""
   },
   {
     "mk": "TCHA",
-    "search": "TCHAIKA - ",
+    "search": "TCHAIKA",
     "md": ""
   },
   {
     "mk": "TRPE",
-    "search": "TERRAPLANE - ",
+    "search": "TERRAPLANE",
+    "md": ""
+  },
+  {
+    "mk": "TESL",
+    "search": "TESLA MOTORS",
     "md": ""
   },
   {
@@ -9946,8 +10736,18 @@
   },
   {
     "mk": "THOM",
+    "search": "THOMAS",
+    "md": ""
+  },
+  {
+    "mk": "THOM",
     "search": "THOMAS - SCHOOL BUS",
     "md": "BUS"
+  },
+  {
+    "mk": "THOR",
+    "search": "THOR INDUSTRIES INC.",
+    "md": ""
   },
   {
     "mk": "THOR",
@@ -9961,27 +10761,32 @@
   },
   {
     "mk": "THUN",
-    "search": "THUNDERJET - ",
+    "search": "THUNDERJET",
     "md": ""
   },
   {
     "mk": "TITA",
-    "search": "TITAN MOTORCYCLE CO. - ",
+    "search": "TITAN MOTORCYCLE CO.",
     "md": ""
   },
   {
     "mk": "TJAA",
-    "search": "TJAARDA - ",
+    "search": "TJAARDA",
     "md": ""
   },
   {
     "mk": "TORN",
-    "search": "TORNADO (BRITISH) - ",
+    "search": "TORNADO (BRITISH)",
     "md": ""
   },
   {
     "mk": "TOYP",
-    "search": "TOYOPET - ",
+    "search": "TOYOPET",
+    "md": ""
+  },
+  {
+    "mk": "TOYO",
+    "search": "TOYOTA",
     "md": ""
   },
   {
@@ -9993,6 +10798,11 @@
     "mk": "TOYO",
     "search": "TOYOTA - 86",
     "md": "86"
+  },
+  {
+    "mk": "TOYO",
+    "search": "TOYOTA - ALPHARD",
+    "md": "ALPH"
   },
   {
     "mk": "TOYO",
@@ -10091,6 +10901,11 @@
   },
   {
     "mk": "TOYO",
+    "search": "TOYOTA - MIRAI",
+    "md": "MIRA"
+  },
+  {
+    "mk": "TOYO",
     "search": "TOYOTA - MR2",
     "md": "MR2"
   },
@@ -10186,7 +11001,12 @@
   },
   {
     "mk": "TRAB",
-    "search": "TRABANT - ",
+    "search": "TRABANT",
+    "md": ""
+  },
+  {
+    "mk": "TRIU",
+    "search": "TRIUMPH",
     "md": ""
   },
   {
@@ -10271,17 +11091,22 @@
   },
   {
     "mk": "TROJ",
-    "search": "TROJAN - ",
+    "search": "TROJAN",
     "md": ""
   },
   {
     "mk": "TUCK",
-    "search": "TUCKER - ",
+    "search": "TUCKER",
     "md": ""
   },
   {
     "mk": "TURN",
-    "search": "TURNER - ",
+    "search": "TURNER",
+    "md": ""
+  },
+  {
+    "mk": "TVR",
+    "search": "TVR",
     "md": ""
   },
   {
@@ -10296,12 +11121,17 @@
   },
   {
     "mk": "TZ",
-    "search": "TZ - ",
+    "search": "TZ",
     "md": ""
   },
   {
     "mk": "UBUI",
-    "search": "U-BUILT - ",
+    "search": "U-BUILT",
+    "md": ""
+  },
+  {
+    "mk": "USEL",
+    "search": "U.S. ELECTRICAR CORP.",
     "md": ""
   },
   {
@@ -10311,37 +11141,47 @@
   },
   {
     "mk": "UAZ",
+    "search": "UAZ (ULIANOVSK AUTOMOBILE ZAVOD)",
+    "md": ""
+  },
+  {
+    "mk": "UAZ",
     "search": "UAZ (ULIANOVSK AUTOMOBILE ZAVOD) - CCMV",
     "md": "TK"
   },
   {
     "mk": "UNIC",
-    "search": "UNICAR - ",
+    "search": "UNICAR",
     "md": ""
   },
   {
     "mk": "UNIP",
-    "search": "UNIPOWER - ",
+    "search": "UNIPOWER",
     "md": ""
   },
   {
     "mk": "UTIL",
-    "search": "UTILITY - ",
+    "search": "UTILITY",
     "md": ""
   },
   {
     "mk": "VAL",
-    "search": "VAL - ",
+    "search": "VAL",
     "md": ""
   },
   {
     "mk": "VALK",
-    "search": "VALKRIE - ",
+    "search": "VALKRIE",
     "md": ""
   },
   {
     "mk": "VNDN",
-    "search": "VANDEN PLAS - ",
+    "search": "VANDEN PLAS",
+    "md": ""
+  },
+  {
+    "mk": "VANG",
+    "search": "VANGUARD (CANADA)",
     "md": ""
   },
   {
@@ -10363,6 +11203,11 @@
     "mk": "VANG",
     "search": "VANGUARD (CANADA) - MARK III",
     "md": "MK3"
+  },
+  {
+    "mk": "VAUX",
+    "search": "VAUXHALL",
+    "md": ""
   },
   {
     "mk": "VAUX",
@@ -10401,6 +11246,11 @@
   },
   {
     "mk": "VACR",
+    "search": "VECTOR AEROMOTIVE CORPORATION",
+    "md": ""
+  },
+  {
+    "mk": "VACR",
     "search": "VECTOR AEROMOTIVE CORPORATION - M12 (SPORTS COUPE)",
     "md": "M12"
   },
@@ -10411,22 +11261,27 @@
   },
   {
     "mk": "VEAM",
-    "search": "VEHICULOS AUTOMORES MEXICANO - ",
+    "search": "VEHICULOS AUTOMORES MEXICANO",
     "md": ""
   },
   {
     "mk": "VERI",
-    "search": "VERITAS - ",
+    "search": "VERITAS",
     "md": ""
   },
   {
     "mk": "VESP",
-    "search": "VESPA - ",
+    "search": "VESPA",
     "md": ""
   },
   {
     "mk": "VOGA",
-    "search": "VOLGA - ",
+    "search": "VOLGA",
+    "md": ""
+  },
+  {
+    "mk": "VOLK",
+    "search": "VOLKSWAGEN",
     "md": ""
   },
   {
@@ -10593,6 +11448,11 @@
     "mk": "VOLK",
     "search": "VOLKSWAGEN - WESTFALIA",
     "md": "WEST"
+  },
+  {
+    "mk": "VOLV",
+    "search": "VOLVO",
+    "md": ""
   },
   {
     "mk": "VOLV",
@@ -10796,97 +11656,102 @@
   },
   {
     "mk": "WABA",
-    "search": "WABASH - ",
+    "search": "WABASH",
     "md": ""
   },
   {
     "mk": "WARS",
-    "search": "WARSZAWA - ",
+    "search": "WARSZAWA",
     "md": ""
   },
   {
     "mk": "WART",
-    "search": "WARTBURG - ",
+    "search": "WARTBURG",
     "md": ""
   },
   {
     "mk": "WARW",
-    "search": "WARWICK - ",
+    "search": "WARWICK",
     "md": ""
   },
   {
     "mk": "WATF",
-    "search": "WATFORD - ",
+    "search": "WATFORD",
     "md": ""
   },
   {
     "mk": "WEND",
-    "search": "WENDAX - ",
+    "search": "WENDAX",
     "md": ""
   },
   {
     "mk": "WEST",
-    "search": "WESTERN STAR - ",
+    "search": "WESTERN STAR",
     "md": ""
   },
   {
     "mk": "WHIP",
-    "search": "WHIPPET - ",
+    "search": "WHIPPET",
     "md": ""
   },
   {
     "mk": "WLLS",
-    "search": "WILLYS - ",
+    "search": "WILLYS",
     "md": ""
   },
   {
     "mk": "WILS",
-    "search": "WILSON - ",
+    "search": "WILSON",
     "md": ""
   },
   {
     "mk": "WINN",
-    "search": "WINNEBEGO - ",
+    "search": "WINNEBEGO",
     "md": ""
   },
   {
     "mk": "WOLS",
-    "search": "WOLSELEY - ",
+    "search": "WOLSELEY",
     "md": ""
   },
   {
     "mk": "WOOD",
-    "search": "WOODILL WILDFIRE - ",
+    "search": "WOODILL WILDFIRE",
     "md": ""
   },
   {
     "mk": "WORT",
-    "search": "WORTHINGTON CHAMP - ",
+    "search": "WORTHINGTON CHAMP",
     "md": ""
   },
   {
     "mk": "YAMA",
-    "search": "YAMAHA - ",
+    "search": "YAMAHA",
     "md": ""
   },
   {
     "mk": "YENK",
-    "search": "YENKO - ",
+    "search": "YENKO",
     "md": ""
   },
   {
     "mk": "YLN",
-    "search": "YLN (YUE LOONG MOTOR CO.) - ",
+    "search": "YLN (YUE LOONG MOTOR CO.)",
     "md": ""
   },
   {
     "mk": "ZAPO",
-    "search": "ZAPOROZHETS - ",
+    "search": "ZAPOROZHETS",
     "md": ""
   },
   {
     "mk": "ZARC",
-    "search": "ZAR CAR - ",
+    "search": "ZAR CAR",
+    "md": ""
+  },
+  {
+    "mk": "ZCZY",
+    "search": "ZASTAVIA (ZCZ-YUGOSLAVIA)",
     "md": ""
   },
   {
@@ -10896,32 +11761,32 @@
   },
   {
     "mk": "ZETA",
-    "search": "ZETA - ",
+    "search": "ZETA",
     "md": ""
   },
   {
     "mk": "ZIL",
-    "search": "ZIL - ",
+    "search": "ZIL",
     "md": ""
   },
   {
     "mk": "ZIM",
-    "search": "ZIM - ",
+    "search": "ZIM",
     "md": ""
   },
   {
     "mk": "ZIMR",
-    "search": "ZIMMERMAN AUTOMOBILES - ",
+    "search": "ZIMMERMAN AUTOMOBILES",
     "md": ""
   },
   {
     "mk": "ZUND",
-    "search": "ZUNDAPP - ",
+    "search": "ZUNDAPP",
     "md": ""
   },
   {
     "mk": "ZWIC",
-    "search": "ZWICKAU - ",
+    "search": "ZWICKAU",
     "md": ""
   }
 ]
