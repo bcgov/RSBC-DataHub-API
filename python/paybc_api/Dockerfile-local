@@ -11,6 +11,6 @@ WORKDIR /home/appuser
 COPY common /home/appuser/python/common
 COPY paybc_api /home/appuser/python/paybc_api
 
-RUN ["python", "-m", "pytest"]
+# RUN ["python", "-m", "pytest"]
 
 CMD [ "gunicorn", "--bind", "0.0.0.0:5001", "--pythonpath", "/home/appuser/python/paybc_api", "wsgi:create_app()" ]

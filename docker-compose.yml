@@ -55,6 +55,8 @@ services:
         dockerfile: validator/Dockerfile-local
       depends_on:
         - rabbitmq
+      networks:
+        - docker-network
       environment:
         RABBITMQ_URL: "${RABBITMQ_URL}"
         # The RABBITMQ_USER is used to watch for submitted
@@ -68,8 +70,8 @@ services:
       build:
         context: python
         dockerfile: paybc_api/Dockerfile-local
-      volumes:
-      - "${LOCAL_DB_PATH}:${ABSOLUTE_DB_PATH}"
+      # volumes:
+      # - "${LOCAL_DB_PATH}:${ABSOLUTE_DB_PATH}"
       environment:
         LOG_LEVEL: "INFO"
         PAYBC_FLASK_SECRET: "${PAYBC_FLASK_SECRET}"
@@ -98,6 +100,8 @@ services:
         dockerfile: form_handler/Dockerfile-local
       depends_on:
         - rabbitmq
+      networks:
+        - docker-network
       environment:
         RABBITMQ_URL: "${RABBITMQ_URL}"
         RABBITMQ_USER: "${RABBITMQ_USER}"
@@ -116,58 +120,58 @@ services:
         ENCRYPT_KEY: "${ENCRYPT_KEY}"
 
 
-    web_app:
-      build:
-        context: web_app
-        dockerfile: Dockerfile-local
-      depends_on:
-        - prohibition_web_svc
-      networks:
-        - docker-network
-      ports:
-        - "8080:5000"
+    # web_app:
+    #   build:
+    #     context: web_app
+    #     dockerfile: Dockerfile-local
+    #   depends_on:
+    #     - prohibition_web_svc
+    #   networks:
+    #     - docker-network
+    #   ports:
+    #     - "8080:5000"
 
 
-    prohibition_web_svc:
-      build:
-        context: python
-        dockerfile: prohibition_web_svc/Dockerfile-local
-      depends_on:
-        - icbc_mock_svc
-      environment:
-        FLASK_SECRET_KEY: "${FLASK_SECRET_KEY}"
-        ICBC_API_ROOT: "http://icbc_mock_svc:5000/vips/icbc"
-        ICBC_LOGIN_USER_ID: "${ICBC_LOGIN_USER_ID}"
-        ICBC_API_USERNAME: "${ICBC_API_USERNAME}"
-        ICBC_API_PASSWORD: "${ICBC_API_PASSWORD}"
-        ACCESS_CONTROL_ALLOW_ORIGIN: "${ACCESS_CONTROL_ALLOW_ORIGIN}"
-        LOG_LEVEL: "DEBUG"
-        KEYCLOAK_REALM: "${KEYCLOAK_REALM}"
-        KEYCLOAK_AUTH_URL: "${KEYCLOAK_AUTH_URL}"
-        KEYCLOAK_CLIENT_ID: "${KEYCLOAK_CLIENT_ID}"
-        ADMIN_USERNAME: "${ADMIN_USERNAME}"
-        FLASK_BASIC_AUTH_USER: "${FLASK_BASIC_AUTH_USER}"
-        FLASK_BASIC_AUTH_PASS: "${FLASK_BASIC_AUTH_PASS}"
-      networks:
-        - docker-network
-      ports:
-        - "5002:5000"
+    # prohibition_web_svc:
+    #   build:
+    #     context: python
+    #     dockerfile: prohibition_web_svc/Dockerfile-local
+    #   depends_on:
+    #     - icbc_mock_svc
+    #   environment:
+    #     FLASK_SECRET_KEY: "${FLASK_SECRET_KEY}"
+    #     ICBC_API_ROOT: "http://icbc_mock_svc:5000/vips/icbc"
+    #     ICBC_LOGIN_USER_ID: "${ICBC_LOGIN_USER_ID}"
+    #     ICBC_API_USERNAME: "${ICBC_API_USERNAME}"
+    #     ICBC_API_PASSWORD: "${ICBC_API_PASSWORD}"
+    #     ACCESS_CONTROL_ALLOW_ORIGIN: "${ACCESS_CONTROL_ALLOW_ORIGIN}"
+    #     LOG_LEVEL: "DEBUG"
+    #     KEYCLOAK_REALM: "${KEYCLOAK_REALM}"
+    #     KEYCLOAK_AUTH_URL: "${KEYCLOAK_AUTH_URL}"
+    #     KEYCLOAK_CLIENT_ID: "${KEYCLOAK_CLIENT_ID}"
+    #     ADMIN_USERNAME: "${ADMIN_USERNAME}"
+    #     FLASK_BASIC_AUTH_USER: "${FLASK_BASIC_AUTH_USER}"
+    #     FLASK_BASIC_AUTH_PASS: "${FLASK_BASIC_AUTH_PASS}"
+    #   networks:
+    #     - docker-network
+    #   ports:
+    #     - "5002:5000"
 
 
-    icbc_mock_svc:
-      build:
-        context: python
-        dockerfile: icbc_mock_svc/Dockerfile-local
-      environment:
-        FLASK_SECRET_KEY: "${FLASK_SECRET_KEY}"
-        ICBC_API_USERNAME: "${ICBC_API_USERNAME}"
-        ICBC_API_PASSWORD: "${ICBC_API_PASSWORD}"
-        LOG_LEVEL: "DEBUG"
+    # icbc_mock_svc:
+    #   build:
+    #     context: python
+    #     dockerfile: icbc_mock_svc/Dockerfile-local
+    #   environment:
+    #     FLASK_SECRET_KEY: "${FLASK_SECRET_KEY}"
+    #     ICBC_API_USERNAME: "${ICBC_API_USERNAME}"
+    #     ICBC_API_PASSWORD: "${ICBC_API_PASSWORD}"
+    #     LOG_LEVEL: "DEBUG"
 
-      networks:
-        - docker-network
-      ports:
-        - "5003:5000"
+    #   networks:
+    #     - docker-network
+    #   ports:
+    #     - "5003:5000"
 
 
 

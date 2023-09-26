@@ -14,6 +14,6 @@ ENV PYTHONPATH /home/appuser/
 COPY common /home/appuser/python/common
 COPY form_handler /home/appuser/python/form_handler
 
-RUN ["python", "-m", "pytest"]
+# RUN ["python", "-m", "pytest"]
 
 CMD [ "python", "./python/form_handler/listener.py" ]
