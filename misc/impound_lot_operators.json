@@ -210,6 +210,12 @@
     "phone": "250-559-4641"
   },
   {
+    "name": "CHESNEY TOWING",
+    "lot_address": "8646 GAUDET RD",
+    "city": "POWELL RIVER",
+    "phone": "604-413-1457"
+  },
+  {
     "name": "CHRISTINA LAKE TOWING",
     "lot_address": "1648 MAIDA FRONTAGE RD",
     "city": "CHRISTINA LAKE",
@@ -301,7 +307,7 @@
   },
   {
     "name": "COOPER'S TOWING",
-    "lot_address": "8065 NESTERS RD",
+    "lot_address": "1212 ALPHA LAKE RD",
     "city": "WHISTLER",
     "phone": "604-902-1930"
   },
@@ -511,7 +517,7 @@
   },
   {
     "name": "HOGIES TOWING",
-    "lot_address": "1360 PLEASANT VALLEY RD",
+    "lot_address": "2310 KIRTON AVE",
     "city": "ARMSTRONG",
     "phone": "250-546-3472"
   },
@@ -547,7 +553,7 @@
   },
   {
     "name": "JACK'S TOWING (MISSION)",
-    "lot_address": "7143 WREN ST",
+    "lot_address": "7168 WREN ST",
     "city": "MISSION",
     "phone": "604-607-0772"
   },
@@ -624,14 +630,14 @@
     "phone": "250-678-2300"
   },
   {
-    "name": "LARSEN TOWING",
+    "name": "LARSON TOWING",
     "lot_address": "8590 GAUDET RD",
     "city": "POWELL RIVER",
     "phone": "604-316-8187"
   },
   {
     "name": "LILLOOET AUTOBODY & TOWING",
-    "lot_address": "205 MAIN ST",
+    "lot_address": "205 MAIN AVE",
     "city": "LILLOOET",
     "phone": "250-256-4687"
   },
@@ -666,16 +672,22 @@
     "phone": "604-463-5146"
   },
   {
+    "name": "MARIO'S TOWING (BOSTON BAR)",
+    "lot_address": "48150 TRANS CANADA HWY",
+    "city": "BOSTON BAR",
+    "phone": "250-295-1427"
+  },
+  {
     "name": "MARIO'S TOWING (HOPE)",
     "lot_address": "64211 FLOOD HOPE RD",
     "city": "HOPE",
-    "phone": "888-292-1581"
+    "phone": "604-860-0725"
   },
   {
     "name": "MARIO'S TOWING (KAMLOOPS)",
     "lot_address": "726 CARRIER AVE",
     "city": "KAMLOOPS",
-    "phone": "888-292-1581"
+    "phone": "888-292-6054"
   },
   {
     "name": "MARIO'S TOWING (KELOWNA)",
@@ -685,7 +697,7 @@
   },
   {
     "name": "MARIO'S TOWING (MERRITT)",
-    "lot_address": "2676 NICOLA AVE",
+    "lot_address": "2636 NICOLA AVE",
     "city": "MERRITT",
     "phone": "250-378-9241"
   },
@@ -693,13 +705,13 @@
     "name": "MARIO'S TOWING (PRINCETON)",
     "lot_address": "401 HWY 3",
     "city": "PRINCETON",
-    "phone": "888-292-1581"
+    "phone": "888-292-6054"
   },
   {
-    "name": "MARIO'S TOWING (WEST KELOWNA)",
-    "lot_address": "2535 JULIANN RD",
-    "city": "WEST KELOWNA",
-    "phone": "250-769-2100"
+    "name": "MASSULLO MOTORS",
+    "lot_address": "4493 JOYCE AVE",
+    "city": "POWELL RIVER",
+    "phone": "604-485-7981"
   },
   {
     "name": "MAYNE ISLAND TOWING",
@@ -724,12 +736,6 @@
     "lot_address": "1843 MACKENZIE HWY",
     "city": "HAGENSBORG",
     "phone": "250-982-2345"
-  },
-  {
-    "name": "MERRITT JJ'S TOWING & RECOVERY",
-    "lot_address": "1141 MCFARLANE WAY",
-    "city": "MERRITT",
-    "phone": "866-670-6887"
   },
   {
     "name": "MID ISLAND TOWING",
@@ -1003,14 +1009,8 @@
   },
   {
     "name": "RELIABLE TOWING (MERRITT)",
-    "lot_address": "2900 POOLEY AVE",
+    "lot_address": "1141 MCFARLANE WAY",
     "city": "MERRITT",
-    "phone": "250-378-5000"
-  },
-  {
-    "name": "RELIABLE TOWING (PRINCETON)",
-    "lot_address": "233 DAVID BROWN WAY",
-    "city": "PRINCETON",
     "phone": "250-378-5000"
   },
   {
@@ -1080,13 +1080,7 @@
     "phone": "604-273-1645"
   },
   {
-    "name": "SCRAP KING AUTO WRECKING & TOWING (CRESTON)",
-    "lot_address": "211 COLLIS ST",
-    "city": "CRESTON",
-    "phone": "250-428-2323"
-  },
-  {
-    "name": "SCRAP KING AUTO WRECKING & TOWING (SALMO)",
+    "name": "SCRAP KING AUTO WRECKING & TOWING",
     "lot_address": "1660 AIRPORT RD",
     "city": "SALMO",
     "phone": "250-357-2091"
@@ -1183,7 +1177,7 @@
   },
   {
     "name": "TLC AUTOMOTIVE SERVICES",
-    "lot_address": "1963 COLLISON AVE",
+    "lot_address": "1981 COLLISION AVE",
     "city": "MASSET",
     "phone": "250-626-3756"
   },
