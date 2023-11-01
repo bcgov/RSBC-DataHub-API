@@ -13,22 +13,24 @@
       <div class="card-body mr-5 ml-5">
         <p class="card-text mr-4 ml-4 text-dark text-left">
           On <span style="color: red;">November 30, 2023</span>, our Pilot application was retired after 20 months of field testing.
-          What was supposed to be a small test of only two agencies and three RCMP detachments grew into a widescale deployment to
-          over 700 members from every independent agency and dozens of RCMP detachments across British Columbia.
+          What was supposed to be a small test with only a handful of agencies and RCMP detachments grew into a widescale deployment
+          to almost 800 members from every independent agency and dozens of RCMP detachments across British Columbia.
         </p>
         <p class="card-text font-weight-bold mr-4 ml-4 text-dark text-left">
           THANK-YOU for making the Pilot a success!
         </p>
-        <div class="card-text h6 mr-4 ml-4 text-muted text-left">Shoutouts</div>
+        <div class="card-text h6 mr-4 ml-4 text-muted text-left">Shout-outs</div>
         <p class="card-text h6 mr-4 ml-4 text-muted text-left">
           <ul>
-            <li>Bryce PEDERSEN (ret'd), BC Highway Patrol</li>
+            <li>Mike LEO, Stl'atl'imx Tribal Police Service &mdash; <span class="font-italic">in memoriam</span></li>
             <li>Everybody at CRD IRSU</li>
             <li>Grayson SMITH, Delta Police Department</li>
             <li>Greg SMITH, New Westminster Police Department</li>
             <li>RCMP "E" Division IM+T unit</li>
-            <li>Brian SAMPSON, RCMP Integrated Imparied Driving Unit</li>
+            <li>Brian SAMPSON, RCMP Integrated Impaired Driving Unit</li>
+            <li>Mark BOUCHEY, Vancouver Police Department</li>
             <li>Robert GOUGH, Vancouver Police Department</li>
+            <li>Stephen FRANCE, West Vancouver Police Department</li>
           </ul>
         </p>
       </div>
