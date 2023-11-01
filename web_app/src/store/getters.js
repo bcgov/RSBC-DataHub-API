@@ -535,16 +535,17 @@ export const getters = {
 
   daysBeforeRetirement() {
     // the DF Pilot retirement party is on November 30, 2023!
-    const retirementDate = new Date("11/30/2023"); 
+    const retirementDate = new Date(2023, 10, 30, 0, 0, 0, 0); // note: Javascript counts months starting from zero
     const today = new Date();
     var differenceTicks = retirementDate.getTime() - today.getTime(); 
     var differenceDays = differenceTicks / (1000 * 3600 * 24); 
-    return differenceDays.toFixed(0);
+    var kludge = Math.floor(differenceDays) // return only whole days
+    return kludge;
   },
 
   retirementAchievementUnlocked() {
     var days = getters.daysBeforeRetirement();
-    console.log("Days left before retirement: " + days);
+    console.log("Days left before Pilot application retirement: " + days);
     return (days < 0) ? true : false;
   }
 
