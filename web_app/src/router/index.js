@@ -82,7 +82,6 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-
 router.beforeEach(async (to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // We wait for Keycloak init, then we can call all methods safely
@@ -99,6 +98,5 @@ router.beforeEach(async (to, from, next) => {
     next()
   }
 })
-
 
 export default router
