@@ -21,8 +21,11 @@
             </div>
           </div>
         </div>
-        <not-logged-in-banner v-if="isDisplayNotLoggedInBanner"></not-logged-in-banner>
-        <update-available></update-available>
+        <div v-if="isDisplayNotLoggedInBanner">
+          <not-logged-in-banner></not-logged-in-banner>
+        </div>
+        <update-available-banner></update-available-banner>
+        <end-of-life-banner></end-of-life-banner>
         <div class="card-body">
           <offline-banner v-if="! $store.state.isOnline"></offline-banner>
           <router-view></router-view>
@@ -36,7 +39,8 @@
 import DebugComponent from "@/components/debugComponent";
 import NotLoggedInBanner from "@/components/NotLoggedInBanner";
 import OfflineBanner from '@/components/OfflineBanner'
-import UpdateAvailable from "@/components/UpdateAvailable";
+import UpdateAvailableBanner from "@/components/UpdateAvailableBanner";
+import EndOfLifeBanner from "./components/EndOfLifeBanner.vue";
 import { mapGetters } from 'vuex';
 export default {
   name: 'App',
@@ -44,7 +48,8 @@ export default {
     DebugComponent,
     NotLoggedInBanner,
     OfflineBanner,
-    UpdateAvailable
+    UpdateAvailableBanner,
+    EndOfLifeBanner
   },
   computed: {
     ...mapGetters([

@@ -1,5 +1,5 @@
 <template>
-  <div id="not-authenticated-banner" class="card-header bg-danger pt-2 pb-2">
+  <div id="not-logged-in-banner" class="card-header bg-danger pt-2 pb-2">
     <div class="d-flex justify-content-between align-items-center">
       <div>
         &nbsp;
@@ -19,13 +19,7 @@
   </div>
 </template>
 <script>
-  import { mapGetters } from "vuex";
-  export default {
-    name: "offline-banner",
-    computed: {
-      ...mapGetters([
-        'isUserAuthenticated'
-      ])
-    }
-  }
+export default {
+  name: "not-logged-in-banner"
+}
 </script>
