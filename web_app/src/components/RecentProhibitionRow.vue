@@ -10,10 +10,12 @@
     <td><span class="text-muted text-secondary">{{ prohibition.form_id }}</span></td>
     <td>
       <h6 v-if="isFormEditable(prohibition)">
-        <router-link :to="{ name: prohibition.form_type, params: { id: prohibition.form_id } }">
-          <span class="btn btn-success mr-3">&nbsp; Edit &nbsp;</span>
-        </router-link>
-        &nbsp;
+        <span v-if="!retirementAchievementUnlocked">
+          <router-link :to="{ name: prohibition.form_type, params: { id: prohibition.form_id } }">
+            <span class="btn btn-success mr-3">&nbsp; Edit &nbsp;</span>
+          </router-link>
+          &nbsp;
+        </span>
         <b-button class="btn btn-danger mr-3 color-warning" v-b-modal="'modal_' + prohibition.form_id">Delete</b-button>
         <b-modal :id="'modal_' + prohibition.form_id" title="Confirm Delete" @ok="deleteSpecificForm(prohibition)" ok-title="Delete" ok-variant="danger">
           <p>Form has not been printed. Are you sure you want to delete it?</p>
@@ -39,7 +41,7 @@
       PrintDocuments
     },
     computed: {
-      ...mapGetters(["isFormEditable", "getServedStatus", "getDocumentsToPrint"])
+      ...mapGetters(["isFormEditable", "getServedStatus", "getDocumentsToPrint", "retirementAchievementUnlocked"])
     },
     data() {
       return {

@@ -15,49 +15,40 @@
      Sorry, your browser does not support inline SVG.
     </svg>
 </template>
-
 <script>
-
 import PageCommon from "@/components/print/PageCommon";
-
 export default {
   name: "LandscapePage",
   mixins: [PageCommon]
 }
 </script>
-
 <style scoped type="text/css">
-
 @media print {
-
-  @page {
-    size: letter;
-    margin: 0;
-  }
-
   html {
     margin: 0;
   }
-
   body {
     margin: 0;
   }
-
   #roadsafety-header {
    display: none;
   }
   #debug-component {
    display: none;
   }
-  #not-authenticated-banner {
+  #not-logged-in-banner {
    display: none;
   }
-
+  #end-of-life-banner {
+   display: none;
+  }
   .svg-wrapper {
     page-break-before:always;
     transform: rotate(-90deg) scale(1.2) translate(-200px);
   }
+  @page {
+    size: letter;
+    margin: 0;
+  }
 }
-
-
 </style>
