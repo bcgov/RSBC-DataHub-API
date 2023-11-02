@@ -71,10 +71,12 @@ def seed_initial_administrator(database):
     current_dt = datetime.now(vancouver_tz)
     user = User(username=Config.ADMIN_USERNAME,
                 user_guid=Config.ADMIN_USERNAME,
-                badge_number='0000',
-                agency="RoadSafety",
+                badge_number="0000",
+                agency="RoadSafetyBC",
                 first_name="Initial",
-                last_name="Administrator")
+                last_name="Administrator",
+                business_guid="",
+                display_name="Administrator")
     database.session.add(user)
     roles = [
         UserRole(user_guid=Config.ADMIN_USERNAME, role_name='officer', submitted_dt=current_dt, approved_dt=current_dt),
