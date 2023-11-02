@@ -6,11 +6,9 @@
 </template>
 
 <script>
-
 import update from "@/helpers/update";
-
 export default {
   mixins: [update],
-  name: "UpdateAvailable"
+  name: "UpdateAvailableBanner"
 }
 </script>
