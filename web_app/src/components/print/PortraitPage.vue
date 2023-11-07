@@ -17,44 +17,37 @@
     </svg>
   </div>
 </template>
-
 <script>
-
 import PageCommon from "@/components/print/PageCommon";
-
 export default {
   name: "PortraitPage",
   mixins: [PageCommon]
 }
 </script>
-
 <style scoped>
-
-   .svg-wrapper {
-     border-bottom: darkblue solid 1px;
-   }
-
-  @media print {
-     #roadsafety-header {
-       display: none;
-     }
-     #debug-component {
-       display: none;
-     }
-     #not-authenticated-banner {
-       display: none;
-     }
-
-    .svg-wrapper {
-      margin-top: 25mm;
-      border: none;
-      page-break-before:always;
-    }
-
-    @page {
-      margin: 0;
-
-    }
+  .svg-wrapper {
+    border-bottom: darkblue solid 1px;
   }
-
+@media print {
+  #roadsafety-header {
+    display: none;
+  }
+  #debug-component {
+    display: none;
+  }
+  #not-logged-in-banner {
+    display: none;
+  }
+  #end-of-life-banner {
+    display: none;
+  }
+  .svg-wrapper {
+    margin-top: 25mm;
+    border: none;
+    page-break-before:always;
+  }
+  @page {
+    margin: 0;
+  }
+}
 </style>
