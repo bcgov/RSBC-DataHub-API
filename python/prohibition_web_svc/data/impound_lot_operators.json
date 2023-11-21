@@ -204,9 +204,9 @@
     "phone": "250-457-6753"
   },
   {
-    "name": "CHARLOTTE TIRE",
-    "lot_address": "605 OCEAN VIEW DR",
-    "city": "QUEEN CHARLOTTE ISLAND",
+    "name": "CHARLOTTE ISLAND TIRE",
+    "lot_address": "605 OCEANVIEW DR",
+    "city": "DAAJING GIIDS",
     "phone": "250-559-4641"
   },
   {
@@ -343,9 +343,9 @@
   },
   {
     "name": "DOLLAR TOWING",
-    "lot_address": "312B ENTERPRISE AVE",
+    "lot_address": "1700 NALABILA BLVD",
     "city": "KITIMAT",
-    "phone": "250-632-9947"
+    "phone": "250-632-2261"
   },
   {
     "name": "DON'S AUTO TOWING",
@@ -564,8 +564,8 @@
     "phone": "604-869-8440"
   },
   {
-    "name": "JAY'S CUSTOM TOWING",
-    "lot_address": "341 KAIEN RD",
+    "name": "JAY'S TOWING",
+    "lot_address": "121 HAST RD",
     "city": "PRINCE RUPERT",
     "phone": "250-624-8094"
   },
@@ -652,12 +652,6 @@
     "lot_address": "33201 LONDON AVE",
     "city": "MISSION",
     "phone": "604-826-9076"
-  },
-  {
-    "name": "MAC'S TOWING (NEW HAZELTON)",
-    "lot_address": "4167 15 AVE",
-    "city": "NEW HAZELTON",
-    "phone": "250-842-5404"
   },
   {
     "name": "MAPLE RIDGE TOWING",
@@ -906,12 +900,6 @@
     "phone": "250-248-9913"
   },
   {
-    "name": "PARTEL TOWING & RECOVERY",
-    "lot_address": "5933 200 AVE",
-    "city": "LANGLEY",
-    "phone": "604-533-4044"
-  },
-  {
     "name": "PAYLESS TOWING (NORTH VAN)",
     "lot_address": "301 MANSFIELD PL",
     "city": "NORTH VANCOUVER",
@@ -996,6 +984,12 @@
     "phone": "604-856-8721"
   },
   {
+    "name": "RED'S RECOVERY",
+    "lot_address": "4105 6 AVE",
+    "city": "NEW HAZELTON",
+    "phone": "250-876-8866"
+  },
+  {
     "name": "RELIABLE TOWING (MISSION)",
     "lot_address": "7143 WREN ST",
     "city": "MISSION",
@@ -1069,9 +1063,9 @@
   },
   {
     "name": "RUPERT TOWING",
-    "lot_address": "101 SHAWATLAN RD",
+    "lot_address": "101 SHAWATLANS RD",
     "city": "PRINCE RUPERT",
-    "phone": "250-624-2722"
+    "phone": "250-624-4361"
   },
   {
     "name": "RUSTY'S TOWING",
@@ -1090,12 +1084,6 @@
     "lot_address": "1660 AIRPORT RD",
     "city": "SALMO",
     "phone": "250-357-2091"
-  },
-  {
-    "name": "SEELEY LAKE SERVICE",
-    "lot_address": "3060 HWY 62",
-    "city": "HAZELTON",
-    "phone": "250-842-6465"
   },
   {
     "name": "SKOOKUM TOWING",
@@ -1252,12 +1240,6 @@
     "lot_address": "170 HWY 93/95",
     "city": "INVERMERE",
     "phone": "250-342-5851"
-  },
-  {
-    "name": "WAYNE'S TOWING",
-    "lot_address": "140 METLAKATLA RD",
-    "city": "PRINCE RUPERT",
-    "phone": "250-627-6166"
   },
   {
     "name": "WESTSHORE TOWING",
