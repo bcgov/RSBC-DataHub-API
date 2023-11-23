@@ -15,7 +15,7 @@
       <form-row v-if="doesAttributeExist(path, 'test_administered_asd')">
         <radio-field id="result_alcohol"
                      :path="path + '/test_administered_asd'" fg_class="col-sm-6"
-                     :options='[["under","51-99 mg%"], ["over","Over 99 mg%"]]'>Result</radio-field>
+                     :options='[["51-59", "51-59 mg%"], ["warn", "Warn"], ["fail", "Fail"]]'>Result</radio-field>
 
       </form-row>
       <form-row v-if="doesAttributeExist(path, 'test_administered_instrument')">
