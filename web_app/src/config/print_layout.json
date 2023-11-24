@@ -2743,11 +2743,14 @@
           "y": 138.8
         }
       },
-      "ILO_NAME": {
+      "NOT_IMPOUNDED_REASON_RELEASED": {
         "field_type": "text",
         "font_size": 10,
-        "function": "getStringValue",
-        "parameters": "vehicle_impounded_yes/impound_lot_operator/name",
+        "function": "conditionalLabel",
+        "parameters": [
+          "vehicle_impounded_no/reason_for_not_impounding_released",
+          "RELEASED TO OTHER DRIVER"
+        ],
         "start": {
           "x": 81.4,
           "y": 138.8
@@ -2761,6 +2764,16 @@
           "vehicle_impounded_no/reason_for_not_impounding_roadside",
           "LEFT AT ROADSIDE"
         ],
+        "start": {
+          "x": 81.4,
+          "y": 138.8
+        }
+      },
+      "ILO_NAME": {
+        "field_type": "text",
+        "font_size": 10,
+        "function": "getStringValue",
+        "parameters": "vehicle_impounded_yes/impound_lot_operator/name",
         "start": {
           "x": 81.4,
           "y": 138.8
@@ -2931,8 +2944,9 @@
               "VEHICLE_LICENSE_NUMBER",
               "LOCATION_KEYS_VEHICLE",
               "LOCATION_KEYS_DRIVER",
-              "ILO_NAME",
+              "NOT_IMPOUNDED_REASON_RELEASED",
               "NOT_IMPOUNDED_REASON_ROADSIDE",
+              "ILO_NAME",
               "DRIVER_COPY"
             ]
           }
@@ -2978,8 +2992,9 @@
               "VEHICLE_LICENSE_NUMBER",
               "LOCATION_KEYS_VEHICLE",
               "LOCATION_KEYS_DRIVER",
-              "ILO_NAME",
+              "NOT_IMPOUNDED_REASON_RELEASED",
               "NOT_IMPOUNDED_REASON_ROADSIDE",
+              "ILO_NAME",
               "ILO_COPY"
             ]
           }
@@ -3025,8 +3040,9 @@
               "VEHICLE_LICENSE_NUMBER",
               "LOCATION_KEYS_VEHICLE",
               "LOCATION_KEYS_DRIVER",
-              "ILO_NAME",
+              "NOT_IMPOUNDED_REASON_RELEASED",
               "NOT_IMPOUNDED_REASON_ROADSIDE",
+              "ILO_NAME",
               "ICBC_COPY",
               "COS_DAY",
               "COS_MONTH_YEAR",
