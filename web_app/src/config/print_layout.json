@@ -1919,7 +1919,7 @@
         ],
         "start": {
           "x": 146.6,
-          "y": 107.5
+          "y": 76.2
         }
       },
       "REASONABLE_GROUNDS_TEST_APPROVED_INSTRUMENT_SPECIFY": {
@@ -1937,8 +1937,8 @@
           ]
         ],
         "start": {
-          "x": 190.2,
-          "y": 107.5
+          "x": 185.6,
+          "y": 75.6
         }
       },
       "REASONABLE_GROUNDS_TEST_PHYSICAL_COORDINATION": {
@@ -1951,7 +1951,39 @@
         ],
         "start": {
           "x": 146.6,
-          "y": 111.9
+          "y": 80.4
+        }
+      },
+      "REASONABLE_GROUNDS_TEST_PHYSICAL_COORDINATION_SPECIFICS_ALCOHOL": {
+        "field_type": "text",
+        "font_size": 10,
+        "function": "conditionalLabel",
+        "parameters": [
+          "prohibition_type_alcohol/test_administered_sfst",
+          "SFST"
+        ],
+        "start": {
+          "x": 202.4,
+          "y": 80.1
+        }
+      },
+      "REASONABLE_GROUNDS_TEST_PHYSICAL_COORDINATION_SPECIFICS_DRUG": {
+        "field_type": "text",
+        "font_size": 10,
+        "function": "conditionalMultiLabel",
+        "parameters": [
+          [
+            "prohibition_type_drugs/test_administered_sfst",
+            "SFST"
+          ],
+          [
+            "prohibition_type_drugs/test_administered_dre",
+            "DRE"
+          ]
+        ],
+        "start": {
+          "x": 202,
+          "y": 80.1
         }
       },
       "REASONABLE_GROUNDS_TEST_TIME": {
@@ -1985,7 +2017,7 @@
         "function": "isExists",
         "parameters": "prohibition_type_alcohol/test_administered_asd/result_alcohol_warn",
         "start": {
-          "x": 168.7,
+          "x": 166.6,
           "y": 91.6
         }
       },
@@ -2005,31 +2037,28 @@
         "function": "isExists",
         "parameters": "prohibition_type_alcohol/test_administered_instrument",
         "start": {
-          "x": 195.4,
+          "x": 189.8,
           "y": 91.6
         }
       },
       "REASONABLE_GROUNDS_ALCOHOL_BAC_VALUE": {
         "field_type": "text",
         "font_size": 10,
-        "function": "getStringValueWithSuffix",
-        "parameters": [
-          "prohibition_type_alcohol/test_administered_instrument/test_result_bac",
-          "mg%"
-        ],
+        "function": "getStringValue",
+        "parameters": "prohibition_type_alcohol/test_administered_instrument/test_result_bac",
         "start": {
-          "x": 207.4,
-          "y": 126.7
+          "x": 200.8,
+          "y": 90.8
         }
       },
       "REASONABLE_GROUNDS_ALCOHOL_ABILITY_TO_DRIVE_AFFECTED": {
         "field_type": "checkbox",
         "font_size": 14,
         "function": "isExists",
-        "parameters": "prohibition_type_alcohol/test_administered_sfst/",
+        "parameters": "prohibition_type_alcohol/test_administered_sfst",
         "start": {
-          "x": 142.6,
-          "y": 103.4
+          "x": 146.6,
+          "y": 95.6
         }
       },
       "REASONABLE_GROUNDS_DRUG_ABILITY_TO_DRIVE_AFFECTED": {
@@ -2039,7 +2068,7 @@
         "parameters": "prohibition_type_drugs",
         "start": {
           "x": 146.6,
-          "y": 103.4
+          "y": 103.3
         }
       },
       "ADSE_RESULTS_THC": {
@@ -2057,40 +2086,8 @@
           ]
         ],
         "start": {
-          "x": 194.5,
-          "y": 136.3
-        }
-      },
-      "PHYSICAL_TEST_SPECIFICS_DRE": {
-        "field_type": "text",
-        "font_size": 10,
-        "function": "conditionalMultiLabel",
-        "parameters": [
-          [
-            "prohibition_type_drugs/test_administered_sfst",
-            "SFST"
-          ],
-          [
-            "prohibition_type_drugs/test_administered_dre",
-            "DRE"
-          ]
-        ],
-        "start": {
-          "x": 203.1,
-          "y": 113.3
-        }
-      },
-      "PHYSICAL_TEST_SPECIFICS_SFST": {
-        "field_type": "text",
-        "font_size": 10,
-        "function": "conditionalLabel",
-        "parameters": [
-          "prohibition_type_alcohol/test_administered_sfst",
-          "SFST"
-        ],
-        "start": {
-          "x": 203.1,
-          "y": 113.3
+          "x": 191.4,
+          "y": 103.3
         }
       },
       "COS_DAY": {
@@ -2405,6 +2402,8 @@
               "REASONABLE_GROUNDS_TEST_APPROVED_INSTRUMENT",
               "REASONABLE_GROUNDS_TEST_APPROVED_INSTRUMENT_SPECIFY",
               "REASONABLE_GROUNDS_TEST_PHYSICAL_COORDINATION",
+              "REASONABLE_GROUNDS_TEST_PHYSICAL_COORDINATION_SPECIFICS_ALCOHOL",
+              "REASONABLE_GROUNDS_TEST_PHYSICAL_COORDINATION_SPECIFICS_DRUG",
               "REASONABLE_GROUNDS_TEST_TIME",
               "REASONABLE_GROUNDS_ALCOHOL_51-59",
               "REASONABLE_GROUNDS_ALCOHOL_WARN",
@@ -2415,8 +2414,6 @@
               "REASONABLE_GROUNDS_DRUG_ABILITY_TO_DRIVE_AFFECTED",
               "REASON_PRESCRIBED_TEST_NOT_USED",
               "ADSE_RESULTS_THC",
-              "PHYSICAL_TEST_SPECIFICS_SFST",
-              "PHYSICAL_TEST_SPECIFICS_DRE",
               "COS_DAY",
               "COS_MONTH_YEAR",
               "COS_PROHIBITION_NUMBER",
