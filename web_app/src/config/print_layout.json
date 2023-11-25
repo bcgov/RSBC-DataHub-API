@@ -356,8 +356,11 @@
       "MV2721_IMPOUNDMENT_DURATION_30": {
         "field_type": "checkbox",
         "font_size": 12,
-        "function": "isExists",
-        "parameters": "irp_yes/duration_30-day",
+        "function": "isExistsOr",
+        "parameters": [
+          "irp_yes/duration_30-day",
+          "irp_yes/duration_90-day"
+        ],
         "start": {
           "x": 104.3,
           "y": 162.5
