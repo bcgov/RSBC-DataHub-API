@@ -46,23 +46,23 @@ extend('validDt', {
       valid: moment(value, "YYYYMMDD", true).isValid()
     }
   },
-  message: "That's not a valid date"
+  message: "Date entered is not valid"
 });
 
 extend('validTime', {
   validate(value) {
-    const not24 = parseInt(value.slice(0,2)) < 24
+    const not24 = parseInt(value.slice(0, 2)) < 24
     return {
       required: true,
       valid: moment(value, "HHmm", true).isValid() && not24
     }
   },
-  message: "That's not a valid time"
+  message: "Time entered is not valid"
 });
 
 extend('notFutureDateTime', {
   params: ['relatedDate'],
-  validate(value, {relatedDate}) {
+  validate(value, { relatedDate }) {
     const date_time = moment.tz(relatedDate + " " + value, 'YYYYMMDD HHmm', true, constants.TIMEZONE)
     return {
       valid: moment().diff(date_time, 'minutes') >= 0
@@ -72,14 +72,24 @@ extend('notFutureDateTime', {
   message: "Date and time cannot be in the future"
 });
 
-extend('notExpiredDt', {
+extend('notPastDt', {
   validate(value) {
     return {
       required: true,
       valid: moment().diff(moment(value, 'YYYYMMDD', true), 'days') <= 0
     }
   },
-  message: "Expired"
+  message: "Calibration has expired"
+});
+
+extend('notGt28DaysInFuture', {
+  validate(value) {
+    return {
+      required: true,
+      valid: moment(value, 'YYYYMMDD', true).diff(moment(), 'days') < 28,
+    }
+  },
+  message: "Date cannot be more than 28 days in the future",
 });
 
 extend('notFutureDt', {
@@ -100,7 +110,7 @@ extend('notGtYearAgo', {
       valid: moment().diff(moment(value, 'YYYYMMDD', true), 'days') < 364,
     };
   },
-  message: "That's over a year ago",
+  message: "That's over a year ago!",
 });
 
 extend('dob', {
@@ -117,7 +127,7 @@ extend('dob', {
 
 extend('notBeforeCareDateTime', {
   params: ['careDate', 'careTime', 'relatedDate'],
-  validate(value, {careDate, careTime, relatedDate}) {
+  validate(value, { careDate, careTime, relatedDate }) {
     const careDateTime = moment.tz(careDate + " " + careTime, 'YYYYMMDD HHmm', true, constants.TIMEZONE)
     const relatedDateTime = moment.tz(relatedDate + " " + value, 'YYYYMMDD HHmm', true, constants.TIMEZONE)
     return {
@@ -125,7 +135,7 @@ extend('notBeforeCareDateTime', {
     }
   },
   hasTarget: true,
-  message: "Cannot be before date/time of care or control"
+  message: "Cannot be before Date/Time of Driving: Care or Control"
 });
 
 extend('bac_result', {
@@ -153,7 +163,7 @@ extend('phone', {
     let result = false;
     const regexMatch = value.match("^[0-9]{3}-[0-9]{3}-[0-9]{4}$")
     if (Array.isArray(regexMatch)) {
-       result = regexMatch[0] === value;
+      result = regexMatch[0] === value;
     }
     return {
       valid: result
@@ -168,7 +178,7 @@ extend('email', {
     const re = "^(([^<>()[\\]\\\\.,;:\\s@\"]+(\\.[^<>()[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$"
     const regexMatch = value.match(re)
     if (Array.isArray(regexMatch)) {
-       result = regexMatch[0] === value;
+      result = regexMatch[0] === value;
     }
     return {
       valid: result
@@ -183,7 +193,7 @@ extend('lt25', {
       valid: value.length <= 25,
     };
   },
-  message: "too long; must be less 25 chars",
+  message: "Value must be less than 25 characters",
 });
 
 extend('lt5', {
@@ -192,16 +202,7 @@ extend('lt5', {
       valid: value.length <= 5,
     };
   },
-  message: "Value must be less than 5 chars",
-});
-
-extend('lt3', {
-  validate(value) {
-    return {
-      valid: value.length < 3,
-    };
-  },
-  message: "Value must be less than 3 chars",
+  message: "Value must be less than 5 characters",
 });
 
 extend('lt4', {
@@ -210,7 +211,16 @@ extend('lt4', {
       valid: value.length < 4,
     };
   },
-  message: "Value must be than 4 chars",
+  message: "Value must be less than 4 characters",
+});
+
+extend('lt3', {
+  validate(value) {
+    return {
+      valid: value.length < 3,
+    };
+  },
+  message: "Value must be less than 3 characters",
 });
 
 extend('vehicleYear', {
@@ -236,7 +246,7 @@ extend('vehicleYear', {
 
 extend('excessiveSpeed', {
   params: ['speedLimit'],
-  validate(vehicleSpeed, {speedLimit}) {
+  validate(vehicleSpeed, { speedLimit }) {
     return {
       valid: vehicleSpeed - speedLimit >= 41
     }
@@ -247,8 +257,8 @@ extend('excessiveSpeed', {
 
 extend("offenceCityRules", {
   params: ['arrayOfCityObjects'],
-  validate(value, {arrayOfCityObjects}) {
-    const arrayOfCityCodes = arrayOfCityObjects.map( o => o.objectCd)
+  validate(value, { arrayOfCityObjects }) {
+    const arrayOfCityCodes = arrayOfCityObjects.map(o => o.objectCd)
     return {
       required: true,
       valid: arrayOfCityCodes.includes(value.objectCd)
