@@ -10,7 +10,7 @@
         <immediate-roadside-prohibition :form_object="formObject" :path="getPath"></immediate-roadside-prohibition>
         <seven-day-impound-card :path="getPath"></seven-day-impound-card>
         <excessive-speed-card v-if="getAttributeValue(getPath, 'reason_excessive_speed_true')" :path="getPath + '/reason_excessive_speed_true'"></excessive-speed-card>
-        <unlicensed-driver-card v-if="getAttributeValue(getPath, 'reason_unlicensed_true')" :path="getPath + '/reason_unlicensed_true'"></unlicensed-driver-card>
+        <unlicensed-driver-card :form_object="formObject" v-if="getAttributeValue(getPath, 'reason_unlicensed_true')" :path="getPath + '/reason_unlicensed_true'"></unlicensed-driver-card>
         <linkage-card :path="getPath"></linkage-card>
         <incident-details-card :path="getPath"></incident-details-card>
         <officer-details-card :path="getPath"></officer-details-card>
