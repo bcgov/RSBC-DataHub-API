@@ -2,6 +2,7 @@
   <div>
     <loading-resources v-if="!allResourcesLoaded"></loading-resources>
     <user-not-permitted-banner v-if="isDisplayUserNotAuthorizedBanner"></user-not-permitted-banner>
+    <end-of-life-banner></end-of-life-banner>
     <welcome-login-card v-if="isDisplayWelcomeLoginCard"></welcome-login-card>
     <issue-prohibitions v-if="isDisplayIssueProhibitions"></issue-prohibitions>
     <recent-prohibitions v-if="isRecentProhibitions && allResourcesLoaded"></recent-prohibitions>
@@ -9,6 +10,7 @@
   </div>
 </template>
 <script>
+import EndOfLifeBanner from "@/components/EndOfLifeBanner.vue";
 import FeedbackWelcome from "@/components/FeedbackWelcome";
 import IssueProhibitions from "@/components/IssueProhibitions";
 import LoadingResources from "@/components/loading/LoadingResources";
@@ -19,6 +21,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "Home",
   components: {
+    EndOfLifeBanner,
     FeedbackWelcome,
     IssueProhibitions,
     LoadingResources,
