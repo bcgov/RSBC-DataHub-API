@@ -1729,6 +1729,31 @@
           "y": 146.4
         }
       },
+      "NOT_IMPOUNDED_REASON_RELEASED_PERSON": {
+        "field_type": "text",
+        "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "vehicle_impounded_no/reason_for_not_impounding_released/vehicle_released_to",
+        "start": {
+          "x": 33.4,
+          "y": 183.6
+        }
+      },
+      "NOT_IMPOUNDED_REASON_RELEASED_DATETIME": {
+        "field_type": "text",
+        "font_size": 10,
+        "function": "concatenateDateAndTime",
+        "parameters": [
+          [
+            "vehicle_impounded_no/reason_for_not_impounding_released/released_date",
+            "vehicle_impounded_no/reason_for_not_impounding_released/released_time"
+          ]
+        ],
+        "start": {
+          "x": 108.6,
+          "y": 183.6
+        }
+      },
       "IMPOUNDED": {
         "field_type": "checkbox",
         "font_size": 12,
@@ -1989,7 +2014,7 @@
           "y": 80.1
         }
       },
-      "REASONABLE_GROUNDS_TEST_TIME": {
+      "REASONABLE_GROUNDS_TEST_DATETIME": {
         "field_type": "text",
         "font_size": 10,
         "function": "concatenateDateAndTime",
@@ -2268,6 +2293,8 @@
               "NOT_IMPOUNDED_REASON_ROADSIDE",
               "NOT_IMPOUNDED_REASON_PRIVATE",
               "NOT_IMPOUNDED_REASON_INVESTIGATION",
+              "NOT_IMPOUNDED_REASON_RELEASED_PERSON",
+              "NOT_IMPOUNDED_REASON_RELEASED_DATETIME",
               "IMPOUNDED",
               "ILO_NAME",
               "ILO_ADDRESS",
@@ -2323,6 +2350,8 @@
               "NOT_IMPOUNDED_REASON_ROADSIDE",
               "NOT_IMPOUNDED_REASON_PRIVATE",
               "NOT_IMPOUNDED_REASON_INVESTIGATION",
+              "NOT_IMPOUNDED_REASON_RELEASED_PERSON",
+              "NOT_IMPOUNDED_REASON_RELEASED_DATETIME",
               "IMPOUNDED",
               "ILO_NAME",
               "ILO_ADDRESS",
@@ -2385,6 +2414,8 @@
               "NOT_IMPOUNDED_REASON_ROADSIDE",
               "NOT_IMPOUNDED_REASON_PRIVATE",
               "NOT_IMPOUNDED_REASON_INVESTIGATION",
+              "NOT_IMPOUNDED_REASON_RELEASED_PERSON",
+              "NOT_IMPOUNDED_REASON_RELEASED_DATETIME",
               "IMPOUNDED",
               "ILO_NAME",
               "ILO_ADDRESS",
@@ -2407,7 +2438,7 @@
               "REASONABLE_GROUNDS_TEST_PHYSICAL_COORDINATION",
               "REASONABLE_GROUNDS_TEST_PHYSICAL_COORDINATION_SPECIFICS_ALCOHOL",
               "REASONABLE_GROUNDS_TEST_PHYSICAL_COORDINATION_SPECIFICS_DRUG",
-              "REASONABLE_GROUNDS_TEST_TIME",
+              "REASONABLE_GROUNDS_TEST_DATETIME",
               "REASONABLE_GROUNDS_ALCOHOL_51-59",
               "REASONABLE_GROUNDS_ALCOHOL_WARN",
               "REASONABLE_GROUNDS_ALCOHOL_FAIL",
@@ -2772,6 +2803,42 @@
           "y": 138.8
         }
       },
+      "NOT_IMPOUNDED_REASON_RELEASED_PERSON": {
+        "field_type": "text",
+        "font_size": 8,
+        "function": "getStringValue",
+        "parameters": "vehicle_impounded_no/reason_for_not_impounding_released/vehicle_released_to",
+        "start": {
+          "x": 30.2,
+          "y": 146.2
+        }
+      },
+      "NOT_IMPOUNDED_REASON_RELEASED_DATE": {
+        "field_type": "text",
+        "font_size": 8,
+        "function": "getFormattedDate",
+        "parameters": [
+          "vehicle_impounded_no/reason_for_not_impounding_released/released_date",
+          "YYYY-MM-DD"
+        ],
+        "start": {
+          "x": 71.4,
+          "y": 146.2
+        }
+      },
+      "NOT_IMPOUNDED_REASON_RELEASED_TIME": {
+        "field_type": "text",
+        "font_size": 8,
+        "function": "getFormattedTime",
+        "parameters": [
+          "vehicle_impounded_no/reason_for_not_impounding_released/released_time",
+          "HH:mm"
+        ],
+        "start": {
+          "x": 102.2,
+          "y": 146.2
+        }
+      },
       "ILO_NAME": {
         "field_type": "text",
         "font_size": 10,
@@ -2949,56 +3016,11 @@
               "LOCATION_KEYS_DRIVER",
               "NOT_IMPOUNDED_REASON_RELEASED",
               "NOT_IMPOUNDED_REASON_ROADSIDE",
+              "NOT_IMPOUNDED_REASON_RELEASED_PERSON",
+              "NOT_IMPOUNDED_REASON_RELEASED_DATE",
+              "NOT_IMPOUNDED_REASON_RELEASED_TIME",
               "ILO_NAME",
               "DRIVER_COPY"
-            ]
-          }
-        ]
-      },
-      "ilo": {
-        "pages": [
-          {
-            "orientation": "Landscape",
-            "image": {
-              "filename": "assets/MV2906E_082023_driver_ilo.png",
-              "offset_x": 0,
-              "offset_y": 0,
-              "width": 223,
-              "height": 202
-            },
-            "show_fields": [
-              "VIOLATION_NUMBER",
-              "DRIVER_NAME",
-              "DRIVER_DL_NUMBER",
-              "DRIVER_DOB",
-              "DRIVER_ADDRESS",
-              "DRIVER_PHONE_AREA_CODE",
-              "DRIVER_PHONE",
-              "VEHICLE_NSC_PUJ",
-              "VEHICLE_NSC_NUMBER",
-              "REASON_ALCOHOL_90",
-              "REASON_DRUGS_90",
-              "NOTICE_TIME",
-              "NOTICE_DAY",
-              "NOTICE_MONTH",
-              "NOTICE_YEAR",
-              "DL_SURRENDER_LOCATION",
-              "OFFICER_LAST_NAME",
-              "OFFICER_BADGE_NUMBER",
-              "AGENCY_NAME",
-              "AGENCY_FILE_NUMBER",
-              "VEHICLE_YEAR",
-              "VEHICLE_MAKE",
-              "VEHICLE_MODEL",
-              "VEHICLE_COLOUR",
-              "VEHICLE_PROVINCE",
-              "VEHICLE_LICENSE_NUMBER",
-              "LOCATION_KEYS_VEHICLE",
-              "LOCATION_KEYS_DRIVER",
-              "NOT_IMPOUNDED_REASON_RELEASED",
-              "NOT_IMPOUNDED_REASON_ROADSIDE",
-              "ILO_NAME",
-              "ILO_COPY"
             ]
           }
         ]
@@ -3045,6 +3067,9 @@
               "LOCATION_KEYS_DRIVER",
               "NOT_IMPOUNDED_REASON_RELEASED",
               "NOT_IMPOUNDED_REASON_ROADSIDE",
+              "NOT_IMPOUNDED_REASON_RELEASED_PERSON",
+              "NOT_IMPOUNDED_REASON_RELEASED_DATE",
+              "NOT_IMPOUNDED_REASON_RELEASED_TIME",
               "ILO_NAME",
               "ICBC_COPY",
               "COS_DAY",
