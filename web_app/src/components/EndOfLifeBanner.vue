@@ -1,5 +1,6 @@
 <template>
   <div id="end-of-life-banner">
+
     <!-- <div v-if="retirementAchievementUnlocked">
       <div class="card bg-warning mb-2 ml-5 mr-5 mt-4 pb-2 pt-4" style="border: 4px dashed red !important;">
         <span class="bg-warning font-weight-bold h2 pb-2 pt-2 text-dark">
@@ -35,14 +36,17 @@
         </p>
       </div>
     </div>
+
     <div v-else> -->
       <div class="card bg-light mb-2 ml-5 mr-5 mt-4 pb-2 pt-4" style="border: 4px dashed orange !important;">
         <span class="bg-light font-weight-bold h2 pb-2 pt-2 text-dark">
           <b-icon-exclamation-triangle-fill variant="danger" />&nbsp; {{daysBeforeRetirement}} days until updated 12-hour & 24-hour forms go into effect
+
         </span>
       </div>
       <div class="card-body mr-5 ml-5">
         <p class="card-text mr-4 ml-4 text-dark text-left">
+
           On November 30, 2023, the 12-hour and 24-hour forms will be upgraded to include a pre-filled
           <span class="font-weight-bold">certificate of service</span>.
         </p>
@@ -64,7 +68,9 @@
         </p>
       </div>
     <!-- </div> -->
+
   </div>
+
 </template>
 <script>
 import { mapGetters } from "vuex";
