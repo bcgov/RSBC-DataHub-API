@@ -167,6 +167,10 @@ export const getters = {
     return getters.doesAttributeExist(path, "vehicle_impounded_yes");
   },
 
+  isVehicleNotImpounded: (state, getters) => path => {
+    return getters.doesAttributeExist(path, "vehicle_impounded_no");
+  },
+
   getArrayOfJurisdictions: state => {
     return state.jurisdictions;
   },
