@@ -34,33 +34,19 @@
           </ul>
         </p>
       </div>
-    </div>
-    <div v-else> -->
-      <div class="card bg-light mb-2 ml-5 mr-5 mt-4 pb-2 pt-4" style="border: 4px dashed orange !important;">
-        <span class="bg-light font-weight-bold h2 pb-2 pt-2 text-dark">
-          <b-icon-exclamation-triangle-fill variant="danger" />&nbsp; {{daysBeforeRetirement}} days until updated 12-hour & 24-hour forms go into effect
+    </div>   -->
+    <!-- <div v-else> -->
+      <div class="card bg-light mb-2 ml-5 mr-5 mt-4 pb-2 pt-4" style="border: 4px solid #003366 !important;">
+        <span class="font-weight-bold h1 pb-2 pt-2 text-dark">
+          Welcome to Digital Forms
         </span>
-      </div>
+      </div>      
       <div class="card-body mr-5 ml-5">
         <p class="card-text mr-4 ml-4 text-dark text-left">
-          On November 30, 2023, the 12-hour and 24-hour forms will be upgraded to include a pre-filled
-          <span class="font-weight-bold">certificate of service</span>.
-        </p>
-        <p class="card-text mr-4 ml-4 text-dark text-left">
-          These documents must still be submitted <span class="font-weight-bold">manually</span>: i.e. submission by fax or mail, as appropriate.
-        </p>
-        <!-- <p class="card-text mr-4 ml-4 text-dark text-left">
-          In the near future, Digital Forms will be further upgraded to support end-to-end <span class="font-weight-bold">electronic data submission</span>
-          that will eliminate the need to manually send copies of the 12-hour, 24-hour or Vehicle Impound documents to ICBC or RoadSafetyBC.
-        </p> -->
-        <br />
-        <p class="card-text font-weight-bold mr-4 ml-4 text-dark">
-          <span style="text-decoration: underline;">Reminder About Paper Forms</span>
-        </p>
-        <p class="card-text mr-4 ml-4 text-dark h6">
-          The new paper 12-hour and 24-hour forms <span style="text-decoration: underline;">must</span> be used starting <span style="color: red;">November 30, 2023 @ 00:00h PST</span>.
-          <br />
-          Any 12-hour suspension or 24-hour prohibition issued on old paper stock after this date <span class="font-weight-bold">will be DOA</span>.
+          In the near future, Digital Forms will be upgraded to support end-to-end <span class="font-weight-bold">data
+          submission</span> and electronic <span class="font-weight-bold">certificate of service</span>. This enhancement
+          will eliminate the need to manually send copies of the 12-hour, 24-hour or Vehicle Impound documents to ICBC or
+          RoadSafetyBC.
         </p>
       </div>
     <!-- </div> -->
