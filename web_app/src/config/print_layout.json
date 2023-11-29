@@ -1908,10 +1908,10 @@
         "function": "getStringValue",
         "parameters": "prescribed_device_no/reason_prescribed_test_not_used",
         "start": {
-          "x": 167.8,
+          "x": 187.4,
           "y": 60
         },
-        "max_width": 80,
+        "max_width": 60,
         "max_height": 10
       },
       "REASONABLE_GROUNDS_TEST_ALCO_SENSOR": {
