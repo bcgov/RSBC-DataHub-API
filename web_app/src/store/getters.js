@@ -462,8 +462,8 @@ export const getters = {
     return status;
   },
   daysBeforeRetirement() {
-    // the DF Pilot retirement party is on November 30, 2023!
-    const retirementDate = new Date(2023, 10, 30, 0, 0, 0, 0); // note: Javascript counts months starting from zero
+    // the DF Pilot retirement party is on January 31, 2024!
+    const retirementDate = new Date(2024, 0, 31, 0, 0, 0, 0); // note: Javascript counts months starting from zero
     const today = new Date();
     var differenceTicks = retirementDate.getTime() - today.getTime();
     var differenceDays = differenceTicks / (1000 * 3600 * 24);
