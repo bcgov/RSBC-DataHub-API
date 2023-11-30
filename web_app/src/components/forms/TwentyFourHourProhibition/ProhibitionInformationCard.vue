@@ -12,11 +12,11 @@
       <text-field id="file_number" :path="path" fg_class="col-sm-2" rules="required">Agency File #</text-field>
       <date-field id="prohibition_start_date" :path="path" fg_class="col-sm-5"
                   rules="required|validDt|notFutureDt|notGtYearAgo">
-        Date of Driving - care or control
+        Date of Driving: Care or Control
       </date-field>
       <time-field id="prohibition_start_time" :path="path" fg_class="col-sm-5"
                   rules="required|validTime|notFutureDateTime:@prohibition_start_date">
-        Time of Driving - care or control
+        Time of Driving: Care or Control
       </time-field>
     </form-row>
 </form-card>

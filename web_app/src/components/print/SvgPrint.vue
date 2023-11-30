@@ -27,14 +27,14 @@ export default {
       },
     },
     computed: {
-      ...mapGetters(['getFormData', "isVehicleImpounded"]),
+      ...mapGetters(['getFormData', "isVehicleNotImpounded"]),
       document() {
         return print_layout[this.form_type]
       },
       // Remove ILO Copy if not needed
       getVariants() {
         if(this.form_type === '12Hour' || this.form_type === '24Hour') {
-            if ( ! this.isVehicleImpounded(this.getPath)) {
+            if (this.isVehicleNotImpounded(this.getPath)) {
                 // remove page for impound lot operator if vehicle not impounded
                 delete this.document.variants['ilo']
             }
