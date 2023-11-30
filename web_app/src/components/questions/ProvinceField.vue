@@ -56,14 +56,14 @@
     },
     mounted() {
       // set initial value to 'BC' if value not set
-      if (this.defaultToBritishColumbia) {
+      if (this.defaultToBc) {
         if (!this.getAttributeValue(this.path, this.id)) {
           this.updateProvinceByCode("BC");
         }
       }
     },
     props: {
-      defaultToBritishColumbia: {
+      defaultToBc: {
         default: true,
         type: Boolean
       }

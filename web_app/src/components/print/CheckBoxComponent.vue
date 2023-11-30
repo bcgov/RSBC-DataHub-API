@@ -1,14 +1,8 @@
 <template>
-  <text :x="adjustedStart.x" :y="adjustedStart.y"
-        class="fontText"
-        :id="field_name"
-        fill="darkblue" v-html="renderValue">
-  </text>
+  <text :x="adjustedStart.x" :y="adjustedStart.y" class="fontText" :id="field_name" fill="darkblue" v-html="renderValue"></text>
 </template>
-
 <script>
 import RenderCommon from "@/components/print/RenderCommon";
-
 export default {
   mixins: [RenderCommon],
   name: "CheckboxComponent",
@@ -30,7 +24,7 @@ export default {
     },
     isExistsOr(form_path, attributes) {
       let result = false
-      attributes.forEach( (attribute) => {
+      attributes.forEach((attribute) => {
         if (this.isExists(form_path, attribute)) {
           result = true
         }
@@ -52,11 +46,8 @@ export default {
   }
 }
 </script>
-
 <style scoped>
-
-   .fontText {
-       font-size: 5pt;
-   }
-
+.fontText {
+  font-size: 5pt;
+}
 </style>

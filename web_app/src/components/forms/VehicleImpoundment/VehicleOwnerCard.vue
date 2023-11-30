@@ -34,11 +34,9 @@
             <phone-field id="owners_phone" fg_class="col-sm-4" :path="path" rules="phone">Phone Number</phone-field>
             <email-field id="owners_email" fg_class="col-sm-4" :path="path" rules="email">Email Address</email-field>
           </form-row>
-          <!--
           <form-row>
-            <in-line-check-box id="driver_is_owner" :path="path" :option="true">The driver is the registered owner</in-line-check-box>
+            <in-line-check-box id="driver_is_owner" :path="path" :option="true">Driver is the registered owner?</in-line-check-box>
           </form-row>
-          -->
         </div>
       </div>
     </div>
