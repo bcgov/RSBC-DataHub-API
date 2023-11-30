@@ -105,11 +105,11 @@
   },
   {
     "objectCd": "AFIR",
-    "objectDsc": "ANAHIMS FLAT IR"
+    "objectDsc": "ANAHIM'S FLAT IR"
   },
   {
     "objectCd": "AMIR",
-    "objectDsc": "ANAHIMS MEADOW IR"
+    "objectDsc": "ANAHIM'S MEADOW IR"
   },
   {
     "objectCd": "ANMT",
@@ -165,7 +165,7 @@
   },
   {
     "objectCd": "ACSR",
-    "objectDsc": "ASHCROFT RURAL"
+    "objectDsc": "ASHCROFT (RURAL)"
   },
   {
     "objectCd": "ASCK",
@@ -297,7 +297,7 @@
   },
   {
     "objectCd": "BDNM",
-    "objectDsc": "BEDNESTI NORMAN"
+    "objectDsc": "BEDNESTI-NORMAN"
   },
   {
     "objectCd": "BELC",
@@ -310,10 +310,6 @@
   {
     "objectCd": "BLCL",
     "objectDsc": "BELLA COOLA"
-  },
-  {
-    "objectCd": "BLIG",
-    "objectDsc": "BELL-IRVING"
   },
   {
     "objectCd": "BENN",
@@ -420,20 +416,12 @@
     "objectDsc": "BLUEBERRY RIVER IR"
   },
   {
-    "objectCd": "BOBQ",
-    "objectDsc": "BOB QUINN"
-  },
-  {
     "objectCd": "BQLK",
     "objectDsc": "BOB QUINN LAKE"
   },
   {
     "objectCd": "BONA",
     "objectDsc": "BONAPARTE IR"
-  },
-  {
-    "objectCd": "BOSG",
-    "objectDsc": "BOND SIDING"
   },
   {
     "objectCd": "BOIS",
@@ -469,7 +457,7 @@
   },
   {
     "objectCd": "BOPP",
-    "objectDsc": "BOWRON LAKES PROVINCIAL PARK"
+    "objectDsc": "BOWRON LAKES PROV. PARK"
   },
   {
     "objectCd": "BWSR",
@@ -569,7 +557,7 @@
   },
   {
     "objectCd": "CACV",
-    "objectDsc": "CACHE CREEK RURAL"
+    "objectDsc": "CACHE CREEK (RURAL)"
   },
   {
     "objectCd": "CHLY",
@@ -696,12 +684,12 @@
     "objectDsc": "CHASE"
   },
   {
-    "objectCd": "CHAC",
-    "objectDsc": "CHASE CREEK"
+    "objectCd": "CHAR",
+    "objectDsc": "CHASE (RURAL)"
   },
   {
-    "objectCd": "CHAR",
-    "objectDsc": "CHASE RURAL"
+    "objectCd": "CHAC",
+    "objectDsc": "CHASE CREEK"
   },
   {
     "objectCd": "CHSM",
@@ -757,7 +745,7 @@
   },
   {
     "objectCd": "CHRV",
-    "objectDsc": "CHILLIWACK RIVER VALLEY"
+    "objectDsc": "CHILLIWACK RIVER"
   },
   {
     "objectCd": "CMNL",
@@ -797,7 +785,7 @@
   },
   {
     "objectCd": "CLWT",
-    "objectDsc": "CLEARWATER RURAL"
+    "objectDsc": "CLEARWATER (RURAL)"
   },
   {
     "objectCd": "CLEM",
@@ -809,7 +797,7 @@
   },
   {
     "objectCd": "CLTR",
-    "objectDsc": "CLINTON RURAL"
+    "objectDsc": "CLINTON (RURAL)"
   },
   {
     "objectCd": "CLTS",
@@ -1004,6 +992,14 @@
     "objectDsc": "DAWSON CREEK"
   },
   {
+    "objectCd": "DCIS",
+    "objectDsc": "DE COURCY ISLAND"
+  },
+  {
+    "objectCd": "DHIS",
+    "objectDsc": "DE HORSEY ISLAND"
+  },
+  {
     "objectCd": "DSCK",
     "objectDsc": "DEADMANS CREEK"
   },
@@ -1016,20 +1012,12 @@
     "objectDsc": "DECKER LAKE"
   },
   {
-    "objectCd": "DCIS",
-    "objectDsc": "DECOURCY ISLAND"
-  },
-  {
     "objectCd": "DPCK",
     "objectDsc": "DEEP CREEK"
   },
   {
     "objectCd": "DCKI",
     "objectDsc": "DEEP CREEK IR"
-  },
-  {
-    "objectCd": "DHIS",
-    "objectDsc": "DEHORSEY ISLAND"
   },
   {
     "objectCd": "DALK",
@@ -1076,20 +1064,12 @@
     "objectDsc": "DISCOVERY ISLAND"
   },
   {
-    "objectCd": "DITI",
-    "objectDsc": "DITIDAHT"
-  },
-  {
     "objectCd": "DORV",
     "objectDsc": "DOE RIVER"
   },
   {
     "objectCd": "DGCK",
     "objectDsc": "DOG CREEK"
-  },
-  {
-    "objectCd": "DOCK",
-    "objectDsc": "DOG CREEK TNRD"
   },
   {
     "objectCd": "DGWD",
@@ -1200,16 +1180,8 @@
     "objectDsc": "EGMONT"
   },
   {
-    "objectCd": "9EKV",
-    "objectDsc": "ELK VALLEY"
-  },
-  {
     "objectCd": "EKFR",
     "objectDsc": "ELKFORD"
-  },
-  {
-    "objectCd": "EKHT",
-    "objectDsc": "ELKHART"
   },
   {
     "objectCd": "ELKO",
@@ -1333,7 +1305,7 @@
   },
   {
     "objectCd": "FMFL",
-    "objectDsc": "FOREMAN FLATS"
+    "objectDsc": "FOREMAN"
   },
   {
     "objectCd": "FRGV",
@@ -1353,11 +1325,7 @@
   },
   {
     "objectCd": "FGRG",
-    "objectDsc": "FORT GEORGE NO 2"
-  },
-  {
-    "objectCd": "FLIA",
-    "objectDsc": "FORT LIARD"
+    "objectDsc": "FORT GEORGE IR"
   },
   {
     "objectCd": "FNEL",
@@ -1369,11 +1337,11 @@
   },
   {
     "objectCd": "FSJA",
-    "objectDsc": "FORT ST JAMES"
+    "objectDsc": "FORT ST. JAMES"
   },
   {
     "objectCd": "FSJO",
-    "objectDsc": "FORT ST JOHN"
+    "objectDsc": "FORT ST. JOHN"
   },
   {
     "objectCd": "FTST",
@@ -1394,10 +1362,6 @@
   {
     "objectCd": "FRLK",
     "objectDsc": "FRASER LAKE"
-  },
-  {
-    "objectCd": "9FSV",
-    "objectDsc": "FRASER VALLEY"
   },
   {
     "objectCd": "FRDK",
@@ -1473,7 +1437,7 @@
   },
   {
     "objectCd": "GINX",
-    "objectDsc": "GINGOLX"
+    "objectDsc": "GINGOLX (KINCOLITH)"
   },
   {
     "objectCd": "GSCM",
@@ -1486,10 +1450,6 @@
   {
     "objectCd": "GTYW",
     "objectDsc": "GITANYOW"
-  },
-  {
-    "objectCd": "GITS",
-    "objectDsc": "GITAUS"
   },
   {
     "objectCd": "GYGK",
@@ -1506,10 +1466,6 @@
   {
     "objectCd": "GLAD",
     "objectDsc": "GLADE"
-  },
-  {
-    "objectCd": "GLNV",
-    "objectDsc": "GLEN VOWELL"
   },
   {
     "objectCd": "GLEN",
@@ -1628,16 +1584,16 @@
     "objectDsc": "GURD ISLAND"
   },
   {
-    "objectCd": "GUTA",
-    "objectDsc": "GUTAH"
-  },
-  {
     "objectCd": "HAGG",
     "objectDsc": "HAGENSBORG"
   },
   {
     "objectCd": "HAGW",
     "objectDsc": "HAGWILGET"
+  },
+  {
+    "objectCd": "QCIS",
+    "objectDsc": "HAIDA GWAII"
   },
   {
     "objectCd": "HMB",
@@ -1653,7 +1609,7 @@
   },
   {
     "objectCd": "HRPP",
-    "objectDsc": "HAMBER PROVINCIAL PARK"
+    "objectDsc": "HAMBER PROV. PARK"
   },
   {
     "objectCd": "HNVL",
@@ -1729,7 +1685,7 @@
   },
   {
     "objectCd": "HAZR",
-    "objectDsc": "HAZELTON RURAL"
+    "objectDsc": "HAZELTON (RURAL)"
   },
   {
     "objectCd": "HCTI",
@@ -1745,7 +1701,7 @@
   },
   {
     "objectCd": "HFCK",
-    "objectDsc": "HEFFLEY CREEK"
+    "objectDsc": "HEFFLEY LAKE"
   },
   {
     "objectCd": "HLBI",
@@ -1880,10 +1836,6 @@
     "objectDsc": "INSECT ISLAND"
   },
   {
-    "objectCd": "IGTF",
-    "objectDsc": "INTEGRATED GANG TASK FORCE"
-  },
-  {
     "objectCd": "IVMR",
     "objectDsc": "INVERMERE"
   },
@@ -1960,10 +1912,6 @@
     "objectDsc": "KELLY LAKE"
   },
   {
-    "objectCd": "KELY",
-    "objectDsc": "KELLY LAKE TNRD"
-  },
-  {
     "objectCd": "KLWN",
     "objectDsc": "KELOWNA"
   },
@@ -2002,10 +1950,6 @@
   {
     "objectCd": "KINA",
     "objectDsc": "KINASKAN"
-  },
-  {
-    "objectCd": "KINC",
-    "objectDsc": "KINCOLITH"
   },
   {
     "objectCd": "KGIT",
@@ -2048,16 +1992,12 @@
     "objectDsc": "KITSAULT"
   },
   {
+    "objectCd": "KITM",
+    "objectDsc": "KITSUMKALUM"
+  },
+  {
     "objectCd": "KITW",
     "objectDsc": "KITWANGA"
-  },
-  {
-    "objectCd": "KLIS",
-    "objectDsc": "KLAOITISIS ISLAND"
-  },
-  {
-    "objectCd": "KLPP",
-    "objectDsc": "KLAPPAN"
   },
   {
     "objectCd": "KLKL",
@@ -2101,11 +2041,7 @@
   },
   {
     "objectCd": "KLDI",
-    "objectDsc": "KSUI LA DAS IR"
-  },
-  {
-    "objectCd": "KITM",
-    "objectDsc": "KTSUMKAYLUM IR"
+    "objectDsc": "KSUI-LA-DAS IR"
   },
   {
     "objectCd": "KULI",
@@ -2124,20 +2060,8 @@
     "objectDsc": "KUNGHIT ISLAND"
   },
   {
-    "objectCd": "KPIS",
-    "objectDsc": "KUPER ISLAND"
-  },
-  {
-    "objectCd": "KWDA",
-    "objectDsc": "KWADACHA"
-  },
-  {
-    "objectCd": "KWRV",
-    "objectDsc": "KWINAMSS RIVER"
-  },
-  {
     "objectCd": "KYLI",
-    "objectDsc": "KYE YAA LA IR"
+    "objectDsc": "KYE-YAA-LA IR"
   },
   {
     "objectCd": "KYUQ",
@@ -2217,11 +2141,11 @@
   },
   {
     "objectCd": "LXKW",
-    "objectDsc": "LAX KW' ALAAMS"
+    "objectDsc": "LAX KW'ALAAMS"
   },
   {
     "objectCd": "LAXA",
-    "objectDsc": "LAXGALTS AP"
+    "objectDsc": "LAXGALTS'AP"
   },
   {
     "objectCd": "LNCL",
@@ -2249,15 +2173,11 @@
   },
   {
     "objectCd": "LILR",
-    "objectDsc": "LILLOOET RURAL"
+    "objectDsc": "LILLOOET (RURAL)"
   },
   {
     "objectCd": "LYLK",
     "objectDsc": "LILY LAKE"
-  },
-  {
-    "objectCd": "LAIS",
-    "objectDsc": "LINA ISLAND"
   },
   {
     "objectCd": "LNBH",
@@ -2312,10 +2232,6 @@
     "objectDsc": "LOUIS CREEK"
   },
   {
-    "objectCd": "LARW",
-    "objectDsc": "LOWER ARROW"
-  },
-  {
     "objectCd": "LNIC",
     "objectDsc": "LOWER NICOLA"
   },
@@ -2341,7 +2257,7 @@
   },
   {
     "objectCd": "LYTR",
-    "objectDsc": "LYTTON RURAL"
+    "objectDsc": "LYTTON (RURAL)"
   },
   {
     "objectCd": "MCKN",
@@ -2349,7 +2265,7 @@
   },
   {
     "objectCd": "MZRU",
-    "objectDsc": "MACKENZIE RURAL"
+    "objectDsc": "MACKENZIE (RURAL)"
   },
   {
     "objectCd": "MDPK",
@@ -2457,7 +2373,7 @@
   },
   {
     "objectCd": "MBRU",
-    "objectDsc": "MCBRIDE RURAL"
+    "objectDsc": "MCBRIDE (RURAL)"
   },
   {
     "objectCd": "MCIS",
@@ -2485,7 +2401,7 @@
   },
   {
     "objectCd": "MDLK",
-    "objectDsc": "MCLEOD LAKE RESERVE"
+    "objectDsc": "MCLEOD LAKE IR"
   },
   {
     "objectCd": "MCLR",
@@ -2576,10 +2492,6 @@
     "objectDsc": "MISSEZULA LAKE"
   },
   {
-    "objectCd": "MSSL",
-    "objectDsc": "MISSEZULA LAKE TNRD"
-  },
-  {
     "objectCd": "MISS",
     "objectDsc": "MISSION"
   },
@@ -2628,10 +2540,6 @@
     "objectDsc": "MORESBY ISLAND"
   },
   {
-    "objectCd": "MRTN",
-    "objectDsc": "MORICETOWN-WITSET FN"
-  },
-  {
     "objectCd": "MSVL",
     "objectDsc": "MOSSVALE"
   },
@@ -2649,19 +2557,19 @@
   },
   {
     "objectCd": "MLMY",
-    "objectDsc": "MT LE MORAY"
+    "objectDsc": "MT. LE MORAY"
   },
   {
     "objectCd": "MRPP",
-    "objectDsc": "MT ROBSON PROVINCIAL PARK"
+    "objectDsc": "MT. ROBSON PROV. PARK"
   },
   {
     "objectCd": "MTFP",
-    "objectDsc": "MT TERRY FOX PROVINCIAL PARK"
+    "objectDsc": "MT. TERRY FOX PROV. PARK"
   },
   {
     "objectCd": "MTWN",
-    "objectDsc": "MT WASHINGTON"
+    "objectDsc": "MT. WASHINGTON"
   },
   {
     "objectCd": "MDRV",
@@ -2796,10 +2704,6 @@
     "objectDsc": "NOOTKA ISLAND"
   },
   {
-    "objectCd": "9NTS",
-    "objectDsc": "NOOTKA SOUND"
-  },
-  {
     "objectCd": "NORA",
     "objectDsc": "NORALEE"
   },
@@ -2822,18 +2726,6 @@
   {
     "objectCd": "NFLK",
     "objectDsc": "NORTH FALKLAND"
-  },
-  {
-    "objectCd": "NGAB",
-    "objectDsc": "NORTH GABLES"
-  },
-  {
-    "objectCd": "9NIL",
-    "objectDsc": "NORTH ISLAND"
-  },
-  {
-    "objectCd": "NKEL",
-    "objectDsc": "NORTH KELLY"
   },
   {
     "objectCd": "NKLK",
@@ -2866,10 +2758,6 @@
   {
     "objectCd": "NVAN",
     "objectDsc": "NORTH VANCOUVER"
-  },
-  {
-    "objectCd": "NWES",
-    "objectDsc": "NORTH WESTSIDE"
   },
   {
     "objectCd": "NOHL",
@@ -3028,12 +2916,8 @@
     "objectDsc": "PEMBERTON MEADOWS"
   },
   {
-    "objectCd": "PENK",
-    "objectDsc": "PENASK SUMMIT"
-  },
-  {
     "objectCd": "PDDR",
-    "objectDsc": "PEND DOREILLE"
+    "objectDsc": "PEND-D'OREILLE"
   },
   {
     "objectCd": "PHBR",
@@ -3046,6 +2930,10 @@
   {
     "objectCd": "PNIS",
     "objectDsc": "PENELAKUT ISLAND"
+  },
+  {
+    "objectCd": "PENK",
+    "objectDsc": "PENNASK SUMMIT"
   },
   {
     "objectCd": "PENN",
@@ -3084,24 +2972,12 @@
     "objectDsc": "PINE PASS"
   },
   {
-    "objectCd": "PNPE",
-    "objectDsc": "PINE PASS EAST"
-  },
-  {
-    "objectCd": "PNPW",
-    "objectDsc": "PINE PASS WEST"
-  },
-  {
     "objectCd": "PNVY",
     "objectDsc": "PINE VALLEY"
   },
   {
     "objectCd": "PNVW",
     "objectDsc": "PINEVIEW"
-  },
-  {
-    "objectCd": "PIVW",
-    "objectDsc": "PINEVIEW FFG"
   },
   {
     "objectCd": "PNMT",
@@ -3158,10 +3034,6 @@
   {
     "objectCd": "PTHY",
     "objectDsc": "PORT HARDY"
-  },
-  {
-    "objectCd": "9PTM",
-    "objectDsc": "PORT MANN"
   },
   {
     "objectCd": "PTML",
@@ -3272,14 +3144,6 @@
     "objectDsc": "QUATSINO"
   },
   {
-    "objectCd": "QNCH",
-    "objectDsc": "QUEEN CHARLOTTE"
-  },
-  {
-    "objectCd": "QCIS",
-    "objectDsc": "QUEEN CHARLOTTE ISLANDS"
-  },
-  {
     "objectCd": "QNBA",
     "objectDsc": "QUEENS BAY"
   },
@@ -3368,10 +3232,6 @@
     "objectDsc": "RICHMOND"
   },
   {
-    "objectCd": "9RGM",
-    "objectDsc": "RIDGE MEADOWS"
-  },
-  {
     "objectCd": "RNDL",
     "objectDsc": "RIONDEL"
   },
@@ -3382,10 +3242,6 @@
   {
     "objectCd": "RCR",
     "objectDsc": "ROBERTS CREEK"
-  },
-  {
-    "objectCd": "RTCK",
-    "objectDsc": "ROBERTSON CREEK"
   },
   {
     "objectCd": "RBSN",
@@ -3450,6 +3306,10 @@
   {
     "objectCd": "SNCH",
     "objectDsc": "SAANICH"
+  },
+  {
+    "objectCd": "SAIK",
+    "objectDsc": "SAIK'UZ (STONEY CREEK) IR"
   },
   {
     "objectCd": "SALM",
@@ -3576,6 +3436,10 @@
     "objectDsc": "SHOREACRES"
   },
   {
+    "objectCd": "SWIR",
+    "objectDsc": "SHUSWAP IR"
+  },
+  {
     "objectCd": "SHBH",
     "objectDsc": "SHUTTY BENCH"
   },
@@ -3592,16 +3456,12 @@
     "objectDsc": "SIDNEY ISLAND"
   },
   {
-    "objectCd": "SRRA",
-    "objectDsc": "SIERRA"
-  },
-  {
     "objectCd": "SKNI",
     "objectDsc": "SIKANNI"
   },
   {
-    "objectCd": "SLVS",
-    "objectDsc": "SILVER SANDS"
+    "objectCd": "GLNV",
+    "objectDsc": "SIK-E-DAKH (GLEN VOWELL)"
   },
   {
     "objectCd": "SLTN",
@@ -3692,10 +3552,6 @@
     "objectDsc": "SOUTH HAZELTON"
   },
   {
-    "objectCd": "9SIL",
-    "objectDsc": "SOUTH ISLAND"
-  },
-  {
     "objectCd": "SKLK",
     "objectDsc": "SOUTH KINBASKET LAKE"
   },
@@ -3718,10 +3574,6 @@
   {
     "objectCd": "SBNK",
     "objectDsc": "SOUTHBANK"
-  },
-  {
-    "objectCd": "9SED",
-    "objectDsc": "SOUTHEAST DISTRICT"
   },
   {
     "objectCd": "SPAL",
@@ -3769,7 +3621,7 @@
   },
   {
     "objectCd": "STIV",
-    "objectDsc": "ST IVES"
+    "objectDsc": "ST. IVES"
   },
   {
     "objectCd": "SCIS",
@@ -3797,7 +3649,7 @@
   },
   {
     "objectCd": "STIR",
-    "objectDsc": "STONE IR 1A"
+    "objectDsc": "STONE IR"
   },
   {
     "objectCd": "SMTP",
@@ -3806,10 +3658,6 @@
   {
     "objectCd": "STON",
     "objectDsc": "STONER"
-  },
-  {
-    "objectCd": "SAIK",
-    "objectDsc": "STONY CREEK SAIK'UZ IR"
   },
   {
     "objectCd": "STRI",
@@ -3837,7 +3685,7 @@
   },
   {
     "objectCd": "SUVY",
-    "objectDsc": "SUKUNKA VALLEY"
+    "objectDsc": "SUKUNKA"
   },
   {
     "objectCd": "SLBY",
@@ -3868,16 +3716,8 @@
     "objectDsc": "SUNSET PRAIRIE"
   },
   {
-    "objectCd": "9SNC",
-    "objectDsc": "SUNSHINE COAST"
-  },
-  {
     "objectCd": "SHVL",
     "objectDsc": "SUNSHINE VALLEY"
-  },
-  {
-    "objectCd": "SNSV",
-    "objectDsc": "SUNSHINE VALLEY TNRD"
   },
   {
     "objectCd": "SRY",
@@ -3998,10 +3838,6 @@
   {
     "objectCd": "TERR",
     "objectDsc": "TERRACE"
-  },
-  {
-    "objectCd": "TESL",
-    "objectDsc": "TESLIN"
   },
   {
     "objectCd": "TJCH",
@@ -4128,12 +3964,12 @@
     "objectDsc": "TURTLE VALLEY"
   },
   {
-    "objectCd": "TWPS",
-    "objectDsc": "TWEEDSMUIR PARK SOUTH"
+    "objectCd": "TWPP",
+    "objectDsc": "TWEEDSMUIR PROV. PARK"
   },
   {
-    "objectCd": "TWPP",
-    "objectDsc": "TWEEDSMUIR PROVINCIAL PARK"
+    "objectCd": "TWPS",
+    "objectDsc": "TWEEDSMUIR PROV. PARK SOUTH"
   },
   {
     "objectCd": "TWOM",
@@ -4153,7 +3989,7 @@
   },
   {
     "objectCd": "UBC",
-    "objectDsc": "VANCOUVER (UBC)"
+    "objectDsc": "UBC (VANCOUVER)"
   },
   {
     "objectCd": "UCLT",
@@ -4176,10 +4012,6 @@
     "objectDsc": "UPPER FRASER"
   },
   {
-    "objectCd": "UPSK",
-    "objectDsc": "UPPER SKEENA"
-  },
-  {
     "objectCd": "VLIS",
     "objectDsc": "VALDES ISLAND"
   },
@@ -4189,7 +4021,7 @@
   },
   {
     "objectCd": "VMRU",
-    "objectDsc": "VALEMOUNT RURAL"
+    "objectDsc": "VALEMOUNT (RURAL)"
   },
   {
     "objectCd": "VLCN",
@@ -4308,10 +4140,6 @@
     "objectDsc": "WEST VANCOUVER"
   },
   {
-    "objectCd": "WTBK",
-    "objectDsc": "WESTBANK"
-  },
-  {
     "objectCd": "WTBR",
     "objectDsc": "WESTBRIDGE"
   },
@@ -4368,16 +4196,8 @@
     "objectDsc": "WILLISTON LAKE"
   },
   {
-    "objectCd": "WWFL",
-    "objectDsc": "WILLOW FLATS"
-  },
-  {
     "objectCd": "WLRV",
     "objectDsc": "WILLOW RIVER"
-  },
-  {
-    "objectCd": "WRVL",
-    "objectDsc": "WILLOW RIVER VALLEY"
   },
   {
     "objectCd": "WLVY",
@@ -4426,10 +4246,6 @@
   {
     "objectCd": "WYCF",
     "objectDsc": "WYCLIFFE"
-  },
-  {
-    "objectCd": "WMDL",
-    "objectDsc": "WYNNDEL"
   },
   {
     "objectCd": "WNDL",
