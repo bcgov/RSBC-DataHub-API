@@ -1,954 +1,954 @@
 [
- {
-   "objectCd": "AD",
-   "objectDsc": "ANDORRA"
- },
- {
-   "objectCd": "AE",
-   "objectDsc": "UNITED ARAB EMIRATES"
- },
- {
-   "objectCd": "AF",
-   "objectDsc": "AFGHANISTAN"
- },
- {
-   "objectCd": "AG",
-   "objectDsc": "ANTIGUA AND BARBUDA"
- },
- {
-   "objectCd": "AI",
-   "objectDsc": "ANGUILLA"
- },
- {
-   "objectCd": "AL",
-   "objectDsc": "ALBANIA"
- },
- {
-   "objectCd": "AM",
-   "objectDsc": "ARMENIA"
- },
- {
-   "objectCd": "AN",
-   "objectDsc": "NETHERLANDS ANTILLES"
- },
- {
-   "objectCd": "AO",
-   "objectDsc": "ANGOLA"
- },
- {
-   "objectCd": "AQ",
-   "objectDsc": "ANTARCTICA"
- },
- {
-   "objectCd": "AR",
-   "objectDsc": "ARGENTINA"
- },
- {
-   "objectCd": "AS",
-   "objectDsc": "AMERICAN SAMOA"
- },
- {
-   "objectCd": "AT",
-   "objectDsc": "AUSTRIA"
- },
- {
-   "objectCd": "AU",
-   "objectDsc": "AUSTRALIA"
- },
- {
-   "objectCd": "AW",
-   "objectDsc": "ARUBA"
- },
- {
-   "objectCd": "AZ",
-   "objectDsc": "AZERBAIJAN"
- },
- {
-   "objectCd": "BA",
-   "objectDsc": "BOSNIA AND HERZEGOVINA"
- },
- {
-   "objectCd": "BB",
-   "objectDsc": "BARBADOS"
- },
- {
-   "objectCd": "BD",
-   "objectDsc": "BANGLADESH"
- },
- {
-   "objectCd": "BE",
-   "objectDsc": "BELGIUM"
- },
- {
-   "objectCd": "BF",
-   "objectDsc": "BURKINA FASO"
- },
- {
-   "objectCd": "BG",
-   "objectDsc": "BULGARIA"
- },
- {
-   "objectCd": "BH",
-   "objectDsc": "BAHRAIN"
- },
- {
-   "objectCd": "BI",
-   "objectDsc": "BURUNDI"
- },
- {
-   "objectCd": "BJ",
-   "objectDsc": "BENIN"
- },
- {
-   "objectCd": "BM",
-   "objectDsc": "BERMUDA"
- },
- {
-   "objectCd": "BN",
-   "objectDsc": "BRUNEI DARUSSALAM"
- },
- {
-   "objectCd": "BO",
-   "objectDsc": "BOLIVIA"
- },
- {
-   "objectCd": "BR",
-   "objectDsc": "BRAZIL"
- },
- {
-   "objectCd": "BS",
-   "objectDsc": "BAHAMAS"
- },
- {
-   "objectCd": "BT",
-   "objectDsc": "BHUTAN"
- },
- {
-   "objectCd": "BV",
-   "objectDsc": "BOUVET ISLAND"
- },
- {
-   "objectCd": "BW",
-   "objectDsc": "BOTSWANA"
- },
- {
-   "objectCd": "BY",
-   "objectDsc": "BELARUS"
- },
- {
-   "objectCd": "BZ",
-   "objectDsc": "BELIZE"
- },
- {
-   "objectCd": "CA",
-   "objectDsc": "CANADA"
- },
- {
-   "objectCd": "CC",
-   "objectDsc": "COCOS (KEELING) ISLANDS"
- },
- {
-   "objectCd": "CF",
-   "objectDsc": "CENTRAL AFRICAN REPUBLIC"
- },
- {
-   "objectCd": "CG",
-   "objectDsc": "CONGO"
- },
- {
-   "objectCd": "CH",
-   "objectDsc": "SWITZERLAND"
- },
- {
-   "objectCd": "CI",
-   "objectDsc": "COTE D'IVOIRE"
- },
- {
-   "objectCd": "CK",
-   "objectDsc": "COOK ISLANDS"
- },
- {
-   "objectCd": "CL",
-   "objectDsc": "CHILE"
- },
- {
-   "objectCd": "CM",
-   "objectDsc": "CAMEROON"
- },
- {
-   "objectCd": "CN",
-   "objectDsc": "CHINA"
- },
- {
-   "objectCd": "CO",
-   "objectDsc": "COLOMBIA"
- },
- {
-   "objectCd": "CR",
-   "objectDsc": "COSTA RICA"
- },
- {
-   "objectCd": "CU",
-   "objectDsc": "CUBA"
- },
- {
-   "objectCd": "CV",
-   "objectDsc": "CAPE VERDE"
- },
- {
-   "objectCd": "CX",
-   "objectDsc": "CHRISTMAS ISLAND"
- },
- {
-   "objectCd": "CY",
-   "objectDsc": "CYPRUS"
- },
- {
-   "objectCd": "CZ",
-   "objectDsc": "CZECH REPUBLIC"
- },
- {
-   "objectCd": "DE",
-   "objectDsc": "GERMANY"
- },
- {
-   "objectCd": "DJ",
-   "objectDsc": "DJIBOUTI"
- },
- {
-   "objectCd": "DK",
-   "objectDsc": "DENMARK"
- },
- {
-   "objectCd": "DM",
-   "objectDsc": "DOMINICA"
- },
- {
-   "objectCd": "DO",
-   "objectDsc": "DOMINICAN REPUBLIC"
- },
- {
-   "objectCd": "DZ",
-   "objectDsc": "ALGERIA"
- },
- {
-   "objectCd": "EC",
-   "objectDsc": "ECUADOR"
- },
- {
-   "objectCd": "EE",
-   "objectDsc": "ESTONIA"
- },
- {
-   "objectCd": "EG",
-   "objectDsc": "EGYPT"
- },
- {
-   "objectCd": "EH",
-   "objectDsc": "WESTERN SAHARA"
- },
- {
-   "objectCd": "ER",
-   "objectDsc": "ERITREA"
- },
- {
-   "objectCd": "ES",
-   "objectDsc": "SPAIN"
- },
- {
-   "objectCd": "ET",
-   "objectDsc": "ETHIOPIA"
- },
- {
-   "objectCd": "FI",
-   "objectDsc": "FINLAND"
- },
- {
-   "objectCd": "FJ",
-   "objectDsc": "FIJI"
- },
- {
-   "objectCd": "FK",
-   "objectDsc": "FALKLAND ISLANDS (MALVINAS)"
- },
- {
-   "objectCd": "FM",
-   "objectDsc": "MICRONESIA, FEDERATED STATES OF"
- },
- {
-   "objectCd": "FO",
-   "objectDsc": "FAROE ISLANDS"
- },
- {
-   "objectCd": "FR",
-   "objectDsc": "FRANCE"
- },
- {
-   "objectCd": "GA",
-   "objectDsc": "GABON"
- },
- {
-   "objectCd": "GB",
-   "objectDsc": "UNITED KINGDOM"
- },
- {
-   "objectCd": "GD",
-   "objectDsc": "GRENADA"
- },
- {
-   "objectCd": "GE",
-   "objectDsc": "GEORGIA"
- },
- {
-   "objectCd": "GF",
-   "objectDsc": "FRENCH GUIANA"
- },
- {
-   "objectCd": "GH",
-   "objectDsc": "GHANA"
- },
- {
-   "objectCd": "GI",
-   "objectDsc": "GIBRALTAR"
- },
- {
-   "objectCd": "GL",
-   "objectDsc": "GREENLAND"
- },
- {
-   "objectCd": "GM",
-   "objectDsc": "GAMBIA"
- },
- {
-   "objectCd": "GN",
-   "objectDsc": "GUINEA"
- },
- {
-   "objectCd": "GP",
-   "objectDsc": "GUADELOUPE"
- },
- {
-   "objectCd": "GQ",
-   "objectDsc": "EQUATORIAL GUINEA"
- },
- {
-   "objectCd": "GR",
-   "objectDsc": "GREECE"
- },
- {
-   "objectCd": "GS",
-   "objectDsc": "SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS"
- },
- {
-   "objectCd": "GT",
-   "objectDsc": "GUATEMALA"
- },
- {
-   "objectCd": "GU",
-   "objectDsc": "GUAM"
- },
- {
-   "objectCd": "GW",
-   "objectDsc": "GUINEA-BISSAU"
- },
- {
-   "objectCd": "GY",
-   "objectDsc": "GUYANA"
- },
- {
-   "objectCd": "HK",
-   "objectDsc": "HONG KONG"
- },
- {
-   "objectCd": "HM",
-   "objectDsc": "HEARD AND MCDONALD ISLANDS"
- },
- {
-   "objectCd": "HN",
-   "objectDsc": "HONDURAS"
- },
- {
-   "objectCd": "HR",
-   "objectDsc": "CROATIA (LOCAL NAME: HRVATSKA)"
- },
- {
-   "objectCd": "HT",
-   "objectDsc": "HAITI"
- },
- {
-   "objectCd": "HU",
-   "objectDsc": "HUNGARY"
- },
- {
-   "objectCd": "ID",
-   "objectDsc": "INDONESIA"
- },
- {
-   "objectCd": "IE",
-   "objectDsc": "IRELAND"
- },
- {
-   "objectCd": "IL",
-   "objectDsc": "ISRAEL"
- },
- {
-   "objectCd": "IN",
-   "objectDsc": "INDIA"
- },
- {
-   "objectCd": "IO",
-   "objectDsc": "BRITISH INDIAN OCEAN TERRITORY"
- },
- {
-   "objectCd": "IQ",
-   "objectDsc": "IRAQ"
- },
- {
-   "objectCd": "IR",
-   "objectDsc": "IRAN (ISLAMIC REPUBLIC OF)"
- },
- {
-   "objectCd": "IS",
-   "objectDsc": "ICELAND"
- },
- {
-   "objectCd": "IT",
-   "objectDsc": "ITALY"
- },
- {
-   "objectCd": "JM",
-   "objectDsc": "JAMAICA"
- },
- {
-   "objectCd": "JO",
-   "objectDsc": "JORDAN"
- },
- {
-   "objectCd": "JP",
-   "objectDsc": "JAPAN"
- },
- {
-   "objectCd": "KE",
-   "objectDsc": "KENYA"
- },
- {
-   "objectCd": "KG",
-   "objectDsc": "KYRGYZSTAN"
- },
- {
-   "objectCd": "KH",
-   "objectDsc": "CAMBODIA"
- },
- {
-   "objectCd": "KI",
-   "objectDsc": "KIRIBATI"
- },
- {
-   "objectCd": "KM",
-   "objectDsc": "COMOROS"
- },
- {
-   "objectCd": "KN",
-   "objectDsc": "SAINT KITTS AND NEVIS"
- },
- {
-   "objectCd": "KP",
-   "objectDsc": "KOREA, DEMOCRATIC PEOPLE'S REPUBLIC OF"
- },
- {
-   "objectCd": "KR",
-   "objectDsc": "KOREA, REPUBLIC OF"
- },
- {
-   "objectCd": "KW",
-   "objectDsc": "KUWAIT"
- },
- {
-   "objectCd": "KY",
-   "objectDsc": "CAYMAN ISLANDS"
- },
- {
-   "objectCd": "KZ",
-   "objectDsc": "KAZAKHSTAN"
- },
- {
-   "objectCd": "LA",
-   "objectDsc": "LAO PEOPLE'S DEMOCRATIC REPUBLIC"
- },
- {
-   "objectCd": "LB",
-   "objectDsc": "LEBANON"
- },
- {
-   "objectCd": "LC",
-   "objectDsc": "SAINT LUCIA"
- },
- {
-   "objectCd": "LI",
-   "objectDsc": "LIECHTENSTEIN"
- },
- {
-   "objectCd": "LK",
-   "objectDsc": "SRI LANKA"
- },
- {
-   "objectCd": "LR",
-   "objectDsc": "LIBERIA"
- },
- {
-   "objectCd": "LS",
-   "objectDsc": "LESOTHO"
- },
- {
-   "objectCd": "LT",
-   "objectDsc": "LITHUANIA"
- },
- {
-   "objectCd": "LU",
-   "objectDsc": "LUXEMBOURGE"
- },
- {
-   "objectCd": "LV",
-   "objectDsc": "LATVIA"
- },
- {
-   "objectCd": "LY",
-   "objectDsc": "LIBYAN ARAB JAMAHIRIYA"
- },
- {
-   "objectCd": "MA",
-   "objectDsc": "MOROCCO"
- },
- {
-   "objectCd": "MC",
-   "objectDsc": "MONACO"
- },
- {
-   "objectCd": "MD",
-   "objectDsc": "MOLDOVA, REPUBLIC OF"
- },
- {
-   "objectCd": "MG",
-   "objectDsc": "MADAGASCAR"
- },
- {
-   "objectCd": "MH",
-   "objectDsc": "MARSHALL ISLANDS"
- },
- {
-   "objectCd": "MK",
-   "objectDsc": "MACEDONIA, THE FORMER YUGOSLAVIA REPUBLIC OF"
- },
- {
-   "objectCd": "ML",
-   "objectDsc": "MALI"
- },
- {
-   "objectCd": "MM",
-   "objectDsc": "MYANMAR"
- },
- {
-   "objectCd": "MN",
-   "objectDsc": "MONGOLIA"
- },
- {
-   "objectCd": "MO",
-   "objectDsc": "MACAU"
- },
- {
-   "objectCd": "MP",
-   "objectDsc": "NORTHERN MARIANA ISLANDS"
- },
- {
-   "objectCd": "MQ",
-   "objectDsc": "MARTINIQUE"
- },
- {
-   "objectCd": "MR",
-   "objectDsc": "MAURITANIA"
- },
- {
-   "objectCd": "MS",
-   "objectDsc": "MONTSERRAT"
- },
- {
-   "objectCd": "MT",
-   "objectDsc": "MALTA"
- },
- {
-   "objectCd": "MU",
-   "objectDsc": "MAURITIUS"
- },
- {
-   "objectCd": "MV",
-   "objectDsc": "MALDIVES"
- },
- {
-   "objectCd": "MW",
-   "objectDsc": "MALAWI"
- },
- {
-   "objectCd": "MX",
-   "objectDsc": "MEXICO"
- },
- {
-   "objectCd": "MY",
-   "objectDsc": "MALAYSIA"
- },
- {
-   "objectCd": "MZ",
-   "objectDsc": "MOZAMBIQUE"
- },
- {
-   "objectCd": "NA",
-   "objectDsc": "NAMIBIA"
- },
- {
-   "objectCd": "NC",
-   "objectDsc": "NEW CALEDONIA"
- },
- {
-   "objectCd": "NE",
-   "objectDsc": "NIGER"
- },
- {
-   "objectCd": "NF",
-   "objectDsc": "NORFOLK ISLAND"
- },
- {
-   "objectCd": "NG",
-   "objectDsc": "NIGERIA"
- },
- {
-   "objectCd": "NI",
-   "objectDsc": "NICARAGUA"
- },
- {
-   "objectCd": "NL",
-   "objectDsc": "NETHERLANDS"
- },
- {
-   "objectCd": "NO",
-   "objectDsc": "NORWAY"
- },
- {
-   "objectCd": "NP",
-   "objectDsc": "NEPAL"
- },
- {
-   "objectCd": "NR",
-   "objectDsc": "NAURU"
- },
- {
-   "objectCd": "NU",
-   "objectDsc": "NIUE"
- },
- {
-   "objectCd": "NZ",
-   "objectDsc": "NEW ZEALAND"
- },
- {
-   "objectCd": "OM",
-   "objectDsc": "OMAN"
- },
- {
-   "objectCd": "PA",
-   "objectDsc": "PANAMA"
- },
- {
-   "objectCd": "PE",
-   "objectDsc": "PERU"
- },
- {
-   "objectCd": "PF",
-   "objectDsc": "FRENCH POLYNESIA"
- },
- {
-   "objectCd": "PG",
-   "objectDsc": "PAPUA NEW GUINEA"
- },
- {
-   "objectCd": "PH",
-   "objectDsc": "PHILIPPINES"
- },
- {
-   "objectCd": "PK",
-   "objectDsc": "PAKISTAN"
- },
- {
-   "objectCd": "PL",
-   "objectDsc": "POLAND"
- },
- {
-   "objectCd": "PM",
-   "objectDsc": "ST. PIERRE AND MIQUELON"
- },
- {
-   "objectCd": "PN",
-   "objectDsc": "PITCAIRN"
- },
- {
-   "objectCd": "PR",
-   "objectDsc": "PUERTO RICO"
- },
- {
-   "objectCd": "PT",
-   "objectDsc": "PORTUGAL"
- },
- {
-   "objectCd": "PW",
-   "objectDsc": "PALAU"
- },
- {
-   "objectCd": "PY",
-   "objectDsc": "PARAGUAY"
- },
- {
-   "objectCd": "QA",
-   "objectDsc": "QATAR"
- },
- {
-   "objectCd": "RE",
-   "objectDsc": "REUNION"
- },
- {
-   "objectCd": "RO",
-   "objectDsc": "ROMANIA"
- },
- {
-   "objectCd": "RU",
-   "objectDsc": "RUSSIAN FEDERATION"
- },
- {
-   "objectCd": "RW",
-   "objectDsc": "RWANDA"
- },
- {
-   "objectCd": "SA",
-   "objectDsc": "SAUDI ARABIA"
- },
- {
-   "objectCd": "SB",
-   "objectDsc": "SOLOMON ISLANDS"
- },
- {
-   "objectCd": "SC",
-   "objectDsc": "SEYCHELLES"
- },
- {
-   "objectCd": "SD",
-   "objectDsc": "SUDAN"
- },
- {
-   "objectCd": "SE",
-   "objectDsc": "SWEDEN"
- },
- {
-   "objectCd": "SG",
-   "objectDsc": "SINGAPORE"
- },
- {
-   "objectCd": "SH",
-   "objectDsc": "ST. HELENA"
- },
- {
-   "objectCd": "SI",
-   "objectDsc": "SLOVENIA"
- },
- {
-   "objectCd": "SJ",
-   "objectDsc": "SVALBARD AND JAN MAYEN ISLANDS"
- },
- {
-   "objectCd": "SK",
-   "objectDsc": "SLOVAKIA (SLOVAK REPUBLIC)"
- },
- {
-   "objectCd": "SL",
-   "objectDsc": "SIERRA LEONE"
- },
- {
-   "objectCd": "SM",
-   "objectDsc": "SAN MARINO"
- },
- {
-   "objectCd": "SN",
-   "objectDsc": "SENEGAL"
- },
- {
-   "objectCd": "SO",
-   "objectDsc": "SOMALIA"
- },
- {
-   "objectCd": "SR",
-   "objectDsc": "SURINAME"
- },
- {
-   "objectCd": "ST",
-   "objectDsc": "SAO TOME AND PRINCIPE"
- },
- {
-   "objectCd": "SV",
-   "objectDsc": "EL SALVADOR"
- },
- {
-   "objectCd": "SY",
-   "objectDsc": "SYRIAN ARAB REPUBLIC"
- },
- {
-   "objectCd": "SZ",
-   "objectDsc": "SWAZILAND"
- },
- {
-   "objectCd": "TC",
-   "objectDsc": "TURKS AND CAICOS ISLANDS"
- },
- {
-   "objectCd": "TD",
-   "objectDsc": "CHAD"
- },
- {
-   "objectCd": "TF",
-   "objectDsc": "FRENCH SOUTHERN TERRITORIES"
- },
- {
-   "objectCd": "TG",
-   "objectDsc": "TOGO"
- },
- {
-   "objectCd": "TH",
-   "objectDsc": "THAILAND"
- },
- {
-   "objectCd": "TJ",
-   "objectDsc": "TAJIKISTAN"
- },
- {
-   "objectCd": "TK",
-   "objectDsc": "TOKELAU"
- },
- {
-   "objectCd": "TM",
-   "objectDsc": "TURKMENISTAN"
- },
- {
-   "objectCd": "TN",
-   "objectDsc": "TUNISIA"
- },
- {
-   "objectCd": "TO",
-   "objectDsc": "TONGA"
- },
- {
-   "objectCd": "TP",
-   "objectDsc": "EAST TIMOR"
- },
- {
-   "objectCd": "TR",
-   "objectDsc": "TURKEY"
- },
- {
-   "objectCd": "TT",
-   "objectDsc": "TRINIDAD AND TOBAGO"
- },
- {
-   "objectCd": "TV",
-   "objectDsc": "TUVALU"
- },
- {
-   "objectCd": "TW",
-   "objectDsc": "TAIWAN, PROVINCE OF CHINA"
- },
- {
-   "objectCd": "TZ",
-   "objectDsc": "TANZANIA, UNITED REPUBLIC OF"
- },
- {
-   "objectCd": "UA",
-   "objectDsc": "UKRAINE"
- },
- {
-   "objectCd": "UG",
-   "objectDsc": "UGANDA"
- },
- {
-   "objectCd": "UM",
-   "objectDsc": "UNITED STATES MINOR OUTLYING ISLANDS"
- },
- {
-   "objectCd": "US",
-   "objectDsc": "UNITED STATES"
- },
- {
-   "objectCd": "UY",
-   "objectDsc": "URUGUAY"
- },
- {
-   "objectCd": "UZ",
-   "objectDsc": "UZBEKISTAN"
- },
- {
-   "objectCd": "VA",
-   "objectDsc": "VATICAN CITY STATE (HOLY SEE)"
- },
- {
-   "objectCd": "VC",
-   "objectDsc": "SAINT VINCENT AND THE GRENADINES"
- },
- {
-   "objectCd": "VE",
-   "objectDsc": "VENEZUELA"
- },
- {
-   "objectCd": "VG",
-   "objectDsc": "VIRGIN ISLANDS (BRITISH)"
- },
- {
-   "objectCd": "VI",
-   "objectDsc": "VIRGIN ISLANDS (U.S.)"
- },
- {
-   "objectCd": "VN",
-   "objectDsc": "VIET NAM"
- },
- {
-   "objectCd": "VU",
-   "objectDsc": "VANUATU"
- },
- {
-   "objectCd": "WF",
-   "objectDsc": "WALLIS AND FUTUNA ISLANDS"
- },
- {
-   "objectCd": "WS",
-   "objectDsc": "SAMOA"
- },
- {
-   "objectCd": "YE",
-   "objectDsc": "YEMEN"
- },
- {
-   "objectCd": "YT",
-   "objectDsc": "MAYOTTE"
- },
- {
-   "objectCd": "YU",
-   "objectDsc": "YUGOSLAVIA"
- },
- {
-   "objectCd": "ZA",
-   "objectDsc": "SOUTH AFRICA"
- },
- {
-   "objectCd": "ZM",
-   "objectDsc": "ZAMBIA"
- },
- {
-   "objectCd": "ZR",
-   "objectDsc": "ZAIRE"
- },
- {
-   "objectCd": "ZW",
-   "objectDsc": "ZIMBABWE"
- }
+  {
+    "objectCd": "AF",
+    "objectDsc": "AFGHANISTAN"
+  },
+  {
+    "objectCd": "AL",
+    "objectDsc": "ALBANIA"
+  },
+  {
+    "objectCd": "DZ",
+    "objectDsc": "ALGERIA"
+  },
+  {
+    "objectCd": "AS",
+    "objectDsc": "AMERICAN SAMOA"
+  },
+  {
+    "objectCd": "AD",
+    "objectDsc": "ANDORRA"
+  },
+  {
+    "objectCd": "AO",
+    "objectDsc": "ANGOLA"
+  },
+  {
+    "objectCd": "AI",
+    "objectDsc": "ANGUILLA"
+  },
+  {
+    "objectCd": "AQ",
+    "objectDsc": "ANTARCTICA"
+  },
+  {
+    "objectCd": "AG",
+    "objectDsc": "ANTIGUA & BARBUDA"
+  },
+  {
+    "objectCd": "AR",
+    "objectDsc": "ARGENTINA"
+  },
+  {
+    "objectCd": "AM",
+    "objectDsc": "ARMENIA"
+  },
+  {
+    "objectCd": "AW",
+    "objectDsc": "ARUBA"
+  },
+  {
+    "objectCd": "AU",
+    "objectDsc": "AUSTRALIA"
+  },
+  {
+    "objectCd": "AT",
+    "objectDsc": "AUSTRIA"
+  },
+  {
+    "objectCd": "AZ",
+    "objectDsc": "AZERBAIJAN"
+  },
+  {
+    "objectCd": "BS",
+    "objectDsc": "BAHAMAS"
+  },
+  {
+    "objectCd": "BH",
+    "objectDsc": "BAHRAIN"
+  },
+  {
+    "objectCd": "BD",
+    "objectDsc": "BANGLADESH"
+  },
+  {
+    "objectCd": "BB",
+    "objectDsc": "BARBADOS"
+  },
+  {
+    "objectCd": "BY",
+    "objectDsc": "BELARUS"
+  },
+  {
+    "objectCd": "BE",
+    "objectDsc": "BELGIUM"
+  },
+  {
+    "objectCd": "BZ",
+    "objectDsc": "BELIZE"
+  },
+  {
+    "objectCd": "BJ",
+    "objectDsc": "BENIN"
+  },
+  {
+    "objectCd": "BM",
+    "objectDsc": "BERMUDA"
+  },
+  {
+    "objectCd": "BT",
+    "objectDsc": "BHUTAN"
+  },
+  {
+    "objectCd": "BO",
+    "objectDsc": "BOLIVIA"
+  },
+  {
+    "objectCd": "BA",
+    "objectDsc": "BOSNIA & HERZEGOVINA"
+  },
+  {
+    "objectCd": "BW",
+    "objectDsc": "BOTSWANA"
+  },
+  {
+    "objectCd": "BV",
+    "objectDsc": "BOUVET ISLAND"
+  },
+  {
+    "objectCd": "BR",
+    "objectDsc": "BRAZIL"
+  },
+  {
+    "objectCd": "IO",
+    "objectDsc": "BRITISH INDIAN OCEAN TERRITORY"
+  },
+  {
+    "objectCd": "BN",
+    "objectDsc": "BRUNEI DARUSSALAM"
+  },
+  {
+    "objectCd": "BG",
+    "objectDsc": "BULGARIA"
+  },
+  {
+    "objectCd": "BF",
+    "objectDsc": "BURKINA FASO"
+  },
+  {
+    "objectCd": "BI",
+    "objectDsc": "BURUNDI"
+  },
+  {
+    "objectCd": "KH",
+    "objectDsc": "CAMBODIA"
+  },
+  {
+    "objectCd": "CM",
+    "objectDsc": "CAMEROON"
+  },
+  {
+    "objectCd": "CA",
+    "objectDsc": "CANADA"
+  },
+  {
+    "objectCd": "CV",
+    "objectDsc": "CAPE VERDE"
+  },
+  {
+    "objectCd": "KY",
+    "objectDsc": "CAYMAN ISLANDS"
+  },
+  {
+    "objectCd": "CF",
+    "objectDsc": "CENTRAL AFRICAN REPUBLIC"
+  },
+  {
+    "objectCd": "TD",
+    "objectDsc": "CHAD"
+  },
+  {
+    "objectCd": "CL",
+    "objectDsc": "CHILE"
+  },
+  {
+    "objectCd": "CN",
+    "objectDsc": "CHINA"
+  },
+  {
+    "objectCd": "CX",
+    "objectDsc": "CHRISTMAS ISLAND"
+  },
+  {
+    "objectCd": "CC",
+    "objectDsc": "COCOS (KEELING) ISLANDS"
+  },
+  {
+    "objectCd": "CO",
+    "objectDsc": "COLOMBIA"
+  },
+  {
+    "objectCd": "KM",
+    "objectDsc": "COMOROS"
+  },
+  {
+    "objectCd": "CG",
+    "objectDsc": "CONGO"
+  },
+  {
+    "objectCd": "CK",
+    "objectDsc": "COOK ISLANDS"
+  },
+  {
+    "objectCd": "CR",
+    "objectDsc": "COSTA RICA"
+  },
+  {
+    "objectCd": "CI",
+    "objectDsc": "COTE D'IVOIRE"
+  },
+  {
+    "objectCd": "HR",
+    "objectDsc": "CROATIA"
+  },
+  {
+    "objectCd": "CU",
+    "objectDsc": "CUBA"
+  },
+  {
+    "objectCd": "CY",
+    "objectDsc": "CYPRUS"
+  },
+  {
+    "objectCd": "CZ",
+    "objectDsc": "CZECH REPUBLIC"
+  },
+  {
+    "objectCd": "DK",
+    "objectDsc": "DENMARK"
+  },
+  {
+    "objectCd": "DJ",
+    "objectDsc": "DJIBOUTI"
+  },
+  {
+    "objectCd": "DM",
+    "objectDsc": "DOMINICA"
+  },
+  {
+    "objectCd": "DO",
+    "objectDsc": "DOMINICAN REPUBLIC"
+  },
+  {
+    "objectCd": "TP",
+    "objectDsc": "EAST TIMOR"
+  },
+  {
+    "objectCd": "EC",
+    "objectDsc": "ECUADOR"
+  },
+  {
+    "objectCd": "EG",
+    "objectDsc": "EGYPT"
+  },
+  {
+    "objectCd": "SV",
+    "objectDsc": "EL SALVADOR"
+  },
+  {
+    "objectCd": "GQ",
+    "objectDsc": "EQUATORIAL GUINEA"
+  },
+  {
+    "objectCd": "ER",
+    "objectDsc": "ERITREA"
+  },
+  {
+    "objectCd": "EE",
+    "objectDsc": "ESTONIA"
+  },
+  {
+    "objectCd": "ET",
+    "objectDsc": "ETHIOPIA"
+  },
+  {
+    "objectCd": "FK",
+    "objectDsc": "FALKLAND ISLANDS (MALVINAS)"
+  },
+  {
+    "objectCd": "FO",
+    "objectDsc": "FAROE ISLANDS"
+  },
+  {
+    "objectCd": "FJ",
+    "objectDsc": "FIJI"
+  },
+  {
+    "objectCd": "FI",
+    "objectDsc": "FINLAND"
+  },
+  {
+    "objectCd": "FR",
+    "objectDsc": "FRANCE"
+  },
+  {
+    "objectCd": "GF",
+    "objectDsc": "FRENCH GUIANA"
+  },
+  {
+    "objectCd": "PF",
+    "objectDsc": "FRENCH POLYNESIA"
+  },
+  {
+    "objectCd": "TF",
+    "objectDsc": "FRENCH SOUTHERN TERRITORIES"
+  },
+  {
+    "objectCd": "GA",
+    "objectDsc": "GABON"
+  },
+  {
+    "objectCd": "GM",
+    "objectDsc": "GAMBIA"
+  },
+  {
+    "objectCd": "GE",
+    "objectDsc": "GEORGIA"
+  },
+  {
+    "objectCd": "DE",
+    "objectDsc": "GERMANY"
+  },
+  {
+    "objectCd": "GH",
+    "objectDsc": "GHANA"
+  },
+  {
+    "objectCd": "GI",
+    "objectDsc": "GIBRALTAR"
+  },
+  {
+    "objectCd": "GR",
+    "objectDsc": "GREECE"
+  },
+  {
+    "objectCd": "GL",
+    "objectDsc": "GREENLAND"
+  },
+  {
+    "objectCd": "GD",
+    "objectDsc": "GRENADA"
+  },
+  {
+    "objectCd": "GP",
+    "objectDsc": "GUADELOUPE"
+  },
+  {
+    "objectCd": "GU",
+    "objectDsc": "GUAM"
+  },
+  {
+    "objectCd": "GT",
+    "objectDsc": "GUATEMALA"
+  },
+  {
+    "objectCd": "GN",
+    "objectDsc": "GUINEA"
+  },
+  {
+    "objectCd": "GW",
+    "objectDsc": "GUINEA-BISSAU"
+  },
+  {
+    "objectCd": "GY",
+    "objectDsc": "GUYANA"
+  },
+  {
+    "objectCd": "HT",
+    "objectDsc": "HAITI"
+  },
+  {
+    "objectCd": "HM",
+    "objectDsc": "HEARD & MCDONALD ISLANDS"
+  },
+  {
+    "objectCd": "HN",
+    "objectDsc": "HONDURAS"
+  },
+  {
+    "objectCd": "HK",
+    "objectDsc": "HONG KONG"
+  },
+  {
+    "objectCd": "HU",
+    "objectDsc": "HUNGARY"
+  },
+  {
+    "objectCd": "IS",
+    "objectDsc": "ICELAND"
+  },
+  {
+    "objectCd": "IN",
+    "objectDsc": "INDIA"
+  },
+  {
+    "objectCd": "ID",
+    "objectDsc": "INDONESIA"
+  },
+  {
+    "objectCd": "IR",
+    "objectDsc": "IRAN"
+  },
+  {
+    "objectCd": "IQ",
+    "objectDsc": "IRAQ"
+  },
+  {
+    "objectCd": "IE",
+    "objectDsc": "IRELAND"
+  },
+  {
+    "objectCd": "IL",
+    "objectDsc": "ISRAEL"
+  },
+  {
+    "objectCd": "IT",
+    "objectDsc": "ITALY"
+  },
+  {
+    "objectCd": "JM",
+    "objectDsc": "JAMAICA"
+  },
+  {
+    "objectCd": "JP",
+    "objectDsc": "JAPAN"
+  },
+  {
+    "objectCd": "JO",
+    "objectDsc": "JORDAN"
+  },
+  {
+    "objectCd": "KZ",
+    "objectDsc": "KAZAKHSTAN"
+  },
+  {
+    "objectCd": "KE",
+    "objectDsc": "KENYA"
+  },
+  {
+    "objectCd": "KI",
+    "objectDsc": "KIRIBATI"
+  },
+  {
+    "objectCd": "KW",
+    "objectDsc": "KUWAIT"
+  },
+  {
+    "objectCd": "KG",
+    "objectDsc": "KYRGYZSTAN"
+  },
+  {
+    "objectCd": "LA",
+    "objectDsc": "LAOS"
+  },
+  {
+    "objectCd": "LV",
+    "objectDsc": "LATVIA"
+  },
+  {
+    "objectCd": "LB",
+    "objectDsc": "LEBANON"
+  },
+  {
+    "objectCd": "LS",
+    "objectDsc": "LESOTHO"
+  },
+  {
+    "objectCd": "LR",
+    "objectDsc": "LIBERIA"
+  },
+  {
+    "objectCd": "LY",
+    "objectDsc": "LIBYA"
+  },
+  {
+    "objectCd": "LI",
+    "objectDsc": "LIECHTENSTEIN"
+  },
+  {
+    "objectCd": "LT",
+    "objectDsc": "LITHUANIA"
+  },
+  {
+    "objectCd": "LU",
+    "objectDsc": "LUXEMBOURG"
+  },
+  {
+    "objectCd": "MO",
+    "objectDsc": "MACAU"
+  },
+  {
+    "objectCd": "MK",
+    "objectDsc": "MACEDONIA"
+  },
+  {
+    "objectCd": "MG",
+    "objectDsc": "MADAGASCAR"
+  },
+  {
+    "objectCd": "MW",
+    "objectDsc": "MALAWI"
+  },
+  {
+    "objectCd": "MY",
+    "objectDsc": "MALAYSIA"
+  },
+  {
+    "objectCd": "MV",
+    "objectDsc": "MALDIVES"
+  },
+  {
+    "objectCd": "ML",
+    "objectDsc": "MALI"
+  },
+  {
+    "objectCd": "MT",
+    "objectDsc": "MALTA"
+  },
+  {
+    "objectCd": "MH",
+    "objectDsc": "MARSHALL ISLANDS"
+  },
+  {
+    "objectCd": "MQ",
+    "objectDsc": "MARTINIQUE"
+  },
+  {
+    "objectCd": "MR",
+    "objectDsc": "MAURITANIA"
+  },
+  {
+    "objectCd": "MU",
+    "objectDsc": "MAURITIUS"
+  },
+  {
+    "objectCd": "YT",
+    "objectDsc": "MAYOTTE"
+  },
+  {
+    "objectCd": "MX",
+    "objectDsc": "MEXICO"
+  },
+  {
+    "objectCd": "FM",
+    "objectDsc": "MICRONESIA"
+  },
+  {
+    "objectCd": "MD",
+    "objectDsc": "MOLDOVA"
+  },
+  {
+    "objectCd": "MC",
+    "objectDsc": "MONACO"
+  },
+  {
+    "objectCd": "MN",
+    "objectDsc": "MONGOLIA"
+  },
+  {
+    "objectCd": "MS",
+    "objectDsc": "MONTSERRAT"
+  },
+  {
+    "objectCd": "MA",
+    "objectDsc": "MOROCCO"
+  },
+  {
+    "objectCd": "MZ",
+    "objectDsc": "MOZAMBIQUE"
+  },
+  {
+    "objectCd": "MM",
+    "objectDsc": "MYANMAR"
+  },
+  {
+    "objectCd": "NA",
+    "objectDsc": "NAMIBIA"
+  },
+  {
+    "objectCd": "NR",
+    "objectDsc": "NAURU"
+  },
+  {
+    "objectCd": "NP",
+    "objectDsc": "NEPAL"
+  },
+  {
+    "objectCd": "NL",
+    "objectDsc": "NETHERLANDS"
+  },
+  {
+    "objectCd": "AN",
+    "objectDsc": "NETHERLANDS ANTILLES"
+  },
+  {
+    "objectCd": "NC",
+    "objectDsc": "NEW CALEDONIA"
+  },
+  {
+    "objectCd": "NZ",
+    "objectDsc": "NEW ZEALAND"
+  },
+  {
+    "objectCd": "NI",
+    "objectDsc": "NICARAGUA"
+  },
+  {
+    "objectCd": "NE",
+    "objectDsc": "NIGER"
+  },
+  {
+    "objectCd": "NG",
+    "objectDsc": "NIGERIA"
+  },
+  {
+    "objectCd": "NU",
+    "objectDsc": "NIUE"
+  },
+  {
+    "objectCd": "NF",
+    "objectDsc": "NORFOLK ISLAND"
+  },
+  {
+    "objectCd": "KP",
+    "objectDsc": "NORTH KOREA"
+  },
+  {
+    "objectCd": "MP",
+    "objectDsc": "NORTHERN MARIANA ISLANDS"
+  },
+  {
+    "objectCd": "NO",
+    "objectDsc": "NORWAY"
+  },
+  {
+    "objectCd": "OM",
+    "objectDsc": "OMAN"
+  },
+  {
+    "objectCd": "PK",
+    "objectDsc": "PAKISTAN"
+  },
+  {
+    "objectCd": "PW",
+    "objectDsc": "PALAU"
+  },
+  {
+    "objectCd": "PA",
+    "objectDsc": "PANAMA"
+  },
+  {
+    "objectCd": "PG",
+    "objectDsc": "PAPUA NEW GUINEA"
+  },
+  {
+    "objectCd": "PY",
+    "objectDsc": "PARAGUAY"
+  },
+  {
+    "objectCd": "PE",
+    "objectDsc": "PERU"
+  },
+  {
+    "objectCd": "PH",
+    "objectDsc": "PHILIPPINES"
+  },
+  {
+    "objectCd": "PN",
+    "objectDsc": "PITCAIRN"
+  },
+  {
+    "objectCd": "PL",
+    "objectDsc": "POLAND"
+  },
+  {
+    "objectCd": "PT",
+    "objectDsc": "PORTUGAL"
+  },
+  {
+    "objectCd": "PR",
+    "objectDsc": "PUERTO RICO"
+  },
+  {
+    "objectCd": "QA",
+    "objectDsc": "QATAR"
+  },
+  {
+    "objectCd": "RE",
+    "objectDsc": "REUNION"
+  },
+  {
+    "objectCd": "RO",
+    "objectDsc": "ROMANIA"
+  },
+  {
+    "objectCd": "RU",
+    "objectDsc": "RUSSIAN FEDERATION"
+  },
+  {
+    "objectCd": "RW",
+    "objectDsc": "RWANDA"
+  },
+  {
+    "objectCd": "KN",
+    "objectDsc": "SAINT KITTS & NEVIS"
+  },
+  {
+    "objectCd": "LC",
+    "objectDsc": "SAINT LUCIA"
+  },
+  {
+    "objectCd": "VC",
+    "objectDsc": "SAINT VINCENT & THE GRENADINES"
+  },
+  {
+    "objectCd": "WS",
+    "objectDsc": "SAMOA"
+  },
+  {
+    "objectCd": "SM",
+    "objectDsc": "SAN MARINO"
+  },
+  {
+    "objectCd": "ST",
+    "objectDsc": "SAO TOME & PRINCIPE"
+  },
+  {
+    "objectCd": "SA",
+    "objectDsc": "SAUDI ARABIA"
+  },
+  {
+    "objectCd": "SN",
+    "objectDsc": "SENEGAL"
+  },
+  {
+    "objectCd": "SC",
+    "objectDsc": "SEYCHELLES"
+  },
+  {
+    "objectCd": "SL",
+    "objectDsc": "SIERRA LEONE"
+  },
+  {
+    "objectCd": "SG",
+    "objectDsc": "SINGAPORE"
+  },
+  {
+    "objectCd": "SK",
+    "objectDsc": "SLOVAKIA"
+  },
+  {
+    "objectCd": "SI",
+    "objectDsc": "SLOVENIA"
+  },
+  {
+    "objectCd": "SB",
+    "objectDsc": "SOLOMON ISLANDS"
+  },
+  {
+    "objectCd": "SO",
+    "objectDsc": "SOMALIA"
+  },
+  {
+    "objectCd": "ZA",
+    "objectDsc": "SOUTH AFRICA"
+  },
+  {
+    "objectCd": "GS",
+    "objectDsc": "SOUTH GEORGIA & THE SOUTH SANDWICH ISLANDS"
+  },
+  {
+    "objectCd": "KR",
+    "objectDsc": "SOUTH KOREA"
+  },
+  {
+    "objectCd": "ES",
+    "objectDsc": "SPAIN"
+  },
+  {
+    "objectCd": "LK",
+    "objectDsc": "SRI LANKA"
+  },
+  {
+    "objectCd": "SH",
+    "objectDsc": "ST. HELENA"
+  },
+  {
+    "objectCd": "PM",
+    "objectDsc": "ST. PIERRE & MIQUELON"
+  },
+  {
+    "objectCd": "SD",
+    "objectDsc": "SUDAN"
+  },
+  {
+    "objectCd": "SR",
+    "objectDsc": "SURINAME"
+  },
+  {
+    "objectCd": "SJ",
+    "objectDsc": "SVALBARD & JAN MAYEN ISLANDS"
+  },
+  {
+    "objectCd": "SZ",
+    "objectDsc": "SWAZILAND"
+  },
+  {
+    "objectCd": "SE",
+    "objectDsc": "SWEDEN"
+  },
+  {
+    "objectCd": "CH",
+    "objectDsc": "SWITZERLAND"
+  },
+  {
+    "objectCd": "SY",
+    "objectDsc": "SYRIAN ARAB REPUBLIC"
+  },
+  {
+    "objectCd": "TW",
+    "objectDsc": "TAIWAN"
+  },
+  {
+    "objectCd": "TJ",
+    "objectDsc": "TAJIKISTAN"
+  },
+  {
+    "objectCd": "TZ",
+    "objectDsc": "TANZANIA"
+  },
+  {
+    "objectCd": "TH",
+    "objectDsc": "THAILAND"
+  },
+  {
+    "objectCd": "TG",
+    "objectDsc": "TOGO"
+  },
+  {
+    "objectCd": "TK",
+    "objectDsc": "TOKELAU"
+  },
+  {
+    "objectCd": "TO",
+    "objectDsc": "TONGA"
+  },
+  {
+    "objectCd": "TT",
+    "objectDsc": "TRINIDAD & TOBAGO"
+  },
+  {
+    "objectCd": "TN",
+    "objectDsc": "TUNISIA"
+  },
+  {
+    "objectCd": "TR",
+    "objectDsc": "TURKEY"
+  },
+  {
+    "objectCd": "TM",
+    "objectDsc": "TURKMENISTAN"
+  },
+  {
+    "objectCd": "TC",
+    "objectDsc": "TURKS & CAICOS ISLANDS"
+  },
+  {
+    "objectCd": "TV",
+    "objectDsc": "TUVALU"
+  },
+  {
+    "objectCd": "UG",
+    "objectDsc": "UGANDA"
+  },
+  {
+    "objectCd": "UA",
+    "objectDsc": "UKRAINE"
+  },
+  {
+    "objectCd": "AE",
+    "objectDsc": "UNITED ARAB EMIRATES"
+  },
+  {
+    "objectCd": "GB",
+    "objectDsc": "UNITED KINGDOM"
+  },
+  {
+    "objectCd": "US",
+    "objectDsc": "UNITED STATES"
+  },
+  {
+    "objectCd": "UM",
+    "objectDsc": "UNITED STATES MINOR OUTLYING ISLANDS"
+  },
+  {
+    "objectCd": "UY",
+    "objectDsc": "URUGUAY"
+  },
+  {
+    "objectCd": "UZ",
+    "objectDsc": "UZBEKISTAN"
+  },
+  {
+    "objectCd": "VU",
+    "objectDsc": "VANUATU"
+  },
+  {
+    "objectCd": "VA",
+    "objectDsc": "VATICAN CITY"
+  },
+  {
+    "objectCd": "VE",
+    "objectDsc": "VENEZUELA"
+  },
+  {
+    "objectCd": "VN",
+    "objectDsc": "VIET NAM"
+  },
+  {
+    "objectCd": "VG",
+    "objectDsc": "VIRGIN ISLANDS (BRITISH)"
+  },
+  {
+    "objectCd": "VI",
+    "objectDsc": "VIRGIN ISLANDS (U.S.)"
+  },
+  {
+    "objectCd": "WF",
+    "objectDsc": "WALLIS & FUTUNA ISLANDS"
+  },
+  {
+    "objectCd": "EH",
+    "objectDsc": "WESTERN SAHARA"
+  },
+  {
+    "objectCd": "YE",
+    "objectDsc": "YEMEN"
+  },
+  {
+    "objectCd": "YU",
+    "objectDsc": "YUGOSLAVIA"
+  },
+  {
+    "objectCd": "ZR",
+    "objectDsc": "ZAIRE"
+  },
+  {
+    "objectCd": "ZM",
+    "objectDsc": "ZAMBIA"
+  },
+  {
+    "objectCd": "ZW",
+    "objectDsc": "ZIMBABWE"
+  }
 ]
