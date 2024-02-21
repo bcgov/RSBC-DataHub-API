@@ -16,12 +16,6 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-
-            <script type="text/javascript" src="https://<bcgov-header-footer-service-host>/v2/gov/"></script>
-            <script type="text/javascript">
-                unippear(headerContainer: '#wrapper', showSearch: true, showMenu: true);
-            </script>
-
             <body>
                 <StoreProvider>
                     <ThemeRegistry>

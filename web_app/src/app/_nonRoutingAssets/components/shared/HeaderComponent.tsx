@@ -20,17 +20,9 @@ export default async function Header() {
                 <Image src={bcgovlogo} alt="gov bc logo" width={205} height={42} />
               </a>
             </div>
-            <div >
-              <Button>Search</Button>
-              <form>
-                <input type="search" placeholder="Search" />
-                <Button button-style="search-inline">Search</Button>
-              </form>
-            </div>
           </div>
         </div>
       </div>
-      <div></div>
     </>
   );
 }
