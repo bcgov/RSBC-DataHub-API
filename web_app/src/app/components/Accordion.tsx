@@ -1,9 +1,8 @@
 import MUIAccordion, { AccordionProps } from '@mui/material/Accordion';
-import AccordionActions from '@mui/material/AccordionActions';
 import MUIAccordionSummary, { AccordionSummaryProps } from '@mui/material/AccordionSummary';
 import MUIAccordionDetails from '@mui/material/AccordionDetails';
 import styled from '@emotion/styled';
-import { KeyboardArrowRight, Label } from '@mui/icons-material';
+import { KeyboardArrowRight } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
 import  React, { useState, ReactNode } from 'react';
 

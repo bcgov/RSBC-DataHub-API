@@ -1,19 +1,8 @@
 ﻿'use client'
 import { FormEvent, useState } from 'react';
 import Image from 'next/image';
-
-import HelpRoundedIcon from '@mui/icons-material/HelpRounded';
-import Button from '@mui/material/Button';
-import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
-import Typography from '@mui/material/Typography';
-import styled from '@emotion/styled';
-import { createContext } from 'react'
-import TextField from '@mui/material/TextField';
-import InputLabel from '@mui/material/InputLabel';
-import Popover, { PopoverProps } from '@mui/material/Popover';
 import CustomAccordion from '../components/Accordion';
 import Step1 from './steps/step1';
-
 export default function Page() {
     async function onSubmit(event: FormEvent<HTMLFormElement>){
         event.preventDefault()
@@ -25,16 +14,9 @@ export default function Page() {
         })
 
     const data = await response.json()
-
-}
-    
-    
-    const [containerEl, setContainerEl] = useState(null);    
-
-    const open = Boolean(containerEl);
-    const id = open ? "simple-popover" : undefined;
-
-    return <form onSubmit={onSubmit }>
+        console.log(data);
+    }
+    return <form onSubmit={onSubmit}>
         <div id="formContent"><div id="topicTemplate" className="template container">
             <h1 className="header1" style={{ fontSize: '2.074em', paddingLeft: '25px', fontFamily: "'BC Sans', 'Noto Sans',  Arial, sans-serif", fontWeight: '600', color:'rgb(49,49,50)' }}>Notice of Driving Prohibition Application for Review</h1>
         <div className="formContent">

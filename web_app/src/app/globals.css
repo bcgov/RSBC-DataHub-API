@@ -167,36 +167,13 @@ h4 {
     font-size: 30px;
     margin-top: 0.75em;
 }
-/*h1 {
-    font-size: 2.074em;
-    margin-top: 0;
-    color: #313132;
-    font-weight: 600;
-    line-height: 1.2em;
-    margin-bottom: 0.57em;
-}
 
-h2 {
-    text-decoration: none;
-    color: red; 
-    display: table-cell;
-    min-height: 36px;
-    white-space: normal;
-    text-align: inherit;
-    text-decoration: underline;
-    font-size: inherit;
-    padding: 0 0 2px 0;
-    cursor: pointer;
-    font-family: "BC Sans", "Noto Sans", Verdana, Arial, sans-serif;
-    font-weight: normal;
-    line-height: 20px;
-}*/
 input[type=number] {
     -moz-appearance: textfield;
 }
 
 .header1 {
-    font-family: 'BC Sans', 'Noto Sans', Arial, 'sans serif';
+    font-family: 'BC Sans', 'Noto Sans', 'Arial', 'sans serif';
     background-color: #f1f1f1;
     color: #313132;
     font-size: 16px;

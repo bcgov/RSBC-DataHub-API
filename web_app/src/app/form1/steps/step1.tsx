@@ -7,13 +7,9 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import React, { useState, memo, Children  } from 'react';
-import { Today } from '@mui/icons-material';
-import { FC } from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { Unstable_NumberInput as NumberInput } from '@mui/base/Unstable_NumberInput';
+import React, { useState,  } from 'react';
 
-interface step1Data {
+interface StepData1 {
     controlProhibitionNumber: string;
     controlIsUl: boolean;
     controlIsIrp: boolean;
@@ -59,14 +55,14 @@ const Step1 = () => {
     };
 
     const dateChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-        //setDateOfService(e.target.value);
+        console.log(e.target.value);
     };
     
     let validControlProhibitionNumber = true;
 
     const validateField = (event: React.FocusEvent<HTMLInputElement>) => {
         console.log("hi");
-        if (controlProhibitionNumber !== "" && !controlProhibitionNumber.match("^(00|21|30|40).\d{6}$")) {
+        if (controlProhibitionNumber !== "" && !controlProhibitionNumber.match("^(00|21|30|40).d{6}$")) {
             validControlProhibitionNumber = true;
             if (controlProhibitionNumber.indexOf("30") == 0) {
                 setControlIsUl(true);
@@ -109,12 +105,6 @@ const Step1 = () => {
         }
     }
 
-    let validateLicenseSeized = () => {
-        return false
-    }
-
-
-
     return (<CustomAccordion title="Step 1: Enter Prohibition Information"
         content={
             <div>                  
@@ -153,7 +143,7 @@ const Step1 = () => {
                                 height={180}
                                 alt="Info" />
                         }
-                        error={validateLicenseSeized()}
+                        error={ false}
                         errorText="hi error"
                     >
                     <div className="row">

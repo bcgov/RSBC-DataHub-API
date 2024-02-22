@@ -1,21 +1,18 @@
-import React, { ReactNode, useRef, useState, ReactElement, memo } from 'react';
+import React, {  useRef, useState } from 'react';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'; 
 import CloseIcon from '@mui/icons-material/Close';
-import { Box, Popover, IconButton, Typography, InputAdornment, Grid, Tooltip } from '@mui/material';
-import { display } from '@mui/system';
+import { Box,  IconButton, Typography,  Grid, Tooltip } from '@mui/material';
 
 interface FormFieldProps {
-    id: string;
-    labelText: string;
-    placeholder?: string;
-    //inputElementId: string;
-    //inputElement:() => ReactElement;
-    helperText?: string;
-    tooltipTitle: string,
-    tooltipContent: React.ReactNode;
-    children: React.ReactNode;
-    error: boolean;
-    errorText: string;
+    readonly id: string;
+    readonly labelText: string;
+    readonly placeholder?: string;
+    readonly helperText?: string;
+    readonly tooltipTitle: string,
+    readonly tooltipContent: React.ReactNode;
+    readonly children: React.ReactNode;
+    readonly error: boolean;
+    readonly errorText: string;
 };
 
 export function FormField({
@@ -23,8 +20,6 @@ export function FormField({
     labelText,
     placeholder,
     helperText,
-    //inputElementId,
-    //inputElement,
     tooltipTitle,
     tooltipContent,
     children,
@@ -112,5 +107,4 @@ const styles = {
             </Box>
         );
     }
-
-//export default memo(FormField);
+    
