@@ -1,5 +1,5 @@
 ﻿'use client'
-import { FormEvent, useState } from 'react';
+import { FormEvent } from 'react';
 import Image from 'next/image';
 import CustomAccordion from '../components/Accordion';
 import Step1 from './steps/step1';
