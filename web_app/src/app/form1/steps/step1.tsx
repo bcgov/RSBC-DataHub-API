@@ -59,7 +59,7 @@ const Step1 = () => {
     };
 
     const dateChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setDateOfService(e.target.value);
+        //setDateOfService(e.target.value);
     };
     
     let validControlProhibitionNumber = true;
