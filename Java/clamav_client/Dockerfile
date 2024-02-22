@@ -12,13 +12,15 @@ WORKDIR /tmp/
 	
 RUN mvn clean package -Dmaven.test.skip=true
 
-FROM eclipse-temurin:17-jre-alpine
+FROM openjdk:17-jdk-slim
+
+RUN useradd -m appuser
+
+USER appuser
 
 EXPOSE 8080
 
 WORKDIR /app/
-
-RUN chgrp -R 0 /app && chmod -R g=u /app
 
 COPY --from=maven_build /tmp/target/clamav_client-0.0.1-SNAPSHOT.jar /app/clamav_client-0.0.1-SNAPSHOT.jar
 
