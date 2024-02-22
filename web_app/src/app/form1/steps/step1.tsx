@@ -2,7 +2,7 @@ import CustomAccordion from '../../components/Accordion';
 import Image from 'next/image';
 import { FormField } from '../../components/FormField';
 import TextField from '@mui/material/TextField';
-import { Radio, RadioGroup, FormControlLabel, Typography, Step } from '@mui/material';
+import { Radio, RadioGroup, FormControlLabel, Typography } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -31,9 +31,9 @@ const Step1 = () => {
     let [controlIsAdp, setControlIsAdp] = useState(false);
     let [prohibitionNumberClean, setProhibitionNumberClean] = useState('');
     let [licenseSiezed, setLicenseSiezed] = useState('');
-    let [licenseNoSurrendered, setLicenseNoSurrendered] = useState('');
-    let [licenseLostOrStolen, setLicenseLostOrStolen] = useState('');
-    let [licenseNotIssued, setLicenseNotIssued] = useState('');
+    let [licenseNoSurrendered, setLicenseNoSurrendered] = useState(false);
+    let [licenseLostOrStolen, setLicenseLostOrStolen] = useState(false);
+    let [licenseNotIssued, setLicenseNotIssued] = useState(false);
     let [irpProhibitionTypeLength, setIrpProhibitionTypeLength] = useState('');
     let [dateOfService, setDateOfService] = React.useState<Dayjs | null>(dayjs(Date.now()));
     let [prohibitionNumberErrorText, setProhibitionNumberErrorText] = useState('');
@@ -46,17 +46,39 @@ const Step1 = () => {
 
     const licenseSiezedChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         setLicenseSiezed(e.target.value);
-        if (licenseSiezed !== "licenseSeized")
-            setShowNoLicenseDiv(true);
+        switch(licenseSiezed) {
+            case "licenseSeized": setShowNoLicenseDiv(false);
+                setLicenseNoSurrendered(false);
+                setLicenseLostOrStolen(false);
+                setLicenseNotIssued(false);
+                break;
+            case "licenseNoSurrendered": setShowNoLicenseDiv(true);
+                setLicenseNoSurrendered(true);
+                setLicenseLostOrStolen(false);
+                setLicenseNotIssued(false);
+                break;
+            case "licenseLostOrStolen": setShowNoLicenseDiv(true);
+                setLicenseNoSurrendered(false);
+                setLicenseLostOrStolen(true);
+                setLicenseNotIssued(false);
+                break;
+            case "licenseNotIssued": setShowNoLicenseDiv(true);
+                setLicenseNoSurrendered(false);
+                setLicenseLostOrStolen(false);
+                setLicenseNotIssued(true);
+                break;
+            default: break;
+        }
+        console.log(licenseNoSurrendered);
+        console.log(licenseLostOrStolen);
+        console.log(setLicenseLostOrStolen);
+        console.log(licenseNotIssued);
+       
     };
 
     const irpProhibitionTypeLengthChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         setIrpProhibitionTypeLength(e.target.value);
-    };
-
-    const dateChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.value);
-    };
+    };  
     
     let validControlProhibitionNumber = true;
 
