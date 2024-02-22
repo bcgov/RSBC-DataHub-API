@@ -1,0 +1,59 @@
+openapi: 3.0.0
+info:
+  version: 0.0.1
+  title: clamav-client
+  description: clamAV client api
+servers:
+  - url: "http://localhost:8080"
+tags:
+  - name: ClamAV client
+paths:
+  /avscan:
+    post:
+      summary: Anti Virus Scan
+      tags:
+        - scanner
+      description: Anti Virus Scan
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/avscan_request"
+      responses:
+        '202':
+          description: 'Received'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/avscan_response"
+  /ping:
+   get:
+      summary: Utility operation to check back end connectivity
+      tags: 
+        - utility
+      description: Utility operation to check back end connectivity
+      responses:
+        '200':
+          description: Ping Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/avping_response"
+components:
+  schemas:
+    avscan_request:
+      type: object
+      required:
+        - document
+      properties:
+        document: 
+           type: string
+           format: byte
+           description: 'A base64 encoded representation of the file to scan'  
+    avscan_response:
+      type: object
+      properties:
+        acknowledge:
+          type: boolean
+    avping_response:
+      type: string
