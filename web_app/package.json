@@ -9,6 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@bcgov/bc-sans": "^2.1.0",
+    "@stencil/core": "^4.12.2",
+    "@tanstack/react-query": "^5.20.5",
+    "jotai": "^2.6.4",
+    "jotai-devtools": "^0.7.1",
     "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
