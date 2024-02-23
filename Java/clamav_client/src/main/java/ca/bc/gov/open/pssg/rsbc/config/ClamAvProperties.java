@@ -2,7 +2,7 @@ package ca.bc.gov.open.pssg.rsbc.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "bcgov.clamav")
+@ConfigurationProperties(prefix = "clamav.client")
 public class ClamAvProperties {
 
     private String host = "localhost";
