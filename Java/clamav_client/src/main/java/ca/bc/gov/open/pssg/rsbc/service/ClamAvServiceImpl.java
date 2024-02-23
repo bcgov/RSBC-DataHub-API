@@ -33,7 +33,7 @@ public class ClamAvServiceImpl implements ClamAvService {
             throw new ClamAvException("Could not scan the input", e);
         }
         if (!ClamAVClient.isCleanReply(reply)) {
-            logger.error("Virus Detected using ClamAv server");
+            logger.error("Virus Detected in uploaded document.");
             throw new VirusDetectedException("ClamAv has detected a virus in the input");
         }
 
