@@ -38,18 +38,7 @@ public class SecurityConfiguration {
 	                            SessionCreationPolicy.STATELESS);
 	                });
 
-	        http.csrf(csrf -> csrf.disable())
-	                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-	                        .requestMatchers(new AntPathRequestMatcher("api/v1/auth/**")
-	                                , new AntPathRequestMatcher("/v3/api-docs/**")
-	                                , new AntPathRequestMatcher("/swagger-resources*")
-	                                , new AntPathRequestMatcher("/swagger-ui.html")
-	                                , new AntPathRequestMatcher("/swagger-ui/**")
-	                                , new AntPathRequestMatcher("/webjars/**")
-	                                , new AntPathRequestMatcher("/swagger-config/**")
-	                                , new AntPathRequestMatcher("/actuator/**")
-	                        ).permitAll().anyRequest().authenticated()
-	                );
+	        http.csrf(csrf -> csrf.disable());
 
 	        http.httpBasic(
 	                httpSecurityHttpBasicConfigurer -> {
