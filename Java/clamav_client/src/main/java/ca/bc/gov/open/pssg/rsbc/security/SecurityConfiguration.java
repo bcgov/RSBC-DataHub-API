@@ -13,7 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import ca.bc.gov.open.pssg.rsbc.config.ClamAvProperties;
 import ca.bc.gov.open.pssg.rsbc.exception.AuthenticationFailureHandler;

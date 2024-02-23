@@ -20,21 +20,16 @@ import jakarta.servlet.http.HttpServletResponse;
  */
 @Component
 public class AuthenticationFailureHandler extends BasicAuthenticationEntryPoint  {
-	
-	private final Logger logger = LoggerFactory.getLogger(AuthenticationFailureHandler.class);
 
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException {
 		
-		//String errorMessage = "401 - Unauthorized entry, please authenticate";
-		//JSONObject json = new JSONObject();
-		//json.put("status_message", errorMessage);
-		
-		logger.debug("API basic authentication failed");
-		response.setContentType(AppConstants.JSON_CONTENT);
+		String errorMessage = "Unauthorized entry, please authenticate";
+		response.setContentType(AppConstants.PLAIN_TEXT_CONTENT);
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-		//response.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		response.getOutputStream().print(errorMessage);
 	}
 	
 	@Override
