@@ -1,0 +1,13 @@
+spring:
+  mail:
+    host: ${JMT_SPRING_EMAIL_HOST:mailhog}
+    port: ${JMT_SPRING_EMAIL_PORT:8025}
+
+management:
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    root: INFO
