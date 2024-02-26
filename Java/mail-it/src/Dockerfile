@@ -9,24 +9,18 @@ ARG SKIP_TESTS=false
 
 ENV SERVICE_NAME=${SERVICE_NAME}
 
-# install skywalking agent
-# WORKDIR /skywalking
+COPY mail-it/pom.xml /tmp/
 
-# RUN wget https://mirror.its.dal.ca/apache/skywalking/$SW_V/apache-skywalking-apm-$SW_V.tar.gz && \
-#     tar -xzvf apache-skywalking-apm-$SW_V.tar.gz && \
-#     rm apache-skywalking-apm-$SW_V.tar.gz
+COPY mail-it/mail-it-api.yaml /tmp/
 
-# add spring boot plugin
-# RUN mv apache-skywalking-apm-bin/agent/optional-plugins/apm-spring-annotation-plugin-8.4.0.jar apache-skywalking-apm-bin/agent/plugins/apm-spring-annotation-plugin-8.4.0.jar
+COPY mail-it/src /tmp/src/
 
-WORKDIR /
-
-COPY . .
+WORKDIR /tmp/
 
 RUN mvn -B clean install \
         -P ${MVN_PROFILE} \
         -Dmaven.test.skip=${SKIP_TESTS} \
-        -f mail-it/pom.xml
+        -f pom.xml
 
 #############################################################################################
 
