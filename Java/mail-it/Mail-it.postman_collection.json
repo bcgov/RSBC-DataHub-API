@@ -1,0 +1,97 @@
+{
+	"info": {
+		"_postman_id": "b591c048-78da-475e-98b8-a95625d60bda",
+		"name": "Mail-it",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14174366"
+	},
+	"item": [
+		{
+			"name": "Send Mail",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"from\": {\r\n        \"email\":\"shaun.millar@gov.bc.ca\"\r\n     },\r\n    \"to\":[{\r\n        \"email\":\"shaun.millar@gov.bc.ca\"\r\n    }, {\r\n        \"email\":\"shaunmillaris@gmail.com\"\r\n    }],\r\n    \"subject\":\"Test from jag-mail-it\",\r\n    \"content\": {\r\n        \"type\": \"text/plain\",\r\n        \"value\":\"This is some content\" \r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/mail/send",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mail",
+						"send"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send Mail (w/attachment)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"from\": {\r\n        \"email\":\"shaun.millar@gov.bc.ca\"\r\n     },\r\n    \"to\":[{\r\n        \"email\":\"shaun.millar@gov.bc.ca\"\r\n    }, {\r\n        \"email\":\"shaunmillaris@gmail.com\"\r\n    }],\r\n    \"subject\":\"Test attachment from jag-mail-it\",\r\n    \"content\": {\r\n        \"type\": \"text/plain\",\r\n        \"value\":\"This is a body message\" \r\n    },\r\n    \"attachment\" : [{\r\n        \"filename\":\"simple.pdf\",\r\n        \"filecontents\":\"JVBERi0xLjAKMSAwIG9iajw8L1R5cGUvQ2F0YWxvZy9QYWdlcyAyIDAgUj4+ZW5kb2JqIDIgMCBvYmo8PC9UeXBlL1BhZ2VzL0tpZHNbMyAwIFJdL0NvdW50IDE+PmVuZG9iaiAzIDAgb2JqPDwvVHlwZS9QYWdlL01lZGlhQm94WzAgMCAzIDNdPj5lbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMCA2NTUzNSBmCjAwMDAwMDAwMTAgMDAwMDAgbgowMDAwMDAwMDUzIDAwMDAwIG4KMDAwMDAwMDEwMiAwMDAwMCBuCnRyYWlsZXI8PC9TaXplIDQvUm9vdCAxIDAgUj4+CnN0YXJ0eHJlZgoxNDkKJUVPRg==\"\r\n    }, {\r\n        \"filename\":\"simple2.pdf\",\r\n        \"filecontents\":\"JVBERi0xLjAKMSAwIG9iajw8L1R5cGUvQ2F0YWxvZy9QYWdlcyAyIDAgUj4+ZW5kb2JqIDIgMCBvYmo8PC9UeXBlL1BhZ2VzL0tpZHNbMyAwIFJdL0NvdW50IDE+PmVuZG9iaiAzIDAgb2JqPDwvVHlwZS9QYWdlL01lZGlhQm94WzAgMCAzIDNdPj5lbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMCA2NTUzNSBmCjAwMDAwMDAwMTAgMDAwMDAgbgowMDAwMDAwMDUzIDAwMDAwIG4KMDAwMDAwMDEwMiAwMDAwMCBuCnRyYWlsZXI8PC9TaXplIDQvUm9vdCAxIDAgUj4+CnN0YXJ0eHJlZgoxNDkKJUVPRg==\"\r\n    }]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/mail/send",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mail",
+						"send"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send Mail fails one attachments",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"from\": {\r\n        \"email\":\"shaun.millar@gov.bc.ca\"\r\n     },\r\n    \"to\":[{\r\n        \"email\":\"shaun.millar@gov.bc.ca\"\r\n    }, {\r\n        \"email\":\"shaunmillaris@gmail.com\"\r\n    }],\r\n    \"subject\":\"Test attachment from jag-mail-it\",\r\n    \"content\": {\r\n        \"type\": \"text/plain\",\r\n        \"value\":\"This is a body message\" \r\n    },\r\n    \"attachment\" : [{\r\n        \"filename\":\"simple.pdf\",\r\n        \"filecontents\":\"JVBERi0xLjAKMSAwIG9iajw8L1R5cGUvQ2F0YWxvZy9QYWdlcyAyIDAgUj4+ZW5kb2JqIDIgMCBvYmo8PC9UeXBlL1BhZ2VzL0tpZHNbMyAwIFJdL0NvdW50IDE+PmVuZG9iaiAzIDAgb2JqPDwvVHlwZS9QYWdlL01lZGlhQm94WzAgMCAzIDNdPj5lbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMCA2NTUzNSBmCjAwMDAwMDAwMTAgMDAwMDAgbgowMDAwMDAwMDUzIDAwMDAwIG4KMDAwMDAwMDEwMiAwMDAwMCBuCnRyYWlsZXI8PC9TaXplIDQvUm9vdCAxIDAgUj4+CnN0YXJ0eHJlZgoxNDkKJUVPRg==\"\r\n    }, {\r\n        \"filename\":\"simple2.pdf\",\r\n        \"filecontents\":\"JVBERi0xLjAKMSAwIG9iajw8L1R5cGUvQ2F0YWxvZy9QYWdlcyAyIDAgUj4+ZW5kb2JqIDIgMCBvYmo8PC9UeXBlL1BhZ2VzL0tpZHNbMyAwIFJdL0NvdW50IDE+PmVuZG9iaiAzIDAgb2JqPDwvVHlwZS9QYWdlL01lZGlhQm94WzadfasfAgMCAzIDNdPj5lbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMCA2NTUzNSBmCjAwMDAwMDAwMTAgMDAwMDAgbgowMDAwMDAwMDUzIDAwMDAwIG4KMDAwMDAwMDEwMiAwMDAwMCBuCnRyYWlsZXI8PC9TaXplIDQvUm9vdCAxIDAgUj4+CnN0YXJ0eHJlZgoxNDkKJUVPRg==\"\r\n    }]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/mail/send",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mail",
+						"send"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
