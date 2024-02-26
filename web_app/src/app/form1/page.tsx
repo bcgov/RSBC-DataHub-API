@@ -2,7 +2,12 @@
 import { FormEvent } from 'react';
 import Image from 'next/image';
 import CustomAccordion from '../components/Accordion';
-import Step1 from './steps/step1';
+import Step1 from './steps/Step1';
+import Step2 from './steps/Step2';
+import Step3 from './steps/Step3';
+import Step4 from './steps/Step4';
+
+
 export default function Page() {
     async function onSubmit(event: FormEvent<HTMLFormElement>){
         event.preventDefault()
@@ -16,9 +21,8 @@ export default function Page() {
     const data = await response.json()
         console.log(data);
     }
-    return <form onSubmit={onSubmit}>
-        <div id="formContent"><div id="topicTemplate" className="template container">
-            <h1 className="header1" style={{ fontSize: '2.074em', paddingLeft: '25px', fontFamily: "'BC Sans', 'Noto Sans',  Arial, sans-serif", fontWeight: '600', color:'rgb(49,49,50)' }}>Notice of Driving Prohibition Application for Review</h1>
+    return <div>
+            <h1 className="header1">Notice of Driving Prohibition Application for Review</h1>
         <div className="formContent">
         <CustomAccordion title="Before You Begin:"
                 content={<div style={{ fontSize: "16px", fontFamily:"'BC Sans', 'Noto Sans',  Arial, sans-serif"} }><p>When you see this symbol <Image
@@ -36,53 +40,20 @@ export default function Page() {
                     </ol>
                 <p>If you don&apos;t enter anything in the form for 15 minmutes, it may time out.</p> </div>} />
 
-                <Step1></Step1>
+
+            <CustomAccordion title="Step 1: Enter Prohibition Information"
+                content={<Step1></Step1>} />
 
       
 
         <CustomAccordion title="Step 2: Enter Applicant Information"
-            content={<div><p>When you see this symbol <Image
-                src="/./././assets/icons/info-icon.png"
-                width={15}
-                height={15}
-                alt="Info" />
-                &nbsp;click here for more information.
-            </p>
-                <p>Submit only <strong> 1 online application</strong> for your prohibition review.</p>
-                <p>You&apos;ll receive at least <strong> 2 emails</strong> when you submit the form:</p>
-                <p>1. A copy of your completed application, and</p>
-                <p>2. The next step in the application process.</p>
-                <p>If you don&apos;t enter anything in the form for 15 minmutes, it may time out.</p> </div>} />
+            content={<Step2></Step2>} />
 
         <CustomAccordion title="Step 3: Complete Review Information"
-            content={<div><p>When you see this symbol <Image
-                src="/./././assets/icons/info-icon.png"
-                width={15}
-                height={15}
-                alt="Info" />
-                &nbsp;click here for more information.
-            </p>
-                <p>Submit only <strong> 1 online application</strong> for your prohibition review.</p>
-                <p>You&apos;ll receive at least <strong> 2 emails</strong> when you submit the form:</p>
-                <p>1. A copy of your completed application, and</p>
-                <p>2. The next step in the application process.</p>
-                <p>If you don&apos;t enter anything in the form for 15 minmutes, it may time out.</p> </div>} />
+            content={<Step3></Step3>} />
 
         <CustomAccordion title="Step 4: Consent and Submit"
-            content={<div><p>When you see this symbol <Image
-                src="/./././assets/icons/info-icon.png"
-                width={15}
-                height={15}
-                alt="Info" />
-                &nbsp;click here for more information.
-            </p>
-                <p>Submit only <strong> 1 online application</strong> for your prohibition review.</p>
-                <p>You&apos;ll receive at least <strong> 2 emails</strong> when you submit the form:</p>
-                <p>1. A copy of your completed application, and</p>
-                <p>2. The next step in the application process.</p>
-                    <p>If you don&apos;t enter anything in the form for 15 minmutes, it may time out.</p> </div>} />   
+            content={<Step4> </Step4>} />   
         </div>
     </div >
-        </div>
-    </form>
 }
