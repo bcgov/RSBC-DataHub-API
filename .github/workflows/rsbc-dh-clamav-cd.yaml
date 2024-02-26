@@ -1,0 +1,25 @@
+name: rsbc-dh-claimav-cd
+
+on:
+   push:
+     branches:
+       - feature/apr-43
+#  pull_request:
+#    types: [opened, reopened, edited, synchronize]
+#    branches:
+#      - master
+#    paths:
+#      - python/*.py
+#      - python/common/**
+#      - python/form_handler/**
+#      - .github/workflows/form_handler-cd.yml
+#      - trigger.txt
+
+#jobs:
+#  CD:
+#    uses: ./.github/workflows/cd-workflow.yml
+#    with:
+#      DOCKER_CONTEXT: Java
+#      DOCKER_FILE: Java/Dockerfile
+#      DOCKER_IMAGE_NAME: rsbc-dh-clamav-client
+#    secrets: inherit

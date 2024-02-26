@@ -1,0 +1,23 @@
+name: rsbc-dh-claimav-ci
+
+on:
+   push:
+     branches:
+       - feature/apr-43
+#  pull_request:
+#    types: [opened, reopened, edited, synchronize]
+#    branches-ignore:
+#      - master
+#    paths:
+#      - python/*.py
+#      - python/common/**
+#      - python/ingestor/**
+#      - .github/workflows/ingestor-ci.yml
+#      - trigger.txt
+
+jobs:
+  CI:
+    uses: ./.github/workflows/ci-workflow.yml
+    with:
+      DOCKER_CONTEXT: Java
+      DOCKER_FILE: Java/Dockerfile
