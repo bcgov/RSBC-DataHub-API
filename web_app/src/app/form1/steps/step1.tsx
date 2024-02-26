@@ -1,4 +1,3 @@
-import CustomAccordion from '../../components/Accordion';
 import Image from 'next/image';
 import { FormField } from '../../components/FormField';
 import TextField from '@mui/material/TextField';
@@ -7,8 +6,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import React, { useEffect, useState, useRef } from 'react';
-import { grid } from '@mui/system';
+import React, {  useState,  } from 'react';
 
 interface StepData1 {
     controlProhibitionNumber: string;
@@ -56,6 +54,7 @@ const Step1: React.FC = () => {
             setControlIsIrp(controlProhibitionNumber.startsWith('21') || controlProhibitionNumber.startsWith('40'));
             setControlIsAdp(controlProhibitionNumber.startsWith('00'));
             setProhibitionNumberClean(controlProhibitionNumber.replace('-', ''));
+            console.log(prohibitionNumberClean);
         } else {
             setProhibitionNumberErrorText(controlProhibitionNumber ? "Enter first 8 numbers with the dash. Don't enter the digit in the grey box. Prohibition numbers start with 00, 21, 30 or 40." : "Enter prohibition number found on the notice.");
             setValidProhibitionNumber(false);
@@ -74,6 +73,9 @@ const Step1: React.FC = () => {
         setLicenseNoSurrendered(value === 'licenseNoSurrendered');
         setLicenseLostOrStolen(value === 'licenseLostOrStolen');
         setLicenseNotIssued(value === 'licenseNotIssued' || value === 'licenseOutOfProvince');
+        console.log(licenseNoSurrendered);
+        console.log(licenseLostOrStolen);
+        console.log(licenseNotIssued);
     };
 
     const irpProhibitionTypeLengthChanged = (e: React.ChangeEvent<HTMLInputElement>) => {

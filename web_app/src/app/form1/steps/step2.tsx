@@ -42,53 +42,7 @@ const Step2: React.FC = () => {
             [name]: { ...stepData2[name], value, error: false, errorMessage: '' },
         });
     }   
-
-
-    const validateField = (e: React.FocusEvent<HTMLInputElement>) => {
-        console.log(e);
-        const { name, value } = e.target;
-        switch (name) {
-            case 'firstName':
-                if (stepData2.firstName.value === "" || stepData2.firstName.value === null || stepData2.firstName.value === undefined) {
-                    setStepData2({
-                       
-                    });
-                    stepData2.firstName.error = true;
-                    stepData2.firstName.errorMessage = "Please enter your first name.";
-                }
-                else if (stepData2.firstName.value !== "" && stepData2.firstName.value.length > 35) {
-                    stepData2.firstName.error = true;
-                    stepData2.firstName.errorMessage = "Text is too long";
-                }
-                break;
-            
-            case 'lastName':
-                if (stepData2.lastName.value === "" || stepData2.lastName.value === null || stepData2.lastName.value === undefined) {
-                    stepData2.lastName.error = true;
-                    stepData2.lastName.errorMessage = "Please enter your first name.";
-                }
-                else if (stepData2.firstName.value !== "" && stepData2.lastName.value.length > 35) {
-                    stepData2.lastName.error = true;
-                    stepData2.lastName.errorMessage = "Text is too long";
-                }
-                break;
-            
-            case 'phNumber':
-                if (stepData2.lastName.value === "" || stepData2.lastName.value === null || stepData2.lastName.value === undefined) {
-                    stepData2.lastName.error = true;
-                    stepData2.lastName.errorMessage = "Please enter your first name.";
-                }
-                else if (stepData2.firstName.value !== "" && stepData2.lastName.value.length > 35) {
-                    stepData2.lastName.error = true;
-                    stepData2.lastName.errorMessage = "Text is too long";
-                }
-                break;
-
-            default: break;
-        }              
         
-    };
-    
     return (
             <div style={{ display: 'grid' }}>
                
@@ -160,7 +114,7 @@ const Step2: React.FC = () => {
                                 labelText="Attach signed consent from driver"
                                 tooltipTitle="Attach signed consent from driver"
                                 tooltipContent={<p>Please upload signed consent from the driver, authorizing you to send and receive documents on their behalf.</p>}>
-                                <input type="file" name="file" onChange={(e) => setFile(e.target.files?.[0])} />
+                                <input type="file" name="file" onChange={(e) => { setFile(e.target.files?.[0]); console.log(file?.size) } }  />
                             </FormField>
                         </Grid>
                         <Grid item xs={5} sx={{ padding: "1px" }}>
@@ -180,7 +134,7 @@ const Step2: React.FC = () => {
             >
                 <TextField id="first-name-field" style={{ paddingLeft: '5px' }} inputProps={{maxLength:'35'} }
                     variant="outlined" name='firstName'
-                    value={stepData2.firstName.value} onChange={handleChange} onBlur={validateField}>
+                    value={stepData2.firstName.value} onChange={handleChange} >
                 </TextField>
             </FormField>
             <FormField
@@ -191,7 +145,7 @@ const Step2: React.FC = () => {
             >
                 <TextField id="last-name-field" style={{ paddingLeft: '5px' }}
                     variant="outlined" name='lastName'
-                    value={stepData2.lastName.value} onChange={handleChange} onBlur={validateField}>
+                    value={stepData2.lastName.value} onChange={handleChange} >
                 </TextField>
             </FormField>
             <FormField
@@ -200,7 +154,7 @@ const Step2: React.FC = () => {
                 tooltipTitle="Phone Number"
                 tooltipContent={<p>Please provide an area code and phone number where RoadSafetyBC can contact you.</p>}
             >
-                <TextField id="ph-number-field" style={{ paddingLeft: '5px' }} placeholder="(555) 555-5555" onBlur={validateField}
+                <TextField id="ph-number-field" style={{ paddingLeft: '5px' }} placeholder="(555) 555-5555" 
                     variant="outlined" name='phNumber'
                     value={stepData2.phNumber.value} onChange={handleChange} InputProps={{
                         endAdornment: (
@@ -216,7 +170,7 @@ const Step2: React.FC = () => {
                 tooltipTitle="Email Address"
                 tooltipContent={<p>Please enter a valid email address to receive emails with your next steps.</p>}
             >
-                <TextField id="email-address-field" style={{ paddingLeft: '5px' }} onBlur={validateField}
+                <TextField id="email-address-field" style={{ paddingLeft: '5px' }} 
                     variant="outlined" name='emailAddress'
                     value={stepData2.emailAddress.value} onChange={handleChange}>
                 </TextField>
@@ -227,7 +181,7 @@ const Step2: React.FC = () => {
                 tooltipTitle="Confirm Email Address"
                 tooltipContent={<p>Please confirm the email address entered above.</p>}
             >
-                <TextField id="cnf-email-address-field" style={{ paddingLeft: '5px' }} onBlur={validateField}
+                <TextField id="cnf-email-address-field" style={{ paddingLeft: '5px' }} 
                     variant="outlined" name='cnfEmailAddress'
                     value={stepData2.cnfEmailAddress.value} onChange={handleChange}>
                 </TextField>
@@ -242,7 +196,7 @@ const Step2: React.FC = () => {
                     alt="Info" style={{ marginLeft: "10px", marginBottom: '20px', height: 'auto', width: 'auto' }}
                 />}
             >
-                <TextField id="bc-driver-license-no-field" style={{ paddingLeft: '5px' }} onBlur={validateField}
+                <TextField id="bc-driver-license-no-field" style={{ paddingLeft: '5px' }} 
                     variant="outlined" name='bcDriverLicenseNo'
                     value={stepData2.bcDriverLicenseNo.value} onChange={handleChange}>
                 </TextField>
@@ -255,7 +209,7 @@ const Step2: React.FC = () => {
                 tooltipTitle="Address"
                 tooltipContent={<p>Please enter a street address.</p>}
             >
-                <TextField id="address-field" style={{ paddingLeft: '5px' }} onBlur={validateField}
+                <TextField id="address-field" style={{ paddingLeft: '5px' }} 
                     variant="outlined" name='address'
                     value={stepData2.address.value} onChange={handleChange}>
                 </TextField>
@@ -266,7 +220,7 @@ const Step2: React.FC = () => {
                 tooltipTitle="City/Town"
                 tooltipContent={<p>Please enter the city.</p>}
             >
-                <TextField id="city-field" style={{ paddingLeft: '5px' }} onBlur={validateField}
+                <TextField id="city-field" style={{ paddingLeft: '5px' }} 
                     variant="outlined" name='city'
                     value={stepData2.city.value} onChange={handleChange}>
                 </TextField>
@@ -277,7 +231,7 @@ const Step2: React.FC = () => {
                 tooltipTitle="Province"
                 tooltipContent={<p>Please select a province</p>}
             >
-                <Select labelId="province" id="province-field" name="province" value={stepData2.province.value} onBlur={validateField} >
+                <Select labelId="province" id="province-field" name="province" value={stepData2.province.value}  >
                     <MenuItem value="BritishColumbia"> British Columbia</MenuItem>
                     <MenuItem value="Alberta">Alberts</MenuItem>
                     <MenuItem value="Saskatchewan"> Saskatchewan </MenuItem>
@@ -300,7 +254,7 @@ const Step2: React.FC = () => {
                 tooltipTitle="Postal Code"
                 tooltipContent={<p>Please enter a valid postal code in either format A1A 1A1 or A1A1A1.</p>}
             >
-                <TextField id="postal-code-field" style={{ paddingLeft: '5px' }} onBlur={validateField}
+                <TextField id="postal-code-field" style={{ paddingLeft: '5px' }} 
                     variant="outlined" name='postalCode'
                     value={stepData2.postalCode.value} onChange={handleChange}>
                 </TextField>

@@ -2,7 +2,6 @@ import React from 'react';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 import { Box, IconButton, Typography, Grid, Tooltip } from '@mui/material';
-import styled from '@emotion/styled';
 
 interface FormFieldProps {
     readonly id: string;
