@@ -29,6 +29,10 @@ RUN mvn -B clean install \
 #############################################################################################
 FROM openjdk:17-jdk-slim
 
+RUN useradd -m appuser
+
+USER appuser
+
 # ARG MVN_PROFILES
 ARG SERVICE_NAME=mail-it
 
