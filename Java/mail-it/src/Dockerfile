@@ -1,7 +1,7 @@
 #############################################################################################
 ###              Stage where Docker is building spring boot app using maven               ###
 #############################################################################################
-FROM maven:3.8.3-openjdk-17 as build
+FROM maven:3.8.3-openjdk-17 AS build
 
 ARG MVN_PROFILE=default
 ARG SERVICE_NAME=mail-it
