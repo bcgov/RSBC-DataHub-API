@@ -32,11 +32,8 @@ FROM openjdk:17-jdk-slim
 # ARG MVN_PROFILES
 ARG SERVICE_NAME=mail-it
 
-# COPY --from=build ./skywalking/apache-skywalking-apm-bin/agent /app/agent
+COPY --from=build /tmp/target/${SERVICE_NAME}-*.jar /app/service.jar
 
-COPY --from=build ./${SERVICE_NAME}/target/${SERVICE_NAME}-*.jar /app/service.jar
-
-# CMD ["java", "-javaagent:/app/agent/skywalking-agent.jar", "-jar", "/app/service.jar"]
 CMD ["java", "-jar", "/app/service.jar"]
 
 #############################################################################################
