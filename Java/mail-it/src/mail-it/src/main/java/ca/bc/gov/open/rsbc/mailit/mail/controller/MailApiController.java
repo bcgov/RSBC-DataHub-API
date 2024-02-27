@@ -92,8 +92,13 @@ public class MailApiController implements MailApi {
                 // the attachment objects as an array. (see jag-mail-it-api.yaml)
                 // if there is error with an attachment, it will throw exception
                 for (EmailAttachment emailAttachment : emailRequest.getAttachment()) {
-                    helper.addAttachment(emailAttachment.getFilename(),
-                            new ByteArrayDataSource(emailAttachment.getFilecontents(), "application/octet-stream"));
+                    if (emailAttachment.getFilename().endsWith(".pdf")) {
+                        helper.addAttachment(emailAttachment.getFilename(),
+                                new ByteArrayDataSource(emailAttachment.getFilecontents(), "application/pdf"));
+                    } else {
+                        helper.addAttachment(emailAttachment.getFilename(),
+                                new ByteArrayDataSource(emailAttachment.getFilecontents(), "application/octet-stream"));
+                    }
                 }
 
                 emailSender.send(message);

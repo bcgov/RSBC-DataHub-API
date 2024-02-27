@@ -1,7 +1,7 @@
 spring:
   mail:
-    host: ${JMT_SPRING_EMAIL_HOST:mailhog}
-    port: ${JMT_SPRING_EMAIL_PORT:8025}
+    host: ${EMAIL_HOST:apps.smtp.gov.bc.ca}
+    port: ${EMAIL_PORT:25}
 
 management:
   endpoint:
