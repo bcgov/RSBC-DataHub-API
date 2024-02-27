@@ -1,17 +1,13 @@
-﻿import React from 'react';
+import React from 'react';
 
 
 
-
-const Step3: React.FC = () => {
-   
+const Step3: React.FC = () => {    
 
     return (
-        <div style={{ display: 'grid' }}>
+        <div style={{ display: 'grid' }}>   
+        </div>
 
-          
-
-            </div>
     );
 };
 export default Step3;

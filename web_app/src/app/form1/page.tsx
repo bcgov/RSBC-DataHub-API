@@ -24,8 +24,8 @@ export default function Page() {
     return <div>
             <h1 className="header1">Notice of Driving Prohibition Application for Review</h1>
         <div className="formContent">
-        <CustomAccordion title="Before You Begin:"
-                content={<div style={{ fontSize: "16px", fontFamily:"'BC Sans', 'Noto Sans',  Arial, sans-serif"} }><p>When you see this symbol <Image
+            <CustomAccordion title="Before You Begin:"
+                content={<div style={{ fontSize: "16px", fontFamily: "'BC Sans', 'Noto Sans',  Arial, sans-serif", paddingLeft: '10px', lineHeight:'2.5' }}><p>When you see this symbol <Image
                 src="/./././assets/icons/info-icon.png"
                 width={15}
                 height={15}
@@ -34,7 +34,7 @@ export default function Page() {
         </p>
         <p>Submit only <strong> 1 online application</strong> for your prohibition review.</p>
                     <p>You&apos;ll receive at least <strong> 2 emails</strong> when you submit the form:</p>
-        <ol>
+                    <ol style={{ paddingLeft:'30px' }}>
         <li>A copy of your completed application, and</li>
                         <li>The next step in the application process.</li>
                     </ol>

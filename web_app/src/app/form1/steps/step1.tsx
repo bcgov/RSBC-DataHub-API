@@ -162,7 +162,7 @@ const Step1: React.FC = () => {
                     </Grid>
                     <Grid item xs={7} sx={{ padding: "1px" }}>
                         {
-                            showNoLicenseDiv === true &&
+                        (controlIsIrp === true || controlIsAdp === true) && showNoLicenseDiv === true &&
                             <div className="noLicense" >
                                 <div>
                                     <div style={{ display: 'inline-grid' }}>
