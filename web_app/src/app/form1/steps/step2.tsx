@@ -5,43 +5,74 @@ import { Radio, RadioGroup, FormControlLabel, Grid, MenuItem, Select, InputAdorn
 import CallIcon from '@mui/icons-material/Call';
 import React, { useState, } from 'react';
 
-type InputState = {
-    value: string;
-    error: boolean;
-    errorMessage: string;
+interface stepData2 {
+    applicantRoleSelect: string;
+    applicantRole: string;
+    representedByLawyer: string;
+    firstName: string;
+    lastName: string;
+    phNumber: string;
+    emailAddress: string;
+    cnfEmailAddress: string;
+    bcDriverLicenseNo: string;
+    address: string;
+    city: string;
+    province: string;
+    postalCode: string;
 }
 
-const formData : Record<string, InputState> = {
-    applicantRoleSelect: { value: '', error: false, errorMessage: '' },
-    applicantRole: { value: '', error: false, errorMessage: '' },
-    representedByLawyer: { value: '', error: false, errorMessage: '' },
-    firstName: { value: '', error: false, errorMessage: '' },
-    lastName: { value: '', error: false, errorMessage: '' },
-    phNumber: { value: '', error: false, errorMessage: '' },
-    emailAddress: { value: '', error: false, errorMessage: '' },
-    cnfEmailAddress: { value: '', error: false, errorMessage: '' },
-    bcDriverLicenseNo: { value: '', error: false, errorMessage: '' },
-    address: { value: '', error: false, errorMessage: '' },
-    city: { value: '', error: false, errorMessage: '' },
-    province: { value: '', error: false, errorMessage: '' },
-    postalCode: { value: '', error: false, errorMessage: '' },
-    }
+interface stepData2Errors {
+    applicantRoleSelect?: string;
+    applicantRole?: string;
+    representedByLawyer?: string;
+    firstName?: string;
+    lastName?: string;
+    phNumber?: string;
+    emailAddress?: string;
+    cnfEmailAddress?: string;
+    bcDriverLicenseNo?: string;
+    address?: string;
+    city?: string;
+    province?: string;
+    postalCode?: string;
+}
 
 const Step2: React.FC = () => {
 
-    const [stepData2, setStepData2] = useState<Record<string, InputState>>(formData);
+    const [stepData2, setStepData2] = useState<stepData2>({
+        applicantRoleSelect: '',
+        applicantRole: '',
+        representedByLawyer: '',
+        firstName: '',
+        lastName: '',
+        phNumber: '',
+        emailAddress: '',
+        cnfEmailAddress: '',
+        bcDriverLicenseNo: '',
+        address: '',
+        city: '',
+        province: '',
+        postalCode: '',
+    });
 
-    const [file, setFile] = useState<File>();
-   
+    const [stepData2Errors, setStepData2Errors] = useState<stepData2Errors>({});
+
+    const [file, setFile] = useState<File>();   
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         console.log(e.target);
         const { name, value } = e.target;
-        setStepData2({
-            ...stepData2,
-            [name]: { ...stepData2[name], value, error: false, errorMessage: '' },
-        });
+        setStepData2({ ...stepData2, [name]: value });
     }   
+
+    const validate = (): boolean => {
+        let errors: stepData2Errors = {};
+        let isValid = true;
+
+        if (!stepData2.firstName) {
+            stepData2Errors.firstName = "Please enter the applicant's first name";
+        }
+    }
         
     return (
             <div style={{ display: 'grid' }}>
