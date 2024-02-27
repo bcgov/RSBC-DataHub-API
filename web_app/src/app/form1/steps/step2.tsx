@@ -21,21 +21,6 @@ interface Step2Data {
     postalCode: string;
 }
 
-interface Step2DataErrors {
-    applicantRoleSelect?: string;
-    applicantRole?: string;
-    representedByLawyer?: string;
-    firstName?: string;
-    lastName?: string;
-    phNumber?: string;
-    emailAddress?: string;
-    cnfEmailAddress?: string;
-    bcDriverLicenseNo?: string;
-    address?: string;
-    city?: string;
-    province?: string;
-    postalCode?: string;
-}
 
 const Step2: React.FC = () => {
 
@@ -55,25 +40,13 @@ const Step2: React.FC = () => {
         postalCode: '',
     });
 
-    const [step2DataErrors, setStep2DataErrors] = useState<Step2DataErrors>({});
-
-    const [file, setFile] = useState<File>();   
+   const [file, setFile] = useState<File>();   
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         console.log(e.target);
         const { name, value } = e.target;
         setStep2Data({ ...step2Data, [name]: value });
-    }   
-
-    const validate = (): boolean => {
-        let errors: Step2DataErrors = {};
-        let isValid = true;
-
-        if (!step2Data.firstName) {
-            step2DataErrors.firstName = "Please enter the applicant's first name";
-        }
-        return isValid;
-    }
+    }    
         
     return (
             <div style={{ display: 'grid' }}>
@@ -161,8 +134,6 @@ const Step2: React.FC = () => {
                 labelText="First Name"
                 tooltipTitle="First Name"
                 tooltipContent={<p>Please enter your first name.</p>}
-                error={!step2DataErrors.firstName}
-                errorText={step2DataErrors.firstName }
             >
                 <TextField id="first-name-field" style={{ paddingLeft: '5px' }} inputProps={{maxLength:'35'} }
                     variant="outlined" name='firstName'
