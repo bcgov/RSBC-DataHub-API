@@ -5,7 +5,7 @@ import { Radio, RadioGroup, FormControlLabel, Grid, MenuItem, Select, InputAdorn
 import CallIcon from '@mui/icons-material/Call';
 import React, { useState, } from 'react';
 
-interface stepData2 {
+interface Step2Data {
     applicantRoleSelect: string;
     applicantRole: string;
     representedByLawyer: string;
@@ -21,7 +21,7 @@ interface stepData2 {
     postalCode: string;
 }
 
-interface stepData2Errors {
+interface Step2DataErrors {
     applicantRoleSelect?: string;
     applicantRole?: string;
     representedByLawyer?: string;
@@ -39,7 +39,7 @@ interface stepData2Errors {
 
 const Step2: React.FC = () => {
 
-    const [stepData2, setStepData2] = useState<stepData2>({
+    const [step2Data, setStep2Data] = useState<Step2Data>({
         applicantRoleSelect: '',
         applicantRole: '',
         representedByLawyer: '',
@@ -55,23 +55,24 @@ const Step2: React.FC = () => {
         postalCode: '',
     });
 
-    const [stepData2Errors, setStepData2Errors] = useState<stepData2Errors>({});
+    const [step2DataErrors, setStep2DataErrors] = useState<Step2DataErrors>({});
 
     const [file, setFile] = useState<File>();   
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         console.log(e.target);
         const { name, value } = e.target;
-        setStepData2({ ...stepData2, [name]: value });
+        setStep2Data({ ...step2Data, [name]: value });
     }   
 
     const validate = (): boolean => {
-        let errors: stepData2Errors = {};
+        let errors: Step2DataErrors = {};
         let isValid = true;
 
-        if (!stepData2.firstName) {
-            stepData2Errors.firstName = "Please enter the applicant's first name";
+        if (!step2Data.firstName) {
+            step2DataErrors.firstName = "Please enter the applicant's first name";
         }
+        return isValid;
     }
         
     return (
@@ -84,7 +85,7 @@ const Step2: React.FC = () => {
                 tooltipContent={<p>You can submit your application, or a lawyer or person you authorize can do it on your behalf.</p>}
             >
                 <RadioGroup id="applicant-role-select-field"
-                    name="radio-buttons-group" value={stepData2.applicantRole} onChange={handleChange}
+                    name="radio-buttons-group" value={step2Data.applicantRole} onChange={handleChange}
                 >
                     <FormControlLabel value="driver" control={<Radio sx={{
                         '&.Mui-checked': {
@@ -103,7 +104,7 @@ const Step2: React.FC = () => {
                     }} />} label="Authorized Person" />                                       
                 </RadioGroup>
             </FormField>
-            {stepData2.applicantRoleSelect.value === 'driver' &&
+            {step2Data.applicantRoleSelect === 'driver' &&
                 <FormField
                     id="represented-by-lawyer"
                     labelText="Are you represented by a lawyer?"
@@ -112,7 +113,7 @@ const Step2: React.FC = () => {
                 >
                     <RadioGroup id="represented-by-lawyer-field"
                         aria-labelledby="demo-radio-buttons-group-label"
-                        name="represented-by-lawyer" value={stepData2.representedByLawyer} onChange={handleChange}
+                        name="represented-by-lawyer" value={step2Data.representedByLawyer} onChange={handleChange}
                     >
                         <FormControlLabel value="yes" control={<Radio sx={{
                             '&.Mui-checked': {
@@ -128,7 +129,7 @@ const Step2: React.FC = () => {
                 </FormField>
             }
             {
-               // (stepData2.applicantRoleSelect === 'lawOffice' || stepData2.applicantRoleSelect === 'authorizedPerson') &&
+               // (step2Data.applicantRoleSelect === 'lawOffice' || step2Data.applicantRoleSelect === 'authorizedPerson') &&
                 <div id="attachConsentDiv">
                     <Grid container spacing={2} >
                         <Grid item xs={7} sx={{ padding: "1px" }}>
@@ -153,19 +154,19 @@ const Step2: React.FC = () => {
                     </Grid>
                 </div>
             }
-            {stepData2.applicantRoleSelect.value === 'lawyer' && <strong> Lawyer Information:</strong>}
-            {stepData2.applicantRoleSelect.value === 'advocate' && <strong> Authorized person Information:</strong>}
+            {step2Data.applicantRoleSelect === 'lawyer' && <strong> Lawyer Information:</strong>}
+            {step2Data.applicantRoleSelect === 'advocate' && <strong> Authorized person Information:</strong>}
             <FormField
                 id="first-name"
                 labelText="First Name"
                 tooltipTitle="First Name"
                 tooltipContent={<p>Please enter your first name.</p>}
-                error={stepData2.firstName.error}
-                errorText={stepData2.firstName.errorMessage }
+                error={!step2DataErrors.firstName}
+                errorText={step2DataErrors.firstName }
             >
                 <TextField id="first-name-field" style={{ paddingLeft: '5px' }} inputProps={{maxLength:'35'} }
                     variant="outlined" name='firstName'
-                    value={stepData2.firstName.value} onChange={handleChange} >
+                    value={step2Data.firstName} onChange={handleChange} >
                 </TextField>
             </FormField>
             <FormField
@@ -176,7 +177,7 @@ const Step2: React.FC = () => {
             >
                 <TextField id="last-name-field" style={{ paddingLeft: '5px' }}
                     variant="outlined" name='lastName'
-                    value={stepData2.lastName.value} onChange={handleChange} >
+                    value={step2Data.lastName} onChange={handleChange} >
                 </TextField>
             </FormField>
             <FormField
@@ -187,7 +188,7 @@ const Step2: React.FC = () => {
             >
                 <TextField id="ph-number-field" style={{ paddingLeft: '5px' }} placeholder="(555) 555-5555" 
                     variant="outlined" name='phNumber'
-                    value={stepData2.phNumber.value} onChange={handleChange} InputProps={{
+                    value={step2Data.phNumber} onChange={handleChange} InputProps={{
                         endAdornment: (
                             <InputAdornment position="end">
                             <CallIcon />
@@ -203,7 +204,7 @@ const Step2: React.FC = () => {
             >
                 <TextField id="email-address-field" style={{ paddingLeft: '5px' }} 
                     variant="outlined" name='emailAddress'
-                    value={stepData2.emailAddress.value} onChange={handleChange}>
+                    value={step2Data.emailAddress} onChange={handleChange}>
                 </TextField>
             </FormField>
             <FormField
@@ -214,7 +215,7 @@ const Step2: React.FC = () => {
             >
                 <TextField id="cnf-email-address-field" style={{ paddingLeft: '5px' }} 
                     variant="outlined" name='cnfEmailAddress'
-                    value={stepData2.cnfEmailAddress.value} onChange={handleChange}>
+                    value={step2Data.cnfEmailAddress} onChange={handleChange}>
                 </TextField>
             </FormField>
             <FormField
@@ -229,7 +230,7 @@ const Step2: React.FC = () => {
             >
                 <TextField id="bc-driver-license-no-field" style={{ paddingLeft: '5px' }} 
                     variant="outlined" name='bcDriverLicenseNo'
-                    value={stepData2.bcDriverLicenseNo.value} onChange={handleChange}>
+                    value={step2Data.bcDriverLicenseNo} onChange={handleChange}>
                 </TextField>
             </FormField>
             <p>Address where you want the decision mailed:</p>
@@ -242,7 +243,7 @@ const Step2: React.FC = () => {
             >
                 <TextField id="address-field" style={{ paddingLeft: '5px' }} 
                     variant="outlined" name='address'
-                    value={stepData2.address.value} onChange={handleChange}>
+                    value={step2Data.address} onChange={handleChange}>
                 </TextField>
             </FormField>
             <FormField
@@ -253,7 +254,7 @@ const Step2: React.FC = () => {
             >
                 <TextField id="city-field" style={{ paddingLeft: '5px' }} 
                     variant="outlined" name='city'
-                    value={stepData2.city.value} onChange={handleChange}>
+                    value={step2Data.city} onChange={handleChange}>
                 </TextField>
             </FormField>
             <FormField
@@ -262,7 +263,7 @@ const Step2: React.FC = () => {
                 tooltipTitle="Province"
                 tooltipContent={<p>Please select a province</p>}
             >
-                <Select labelId="province" id="province-field" name="province" value={stepData2.province.value}  >
+                <Select labelId="province" id="province-field" name="province" value={step2Data.province}  >
                     <MenuItem value="BritishColumbia"> British Columbia</MenuItem>
                     <MenuItem value="Alberta">Alberts</MenuItem>
                     <MenuItem value="Saskatchewan"> Saskatchewan </MenuItem>
@@ -287,7 +288,7 @@ const Step2: React.FC = () => {
             >
                 <TextField id="postal-code-field" style={{ paddingLeft: '5px' }} 
                     variant="outlined" name='postalCode'
-                    value={stepData2.postalCode.value} onChange={handleChange}>
+                    value={step2Data.postalCode} onChange={handleChange}>
                 </TextField>
             </FormField>
             </div>

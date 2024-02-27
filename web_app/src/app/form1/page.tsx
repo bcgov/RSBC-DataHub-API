@@ -2,10 +2,8 @@
 import { FormEvent } from 'react';
 import Image from 'next/image';
 import CustomAccordion from '../components/Accordion';
-import Step1 from './steps/Step1';
-import Step2 from './steps/Step2';
-import Step3 from './steps/Step3';
-import Step4 from './steps/Step4';
+import Step1 from './steps/step1';
+import Step2 from './steps/step2';
 
 
 export default function Page() {
@@ -49,11 +47,7 @@ export default function Page() {
         <CustomAccordion title="Step 2: Enter Applicant Information"
             content={<Step2></Step2>} />
 
-        <CustomAccordion title="Step 3: Complete Review Information"
-            content={<Step3></Step3>} />
-
-        <CustomAccordion title="Step 4: Consent and Submit"
-            content={<Step4> </Step4>} />   
+        
         </div>
     </div >
 }
