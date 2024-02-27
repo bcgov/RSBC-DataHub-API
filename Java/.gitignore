@@ -25,3 +25,8 @@ hs_err_pid*
 ### VS Code ###
 .vs
 .vshistory
+
+.fake
+
+#generated java code
+target/
