@@ -15,11 +15,11 @@ on:
 #      - .github/workflows/form_handler-cd.yml
 #      - trigger.txt
 
-#jobs:
-#  CD:
-#    uses: ./.github/workflows/cd-workflow.yml
-#    with:
-#      DOCKER_CONTEXT: Java
-#      DOCKER_FILE: Java/Dockerfile
-#      DOCKER_IMAGE_NAME: rsbc-dh-clamav-client
-#    secrets: inherit
+jobs:
+  CD:
+    uses: ./.github/workflows/cd-workflow.yml
+    with:
+      DOCKER_CONTEXT: Java/clamav_client
+      DOCKER_FILE: Java/clamav_client/Dockerfile
+      DOCKER_IMAGE_NAME: rsbc-dh-clamav-client
+    secrets: inherit

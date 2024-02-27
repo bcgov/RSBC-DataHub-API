@@ -19,5 +19,5 @@ jobs:
   CI:
     uses: ./.github/workflows/ci-workflow.yml
     with:
-      DOCKER_CONTEXT: Java
-      DOCKER_FILE: Java/Dockerfile
+      DOCKER_CONTEXT: Java/clamav_client
+      DOCKER_FILE: Java/clamav_client/Dockerfile
