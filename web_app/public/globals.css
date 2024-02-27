@@ -88,28 +88,16 @@ body {
     color: #313132;
     font-size: 16px;
     line-height: 1.5em;
+    height: 100%;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
 
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
   }
 }
+
 
 h1, h2, h3, h4, h5 {
     color: #313132;
@@ -146,7 +134,7 @@ h4 {
 
 .template {
     font-family: 'BC Sans', 'Noto Sans', Verdana, Arial, sans-serif !important;
-    padding-top: 126px;
+    padding-top: 50px;
     background-position: right 126px;
     min-height: 100%;
     background-color: #fff;
@@ -176,8 +164,10 @@ input[type=number] {
     font-family: 'BC Sans', 'Noto Sans', Verdana, Arial, sans-serif !important;
     background-color: #f1f1f1;
     color: #313132;
-    font-size: 16px;
+    font-size: 2.074em;
     line-height: 1.5em;
+    padding-left:25px;
+    font-weight:600;
 }
 
 .header2 {
@@ -186,4 +176,13 @@ input[type=number] {
     color: #313132 !important;
     font-family: 'BC Sans', 'Noto Sans', Verdana, Arial, sans-serif !important;
     font-weight: 700 !important;
+}
+
+.toolTip{
+    color:red;
+    background-color:red
+}
+
+.Tooltip{
+    color:red;
 }
