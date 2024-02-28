@@ -1,0 +1,28 @@
+version: "3.7"
+services:
+
+  mail-it:
+    build:
+      context: ./src
+    ports:
+      - "8080:8080"
+    environment:
+      - JMT_SPRING_EMAIL_HOST=mailhog
+      - JMT_SPRING_EMAIL_PORT=1025
+    networks:
+        - mail-it-net
+
+  #############################################################################################
+  ###                                 MAIL HOG                                              ###
+  #############################################################################################
+  mailhog:
+    image: "mailhog/mailhog"
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+    networks:
+        - mail-it-net
+
+networks:
+  mail-it-net:
+    driver: "bridge"

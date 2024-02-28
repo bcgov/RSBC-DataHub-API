@@ -1,0 +1,17 @@
+spring:
+  mail:
+    host: ${EMAIL_HOST:mailhog}
+    port: ${EMAIL_PORT:8025}
+
+management:
+  endpoint:
+    health:
+      show-details: always
+
+mail-auth:
+  user: ${USER}
+  password: ${PASSWORD}
+
+logging:
+  level:
+    root: INFO

@@ -1,0 +1,106 @@
+openapi: 3.0.0
+info:
+  version: 0.0.1
+  title: mail-it
+  description: RSBC Mail it api
+servers:
+  - url: "http://localhost:8080"
+tags:
+  - name: mail-send
+paths:
+  "/mail/send":
+    security:
+      - basicAuth: [ ]
+    post:
+      operationId: mailSend
+      summary: Mail Send
+      tags:
+        - mail-send
+      description: Sending email
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/email_request"
+      responses:
+        '202':
+          description: 'Received'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/email_response"
+components:
+  schemas:
+    email_object:
+      title: Email Object
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+          description: The name of the person to whom you are sending an email.
+      required:
+        - email
+    email_request:
+      type: object
+      required:
+        - from
+        - to
+        - subject
+        - content
+      properties:
+        from:
+          $ref: '#/components/schemas/email_object'
+        to:
+          type: array
+          items:
+            $ref: '#/components/schemas/email_object'
+        cc:
+          type: array
+          items:
+            $ref: '#/components/schemas/email_object'
+        subject:
+          type: string
+          description: 'The global, or “message level”, subject of your email. This may be overridden by personalizations[x].subject.'
+          minLength: 1
+        content:
+          type: object
+          description: 'An array in which you may specify the content of your email. You can include multiple mime types of content, but you must specify at least one mime type. To include more than one mime type, simply add another object to the array containing the `type` and `value` parameters.'
+          properties:
+            type:
+              type: string
+              description: 'The mime type of the content you are including in your email. For example, “text/plain” or “text/html”.'
+              minLength: 1
+            value:
+              type: string
+              description: The actual content of the specified mime type that you are including in your email.
+              minLength: 1
+          required:
+            - type
+            - value
+        attachment:
+          type: array
+          items:
+            $ref: '#/components/schemas/email_attachment'
+          description: 'An array of one or more email attachments'
+    email_attachment:
+      type: object
+      properties:
+        filename:
+          type: string
+          description: 'Name of the attached file'
+        filecontents:
+          type: string
+          format: byte
+          description: 'A base64 encoded string of the file content'
+      required:
+        - filename
+        - filecontents
+    email_response:
+      type: object
+      properties:
+        acknowledge:
+          type: boolean
+
