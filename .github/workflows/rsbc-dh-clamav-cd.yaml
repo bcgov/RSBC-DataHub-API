@@ -21,5 +21,5 @@ jobs:
     with:
       DOCKER_CONTEXT: Java/clamav_client
       DOCKER_FILE: Java/clamav_client/Dockerfile
-      DOCKER_IMAGE_NAME: rsbc-dh-clamav-client
+      DOCKER_IMAGE_NAME: dh-clamav-client
     secrets: inherit
