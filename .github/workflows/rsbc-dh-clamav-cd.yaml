@@ -1,19 +1,13 @@
 name: rsbc-dh-claimav-cd
 
 on:
-   push:
-     branches:
-       - feature/apr-43
-#  pull_request:
-#    types: [opened, reopened, edited, synchronize]
-#    branches:
-#      - master
-#    paths:
-#      - python/*.py
-#      - python/common/**
-#      - python/form_handler/**
-#      - .github/workflows/form_handler-cd.yml
-#      - trigger.txt
+  pull_request:
+    types: [opened, reopened, edited, synchronize]
+    branches:
+      - master
+    paths:
+      - Java/clamav_client/**
+      - trigger.txt
 
 jobs:
   CD:

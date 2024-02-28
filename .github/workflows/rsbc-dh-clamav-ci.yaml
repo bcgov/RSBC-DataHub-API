@@ -1,19 +1,13 @@
 name: rsbc-dh-claimav-ci
 
 on:
-   push:
-     branches:
-       - feature/apr-43
-#  pull_request:
-#    types: [opened, reopened, edited, synchronize]
-#    branches-ignore:
-#      - master
-#    paths:
-#      - python/*.py
-#      - python/common/**
-#      - python/ingestor/**
-#      - .github/workflows/ingestor-ci.yml
-#      - trigger.txt
+  pull_request:
+    types: [opened, reopened, edited, synchronize]
+    branches-ignore:
+      - master
+    paths:
+      - Java/clamav_client/**
+      - trigger.txt
 
 jobs:
   CI:
