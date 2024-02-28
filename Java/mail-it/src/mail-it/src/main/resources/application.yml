@@ -8,6 +8,10 @@ management:
     health:
       show-details: always
 
+mail-auth:
+  user: ${USER}
+  password: ${PASSWORD}
+
 logging:
   level:
     root: INFO

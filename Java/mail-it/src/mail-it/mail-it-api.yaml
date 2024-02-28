@@ -9,6 +9,8 @@ tags:
   - name: mail-send
 paths:
   "/mail/send":
+    security:
+      - basicAuth: [ ]
     post:
       operationId: mailSend
       summary: Mail Send
@@ -78,24 +80,24 @@ components:
           required:
             - type
             - value
-        attachment: 
+        attachment:
           type: array
-          items: 
-            $ref: '#/components/schemas/email_attachment' 
+          items:
+            $ref: '#/components/schemas/email_attachment'
           description: 'An array of one or more email attachments'
     email_attachment:
       type: object
       properties:
         filename:
-           type: string
-           description: 'Name of the attached file'
+          type: string
+          description: 'Name of the attached file'
         filecontents:
-           type: string
-           format: byte
-           description: 'A base64 encoded string of the file content'
+          type: string
+          format: byte
+          description: 'A base64 encoded string of the file content'
       required:
-         - filename
-         - filecontents      
+        - filename
+        - filecontents
     email_response:
       type: object
       properties:

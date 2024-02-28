@@ -19,10 +19,10 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 public class MailConfig {
 
-    @Value("${mail-auth.clientSecret}")
-    private String clientSecret;
-    @Value("${mail-auth.clientId}")
-    private String clientId;
+    @Value("${mail-auth.password}")
+    private String password;
+    @Value("${mail-auth.user}")
+    private String user;
 
     @Bean
     public SimpleMessageMapper simpleMessageMapper() {
@@ -40,9 +40,9 @@ public class MailConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         UserDetails userDetails = User.builder()
-                .username(clientId)
+                .username(user)
                 //no in-memory password encoder is required
-                .password("{noop}" + clientSecret)
+                .password("{noop}" + password)
                 .build();
 
         return new InMemoryUserDetailsManager(userDetails);
