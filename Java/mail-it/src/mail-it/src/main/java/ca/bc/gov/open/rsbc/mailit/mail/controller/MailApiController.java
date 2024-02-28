@@ -37,19 +37,19 @@ public class MailApiController implements MailApi {
     }
 
     @Override
-    public ResponseEntity<EmailResponse> mailSend(EmailRequest emailRequest) {
+    public ResponseEntity mailSend(EmailRequest emailRequest) {
         logger.info("Beginning mail send");
 
         Optional<EmailObject> emailObject = emailRequest.getTo().stream().findFirst();
         EmailResponse emailResponse = new EmailResponse();
 
-        if (!emailObject.isPresent()) {
+        if (emailObject.isEmpty()) {
             logger.error("No value present in email object");
             return new ResponseEntity("error", HttpStatus.BAD_REQUEST);
         }
 
         // No attachmentment(s)
-        if (null == emailRequest.getAttachment() || emailRequest.getAttachment().size() == 0) {
+        if (null == emailRequest.getAttachment() || emailRequest.getAttachment().isEmpty()) {
 
             logger.info("Mapping message");
             SimpleMailMessage simpleMailMessage = simpleMessageMapper.toSimpleMailMessage(emailRequest);
@@ -108,7 +108,8 @@ public class MailApiController implements MailApi {
                 return ResponseEntity.accepted().body(emailResponse);
 
             } catch (MessagingException e) {
-                e.printStackTrace();
+                logger.error("Failed to send email: ", e);
+
                 return new ResponseEntity("error", HttpStatus.BAD_REQUEST);
             }
         }
