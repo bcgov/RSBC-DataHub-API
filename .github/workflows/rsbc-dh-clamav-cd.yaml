@@ -1,13 +1,17 @@
 name: rsbc-dh-claimav-cd
 
 on:
-  pull_request:
-    types: [opened, reopened, edited, synchronize]
+  push:
     branches:
-      - master
-    paths:
-      - Java/clamav_client/**
-      - trigger.txt
+      - feature/apr-43
+
+ # pull_request:
+ #   types: [opened, reopened, edited, synchronize]
+ #   branches:
+ #     - master
+ #   paths:
+ #     - Java/clamav_client/**
+ #     - trigger.txt
 
 jobs:
   CD:
