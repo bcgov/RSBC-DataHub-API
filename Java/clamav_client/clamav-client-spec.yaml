@@ -55,5 +55,7 @@ components:
       properties:
         acknowledge:
           type: boolean
+        detail: 
+          type: string  
     avping_response:
       type: string

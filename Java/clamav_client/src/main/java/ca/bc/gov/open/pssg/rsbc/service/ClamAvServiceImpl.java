@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 import ca.bc.gov.open.pssg.rsbc.config.AutoConfiguration;
 import ca.bc.gov.open.pssg.rsbc.exception.VirusDetectedException;
@@ -27,14 +28,20 @@ public class ClamAvServiceImpl implements ClamAvService {
 
         byte[] reply;
         try {
-            reply = clamAVClient.scan(inputStream);
+            reply = clamAVClient.scan(inputStream); 
         } catch (IOException e) {
             logger.error("ClamAv Service could not scan the input");
             throw new ClamAvException("Could not scan the input", e);
         }
         if (!ClamAVClient.isCleanReply(reply)) {
-            logger.error("Virus Detected in uploaded document.");
-            throw new VirusDetectedException("ClamAv has detected a virus in the input");
+        	String detail; 
+        		try { 
+        			detail = new String(reply, StandardCharsets.US_ASCII).trim();
+        		} catch (Exception e) {
+        			detail = "Unable to read ClamAV response"; 
+        		}
+            logger.error("Virus Detected in uploaded document. Details: " + detail);
+            throw new VirusDetectedException("Virus Detected in uploaded document.", detail);
         }
 
     }

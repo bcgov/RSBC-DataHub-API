@@ -1,5 +1,5 @@
 import React from 'react';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import HelpIcon from '@mui/icons-material/Help';
 import CloseIcon from '@mui/icons-material/Close';
 import { Box, IconButton, Typography, Grid, Tooltip } from '@mui/material';
 
@@ -45,7 +45,7 @@ export function FormField({
         <Box sx={{ display: 'block', alignItems: 'left', flexDirection: 'column', gap: 1, ml: '5px', width: 'auto', mb: '30px' }}>
             <Box sx={{ display: 'flex', alignItems: 'left', width: 'auto' }}>
                 <IconButton size="small" onClick={handleTooltipOpen}>
-                    <InfoOutlinedIcon fontSize="small" />
+                    <HelpIcon fontSize="small" style={{ color: 'black', height:'16px', width:'16px' }} />
                 </IconButton>
                 <Typography variant='subtitle1' component="label" htmlFor={id + '-field'} sx={{ color: '#313132', fontSize: '16px', fontWeight: '700' }}>
                     {labelText}
@@ -96,7 +96,7 @@ export function FormField({
                     disableFocusListener
                     disableTouchListener
                 >
-                    <Box sx={{ display: 'table-cell', paddingLeft: '5px' }}>
+                    <Box sx={{ display: 'table-cell', paddingLeft: '2px' }}>
                         {children}
                         {error &&
                             <Typography variant="caption" sx={{ color: '#D8292F', fontWeight: '700', padding: '4px 0px 2px 0px', ml: '4px', fontSize: '16px', display: 'block' }}>
