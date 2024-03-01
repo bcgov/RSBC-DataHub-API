@@ -34,6 +34,7 @@ public class AvscanControllerImpl implements AvscanApi {
 			response.getBody().setAcknowledge(true);
 		} catch (VirusDetectedException e) {
 			response.getBody().setAcknowledge(false);
+			response.getBody().setDetail(e.getDetails());
 		}
 		
 		return response;
