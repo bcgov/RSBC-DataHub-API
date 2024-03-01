@@ -6,3 +6,6 @@ export function getInitials(name: string | null | undefined) {
 }
 
 export const validateRequired = (value: string | null | undefined) => !!value?.length;
+
+
+export const prohibitionNumberRegex = /^(00|21|30|40)-\d{6}$/;
