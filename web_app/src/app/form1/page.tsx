@@ -9,21 +9,15 @@ import Step4 from './steps/step4';
 import { Button, Grid } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowForward from '@mui/icons-material/ArrowForward';
-import { Step1Data, Step1DataErrors, Step2Data, Step2DataErrors } from '../interfaces'; 
+import { Step1Data, Step2Data, } from '../interfaces'; 
 
 export default function Page() {
-    async function onSubmit(event: FormEvent<HTMLFormElement>) {
-        event.preventDefault()
-
-        const formData = new FormData(event.currentTarget)
-        const response = await fetch('/api/submit', {
-            method: 'POST',
-            body: formData,
-        })
-
-        const data = await response.json()
-        console.log(data);
+  
+    const submitData = () => {
+        console.log(step1Data);
+        console.log(step2Data);
     }
+    
 
     function onClear(event: FormEvent<HTMLFormElement>) {
 
@@ -65,9 +59,9 @@ export default function Page() {
         setStep1Data(step1Data);
     };
 
-    const handleStep2Data = (step2Data: Step2Data) => {
-        console.log(step2Data);
+    const handleStep2Data = (step2Data: Step2Data) => {        
         setStep2Data(step2Data);
+        console.log(step2Data);
     };
 
     return (<div>
@@ -112,7 +106,7 @@ export default function Page() {
                     <Button variant="outlined" sx={{ cursor: 'pointer', color: '#003366', borderColor: '#003366', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }} startIcon={<CloseIcon sx={{ fontWeight: 'bold' }} />}>
                         Clear
                     </Button>
-                    <Button variant="contained" sx={{ borderColor: '#003366', backgroundColor: '#003366', color: 'white', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }} startIcon={<ArrowForward sx={{ fontWeight: 'bold' }} />}>
+                    <Button onClick={submitData} variant="contained" sx={{ borderColor: '#003366', backgroundColor: '#003366', color: 'white', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }} startIcon={<ArrowForward sx={{ fontWeight: 'bold' }} />}>
                         Send
                     </Button>
                 </Grid>

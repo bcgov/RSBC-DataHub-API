@@ -7,7 +7,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import React, {  useEffect, useState,  } from 'react';
-import { Step1Data, Step1DataErrors } from '../../interfaces';
+import { Step1Data, } from '../../interfaces';
 
 interface Props {
     step1DatatoSend: (data: Step1Data) => void;
@@ -75,7 +75,9 @@ const Step1: React.FC<Props> = ({ step1DatatoSend }) => {
             licenseSeized: value,
             licenseNoSurrendered: value === 'licenseNoSurrendered',
             licenseLostOrStolen: value === 'licenseLostOrStolen',
-            licenseNotIssued: value === 'licenseNotIssued' || value === 'licenseOutOfProvince',});
+            licenseNotIssued: value === 'licenseNotIssued' || value === 'licenseOutOfProvince',
+        });
+        setValidLicenseSeized(isLicenseSeized);
         setShowNoLicenseDiv(!isLicenseSeized);       
         step1DatatoSend(step1Data);
     };
@@ -87,7 +89,6 @@ const Step1: React.FC<Props> = ({ step1DatatoSend }) => {
 
     const dateOfServiceChanged = (val: Dayjs) => {
         setDateOfService(val);
-       // setStep1Data({ ...step1Data, dateOfService: val });
         step1DatatoSend(step1Data);
     };
 

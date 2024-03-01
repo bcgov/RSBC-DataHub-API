@@ -56,48 +56,86 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
         step2DatatoSend(step2Data);
     });
 
+    const handleFileUpload = (e:React.ChangeEvent<HTMLInputElement>) => {
+        setFile(e.target.files?.[0]);
+        console.log(file?.size);
+
+        const isValidFile = fetch('api/viruscsanner', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: file,
+        });
+        console.log(isValidFile);
+
+    }
+
     const validate = (fieldName: string, value: string) => {
         let errors: Step2DataErrors = { ...step2DataErrors };
 
-        const phNumberRegex = '^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$';
+        const phNumberRegex = '^(\\+\\d{1,2}\s?)?\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}$';
         const emailAddressRegex = '^[^@]*@[a-zA-Z0-9-]{2,20}\.[a-zA-Z-.]{2,20}[a-zA-Z]$';
-        const postalCodeRegex1 = '^[ABCEGHJ-NPRSTVXYabceghj-nprstvxy][0-9][ABCEGHJ-NPRSTV-Zabceghj-nprstv-z] [0-9][ABCEGHJ-NPRSTV-Zabceghj-nprstv-z][0-9]$';
-        const postalCodeRegex2 = '^[ABCEGHJ-NPRSTVXYabceghj-nprstvxy][0-9][ABCEGHJ-NPRSTV-Zabceghj-nprstv-z][0-9][ABCEGHJ-NPRSTV-Zabceghj-nprstv-z][0-9]$';
+        const postalCodeRegex1 = '^[ABCEGHJ-NPRSTVXYabceghj-nprstvxy]\\d[ABCEGHJ-NPRSTV-Zabceghj-nprstv-z] \\d[ABCEGHJ-NPRSTV-Zabceghj-nprstv-z]\\d$';
+        const postalCodeRegex2 = '^[ABCEGHJ-NPRSTVXYabceghj-nprstvxy]\\d[ABCEGHJ-NPRSTV-Zabceghj-nprstv-z]\\d[ABCEGHJ-NPRSTV-Zabceghj-nprstv-z]\\d$';
 
-        switch (fieldName) {
-            case 'applicantFirstName':
-                errors.applicantFirstName = value ? '' : "Please enter the applicant's first name.";
-                break;
-            case 'applicantLastName':
-                errors.applicantLastName = value ? '' : "Please enter the applicant's last name.";
-                break;
-            case 'applicantPhoneNumber':
-                errors.applicantPhoneNumber = value ? (value.match(phNumberRegex) ? '' : "Missing or incorrect value") : "Please provide an area code and phone number.";
-                break;
-            case 'applicantEmailAddress':
-                errors.applicantEmailAddress = value ? (value.match(emailAddressRegex) ? '' : "Incorrect email format, enter in format name@example.com") : "Please enter a valid email address.";
-                break;
-            case 'applicantEmailConfirm':
-                errors.applicantEmailConfirm = value ? (value === step2Data.applicantEmailAddress ? '' : "Missing or Incorrect value") : "Please enter the email again to confirm it's the same as the one above.";
-                break;
-            case 'driverFirstName':
-                errors.driverFirstName = value ? '' : "Please enter the driver's first name.";
-                break;
-            case 'driverLastName':
-                errors.driverLastName = value ? '' : "Please enter the driver's last name.";
-                break;
-            case 'streetAddress':
-                errors.streetAddress = value ? '' : "Please enter a street address.";
-                break;
-            case 'controlDriverCityTown':
-                errors.controlDriverCityTown = value ? '' : "Please enter the name of the city.";
-                break;
-            case 'controlDriverProvince':
-                errors.controlDriverProvince = value ? '' : "Please select a province.";
-                break;
-            case 'controlDriverPostalCode':
-                errors.controlDriverPostalCode = value ? ((value.trimEnd().match(postalCodeRegex1) || value.trimEnd().match(postalCodeRegex2)) ? '' : "Enter in format A1A 1A1.") : "Please enter a postal code.";
-                break;
+        if (!value) {
+            switch (fieldName) {
+                case 'applicantFirstName':
+                    errors.applicantFirstName = "Please enter the applicant's first name.";
+                    break;
+                case 'applicantLastName':
+                    errors.applicantLastName = "Please enter the applicant's last name.";
+                    break;
+                case 'applicantPhoneNumber':
+                    errors.applicantPhoneNumber = "Please provide an area code and phone number.";
+                    break;
+                case 'applicantEmailAddress':
+                    errors.applicantEmailAddress = "Please enter a valid email address.";
+                    break;
+                case 'applicantEmailConfirm':
+                    errors.applicantEmailConfirm = "Please enter the email again to confirm it's the same as the one above.";
+                    break;
+                case 'driverFirstName':
+                    errors.driverFirstName = "Please enter the driver's first name.";
+                    break;
+                case 'driverLastName':
+                    errors.driverLastName = "Please enter the driver's last name.";
+                    break;
+                case 'streetAddress':
+                    errors.streetAddress = "Please enter a street address.";
+                    break;
+                case 'controlDriverCityTown':
+                    errors.controlDriverCityTown = "Please enter the name of the city.";
+                    break;
+                case 'controlDriverProvince':
+                    errors.controlDriverProvince = "Please select a province.";
+                    break;
+                case 'controlDriverPostalCode':
+                    errors.controlDriverPostalCode = "Please enter a postal code.";
+                    break;
+                default: break;
+            }
+        }
+        else {
+            switch (fieldName) {
+                case 'applicantPhoneNumber':
+                    if (!value.match(phNumberRegex))
+                        errors.applicantPhoneNumber = "Missing or incorrect value";
+                    break;
+                case 'applicantEmailAddress':
+                    if (!value.match(emailAddressRegex))
+                        errors.applicantEmailAddress = "Incorrect email format, enter in format name@example.com";
+                    break;
+                case 'applicantEmailConfirm':
+                    if (value !== step2Data.applicantEmailAddress)
+                        errors.applicantEmailConfirm = "Missing or incorrect value";
+                    break;
+                case 'controlDriverPostalCode':
+                    if (!(value.match(postalCodeRegex1) || value.match(postalCodeRegex2)))
+                        errors.controlDriverPostalCode = 'Enter in format A1A 1A1.';
+                default: break;
+            }
         }
 
         setStep2DataErrors(errors);
@@ -174,7 +212,7 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
                                 labelText="Attach signed consent from driver"
                                 tooltipTitle="Attach signed consent from driver"
                                 tooltipContent={<p>Please upload signed consent from the driver, authorizing you to send and receive documents on their behalf.</p>}>
-                                    <input  type="file" name="file" onChange={(e) => { setFile(e.target.files?.[0]); console.log(file?.size) } }  />
+                                    <input  type="file" name="file" onChange={(e) => { handleFileUpload(e) } }  />
                             </FormField>
                         </Grid>
                         <Grid item xs={5} sx={{ padding: "1px" }}>
@@ -205,8 +243,8 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
                 error={!!step2DataErrors.applicantLastName}
                 errorText={step2DataErrors.applicantLastName}
             >
-                <TextField id="last-name-field" style={{ paddingLeft: '5px' }} 
-                    variant="outlined" name='applicantLastName'
+                <TextField id="last-name-field" style={{ paddingLeft: '5px' }}
+                    variant="outlined" name='applicantLastName' 
                     value={step2Data.applicantLastName} onChange={handleChange} onBlur={handleBlur} >
                 </TextField>
             </FormField>
@@ -286,7 +324,7 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
                 error={!!step2DataErrors.driverLastName}
                 errorText={step2DataErrors.driverLastName}
             >
-                        <TextField id="last-name-field" style={{ paddingLeft: '5px' }} 
+                        <TextField id="driver-last-name-field" style={{ paddingLeft: '5px' }} 
                             variant="outlined" name='driverLastName'
                     value={step2Data.driverLastName} onChange={handleChange} onBlur={handleBlur} >
                 </TextField>
