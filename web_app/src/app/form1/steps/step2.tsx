@@ -60,8 +60,9 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
         let errors: Step2DataErrors = { ...step2DataErrors };
 
         const phNumberRegex = '^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$';
-        const emailAddressRegex = '^[^@]*@[a-zA-Z0-9-]+\.[a-zA-Z-.]+[a-zA-Z]$';
-        const postalCodeRegex = '^[a-zA-Z][0-9][a-zA-Z][ ]?[0-9][a-zA-Z][0-9]$';
+        const emailAddressRegex = '^[^@]*@[a-zA-Z0-9-]{2,20}\.[a-zA-Z-.]{2,20}[a-zA-Z]$';
+        const postalCodeRegex1 = '^[ABCEGHJ-NPRSTVXYabceghj-nprstvxy][0-9][ABCEGHJ-NPRSTV-Zabceghj-nprstv-z] [0-9][ABCEGHJ-NPRSTV-Zabceghj-nprstv-z][0-9]$';
+        const postalCodeRegex2 = '^[ABCEGHJ-NPRSTVXYabceghj-nprstvxy][0-9][ABCEGHJ-NPRSTV-Zabceghj-nprstv-z][0-9][ABCEGHJ-NPRSTV-Zabceghj-nprstv-z][0-9]$';
 
         switch (fieldName) {
             case 'applicantFirstName':
@@ -95,7 +96,7 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
                 errors.controlDriverProvince = value ? '' : "Please select a province.";
                 break;
             case 'controlDriverPostalCode':
-                errors.controlDriverPostalCode = value ? (value.trimEnd().match(postalCodeRegex) ? '' : "Enter in format A1A 1A1.") : "Please enter a postal code.";
+                errors.controlDriverPostalCode = value ? ((value.trimEnd().match(postalCodeRegex1) || value.trimEnd().match(postalCodeRegex2)) ? '' : "Enter in format A1A 1A1.") : "Please enter a postal code.";
                 break;
         }
 
