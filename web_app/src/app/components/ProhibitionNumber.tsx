@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { FormField } from './FormField';
 import TextField from '@mui/material/TextField';
 import { Typography, } from '@mui/material';
-import React, { useState, useEffect, } from 'react';
+import React, { useState, } from 'react';
 
 interface Props {
     onProhibitionDataChange: (data: { controlProhibitionNumber: string; controlIsUl: boolean; controlIsIrp: boolean; controlIsAdp: boolean; prohibitionNumberClean: string; }) => void;
