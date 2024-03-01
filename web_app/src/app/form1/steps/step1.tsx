@@ -44,7 +44,7 @@ const Step1: React.FC<Props> = ({ step1DatatoSend }) => {
     };
 
     const validateField = () => {
-        if (step1Data.controlProhibitionNumber.match(prohibitionNumberRegex)) {
+        if (prohibitionNumberRegex.exec(step1Data.controlProhibitionNumber)) {
             setValidProhibitionNumber(true);
             setStep1Data({
                 ...step1Data,

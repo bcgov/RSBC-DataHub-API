@@ -71,29 +71,57 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
 
     }
 
-    const validateApplicantName = (value: string, errors: Step2DataErrors, field: 'applicantFirstName' | 'applicantLastName') => {
-        const fieldName = field === 'applicantFirstName' ? "applicant's first name" : "applicant's last name";
-        errors[field] = value ? '' : `Please enter the ${fieldName}.`;
-    };
+    const validateApplicantName = (value: string, errors: Step2DataErrors, field: 'applicantFirstName'
+        | 'applicantLastName'
+        | 'driverFirstName'
+        | 'driverLastName'
+        | 'streetAddress'
+        | 'controlDriverCityTown'
+        | 'controlDriverProvince') => {           
+         errors[field] = value ? '' : `${getErrorMessage(field)}.`;
+        };
+
+        const getErrorMessage = (field: string) => {
+            switch (field) {
+                case 'applicantFirstName': return "Please enter the applicant's first name";
+                case 'applicantLastName': return "Please enter the applicant's last name";
+                case 'driverFirstName': return "Please enter the driver's first name" ;
+                case 'driverLastName': return "Please enter the driver's last name";
+                case 'streetAddress': return "Please enter the street address";
+                case 'controlDriverCityTown': return "Please enter the name of the city";
+                case 'controlDriverProvince': return "Please select a province";
+            }
+        }
 
     const validatePhoneNumber = (value: string, errors: Step2DataErrors) => {
         const phNumberRegex = /^(?:\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
-        errors.applicantPhoneNumber = value ? (value.match(phNumberRegex) ? '' : 'Missing or incorrect value') : 'Please provide an area code and phone number.';
+        if (value) {
+            errors.applicantPhoneNumber = phNumberRegex.exec(value) ? '' : 'Missing or incorrect value';
+        }
+        else
+            errors.applicantPhoneNumber = 'Please provide an area code and phone number.';
     };
 
     const validateEmailAddress = (value: string, errors: Step2DataErrors, field: 'applicantEmailAddress' | 'applicantEmailConfirm') => {
         const emailAddressRegex = /^[^@]*@[a-zA-Z0-9-]{2,20}\.[a-zA-Z-.]{2,20}[a-zA-Z]$/;
         if (field === 'applicantEmailAddress') {
-            errors.applicantEmailAddress = value ? (value.match(emailAddressRegex) ? '' : 'Incorrect email format, enter in format name@example.com') : 'Please enter a valid email address.';
-        } else {
-            errors.applicantEmailConfirm = value ? (value === step2Data.applicantEmailAddress ? '' : 'Missing or incorrect value') : "Please enter the email again to confirm it's the same as the one above.";
-        }
+            if (value)
+                errors.applicantEmailAddress = emailAddressRegex.exec(value) ? '' : 'Incorrect email format, enter in format name@example.com';
+            else
+                errors.applicantEmailAddress = 'Please enter a valid email address.';
+        } else if(value)
+                errors.applicantEmailConfirm = value && value === step2Data.applicantEmailAddress ? '' : 'Missing or incorrect value';
+            else
+                errors.applicantEmailConfirm = "Please enter the email again to confirm it's the same as the one above.";
     };
 
     const validatePostalCode = (value: string, errors: Step2DataErrors) => {
         const postalCodeRegex1 = /^[ABCEGHJ-NPRSTVXYabceghj-nprstvxy]\d[ABCEGHJ-NPRSTV-Zabceghj-nprstv-z] \d[ABCEGHJ-NPRSTV-Zabceghj-nprstv-z]\d$/;
         const postalCodeRegex2 = /^[ABCEGHJ-NPRSTVXYabceghj-nprstvxy]\d[ABCEGHJ-NPRSTV-Zabceghj-nprstv-z]\d[ABCEGHJ-NPRSTV-Zabceghj-nprstv-z]\d$/;
-        errors.controlDriverPostalCode = value ? ((value.trimEnd().match(postalCodeRegex1) || value.trimEnd().match(postalCodeRegex2)) ? '' : 'Enter in format A1A 1A1.') : 'Please enter a postal code.';
+        if (value)
+            errors.controlDriverPostalCode = (postalCodeRegex1.exec(value.trimEnd()) || postalCodeRegex2.exec(value.trimEnd())) ? '' : 'Enter in format A1A 1A1.';
+        else
+            errors.controlDriverPostalCode = 'Please enter a postal code.';
     };
 
     const validate = (fieldName: string, value: string) => {
@@ -102,6 +130,11 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
         switch (fieldName) {
             case 'applicantFirstName':
             case 'applicantLastName':
+            case 'driverFirstName':
+            case 'driverLastName':
+            case 'streetAddress':
+            case 'controlDriverCityTown':
+            case 'controlDriverProvince':
                 validateApplicantName(value, errors, fieldName);
                 break;
             case 'applicantPhoneNumber':
@@ -365,7 +398,7 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
                 errorText={step2DataErrors.controlDriverProvince}
             >
                 <Select labelId="province" id="province-field" name="controlDriverProvince" value={step2Data.controlDriverProvince}
-                    onChange={event => handleProvinceChange(event.target.value as string)}
+                    onChange={event => handleProvinceChange(event.target.value)} onBlur={handleBlur}
                     style={{ minWidth: '300px' }}  >
                     <MenuItem value="BritishColumbia"> British Columbia</MenuItem>
                     <MenuItem value="Alberta">Alberts</MenuItem>
