@@ -71,75 +71,55 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
 
     }
 
+    const validateApplicantName = (value: string, errors: Step2DataErrors, field: 'applicantFirstName' | 'applicantLastName') => {
+        const fieldName = field === 'applicantFirstName' ? "applicant's first name" : "applicant's last name";
+        errors[field] = value ? '' : `Please enter the ${fieldName}.`;
+    };
+
+    const validatePhoneNumber = (value: string, errors: Step2DataErrors) => {
+        const phNumberRegex = /^(?:\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
+        errors.applicantPhoneNumber = value ? (value.match(phNumberRegex) ? '' : 'Missing or incorrect value') : 'Please provide an area code and phone number.';
+    };
+
+    const validateEmailAddress = (value: string, errors: Step2DataErrors, field: 'applicantEmailAddress' | 'applicantEmailConfirm') => {
+        const emailAddressRegex = /^[^@]*@[a-zA-Z0-9-]{2,20}\.[a-zA-Z-.]{2,20}[a-zA-Z]$/;
+        if (field === 'applicantEmailAddress') {
+            errors.applicantEmailAddress = value ? (value.match(emailAddressRegex) ? '' : 'Incorrect email format, enter in format name@example.com') : 'Please enter a valid email address.';
+        } else {
+            errors.applicantEmailConfirm = value ? (value === step2Data.applicantEmailAddress ? '' : 'Missing or incorrect value') : "Please enter the email again to confirm it's the same as the one above.";
+        }
+    };
+
+    const validatePostalCode = (value: string, errors: Step2DataErrors) => {
+        const postalCodeRegex1 = /^[ABCEGHJ-NPRSTVXYabceghj-nprstvxy]\d[ABCEGHJ-NPRSTV-Zabceghj-nprstv-z] \d[ABCEGHJ-NPRSTV-Zabceghj-nprstv-z]\d$/;
+        const postalCodeRegex2 = /^[ABCEGHJ-NPRSTVXYabceghj-nprstvxy]\d[ABCEGHJ-NPRSTV-Zabceghj-nprstv-z]\d[ABCEGHJ-NPRSTV-Zabceghj-nprstv-z]\d$/;
+        errors.controlDriverPostalCode = value ? ((value.trimEnd().match(postalCodeRegex1) || value.trimEnd().match(postalCodeRegex2)) ? '' : 'Enter in format A1A 1A1.') : 'Please enter a postal code.';
+    };
+
     const validate = (fieldName: string, value: string) => {
         let errors: Step2DataErrors = { ...step2DataErrors };
 
-        const phNumberRegex = '^(\\+\\d{1,2}\s?)?\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}$';
-        const emailAddressRegex = '^[^@]*@[a-zA-Z0-9-]{2,20}\.[a-zA-Z-.]{2,20}[a-zA-Z]$';
-        const postalCodeRegex1 = '^[ABCEGHJ-NPRSTVXYabceghj-nprstvxy]\\d[ABCEGHJ-NPRSTV-Zabceghj-nprstv-z] \\d[ABCEGHJ-NPRSTV-Zabceghj-nprstv-z]\\d$';
-        const postalCodeRegex2 = '^[ABCEGHJ-NPRSTVXYabceghj-nprstvxy]\\d[ABCEGHJ-NPRSTV-Zabceghj-nprstv-z]\\d[ABCEGHJ-NPRSTV-Zabceghj-nprstv-z]\\d$';
-
-        if (!value) {
-            switch (fieldName) {
-                case 'applicantFirstName':
-                    errors.applicantFirstName = "Please enter the applicant's first name.";
-                    break;
-                case 'applicantLastName':
-                    errors.applicantLastName = "Please enter the applicant's last name.";
-                    break;
-                case 'applicantPhoneNumber':
-                    errors.applicantPhoneNumber = "Please provide an area code and phone number.";
-                    break;
-                case 'applicantEmailAddress':
-                    errors.applicantEmailAddress = "Please enter a valid email address.";
-                    break;
-                case 'applicantEmailConfirm':
-                    errors.applicantEmailConfirm = "Please enter the email again to confirm it's the same as the one above.";
-                    break;
-                case 'driverFirstName':
-                    errors.driverFirstName = "Please enter the driver's first name.";
-                    break;
-                case 'driverLastName':
-                    errors.driverLastName = "Please enter the driver's last name.";
-                    break;
-                case 'streetAddress':
-                    errors.streetAddress = "Please enter a street address.";
-                    break;
-                case 'controlDriverCityTown':
-                    errors.controlDriverCityTown = "Please enter the name of the city.";
-                    break;
-                case 'controlDriverProvince':
-                    errors.controlDriverProvince = "Please select a province.";
-                    break;
-                case 'controlDriverPostalCode':
-                    errors.controlDriverPostalCode = "Please enter a postal code.";
-                    break;
-                default: break;
-            }
-        }
-        else {
-            switch (fieldName) {
-                case 'applicantPhoneNumber':
-                    if (!value.match(phNumberRegex))
-                        errors.applicantPhoneNumber = "Missing or incorrect value";
-                    break;
-                case 'applicantEmailAddress':
-                    if (!value.match(emailAddressRegex))
-                        errors.applicantEmailAddress = "Incorrect email format, enter in format name@example.com";
-                    break;
-                case 'applicantEmailConfirm':
-                    if (value !== step2Data.applicantEmailAddress)
-                        errors.applicantEmailConfirm = "Missing or incorrect value";
-                    break;
-                case 'controlDriverPostalCode':
-                    if (!(value.match(postalCodeRegex1) || value.match(postalCodeRegex2)))
-                        errors.controlDriverPostalCode = 'Enter in format A1A 1A1.';
-                default: break;
-            }
+        switch (fieldName) {
+            case 'applicantFirstName':
+            case 'applicantLastName':
+                validateApplicantName(value, errors, fieldName);
+                break;
+            case 'applicantPhoneNumber':
+                validatePhoneNumber(value, errors);
+                break;
+            case 'applicantEmailAddress':
+            case 'applicantEmailConfirm':
+                validateEmailAddress(value, errors, fieldName);
+                break;
+            case 'controlDriverPostalCode':
+                validatePostalCode(value, errors);
+                break;
+            default:                
+                break;
         }
 
         setStep2DataErrors(errors);
-    }
+    };    
         
     return (
         <div style={{ display: 'grid', marginTop: '20px', pointerEvents: (licenseSeized ? '' : 'none') as React.CSSProperties["pointerEvents"], }} >
