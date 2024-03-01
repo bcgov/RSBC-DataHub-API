@@ -6,34 +6,29 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import React, {  useState,  } from 'react';
+import React, {  useEffect, useState,  } from 'react';
+import { Step1Data, Step1DataErrors } from '../../interfaces';
 
-interface StepData1 {
-    controlProhibitionNumber: string;
-    controlIsUl: boolean;
-    controlIsIrp: boolean;
-    controlIsAdp: boolean;
-    prohibitionNumberClean: string;
-    licenseSeized: string;
-    licenseNoSurrendered: boolean;
-    licenseLostOrStolen: boolean;
-    licenseNotIssued: boolean;
-    irpProhibitionTypeLength: string;
-    dateOfService?: Date;
+interface Props {
+    step1DatatoSend: (data: Step1Data) => void;
 }
 
 
-const Step1: React.FC = () => {
-    const [controlProhibitionNumber, setControlProhibitionNumber] = useState('');
-    const [controlIsUl, setControlIsUl] = useState(false);
-    const [controlIsIrp, setControlIsIrp] = useState(false);
-    const [controlIsAdp, setControlIsAdp] = useState(false);
-    const [prohibitionNumberClean, setProhibitionNumberClean] = useState('');
-    const [licenseSeized, setLicenseSeized] = useState('');
-    const [licenseNoSurrendered, setLicenseNoSurrendered] = useState(false);
-    const [licenseLostOrStolen, setLicenseLostOrStolen] = useState(false);
-    const [licenseNotIssued, setLicenseNotIssued] = useState(false);
-    const [irpProhibitionTypeLength, setIrpProhibitionTypeLength] = useState('');
+const Step1: React.FC<Props> = ({ step1DatatoSend }) => {
+
+    const [step1Data, setStep1Data] = useState<Step1Data>({
+        controlProhibitionNumber: '',
+        controlIsUl: false,
+        controlIsIrp: false,
+        controlIsAdp: false,
+        prohibitionNumberClean: '',
+        licenseSeized: '',
+        licenseNoSurrendered: false,
+        licenseLostOrStolen: false,
+        licenseNotIssued: false,
+        irpProhibitionTypeLength: '',
+    });
+
     const [dateOfService, setDateOfService] = useState<Dayjs | null>(dayjs(Date.now()));
     const [validProhibitionNumber, setValidProhibitionNumber] = useState(false);
     const [prohibitionNumberErrorText, setProhibitionNumberErrorText] = useState('');
@@ -44,50 +39,60 @@ const Step1: React.FC = () => {
 
     const prohibitionNumberChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        setControlProhibitionNumber(value);
+        setStep1Data({ ...step1Data, controlProhibitionNumber: value });
+        step1DatatoSend(step1Data);
     };
 
     const validateField = () => {
-        if (controlProhibitionNumber.match(prohibitionNumberRegex)) {
+        if (step1Data.controlProhibitionNumber.match(prohibitionNumberRegex)) {
             setValidProhibitionNumber(true);
-            setControlIsUl(controlProhibitionNumber.startsWith('30'));
-            setControlIsIrp(controlProhibitionNumber.startsWith('21') || controlProhibitionNumber.startsWith('40'));
-            setControlIsAdp(controlProhibitionNumber.startsWith('00'));
-            setProhibitionNumberClean(controlProhibitionNumber.replace('-', ''));
-            console.log(prohibitionNumberClean);
+            setStep1Data({
+                ...step1Data,
+                controlIsUl: step1Data.controlProhibitionNumber.startsWith('30'),
+                controlIsIrp: step1Data.controlProhibitionNumber.startsWith('21') || step1Data.controlProhibitionNumber.startsWith('40'),
+                controlIsAdp: step1Data.controlProhibitionNumber.startsWith('00'),
+                prohibitionNumberClean: step1Data.controlProhibitionNumber.replace('-', ''),
+            });
         } else {
-            setProhibitionNumberErrorText(controlProhibitionNumber ? "Enter first 8 numbers with the dash. Don't enter the digit in the grey box. Prohibition numbers start with 00, 21, 30 or 40." : "Enter prohibition number found on the notice.");
+            setProhibitionNumberErrorText(step1Data.controlProhibitionNumber ? "Enter first 8 numbers with the dash. Don't enter the digit in the grey box. Prohibition numbers start with 00, 21, 30 or 40." : "Enter prohibition number found on the notice.");
             setValidProhibitionNumber(false);
-            setControlIsUl(false);
-            setControlIsIrp(false);
-            setControlIsAdp(false);
+            setStep1Data({ ...step1Data, controlIsUl: false });
+            setStep1Data({ ...step1Data, controlIsIrp: false });
+            setStep1Data({ ...step1Data, controlIsAdp: false });
         }
+        step1DatatoSend(step1Data);
     };
+
+    useEffect(() => {
+        step1DatatoSend(step1Data);
+    });
 
     const licenseSeizedChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        setLicenseSeized(value);
         const isLicenseSeized = value === 'licenseSeized';
-        setValidLicenseSeized(isLicenseSeized);
-        setShowNoLicenseDiv(!isLicenseSeized);
-        setLicenseNoSurrendered(value === 'licenseNoSurrendered');
-        setLicenseLostOrStolen(value === 'licenseLostOrStolen');
-        setLicenseNotIssued(value === 'licenseNotIssued' || value === 'licenseOutOfProvince');
-        console.log(licenseNoSurrendered);
-        console.log(licenseLostOrStolen);
-        console.log(licenseNotIssued);
+        setStep1Data({
+            ...step1Data,
+            licenseSeized: value,
+            licenseNoSurrendered: value === 'licenseNoSurrendered',
+            licenseLostOrStolen: value === 'licenseLostOrStolen',
+            licenseNotIssued: value === 'licenseNotIssued' || value === 'licenseOutOfProvince',});
+        setShowNoLicenseDiv(!isLicenseSeized);       
+        step1DatatoSend(step1Data);
     };
 
     const irpProhibitionTypeLengthChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setIrpProhibitionTypeLength(e.target.value);
+        setStep1Data({ ...step1Data, irpProhibitionTypeLength: e.target.value });
+        step1DatatoSend(step1Data);
     };
 
     const dateOfServiceChanged = (val: Dayjs) => {
         setDateOfService(val);
+       // setStep1Data({ ...step1Data, dateOfService: val });
+        step1DatatoSend(step1Data);
     };
 
     return (
-            <div style={{ display: 'grid' }}>
+        <div style={{ display: 'grid', marginTop: '20px' }}>
                 <FormField
                     id="control-prohibition-number"
                     labelText="Prohibition No."
@@ -100,7 +105,7 @@ const Step1: React.FC = () => {
                 >
                     <TextField key="key1" id="control-prohibition-number-field"  style={{ paddingLeft: '5px' }}
                         variant="outlined"
-                        value={controlProhibitionNumber} onChange={prohibitionNumberChanged} onBlur={validateField}>
+                        value={step1Data.controlProhibitionNumber} onChange={prohibitionNumberChanged} onBlur={validateField}>
                     </TextField></FormField>
                 <div style={{ marginTop: '-30px', marginBottom: '30px' }}>
                     <Typography sx={{ color: '#313132', fontSize: '16px', fontWeight: '700', mt: '10px', ml: '10px', paddingBottom: '10px' }}>(optional)</Typography>
@@ -112,7 +117,7 @@ const Step1: React.FC = () => {
                 </div>
                 <Grid container spacing={2} >
                     <Grid item xs={5} sx={{ padding: "1px" }}>
-                        {(controlIsIrp === true || controlIsAdp === true) &&
+                    {(step1Data.controlIsIrp === true || step1Data.controlIsAdp === true) &&
                             <FormField
                                 id="license-seized"
                                 labelText="Did the police take your driver's license?"
@@ -129,7 +134,7 @@ const Step1: React.FC = () => {
                             >
                                 <RadioGroup id="license-seized-field" 
                                     aria-labelledby="demo-radio-buttons-group-label"
-                                    name="radio-buttons-group" value={licenseSeized} onChange={licenseSeizedChanged}
+                                name="radio-buttons-group" value={step1Data.licenseSeized} onChange={licenseSeizedChanged}
                                 >
                                     <FormControlLabel value="licenseSeized" control={<Radio sx={{
                                         '&.Mui-checked': {
@@ -162,7 +167,7 @@ const Step1: React.FC = () => {
                     </Grid>
                     <Grid item xs={7} sx={{ padding: "1px" }}>
                         {
-                        (controlIsIrp === true || controlIsAdp === true) && showNoLicenseDiv === true &&
+                        (step1Data.controlIsIrp === true || step1Data.controlIsAdp === true) && showNoLicenseDiv === true &&
                             <div className="noLicense" >
                                 <div>
                                     <div style={{ display: 'inline-grid' }}>
@@ -189,7 +194,7 @@ const Step1: React.FC = () => {
                     </Grid>
                 </Grid>
 
-                {(controlIsIrp === true && licenseSeized === "licenseSeized") &&
+            {(step1Data.controlIsIrp === true && step1Data.licenseSeized === "licenseSeized") &&
                     <FormField
                         id="irp-prohibition-type-length"
                         labelText="Please select prohibition type and length"
@@ -205,7 +210,7 @@ const Step1: React.FC = () => {
 
                     >
                         <RadioGroup id="irp-prohibition-type-length-field"
-                            name="radio-buttons-group" value={irpProhibitionTypeLength} onChange={irpProhibitionTypeLengthChanged}
+                        name="radio-buttons-group" value={step1Data.irpProhibitionTypeLength} onChange={irpProhibitionTypeLengthChanged}
                         >
                             <FormControlLabel value="3-days-warn" control={<Radio sx={{
                                 '&, &.Mui-checked': {
@@ -235,12 +240,12 @@ const Step1: React.FC = () => {
                         </RadioGroup>
                     </FormField>
                 }
-            {((controlIsIrp === true && licenseSeized === "licenseSeized" && (irpProhibitionTypeLength === '3-days-warn' ||
-                irpProhibitionTypeLength === '7-days-warn' ||
-                irpProhibitionTypeLength === '30-days-warn' ||
-                irpProhibitionTypeLength === '90-days-fail' ||
-                irpProhibitionTypeLength === '90-days-refusal')) || (controlIsAdp === true && licenseSeized === "licenseSeized") ||
-                    (controlIsUl === true)) &&
+            {((step1Data.controlIsIrp === true && step1Data.licenseSeized === "licenseSeized" && (step1Data.irpProhibitionTypeLength === '3-days-warn' ||
+                step1Data.irpProhibitionTypeLength === '7-days-warn' ||
+                step1Data.irpProhibitionTypeLength === '30-days-warn' ||
+                step1Data.irpProhibitionTypeLength === '90-days-fail' ||
+                step1Data.irpProhibitionTypeLength === '90-days-refusal')) || (step1Data.controlIsAdp === true && step1Data.licenseSeized === "licenseSeized") ||
+                (step1Data.controlIsUl === true)) &&
                     <FormField
                         id="prohibition-issued-date"
                         labelText="When was the prohibition issued?"
