@@ -30,5 +30,16 @@ CMD npm start
 FROM base as dev
 ENV NODE_ENV=development
 RUN npm install 
-COPY . .
+
+# COPY . .
+COPY package.json .
+COPY package-lock.json .
+COPY /node_modules ./node_modules
+COPY /src ./src
+COPY /public ./public
+COPY next.config.mjs .
+COPY next-env.d.ts .
+COPY tsconfig.json .
+COPY .eslintrc.json .
+
 CMD npm run dev
