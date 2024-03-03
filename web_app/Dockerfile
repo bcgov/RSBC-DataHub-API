@@ -28,6 +28,7 @@ COPY --from=builder /app/public ./public
 CMD npm start
 
 FROM base as dev
+
 ENV NODE_ENV=development
 RUN npm install 
 
@@ -41,5 +42,12 @@ COPY next.config.mjs .
 COPY next-env.d.ts .
 COPY tsconfig.json .
 COPY .eslintrc.json .
+
+RUN addgroup -g 1003 -S nodegroup
+RUN adduser -S nextuser -u 1003
+
+RUN chown -R nextuser:nodegroup /app
+
+USER nextuser
 
 CMD npm run dev
