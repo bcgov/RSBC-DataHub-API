@@ -3,10 +3,19 @@ import { FormField } from './FormField';
 import TextField from '@mui/material/TextField';
 import { Typography, } from '@mui/material';
 import React, { useState, } from 'react';
+import { isProhibitionNumberValid } from "../_nonRoutingAssets/lib/util";
 
 interface Props {
-    onProhibitionDataChange: (data: { controlProhibitionNumber: string; controlIsUl: boolean; controlIsIrp: boolean; controlIsAdp: boolean; prohibitionNumberClean: string; }) => void;
+    onProhibitionDataChange: (data: { 
+        controlProhibitionNumber: string; 
+        controlIsUl: boolean; 
+        controlIsIrp: boolean; 
+        controlIsAdp: boolean; 
+        prohibitionNumberClean: string;
+        validProhibitionNumber: boolean;
+    }) => void;
 }
+
 
 const ProhibitionNumber: React.FC<Props> = ({ onProhibitionDataChange }) => {
     const [controlProhibitionNumber, setControlProhibitionNumber] = useState('');
@@ -23,29 +32,30 @@ const ProhibitionNumber: React.FC<Props> = ({ onProhibitionDataChange }) => {
         setControlProhibitionNumber(value);
     }
 
-    const prohibitionNumberRegex = /^(00|21|30|40)-\d{6}$/;
-
-    const validateField = () => {
-        if (prohibitionNumberRegex.exec(controlProhibitionNumber)) {
-            setValidProhibitionNumber(true);
+    const validateField = () => {      
+        let isProhNumberValid = false;  
+        if (isProhibitionNumberValid(controlProhibitionNumber)) {
+            isProhNumberValid = true;
             setControlIsUl(controlProhibitionNumber.startsWith('30'));
             setControlIsIrp((controlProhibitionNumber.startsWith('21') || controlProhibitionNumber.startsWith('40')));
             setControlIsAdp(controlProhibitionNumber.startsWith('00'));
             setProhibitionNumberClean(controlProhibitionNumber.replace('-', ''));
         } else {
             setProhibitionNumberErrorText(controlProhibitionNumber ? "Enter first 8 numbers with the dash. Don't enter the digit in the grey box. Prohibition numbers start with 00, 21, 30 or 40." : "Enter prohibition number found on the notice.");
-            setValidProhibitionNumber(false);
             setControlIsUl(false);
             setControlIsIrp(false);
             setControlIsAdp(false);
             setProhibitionNumberClean('');
         }
+        console.log("validateField: ", controlProhibitionNumber, isProhNumberValid);
+        setValidProhibitionNumber(isProhNumberValid);
         onProhibitionDataChange({
             controlProhibitionNumber: controlProhibitionNumber,
             controlIsUl: controlIsUl,
             controlIsIrp: controlIsIrp,
             controlIsAdp: controlIsAdp,
-            prohibitionNumberClean: prohibitionNumberClean
+            prohibitionNumberClean: prohibitionNumberClean,
+            validProhibitionNumber: isProhNumberValid
         });
     }; 
 
