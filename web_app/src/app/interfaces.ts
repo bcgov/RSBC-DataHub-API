@@ -66,3 +66,8 @@ export interface Step3InputProps {
     controlIsIrp: boolean;
     controlIsAdp: boolean;
 }
+
+export interface AvailableReviewDates{
+    label: string
+    value: string    
+}
