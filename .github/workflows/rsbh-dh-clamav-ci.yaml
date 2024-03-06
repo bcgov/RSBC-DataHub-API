@@ -1,9 +1,13 @@
 name: rsbc-dh-claimav-ci
 
 on:
-  push:
-    branches:
-      - apr-43_2
+  pull_request:
+    types: [opened, reopened, edited, synchronize]
+    branches-ignore:
+      - master
+    paths:
+      - Java/clamav_client/**
+      - Java/README.md
 
 jobs:
   CI:
