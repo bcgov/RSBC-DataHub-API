@@ -1,0 +1,13 @@
+name: rsbc-dh-claimav-ci
+
+on:
+  push:
+    branches:
+      - apr-43_2
+
+jobs:
+  CI:
+    uses: ./.github/workflows/ci-workflow.yml
+    with:
+      DOCKER_CONTEXT: Java/clamav_client
+      DOCKER_FILE: Java/clamav_client/Dockerfile

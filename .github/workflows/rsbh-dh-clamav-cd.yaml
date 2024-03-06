@@ -1,0 +1,23 @@
+name: rsbc-dh-claimav-cd
+
+on:
+  push:
+    branches:
+      - apr-43_2
+
+  # pull_request:
+  #   types: [opened, reopened, edited, synchronize]
+  #   branches:
+  #     - master
+  #   paths:
+  #     - Java/clamav_client/**
+  #     - trigger.txt
+
+jobs:
+  CD:
+    uses: ./.github/workflows/cd-workflow.yml
+    with:
+      DOCKER_CONTEXT: Java/clamav_client
+      DOCKER_FILE: Java/clamav_client/Dockerfile
+      DOCKER_IMAGE_NAME: dh-clamav-client
+    secrets: inherit
