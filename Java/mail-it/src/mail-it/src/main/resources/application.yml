@@ -9,8 +9,8 @@ management:
       show-details: always
 
 mail-auth:
-  user: ${USER}
-  password: ${PASSWORD}
+  user: ${BASIC_AUTH_USER}
+  password: ${BASIC_AUTH}
 
 logging:
   level:
