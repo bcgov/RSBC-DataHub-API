@@ -5,7 +5,7 @@ import { AvailableReviewDates } from "../interfaces";
 //------------------------------------------
 // Get available review dates 
 //------------------------------------------
-export const getAvailableReviewDates = async (): Promise< [Array<AvailableReviewDates>, string | null] > => {
+export const getAvailableReviewDates = async (prohibitionNumber: string, driverLastName: string | null | undefined): Promise< [Array<AvailableReviewDates>, string | null] > => {
     let url = `/fake url`;
     console.log("Get available review dates, url: " + axiosClient.getUri() + url);
     
@@ -49,7 +49,7 @@ export const getAvailableReviewDates = async (): Promise< [Array<AvailableReview
                     "value": "MjAyNC0wMy0xMyAxMTozMDowMCAtMDc6MDB8MjAyNC0wMy0xMyAxMjowMDowMCAtMDc6MDA="
                 }
             ];
-      return [newdata, null];
+      return [newdata, 'no error'];
     }catch (error) {
       const errorDetails = "Failed fetching available review dates: " + buildErrorMessage(error);
       console.error(errorDetails);
