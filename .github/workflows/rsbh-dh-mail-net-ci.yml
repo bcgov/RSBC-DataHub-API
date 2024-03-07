@@ -1,0 +1,16 @@
+name: rsbc-dh-mail-net-ci
+
+on:
+  push:
+    branches:
+      - feature/apr-41_2
+  #   paths:
+  #     -  Java/README.md
+  #     -  Java/mail-it/**
+
+jobs:
+  CI:
+    uses: ./.github/workflows/ci-workflow.yml
+    with:
+      DOCKER_CONTEXT: Java/mail-it/src
+      DOCKER_FILE: Java/mail-it/src/Dockerfile

@@ -1,0 +1,26 @@
+name: rsbc-dh-mail-net-cd
+
+on:
+  push:
+    branches:
+      - feature/apr-41_2
+  #   paths:
+  #     - Java/README.md
+  #     - Java/mail-it/**
+
+  # pull_request:
+  #   types: [opened, reopened, edited, synchronize]
+  #   branches:
+  #     - master
+  #   paths:
+  #     - Java/clamav_client/**
+  #     - trigger.txt
+
+jobs:
+  CD:
+    uses: ./.github/workflows/cd-workflow.yml
+    with:
+      DOCKER_CONTEXT: Java/mail-it/src
+      DOCKER_FILE: Java/mail-it/src/Dockerfile
+      DOCKER_IMAGE_NAME: dh-mail-net
+    secrets: inherit
