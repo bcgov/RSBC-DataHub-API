@@ -7,8 +7,10 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - JMT_SPRING_EMAIL_HOST=mailhog
-      - JMT_SPRING_EMAIL_PORT=1025
+      - EMAIL_HOST=mailhog
+      - EMAIL_PORT=1025
+      - BASIC_AUTH_USER=test
+      - BASIC_AUTH=test!
     networks:
         - mail-it-net
 

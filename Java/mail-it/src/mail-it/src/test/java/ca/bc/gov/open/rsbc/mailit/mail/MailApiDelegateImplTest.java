@@ -58,7 +58,7 @@ public class MailApiDelegateImplTest {
         to.setEmail("hansolo@galaxy.r2d2");
         tos.add(to);
         emailRequest.setTo(tos);
-        ResponseEntity<EmailResponse> actual = sut.mailSend(emailRequest);
+        ResponseEntity<EmailResponse> actual = sut.mailSendPost(emailRequest);
         assertEquals(HttpStatus.ACCEPTED, actual.getStatusCode());
         assertEquals(true, actual.getBody().getAcknowledge());
 
@@ -68,7 +68,7 @@ public class MailApiDelegateImplTest {
     @DisplayName("400: with valid email request should return 202")
     public void withInvalidValidEmailRequestShouldReturn400() {
 
-        ResponseEntity<EmailResponse> actual = sut.mailSend(new EmailRequest());
+        ResponseEntity<EmailResponse> actual = sut.mailSendPost(new EmailRequest());
         assertEquals(HttpStatus.BAD_REQUEST, actual.getStatusCode());
 
     }

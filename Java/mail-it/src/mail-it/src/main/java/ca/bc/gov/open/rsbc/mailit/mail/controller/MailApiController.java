@@ -37,7 +37,7 @@ public class MailApiController implements MailApi {
     }
 
     @Override
-    public ResponseEntity mailSend(EmailRequest emailRequest) {
+    public ResponseEntity<EmailResponse> mailSendPost(EmailRequest emailRequest) {
         logger.info("Beginning mail send");
 
         Optional<EmailObject> emailObject = emailRequest.getTo().stream().findFirst();
