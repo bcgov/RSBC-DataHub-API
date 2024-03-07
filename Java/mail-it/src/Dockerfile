@@ -1,13 +1,11 @@
-#############################################################################################
-###              Stage where Docker is building spring boot app using maven               ###
-#############################################################################################
+# Maven/Springboot build container 
+
 FROM maven:3.8.3-openjdk-17 AS build
 
-ARG MVN_PROFILE=default
-ARG SERVICE_NAME=mail-it
-ARG SKIP_TESTS=false
-
-ENV SERVICE_NAME=${SERVICE_NAME}
+ENV EMAIL_HOST=mailhog
+ENV EMAIL_PORT=8025
+ENV USER=posdev
+ENV PASSWORD=***REMOVED***
 
 COPY mail-it/pom.xml /tmp/
 
@@ -17,27 +15,16 @@ COPY mail-it/src /tmp/src/
 
 WORKDIR /tmp/
 
-RUN mvn -B clean install \
-        -P ${MVN_PROFILE} \
-        -Dmaven.test.skip=${SKIP_TESTS} \
-        -f pom.xml
+RUN mvn clean package -Dmaven.test.skip=true
 
-#############################################################################################
+# running the service
 
-#############################################################################################
-### Stage where Docker is running a java process to run a service built in previous stage ###
-#############################################################################################
 FROM openjdk:17-jdk-slim
 
 RUN useradd -m appuser
 
 USER appuser
 
-# ARG MVN_PROFILES
-ARG SERVICE_NAME=mail-it
-
-COPY --from=build /tmp/target/${SERVICE_NAME}-*.jar /app/service.jar
+COPY --from=build /tmp/target/mail-it-*.jar /app/service.jar
 
 CMD ["java", "-jar", "/app/service.jar"]
-
-#############################################################################################

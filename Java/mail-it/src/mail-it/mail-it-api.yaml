@@ -9,13 +9,11 @@ tags:
   - name: mail-send
 paths:
   "/mail/send":
-    security:
-      - basicAuth: [ ]
     post:
-      operationId: mailSend
-      summary: Mail Send
       tags:
         - mail-send
+      security:
+        - basicAuth: [ ]
       description: Sending email
       requestBody:
         content:
@@ -30,6 +28,10 @@ paths:
               schema:
                 $ref: "#/components/schemas/email_response"
 components:
+  securitySchemes:
+    basicAuth: # <-- arbitrary name for the security scheme
+      type: http
+      scheme: basic
   schemas:
     email_object:
       title: Email Object
@@ -103,4 +105,3 @@ components:
       properties:
         acknowledge:
           type: boolean
-
