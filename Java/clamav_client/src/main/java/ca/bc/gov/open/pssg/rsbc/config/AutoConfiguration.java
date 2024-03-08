@@ -31,6 +31,8 @@ public class AutoConfiguration {
         logger.info("ClamAv host: [{}]", clamAvProperties.getHost());
         logger.info("ClamAv port: [{}]", clamAvProperties.getPort());
         logger.info("ClamAv timeout: [{}]", clamAvProperties.getTimeout());
+        logger.info("ClamAv user: [{}]", clamAvProperties.getUser());
+        logger.info("ClamAv pword: [{}]", clamAvProperties.getPassword());
 
         return new ClamAVClient(clamAvProperties.getHost(), clamAvProperties.getPort(), clamAvProperties.getTimeout());
 
