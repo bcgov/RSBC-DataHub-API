@@ -10,7 +10,7 @@ import { Button, Grid } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowForward from '@mui/icons-material/ArrowForward';
 import { Step1Data, Step2Data, } from '../interfaces'; 
-import { generatePdf, generatePDF1 } from '../components/GeneratePDF';
+import { generatePdf, } from '../components/GeneratePDF';
 
 export default function Page() {
 
@@ -29,12 +29,7 @@ export default function Page() {
                 pdf.save('download.pdf');
             }
           
-        }, 500);
-
-        setTimeout(async () => {
-            if (contentRef.current)
-                generatePDF1(contentRef.current);
-        }, 1000);
+        }, 500);       
 
     }
     
@@ -87,7 +82,7 @@ export default function Page() {
     const handleStep3Data = (step3Data: Step2Data) => {
        
     };
-    const id : string = 'formContent';
+    
 
     return (<div id="formContent" ref={contentRef }>
         <h1 className="header1">Notice of Driving Prohibition Application for Review</h1>
