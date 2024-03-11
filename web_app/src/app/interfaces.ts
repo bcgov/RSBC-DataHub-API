@@ -65,6 +65,8 @@ export interface Step3InputProps {
     controlIsUl: boolean;
     controlIsIrp: boolean;
     controlIsAdp: boolean;
+    licenseSeized: boolean;
+    step3DatatoSend: (data: Step2Data) => void;
 }
 
 export interface AvailableReviewDates{

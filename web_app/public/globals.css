@@ -147,3 +147,30 @@ input[type=number] {
 .Tooltip {
     color: red;
 }
+
+a {
+    color: #1a5a96;
+}
+
+ul{
+    padding-left:30px;
+    line-height:1.5;
+    padding-bottom:5px;
+}
+
+.step3Div{
+    padding-bottom:10px;
+    font-size:16px;
+}
+
+.signature {
+    border-radius: 4px !important;
+    color: #313132 !important;
+    font-family: 'BC Sans', 'Noto Sans', Verdana, Arial, sans-serif !important;
+    font-size: 16px !important;
+    height: 44px !important;
+    margin: 0 0 0 0 !important;
+    padding: 5px 5px 5px 7px !important;
+    transition: none !important;
+    min-width: 44px;
+}

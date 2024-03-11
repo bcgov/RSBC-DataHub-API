@@ -156,8 +156,12 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
         
     return (
         <div style={{ display: 'grid', marginTop: '20px', pointerEvents: (licenseSeized ? '' : 'none') as React.CSSProperties["pointerEvents"], }} >
-            <strong style={{ fontSize: '16px', paddingBottom: '20px', paddingLeft: '10px' }}> Applicant Information:</strong> 
-            <FormField
+            
+                <Grid item xs={8} sx={{ padding: "1px" }}>
+                    <strong style={{ fontSize: '16px', paddingBottom: '20px', paddingLeft: '10px' }}> Applicant Information:</strong>
+                </Grid>
+                    <Grid item xs={8} sx={{ padding: "1px" }}>
+                    <FormField
                     id="applicant-role-select"
                     labelText="Applicant's Role:"
                 tooltipTitle="Applicant's Role:"
@@ -182,8 +186,10 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
                         },
                     }} />} label="Authorized Person" />                                       
                 </RadioGroup>
-            </FormField>
-            {step2Data.applicantRoleSelect === 'driver' &&
+                    </FormField>
+                </Grid>
+                {step2Data.applicantRoleSelect === 'driver' &&
+                    <Grid item xs={8} sx={{ padding: "1px" }}>
                 <FormField
                     id="represented-by-lawyer"
                     labelText="Are you represented by a lawyer?"
@@ -205,7 +211,8 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
                             },
                         }} />} label="No" />
                     </RadioGroup>
-                </FormField>
+                        </FormField>
+                </Grid>
             }
             {
                 (step2Data.applicantRoleSelect === 'lawyer' || step2Data.applicantRoleSelect === 'advocate') &&
