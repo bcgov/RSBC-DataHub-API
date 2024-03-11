@@ -10,7 +10,11 @@ import  React, { useState, ReactNode } from 'react';
 type CustomAccordionProps = {
     title: string;
     content: ReactNode;
+    id: string;
+    isExpanded: boolean;
 }
+
+
 const AccordionSummary = styled((props: AccordionSummaryProps) => (
     <MUIAccordionSummary
         expandIcon={<KeyboardArrowRight sx={{ fontSize: '30px' }} />}
@@ -55,7 +59,7 @@ const Accordion = styled((props: AccordionProps) => (
     },
 }));
 
-const CustomAccordion: React.FC<CustomAccordionProps> = ({ title, content }) => {
+const CustomAccordion: React.FC<CustomAccordionProps> = ({ title, content, id, isExpanded, }) => {
 
     const [expanded, setExpanded] = useState<string | false>(false);
 
@@ -64,7 +68,7 @@ const CustomAccordion: React.FC<CustomAccordionProps> = ({ title, content }) => 
     };
     
     return (
-        <Accordion expanded={expanded === 'panel1'} onChange={toggleAccordion('panel1')} style={{paddingBottom:'10px'} }>
+        <Accordion expanded={isExpanded || expanded === 'panel1'} onChange = { toggleAccordion('panel1') } style = {{ paddingBottom: '10px' }} id = { id } >
             <AccordionSummary 
             expandIcon={< KeyboardArrowRight />}
             aria-controls="panel1-content"

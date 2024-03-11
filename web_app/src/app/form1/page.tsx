@@ -1,5 +1,5 @@
 ﻿'use client'
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useRef, useState } from 'react';
 import Image from 'next/image';
 import CustomAccordion from '../components/Accordion';
 import Step1 from './steps/step1';
@@ -10,12 +10,27 @@ import { Button, Grid } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowForward from '@mui/icons-material/ArrowForward';
 import { Step1Data, Step2Data, } from '../interfaces'; 
+import { generatePdf, } from '../components/GeneratePDF';
 
 export default function Page() {
-  
+
+    const contentRef = useRef<HTMLDivElement>(null);
+
+
+
+    const [isExpanded, setIsExpanded] = useState<boolean>(false);
     const submitData = () => {
         console.log(step1Data);
         console.log(step2Data);
+        setIsExpanded(true);
+        setTimeout(async () => {
+            const pdf = await generatePdf('formContent');
+            if (pdf) {
+                pdf.save('download.pdf');
+            }
+          
+        }, 500);       
+
     }
     
 
@@ -64,10 +79,15 @@ export default function Page() {
         console.log(step2Data);
     };
 
-    return (<div>
+    const handleStep3Data = (step3Data: Step2Data) => {
+       
+    };
+    
+
+    return (<div id="formContent" ref={contentRef }>
         <h1 className="header1">Notice of Driving Prohibition Application for Review</h1>
-        <div className="formContent">
-            <CustomAccordion title="Before You Begin:"
+        <div className="formContent" >
+            <CustomAccordion title="Before You Begin:" id="step0" isExpanded={isExpanded}
                 content={<div style={{ fontSize: "16px", fontFamily: "'BC Sans', 'Noto Sans',  Arial, sans-serif", paddingLeft: '10px', lineHeight: '2.5' }}><p>When you see this symbol <Image
                     src="/./././assets/icons/info-icon.png"
                     width={15}
@@ -81,25 +101,26 @@ export default function Page() {
                         <li>A copy of your completed application, and</li>
                         <li>The next step in the application process.</li>
                     </ol>
-                    <p>If you don&apos;t enter anything in the form for 15 minmutes, it may time out.</p> </div>} />
+                    <p>If you don&apos;t enter anything in the form for 15 minutes, it may time out.</p> </div>} />
 
 
-            <CustomAccordion title="Step 1: Enter Prohibition Information"
+            <CustomAccordion title="Step 1: Enter Prohibition Information" id="step1" isExpanded={isExpanded}
                 content={<Step1 step1DatatoSend={handleStep1Data}></Step1>} />
 
-            <CustomAccordion title="Step 2: Enter Applicant Information"
+            <CustomAccordion title="Step 2: Enter Applicant Information" id="step2" isExpanded={isExpanded}
                 content={<Step2 step2DatatoSend={handleStep2Data} licenseSeized={ step1Data.licenseSeized === 'licenseSeized' }></Step2>} />
 
-            <CustomAccordion title="Step 3: Complete Review Information"
-                content={<Step3 controlIsUl={step1Data.controlIsUl} controlIsIrp={step1Data.controlIsIrp} controlIsAdp={step1Data.controlIsAdp} />
+            <CustomAccordion title="Step 3: Complete Review Information" id="step3" isExpanded={isExpanded}
+                content={<Step3 controlIsUl={step1Data.controlIsUl} controlIsIrp={step1Data.controlIsIrp} controlIsAdp={step1Data.controlIsAdp}
+                    step3DatatoSend={handleStep3Data} licenseSeized={step1Data.licenseSeized === 'licenseSeized'} />
                 } />
 
-            <CustomAccordion title="Step 4: Consent and Submit"
+            <CustomAccordion title="Step 4: Consent and Submit" id="step4" isExpanded={isExpanded}
                 content={<Step4 />} />
 
 
         </div>
-        <div>
+        <div style={{paddingBottom:'40px'} }>
             <Grid container spacing={2} >
                 <Grid item xs={8} sx={{ padding: "1px" }}></Grid>
                 <Grid item xs={4} sx={{ padding: "1px" }}>
@@ -112,6 +133,8 @@ export default function Page() {
                 </Grid>
             </Grid>
         </div>
-    </div >
+    </div>
     )
 }
+
+
