@@ -16,7 +16,7 @@ public interface SimpleMessageMapper {
     @Mapping(target = "replyTo", ignore = true)
     @Mapping(target = "to", source = "to", qualifiedByName = "emailObjectCollectionToStringArray")
     @Mapping(target = "cc", source = "cc", qualifiedByName = "emailObjectCollectionToStringArray")
-    @Mapping(target = "bcc", ignore = true)
+    @Mapping(target = "bcc", source = "bcc", qualifiedByName = "emailObjectCollectionToStringArray")
     @Mapping(target = "sentDate", ignore = true)
     @Mapping(target = "subject", source="subject")
     @Mapping(target = "text", source="content.value")

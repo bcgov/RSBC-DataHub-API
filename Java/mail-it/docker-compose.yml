@@ -7,8 +7,8 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - EMAIL_HOST=mailhog
-      - EMAIL_PORT=1025
+      - EMAIL_HOST=apps.smtp.gov.bc.ca
+      - EMAIL_PORT=25
       - BASIC_AUTH_USER=test
       - BASIC_AUTH=test!
     networks:

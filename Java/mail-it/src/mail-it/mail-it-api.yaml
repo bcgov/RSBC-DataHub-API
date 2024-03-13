@@ -63,6 +63,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/email_object'
+        bcc: 
+          type: array
+          items: 
+            $ref: '#/components/schemas/email_object'
         subject:
           type: string
           description: 'The global, or “message level”, subject of your email. This may be overridden by personalizations[x].subject.'

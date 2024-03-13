@@ -1,14 +1,9 @@
 package ca.bc.gov.open.rsbc.mailit.mail.controller;
 
-import ca.bc.gov.open.rsbc.mailit.mail.api.MailApi;
-import ca.bc.gov.open.rsbc.mailit.mail.api.model.EmailAttachment;
-import ca.bc.gov.open.rsbc.mailit.mail.api.model.EmailObject;
-import ca.bc.gov.open.rsbc.mailit.mail.api.model.EmailRequest;
-import ca.bc.gov.open.rsbc.mailit.mail.api.model.EmailResponse;
-import ca.bc.gov.open.rsbc.mailit.mail.mappers.SimpleMessageMapper;
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
-import jakarta.mail.util.ByteArrayDataSource;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -18,9 +13,15 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import ca.bc.gov.open.rsbc.mailit.mail.api.MailApi;
+import ca.bc.gov.open.rsbc.mailit.mail.api.model.EmailAttachment;
+import ca.bc.gov.open.rsbc.mailit.mail.api.model.EmailObject;
+import ca.bc.gov.open.rsbc.mailit.mail.api.model.EmailRequest;
+import ca.bc.gov.open.rsbc.mailit.mail.api.model.EmailResponse;
+import ca.bc.gov.open.rsbc.mailit.mail.mappers.SimpleMessageMapper;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.util.ByteArrayDataSource;
 
 @RestController
 public class MailApiController implements MailApi {
@@ -48,7 +49,7 @@ public class MailApiController implements MailApi {
             return new ResponseEntity("error", HttpStatus.BAD_REQUEST);
         }
 
-        // No attachmentment(s)
+        // No attachment(s)
         if (null == emailRequest.getAttachment() || emailRequest.getAttachment().isEmpty()) {
 
             logger.info("Mapping message");
@@ -78,6 +79,25 @@ public class MailApiController implements MailApi {
                     tos.add(element.getEmail());
                 }
                 helper.setTo(tos.toArray(new String[0]));
+                
+                // Extract the cc(s).
+                if ( null != emailRequest.getCc() && emailRequest.getCc().size() > 0 ) {
+	                List<String> ccs = new ArrayList<String>();
+	                for (EmailObject element : emailRequest.getCc()) {
+	                    ccs.add(element.getEmail());
+	                }
+	                helper.setCc(ccs.toArray(new String[0]));
+	            }
+                
+                // Extract the bcc(s).
+                if ( null != emailRequest.getBcc() && emailRequest.getBcc().size() > 0 ) {
+	                List<String> bccs = new ArrayList<String>();
+	                for (EmailObject element : emailRequest.getBcc()) {
+	                    bccs.add(element.getEmail());
+	                }
+	                helper.setBcc(bccs.toArray(new String[0]));
+                }
+                
 
                 helper.setSubject(emailRequest.getSubject());
 
@@ -89,6 +109,7 @@ public class MailApiController implements MailApi {
                     logger.error("Invalid or missing content type value");
                     return new ResponseEntity("error", HttpStatus.BAD_REQUEST);
                 }
+                
                 // the attachment objects as an array. (see jag-mail-it-api.yaml)
                 // if there is error with an attachment, it will throw exception
                 for (EmailAttachment emailAttachment : emailRequest.getAttachment()) {
