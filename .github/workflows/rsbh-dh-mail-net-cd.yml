@@ -1,20 +1,13 @@
 name: rsbc-dh-mail-net-cd
 
 on:
-  push:
+  pull_request:
+    types: [opened, reopened, edited, synchronize]
     branches:
-      - feature/apr-41_2
-  #   paths:
-  #     - Java/README.md
-  #     - Java/mail-it/**
-
-  # pull_request:
-  #   types: [opened, reopened, edited, synchronize]
-  #   branches:
-  #     - master
-  #   paths:
-  #     - Java/clamav_client/**
-  #     - trigger.txt
+      - master
+    paths:
+       - Java/README.md
+       - Java/mail-it/**
 
 jobs:
   CD:

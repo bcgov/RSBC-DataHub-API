@@ -1,12 +1,13 @@
 name: rsbc-dh-mail-net-ci
 
 on:
-  push:
-    branches:
-      - feature/apr-41_2
-  #   paths:
-  #     -  Java/README.md
-  #     -  Java/mail-it/**
+  pull_request:
+    types: [opened, reopened, edited, synchronize]
+    branches-ignore:
+      - master
+    paths:
+       -  Java/README.md
+       -  Java/mail-it/**
 
 jobs:
   CI:
