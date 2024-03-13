@@ -1,4 +1,4 @@
-name: rsbc-dh-claimav-cd
+name: rsbc-dh-mail-net-cd
 
 on:
   pull_request:
@@ -6,14 +6,14 @@ on:
     branches:
       - master
     paths:
-       - Java/clamav_client/**
        - Java/README.md
+       - Java/mail-it/**
 
 jobs:
   CD:
     uses: ./.github/workflows/cd-workflow-orbeon-replacement.yml
     with:
-      DOCKER_CONTEXT: Java/clamav_client
-      DOCKER_FILE: Java/clamav_client/Dockerfile
-      DOCKER_IMAGE_NAME: dh-clamav-client
+      DOCKER_CONTEXT: Java/mail-it/src
+      DOCKER_FILE: Java/mail-it/src/Dockerfile
+      DOCKER_IMAGE_NAME: dh-mail-net
     secrets: inherit

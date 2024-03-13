@@ -1,0 +1,17 @@
+name: rsbc-dh-mail-net-ci
+
+on:
+  pull_request:
+    types: [opened, reopened, edited, synchronize]
+    branches-ignore:
+      - master
+    paths:
+       -  Java/README.md
+       -  Java/mail-it/**
+
+jobs:
+  CI:
+    uses: ./.github/workflows/ci-workflow.yml
+    with:
+      DOCKER_CONTEXT: Java/mail-it/src
+      DOCKER_FILE: Java/mail-it/src/Dockerfile
