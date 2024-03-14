@@ -69,14 +69,14 @@ const CustomAccordion: React.FC<CustomAccordionProps> = ({ title, content, id, i
     
     return (
         <Accordion expanded={isExpanded || expanded === 'panel1'} onChange = { toggleAccordion('panel1') } style = {{ paddingBottom: '10px' }} id = { id } >
-            <AccordionSummary 
+            <AccordionSummary id={'summary'+ id }
             expandIcon={< KeyboardArrowRight />}
             aria-controls="panel1-content"
-            id="panel1-header" className="accordionSummary header2"
+             className="accordionSummary header2"
             >
                 <h2 className="header2" style={{fontSize:"30px", margin:"0px"} }><Typography style={{ textDecoration: "none", color: "#555", minHeight: "36px", fontSize: "30px",  }}>{title}</Typography></h2>
             </AccordionSummary>
-            <AccordionDetails style={{ paddingLeft:'30px' }}>
+            <AccordionDetails style={{ paddingLeft:'30px', paddingRight:'60px' }}>
                 {content}
         </AccordionDetails>
     </Accordion>

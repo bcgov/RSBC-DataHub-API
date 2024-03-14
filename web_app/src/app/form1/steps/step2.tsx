@@ -156,8 +156,8 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
         
     return (
         <div style={{ display: 'grid', marginTop: '20px', pointerEvents: (licenseSeized ? '' : 'none') as React.CSSProperties["pointerEvents"], }} >
-            
-                <Grid item xs={8} sx={{ padding: "1px" }}>
+            <div id="page2img2"> 
+                <Grid item xs={6} md={8} sm={10} lg={12} sx={{ padding: "1px", paddingBottom:'20px' }}>
                     <strong style={{ fontSize: '16px', paddingBottom: '20px', paddingLeft: '10px' }}> Applicant Information:</strong>
                 </Grid>
                     <Grid item xs={8} sx={{ padding: "1px" }}>
@@ -254,7 +254,8 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
                     variant="outlined" name='applicantFirstName'
                     value={step2Data.applicantFirstName} onChange={handleChange} onBlur={handleBlur}>
                 </TextField>
-            </FormField>
+                </FormField>
+           
             <FormField
                 id="last-name"
                 labelText="Last Name"
@@ -267,7 +268,9 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
                     variant="outlined" name='applicantLastName' 
                     value={step2Data.applicantLastName} onChange={handleChange} onBlur={handleBlur} >
                 </TextField>
-            </FormField>
+                </FormField>
+            </div>
+            <div id="page3img1">
             <FormField
                 id="ph-number" 
                 labelText="Phone Number"
@@ -313,7 +316,9 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
                     variant="outlined" name='applicantEmailConfirm'
                     value={step2Data.applicantEmailConfirm} onChange={handleChange} onBlur={handleBlur}>
                 </TextField>
-            </FormField>
+                </FormField>
+            </div>
+            <div id="page3img2">
             {((step2Data.applicantRoleSelect === 'driver' && step2Data.representedByLawyer === 'yes') ||
                 step2Data.applicantRoleSelect === 'lawyer' ||
                 step2Data.applicantRoleSelect === 'advocate') &&
@@ -368,7 +373,7 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
                     value={step2Data.driverBcdl} onChange={handleChange} onBlur={handleBlur}>
                 </TextField>
             </FormField>
-            <strong style={{ fontSize: '16px', paddingBottom: '20px', paddingLeft: '10px' }}>Address where you want the decision mailed:</strong>
+            <strong style={{ fontSize: '16px', paddingBottom: '30px', paddingLeft: '10px' }}>Address where you want the decision mailed:</strong>
             <FormField
                 id="address"
                 labelText="Address"
@@ -395,7 +400,9 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
                     variant="outlined" name='controlDriverCityTown'
                     value={step2Data.controlDriverCityTown} onChange={handleChange} onBlur={handleBlur}>
                 </TextField>
-            </FormField>
+                </FormField>
+                </div>
+                <div id="page4img1">
             <FormField
                 id="province"
                 labelText="Province"
@@ -408,7 +415,7 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
                     onChange={event => handleProvinceChange(event.target.value)} onBlur={handleBlur}
                     style={{ minWidth: '300px' }}  >
                     <MenuItem value="BritishColumbia"> British Columbia</MenuItem>
-                    <MenuItem value="Alberta">Alberts</MenuItem>
+                    <MenuItem value="Alberta">Alberta</MenuItem>
                     <MenuItem value="Saskatchewan"> Saskatchewan </MenuItem>
                     <MenuItem value="Manitoba"> Manitoba </MenuItem>
                     <MenuItem value="Ontario"> Ontario </MenuItem>
@@ -436,6 +443,7 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
                     value={step2Data.controlDriverPostalCode} onChange={handleChange} onBlur={handleBlur}>
                 </TextField>
             </FormField>
+            </div>
             </div>
        
     );
