@@ -119,7 +119,7 @@ export default function Page() {
         console.log(step3Data);
     };
 
-    const handleStep4Data = (step3Data: Step4Data) => {
+    const handleStep4Data = (step4Data: Step4Data) => {
         setStep4Data(step4Data);
         console.log(step4Data);
     };

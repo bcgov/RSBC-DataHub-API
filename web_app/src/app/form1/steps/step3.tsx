@@ -68,6 +68,23 @@ const Step3: React.FC<Step3InputProps> = ({ controlIsUl, controlIsIrp, controlIs
         step3DatatoSend(step3Data);
     };
 
+    const PrepareForeReview = () => {
+        return (
+            <Grid item xs={8} sx={{ padding: "1px" }}>
+                <div className="step3Div" id="prepareForReviewUl">
+                    <div className="step3Div" ><strong><span style={{ fontSize: '16px' }}>Preparing for your review:</span></strong></div>
+                    <ul style={{ marginLeft: '20px' }}>
+                        <li>Before your review, we&apos;ll send you the police evidence.</li>
+                        <li>You can use the evidence to prepare for your review.</li>
+                        <li>The adjudicator will use it with the information you submit to make a decision about your prohibition.</li>
+                        <li>A lawyer may represent you in your review.&nbsp;</li>
+                        <li>Review decisions are sent by regular mail.</li>
+                    </ul>
+                </div>
+            </Grid> 
+        )
+    }
+
     return (
         <div className="step3Div" style={{ display: 'grid', marginTop: '20px',marginRight:'150px',  pointerEvents: (licenseSeized ? '' : 'none') as React.CSSProperties["pointerEvents"], }} >      
             <Grid item xs={12}  md={8} sm={10} lg={12} sx={{ padding: "1px" }}>
@@ -88,18 +105,7 @@ const Step3: React.FC<Step3InputProps> = ({ controlIsUl, controlIsIrp, controlIs
                                 <FormControlLabel control={<Checkbox value={2} onChange={handleChange} name="ulGrounds" />} label="My driving record should not have identified me as an unlicensed driver. " />                           
                         </FormGroup>
                             </div>
-                            <Grid item xs={8} sx={{ padding: "1px" }}>
-                                <div className="step3Div" id="prepareForReviewUl">
-                                    <div className="step3Div" ><strong><span style={{ fontSize: '16px' }}>Preparing for your review:</span></strong></div>
-                                    <ul style={{ marginLeft: '20px' }}>
-                                        <li>Before your review, we&apos;ll send you the police evidence.</li>
-                                        <li>You can use the evidence to prepare for your review.</li>
-                                        <li>The adjudicator will use it with the information you submit to make a decision about your prohibition.</li>
-                                        <li>A lawyer may represent you in your review.&nbsp;</li>
-                                        <li>Review decisions are sent by regular mail.</li>
-                                    </ul>
-                                </div>
-                            </Grid> 
+                           <PrepareForeReview />
                             <div className="step3Div" id="additionalInfoUl">
                                 <div className="step3Div" ><strong><span style={{ fontSize: '16px' }}>Additional Information:</span></strong></div>
                                 <ul>
@@ -143,18 +149,7 @@ const Step3: React.FC<Step3InputProps> = ({ controlIsUl, controlIsIrp, controlIs
                                 <FormControlLabel control={<Checkbox onChange={handleChange} value={12} name="irpGrounds" />} label="I had a reasonable excuse for refusing or failing to comply with a demand." />
                         </FormGroup>
                             </div>
-                            <Grid item xs={8} sx={{ padding: "1px" }}>
-                                <div className="step3Div" id="prepareForReviewUl">
-                                    <div className="step3Div" ><strong><span style={{ fontSize: '16px' }}>Preparing for your review:</span></strong></div>
-                                    <ul style={{ marginLeft: '20px' }}>
-                                        <li>Before your review, we&apos;ll send you the police evidence.</li>
-                                        <li>You can use the evidence to prepare for your review.</li>
-                                        <li>The adjudicator will use it with the information you submit to make a decision about your prohibition.</li>
-                                        <li>A lawyer may represent you in your review.&nbsp;</li>
-                                        <li>Review decisions are sent by regular mail.</li>
-                                    </ul>
-                                </div>
-                            </Grid> 
+                            <PrepareForeReview />
 
                     </div>
                 }
@@ -239,18 +234,7 @@ const Step3: React.FC<Step3InputProps> = ({ controlIsUl, controlIsIrp, controlIs
                                 }
 
                             </div>
-                            <Grid item xs={8} sx={{ padding: "1px" }}>
-                                <div className="step3Div" id="prepareForReviewUl">
-                                    <div className="step3Div" ><strong><span style={{ fontSize: '16px' }}>Preparing for your review:</span></strong></div>
-                                    <ul style={{ marginLeft: '20px' }}>
-                                        <li>Before your review, we&apos;ll send you the police evidence.</li>
-                                        <li>You can use the evidence to prepare for your review.</li>
-                                        <li>The adjudicator will use it with the information you submit to make a decision about your prohibition.</li>
-                                        <li>A lawyer may represent you in your review.&nbsp;</li>
-                                        <li>Review decisions are sent by regular mail.</li>
-                                    </ul>
-                                </div>
-                                </Grid> 
+                                <PrepareForeReview />
                             </div>
                             <div id='page6img1'>
                             <FormField
