@@ -9,8 +9,8 @@ import Step4 from './steps/step4';
 import { Button, Grid } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowForward from '@mui/icons-material/ArrowForward';
-import { Step1Data, Step2Data, Step3Data, Step4Data } from '../interfaces'; 
-import { generatePdfIds } from '../components/GeneratePDF';
+import { Step1Data, Step2Data, Step3Data, Step4Data } from '../interfaces';
+import { generatePDF } from '../components/GeneratePDF';
 export default function Page() {
 
       const [isExpanded, setIsExpanded] = useState<boolean>(false);
@@ -18,6 +18,7 @@ export default function Page() {
         console.log(step1Data);
             console.log(step2Data);
             console.log(step3Data);
+            console.log(step4Data);
             setIsExpanded(true);
 
             let pdfList = [
@@ -46,7 +47,7 @@ export default function Page() {
             }
 
             setTimeout(async () => {
-                const pdf = await generatePdfIds(pdfList);
+                const pdf = await generatePDF(pdfList);
                 pdf?.save('latest.pdf');
             }, 500);           
             }
