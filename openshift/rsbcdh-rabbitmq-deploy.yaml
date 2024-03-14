@@ -81,6 +81,7 @@ objects:
         loopback_users.guest = false
         queue_master_locator=client-local
         management.load_definitions = /etc/rabbitmq/definitions.json
+        vm_memory_high_watermark.relative = 0.8
     definitions.json: |
         {
           "queues": [
