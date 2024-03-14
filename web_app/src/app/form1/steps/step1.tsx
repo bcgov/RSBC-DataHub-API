@@ -94,6 +94,7 @@ const Step1: React.FC<Props> = ({ step1DatatoSend }) => {
 
     return (
         <div style={{ display: 'grid', marginTop: '20px' }}>
+        <div id="page1img2">
             <FormField
                 id="control-prohibition-number"
                 labelText="Prohibition No."
@@ -165,7 +166,9 @@ const Step1: React.FC<Props> = ({ step1DatatoSend }) => {
                             </RadioGroup>
                         </FormField>
                     }
-                </Grid>
+                    </Grid>
+           
+
                 <Grid item xs={7} sx={{ padding: "1px" }}>
                     {
                         (step1Data.controlIsIrp === true || step1Data.controlIsAdp === true) && showNoLicenseDiv === true &&
@@ -194,7 +197,8 @@ const Step1: React.FC<Props> = ({ step1DatatoSend }) => {
                     }
                 </Grid>
             </Grid>
-
+            </div>
+            <div id="page2img1">
             {(step1Data.controlIsIrp === true && step1Data.licenseSeized === "licenseSeized") &&
                 <FormField
                     id="irp-prohibition-type-length"
@@ -266,7 +270,8 @@ const Step1: React.FC<Props> = ({ step1DatatoSend }) => {
                         />
                     </LocalizationProvider>
                 </FormField>
-            }
+                }
+            </div>
 
         </div>
 

@@ -1,5 +1,5 @@
 ﻿'use client'
-import React, { FormEvent, useRef, useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import Image from 'next/image';
 import CustomAccordion from '../components/Accordion';
 import Step1 from './steps/step1';
@@ -9,29 +9,48 @@ import Step4 from './steps/step4';
 import { Button, Grid } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowForward from '@mui/icons-material/ArrowForward';
-import { Step1Data, Step2Data, } from '../interfaces'; 
-import { generatePdf, } from '../components/GeneratePDF';
-
+import { Step1Data, Step2Data, Step3Data, Step4Data } from '../interfaces';
+import { generatePDF } from '../components/GeneratePDF';
 export default function Page() {
 
-    const contentRef = useRef<HTMLDivElement>(null);
-
-
-
-    const [isExpanded, setIsExpanded] = useState<boolean>(false);
-    const submitData = () => {
+      const [isExpanded, setIsExpanded] = useState<boolean>(false);
+        const submitData = () => {
         console.log(step1Data);
-        console.log(step2Data);
-        setIsExpanded(true);
-        setTimeout(async () => {
-            const pdf = await generatePdf('formContent');
-            if (pdf) {
-                pdf.save('download.pdf');
-            }
-          
-        }, 500);       
+            console.log(step2Data);
+            console.log(step3Data);
+            console.log(step4Data);
+            setIsExpanded(true);
 
-    }
+            let pdfList = [
+                { id: 'page1img1', pageNumber: 1 },// Before You Begin display block
+                { id: 'summarystep1', pageNumber: 1 }, // Step 1 header
+                { id: 'page1img2', pageNumber: 1 }, //Step 1 Info Part 1
+                { id: 'page2img1', pageNumber: 2 }, //Step 1 Info Part 2
+                { id: 'summarystep2', pageNumber: 2 },// Step 2 Header
+                { id: 'page2img2', pageNumber: 2 },//Step 2 Info Part 1
+                { id: 'page3img1', pageNumber: 3 },//Step 2 Info Part 2
+                { id: 'page3img2', pageNumber: 3 },//Step 2 Info Part 3
+                { id: 'page4img1', pageNumber: 4 }, //Step 2 Info Part 4
+                { id: 'summarystep3', pageNumber: 5 }, // Step 3 Header
+            ];
+
+            if (step1Data.controlIsUl) 
+                pdfList.push({ id: 'ulControlBlock', pageNumber: 5 }, { id: 'step4', pageNumber: 6 });
+            else if (step1Data.controlIsIrp)
+                pdfList.push({ id: 'irpControlBlock', pageNumber: 5 }, { id: 'step4', pageNumber: 6 });
+            else if (step1Data.controlIsAdp) {
+                pdfList.push({ id: 'adp-burden-of-proof-text', pageNumber: 5 });
+                pdfList.push({ id: 'page5img1', pageNumber: 5 });
+                pdfList.push({ id: 'page5img2', pageNumber: 6 });
+                pdfList.push({ id: 'page6img1', pageNumber: 6 });
+                pdfList.push({ id: 'step4', pageNumber: 7 });
+            }
+
+            setTimeout(async () => {
+                const pdf = await generatePDF(pdfList);
+                pdf?.save('latest.pdf');
+            }, 500);           
+            }
     
 
     function onClear(event: FormEvent<HTMLFormElement>) {
@@ -69,6 +88,22 @@ export default function Page() {
         controlDriverPostalCode: '',
     });
 
+    const [step3Data, setStep3Data] = useState<Step3Data>({
+        ulGrounds: [],
+        irpGroundsList: [],
+        adpGroundsAlcohol: [],
+        adpGroundsDrugs: [],
+        adpGroundsAlcoholDrugs: [],
+        adpGroundsDrugExpert: [],
+        adpGroundsRefusal: [],
+        control6: 0,
+        hearingRequest: '',
+    });
+
+    const [step4Data, setStep4Data] = useState<Step4Data>({
+        signatureApplicantName: '',
+    });
+
     const handleStep1Data = (step1Data: Step1Data) => {
         console.log(step1Data);
         setStep1Data(step1Data);
@@ -79,14 +114,23 @@ export default function Page() {
         console.log(step2Data);
     };
 
-    const handleStep3Data = (step3Data: Step2Data) => {
-       
+    const handleStep3Data = (step3Data: Step3Data) => {
+        setStep3Data(step3Data);
+        console.log(step3Data);
+    };
+
+    const handleStep4Data = (step4Data: Step4Data) => {
+        setStep4Data(step4Data);
+        console.log(step4Data);
     };
     
+   return (       
 
-    return (<div id="formContent" ref={contentRef }>
-        <h1 className="header1">Notice of Driving Prohibition Application for Review</h1>
-        <div className="formContent" >
+       <div className="formContent">  
+       
+                <div id="formContent" >
+                  <div id="page1img1">
+                        <h1 className="header1" id="hed">Notice of Driving Prohibition Application for Review</h1>
             <CustomAccordion title="Before You Begin:" id="step0" isExpanded={isExpanded}
                 content={<div style={{ fontSize: "16px", fontFamily: "'BC Sans', 'Noto Sans',  Arial, sans-serif", paddingLeft: '10px', lineHeight: '2.5' }}><p>When you see this symbol <Image
                     src="/./././assets/icons/info-icon.png"
@@ -102,21 +146,25 @@ export default function Page() {
                         <li>The next step in the application process.</li>
                     </ol>
                     <p>If you don&apos;t enter anything in the form for 15 minutes, it may time out.</p> </div>} />
-
+               </div>
 
             <CustomAccordion title="Step 1: Enter Prohibition Information" id="step1" isExpanded={isExpanded}
-                content={<Step1 step1DatatoSend={handleStep1Data}></Step1>} />
+                       content={<Step1 step1DatatoSend={handleStep1Data}></Step1>} />
+               
 
+               
+               
             <CustomAccordion title="Step 2: Enter Applicant Information" id="step2" isExpanded={isExpanded}
-                content={<Step2 step2DatatoSend={handleStep2Data} licenseSeized={ step1Data.licenseSeized === 'licenseSeized' }></Step2>} />
-
+                            content={<Step2 step2DatatoSend={handleStep2Data} licenseSeized={step1Data.licenseSeized === 'licenseSeized'}></Step2>} />
+                   
             <CustomAccordion title="Step 3: Complete Review Information" id="step3" isExpanded={isExpanded}
                 content={<Step3 controlIsUl={step1Data.controlIsUl} controlIsIrp={step1Data.controlIsIrp} controlIsAdp={step1Data.controlIsAdp}
                     step3DatatoSend={handleStep3Data} licenseSeized={step1Data.licenseSeized === 'licenseSeized'} />
                 } />
+                  
 
-            <CustomAccordion title="Step 4: Consent and Submit" id="step4" isExpanded={isExpanded}
-                content={<Step4 />} />
+               <CustomAccordion title="Step 4: Consent and Submit" id="step4" isExpanded={isExpanded}
+                   content={<Step4 step4DatatoSend={handleStep4Data} />} />
 
 
         </div>
@@ -133,8 +181,9 @@ export default function Page() {
                 </Grid>
             </Grid>
         </div>
-    </div>
+            </div>
     )
+
 }
 
 

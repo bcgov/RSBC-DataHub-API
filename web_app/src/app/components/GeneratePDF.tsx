@@ -1,32 +1,48 @@
-import React from "react";
 import { jsPDF,  } from "jspdf";
 import html2canvas from 'html2canvas';
 
-
 type props = {
     id: string;
+    pageNumber: number;
 };
 
-export const generatePdf = async (id: string): Promise<jsPDF | null> => {
-    const content = document.getElementById(id);
-    if (content) {
-        const canvas = await html2canvas(content);
-        const imgData = canvas.toDataURL('image/png');
+export const generatePDF = async (value: props[]): Promise<jsPDF | null> => {
+    const doc = new jsPDF("p", "mm", "a4");
 
-        const pdf = new jsPDF({
-            orientation: 'p',
-            unit: 'px',
-            format: [canvas.width, canvas.height]
-        });
+    const totalPages : number = value.at(value.length - 1)?.pageNumber as number ;
 
-        
+    for (let i = 1; i <= totalPages; i++) {
 
-        pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
-        return pdf;
-    }
-    return null;
+        const imgWidth = 170;
+        const pageHeight = 295;
+        const margin = 15;
+        //Add header
+        doc.setFontSize(10);
+        doc.text('Notice of Driving Prohibition Application for Review', 15, 10);
+        doc.setLineWidth(0.5);
+        doc.line(15, 15, doc.internal.pageSize.getWidth() - 15, 15);
 
+        //Add footer
+        const footerText = `${i}/${totalPages}`;
+        doc.text('Notice of Driving Prohibition Application for Review', 15, pageHeight - 10);
+        doc.text(footerText, doc.internal.pageSize.getWidth() - 15 - doc.getStringUnitWidth(footerText) * doc.getFontSize() / 2, pageHeight - 10);
+        doc.line(15, pageHeight - 20, doc.internal.pageSize.getWidth() - 15, pageHeight - 20);
+
+        let yPosition = 20;
+        for (const element of value) {
+            if (element.pageNumber === i) {                
+                const content = document.getElementById(element.id);
+                const canvas = await html2canvas(content as HTMLElement);
+                const img = canvas.toDataURL("image/png", 1.0);
+                const imgHeight = canvas.height * imgWidth / canvas.width;
+                doc.addImage(img, 'PNG', margin, yPosition, imgWidth, imgHeight);
+                yPosition += imgHeight+5;
+            }
+        }
+
+        if (i !== totalPages)
+            doc.addPage();
+
+    }    
+    return doc;
 }
-
-
-   

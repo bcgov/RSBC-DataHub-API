@@ -66,7 +66,25 @@ export interface Step3InputProps {
     controlIsIrp: boolean;
     controlIsAdp: boolean;
     licenseSeized: boolean;
-    step3DatatoSend: (data: Step2Data) => void;
+    step3DatatoSend: (data: Step3Data) => void;
+}
+
+export interface Step3Data {
+    ulGrounds: number[];
+    irpGroundsList: number[];
+    adpGroundsAlcohol: number[];
+    adpGroundsDrugs: number[];
+    adpGroundsAlcoholDrugs: number[];
+    adpGroundsDrugExpert: number[];
+    adpGroundsRefusal: number[];
+    control6: number;
+    hearingRequest: string;
+    
+}
+
+export interface Step4Data {
+    signatureApplicantName: string;
+    signedDate?: Date;
 }
 
 export interface AvailableReviewDates{
