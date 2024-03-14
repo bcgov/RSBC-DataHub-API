@@ -1,0 +1,20 @@
+name: rsbc-dh-web-form-ci
+
+on:
+  push:
+    branches:
+      - 'feature/apr-57_new'
+#  pull_request:
+#    types: [opened, reopened, edited, synchronize]
+#    branches-ignore:
+#      - master
+#    paths:
+#      - Java/clamav_client/**
+#      - Java/README.md
+
+jobs:
+  CI:
+    uses: ./.github/workflows/ci-workflow.yml
+    with:
+      DOCKER_CONTEXT: web_app
+      DOCKER_FILE: web_app/Dockerfile

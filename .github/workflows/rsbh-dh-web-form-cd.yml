@@ -1,0 +1,22 @@
+name: rsbc-dh-web-form-cd
+
+on:
+  push:
+    branches:
+      - 'feature/apr-57_new'
+#  pull_request:
+#    types: [opened, reopened, edited, synchronize]
+#    branches:
+#      - master
+#    paths:
+#      - Java/README.md
+#      - Java/mail-it/**
+
+jobs:
+  CD:
+    uses: ./.github/workflows/cd-workflow-orbeon-replacement.yml
+    with:
+      DOCKER_CONTEXT: web_app
+      DOCKER_FILE: web_app/Dockerfile
+      DOCKER_IMAGE_NAME: dh-web-form
+    secrets: inherit
