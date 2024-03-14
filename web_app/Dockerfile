@@ -32,11 +32,11 @@ RUN npm install
 
 COPY package.json .
 COPY package-lock.json .
-COPY /node_modules ./node_modules
+#COPY /node_modules ./node_modules
 COPY /src ./src
 COPY /public ./public
 COPY next.config.mjs .
-COPY next-env.d.ts .
+#COPY next-env.d.ts .
 COPY tsconfig.json .
 COPY .eslintrc.json .
 
