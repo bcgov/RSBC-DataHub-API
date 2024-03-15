@@ -125,7 +125,7 @@ public class MailApiController implements MailApi {
                 emailSender.send(message);
 
                 emailResponse.setAcknowledge(true);
-                logger.info("Message sent successfully w/attachment(s)");
+                logger.info("Message sent successfully with attachment(s)");
                 return ResponseEntity.accepted().body(emailResponse);
 
             } catch (MessagingException e) {
