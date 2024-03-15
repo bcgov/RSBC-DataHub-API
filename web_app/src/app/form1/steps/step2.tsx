@@ -1,10 +1,13 @@
 ﻿import Image from 'next/image';
 import { FormField } from '../../components/FormField';
 import TextField from '@mui/material/TextField';
-import { Radio, RadioGroup, FormControlLabel, Grid, MenuItem, Select, InputAdornment, } from '@mui/material';
+import { Radio, RadioGroup, FormControlLabel, Grid, MenuItem, Select, InputAdornment, Input, } from '@mui/material';
 import CallIcon from '@mui/icons-material/Call';
 import React, { useEffect, useState, } from 'react';
 import { Step2Data, Step2DataErrors } from '../../interfaces';
+import { sendEmail } from '../actions';
+import { checkVirusScanner } from '@/app/_nonRoutingAssets/lib/virusScanApi';
+import { file2Base64 } from '@/app/_nonRoutingAssets/lib/util';
 
 interface Props {
     step2DatatoSend: (data: Step2Data) => void;
@@ -12,7 +15,7 @@ interface Props {
 }
 
 
-const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
+const Step2: React.FC<Props> = ({ step2DatatoSend, licenseSeized }) => {
 
     const [step2Data, setStep2Data] = useState<Step2Data>({
         applicantRoleSelect: '',
@@ -30,22 +33,23 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
         controlDriverCityTown: '',
         controlDriverProvince: '',
         controlDriverPostalCode: '',
+        consentFile: null,
     });
 
     const [step2DataErrors, setStep2DataErrors] = useState<Step2DataErrors>({});
 
-    const [file, setFile] = useState<File>();   
+    const [consentFile, setFile] = useState<File>();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setStep2Data({ ...step2Data, [name]: value });
         step2DatatoSend(step2Data);
-    }       
+    }
 
     const handleProvinceChange = (value: string) => {
         setStep2Data({ ...step2Data, controlDriverProvince: value });
         step2DatatoSend(step2Data);
-    } 
+    }
 
     const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -56,19 +60,32 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
         step2DatatoSend(step2Data);
     });
 
-    const handleFileUpload = (e:React.ChangeEvent<HTMLInputElement>) => {
-        setFile(e.target.files?.[0]);
-        console.log(file?.size);
 
-        const isValidFile = fetch('api/viruscsanner', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: file,
-        });
-        console.log(isValidFile);
+    const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files?.length) {
+            var file = e.target.files[0];
+            console.log("File is captured: ", file.size, file.name);
+            console.log("step2Data.consentFile: ", step2Data.consentFile)
+            var reader = new FileReader();
+            reader.onload = async function (event) {
+                // The file's text will be printed here
+                console.log("size before: ", file.size);
+                let fileContent =await file2Base64(file); 
+                console.log("size after: ", fileContent.length);
+                //await sendEmail([fileContent.slice(fileContent.indexOf('base64,')+7)], [file.name]);
+                
+                console.log("calling checkVirusScanner: ");
+                await checkVirusScanner(fileContent.slice(fileContent.indexOf('base64,')+7));
 
+                // if (typeof reader.result === 'string' && await checkVirusScanner(Buffer.from(reader.result).toString('base64')))
+                //     step2Data.consentFile = Buffer.from(reader.result).toString('base64');
+                
+                    //add the file here
+                setFile(file);
+            };
+            // callback to reader.onload
+            reader.readAsText(file);
+        }
     }
 
     const validateApplicantName = (value: string, errors: Step2DataErrors, field: 'applicantFirstName'
@@ -77,21 +94,21 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
         | 'driverLastName'
         | 'streetAddress'
         | 'controlDriverCityTown'
-        | 'controlDriverProvince') => {           
-         errors[field] = value ? '' : `${getErrorMessage(field)}.`;
-        };
+        | 'controlDriverProvince') => {
+        errors[field] = value ? '' : `${getErrorMessage(field)}.`;
+    };
 
-        const getErrorMessage = (field: string) => {
-            switch (field) {
-                case 'applicantFirstName': return "Please enter the applicant's first name";
-                case 'applicantLastName': return "Please enter the applicant's last name";
-                case 'driverFirstName': return "Please enter the driver's first name" ;
-                case 'driverLastName': return "Please enter the driver's last name";
-                case 'streetAddress': return "Please enter the street address";
-                case 'controlDriverCityTown': return "Please enter the name of the city";
-                case 'controlDriverProvince': return "Please select a province";
-            }
+    const getErrorMessage = (field: string) => {
+        switch (field) {
+            case 'applicantFirstName': return "Please enter the applicant's first name";
+            case 'applicantLastName': return "Please enter the applicant's last name";
+            case 'driverFirstName': return "Please enter the driver's first name";
+            case 'driverLastName': return "Please enter the driver's last name";
+            case 'streetAddress': return "Please enter the street address";
+            case 'controlDriverCityTown': return "Please enter the name of the city";
+            case 'controlDriverProvince': return "Please select a province";
         }
+    }
 
     const validatePhoneNumber = (value: string, errors: Step2DataErrors) => {
         const phNumberRegex = /^(?:\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
@@ -109,10 +126,10 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
                 errors.applicantEmailAddress = emailAddressRegex.exec(value) ? '' : 'Incorrect email format, enter in format name@example.com';
             else
                 errors.applicantEmailAddress = 'Please enter a valid email address.';
-        } else if(value)
-                errors.applicantEmailConfirm = value && value === step2Data.applicantEmailAddress ? '' : 'Missing or incorrect value';
-            else
-                errors.applicantEmailConfirm = "Please enter the email again to confirm it's the same as the one above.";
+        } else if (value)
+            errors.applicantEmailConfirm = value && value === step2Data.applicantEmailAddress ? '' : 'Missing or incorrect value';
+        else
+            errors.applicantEmailConfirm = "Please enter the email again to confirm it's the same as the one above.";
     };
 
     const validatePostalCode = (value: string, errors: Step2DataErrors) => {
@@ -147,92 +164,92 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
             case 'controlDriverPostalCode':
                 validatePostalCode(value, errors);
                 break;
-            default:                
+            default:
                 break;
         }
 
         setStep2DataErrors(errors);
-    };    
-        
+    };
+
     return (
         <div style={{ display: 'grid', marginTop: '20px', pointerEvents: (licenseSeized ? '' : 'none') as React.CSSProperties["pointerEvents"], }} >
             <div id="page2img2"> 
                 <Grid item xs={6} md={8} sm={10} lg={12} sx={{ padding: "1px", paddingBottom:'20px' }}>
-                    <strong style={{ fontSize: '16px', paddingBottom: '20px', paddingLeft: '10px' }}> Applicant Information:</strong>
-                </Grid>
-                    <Grid item xs={8} sx={{ padding: "1px" }}>
-                    <FormField
+                <strong style={{ fontSize: '16px', paddingBottom: '20px', paddingLeft: '10px' }}> Applicant Information:</strong>
+            </Grid>
+            <Grid item xs={8} sx={{ padding: "1px" }}>
+                <FormField
                     id="applicant-role-select"
                     labelText="Applicant's Role:"
-                tooltipTitle="Applicant's Role:"
-                tooltipContent={<p>You can submit your application, or a lawyer or person you authorize can do it on your behalf.</p>}
-            >
-                <RadioGroup id="applicant-role-select-field" 
-                    name="applicantRoleSelect" value={step2Data.applicantRoleSelect} onChange={handleChange} onBlur={handleBlur}
-                >
-                    <FormControlLabel value="driver"  control={<Radio sx={{
-                        '&.Mui-checked': {
-                            color: 'rgb(49,49,50)',
-                        },
-                    }} />} label="Driver" />
-                    <FormControlLabel value="lawyer"  control={<Radio sx={{
-                        '&.Mui-checked': {
-                            color: 'rgb(49,49,50)',
-                        },
-                    }} />} label="Law Office" />
-                    <FormControlLabel value="advocate"  control={<Radio sx={{
-                        '&.Mui-checked': {
-                            color: 'rgb(49,49,50)',
-                        },
-                    }} />} label="Authorized Person" />                                       
-                </RadioGroup>
-                    </FormField>
-                </Grid>
-                {step2Data.applicantRoleSelect === 'driver' &&
-                    <Grid item xs={8} sx={{ padding: "1px" }}>
-                <FormField
-                    id="represented-by-lawyer"
-                    labelText="Are you represented by a lawyer?"
                     tooltipTitle="Applicant's Role:"
                     tooltipContent={<p>You can submit your application, or a lawyer or person you authorize can do it on your behalf.</p>}
                 >
-                    <RadioGroup id="represented-by-lawyer-field"
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        name="representedByLawyer" value={step2Data.representedByLawyer} onChange={handleChange} onBlur={handleBlur}
+                    <RadioGroup id="applicant-role-select-field"
+                        name="applicantRoleSelect" value={step2Data.applicantRoleSelect} onChange={handleChange} onBlur={handleBlur}
                     >
-                        <FormControlLabel value="yes"  control={<Radio sx={{
+                        <FormControlLabel value="driver" control={<Radio sx={{
                             '&.Mui-checked': {
                                 color: 'rgb(49,49,50)',
                             },
-                        }} />} label="Yes" />
-                        <FormControlLabel value="no"  control={<Radio sx={{
+                        }} />} label="Driver" />
+                        <FormControlLabel value="lawyer" control={<Radio sx={{
                             '&.Mui-checked': {
                                 color: 'rgb(49,49,50)',
                             },
-                        }} />} label="No" />
+                        }} />} label="Law Office" />
+                        <FormControlLabel value="advocate" control={<Radio sx={{
+                            '&.Mui-checked': {
+                                color: 'rgb(49,49,50)',
+                            },
+                        }} />} label="Authorized Person" />
                     </RadioGroup>
-                        </FormField>
+                </FormField>
+            </Grid>
+            {step2Data.applicantRoleSelect === 'driver' &&
+                <Grid item xs={8} sx={{ padding: "1px" }}>
+                    <FormField
+                        id="represented-by-lawyer"
+                        labelText="Are you represented by a lawyer?"
+                        tooltipTitle="Applicant's Role:"
+                        tooltipContent={<p>You can submit your application, or a lawyer or person you authorize can do it on your behalf.</p>}
+                    >
+                        <RadioGroup id="represented-by-lawyer-field"
+                            aria-labelledby="demo-radio-buttons-group-label"
+                            name="representedByLawyer" value={step2Data.representedByLawyer} onChange={handleChange} onBlur={handleBlur}
+                        >
+                            <FormControlLabel value="yes" control={<Radio sx={{
+                                '&.Mui-checked': {
+                                    color: 'rgb(49,49,50)',
+                                },
+                            }} />} label="Yes" />
+                            <FormControlLabel value="no" control={<Radio sx={{
+                                '&.Mui-checked': {
+                                    color: 'rgb(49,49,50)',
+                                },
+                            }} />} label="No" />
+                        </RadioGroup>
+                    </FormField>
                 </Grid>
             }
             {
                 (step2Data.applicantRoleSelect === 'lawyer' || step2Data.applicantRoleSelect === 'advocate') &&
-                <div id="attachConsentDiv" style={{ marginTop: '-20px', paddingLeft:'10px' }}>
+                <div id="attachConsentDiv" style={{ marginTop: '-20px', paddingLeft: '10px' }}>
                     <Grid container spacing={2} >
                         <Grid item xs={7} sx={{ padding: "1px" }}>
-                                <div className="attachConsent" >
-                                    <div style={{ lineHeight:'1' }}><strong style={{ fontSize: '14px', lineHeight: '1.25' }}> Before the review you must provide a signed consent from the driver authorizing you to send and receive documents on their behalf.&nbsp;</strong></div>
-                                    <div style={{ lineHeight: '1' }}><strong style={{ fontSize: '14px' }}>Upload the signed consent below or on the evidence submission form. You&apos;ll have access to the evidence form after you pay and schedule the review. </strong></div></div>
+                            <div className="attachConsent" >
+                                <div style={{ lineHeight: '1' }}><strong style={{ fontSize: '14px', lineHeight: '1.25' }}> Before the review you must provide a signed consent from the driver authorizing you to send and receive documents on their behalf.&nbsp;</strong></div>
+                                <div style={{ lineHeight: '1' }}><strong style={{ fontSize: '14px' }}>Upload the signed consent below or on the evidence submission form. You&apos;ll have access to the evidence form after you pay and schedule the review. </strong></div></div>
                         </Grid>
-                        <Grid item xs={5} sx={{ padding: "1px" }}>                            
+                        <Grid item xs={5} sx={{ padding: "1px" }}>
                         </Grid>
-                        </Grid>
-                        <Grid container spacing={2} style={{ paddingTop:'30px' }} >
+                    </Grid>
+                    <Grid container spacing={2} style={{ paddingTop: '30px' }} >
                         <Grid item xs={7} sx={{ padding: "1px" }}>
                             <FormField id="attach-consent"
                                 labelText="Attach signed consent from driver"
                                 tooltipTitle="Attach signed consent from driver"
                                 tooltipContent={<p>Please upload signed consent from the driver, authorizing you to send and receive documents on their behalf.</p>}>
-                                    <input  type="file" name="file" onChange={(e) => { handleFileUpload(e) } }  />
+                                <Input type="file" name="consentFile" onChange={handleFileUpload} />
                             </FormField>
                         </Grid>
                         <Grid item xs={5} sx={{ padding: "1px" }}>
@@ -240,7 +257,7 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
                     </Grid>
                 </div>
             }
-            {(step2Data.applicantRoleSelect === 'lawyer' || (step2Data.applicantRoleSelect === 'driver' && step2Data.representedByLawyer === 'yes'))  && <strong style={{ fontSize: '16px', paddingBottom: '20px', paddingLeft:'10px' }}> Lawyer Information:</strong>}
+            {(step2Data.applicantRoleSelect === 'lawyer' || (step2Data.applicantRoleSelect === 'driver' && step2Data.representedByLawyer === 'yes')) && <strong style={{ fontSize: '16px', paddingBottom: '20px', paddingLeft: '10px' }}> Lawyer Information:</strong>}
             {step2Data.applicantRoleSelect === 'advocate' && <strong style={{ fontSize: '16px', paddingBottom: '20px', paddingLeft: '10px' }}> Authorized person Information:</strong>}
             <FormField
                 id="first-name"
@@ -250,12 +267,11 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
                 error={!!step2DataErrors.applicantFirstName}
                 errorText={step2DataErrors.applicantFirstName}
             >
-                <TextField id="first-name-field" style={{ paddingLeft: '5px' }} inputProps={{ maxLength: '35' }} 
+                <TextField id="first-name-field" style={{ paddingLeft: '5px' }} inputProps={{ maxLength: '35' }}
                     variant="outlined" name='applicantFirstName'
                     value={step2Data.applicantFirstName} onChange={handleChange} onBlur={handleBlur}>
                 </TextField>
-                </FormField>
-           
+            </FormField>
             <FormField
                 id="last-name"
                 labelText="Last Name"
@@ -265,28 +281,29 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
                 errorText={step2DataErrors.applicantLastName}
             >
                 <TextField id="last-name-field" style={{ paddingLeft: '5px' }}
-                    variant="outlined" name='applicantLastName' 
+                    variant="outlined" name='applicantLastName'
                     value={step2Data.applicantLastName} onChange={handleChange} onBlur={handleBlur} >
                 </TextField>
-                </FormField>
+            </FormField>
             </div>
             <div id="page3img1">
             <FormField
-                id="ph-number" 
+                id="ph-number"
                 labelText="Phone Number"
                 tooltipTitle="Phone Number"
                 tooltipContent={<p>Please provide an area code and phone number where RoadSafetyBC can contact you.</p>}
                 error={!!step2DataErrors.applicantPhoneNumber}
                 errorText={step2DataErrors.applicantPhoneNumber}
             >
-                <TextField id="ph-number-field" style={{ paddingLeft: '5px' }} placeholder="(555) 555-5555" 
+                <TextField id="ph-number-field" style={{ paddingLeft: '5px' }} placeholder="(555) 555-5555"
                     variant="outlined" name='applicantPhoneNumber'
                     value={step2Data.applicantPhoneNumber} onChange={handleChange} onBlur={handleBlur} InputProps={{
                         endAdornment: (
                             <InputAdornment position="end">
-                            <CallIcon />
+                                <CallIcon />
                             </InputAdornment>
-                    ) }} >
+                        )
+                    }} >
                 </TextField>
             </FormField>
             {((step2Data.applicantRoleSelect === 'driver' && step2Data.representedByLawyer === 'yes'))
@@ -299,7 +316,7 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
                 error={!!step2DataErrors.applicantEmailAddress}
                 errorText={step2DataErrors.applicantEmailAddress}
             >
-                <TextField id="email-address-field" style={{ paddingLeft: '5px' }} 
+                <TextField id="email-address-field" style={{ paddingLeft: '5px' }}
                     variant="outlined" name='applicantEmailAddress'
                     value={step2Data.applicantEmailAddress} onChange={handleChange} onBlur={handleBlur}>
                 </TextField>
@@ -312,11 +329,11 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
                 error={!!step2DataErrors.applicantEmailConfirm}
                 errorText={step2DataErrors.applicantEmailConfirm}
             >
-                <TextField id="cnf-email-address-field" style={{ paddingLeft: '5px' }} 
+                <TextField id="cnf-email-address-field" style={{ paddingLeft: '5px' }}
                     variant="outlined" name='applicantEmailConfirm'
                     value={step2Data.applicantEmailConfirm} onChange={handleChange} onBlur={handleBlur}>
                 </TextField>
-                </FormField>
+            </FormField>
             </div>
             <div id="page3img2">
             {((step2Data.applicantRoleSelect === 'driver' && step2Data.representedByLawyer === 'yes') ||
@@ -326,35 +343,35 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
             }
             {((step2Data.applicantRoleSelect === 'driver' && step2Data.representedByLawyer === 'yes') ||
                 step2Data.applicantRoleSelect === 'lawyer' ||
-                step2Data.applicantRoleSelect === 'advocate') && 
+                step2Data.applicantRoleSelect === 'advocate') &&
                 <div>
-            <FormField
-                id="driver-first-name"
-                labelText="Driver's First Name"
-                tooltipTitle="Driver's First Name"
-                tooltipContent={<p>Please enter the driver&apos;s first name.</p>}
-                error={!!step2DataErrors.driverFirstName}
-                errorText={step2DataErrors.driverFirstName}
-            >
-                        <TextField id="driver-first-name-field" style={{ paddingLeft: '5px' }} inputProps={{ maxLength: '35' }} 
+                    <FormField
+                        id="driver-first-name"
+                        labelText="Driver's First Name"
+                        tooltipTitle="Driver's First Name"
+                        tooltipContent={<p>Please enter the driver&apos;s first name.</p>}
+                        error={!!step2DataErrors.driverFirstName}
+                        errorText={step2DataErrors.driverFirstName}
+                    >
+                        <TextField id="driver-first-name-field" style={{ paddingLeft: '5px' }} inputProps={{ maxLength: '35' }}
                             variant="outlined" name='driverFirstName'
-                    value={step2Data.driverFirstName} onChange={handleChange} onBlur={handleBlur}>
-                </TextField>
-            </FormField>
-            <FormField
-                id="driver-last-name"
-                labelText="Driver's Last Name"
-                tooltipTitle="Driver's Last Name"
-                tooltipContent={<p>Enter the driver&apos;s last name exactly as it appears on the driver&apos;s licence.</p>}
-                error={!!step2DataErrors.driverLastName}
-                errorText={step2DataErrors.driverLastName}
-            >
-                        <TextField id="driver-last-name-field" style={{ paddingLeft: '5px' }} 
-                            variant="outlined" name='driverLastName'
-                    value={step2Data.driverLastName} onChange={handleChange} onBlur={handleBlur} >
-                </TextField>
+                            value={step2Data.driverFirstName} onChange={handleChange} onBlur={handleBlur}>
+                        </TextField>
                     </FormField>
-            </div>
+                    <FormField
+                        id="driver-last-name"
+                        labelText="Driver's Last Name"
+                        tooltipTitle="Driver's Last Name"
+                        tooltipContent={<p>Enter the driver&apos;s last name exactly as it appears on the driver&apos;s licence.</p>}
+                        error={!!step2DataErrors.driverLastName}
+                        errorText={step2DataErrors.driverLastName}
+                    >
+                        <TextField id="driver-last-name-field" style={{ paddingLeft: '5px' }}
+                            variant="outlined" name='driverLastName'
+                            value={step2Data.driverLastName} onChange={handleChange} onBlur={handleBlur} >
+                        </TextField>
+                    </FormField>
+                </div>
             }
             <FormField
                 id="bc-driver-license-no"
@@ -363,12 +380,12 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
                 tooltipTitle="BC Driver License No."
                 tooltipContent={<Image src="/./././assets/images/BC Driver License Number.png" width={280}
                     height={180}
-                    alt="Info" style={{ marginLeft: "10px", marginBottom: '20px', height: 'auto', width: 'auto' }}                    
+                    alt="Info" style={{ marginLeft: "10px", marginBottom: '20px', height: 'auto', width: 'auto' }}
                 />}
                 error={!!step2DataErrors.driverBcdl}
                 errorText={step2DataErrors.driverBcdl}
             >
-                <TextField id="bc-driver-license-no-field" style={{ paddingLeft: '5px' }} 
+                <TextField id="bc-driver-license-no-field" style={{ paddingLeft: '5px' }}
                     variant="outlined" name='driverBcdl'
                     value={step2Data.driverBcdl} onChange={handleChange} onBlur={handleBlur}>
                 </TextField>
@@ -383,7 +400,7 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
                 error={!!step2DataErrors.streetAddress}
                 errorText={step2DataErrors.streetAddress}
             >
-                <TextField id="address-field" style={{ paddingLeft: '5px', minWidth:'400px' }} 
+                <TextField id="address-field" style={{ paddingLeft: '5px', minWidth: '400px' }}
                     variant="outlined" name='streetAddress'
                     value={step2Data.streetAddress} onChange={handleChange} onBlur={handleBlur}>
                 </TextField>
@@ -396,11 +413,11 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
                 error={!!step2DataErrors.controlDriverCityTown}
                 errorText={step2DataErrors.controlDriverCityTown}
             >
-                <TextField id="city-field" style={{ paddingLeft: '5px' }} 
+                <TextField id="city-field" style={{ paddingLeft: '5px' }}
                     variant="outlined" name='controlDriverCityTown'
                     value={step2Data.controlDriverCityTown} onChange={handleChange} onBlur={handleBlur}>
                 </TextField>
-                </FormField>
+            </FormField>
                 </div>
                 <div id="page4img1">
             <FormField
@@ -438,14 +455,14 @@ const Step2: React.FC<Props> = ({  step2DatatoSend, licenseSeized }) => {
                 error={!!step2DataErrors.controlDriverPostalCode}
                 errorText={step2DataErrors.controlDriverPostalCode}
             >
-                <TextField id="postal-code-field" style={{ paddingLeft: '5px' }} 
+                <TextField id="postal-code-field" style={{ paddingLeft: '5px' }}
                     variant="outlined" name='controlDriverPostalCode'
                     value={step2Data.controlDriverPostalCode} onChange={handleChange} onBlur={handleBlur}>
                 </TextField>
             </FormField>
+        </div>
             </div>
-            </div>
-       
+
     );
 };
 export default Step2;

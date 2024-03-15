@@ -1,5 +1,5 @@
 'use server'
-import { axiosClient, buildErrorMessage } from "@/app/_nonRoutingAssets/lib/form.api";
+import { buildErrorMessage } from "@/app/_nonRoutingAssets/lib/form.api";
 import { AvailableReviewDates } from "../interfaces";
 
 //------------------------------------------
@@ -7,7 +7,7 @@ import { AvailableReviewDates } from "../interfaces";
 //------------------------------------------
 export const getAvailableReviewDates = async (prohibitionNumber: string, driverLastName: string | null | undefined): Promise< [Array<AvailableReviewDates>, string | null] > => {
     let url = `/fake url`;
-    console.log("Get available review dates, url: " + axiosClient.getUri() + url);
+   //console.log("Get available review dates, url: " + axiosApiClient.getUri() + url);
     
     try {
       //const { data } = await axiosClient.get(url);
@@ -57,3 +57,45 @@ export const getAvailableReviewDates = async (prohibitionNumber: string, driverL
     }
   }
   
+export const postReviewDate = async (prohibitionNumber: string, selectedReviewDate: string, driverLastName: string | null | undefined): Promise< string | null > => {
+        // let url = axiosApiClient.getUri() + '/path';
+        // console.log("Post to url: ", url);
+    
+        var config = {
+            headers: { 'Content-Type': 'text/xml' }
+        };
+        let xmlData = getXMLFormData(prohibitionNumber, selectedReviewDate, driverLastName);
+    
+        try {
+            //const response = await axiosApiClient.post(url, xmlData, config);
+    
+            //console.debug("Post was successful with return code: " + response.status);
+            return null; //response.statusText;
+        } catch (error) {
+            const errorDetails = "Post failed: " + buildErrorMessage(error);
+            console.error(errorDetails);
+            return errorDetails;
+        }
+    }
+    function getXMLFormData(prohibitionNumber: string, selectedReviewDate: string, driverLastName: string | null | undefined): string {
+        // Construct the XML string using the data from step1Data, step2Data, and step3InputProps.
+        const xmlString = `
+        <?xml version="1.0" encoding="UTF-8"?>
+        <form xmlns:fr="http://orbeon.org/oxf/xml/form-runner" fr:data-format-version="4.0.0">
+            <submitted>false</submitted>
+            <before-you-begin-section>
+                <help-text/>
+            </before-you-begin-section>
+            <schedule-review-section>
+                <prohibition-number>${prohibitionNumber}</prohibition-number>
+                <prohibition-number-clean>00197582</prohibition-number-clean>
+                <prohibition-no-image filename="Combo prohibition no.png" mediatype="image/png">/fr/service/persistence/crud/gov-pssg/review_schedule_picker/form/7490a2bdcb0062a565a5e7aa2b4144560c83d8e7.bin</prohibition-no-image>
+                <last-name>${driverLastName}</last-name>
+                <control-3/>
+                <api-error/>
+                <timeslot-selected>${selectedReviewDate}</timeslot-selected>
+            </schedule-review-section>
+        </form>
+            `;
+        return xmlString;
+    }
