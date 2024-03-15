@@ -41,6 +41,7 @@ export interface Step2Data {
     controlDriverCityTown: string;
     controlDriverProvince?: string;
     controlDriverPostalCode: string;
+    consentFile: string | null;
 }
 
 export interface Step2DataErrors {

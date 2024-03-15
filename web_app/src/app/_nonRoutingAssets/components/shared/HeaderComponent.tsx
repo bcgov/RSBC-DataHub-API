@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import bcgovlogo from '../../assets/images/gov_bc_logo.svg'
-import { Button } from '@mui/material';
 
 declare module 'react' {
   interface IntrinsicElements {
