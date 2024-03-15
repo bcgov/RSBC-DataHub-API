@@ -11,7 +11,7 @@ on:
 
 jobs:
   CD:
-    uses: ./.github/workflows/cd-workflow-orbeon-replacement.yml
+    uses: ./.github/workflows/cd-workflow.yml
     with:
       DOCKER_CONTEXT: Java/mail-it/src
       DOCKER_FILE: Java/mail-it/src/Dockerfile
