@@ -61,7 +61,7 @@ public class MailApiController implements MailApi {
             // EmailResponse emailResponse = new EmailResponse();
             emailResponse.setAcknowledge(true);
 
-            logger.info("Message sent successfully w/o attachment(s)");
+            logger.info("Message sent successfully without attachment(s)");
             return ResponseEntity.accepted().body(emailResponse);
 
             // Has attachments
