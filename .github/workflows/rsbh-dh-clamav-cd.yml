@@ -6,12 +6,13 @@ on:
     branches:
       - master
     paths:
-       - Java/clamav_client/**
-       - Java/README.md
+       - "Java/clamav_client/**"
+       - "Java/README.md"
+       - ".github/workflows/rsbh-dh-clamav-*.yml"
 
 jobs:
   CD:
-    uses: ./.github/workflows/cd-workflow.yml
+    uses: ./.github/workflows/cd-workflow-orbeon-replacement.yml
     with:
       DOCKER_CONTEXT: Java/clamav_client
       DOCKER_FILE: Java/clamav_client/Dockerfile
