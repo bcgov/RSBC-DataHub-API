@@ -11,7 +11,7 @@ on:
 
 jobs:
   CD:
-    uses: ./.github/workflows/cd-workflow-orbeon-replacement.yml
+    uses: ./.github/workflows/cd-workflow.yml
     with:
       DOCKER_CONTEXT: Java/clamav_client
       DOCKER_FILE: Java/clamav_client/Dockerfile
