@@ -6,8 +6,8 @@ on:
     branches:
       - master
     paths:
-       - "Java/clamav_client/**"
        - "Java/README.md"
+       - "Java/clamav_client/**"
        - ".github/workflows/rsbh-dh-clamav-*.yml"
 
 jobs:
