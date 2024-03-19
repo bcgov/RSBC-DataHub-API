@@ -6,8 +6,9 @@ on:
     branches:
       - master
     paths:
-       - Java/README.md
-       - Java/mail-it/**
+       - "Java/README.md"
+       - "Java/mail-it/**"
+       -  ".github/workflows/rsbh-dh-mail-net*.yml"
 
 jobs:
   CD:
