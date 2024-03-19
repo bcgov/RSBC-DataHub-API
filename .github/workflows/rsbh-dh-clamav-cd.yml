@@ -31,4 +31,4 @@ jobs:
         working-directory: ${{env.WORKING_DIRECTORY}}
         run: |
           docker build -t ${{ secrets.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:dev .
-          docker images
+          docker push ${{ secrets.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:dev
