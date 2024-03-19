@@ -28,6 +28,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build & Push the image
+        working-directory: ${{env.WORKING_DIRECTORY}}
         run: |
-          docker build -t ${{ secrets.DOCKER_REGISTRY }}/${{ DOCKER_IMAGE_NAME }}:dev ${{ DOCKER_FILE }}
+          docker build -t ${{ secrets.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:dev ${{ env.DOCKER_FILE }}
           docker images
