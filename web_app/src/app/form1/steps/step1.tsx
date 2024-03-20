@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import Image from 'next/image';
 import { FormField } from '../../components/FormField';
 import TextField from '@mui/material/TextField';
@@ -6,7 +7,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import React, { useEffect, useState, } from 'react';
+import React, { forwardRef, useEffect, useState, useImperativeHandle } from 'react';
 import { Step1Data, } from '../../interfaces';
 
 interface Props {
@@ -14,7 +15,8 @@ interface Props {
 }
 
 
-const Step1: React.FC<Props> = ({ step1DatatoSend }) => {
+
+const Step1 = forwardRef((props: Props, ref) => {
 
     const [step1Data, setStep1Data] = useState<Step1Data>({
         controlProhibitionNumber: '',
@@ -29,6 +31,23 @@ const Step1: React.FC<Props> = ({ step1DatatoSend }) => {
         irpProhibitionTypeLength: '',
     });
 
+    useImperativeHandle(ref, () => ({
+        clearData() {
+            setStep1Data({
+                controlProhibitionNumber: '',
+                controlIsUl: false,
+                controlIsIrp: false,
+                controlIsAdp: false,
+                prohibitionNumberClean: '',
+                licenseSeized: '',
+                licenseNoSurrendered: false,
+                licenseLostOrStolen: false,
+                licenseNotIssued: false,
+                irpProhibitionTypeLength: '',
+            });
+        }
+    }));
+
     const [dateOfService, setDateOfService] = useState<Dayjs | null>(dayjs(Date.now()));
     const [validProhibitionNumber, setValidProhibitionNumber] = useState(false);
     const [prohibitionNumberErrorText, setProhibitionNumberErrorText] = useState('');
@@ -40,7 +59,7 @@ const Step1: React.FC<Props> = ({ step1DatatoSend }) => {
     const prohibitionNumberChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setStep1Data({ ...step1Data, controlProhibitionNumber: value });
-        step1DatatoSend(step1Data);
+        props.step1DatatoSend(step1Data);
     };
 
     const validateField = () => {
@@ -60,11 +79,11 @@ const Step1: React.FC<Props> = ({ step1DatatoSend }) => {
             setStep1Data({ ...step1Data, controlIsIrp: false });
             setStep1Data({ ...step1Data, controlIsAdp: false });
         }
-        step1DatatoSend(step1Data);
+        props.step1DatatoSend(step1Data);
     };
 
     useEffect(() => {
-        step1DatatoSend(step1Data);
+        props.step1DatatoSend(step1Data);
     });
 
     const licenseSeizedChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,17 +98,17 @@ const Step1: React.FC<Props> = ({ step1DatatoSend }) => {
         });
         setValidLicenseSeized(isLicenseSeized);
         setShowNoLicenseDiv(!isLicenseSeized);
-        step1DatatoSend(step1Data);
+        props.step1DatatoSend(step1Data);
     };
 
     const irpProhibitionTypeLengthChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         setStep1Data({ ...step1Data, irpProhibitionTypeLength: e.target.value });
-        step1DatatoSend(step1Data);
+        props.step1DatatoSend(step1Data);
     };
 
     const dateOfServiceChanged = (val: Dayjs) => {
         setDateOfService(val);
-        step1DatatoSend(step1Data);
+        props.step1DatatoSend(step1Data);
     };
 
     return (
@@ -276,6 +295,6 @@ const Step1: React.FC<Props> = ({ step1DatatoSend }) => {
         </div>
 
     );
-};
+});
 export default Step1;
 

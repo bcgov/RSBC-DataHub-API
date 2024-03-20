@@ -66,7 +66,7 @@ export interface Step3InputProps {
     controlIsUl: boolean;
     controlIsIrp: boolean;
     controlIsAdp: boolean;
-    licenseSeized: boolean;
+    isEnabled: boolean;
     step3DatatoSend: (data: Step3Data) => void;
 }
 
@@ -86,9 +86,26 @@ export interface Step3Data {
 export interface Step4Data {
     signatureApplicantName: string;
     signedDate?: Date;
+    signatureApplicantErrorText: string;
 }
 
 export interface AvailableReviewDates{
     label: string
     value: string    
+}
+
+
+export interface Form3Data {
+    controlProhibitionNumber: string;
+    isProhibitionNumberValid: boolean;
+    controlIsUl: boolean;
+    controlIsIrp: boolean;
+    controlIsAdp: boolean;
+    prohibitionNumberClean: string;
+    controlDriverLastName: string;
+    applicantRoleSelect: string;
+    applicantEmailAddress: string;
+    applicantEmailConfirm: string;
+    evidenceDocuments?: FileList;
+    signatureApplicantName: string;
 }

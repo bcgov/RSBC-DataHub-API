@@ -5,7 +5,7 @@ import CustomAccordion from '../components/Accordion';
 import Step1 from './steps/step1';
 import Step2 from './steps/step2';
 import Step3 from './steps/step3';
-import Step4 from './steps/step4';
+import Step4 from '../components/step4';
 import { Button, Grid } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowForward from '@mui/icons-material/ArrowForward';
@@ -14,7 +14,10 @@ import { generatePDF } from '../components/GeneratePDF';
 
 export default function Page() {
 
-    const contentRef = useRef<HTMLDivElement>(null);
+    const step1Ref = useRef<{ clearData: () => void }>(null);
+    const step2Ref = useRef<{ clearData: () => void }>(null);
+    const step3Ref = useRef<{ clearData: () => void }>(null);
+    const step4Ref = useRef<{ clearData: () => void }>(null);
 
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
     const submitData = () => {
@@ -24,7 +27,7 @@ export default function Page() {
         console.log(step4Data);
         setIsExpanded(true);
         console.log("page file: ", `${step2Data.consentFile}`);
-        //processPDFgen();
+        processPDFgen();
     }
 
     function processPDFgen() {
@@ -53,15 +56,21 @@ export default function Page() {
             pdfList.push({ id: 'step4', pageNumber: 7 });
         }
 
-        setTimeout(async () => {
-            const pdf = await generatePDF(pdfList);
-            pdf?.save('latest.pdf');
-        }, 500);  
+            setTimeout(async () => {
+                const pdf = await generatePDF(pdfList, 'Notice of Driving Prohibition Application for Review');
+                pdf?.save('Notice of Driving Prohibition Application for Review.pdf');
+            }, 500);             
+     }
+    
+
+    const clearData = () => {  
+
+        step1Ref.current?.clearData();
+        step2Ref.current?.clearData();
+        step3Ref.current?.clearData();
+        step4Ref.current?.clearData();
     }
 
-    function onClear(event: FormEvent<HTMLFormElement>) {
-
-    }
 
     const [step1Data, setStep1Data] = useState<Step1Data>({
         controlProhibitionNumber: '',
@@ -109,16 +118,15 @@ export default function Page() {
 
     const [step4Data, setStep4Data] = useState<Step4Data>({
         signatureApplicantName: '',
+        signatureApplicantErrorText:'',
     });
 
     const handleStep1Data = (step1Data: Step1Data) => {
-        //console.log(step1Data);
         setStep1Data(step1Data);
     };
 
     const handleStep2Data = (step2Data: Step2Data) => {
         setStep2Data(step2Data);
-        //console.log(step2Data);
     };
 
     const handleStep3Data = (step3Data: Step3Data) => {
@@ -155,31 +163,34 @@ export default function Page() {
                     <p>If you don&apos;t enter anything in the form for 15 minutes, it may time out.</p> </div>} />
                </div>
 
-            <CustomAccordion title="Step 1: Enter Prohibition Information" id="step1" isExpanded={isExpanded}
-                content={<Step1 step1DatatoSend={handleStep1Data}></Step1>} />
+               <CustomAccordion title="Step 1: Enter Prohibition Information" id="step1" isExpanded={isExpanded} 
+                   content={<Step1 step1DatatoSend={handleStep1Data} ref={step1Ref}></Step1>} />
 
 
                
                
-            <CustomAccordion title="Step 2: Enter Applicant Information" id="step2" isExpanded={isExpanded}
-                content={<Step2 step2DatatoSend={handleStep2Data} licenseSeized={step1Data.licenseSeized === 'licenseSeized'}></Step2>} />
+               <CustomAccordion title="Step 2: Enter Applicant Information" id="step2" isExpanded={isExpanded}
+                   content={<Step2 step2DatatoSend={handleStep2Data} isEnabled={step1Data.licenseSeized === 'licenseSeized' || step1Data.controlIsUl} ref={step2Ref}></Step2>} />
 
             <CustomAccordion title="Step 3: Complete Review Information" id="step3" isExpanded={isExpanded}
-                content={<Step3 controlIsUl={step1Data.controlIsUl} controlIsIrp={step1Data.controlIsIrp} controlIsAdp={step1Data.controlIsAdp}
-                    step3DatatoSend={handleStep3Data} licenseSeized={step1Data.licenseSeized === 'licenseSeized'} />
+                   content={<Step3 controlIsUl={step1Data.controlIsUl} controlIsIrp={step1Data.controlIsIrp} controlIsAdp={step1Data.controlIsAdp} ref={step3Ref}
+                       step3DatatoSend={handleStep3Data} isEnabled={step1Data.licenseSeized === 'licenseSeized' || step1Data.controlIsUl} />
                 } />
 
 
             <CustomAccordion title="Step 4: Consent and Submit" id="step4" isExpanded={isExpanded}
-                   content={<Step4 step4DatatoSend={handleStep4Data} />} />
+                   content={<div>
+                       <Step4 step4DatatoSend={handleStep4Data} errorText="" ref={step4Ref} />
+                       <div style={{ paddingTop: '30px' }}><strong><span style={{ fontSize: '16px' }} >Submit only 1 online application for your prohibition review.</span></strong></div>
+                   </div>} />
 
 
         </div>
         <div style={{paddingBottom:'40px'} }>
             <Grid container spacing={2} >
                 <Grid item xs={8} sx={{ padding: "1px" }}></Grid>
-                <Grid item xs={4} sx={{ padding: "1px" }}>
-                    <Button variant="outlined" sx={{ cursor: 'pointer', color: '#003366', borderColor: '#003366', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }} startIcon={<CloseIcon sx={{ fontWeight: 'bold' }} />}>
+                   <Grid item xs={4} sx={{ padding: "1px" }}>
+                       <Button onClick={clearData} variant="outlined" sx={{ cursor: 'pointer', color: '#003366', borderColor: '#003366', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }} startIcon={<CloseIcon sx={{ fontWeight: 'bold' }} />}>
                         Clear
                     </Button>
                     <Button onClick={submitData} variant="contained" sx={{ borderColor: '#003366', backgroundColor: '#003366', color: 'white', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }} startIcon={<ArrowForward sx={{ fontWeight: 'bold' }} />}>
