@@ -1,4 +1,4 @@
-name: rsbc-dh-mail-net-ci
+name: rsbc-dh-web-form-ci
 
 on:
   pull_request:
@@ -6,8 +6,14 @@ on:
     branches-ignore:
       - master
     paths:
-       -  "Java/README.md"
-       -  "Java/mail-it/**"
+      - "Java/README.md"
+      - "web_app/**"
+      -  ".github/workflows/rsbh-dh-web-form*.yml"
+
+env:
+  DOCKER_FILE: web_app/Dockerfile
+  DOCKER_IMAGE_NAME: dh-web-form
+  WORKING_DIRECTORY: web_app
 
 jobs:
   build:
@@ -23,7 +29,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build  the image
+      - name: Build & Push the image
         working-directory: ${{env.WORKING_DIRECTORY}}
         run: |
           docker build -t ${{ secrets.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:latest .
