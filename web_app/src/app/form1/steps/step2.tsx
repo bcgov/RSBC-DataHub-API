@@ -1,21 +1,19 @@
-﻿import Image from 'next/image';
+﻿/* eslint-disable react/display-name */
+import Image from 'next/image';
 import { FormField } from '../../components/FormField';
 import TextField from '@mui/material/TextField';
 import { Radio, RadioGroup, FormControlLabel, Grid, MenuItem, Select, InputAdornment, Input, } from '@mui/material';
 import CallIcon from '@mui/icons-material/Call';
-import React, { useEffect, useState, } from 'react';
+import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react';
 import { Step2Data, Step2DataErrors } from '../../interfaces';
-import { sendEmail } from '../actions';
-import { checkVirusScanner } from '@/app/_nonRoutingAssets/lib/virusScanApi';
-import { file2Base64 } from '@/app/_nonRoutingAssets/lib/util';
 
 interface Props {
     step2DatatoSend: (data: Step2Data) => void;
-    licenseSeized: boolean;
+    isEnabled: boolean;
 }
 
 
-const Step2: React.FC<Props> = ({ step2DatatoSend, licenseSeized }) => {
+const Step2 = forwardRef((props: Props, ref) => {
 
     const [step2Data, setStep2Data] = useState<Step2Data>({
         applicantRoleSelect: '',
@@ -36,19 +34,41 @@ const Step2: React.FC<Props> = ({ step2DatatoSend, licenseSeized }) => {
         consentFile: null,
     });
 
+    useImperativeHandle(ref, () => ({
+        clearData() {
+            setStep2Data({
+                applicantRoleSelect: '',
+                representedByLawyer: '',
+                applicantFirstName: '',
+                applicantLastName: '',
+                applicantPhoneNumber: '',
+                applicantEmailAddress: '',
+                applicantEmailConfirm: '',
+                driverFirstName: '',
+                driverLastName: '',
+                driverBcdl: '',
+                bcDriverLicenseNo: '',
+                streetAddress: '',
+                controlDriverCityTown: '',
+                controlDriverProvince: '',
+                controlDriverPostalCode: '',
+                consentFile: null,
+            });
+        }
+    }));
+
     const [step2DataErrors, setStep2DataErrors] = useState<Step2DataErrors>({});
 
-    const [consentFile, setFile] = useState<File>();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setStep2Data({ ...step2Data, [name]: value });
-        step2DatatoSend(step2Data);
+        props.step2DatatoSend(step2Data);
     }
 
     const handleProvinceChange = (value: string) => {
         setStep2Data({ ...step2Data, controlDriverProvince: value });
-        step2DatatoSend(step2Data);
+        props.step2DatatoSend(step2Data);
     }
 
     const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -57,34 +77,13 @@ const Step2: React.FC<Props> = ({ step2DatatoSend, licenseSeized }) => {
     }
 
     useEffect(() => {
-        step2DatatoSend(step2Data);
+        props.step2DatatoSend(step2Data);
     });
 
 
     const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files?.length) {
-            var file = e.target.files[0];
-            console.log("File is captured: ", file.size, file.name);
-            console.log("step2Data.consentFile: ", step2Data.consentFile)
-            var reader = new FileReader();
-            reader.onload = async function (event) {
-                // The file's text will be printed here
-                console.log("size before: ", file.size);
-                let fileContent =await file2Base64(file); 
-                console.log("size after: ", fileContent.length);
-                //await sendEmail([fileContent.slice(fileContent.indexOf('base64,')+7)], [file.name]);
-                
-                console.log("calling checkVirusScanner: ");
-                await checkVirusScanner(fileContent.slice(fileContent.indexOf('base64,')+7));
-
-                // if (typeof reader.result === 'string' && await checkVirusScanner(Buffer.from(reader.result).toString('base64')))
-                //     step2Data.consentFile = Buffer.from(reader.result).toString('base64');
-                
-                    //add the file here
-                setFile(file);
-            };
-            // callback to reader.onload
-            reader.readAsText(file);
+            console.log(e.target.files?.length);
         }
     }
 
@@ -172,7 +171,7 @@ const Step2: React.FC<Props> = ({ step2DatatoSend, licenseSeized }) => {
     };
 
     return (
-        <div style={{ display: 'grid', marginTop: '20px', pointerEvents: (licenseSeized ? '' : 'none') as React.CSSProperties["pointerEvents"], }} >
+        <div style={{ display: 'grid', marginTop: '20px', pointerEvents: (props.isEnabled ? '' : 'none') as React.CSSProperties["pointerEvents"], }} >
             <div id="page2img2"> 
                 <Grid item xs={6} md={8} sm={10} lg={12} sx={{ padding: "1px", paddingBottom:'20px' }}>
                 <strong style={{ fontSize: '16px', paddingBottom: '20px', paddingLeft: '10px' }}> Applicant Information:</strong>
@@ -464,6 +463,6 @@ const Step2: React.FC<Props> = ({ step2DatatoSend, licenseSeized }) => {
             </div>
 
     );
-};
+});
 export default Step2;
 
