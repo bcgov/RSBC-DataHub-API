@@ -9,7 +9,6 @@ on:
        - "Java/README.md"
        - "Java/mail-it/**"
        -  ".github/workflows/rsbh-dh-mail-net*.yml"
-
 env:
   DOCKER_FILE: Java/mail-it/src/Dockerfile
   DOCKER_IMAGE_NAME: dh-mail-net
