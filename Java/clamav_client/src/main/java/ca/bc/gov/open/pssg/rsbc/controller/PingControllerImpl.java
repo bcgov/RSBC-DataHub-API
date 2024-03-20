@@ -22,7 +22,7 @@ public class PingControllerImpl implements PingApi {
 	
 	 /**
      * GET /ping : Utility operation to check back end connectivity
-     * Utility operation to check back end connectivity
+     * Utility operation to check back end connectivity 
      *
      * @return Ping Response (status code 200)
      * @see PingApi#ping
