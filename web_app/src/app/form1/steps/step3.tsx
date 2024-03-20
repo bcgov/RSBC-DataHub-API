@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+/* eslint-disable react/display-name */
+import React, { useState, forwardRef, useImperativeHandle } from 'react';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Step3InputProps, Step3Data } from '../../interfaces';
 import { Checkbox, TextField, RadioGroup, Radio, Grid } from '@mui/material';
 import { FormField } from '../../components/FormField';
 
-const Step3: React.FC<Step3InputProps> = ({ controlIsUl, controlIsIrp, controlIsAdp, licenseSeized, step3DatatoSend }) => {  
+const Step3 = forwardRef((props: Step3InputProps, ref) => {
 
     const [step3Data, setStep3Data] = useState<Step3Data>({
         ulGrounds: [],
@@ -18,6 +19,22 @@ const Step3: React.FC<Step3InputProps> = ({ controlIsUl, controlIsIrp, controlIs
         control6: 0,
         hearingRequest:'',
     });
+
+    useImperativeHandle(ref, () => ({
+        clearData() {
+            setStep3Data({
+                ulGrounds: [],
+                irpGroundsList: [],
+                adpGroundsAlcohol: [],
+                adpGroundsDrugs: [],
+                adpGroundsAlcoholDrugs: [],
+                adpGroundsDrugExpert: [],
+                adpGroundsRefusal: [],
+                control6: 0,
+                hearingRequest: '',
+            });
+        }
+    }));
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -34,7 +51,7 @@ const Step3: React.FC<Step3InputProps> = ({ controlIsUl, controlIsIrp, controlIs
             setAdpGrounds(name, val, checked);              
         }        
                 
-        step3DatatoSend(step3Data);
+        props.step3DatatoSend(step3Data);
     }
 
     const setAdpGrounds = (name: string, val: number, checked: boolean) => {
@@ -65,7 +82,7 @@ const Step3: React.FC<Step3InputProps> = ({ controlIsUl, controlIsIrp, controlIs
             ...step3Data,
             hearingRequest: value,
         });      
-        step3DatatoSend(step3Data);
+        props.step3DatatoSend(step3Data);
     };
 
     const PrepareForeReview = () => {
@@ -86,10 +103,10 @@ const Step3: React.FC<Step3InputProps> = ({ controlIsUl, controlIsIrp, controlIs
     }
 
     return (
-        <div className="step3Div" style={{ display: 'grid', marginTop: '20px',marginRight:'150px',  pointerEvents: (licenseSeized ? '' : 'none') as React.CSSProperties["pointerEvents"], }} >      
+        <div className="step3Div" style={{ display: 'grid', marginTop: '20px',marginRight:'150px',  pointerEvents: (props.isEnabled ? '' : 'none') as React.CSSProperties["pointerEvents"], }} >      
             <Grid item xs={12}  md={8} sm={10} lg={12} sx={{ padding: "1px" }}>
             <div className="step3Div"  id="ulControlBlock">
-                    {controlIsUl &&
+                    {props.controlIsUl &&
                     <div id="ul-step3">
                         <div className="step3Div" id="ul-burden-of-proof-text">
                         <span style={{ marginBottom: '20px', }}>This review is available if you have been served with a Notice of Prohibition under <a href="https://www.bclaws.ca/civix/document/id/complete/statreg/96318_12" rel="noopener" target="_blank">s.251(1)</a> of the Motor Vehicle Act, and are prohibited from driving under <a href="https://www.bclaws.ca/civix/document/id/complete/statreg/96318_12" rel="noopener" target="_blank">s.251(4)</a>. This driving prohibition will be terminated without a review if ICBC issues you a BC driver&apos;s licence.
@@ -125,7 +142,7 @@ const Step3: React.FC<Step3InputProps> = ({ controlIsUl, controlIsIrp, controlIs
                     }
                     </div>
                     <div className="step3Div" id="irpControlBlock">
-                        {controlIsIrp &&
+                        {props.controlIsIrp &&
                             <div id="irp-step3">
                         <div className="step3Div" id="irp-burden-of-proof-text">
                         <span>The information you will provide should address the grounds you choose below. The burden of proof is on the applicant in a review. Hardship is not a consideration in a review.</span>
@@ -155,7 +172,7 @@ const Step3: React.FC<Step3InputProps> = ({ controlIsUl, controlIsIrp, controlIs
                 }
                 </div>
                 <div className="step3Div" id="adpControlBlock">
-                    {controlIsAdp &&
+                    {props.controlIsAdp &&
                         <div id="adp-step3">
                         <div className="step3Div" id="adp-burden-of-proof-text">
                         <span>The information you will provide should address the grounds you choose below. The burden of proof is on the applicant in a review. Hardship is not a consideration in a review.</span>
@@ -164,7 +181,7 @@ const Step3: React.FC<Step3InputProps> = ({ controlIsUl, controlIsIrp, controlIs
                             </div>
                             <div className="step3Div" id="dataInfoAdp">
                                 <div id='page5img1'>
-                                <div className="step3Div" ><strong><span style={{ fontSize: '16px' }}>SECTION 94.1(1)(a) - Blood Alcohol Concentration</span></strong>div</div>
+                                <div className="step3Div" ><strong><span style={{ fontSize: '16px' }}>SECTION 94.1(1)(a) - Blood Alcohol Concentration</span></strong></div>
                                 <div className="step3Div" ><strong><span style={{ fontSize: '16px' }}>(optional)</span></strong></div>
                                 <FormGroup className="step3Div" id="adp-grounds-alochol">
                                         <FormControlLabel control={<Checkbox onChange={handleChange} value={0} name="adpGroundsAlcohol" />} label="I did not operate a motor vehicle." />
@@ -269,6 +286,6 @@ const Step3: React.FC<Step3InputProps> = ({ controlIsUl, controlIsIrp, controlIs
            
         </div>
     );
-};
+});
 export default Step3;
 
