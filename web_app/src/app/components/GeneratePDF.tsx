@@ -7,7 +7,7 @@ type props = {
 };
 
 export const generatePDF = async (value: props[], headerText:string): Promise<jsPDF | null> => {
-    const doc = new jsPDF("p", "mm", "a4");
+    const doc = new jsPDF("p", "mm", "a4", true);
 
     const totalPages : number = value.at(value.length - 1)?.pageNumber as number ;
 
