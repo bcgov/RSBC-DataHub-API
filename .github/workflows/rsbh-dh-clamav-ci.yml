@@ -1,4 +1,4 @@
-name: rsbc-dh-mail-net-ci
+name: rsbc-dh-claimav-ci
 
 on:
   pull_request:
@@ -6,8 +6,8 @@ on:
     branches-ignore:
       - master
     paths:
-       -  "Java/README.md"
-       -  "Java/mail-it/**"
+      - "Java/README.md"
+      - "Java/clamav_client/**"
 
 jobs:
   build:
@@ -23,7 +23,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build  the image
+      - name: Build image
         working-directory: ${{env.WORKING_DIRECTORY}}
         run: |
           docker build -t ${{ secrets.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:latest .

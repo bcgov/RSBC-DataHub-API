@@ -1,4 +1,4 @@
-name: rsbc-dh-mail-net-cd
+name: rsbc-dh-web-form-cd
 
 on:
   pull_request:
@@ -6,17 +6,19 @@ on:
     branches:
       - master
     paths:
-       - "Java/README.md"
-       - "Java/mail-it/**"
-       - ".github/workflows/rsbh-dh-mail-net*.yml"
+      - "Java/README.md"
+      - "web_app/**"
+      - ".github/workflows/rsbh-dh-web-form*.yml"
+
 env:
-  DOCKER_FILE: Java/mail-it/src/Dockerfile
-  DOCKER_IMAGE_NAME: dh-mail-net
-  WORKING_DIRECTORY: Java/mail-it/src
+  DOCKER_FILE: web_app/Dockerfile
+  DOCKER_IMAGE_NAME: dh-web-form
+  WORKING_DIRECTORY: web_app
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
 
@@ -44,5 +46,4 @@ jobs:
         env:
           IMAGE_NAME: ${{ env.DOCKER_IMAGE_NAME }}
         run: |
-          oc import-image $IMAGE_NAME:latest --confirm
-
+            oc import-image $IMAGE_NAME:latest --confirm
