@@ -18,6 +18,7 @@ const Step3 = forwardRef((props: Step3InputProps, ref) => {
         adpGroundsRefusal: [],
         control6: 0,
         hearingRequest:'',
+        hasError: false,
     });
 
     useImperativeHandle(ref, () => ({
@@ -32,6 +33,7 @@ const Step3 = forwardRef((props: Step3InputProps, ref) => {
                 adpGroundsRefusal: [],
                 control6: 0,
                 hearingRequest: '',
+                hasError: false,
             });
         }
     }));
