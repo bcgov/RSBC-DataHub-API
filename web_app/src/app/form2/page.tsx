@@ -30,7 +30,7 @@ export default function Page() {
                 setReviewDates(dates);
                 console.log('error: ', error, controlProhibitionNumber);
             });
-    }, [controlProhibitionNumber, validProhibitionNumber]);
+    }, [controlProhibitionNumber, validProhibitionNumber, driverLastName]);
 
     const validateProhibitionNumber = () => {
         if (isProhibitionNumberValid(controlProhibitionNumber)) {
@@ -57,6 +57,7 @@ export default function Page() {
         setSelectedReviewDate('');
         setProhibitionNumberErrorText('');
         setValidProhibitionNumber(false);
+        setDriverLastNameErrorText('');
     }
 
     return (
@@ -124,7 +125,7 @@ export default function Page() {
                                 value={driverLastName}
                                 onChange={e => {
                                     setDriverLastName(e.currentTarget.value);
-                                    if (driverLastName) {
+                                    if (driverLastName && driverLastName.trim.length>0) {
                                         setValidDriverLastName(true);
                                         //setDriverLastNameErrorText('');
                                     }

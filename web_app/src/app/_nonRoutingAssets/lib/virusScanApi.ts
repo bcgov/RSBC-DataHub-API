@@ -1,3 +1,5 @@
+'use server'
+
 import { axiosVirusScanClient, buildErrorMessage } from "./form.api";
 
 export const checkVirusScanner = async (file: string): Promise<boolean> => {
