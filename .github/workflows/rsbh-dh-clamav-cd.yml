@@ -1,13 +1,15 @@
 name: rsbc-dh-claimav-cd
 
 on:
-  push:
+  pull_request:
+    types: [opened, reopened, edited, synchronize]
     branches:
-      - 'release/test-workflow'
+      - master
     paths:
        - "Java/README.md"
        - "Java/clamav_client/**"
        - ".github/workflows/rsbh-dh-clamav-*.yml"
+
 env:
   DOCKER_FILE: Java/clamav_client/Dockerfile
   DOCKER_IMAGE_NAME: dh-clamav-client
