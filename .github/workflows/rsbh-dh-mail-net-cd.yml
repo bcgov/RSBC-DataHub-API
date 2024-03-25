@@ -1,14 +1,14 @@
 name: rsbc-dh-mail-net-cd
 
 on:
-  push:
-#    types: [opened, reopened, edited, synchronize]
+  pull_request:
+    types: [opened, reopened, edited, synchronize]
     branches:
-      - 'release/test-workflow'
+      - master
     paths:
        - "Java/README.md"
        - "Java/mail-it/**"
-       -  ".github/workflows/rsbh-dh-mail-net*.yml"
+       - ".github/workflows/rsbh-dh-mail-net*.yml"
 env:
   DOCKER_FILE: Java/mail-it/src/Dockerfile
   DOCKER_IMAGE_NAME: dh-mail-net

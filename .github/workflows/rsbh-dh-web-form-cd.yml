@@ -2,13 +2,13 @@ name: rsbc-dh-web-form-cd
 
 on:
   pull_request:
-    types: [ opened, reopened, edited, synchronize ]
+    types: [opened, reopened, edited, synchronize]
     branches:
-      - 'release/test-workflow'
+      - master
     paths:
       - "Java/README.md"
       - "web_app/**"
-      -  ".github/workflows/rsbh-dh-web-form*.yml"
+      - ".github/workflows/rsbh-dh-web-form*.yml"
 
 env:
   DOCKER_FILE: web_app/Dockerfile

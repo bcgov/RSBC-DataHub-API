@@ -28,7 +28,7 @@ COPY --from=builder /app/public ./public
 CMD npm start
 
 FROM base AS dev
-RUN npm install 
+RUN npm install
 
 COPY package.json .
 COPY package-lock.json .
