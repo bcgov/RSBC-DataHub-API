@@ -1,50 +1,25 @@
-FROM node:18-alpine AS base
-RUN apk add --no-cache g++ make py3-pip libc6-compat
+# Dockerfile for NextJS applications 
+
+# Use the official Node.js image as base 
+FROM node:18-alpine
+
+# Set the working directory inside the container
 WORKDIR /app
+
+# Copy package.json and package-lock.json to the container 
 COPY package*.json ./
-EXPOSE 3000
 
-FROM base AS builder
-WORKDIR /app
-COPY . .
-RUN npm run build
-
-FROM base AS production
-WORKDIR /app
-
-# ENV NODE_ENV production
-RUN npm ci --ignore-scripts
-
-RUN addgroup -g 1003 -S nodegroup
-RUN adduser -S nextuser -u 1003
-USER nextuser
-
-COPY --from=builder /app/.next ./.next
-RUN chown nextuser:nodegroup ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/public ./public
-
-CMD npm start
-
-FROM base AS dev
+# Install dependencies
 RUN npm install
 
-COPY package.json .
-COPY package-lock.json .
-#COPY /node_modules ./node_modules
-COPY /src ./src
-COPY /public ./public
-COPY next.config.mjs .
-#COPY next-env.d.ts .
-COPY tsconfig.json .
-COPY .eslintrc.json .
+# Copy the rest of the application code to the container
+COPY . .
 
-RUN addgroup -g 1003 -S nodegroup
-RUN adduser -S nextuser -u 1003
+# Build the Next.js application
+RUN npm run build
 
-RUN chown -R nextuser:nodegroup /app
+# Expose the port that your Next.js app runs on
+EXPOSE 3000
 
-USER nextuser
-
-CMD npm run dev
+# Command to run the application
+CMD ["npm", "start"]
