@@ -1,4 +1,4 @@
-name: rsbc-dh-mail-net-cd
+name: rsbc-dh-claimav-cd
 
 on:
   pull_request:
@@ -7,12 +7,13 @@ on:
       - master
     paths:
        - "Java/README.md"
-       - "Java/mail-it/**"
-       - ".github/workflows/rsbh-dh-mail-net*.yml"
+       - "Java/clamav_client/**"
+       - ".github/workflows/rsbh-dh-clamav-*.yml"
+
 env:
-  DOCKER_FILE: Java/mail-it/src/Dockerfile
-  DOCKER_IMAGE_NAME: dh-mail-net
-  WORKING_DIRECTORY: Java/mail-it/src
+  DOCKER_FILE: Java/clamav_client/Dockerfile
+  DOCKER_IMAGE_NAME: dh-clamav-client
+  WORKING_DIRECTORY: Java/clamav_client
 
 jobs:
   build:
@@ -45,4 +46,4 @@ jobs:
           IMAGE_NAME: ${{ env.DOCKER_IMAGE_NAME }}
         run: |
           oc import-image $IMAGE_NAME:latest --confirm
-
+          
