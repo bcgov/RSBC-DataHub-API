@@ -10,6 +10,7 @@ export interface Step1Data {
     licenseNotIssued: boolean;
     irpProhibitionTypeLength: string;
     dateOfService?: Date;
+    hasError: boolean;
 }
 
 export interface Step1DataErrors {
@@ -42,6 +43,8 @@ export interface Step2Data {
     controlDriverProvince?: string;
     controlDriverPostalCode: string;
     consentFile: string | null;
+    consentFileName: string | null;
+    hasError: boolean;
 }
 
 export interface Step2DataErrors {
@@ -60,6 +63,7 @@ export interface Step2DataErrors {
     controlDriverCityTown?: string;
     controlDriverProvince?: string;
     controlDriverPostalCode?: string;
+    fileUploadErrorText?: string;
 }
 
 export interface Step3InputProps {
@@ -67,6 +71,7 @@ export interface Step3InputProps {
     controlIsIrp: boolean;
     controlIsAdp: boolean;
     isEnabled: boolean;
+    hasError: boolean;
     step3DatatoSend: (data: Step3Data) => void;
 }
 
@@ -80,7 +85,7 @@ export interface Step3Data {
     adpGroundsRefusal: number[];
     control6: number;
     hearingRequest: string;
-    
+    hasError: boolean;
 }
 
 export interface Step4Data {
