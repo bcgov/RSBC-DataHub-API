@@ -3,6 +3,11 @@
 # Use the official Node.js image as base 
 FROM node:18-alpine
 
+
+ENV VIRUS_SCAN_USER=$CLAMAV_CLIENT_BASIC_AUTH_USER
+ENV VIRUS_SCAN_PASS=$CLAMAV_CLIENT_BASIC_AUTH
+
+
 # Set the working directory inside the container
 WORKDIR /app
 
