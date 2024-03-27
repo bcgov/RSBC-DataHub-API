@@ -1,20 +1,21 @@
 'use server'
 
-import axios, { AxiosError } from 'axios';
+import { ActionResponse } from '@/app/interfaces';
+import axios, { AxiosError, AxiosRequestHeaders, AxiosResponse } from 'axios';
 
 export const axiosApiClient = axios.create({
-  baseURL: `${process.env.API_ENDPOINT}`,
+  baseURL: `${process.env.FLASK_API_ENDPOINT}`,
   timeout: parseInt(`${process.env.KEEP_ALIVE_TIMEOUT}`),
 });
 
 export const axiosVirusScanClient = axios.create({
-  baseURL: `${process.env.VIRUS_SCAN_URL}`,
+  baseURL: `${process.env.CLAMAV_VIRUS_SCAN_URL}`,
   timeout: parseInt(`${process.env.KEEP_ALIVE_TIMEOUT}`),
 });
 
 
 export const axiosMailItClient = axios.create({
-  baseURL: `${process.env.MAIL_IT_URL}`,
+  baseURL: `${process.env.EMAIL_BASE_URL}`,
   timeout: parseInt(`${process.env.KEEP_ALIVE_TIMEOUT}`),
 });
 
@@ -36,21 +37,23 @@ export const axiosMailItClient = axios.create({
 // );
 
 
-export async function handleError(error: object) {
-  console.log("Axios call failed with this error: " + error);
-}
-
-
-export async function buildErrorMessage(error: unknown) {
+export async function handleError(error: unknown): Promise<ActionResponse> {
   let message = ''
   if (error instanceof AxiosError) {
+    console.log("axios error", error.response);
     if (error.response && error.response.data) {
-        message = error.response.data.errorMessage || error.message;
+      message = error.response.data.errorMessage || error.message;
     } else {
       message = error.message;
     }
   } else {
+    console.log("noneaxios error", error);
     message = error as string;
   }
-  return message;
+  return {
+    data: {
+      is_success: false,
+      error: 'Internal Server Error: ' + message,
+    },
+  };
 }
