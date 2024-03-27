@@ -1,85 +1,64 @@
 'use server'
-import { buildErrorMessage } from "@/app/_nonRoutingAssets/lib/form.api";
-import { AvailableReviewDates } from "../interfaces";
+import { axiosApiClient, handleError } from "@/app/_nonRoutingAssets/lib/form.api";
+import { AxiosResponse } from "axios";
+import { ActionResponse, AvailableReviewDates } from "../interfaces";
 
 //------------------------------------------
 // Get available review dates 
 //------------------------------------------
-export const getAvailableReviewDates = async (prohibitionNumber: string, driverLastName: string | null | undefined): Promise< [Array<AvailableReviewDates>, string | null] > => {
-    let url = `/fake url`;
-   //console.log("Get available review dates, url: " + axiosApiClient.getUri() + url);
-    
+export async function getAvailableReviewDates(prohibitionNumber: string, driverLastName: string): Promise<ActionResponse> {
+    let url = axiosApiClient.getUri() + `/schedule`;
+    console.log("Get available review dates url: " + url);
+
+    const formData = new FormData();
+    formData.append('prohibition_number', prohibitionNumber);
+    formData.append('last_name', driverLastName);
+    const encoded = Buffer.from(`${process.env.FLASK_BASIC_AUTH_USER}` + ':' +
+        `${process.env.FLASK_BASIC_AUTH_PASS}`).toString('base64');
+    const config = {
+        headers: {
+            'Authorization': 'Basic ' + encoded,
+            'Content-Type': 'text/html',
+        },
+    };
     try {
-      //const { data } = await axiosClient.get(url);
-      let newdata: Array<AvailableReviewDates> = [
-                {
-                    "label": "Fri, Mar 8, 2024 at 9:30AM (Pacific Time)",
-                    "value": "MjAyNC0wMy0wOCAwOTowMDowMCAtMDg6MDB8MjAyNC0wMy0wOCAwOTozMDowMCAtMDg6MDA="
-                },
-                {
-                    "label": "Fri, Mar 8, 2024 at 10:30AM (Pacific Time)",
-                    "value": "MjAyNC0wMy0wOCAxMDozMDowMCAtMDg6MDB8MjAyNC0wMy0wOCAxMTowMDowMCAtMDg6MDA="
-                },
-                {
-                    "label": "Mon, Mar 11, 2024 at 9:30AM (Pacific Time)",
-                    "value": "MjAyNC0wMy0xMSAwOTowMDowMCAtMDc6MDB8MjAyNC0wMy0xMSAwOTozMDowMCAtMDc6MDA="
-                },
-                {
-                    "label": "Mon, Mar 11, 2024 at 10:30AM (Pacific Time)",
-                    "value": "MjAyNC0wMy0xMSAxMDowMDowMCAtMDc6MDB8MjAyNC0wMy0xMSAxMDozMDowMCAtMDc6MDA="
-                },
-                {
-                    "label": "Mon, Mar 11, 2024 at 11:00AM (Pacific Time)",
-                    "value": "MjAyNC0wMy0xMSAxMTowMDowMCAtMDc6MDB8MjAyNC0wMy0xMSAxMTozMDowMCAtMDc6MDA="
-                },
-                {
-                    "label": "Mon, Mar 11, 2024 at 11:30AM (Pacific Time)",
-                    "value": "MjAyNC0wMy0xMSAxMzowMDowMCAtMDc6MDB8MjAyNC0wMy0xMSAxMzozMDowMCAtMDc6MDA="
-                },
-                {
-                    "label": "Tue, Mar 12, 2024 at 9:30AM (Pacific Time)",
-                    "value": "MjAyNC0wMy0xMiAwOTozMDowMCAtMDc6MDB8MjAyNC0wMy0xMiAxMDowMDowMCAtMDc6MDA="
-                },
-                {
-                    "label": "Wed, Mar 13, 2024 at 9:30AM (Pacific Time)",
-                    "value": "MjAyNC0wMy0xMyAwOTowMDowMCAtMDc6MDB8MjAyNC0wMy0xMyAwOTozMDowMCAtMDc6MDA="
-                },
-                {
-                    "label": "Wed, Mar 13, 2024 at 12:30AM (Pacific Time)",
-                    "value": "MjAyNC0wMy0xMyAxMTozMDowMCAtMDc6MDB8MjAyNC0wMy0xMyAxMjowMDowMCAtMDc6MDA="
-                }
-            ];
-      return [newdata, 'no error'];
-    }catch (error) {
-      const errorDetails = "Failed fetching available review dates: " + buildErrorMessage(error);
-      console.error(errorDetails);
-      return [[], errorDetails];
+        const response = await axiosApiClient.post(url, formData, config);
+        console.log("after the call: ",response.data);
+        const actionResponse: ActionResponse = {
+            data: {
+                data: response.data,
+                is_success: true,
+                error: ''    
+            }
+          };
+        return actionResponse;
+    } catch (error) {
+        return handleError(error);
     }
-  }
-  
-export const postReviewDate = async (prohibitionNumber: string, selectedReviewDate: string, driverLastName: string | null | undefined): Promise< string | null > => {
-        // let url = axiosApiClient.getUri() + '/path';
-        // console.log("Post to url: ", url);
-    
-        var config = {
-            headers: { 'Content-Type': 'text/xml' }
-        };
-        let xmlData = getXMLFormData(prohibitionNumber, selectedReviewDate, driverLastName);
-    
-        try {
-            //const response = await axiosApiClient.post(url, xmlData, config);
-    
-            //console.debug("Post was successful with return code: " + response.status);
-            return null; //response.statusText;
-        } catch (error) {
-            const errorDetails = "Post failed: " + buildErrorMessage(error);
-            console.error(errorDetails);
-            return errorDetails;
-        }
+}
+
+export async function scheduleReviewDate(prohibitionNumber: string, selectedReviewDate: string, driverLastName: string): Promise<ActionResponse> {
+    let url = axiosApiClient.getUri() + '/v1/publish/event/form?form=review_schedule_picker';
+    console.log("scheduleReviewDate url: ", url);
+
+    var config = {
+        headers: { 'Content-Type': 'application/xml' }
+    };
+    let xmlData = getScheduleReviewDateXml(prohibitionNumber, selectedReviewDate, driverLastName);
+
+    try {
+        const response = await axiosApiClient.post(url, xmlData, config);
+
+        console.debug("Post scheduleReviewDate return code: " + response.status);
+        return response;
+    } catch (error) {
+        return handleError(error);
     }
-    function getXMLFormData(prohibitionNumber: string, selectedReviewDate: string, driverLastName: string | null | undefined): string {
-        // Construct the XML string using the data from step1Data, step2Data, and step3InputProps.
-        const xmlString = `
+}
+
+function getScheduleReviewDateXml(prohibitionNumber: string, selectedReviewDate: string, driverLastName: string | null | undefined): string {
+    // Construct the XML string using the data from step1Data, step2Data, and step3InputProps.
+    const xmlString = `
         <?xml version="1.0" encoding="UTF-8"?>
         <form xmlns:fr="http://orbeon.org/oxf/xml/form-runner" fr:data-format-version="4.0.0">
             <submitted>false</submitted>
@@ -88,7 +67,7 @@ export const postReviewDate = async (prohibitionNumber: string, selectedReviewDa
             </before-you-begin-section>
             <schedule-review-section>
                 <prohibition-number>${prohibitionNumber}</prohibition-number>
-                <prohibition-number-clean>00197582</prohibition-number-clean>
+                <prohibition-number-clean>${prohibitionNumber.replace('-', '')}</prohibition-number-clean>
                 <prohibition-no-image filename="Combo prohibition no.png" mediatype="image/png">/fr/service/persistence/crud/gov-pssg/review_schedule_picker/form/7490a2bdcb0062a565a5e7aa2b4144560c83d8e7.bin</prohibition-no-image>
                 <last-name>${driverLastName}</last-name>
                 <control-3/>
@@ -97,5 +76,5 @@ export const postReviewDate = async (prohibitionNumber: string, selectedReviewDa
             </schedule-review-section>
         </form>
             `;
-        return xmlString;
-    }
+    return xmlString;
+}

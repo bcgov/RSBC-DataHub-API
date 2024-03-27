@@ -15,26 +15,30 @@ interface Props {
 const Step4 = forwardRef((props: Props, ref) => {
 
     const dateSigned = dayjs(Date.now());
+    const offsetHours = new Date().getTimezoneOffset() / -60;
 
     const [step4Data, setStep4Data] = useState<Step4Data>({
         signatureApplicantName: '',
-        signedDate: dayjs(Date.now()).toDate(),
+        signedDate: dayjs(Date.now()).format('YYYY-MM-DD') + offsetHours,
         signatureApplicantErrorText: '',
     });
 
     const [signatureApplicantNameErrorText, setSignatureApplicantNameErrorText] = useState('');
 
     const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-        const value = e.target.value;
+        const value = e.currentTarget.value;
         validate(value);
-
+        if (value === '') {
+            setStep4Data({ ...step4Data, signatureApplicantName: e.currentTarget.value });
+            props.step4DatatoSend(step4Data);
+        }
     }
 
     useImperativeHandle(ref, () => ({
         clearData() {
             setStep4Data({
                 signatureApplicantName: '',
-                signedDate: dayjs(Date.now()).toDate(),
+                signedDate: dayjs(Date.now()).format('YYYY-MM-DD') + offsetHours,
                 signatureApplicantErrorText: '',
             });
         },
@@ -48,11 +52,11 @@ const Step4 = forwardRef((props: Props, ref) => {
             setSignatureApplicantNameErrorText('Please enter your name to confirm the information submitted is correct.');
             step4Data.signatureApplicantErrorText = signatureApplicantNameErrorText;
         }
+        console.log("step4Data.signedDate: ", step4Data.signedDate);
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-
-        setStep4Data({ ...step4Data, signatureApplicantName: e.target.value });
+        setStep4Data({ ...step4Data, signatureApplicantName: e.currentTarget.value });
         props.step4DatatoSend(step4Data);
     };
 
@@ -68,24 +72,27 @@ const Step4 = forwardRef((props: Props, ref) => {
                 error={!!(signatureApplicantNameErrorText)}
                 errorText={signatureApplicantNameErrorText}
             >
-                <TextField className="signature" id="signature-applicant-name"
-                    variant="outlined" name='signatureApplicantName' value={step4Data.signatureApplicantName} onChange={handleChange} onBlur={handleBlur}>
+                <TextField
+                    className="signature"
+                    id="signature-applicant-name"
+                    variant="outlined"
+                    name='signatureApplicantName'
+                    value={step4Data.signatureApplicantName}
+                    onChange={handleChange}
+                    onBlur={handleBlur}>
                 </TextField>
             </FormField>
 
-            <div className="step3Div" ><strong><span style={{ fontSize: '16px', paddingTop: '35px', paddingLeft: '13px' }}>(optional)</span></strong></div>
             <FormField
                 id="prohibition-issued-date"
                 labelText=""
                 placeholder="MM/DD/YYYY"
-
             >
                 <LocalizationProvider dateAdapter={AdapterDayjs}  >
                     <DatePicker sx={{ paddingLeft: '5px' }}
                         disableFuture
                         value={dateSigned}
                         disabled
-
                     />
                 </LocalizationProvider>
             </FormField>
