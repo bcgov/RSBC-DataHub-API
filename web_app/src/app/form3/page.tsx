@@ -5,7 +5,7 @@ import CustomAccordion from '../components/Accordion';
 import { Button, Grid, TextField, Typography, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import { generatePDF } from '../components/GeneratePDF';
 import { FormField } from '../components/FormField';
-import { postValidateFormData, submitToAPI } from "./actions";
+import { postValidateFormData, sendForm3Email, submitToAPI } from "./actions";
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowForward from '@mui/icons-material/ArrowForward';
 import { Print } from '@mui/icons-material';
@@ -55,6 +55,10 @@ export default function Page() {
     const [isValidComboErrorText, setIsValidComboErrorText] = useState('');
 
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+
+    const [filesContent, setFilesContent] = useState<string[]>([]);
+    const [filesNames, setFilesNames] = useState<string[]>([]);
+
 
     const prohibitionNumberRegex = /^(00|21|30|40)-\d{6}$/;
 
@@ -115,9 +119,14 @@ export default function Page() {
             console.log("result after submission:");
             console.log(result);
 
-            setIsFormSubmitted(result?.data?.success);
-            setMessage("Your documents are sent. Please check your email. If you would like a copy of this form, click the PDF button.");
-        }
+            const emailResult = await sendForm3Email(filesContent, filesNames, applicantInfo);
+
+            setIsFormSubmitted(result.data.is_success && !result?.data?.error);
+            if(isFormSubmitted)
+                setMessage("Your documents are sent. Please check your email. If you would like a copy of this form, click the PDF button.");
+            else
+                setMessage(result.data?.error)
+            }
         else {
             setIsFormSubmitted(false);
             setMessage("");
@@ -261,7 +270,8 @@ export default function Page() {
 
         if (files && files.length > 0) {
 
-            [].forEach.call(files, file => {
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
                 console.log("form3data.evidenceFile: ", applicantInfo.evidenceDocuments);
 
                 let reader = new FileReader();
@@ -277,10 +287,12 @@ export default function Page() {
                     if (!isValidFile) {
                         setFileUploadErrorText('There is problem with a document. Please recheck the documents');
                         allFilesValid = false;
+                    } else {
+                        setFilesContent(prevFilesContent => [...prevFilesContent, fileContent]);
+                        setFilesNames(prevFilesName => [...prevFilesName, file.name]);
                     }
                 };
             }
-            );
             if (allFilesValid)
                 setFileUploadErrorText('');
             return allFilesValid;
@@ -289,7 +301,6 @@ export default function Page() {
             setFileUploadErrorText('Please attach your file(s).');
             return false;
         }
-
     }
 
 

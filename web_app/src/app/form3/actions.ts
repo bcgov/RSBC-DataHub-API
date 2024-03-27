@@ -1,14 +1,10 @@
 'use server'
-import { buildErrorMessage, axiosMailItClient, axiosApiClient } from '../_nonRoutingAssets/lib/form.api';
-import { Form3Data } from '../interfaces';
+import { axiosMailItClient, axiosApiClient, handleError } from '../_nonRoutingAssets/lib/form.api';
+import { ActionResponse, Form3Data } from '../interfaces';
 import dayjs from 'dayjs';
 
-interface AxiosResponse {
-    status: number;
-    data: any;
-}
 
-export const submitToAPI = async (applicantInfo: Form3Data): Promise<AxiosResponse> => {
+export const submitToAPI = async (applicantInfo: Form3Data): Promise<ActionResponse> => {
     try {
         const xml = getXMLData(applicantInfo);
         console.log(xml);
@@ -19,29 +15,22 @@ export const submitToAPI = async (applicantInfo: Form3Data): Promise<AxiosRespon
                 'Content-Type': 'application/xml',
             },
         });
-        return {
-            status: response.status,
-            data: response.data,
-        };
+        return response;
     }
     catch (error) {
-        console.log("Error: ", error);
-        return {
-            status: 500,
-            data: error,
-        };
+        return handleError(error);
     }
 };
 
-export const postValidateFormData = async (applicantInfo: Form3Data,): Promise<AxiosResponse> => {
+export const postValidateFormData = async (applicantInfo: Form3Data,): Promise<ActionResponse> => {
     try {
         const formData = new FormData();
         formData.append('prohibition_number', applicantInfo.prohibitionNumberClean);
         formData.append('last_name', applicantInfo.controlDriverLastName);
 
         const url = axiosApiClient.getUri() + "/evidence";
-        const encoded = Buffer.from(`${process.env.API_USER}` + ':' +
-        `${process.env.API_PASS}`).toString('base64');
+        const encoded = Buffer.from(`${process.env.FLASK_BASIC_AUTH_USER}` + ':' +
+        `${process.env.FLASK_BASIC_AUTH_PASS}`).toString('base64');
 
         const response = await axiosApiClient.post(url, formData, {
             headers: {
@@ -51,21 +40,17 @@ export const postValidateFormData = async (applicantInfo: Form3Data,): Promise<A
         });
         return response;
     } catch (error) {
-        console.log("Error:", error );
-        return {
-            status: 500,
-            data: 'An unknown error occurred',
-        };
+        return handleError(error);
     }
 };
 
 
 
-export const sendEmail = async (filesContent: string[], filesName: string[], applicantInfo: Form3Data): Promise<string | null> => {
+export const sendForm3Email = async (filesContent: string[], filesName: string[], applicantInfo: Form3Data): Promise<ActionResponse> => {
     console.log("axiosMailItClient.getUri: " + axiosMailItClient.getUri());
 
-    const encoded = Buffer.from(`${process.env.MAIL_IT_CLIENT_ID}` + ':' +
-        `${process.env.MAIL_IT_SECRET}`).toString('base64');
+    const encoded = Buffer.from(`${process.env.EMAIL_BASIC_AUTH_USER}` + ':' +
+        `${process.env.EMAIL_BASIC_AUTH}`).toString('base64');
 
     let config = {
         headers: {
@@ -77,15 +62,12 @@ export const sendEmail = async (filesContent: string[], filesName: string[], app
     let email = getEmailTemplate(filesContent, filesName, applicantInfo);
     console.log("email: ", email);
     try {
-        const data = await axiosMailItClient.post(axiosMailItClient.getUri() + '/mail/send', email, config);
+        const response = await axiosMailItClient.post(axiosMailItClient.getUri() + '/mail/send', email, config);
 
-        console.debug("Email sent successfully with return code: " + data.status);
-        return null;
+        console.debug("Email sent successfully with return code: " + response.status);
+        return response;
     } catch (error) {
-        console.error("Error: ", error);
-        const errorDetails = "Failed sending email: " + buildErrorMessage(error);
-        console.error(errorDetails);
-        return errorDetails;
+        return handleError(error);
     }
 }
 

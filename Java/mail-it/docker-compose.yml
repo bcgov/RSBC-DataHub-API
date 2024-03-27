@@ -9,8 +9,8 @@
 #    environment:
 #      - EMAIL_HOST=mailhog
 #      - EMAIL_PORT=1025
-#      - BASIC_AUTH_USER=###
-#      - BASIC_AUTH=###
+#      - EMAIL_BASIC_AUTH_USER=###
+#      - EMAIL_BASIC_AUTH=###
 #    networks:
 #        - mail-it-net
 
