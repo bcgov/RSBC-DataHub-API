@@ -1,15 +1,15 @@
 'use server'
-import { buildErrorMessage, axiosMailItClient, axiosApiClient } from '../_nonRoutingAssets/lib/form.api';
-import { Step1Data, Step2Data, Step3Data, Step4Data } from './../interfaces';
+import { handleError, axiosMailItClient, axiosApiClient } from '../_nonRoutingAssets/lib/form.api';
+import { ActionResponse, Step1Data, Step2Data, Step3Data, Step4Data } from './../interfaces';
 
-export async function sendEmail(fileContent: string | null, fileName: string | null, pagePdf: string, step1Data: Step1Data, step2Data: Step2Data): Promise<string | null> {
+export async function sendEmail(fileContent: string | null, fileName: string | null, pagePdf: string, step1Data: Step1Data, step2Data: Step2Data): Promise<number> {
 
     const attachments = [{
         "filename": 'prohibition document.pdf',
         "filecontents": pagePdf,
     }];
 
-    console.log("test: ", (fileContent && fileName) )
+    console.log("test: ", (fileContent && fileName))
     if (fileContent && fileName) {
         attachments.push({
             "filename": fileName,
@@ -21,8 +21,8 @@ export async function sendEmail(fileContent: string | null, fileName: string | n
     let email = getEmailTemplate(attachments, step1Data, step2Data);
     console.log("axiosMailItClient.getUri: " + axiosMailItClient.getUri());
 
-    const encoded = Buffer.from(`${process.env.MAIL_IT_CLIENT_ID}` + ':' +
-        `${process.env.MAIL_IT_SECRET}`).toString('base64');
+    const encoded = Buffer.from(`${process.env.EMAIL_BASIC_AUTH_USER}` + ':' +
+        `${process.env.EMAIL_BASIC_AUTH}`).toString('base64');
 
     var config = {
         headers: {
@@ -31,19 +31,16 @@ export async function sendEmail(fileContent: string | null, fileName: string | n
         }
     };
     try {
-        // const data = await axiosMailItClient.post(axiosMailItClient.getUri() + '/mail/send', email, config);
+        const response = await axiosMailItClient.post(axiosMailItClient.getUri() + '/mail/send', email, config);
 
-        // console.debug("Email sent successfully with return code: " + data.status);
-        return " There was an error!!!!";
+        console.debug("Email sent with return code: " + response.status);
+        return response.status;
     } catch (error) {
-        console.error("Error: ", error);
-        const errorDetails = "Failed sending email: " + buildErrorMessage(error);
-        console.error(errorDetails);
-        return errorDetails;
+        return 500;
     }
 }
 
-export async function postForm1(step1Data: Step1Data, step2Data: Step2Data, step3data: Step3Data, step4data: Step4Data): Promise<string | null> {
+export async function postForm1(step1Data: Step1Data, step2Data: Step2Data, step3data: Step3Data, step4data: Step4Data): Promise<ActionResponse> {
     let url = axiosApiClient.getUri() + "/v1/publish/event/form?form=prohibition_review";
 
     console.log("Post to url: ", url);
@@ -51,22 +48,18 @@ export async function postForm1(step1Data: Step1Data, step2Data: Step2Data, step
     var config = {
         headers: { 'Content-Type': 'application/xml' }
     };
-    let xmlData = getXMLFormData(step1Data, step2Data, step3data, step4data).trim();
+    let xmlData = getForm1Xml(step1Data, step2Data, step3data, step4data).replace(/\n/g, '').trim();
     console.log("xml body: ", xmlData);
     try {
-        // const response = await axiosApiClient.post(url, xmlData, config);
-        // console.debug("Post was successful with return code: " + response.status);
-        return "There was an error processing your request! Please try another time!! ";
+        const response = await axiosApiClient.post(url, xmlData, config);
+        console.debug("postForm1 done with return code: " + response.status);
+        return response;
     } catch (error) {
-        console.error("Post failed: ", error);
-        const errorDetails = "Post failed: " + buildErrorMessage(error);
-        console.error(errorDetails);
-        return errorDetails;
+        return handleError(error);
     }
-
 }
 
-function getXMLFormData(step1Data: Step1Data, step2Data: Step2Data, step3data: Step3Data, step4data: Step4Data): string {
+function getForm1Xml(step1Data: Step1Data, step2Data: Step2Data, step3data: Step3Data, step4data: Step4Data): string {
     const ulGrounds = step3data.ulGrounds && step3data.ulGrounds.length > 0 ? `<ul-grounds>${step3data.ulGrounds.join(' ')}</ul-grounds>` : '<ul-grounds/>';
     const adpGroundsAlcohol = step3data.adpGroundsAlcohol && step3data.adpGroundsAlcohol.length > 0 ? `<adp-grounds-alcohol>${step3data.adpGroundsAlcohol.join(' ')}</adp-grounds-alcohol>` : '<adp-grounds-alcohol/>';
     const adpGroundsDrugs = step3data.adpGroundsDrugs && step3data.adpGroundsDrugs.length > 0 ? `<adp-grounds-drugs>${step3data.adpGroundsDrugs.join(' ')}</adp-grounds-drugs>` : '<adp-grounds-drugs/>';
@@ -74,11 +67,24 @@ function getXMLFormData(step1Data: Step1Data, step2Data: Step2Data, step3data: S
     const adpGroundsDrugExpert = step3data.adpGroundsDrugExpert && step3data.adpGroundsDrugExpert.length > 0 ? `<adp-grounds-drug-expert>${step3data.adpGroundsDrugExpert.join(' ')}</adp-grounds-drug-expert>` : '<adp-grounds-drug-expert/>';
     const adpGroundsRefusal = step3data.adpGroundsRefusal && step3data.adpGroundsRefusal.length > 0 ? `<adp-grounds-refusal>${step3data.adpGroundsRefusal.join(' ')}</adp-grounds-refusal>` : '<adp-grounds-refusal/>';
     const irpGroundsList = step3data.irpGroundsList && step3data.irpGroundsList.length > 0 ? `<irp-grounds-list>${step3data.irpGroundsList.join(' ')}</irp-grounds-list>` : '<irp-grounds-list/>';
+    const licenceNotSurrendered = step1Data.licenseNoSurrendered ? `<licence-not-surrendered>${step1Data.licenseNoSurrendered}</licence-not-surrendered>` : '<licence-not-surrendered/>';
+    const licenceLostOrStolen = step1Data.licenseLostOrStolen ? `<licence-lost-or-stolen>${step1Data.licenseLostOrStolen}</licence-lost-or-stolen>` : '<licence-lost-or-stolen/>';
+    const licenceNotIssued = step1Data.licenseNotIssued ? `<licence-not-issued>${step1Data.licenseNotIssued}</licence-not-issued>` : '<licence-not-issued/>';
+    const licenseSeized = step1Data.licenseSeized ? `<licence-seized>licence-seized</licence-seized>` : `</licence-seized>`;
+    const dateOfService = step1Data.dateOfService ? `<date-of-service>` + step1Data.dateOfService.toISOString().slice(0, 10) + `</date-of-service>` : (() => { throw new Error("Field is required: date-of-service"); })();
+    const driverFirstName = step2Data.driverFirstName ? `<driver-first-name>${step2Data.driverFirstName}</driver-first-name>` : '<driver-first-name/>';
+    const driverLastName = step2Data.driverLastName ? `<driver-last-name>${step2Data.driverLastName}</driver-last-name>` : '<driver-last-name/>';
+    const driverBcdl = step2Data.driverBcdl ? `<driver-bcdl>${step2Data.driverBcdl}</driver-bcdl>` : '<driver-bcdl/>';
+    const hearingRequest = step3data.hearingRequest ? `<hearing-request-type>${step3data.hearingRequest}</hearing-request-type>` : '<hearing-request-type/>';
+    const representedByLawyer = step2Data.representedByLawyer ? `<represented-by-lawyer>${step2Data.representedByLawyer}</represented-by-lawyer>` : '<represented-by-lawyer/>';
+    const applicantRoleSelect = step2Data.applicantRoleSelect ? `<applicant-role-select>${step2Data.applicantRoleSelect}</applicant-role-select>` : '<applicant-role-select/>';
+    const applicantRole = step2Data.applicantRoleSelect ? `<applicant-role>${step2Data.applicantRoleSelect}</applicant-role>` : '<applicant-role/>';
+    
     // Construct the XML string using the data from step1Data, step2Data, and step3InputProps.
     const xmlString = `
         <?xml version="1.0" encoding="UTF-8"?>
         <form xmlns:fr="http://orbeon.org/oxf/xml/form-runner" fr:data-format-version="4.0.0">
-            <submitted/>
+            <submitted>false</submitted>
             <before-you-begin-section>
                 <help-text/>
             </before-you-begin-section>
@@ -86,21 +92,21 @@ function getXMLFormData(step1Data: Step1Data, step2Data: Step2Data, step3data: S
                 <control-prohibition-number>${step1Data.controlProhibitionNumber}</control-prohibition-number>
                 <control-is-ul>${step1Data.controlIsUl}</control-is-ul>
                 <prohibition-number-clean>${step1Data.prohibitionNumberClean}</prohibition-number-clean>
-                <prohibition-no-image filename="test" mediatype="pdf">somename</prohibition-no-image>
+                <prohibition-no-image filename="Combo prohibition no.png" mediatype="image/png">/fr/service/persistence</prohibition-no-image>
                 <control-is-irp>${step1Data.controlIsIrp}</control-is-irp>
                 <control-is-adp>${step1Data.controlIsAdp}</control-is-adp>
-                <licence-seized>${step1Data.licenseSeized}</licence-seized>
-                <licence-not-surrendered/>${step1Data.licenseNoSurrendered}
-                <licence-lost-or-stolen/>${step1Data.licenseLostOrStolen}
-                <licence-not-issued/>${step1Data.licenseNotIssued}
+                ${licenseSeized}
+                ${licenceNotSurrendered}
+                ${licenceLostOrStolen}
+                ${licenceNotIssued}
                 <irp-prohibition-type-length>${step1Data.irpProhibitionTypeLength}</irp-prohibition-type-length>
-                <date-of-service>${step1Data.dateOfService}</date-of-service>
+                ${dateOfService}
             </prohibition-information>
             <identification-information>
                 <applicant-information-label/>
-                <applicant-role-select>${step2Data.applicantRoleSelect}</applicant-role-select>
-                <represented-by-lawyer>${step2Data.representedByLawyer}</represented-by-lawyer>
-                <applicant-role>${step2Data.applicantRoleSelect}</applicant-role>
+                ${applicantRoleSelect}
+                ${representedByLawyer}
+                ${applicantRole}
                 <control-4/>
                 <consent-upload filename="" mediatype="" size=""/>
                 <lawyer-information-label/>
@@ -111,24 +117,24 @@ function getXMLFormData(step1Data: Step1Data, step2Data: Step2Data, step3data: S
                 <control-3/>
                 <applicant-email-address>${step2Data.applicantEmailAddress}</applicant-email-address>
                 <appeals-registry-email>${process.env.APPEALS_REGISTRY_EMAIL}</appeals-registry-email>
-                <email-bcc>${process.env.EMAIL_BCC}</email-bcc>
+                <email-bcc>${process.env.EMAIL_BCC_1}</email-bcc>
                 <applicant-email-confirm>${step2Data.applicantEmailConfirm}</applicant-email-confirm>
                 <do-not-reply-address>${process.env.DO_NOT_REPLY_ADDRESS}</do-not-reply-address>
                 <driver-information-label/>
-                <driver-first-name>${step2Data.driverFirstName}</driver-first-name>
-                <driver-last-name>${step2Data.driverLastName}</driver-last-name>
-                <driver-bcdl>${step2Data.driverBcdl}</driver-bcdl>
+                ${driverFirstName}
+                ${driverLastName}
+                ${driverBcdl}
                 <address-label/>
                 <street-address>${step2Data.streetAddress}</street-address>
                 <control-driver-city-town>${step2Data.controlDriverCityTown}</control-driver-city-town>
                 <control-driver-province>${step2Data.controlDriverProvince}</control-driver-province>
-                <control-driver-postal-code>${step2Data.controlDriverPostalCode}</control-driver-postal-code>
+                <control-driver-postal-code>${step2Data.controlDriverPostalCode.replace(" ", "")}</control-driver-postal-code>
             </identification-information>
             <review-information>
                 <ul-burden-of-proof-text/>
                 ${ulGrounds}
                 <irp-burden-of-proof-text/>
-                <irp-grounds-list>${irpGroundsList}</irp-grounds-list>
+                ${irpGroundsList}
                 <adp-burden-of-proof-text/>
                 ${adpGroundsAlcohol}
                 ${adpGroundsDrugs}
@@ -139,8 +145,8 @@ function getXMLFormData(step1Data: Step1Data, step2Data: Step2Data, step3data: S
                 <preparing-for-your-review/>
                 <preparing-for-review-irp-text/>
                 <preparing-for-review-ul-text/>
-                <hearing-request-type>${step3data.hearingRequest}</hearing-request-type>
-                <wirtten-review-information/>
+                ${hearingRequest}
+                <written-review-information/>
                 <oral-review-instructions/>
             </review-information>
             <consent-and-submission>
@@ -163,8 +169,8 @@ function getEmailTemplate(attachments: object, step1Data: Step1Data, step2Data: 
             "email": `${step2Data.applicantEmailAddress}`
         }],
         "bcc": [
-            { "email": `${process.env.EMAIL_BCC_1}`},
-            { "email": `${process.env.EMAIL_BCC_2}`}
+            { "email": `${process.env.EMAIL_BCC_1}` },
+            { "email": `${process.env.EMAIL_BCC_2}` }
         ],
         "subject": "Copy of Application Form - Driving Prohibition " + `${step1Data.controlProhibitionNumber}` + " Review",
         "content": {

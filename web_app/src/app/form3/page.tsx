@@ -5,7 +5,7 @@ import CustomAccordion from '../components/Accordion';
 import { Button, Grid, TextField, Typography, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import { generatePDF } from '../components/GeneratePDF';
 import { FormField } from '../components/FormField';
-import { postValidateFormData, submitToAPI } from "./actions";
+import { postValidateFormData, sendForm3Email, submitToAPI } from "./actions";
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowForward from '@mui/icons-material/ArrowForward';
 import { Print } from '@mui/icons-material';
@@ -55,6 +55,10 @@ export default function Page() {
     const [isValidComboErrorText, setIsValidComboErrorText] = useState('');
 
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+
+    const [filesContent, setFilesContent] = useState<string[]>([]);
+    const [filesNames, setFilesNames] = useState<string[]>([]);
+
 
     const prohibitionNumberRegex = /^(00|21|30|40)-\d{6}$/;
 
@@ -111,12 +115,20 @@ export default function Page() {
     const submitData = async () => {
         validateData();
         if (isValidForm) {
-            const result = await submitToAPI(applicantInfo);
-            console.log("result after submission:");
-            console.log(result);
+            try {
+                const result = await submitToAPI(applicantInfo);
+                console.log("result after submission:");
+                console.log(result);
 
-            setIsFormSubmitted(result?.data?.success);
-            setMessage("Your documents are sent. Please check your email. If you would like a copy of this form, click the PDF button.");
+                const emailResult = await sendForm3Email(filesContent, filesNames, applicantInfo);
+
+                setIsFormSubmitted(result.data.is_success && !result?.data?.error);
+                if (isFormSubmitted)
+                    setMessage("Your documents are sent. Please check your email. If you would like a copy of this form, click the PDF button.");
+                else
+                    setMessage(result.data?.error)
+
+            } catch (error) { }
         }
         else {
             setIsFormSubmitted(false);
@@ -166,6 +178,8 @@ export default function Page() {
         if (applicantInfo.signatureApplicantName === '')
             setSignatureApplicantNameErrorText('Please enter your name to confirm the information submitted is correct.');
 
+        console.log("valid?", prohibitionNumberErrorText, driverLastNameErrorText, applicantRoleErrorText,
+            emailAddressErrorText, confirmEmailErrorText, fileUploadErrorText, signatureApplicantNameErrorText, isValidComboErrorText);
 
         if (prohibitionNumberErrorText || driverLastNameErrorText || applicantRoleErrorText ||
             emailAddressErrorText || confirmEmailErrorText || fileUploadErrorText || signatureApplicantNameErrorText || isValidComboErrorText)
@@ -194,15 +208,17 @@ export default function Page() {
 
     const callValidateFormData = async () => {
 
-        const result = await postValidateFormData(applicantInfo);
+        try {
+            const result = await postValidateFormData(applicantInfo);
+            console.log("callValidateFormData:", result.data, result.data.is_success, result);
+            setIsValidData(result.data.is_success);
 
-        setIsValidData(result?.data?.data?.is_valid);
+            setApplicantInfo({ ...applicantInfo, isProhibitionNumberValid: result.data.is_success });
 
-        setApplicantInfo({ ...applicantInfo, isProhibitionNumberValid: result?.data?.data?.is_valid });
-
-        if (!result?.data?.data?.is_valid)
-            setIsValidComboErrorText(result?.data?.data?.error);
-
+            if (!result.data.is_success)
+                setIsValidComboErrorText("Error: " + result.data.error);
+            console.log("finished...")
+        } catch (error) { }
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -261,7 +277,8 @@ export default function Page() {
 
         if (files && files.length > 0) {
 
-            [].forEach.call(files, file => {
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
                 console.log("form3data.evidenceFile: ", applicantInfo.evidenceDocuments);
 
                 let reader = new FileReader();
@@ -277,10 +294,12 @@ export default function Page() {
                     if (!isValidFile) {
                         setFileUploadErrorText('There is problem with a document. Please recheck the documents');
                         allFilesValid = false;
+                    } else {
+                        setFilesContent(prevFilesContent => [...prevFilesContent, fileContent]);
+                        setFilesNames(prevFilesName => [...prevFilesName, file.name]);
                     }
                 };
             }
-            );
             if (allFilesValid)
                 setFileUploadErrorText('');
             return allFilesValid;
@@ -289,7 +308,6 @@ export default function Page() {
             setFileUploadErrorText('Please attach your file(s).');
             return false;
         }
-
     }
 
 
@@ -367,7 +385,7 @@ export default function Page() {
                                 Next
                             </Button>
                         </Grid>
-                        {isValidData &&
+                        {!isValidData &&
                             <div>
                                 <Typography variant="caption" sx={{ color: '#D8292F', fontWeight: '700', padding: '4px 0px 2px 0px', ml: '4px', fontSize: '16px', display: 'block' }}>
 
@@ -376,7 +394,7 @@ export default function Page() {
                             </div>
                         }
 
-                        {!isValidData &&
+                        {isValidData &&
                             <div>
                                 <div id="page1img3">
                                     <Grid item xs={6} md={8} sm={10} lg={12} sx={{ padding: "1px", paddingBottom: '20px', paddingTop: '20px' }}>
