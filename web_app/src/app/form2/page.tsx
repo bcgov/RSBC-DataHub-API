@@ -16,7 +16,7 @@ export default function Page() {
     const [driverLastName, setDriverLastName] = useState('');
     const [controlProhibitionNumber, setControlProhibitionNumber] = useState('');
     const [requestAvailDates, setRequestAvailDates] = useState(false);
-    const [reviewDates, setReviewDates] = useState<AvailableReviewDates>([]);
+    const [reviewDates, setReviewDates] = useState<AvailableReviewDates>({} as AvailableReviewDates);
     const [selectedReviewDate, setSelectedReviewDate] = useState('');
     const [validProhibitionNumber, setValidProhibitionNumber] = useState(false);
     const [prohibitionNumberErrorText, setProhibitionNumberErrorText] = useState('');
@@ -79,7 +79,7 @@ export default function Page() {
         setControlProhibitionNumber('')
         setRequestAvailDates(false);
         setDriverLastName('');
-        setReviewDates([]);
+        setReviewDates({} as AvailableReviewDates);
         setSelectedReviewDate('');
         setProhibitionNumberErrorText('');
         setValidProhibitionNumber(false);

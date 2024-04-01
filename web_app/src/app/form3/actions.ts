@@ -4,7 +4,6 @@ import { axiosMailItClient, axiosApiClient, handleError } from '../_nonRoutingAs
 import { ActionResponse, Form3Data } from '../interfaces';
 import dayjs from 'dayjs';
 
-
 export const submitToAPI = async (applicantInfo: Form3Data): Promise<ActionResponse> => {
     try {
         const xml = getXMLData(applicantInfo);
@@ -118,6 +117,8 @@ function getEmailTemplate(files: string[], names: string[], applicantInfo: Form3
 }
 
 
+const offsetHours = new Date().getTimezoneOffset() / -60;
+
 const getXMLData = (form3Data: Form3Data): string => {
     const xmlString = `<?xml version="1.0" encoding="UTF-8"?>
 <form xmlns:fr="http://orbeon.org/oxf/xml/form-runner" fr:data-format-version="4.0.0">
@@ -125,7 +126,7 @@ const getXMLData = (form3Data: Form3Data): string => {
     <before-you-begin-section>
         <help-text/>
         <appeals-registry-email-address>${process.env.APPEALS_REGISTRY_EMAIL}</appeals-registry-email-address>
-        <rsi-email-address>${process.env.email_BCC}</rsi-email-address>
+        <rsi-email-address>${process.env.email_BCC_1}</rsi-email-address>
         <do-not-reply-address>${process.env.DO_NOT_REPLY_ADDRESS}</do-not-reply-address>
     </before-you-begin-section>
     <applicant-information-section>
@@ -142,7 +143,7 @@ const getXMLData = (form3Data: Form3Data): string => {
         <is-prohibition-valid>${form3Data.isProhibitionNumberValid}</is-prohibition-valid>
         <prohibtion-status/>
         <applicant-contact-information-label/>
-        <applicant-role> ${form3Data.applicantRoleSelect}</applicant-role>
+        <applicant-role>${form3Data.applicantRoleSelect}</applicant-role>
         <signed-consent-message/>
         <applicant-email-address>${form3Data.applicantEmailAddress}</applicant-email-address>
         <applicant-email-confirm>${form3Data.applicantEmailConfirm}</applicant-email-confirm>
@@ -159,7 +160,7 @@ const getXMLData = (form3Data: Form3Data): string => {
     </evidence-section>
     <consent-section>
         <control-applicant-name>${form3Data.signatureApplicantName}</control-applicant-name>
-        <date-signed>${dayjs(Date.now())}</date-signed>
+        <date-signed>${dayjs(Date.now()).toISOString().substring(0,10) + offsetHours}</date-signed>
         <control-5/>
     </consent-section>
 </form>
