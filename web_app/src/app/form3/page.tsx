@@ -249,11 +249,8 @@ export default function Page() {
 
 
     const handleStep4Data = (step4Data: Step4Data) => {
-        if (!step4Data.signatureApplicantErrorText)
             setApplicantInfo({ ...applicantInfo, signatureApplicantName: step4Data.signatureApplicantName });
-        else
             setSignatureApplicantNameErrorText(step4Data.signatureApplicantErrorText);
-
     }
 
     const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
