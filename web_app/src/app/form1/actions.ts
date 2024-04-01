@@ -24,6 +24,9 @@ export async function sendEmail(fileContent: string | null, fileName: string | n
     const encoded = Buffer.from(`${process.env.EMAIL_BASIC_AUTH_USER}` + ':' +
         `${process.env.EMAIL_BASIC_AUTH}`).toString('base64');
 
+    console.log("user/pass for mailer: ", `${ process.env.EMAIL_BASIC_AUTH_USER }` + ':' +
+        `${ process.env.EMAIL_BASIC_AUTH }`);
+
     var config = {
         headers: {
             'Authorization': 'Basic ' + encoded,
@@ -80,7 +83,7 @@ function getForm1Xml(step1Data: Step1Data, step2Data: Step2Data, step3data: Step
     const representedByLawyer = step2Data.representedByLawyer ? `<represented-by-lawyer>${step2Data.representedByLawyer}</represented-by-lawyer>` : '<represented-by-lawyer/>';
     const applicantRoleSelect = step2Data.applicantRoleSelect ? `<applicant-role-select>${step2Data.applicantRoleSelect}</applicant-role-select>` : '<applicant-role-select/>';
     const applicantRole = step2Data.applicantRoleSelect ? `<applicant-role>${step2Data.applicantRoleSelect}</applicant-role>` : '<applicant-role/>';
-    
+
     // Construct the XML string using the data from step1Data, step2Data, and step3InputProps.
     const xmlString = `
         <?xml version="1.0" encoding="UTF-8"?>
