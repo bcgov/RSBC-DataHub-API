@@ -13,8 +13,8 @@ export async function getAvailableReviewDates(prohibitionNumber: string, driverL
     const formData = new FormData();
     formData.append('prohibition_number', prohibitionNumber);
     formData.append('last_name', driverLastName);
-    const encoded = Buffer.from(`${process.env.FLASK_BASIC_AUTH_USER}` + ':' +
-        `${process.env.FLASK_BASIC_AUTH_PASS}`).toString('base64');
+    const encoded = Buffer.from(process.env['flask-basic-auth-user'] + ':' +
+        process.env['flask-basic-auth-pass']).toString('base64');
     const config = {
         headers: {
             'Authorization': 'Basic ' + encoded,
