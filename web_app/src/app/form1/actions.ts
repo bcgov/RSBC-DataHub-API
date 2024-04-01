@@ -36,6 +36,7 @@ export async function sendEmail(fileContent: string | null, fileName: string | n
         console.debug("Email sent with return code: " + response.status);
         return response.status;
     } catch (error) {
+        console.log("Email failed: ", error);
         return 500;
     }
 }
