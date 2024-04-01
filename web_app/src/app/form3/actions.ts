@@ -1,17 +1,13 @@
 'use server'
-import { buildErrorMessage, axiosMailItClient, axiosApiClient } from '../_nonRoutingAssets/lib/form.api';
-import { Form3Data } from '../interfaces';
+import { dataTagSymbol } from '@tanstack/react-query';
+import { axiosMailItClient, axiosApiClient, handleError } from '../_nonRoutingAssets/lib/form.api';
+import { ActionResponse, Form3Data } from '../interfaces';
 import dayjs from 'dayjs';
 
-interface AxiosResponse {
-    status: number;
-    data: any;
-}
-
-export const submitToAPI = async (applicantInfo: Form3Data): Promise<AxiosResponse> => {
+export const submitToAPI = async (applicantInfo: Form3Data): Promise<ActionResponse> => {
     try {
         const xml = getXMLData(applicantInfo);
-        console.log(xml);
+        console.log("submitToAPI form3 xml", xml);
 
         const url = axiosApiClient.getUri() + "/v1/publish/event/form?form=Document_submission";
         const response = await axiosApiClient.post(url, xml, {
@@ -19,29 +15,25 @@ export const submitToAPI = async (applicantInfo: Form3Data): Promise<AxiosRespon
                 'Content-Type': 'application/xml',
             },
         });
-        return {
-            status: response.status,
-            data: response.data,
-        };
+        console.log("submitToAPI form3 response: ", response);
+        return response;
     }
     catch (error) {
-        console.log("Error: ", error);
-        return {
-            status: 500,
-            data: error,
-        };
+        return handleError(error);
     }
 };
 
-export const postValidateFormData = async (applicantInfo: Form3Data,): Promise<AxiosResponse> => {
+export async function postValidateFormData(applicantInfo: Form3Data,): Promise<ActionResponse> {
     try {
+        console.log("postValidateFormData: ", applicantInfo);
+
         const formData = new FormData();
         formData.append('prohibition_number', applicantInfo.prohibitionNumberClean);
         formData.append('last_name', applicantInfo.controlDriverLastName);
 
         const url = axiosApiClient.getUri() + "/evidence";
-        const encoded = Buffer.from(`${process.env.API_USER}` + ':' +
-        `${process.env.API_PASS}`).toString('base64');
+        const encoded = Buffer.from(`${process.env.FLASK_BASIC_AUTH_USER}` + ':' +
+            `${process.env.FLASK_BASIC_AUTH_PASS}`).toString('base64');
 
         const response = await axiosApiClient.post(url, formData, {
             headers: {
@@ -49,23 +41,35 @@ export const postValidateFormData = async (applicantInfo: Form3Data,): Promise<A
                 'Content-Type': 'text/html',
             },
         });
-        return response;
+
+        console.log("postValidateFormData response: ", response);
+        if (response.status === 200 && response.data.data.is_valid) {
+            return {
+                data: {
+                    is_success: true,
+                    error: '',
+                }
+            };
+        } else {
+            return {
+                data: {
+                    is_success: false,
+                    error: response.data.data.error,
+                }
+            };
+        }
     } catch (error) {
-        console.log("Error:", error );
-        return {
-            status: 500,
-            data: 'An unknown error occurred',
-        };
+        return handleError(error);
     }
 };
 
 
 
-export const sendEmail = async (filesContent: string[], filesName: string[], applicantInfo: Form3Data): Promise<string | null> => {
+export const sendForm3Email = async (filesContent: string[], filesName: string[], applicantInfo: Form3Data): Promise<ActionResponse> => {
     console.log("axiosMailItClient.getUri: " + axiosMailItClient.getUri());
 
-    const encoded = Buffer.from(`${process.env.MAIL_IT_CLIENT_ID}` + ':' +
-        `${process.env.MAIL_IT_SECRET}`).toString('base64');
+    const encoded = Buffer.from(`${process.env.EMAIL_BASIC_AUTH_USER}` + ':' +
+        `${process.env.EMAIL_BASIC_AUTH}`).toString('base64');
 
     let config = {
         headers: {
@@ -77,15 +81,12 @@ export const sendEmail = async (filesContent: string[], filesName: string[], app
     let email = getEmailTemplate(filesContent, filesName, applicantInfo);
     console.log("email: ", email);
     try {
-        const data = await axiosMailItClient.post(axiosMailItClient.getUri() + '/mail/send', email, config);
+        const response = await axiosMailItClient.post(axiosMailItClient.getUri() + '/mail/send', email, config);
 
-        console.debug("Email sent successfully with return code: " + data.status);
-        return null;
+        console.debug("Email sent successfully with return code: " + response.status);
+        return response;
     } catch (error) {
-        console.error("Error: ", error);
-        const errorDetails = "Failed sending email: " + buildErrorMessage(error);
-        console.error(errorDetails);
-        return errorDetails;
+        return handleError(error);
     }
 }
 
@@ -116,6 +117,8 @@ function getEmailTemplate(files: string[], names: string[], applicantInfo: Form3
 }
 
 
+const offsetHours = new Date().getTimezoneOffset() / -60;
+
 const getXMLData = (form3Data: Form3Data): string => {
     const xmlString = `<?xml version="1.0" encoding="UTF-8"?>
 <form xmlns:fr="http://orbeon.org/oxf/xml/form-runner" fr:data-format-version="4.0.0">
@@ -123,7 +126,7 @@ const getXMLData = (form3Data: Form3Data): string => {
     <before-you-begin-section>
         <help-text/>
         <appeals-registry-email-address>${process.env.APPEALS_REGISTRY_EMAIL}</appeals-registry-email-address>
-        <rsi-email-address>${process.env.email_BCC}</rsi-email-address>
+        <rsi-email-address>${process.env.email_BCC_1}</rsi-email-address>
         <do-not-reply-address>${process.env.DO_NOT_REPLY_ADDRESS}</do-not-reply-address>
     </before-you-begin-section>
     <applicant-information-section>
@@ -140,7 +143,7 @@ const getXMLData = (form3Data: Form3Data): string => {
         <is-prohibition-valid>${form3Data.isProhibitionNumberValid}</is-prohibition-valid>
         <prohibtion-status/>
         <applicant-contact-information-label/>
-        <applicant-role> ${form3Data.applicantRoleSelect}</applicant-role>
+        <applicant-role>${form3Data.applicantRoleSelect}</applicant-role>
         <signed-consent-message/>
         <applicant-email-address>${form3Data.applicantEmailAddress}</applicant-email-address>
         <applicant-email-confirm>${form3Data.applicantEmailConfirm}</applicant-email-confirm>
@@ -157,7 +160,7 @@ const getXMLData = (form3Data: Form3Data): string => {
     </evidence-section>
     <consent-section>
         <control-applicant-name>${form3Data.signatureApplicantName}</control-applicant-name>
-        <date-signed>${dayjs(Date.now())}</date-signed>
+        <date-signed>${dayjs(Date.now()).toISOString().substring(0,10) + offsetHours}</date-signed>
         <control-5/>
     </consent-section>
 </form>

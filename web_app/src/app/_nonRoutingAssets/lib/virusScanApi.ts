@@ -1,14 +1,14 @@
 'use server'
 
-import { axiosVirusScanClient, buildErrorMessage } from "./form.api";
+import { axiosVirusScanClient, handleError } from "./form.api";
 
 export const checkVirusScanner = async (file: string): Promise<boolean> => {
 
     console.log("axiosVirusScanClient.getUri: " + axiosVirusScanClient.getUri());
-    const encoded = Buffer.from(`${process.env.VIRUS_SCAN_USER}` + ':' +
-        `${process.env.VIRUS_SCAN_PASS}`).toString('base64');
+    const encoded = Buffer.from(`${process.env.CLAMAV_CLIENT_BASIC_AUTH_USER}` + ':' +
+        `${process.env.CLAMAV_CLIENT_BASIC_AUTH}`).toString('base64');
 
-    console.log("encoded: ", encoded, `${process.env.VIRUS_SCAN_PASS}`)
+    console.log("encoded: ", encoded, `${process.env.CLAMAV_CLIENT_BASIC_AUTH}`)
 
     var config = {
         headers: {
@@ -25,9 +25,7 @@ export const checkVirusScanner = async (file: string): Promise<boolean> => {
         console.debug("File was scanned successfully with return code: " + response.status);
         return true;
     } catch (error) {
-        console.error("Error: ", error);
-        const errorDetails = "Failed sending email: " + buildErrorMessage(error);
-        console.error(errorDetails);
+        await handleError(error);
         return false;
     }
 }

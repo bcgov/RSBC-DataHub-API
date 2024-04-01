@@ -465,19 +465,19 @@ const Step2 = forwardRef((props: Props, ref) => {
                     <Select labelId="province" id="province-field" name="controlDriverProvince" value={step2Data.controlDriverProvince}
                         onChange={event => handleProvinceChange(event.target.value)} onBlur={handleBlur}
                         style={{ minWidth: '300px' }}  >
-                        <MenuItem value="BritishColumbia"> British Columbia</MenuItem>
-                        <MenuItem value="Alberta">Alberta</MenuItem>
-                        <MenuItem value="Saskatchewan"> Saskatchewan </MenuItem>
-                        <MenuItem value="Manitoba"> Manitoba </MenuItem>
-                        <MenuItem value="Ontario"> Ontario </MenuItem>
-                        <MenuItem value="Quebec"> Quebec </MenuItem>
-                        <MenuItem value="New Brunswick"> New Brunswick </MenuItem>
-                        <MenuItem value="Nova Scotia"> Nova Scotia </MenuItem>
-                        <MenuItem value="Prince Edward Island"> Prince Edward Island </MenuItem>
-                        <MenuItem value="Newfoundland and Labrador"> Newfoundland and Labrador </MenuItem>
-                        <MenuItem value="Yukon"> Yukon </MenuItem>
-                        <MenuItem value="Northwest Territories"> Northwest Territories </MenuItem>
-                        <MenuItem value="Nunavut"> Nunavut </MenuItem>
+                        <MenuItem value="british-columbia"> British Columbia</MenuItem>
+                        <MenuItem value="alberta">Alberta</MenuItem>
+                        <MenuItem value="saskatchewan"> Saskatchewan </MenuItem>
+                        <MenuItem value="manitoba"> Manitoba </MenuItem>
+                        <MenuItem value="ontario"> Ontario </MenuItem>
+                        <MenuItem value="quebec"> Quebec </MenuItem>
+                        <MenuItem value="new-brunswick"> New Brunswick </MenuItem>
+                        <MenuItem value="nova-scotia"> Nova Scotia </MenuItem>
+                        <MenuItem value="prince-edward-island"> Prince Edward Island </MenuItem>
+                        <MenuItem value="newfoundland-and-labrador"> Newfoundland and Labrador </MenuItem>
+                        <MenuItem value="yukon"> Yukon </MenuItem>
+                        <MenuItem value="northwest-territories"> Northwest Territories </MenuItem>
+                        <MenuItem value="nunavut"> Nunavut </MenuItem>
                     </Select>
                 </FormField>
                 <FormField

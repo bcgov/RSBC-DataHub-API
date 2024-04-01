@@ -1,5 +1,5 @@
 ﻿'use client'
-import React, { FormEvent, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Image from 'next/image';
 import CustomAccordion from '../components/Accordion';
 import Step1 from './steps/step1';
@@ -12,8 +12,11 @@ import ArrowForward from '@mui/icons-material/ArrowForward';
 import { Step1Data, Step2Data, Step3Data, Step4Data } from '../interfaces';
 import { generatePDF } from '../components/GeneratePDF';
 import { postForm1, sendEmail } from './actions';
+import dayjs from 'dayjs';
 
 export default function Page() {
+
+    const SUCCESS_MESSAGE = "Your Request for review is sent. Please check your email.";
 
     const step1Ref = useRef<{ clearData: () => void }>(null);
     const step2Ref = useRef<{ clearData: () => void }>(null);
@@ -28,11 +31,18 @@ export default function Page() {
     const submitData = async () => {
         setIsExpanded(true);
         console.log("posting xml: ", step1Data, step2Data, step3Data, step4Data);
-        let error = postForm1(step1Data, step2Data, step3Data, step4Data);
-        if (error) {
-            setSubmitError(true);
-            setMessage("Failed to post: " + error);
-        }
+        try {
+            let response = await postForm1(step1Data, step2Data, step3Data, step4Data);
+            if (!response.data.is_success) {
+                setSubmitError(true);
+                setMessage(response.data.error);
+                return;//stop going further?
+            } else {
+                setSubmitError(false);
+            }    
+        } catch(error) {}
+        console.log("posting xml done!! ");
+
         let pdfList = [
             { id: 'page1img1', pageNumber: 1 },// Before You Begin display block
             { id: 'summarystep1', pageNumber: 1 }, // Step 1 header
@@ -67,15 +77,17 @@ export default function Page() {
         const file = pdf?.output('blob');
         console.log("pdf file gen size:", file?.size);
         var reader = new FileReader();
+
         reader.onload = async function (e) {
             // The file converted into text base64
             console.log("isArrayBuffer ", reader.result instanceof ArrayBuffer);
             console.log("reader.result", reader.result?.toString().slice(0, 50));
             fileContent = reader.result?.toString().split('base64,')[1] || '';
-            let result = sendEmail(step2Data.consentFile, step2Data.consentFileName, fileContent, step1Data, step2Data);
+            let result = await sendEmail(step2Data.consentFile, step2Data.consentFileName, fileContent, step1Data, step2Data);
             console.log("email sent", result);
-            if (!result)
-                alert("Failed to send email: " + result);
+            if (result === 202 && !submitError ) {
+                setMessage(SUCCESS_MESSAGE);
+            }
         };
         // callback to reader.onload
         if (file || file !== undefined)
@@ -102,6 +114,7 @@ export default function Page() {
         licenseNotIssued: false,
         irpProhibitionTypeLength: '',
         hasError: false,
+        dateOfService: dayjs(Date.now()).toDate(),
     });
 
     const [step2Data, setStep2Data] = useState<Step2Data>({
@@ -162,8 +175,8 @@ export default function Page() {
     };
 
     const hasSubmitError = () => {
-        console.log("submitError: ", step1Data.hasError, step2Data.hasError, step3Data.hasError, step4Data?.signatureApplicantErrorText?.length>0);
-        return step1Data.hasError || step2Data.hasError || step3Data.hasError || step4Data?.signatureApplicantErrorText?.length>0;
+        console.log("submitError: ", step1Data.hasError, step2Data.hasError, step3Data.hasError, step4Data?.signatureApplicantErrorText?.length > 0);
+        return step1Data.hasError || step2Data.hasError || step3Data.hasError || step4Data?.signatureApplicantErrorText?.length > 0;
     }
 
     return (
@@ -201,7 +214,7 @@ export default function Page() {
 
                 <CustomAccordion title="Step 3: Complete Review Information" id="step3" isExpanded={isExpanded}
                     content={<Step3 controlIsUl={step1Data.controlIsUl} controlIsIrp={step1Data.controlIsIrp} controlIsAdp={step1Data.controlIsAdp} ref={step3Ref}
-                    step3DatatoSend={handleStep3Data} isEnabled={step1Data.licenseSeized === 'licenseSeized' || step1Data.controlIsUl} hasError={false} />
+                        step3DatatoSend={handleStep3Data} isEnabled={step1Data.licenseSeized === 'licenseSeized' || step1Data.controlIsUl} hasError={false} />
                     } />
 
 
