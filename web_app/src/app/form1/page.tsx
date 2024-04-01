@@ -12,8 +12,11 @@ import ArrowForward from '@mui/icons-material/ArrowForward';
 import { Step1Data, Step2Data, Step3Data, Step4Data } from '../interfaces';
 import { generatePDF } from '../components/GeneratePDF';
 import { postForm1, sendEmail } from './actions';
+import dayjs from 'dayjs';
 
 export default function Page() {
+
+    const SUCCESS_MESSAGE = "Your Request for review is sent. Please check your email.";
 
     const step1Ref = useRef<{ clearData: () => void }>(null);
     const step2Ref = useRef<{ clearData: () => void }>(null);
@@ -74,6 +77,7 @@ export default function Page() {
         const file = pdf?.output('blob');
         console.log("pdf file gen size:", file?.size);
         var reader = new FileReader();
+
         reader.onload = async function (e) {
             // The file converted into text base64
             console.log("isArrayBuffer ", reader.result instanceof ArrayBuffer);
@@ -81,8 +85,9 @@ export default function Page() {
             fileContent = reader.result?.toString().split('base64,')[1] || '';
             let result = await sendEmail(step2Data.consentFile, step2Data.consentFileName, fileContent, step1Data, step2Data);
             console.log("email sent", result);
-            if (result === 202)
-                alert("Failed to send email please try again later: " + result);
+            if (result === 202 && !submitError ) {
+                setMessage(SUCCESS_MESSAGE);
+            }
         };
         // callback to reader.onload
         if (file || file !== undefined)
@@ -109,6 +114,7 @@ export default function Page() {
         licenseNotIssued: false,
         irpProhibitionTypeLength: '',
         hasError: false,
+        dateOfService: dayjs(Date.now()).toDate(),
     });
 
     const [step2Data, setStep2Data] = useState<Step2Data>({

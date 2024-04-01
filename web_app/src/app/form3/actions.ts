@@ -1,4 +1,5 @@
 'use server'
+import { dataTagSymbol } from '@tanstack/react-query';
 import { axiosMailItClient, axiosApiClient, handleError } from '../_nonRoutingAssets/lib/form.api';
 import { ActionResponse, Form3Data } from '../interfaces';
 import dayjs from 'dayjs';
@@ -7,7 +8,7 @@ import dayjs from 'dayjs';
 export const submitToAPI = async (applicantInfo: Form3Data): Promise<ActionResponse> => {
     try {
         const xml = getXMLData(applicantInfo);
-        console.log(xml);
+        console.log("submitToAPI form3 xml", xml);
 
         const url = axiosApiClient.getUri() + "/v1/publish/event/form?form=Document_submission";
         const response = await axiosApiClient.post(url, xml, {
@@ -15,6 +16,7 @@ export const submitToAPI = async (applicantInfo: Form3Data): Promise<ActionRespo
                 'Content-Type': 'application/xml',
             },
         });
+        console.log("submitToAPI form3 response: ", response);
         return response;
     }
     catch (error) {
@@ -22,15 +24,17 @@ export const submitToAPI = async (applicantInfo: Form3Data): Promise<ActionRespo
     }
 };
 
-export const postValidateFormData = async (applicantInfo: Form3Data,): Promise<ActionResponse> => {
+export async function postValidateFormData(applicantInfo: Form3Data,): Promise<ActionResponse> {
     try {
+        console.log("postValidateFormData: ", applicantInfo);
+
         const formData = new FormData();
         formData.append('prohibition_number', applicantInfo.prohibitionNumberClean);
         formData.append('last_name', applicantInfo.controlDriverLastName);
 
         const url = axiosApiClient.getUri() + "/evidence";
         const encoded = Buffer.from(`${process.env.FLASK_BASIC_AUTH_USER}` + ':' +
-        `${process.env.FLASK_BASIC_AUTH_PASS}`).toString('base64');
+            `${process.env.FLASK_BASIC_AUTH_PASS}`).toString('base64');
 
         const response = await axiosApiClient.post(url, formData, {
             headers: {
@@ -38,7 +42,23 @@ export const postValidateFormData = async (applicantInfo: Form3Data,): Promise<A
                 'Content-Type': 'text/html',
             },
         });
-        return response;
+
+        console.log("postValidateFormData response: ", response);
+        if (response.status === 200 && response.data.data.is_valid) {
+            return {
+                data: {
+                    is_success: true,
+                    error: '',
+                }
+            };
+        } else {
+            return {
+                data: {
+                    is_success: false,
+                    error: response.data.data.error,
+                }
+            };
+        }
     } catch (error) {
         return handleError(error);
     }

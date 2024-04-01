@@ -266,12 +266,12 @@ const Step3 = forwardRef((props: Step3InputProps, ref) => {
                                     aria-labelledby="demo-radio-buttons-group-label"
                                     name="hearingRequest" value={step3Data.hearingRequest} onChange={hearingRequestChanged}
                                 >
-                                    <FormControlLabel value="yes" control={<Radio sx={{
+                                    <FormControlLabel value="written" control={<Radio sx={{
                                         '&.Mui-checked': {
                                             color: 'rgb(49,49,50)',
                                         },
                                     }} />} label="Written review ($100)" />
-                                    <FormControlLabel value="no" control={<Radio sx={{
+                                    <FormControlLabel value="oral" control={<Radio sx={{
                                         '&.Mui-checked': {
                                             color: 'rgb(49,49,50)',
                                         },

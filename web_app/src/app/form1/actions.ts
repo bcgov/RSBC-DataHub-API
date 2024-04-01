@@ -1,5 +1,4 @@
 'use server'
-import { AxiosResponse } from 'axios';
 import { handleError, axiosMailItClient, axiosApiClient } from '../_nonRoutingAssets/lib/form.api';
 import { ActionResponse, Step1Data, Step2Data, Step3Data, Step4Data } from './../interfaces';
 
@@ -40,11 +39,6 @@ export async function sendEmail(fileContent: string | null, fileName: string | n
         return 500;
     }
 }
-export async function postForm2(step1Data: Step1Data, step2Data: Step2Data, step3data: Step3Data, step4data: Step4Data) {
-    let xmlData = getForm1Xml(step1Data, step2Data, step3data, step4data).trim();
-    console.log("xml body: ", xmlData);
-
-}
 
 export async function postForm1(step1Data: Step1Data, step2Data: Step2Data, step3data: Step3Data, step4data: Step4Data): Promise<ActionResponse> {
     let url = axiosApiClient.getUri() + "/v1/publish/event/form?form=prohibition_review";
@@ -54,7 +48,7 @@ export async function postForm1(step1Data: Step1Data, step2Data: Step2Data, step
     var config = {
         headers: { 'Content-Type': 'application/xml' }
     };
-    let xmlData = getForm1Xml(step1Data, step2Data, step3data, step4data).trim();
+    let xmlData = getForm1Xml(step1Data, step2Data, step3data, step4data).replace(/\n/g, '').trim();
     console.log("xml body: ", xmlData);
     try {
         const response = await axiosApiClient.post(url, xmlData, config);
@@ -76,15 +70,16 @@ function getForm1Xml(step1Data: Step1Data, step2Data: Step2Data, step3data: Step
     const licenceNotSurrendered = step1Data.licenseNoSurrendered ? `<licence-not-surrendered>${step1Data.licenseNoSurrendered}</licence-not-surrendered>` : '<licence-not-surrendered/>';
     const licenceLostOrStolen = step1Data.licenseLostOrStolen ? `<licence-lost-or-stolen>${step1Data.licenseLostOrStolen}</licence-lost-or-stolen>` : '<licence-lost-or-stolen/>';
     const licenceNotIssued = step1Data.licenseNotIssued ? `<licence-not-issued>${step1Data.licenseNotIssued}</licence-not-issued>` : '<licence-not-issued/>';
-    const dateOfService = step1Data.dateOfService ? `<date-of-service>` + step1Data.dateOfService.toISOString().slice(0, 10) + `</date-of-service>` : `</date-of-service>`;
+    const licenseSeized = step1Data.licenseSeized ? `<licence-seized>licence-seized</licence-seized>` : `</licence-seized>`;
+    const dateOfService = step1Data.dateOfService ? `<date-of-service>` + step1Data.dateOfService.toISOString().slice(0, 10) + `</date-of-service>` : (() => { throw new Error("Field is required: date-of-service"); })();
     const driverFirstName = step2Data.driverFirstName ? `<driver-first-name>${step2Data.driverFirstName}</driver-first-name>` : '<driver-first-name/>';
     const driverLastName = step2Data.driverLastName ? `<driver-last-name>${step2Data.driverLastName}</driver-last-name>` : '<driver-last-name/>';
     const driverBcdl = step2Data.driverBcdl ? `<driver-bcdl>${step2Data.driverBcdl}</driver-bcdl>` : '<driver-bcdl/>';
-    const hearingRequest = step3data.hearingRequest ? `<hearing-request>${step3data.hearingRequest}</hearing-request>` : '<hearing-request/>';
+    const hearingRequest = step3data.hearingRequest ? `<hearing-request-type>${step3data.hearingRequest}</hearing-request-type>` : '<hearing-request-type/>';
     const representedByLawyer = step2Data.representedByLawyer ? `<represented-by-lawyer>${step2Data.representedByLawyer}</represented-by-lawyer>` : '<represented-by-lawyer/>';
     const applicantRoleSelect = step2Data.applicantRoleSelect ? `<applicant-role-select>${step2Data.applicantRoleSelect}</applicant-role-select>` : '<applicant-role-select/>';
     const applicantRole = step2Data.applicantRoleSelect ? `<applicant-role>${step2Data.applicantRoleSelect}</applicant-role>` : '<applicant-role/>';
-
+    
     // Construct the XML string using the data from step1Data, step2Data, and step3InputProps.
     const xmlString = `
         <?xml version="1.0" encoding="UTF-8"?>
@@ -97,10 +92,10 @@ function getForm1Xml(step1Data: Step1Data, step2Data: Step2Data, step3data: Step
                 <control-prohibition-number>${step1Data.controlProhibitionNumber}</control-prohibition-number>
                 <control-is-ul>${step1Data.controlIsUl}</control-is-ul>
                 <prohibition-number-clean>${step1Data.prohibitionNumberClean}</prohibition-number-clean>
-                <prohibition-no-image filename="test" mediatype="pdf">somename</prohibition-no-image>
+                <prohibition-no-image filename="Combo prohibition no.png" mediatype="image/png">/fr/service/persistence</prohibition-no-image>
                 <control-is-irp>${step1Data.controlIsIrp}</control-is-irp>
                 <control-is-adp>${step1Data.controlIsAdp}</control-is-adp>
-                <licence-seized>${step1Data.licenseSeized}</licence-seized>
+                ${licenseSeized}
                 ${licenceNotSurrendered}
                 ${licenceLostOrStolen}
                 ${licenceNotIssued}
@@ -151,7 +146,7 @@ function getForm1Xml(step1Data: Step1Data, step2Data: Step2Data, step3data: Step
                 <preparing-for-review-irp-text/>
                 <preparing-for-review-ul-text/>
                 ${hearingRequest}
-                <wirtten-review-information/>
+                <written-review-information/>
                 <oral-review-instructions/>
             </review-information>
             <consent-and-submission>

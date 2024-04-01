@@ -31,6 +31,7 @@ const Step1 = forwardRef((props: Props, ref) => {
         licenseNotIssued: false,
         irpProhibitionTypeLength: '',
         hasError: false,
+        dateOfService: dayjs(Date.now()).toDate(),
     });
 
     useImperativeHandle(ref, () => ({
@@ -47,6 +48,7 @@ const Step1 = forwardRef((props: Props, ref) => {
                 licenseNotIssued: false,
                 irpProhibitionTypeLength: '',
                 hasError: false,
+                dateOfService: dayjs(Date.now()).toDate(),
             });
         }
     }));
@@ -117,6 +119,7 @@ const Step1 = forwardRef((props: Props, ref) => {
 
     const dateOfServiceChanged = (val: Dayjs) => {
         setDateOfService(val);
+        setStep1Data({ ...step1Data, dateOfService: val.toDate()});
         props.step1DatatoSend(step1Data);
     };
 

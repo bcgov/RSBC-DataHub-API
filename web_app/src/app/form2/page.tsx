@@ -16,7 +16,7 @@ export default function Page() {
     const [driverLastName, setDriverLastName] = useState('');
     const [controlProhibitionNumber, setControlProhibitionNumber] = useState('');
     const [requestAvailDates, setRequestAvailDates] = useState(false);
-    const [reviewDates, setReviewDates] = useState<AvailableReviewDates[]>([]);
+    const [reviewDates, setReviewDates] = useState<AvailableReviewDates>([]);
     const [selectedReviewDate, setSelectedReviewDate] = useState('');
     const [validProhibitionNumber, setValidProhibitionNumber] = useState(false);
     const [prohibitionNumberErrorText, setProhibitionNumberErrorText] = useState('');
@@ -30,16 +30,17 @@ export default function Page() {
     async function fetchAvailableReviewDates() {
         console.log("calling service: ", cleanControlProhibitionNumber, (validProhibitionNumber && validDriverLastName), submitError);
         if (validProhibitionNumber && validDriverLastName) {
-            setSubmitError(true);
             setRequestAvailDates(false);
             setMessage('');
             const response = await getAvailableReviewDates(cleanControlProhibitionNumber, driverLastName);
-            console.log("after calling service: ");
-            if (response.data?.is_success&&!response.data?.error) {
-                setReviewDates(response.data.data);
+            //console.log("after calling service: ", response);
+            if (response.time_slots) {
+                console.log("set time slots: ", response.time_slots?.length);
+                setReviewDates(response);
                 setRequestAvailDates(true);
             } else {
-                setMessage(response.data?.error ? response.data?.error : "Site is not available.");
+                console.log("set message to: ", response?.error);
+                setMessage(response?.error ? response?.error : "Site is not available.");
             }
         }
     };
@@ -64,15 +65,14 @@ export default function Page() {
     };
 
     async function submitData() {
-        console.log(controlProhibitionNumber);
-        console.log(driverLastName);
-        console.log(selectedReviewDate);
-        const result = await scheduleReviewDate(controlProhibitionNumber, selectedReviewDate, driverLastName);
-        if (!result?.data?.error && result?.data?.is_success) {
-            setMessage("Your review date was successfully sent.")
-        } else {
-            setMessage(result.data?.error);
-        }
+        try {
+            const result = await scheduleReviewDate(controlProhibitionNumber, selectedReviewDate, driverLastName);
+            if (result?.data?.is_success) {
+                setMessage("Your review is scheduled. Please check your email.")
+            } else {
+                setMessage(result.data?.error);
+            }
+        } catch (error) { }
     }
 
     const clearData = () => {
@@ -183,7 +183,7 @@ export default function Page() {
                                     <p>(Do not refresh this page. It will not give you more dates.)</p>
                                 </FormLabel>
                                 <RadioGroup name="select-available-review-dates" defaultValue={''} >
-                                    {reviewDates?.map((date) => (
+                                    {reviewDates.time_slots?.map((date) => (
                                         <FormControlLabel key={date.value} value={date.value} label={date.label} control={<Radio sx={{
                                             '&.Mui-checked': { color: 'rgb(49,49,50)', },
                                         }} />}
@@ -197,16 +197,15 @@ export default function Page() {
                 }
                 <Grid item xs={8} sx={{ padding: "1px" }}>
                     {message &&
-                        <div id="messageDiv">
-                            <Typography variant="caption" sx={{ color: '#555', fontWeight: '700', padding: '4px 10px 20px 30px', ml: '4px', fontSize: '16px', display: 'block', boxSizing: 'border-box' }}>
+                        <div>
+                            <Typography variant="caption" sx={{ color: '#D8292F', fontWeight: '700', padding: '4px 0px 2px 0px', ml: '4px', fontSize: '16px', display: 'block' }}>
                                 {message}
                             </Typography>
-
                         </div>
                     }
                 </Grid>
 
-                <Grid item xs={6} sx={{ padding: "1px" }}>
+                <Grid item xs={8} sx={{ padding: "1px" }}>
                     <Button onClick={clearData} variant="outlined" sx={{ cursor: 'pointer', color: '#003366', borderColor: '#003366', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }}
                         startIcon={<CloseIcon sx={{ fontWeight: 'bold' }} />}>
                         Clear
