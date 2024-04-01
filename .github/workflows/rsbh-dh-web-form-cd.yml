@@ -47,3 +47,4 @@ jobs:
           IMAGE_NAME: ${{ env.DOCKER_IMAGE_NAME }}
         run: |
             oc import-image $IMAGE_NAME:latest --confirm
+            
