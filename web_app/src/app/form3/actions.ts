@@ -32,8 +32,8 @@ export async function postValidateFormData(applicantInfo: Form3Data,): Promise<A
         formData.append('last_name', applicantInfo.controlDriverLastName);
 
         const url = axiosApiClient.getUri() + "/evidence";
-        const encoded = Buffer.from(`${process.env.FLASK_BASIC_AUTH_USER}` + ':' +
-            `${process.env.FLASK_BASIC_AUTH_PASS}`).toString('base64');
+        const encoded = Buffer.from(process.env['flask-basic-auth-user'] + ':' +
+            process.env['flask-basic-auth-pass']).toString('base64');
 
         const response = await axiosApiClient.post(url, formData, {
             headers: {
@@ -160,7 +160,7 @@ const getXMLData = (form3Data: Form3Data): string => {
     </evidence-section>
     <consent-section>
         <control-applicant-name>${form3Data.signatureApplicantName}</control-applicant-name>
-        <date-signed>${dayjs(Date.now()).toISOString().substring(0,10) + offsetHours}</date-signed>
+        <date-signed>${dayjs(Date.now()).toISOString().substring(0, 10) + offsetHours}</date-signed>
         <control-5/>
     </consent-section>
 </form>
