@@ -34,10 +34,12 @@ RUN npm run build
 
 
 # Command to run the application
-RUN mkdir /.npm /app/.next
+RUN mkdir /.npm 
+RUN mkdir /app/.next
 
 RUN chgrp -R 0 /.npm && \
-    chmod -R g=u /.npm \
+    chmod -R g=u /.npm 
+
 RUN chgrp -R 0 /app/.next && \
     chmod -R g=u /app/.next 
 
