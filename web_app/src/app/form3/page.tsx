@@ -115,18 +115,21 @@ export default function Page() {
     const submitData = async () => {
         validateData();
         if (isValidForm) {
-            const result = await submitToAPI(applicantInfo);
-            console.log("result after submission:");
-            console.log(result);
+            try {
+                const result = await submitToAPI(applicantInfo);
+                console.log("result after submission:");
+                console.log(result);
 
-            const emailResult = await sendForm3Email(filesContent, filesNames, applicantInfo);
+                const emailResult = await sendForm3Email(filesContent, filesNames, applicantInfo);
 
-            setIsFormSubmitted(result.data.is_success && !result?.data?.error);
-            if(isFormSubmitted)
-                setMessage("Your documents are sent. Please check your email. If you would like a copy of this form, click the PDF button.");
-            else
-                setMessage(result.data?.error)
-            }
+                setIsFormSubmitted(result.data.is_success && !result?.data?.error);
+                if (isFormSubmitted)
+                    setMessage("Your documents are sent. Please check your email. If you would like a copy of this form, click the PDF button.");
+                else
+                    setMessage(result.data?.error)
+
+            } catch (error) { }
+        }
         else {
             setIsFormSubmitted(false);
             setMessage("");
@@ -175,6 +178,8 @@ export default function Page() {
         if (applicantInfo.signatureApplicantName === '')
             setSignatureApplicantNameErrorText('Please enter your name to confirm the information submitted is correct.');
 
+        console.log("valid?", prohibitionNumberErrorText, driverLastNameErrorText, applicantRoleErrorText,
+            emailAddressErrorText, confirmEmailErrorText, fileUploadErrorText, signatureApplicantNameErrorText, isValidComboErrorText);
 
         if (prohibitionNumberErrorText || driverLastNameErrorText || applicantRoleErrorText ||
             emailAddressErrorText || confirmEmailErrorText || fileUploadErrorText || signatureApplicantNameErrorText || isValidComboErrorText)
@@ -203,15 +208,17 @@ export default function Page() {
 
     const callValidateFormData = async () => {
 
-        const result = await postValidateFormData(applicantInfo);
+        try {
+            const result = await postValidateFormData(applicantInfo);
+            console.log("callValidateFormData:", result.data, result.data.is_success, result);
+            setIsValidData(result.data.is_success);
 
-        setIsValidData(result?.data?.data?.is_valid);
+            setApplicantInfo({ ...applicantInfo, isProhibitionNumberValid: result.data.is_success });
 
-        setApplicantInfo({ ...applicantInfo, isProhibitionNumberValid: result?.data?.data?.is_valid });
-
-        if (!result?.data?.data?.is_valid)
-            setIsValidComboErrorText(result?.data?.data?.error);
-
+            if (!result.data.is_success)
+                setIsValidComboErrorText("Error: " + result.data.error);
+            console.log("finished...")
+        } catch (error) { }
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -378,7 +385,7 @@ export default function Page() {
                                 Next
                             </Button>
                         </Grid>
-                        {isValidData &&
+                        {!isValidData &&
                             <div>
                                 <Typography variant="caption" sx={{ color: '#D8292F', fontWeight: '700', padding: '4px 0px 2px 0px', ml: '4px', fontSize: '16px', display: 'block' }}>
 
@@ -387,7 +394,7 @@ export default function Page() {
                             </div>
                         }
 
-                        {!isValidData &&
+                        {isValidData &&
                             <div>
                                 <div id="page1img3">
                                     <Grid item xs={6} md={8} sm={10} lg={12} sx={{ padding: "1px", paddingBottom: '20px', paddingTop: '20px' }}>

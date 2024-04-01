@@ -9,7 +9,7 @@ export interface Step1Data {
     licenseLostOrStolen: boolean;
     licenseNotIssued: boolean;
     irpProhibitionTypeLength: string;
-    dateOfService?: Date;
+    dateOfService: Date;
     hasError: boolean;
 }
 
@@ -95,8 +95,12 @@ export interface Step4Data {
 }
 
 export interface AvailableReviewDates{
-    label: string;
-    value: string;
+    time_slots?: [ { 
+        label: string;
+        value: string;
+    }]
+    is_success: boolean;
+    error?: string;
 }
 
 export interface ActionResponse {
