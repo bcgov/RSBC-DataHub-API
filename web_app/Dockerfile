@@ -37,10 +37,10 @@ RUN ls -la /app/.next/cache
 # Command to run the application
 RUN mkdir /app/.next/cache/images  && chmod -R 777 /app/.next/cache
 RUN ls -la /app/.next/cache
+RUN mkdir /.npm
 
-
-#RUN chgrp -R 0 /.npm && \
-#    chmod -R g=u /.npm
+RUN chgrp -R 0 /.npm && \
+    chmod -R g=u /.npm
 
 #ENTRYPOINT [ "npm", "run" ]
 CMD ["npm", "start"]
