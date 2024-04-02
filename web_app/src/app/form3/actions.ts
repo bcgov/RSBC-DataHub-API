@@ -32,8 +32,8 @@ export async function postValidateFormData(applicantInfo: Form3Data,): Promise<A
         formData.append('last_name', applicantInfo.controlDriverLastName);
 
         const url = axiosApiClient.getUri() + "/evidence";
-        const encoded = Buffer.from(process.env['flask-basic-auth-user'] + ':' +
-            process.env['flask-basic-auth-pass']).toString('base64');
+        const encoded = Buffer.from(process.env['FLASK_BASIC_AUTH_USER'] + ':' +
+            process.env['FLASK_BASIC_AUTH_PASS']).toString('base64');
 
         const response = await axiosApiClient.post(url, formData, {
             headers: {
