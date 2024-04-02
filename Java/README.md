@@ -6,4 +6,4 @@ A series of Java components supporting the digital forms Driving Prohibition Rev
 Presently, the following services are hosted in this folder:
   
 - Email Service
-- Antivirus / malware scanner.
+- Antivirus / malware scanner
