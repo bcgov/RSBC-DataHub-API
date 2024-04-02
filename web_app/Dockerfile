@@ -33,7 +33,8 @@ RUN npm run build
 
 
 # Command to run the application
-#RUN mkdir /.npm
+RUN mkdir /app/.next/cache  && chmod -R 777 /app/.next/cache
+
 
 #RUN chgrp -R 0 /.npm && \
 #    chmod -R g=u /.npm
