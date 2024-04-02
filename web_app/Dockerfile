@@ -32,8 +32,11 @@ EXPOSE 3000
 RUN npm run build
 
 
+RUN ls -la /app
+RUN ls -la /app/.next/cache
 # Command to run the application
-RUN mkdir /app/.next/cache  && chmod -R 777 /app/.next/cache
+RUN mkdir /app/.next/cache/images  && chmod -R 777 /app/.next/cache
+RUN ls -la /app/.next/cache
 
 
 #RUN chgrp -R 0 /.npm && \
