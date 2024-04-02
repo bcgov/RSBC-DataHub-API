@@ -34,10 +34,10 @@ RUN npm run build
 
 
 # Command to run the application
-RUN mkdir /.npm
+#RUN mkdir /.npm
 
-RUN chgrp -R 0 /.npm && \
-    chmod -R g=u /.npm
+#RUN chgrp -R 0 /.npm && \
+#    chmod -R g=u /.npm
 
-ENTRYPOINT [ "npm", "run" ]
-CMD [ "start"]
+#ENTRYPOINT [ "npm", "run" ]
+CMD ["npm", "start"]
