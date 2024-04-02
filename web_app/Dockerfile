@@ -42,7 +42,7 @@ RUN chgrp -R 0 /.npm && \
 #RUN chgrp -R 0 /app/.next/cache && \
 #    chmod -R g=u /app/.next/cache
 
-RUN chmod g+rwx /app
+#RUN chmod g+rwx /app
 #RUN chmod -R 777 /app/.next/
 
 ENTRYPOINT [ "npm", "run" ]
