@@ -33,6 +33,7 @@ jobs:
         working-directory: ${{env.WORKING_DIRECTORY}}
         run: |
           docker build -t ${{ secrets.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:latest .
+          echo "Docker pushing"
           docker push ${{ secrets.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:latest
 
       - name: Authenticate and set context for tools namespace
@@ -47,4 +48,3 @@ jobs:
           IMAGE_NAME: ${{ env.DOCKER_IMAGE_NAME }}
         run: |
             oc import-image $IMAGE_NAME:latest --confirm
-            

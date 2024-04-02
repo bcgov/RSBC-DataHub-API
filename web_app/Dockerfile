@@ -37,13 +37,7 @@ RUN npm run build
 RUN mkdir /.npm
 
 RUN chgrp -R 0 /.npm && \
-    chmod -R g=u /.npm 
-
-#RUN chgrp -R 0 /app/.next/cache && \
-#    chmod -R g=u /app/.next/cache
-
-#RUN chmod g+rwx /app
-#RUN chmod -R 777 /app/.next/
+    chmod -R g=u /.npm
 
 ENTRYPOINT [ "npm", "run" ]
 CMD [ "start"]
