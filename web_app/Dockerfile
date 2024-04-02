@@ -39,10 +39,11 @@ RUN mkdir /.npm
 RUN chgrp -R 0 /.npm && \
     chmod -R g=u /.npm 
 
-#RUN chgrp -R 0 /app/.next && \
-#    chmod -R g=u /app/.next
+#RUN chgrp -R 0 /app/.next/cache && \
+#    chmod -R g=u /app/.next/cache
 
-RUN chmod -R g+rwx /app/.next/cache
+RUN chmod -R g+rwx /app/.next/
+RUN chmod -R 777 /app/.next/
 
 ENTRYPOINT [ "npm", "run" ]
 CMD [ "start"]
