@@ -47,7 +47,7 @@ const ProhibitionNumber: React.FC<Props> = ({ onProhibitionDataChange }) => {
             setControlIsAdp(false);
             setProhibitionNumberClean('');
         }
-        console.log("validateField: ", controlProhibitionNumber, isProhNumberValid);
+       // console.log("validateField: ", controlProhibitionNumber, isProhNumberValid);
         setValidProhibitionNumber(isProhNumberValid);
         onProhibitionDataChange({
             controlProhibitionNumber: controlProhibitionNumber,
