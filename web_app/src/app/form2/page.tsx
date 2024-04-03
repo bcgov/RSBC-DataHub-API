@@ -35,11 +35,11 @@ export default function Page() {
             const response = await getAvailableReviewDates(cleanControlProhibitionNumber, driverLastName);
             //console.log("after calling service: ", response);
             if (response.time_slots) {
-                console.log("set time slots: ", response.time_slots?.length);
+                //console.log("set time slots: ", response.time_slots?.length);
                 setReviewDates(response);
                 setRequestAvailDates(true);
             } else {
-                console.log("set message to: ", response?.error);
+                //console.log("set error to message: ", response?.error);
                 setMessage(response?.error ? response?.error : "Site is not available.");
             }
         }

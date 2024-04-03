@@ -1,10 +1,9 @@
 'use server'
-import { dataTagSymbol } from '@tanstack/react-query';
 import { axiosMailItClient, axiosApiClient, handleError } from '../_nonRoutingAssets/lib/form.api';
 import { ActionResponse, Form3Data } from '../interfaces';
 import dayjs from 'dayjs';
 
-export const submitToAPI = async (applicantInfo: Form3Data): Promise<ActionResponse> => {
+export async function submitToApi(applicantInfo: Form3Data): Promise<ActionResponse> {
     try {
         const xml = getXMLData(applicantInfo);
         console.log("submitToAPI form3 xml", xml);
@@ -15,8 +14,22 @@ export const submitToAPI = async (applicantInfo: Form3Data): Promise<ActionRespo
                 'Content-Type': 'application/xml',
             },
         });
-        console.log("submitToAPI form3 response: ", response);
-        return response;
+        console.log("submitToAPI form3 response status, data: ", response.status, response.data);
+        if (response.status === 200) {
+            return {
+                data: {
+                    is_success: true,
+                    error: '',
+                }
+            };
+        } else {
+            return {
+                data: {
+                    is_success: false,
+                    error: response.statusText,
+                }
+            };
+        }
     }
     catch (error) {
         return handleError(error);
@@ -32,8 +45,8 @@ export async function postValidateFormData(applicantInfo: Form3Data,): Promise<A
         formData.append('last_name', applicantInfo.controlDriverLastName);
 
         const url = axiosApiClient.getUri() + "/evidence";
-        const encoded = Buffer.from(process.env['flask-basic-auth-user'] + ':' +
-            process.env['flask-basic-auth-pass']).toString('base64');
+        const encoded = Buffer.from(process.env['FLASK_BASIC_AUTH_USER'] + ':' +
+            process.env['FLASK_BASIC_AUTH']).toString('base64');
 
         const response = await axiosApiClient.post(url, formData, {
             headers: {
@@ -42,7 +55,7 @@ export async function postValidateFormData(applicantInfo: Form3Data,): Promise<A
             },
         });
 
-        console.log("postValidateFormData response: ", response);
+        console.log("postValidateFormData response status, data: ", response.status, response.data);
         if (response.status === 200 && response.data.data.is_valid) {
             return {
                 data: {
@@ -107,8 +120,8 @@ function getEmailTemplate(files: string[], names: string[], applicantInfo: Form3
             "subject": "Evidence Attached - Driving Prohibition Review " + `${applicantInfo.controlProhibitionNumber}`,
             "content": {
                 "type": "text/plain",
-                "value": `	 
-                    Attached is the evidence as submitted by the applicants.                        
+                "value": `
+Attached is the evidence as submitted by the applicants.                        
                 `
             },
             "attachment": attachments

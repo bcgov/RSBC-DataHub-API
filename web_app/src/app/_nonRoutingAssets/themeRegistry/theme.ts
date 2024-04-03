@@ -65,7 +65,7 @@ const components = {
                 // borderWidth: '2px',
                 textTransform: 'none' as const,
                 
-                // fontSize: '1rem',
+                fontSize: '2rem',
                 // fontWeigh: 'bold',
                 borderWidth: 2,
                 // borderStyle: 'solid',
@@ -74,6 +74,10 @@ const components = {
                 },
 
                 // Other button styles
+            },
+            body: {
+                color: 'black',
+                fontSize: '16px',
             },
         },
     },
