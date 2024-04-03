@@ -122,6 +122,5 @@ export interface Form3Data {
     applicantRoleSelect: string;
     applicantEmailAddress: string;
     applicantEmailConfirm: string;
-    evidenceDocuments?: FileList;
     signatureApplicantName: string;
 }

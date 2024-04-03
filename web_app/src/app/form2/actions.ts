@@ -14,10 +14,8 @@ export async function getAvailableReviewDates(prohibitionNumber: string, driverL
     formData.append('prohibition_number', prohibitionNumber);
     formData.append('last_name', driverLastName);
     const encoded = Buffer.from(process.env['FLASK_BASIC_AUTH_USER'] + ':' +
-        process.env['FLASK_BASIC_AUTH_PASS']).toString('base64');
+        process.env['FLASK_BASIC_AUTH']).toString('base64');
 
-    console.log("user/pas: ", process.env['FLASK_BASIC_AUTH_USER'] + ':' +
-        process.env['FLASK_BASIC_AUTH_PASS']);
     const config = {
         headers: {
             'Authorization': 'Basic ' + encoded,

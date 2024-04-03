@@ -1,12 +1,13 @@
 'use client'
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import CustomAccordion from '../components/Accordion';
-import { Button, Grid, TextField, Typography, RadioGroup, FormControlLabel, Radio } from '@mui/material';
+import { Button, Grid, TextField, Typography, RadioGroup, FormControlLabel, Radio, IconButton } from '@mui/material';
 import { generatePDF } from '../components/GeneratePDF';
 import { FormField } from '../components/FormField';
-import { postValidateFormData, sendForm3Email, submitToAPI } from "./actions";
+import { postValidateFormData, sendForm3Email, submitToApi } from "./actions";
 import CloseIcon from '@mui/icons-material/Close';
+import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowForward from '@mui/icons-material/ArrowForward';
 import { Print } from '@mui/icons-material';
 import Step4 from '../components/step4';
@@ -31,35 +32,24 @@ export default function Page() {
     });
 
     const [message, setMessage] = useState('');
-
     const step4Ref = useRef<{ clearData: () => void, validate: () => void }>(null);
-
     const [validProhibitionNumber, setValidProhibitionNumber] = useState(false);
     const [prohibitionNumberErrorText, setProhibitionNumberErrorText] = useState('');
-
     const [validDriverLastName, setValidDriverLastName] = useState(false);
     const [driverLastNameErrorText, setDriverLastNameErrorText] = useState('');
-
     const [applicantRoleErrorText, setApplicantRoleErrorText] = useState('');
-
     const [signatureApplicantNameErrorText, setSignatureApplicantNameErrorText] = useState('');
-
     const [emailAddressErrorText, setEmailAddressErrorText] = useState('');
-
     const [confirmEmailErrorText, setConfirmEmailErrorText] = useState('');
-
     const [fileUploadErrorText, setFileUploadErrorText] = useState('');
-
     const [isValidData, setIsValidData] = useState(false);
-
     const [isValidComboErrorText, setIsValidComboErrorText] = useState('');
-
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
-
     const [filesContent, setFilesContent] = useState<string[]>([]);
     const [filesNames, setFilesNames] = useState<string[]>([]);
-
-
+    const [fileNamesMessage, setFileNamesMessage] = useState('');
+    const [isExpanded, setIsExpanded] = useState<boolean>(false);
+    const [isValidForm, setIsValidForm] = useState<boolean>(true);
     const prohibitionNumberRegex = /^(00|21|30|40)-\d{6}$/;
 
     const prohibitionNumberChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,14 +78,10 @@ export default function Page() {
     };
 
     const driverLastNameChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        setApplicantInfo({ ...applicantInfo, controlDriverLastName: value });
+        setApplicantInfo({ ...applicantInfo, controlDriverLastName: e.target.value });
     }
     const handleBlurDriverName = (e: React.FocusEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-
-        validateDriverLastName(value);
-
+        validateDriverLastName(e.target.value);
     }
 
     const validateDriverLastName = (value: string) => {
@@ -109,32 +95,35 @@ export default function Page() {
         }
     }
 
-    const [isExpanded, setIsExpanded] = useState<boolean>(false);
-    const [isValidForm, setIsValidForm] = useState<boolean>(true);
-
-    const submitData = async () => {
-        validateData();
-        if (isValidForm) {
+    async function submitData() {
+        let message = "There was an error.";
+        let formSubmitted = false;
+        if (validateData()) {
             try {
-                const result = await submitToAPI(applicantInfo);
+                console.log("before submission:");
+                const result = await submitToApi(applicantInfo);
                 console.log("result after submission:");
                 console.log(result);
-
+                formSubmitted = result.data.is_success;
+                message = result.data.error;
+            } catch (error) { }
+            try {
+                console.log("file names before email call: ", filesNames);
                 const emailResult = await sendForm3Email(filesContent, filesNames, applicantInfo);
 
-                setIsFormSubmitted(result.data.is_success && !result?.data?.error);
-                if (isFormSubmitted)
-                    setMessage("Your documents are sent. Please check your email. If you would like a copy of this form, click the PDF button.");
+                if (formSubmitted && emailResult.data.is_success)
+                    message = "Your documents are sent. Please check your email. If you would like a copy of this form, click the PDF button.";
                 else
-                    setMessage(result.data?.error)
-
+                    message += emailResult.data?.error;
             } catch (error) { }
         }
-        else {
-            setIsFormSubmitted(false);
-            setMessage("");
-        }
+        setIsFormSubmitted(formSubmitted);
+        setMessage(message);
     }
+
+    useEffect(() => {
+        console.log(isFormSubmitted, message, fileNamesMessage);
+    }, [isFormSubmitted, message, fileNamesMessage]);
 
     const generatePdfAction = () => {
         if (isFormSubmitted) {
@@ -151,42 +140,32 @@ export default function Page() {
 
             setTimeout(async () => {
                 const pdf = await generatePDF(pdfList, 'Statement and Evidence Submission');
-                // pdf?.output('dataurlnewwindow', { filename: 'Statement and Evidence Submission' });
                 pdf?.save('Statement and Evidence Submission');
-
-                //pdf?.setProperties({
-                //    title: "Statement and Evidence Submission"
-                //});
-                //pdf?.output('dataurlnewwindow');
             }, 500);
         }
     }
 
     const validateData = () => {
-        validateField();
-        validateDriverLastName(applicantInfo.controlDriverLastName);
-        validateEmailAddress(applicantInfo.applicantEmailAddress, "applicantEmailAddress");
-        validateEmailAddress(applicantInfo.applicantEmailConfirm, "applicantEmailConfirm");
-        validateFiles(applicantInfo.evidenceDocuments as FileList);
-        callValidateFormData();
-
-        if (applicantInfo.applicantRoleSelect === '')
+        let isApplicantValid = true;
+        if (applicantInfo.applicantRoleSelect === '') {
+            isApplicantValid = false;
             setApplicantRoleErrorText('Please select an applicant role');
-        else
-            setApplicantRoleErrorText('');
-
-        if (applicantInfo.signatureApplicantName === '')
+        }
+        if (applicantInfo.signatureApplicantName === '') {
             setSignatureApplicantNameErrorText('Please enter your name to confirm the information submitted is correct.');
+            isApplicantValid = false;
+        }
 
-        console.log("valid?", prohibitionNumberErrorText, driverLastNameErrorText, applicantRoleErrorText,
-            emailAddressErrorText, confirmEmailErrorText, fileUploadErrorText, signatureApplicantNameErrorText, isValidComboErrorText);
+        console.log("valid?", isApplicantValid, prohibitionNumberErrorText, driverLastNameErrorText,
+            emailAddressErrorText, confirmEmailErrorText, fileUploadErrorText, isValidComboErrorText);
 
-        if (prohibitionNumberErrorText || driverLastNameErrorText || applicantRoleErrorText ||
-            emailAddressErrorText || confirmEmailErrorText || fileUploadErrorText || signatureApplicantNameErrorText || isValidComboErrorText)
-            setIsValidForm(false);
-        else
-            setIsValidForm(true);
+        if (!isApplicantValid || prohibitionNumberErrorText || driverLastNameErrorText ||
+            emailAddressErrorText || confirmEmailErrorText || fileUploadErrorText || isValidComboErrorText)
+            isApplicantValid = false;
 
+        setIsValidForm(isApplicantValid);
+        console.log("validation is finished", isApplicantValid);
+        return isApplicantValid;
     }
 
     const clearData = () => {
@@ -203,7 +182,11 @@ export default function Page() {
             applicantEmailConfirm: '',
             signatureApplicantName: '',
         });
-
+        setIsValidData(false);
+        setMessage('');
+        setFileNamesMessage('');
+        setFilesContent([]);
+        setFilesNames([]);
     }
 
     const callValidateFormData = async () => {
@@ -218,19 +201,24 @@ export default function Page() {
             if (!result.data.is_success)
                 setIsValidComboErrorText("Error: " + result.data.error);
             console.log("finished...")
-        } catch (error) { }
+        } catch (error) {
+            setIsValidData(false);
+            setIsValidComboErrorText("Error: System failed to process your request.");
+
+        }
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
+        const { name, value } = e.currentTarget;
+        console.log("name/value: ", name, value);
         setApplicantInfo({ ...applicantInfo, [name]: value });
     }
 
-    const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
+    const handleBlurEmailAddress = (e: React.FocusEvent<HTMLInputElement>) => {
+        const { name, value } = e.currentTarget;
+        console.log("blur name/value: ", name, value);
         validateEmailAddress(value, name);
     }
-
 
     const validateEmailAddress = (value: string, field: string) => {
         const emailAddressRegex = /^[^@]*@[a-zA-Z0-9-]{2,20}\.[a-zA-Z-.]{2,20}[a-zA-Z]$/;
@@ -245,15 +233,32 @@ export default function Page() {
             setConfirmEmailErrorText("Please enter the email again to confirm it's the same as the one above.");
     };
 
-
-
-
     const handleStep4Data = (step4Data: Step4Data) => {
+        console.log("set signiture: ", step4Data.signatureApplicantName);
+        if (!step4Data.signatureApplicantName)
+            setSignatureApplicantNameErrorText('Please enter your name to confirm the information submitted is correct.');
+        else
             setApplicantInfo({ ...applicantInfo, signatureApplicantName: step4Data.signatureApplicantName });
-            setSignatureApplicantNameErrorText(step4Data.signatureApplicantErrorText);
+    }
+
+    const fileUploadRef = useRef<HTMLInputElement | null>(null);
+
+    const handleCleanFileUpload = () => {
+        setFilesNames([]);
+        setFilesContent([]);
+        setFileNamesMessage('');
+        if (fileUploadRef.current) {
+            console.log("calling ref", fileUploadRef, fileUploadRef.current);
+            fileUploadRef.current.value = "";
+            fileUploadRef.current.type = "text";
+            fileUploadRef.current.type = "file";
+        }
+        setMessage("Upload files removed.")
+        console.log("handleCleanFileUpload", filesContent.length, filesNames);
     }
 
     const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        // Remove elements from filesContent
         if (e.target.files?.length) {
 
             let files = e.target.files;
@@ -262,7 +267,6 @@ export default function Page() {
             allFilesValid = validateFiles(files);
 
             if (allFilesValid) {
-                setApplicantInfo({ ...applicantInfo, evidenceDocuments: files });
                 setMessage("Upload Complete");
             }
 
@@ -273,30 +277,32 @@ export default function Page() {
         let allFilesValid = true;
 
         if (files && files.length > 0) {
-
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
-                console.log("form3data.evidenceFile: ", applicantInfo.evidenceDocuments);
-
+                console.log("evidenceFile: ", file.name);
                 let reader = new FileReader();
                 reader.onload = async function (event) {
                     // The file's text will be printed here
-                    let fileContent = await file2Base64(file);
-                    console.log("size after: ", fileContent.length);
-
+                    let fileContent: string = await file2Base64(file);
                     console.log("calling checkVirusScanner: ");
-                    let isValidFile = await checkVirusScanner(fileContent.slice(fileContent.indexOf('base64,') + 7));
-
                     //add the file here
-                    if (!isValidFile) {
+                    if (await checkVirusScanner(fileContent)) {
+                        if (!filesNames.some(name => name === file.name)) {
+                            filesContent.push(fileContent);
+                            filesNames.push(file.name);
+                            setFilesContent(filesContent);
+                            setFilesNames(filesNames);
+                        }
+                    } else {
                         setFileUploadErrorText('There is problem with a document. Please recheck the documents');
                         allFilesValid = false;
-                    } else {
-                        setFilesContent(prevFilesContent => [...prevFilesContent, fileContent]);
-                        setFilesNames(prevFilesName => [...prevFilesName, file.name]);
                     }
+                    console.log("file names after: ", filesNames);
                 };
+                reader.readAsDataURL(file);
             }
+            setFileNamesMessage(filesNames.join(', '));
+
             if (allFilesValid)
                 setFileUploadErrorText('');
             return allFilesValid;
@@ -356,10 +362,9 @@ export default function Page() {
                             <div style={{ marginTop: '-30px', marginBottom: '30px' }}>
                                 <Typography sx={{ color: '#313132', fontSize: '16px', fontWeight: '700', mt: '10px', ml: '10px', paddingBottom: '10px' }}>(optional)</Typography>
 
-                                <Image src="/./././assets/images/Combo prohibition no.png" width={280}
+                                <img src="/./././assets/images/Combo_prohibition_no.png" width={280}
                                     height={180}
-                                    alt="Info" style={{ marginLeft: "10px", marginBottom: '20px', height: 'auto', width: 'auto' }}
-                                />
+                                    alt="Info" />
                             </div>
                             <FormField
                                 id="driver-last-name"
@@ -438,7 +443,7 @@ export default function Page() {
                                                         <div>
                                                             <div style={{ display: 'inline-grid' }}>
                                                                 <span style={{ fontSize: '14px' }} >
-                                                                    <strong> If you haven&apos;t submitted a signed consent from the driver authorizing you to send and receive documents on their behalf, you must upload it below. </strong>
+                                                                    <strong> If you haven&apos;t submitted a signed consent from the driver authorizing you to send and receive documents on their behalf. </strong>
                                                                 </span>
 
                                                             </div>
@@ -462,7 +467,7 @@ export default function Page() {
                                         >
                                             <TextField id="email-address-field" style={{ paddingLeft: '5px' }}
                                                 variant="outlined" name='applicantEmailAddress'
-                                                value={applicantInfo.applicantEmailAddress} onChange={handleChange} onBlur={handleBlur}>
+                                                value={applicantInfo.applicantEmailAddress} onChange={handleChange} onBlur={handleBlurEmailAddress}>
                                             </TextField>
                                         </FormField>
                                         <FormField
@@ -475,7 +480,7 @@ export default function Page() {
                                         >
                                             <TextField id="cnf-email-address-field" style={{ paddingLeft: '5px' }}
                                                 variant="outlined" name='applicantEmailConfirm'
-                                                value={applicantInfo.applicantEmailConfirm} onChange={handleChange} onBlur={handleBlur}>
+                                                value={applicantInfo.applicantEmailConfirm} onChange={handleChange} onBlur={handleBlurEmailAddress}>
                                             </TextField>
                                         </FormField>
                                     </Grid>
@@ -485,7 +490,7 @@ export default function Page() {
                         }
                     </div>} />
                 <div id="page2">
-                    {!isValidData &&
+                    {isValidData &&
                         <div>
                             <CustomAccordion title="Step 2: Read the Guidelines" id="step2" isExpanded={isExpanded}
                                 content={<div style={{ fontSize: "16px", fontFamily: "'BC Sans', 'Noto Sans',  Arial, sans-serif", paddingLeft: '10px', lineHeight: '2.5' }}>
@@ -519,10 +524,10 @@ export default function Page() {
                                         <div> We will not accept cloud or Google docs for evidence. </div>
                                     </div>
                                     <Grid item xs={7} sx={{ padding: "1px" }}>
-                                        <FormField id="attach-consent"
-                                            labelText="Attach signed consent from driver"
-                                            tooltipTitle="Attach signed consent from driver"
-                                            tooltipContent={<p>Please upload signed consent from the driver, authorizing you to send and receive documents on their behalf.</p>}
+                                        <FormField id="attach-evidence"
+                                            labelText="Attach statements and evidence from driver"
+                                            tooltipTitle="Attach statements and evidence from driver"
+                                            tooltipContent={<p>Please upload statements and evidences.</p>}
                                             error={!!fileUploadErrorText}
                                             errorText={fileUploadErrorText}
                                         >
@@ -530,12 +535,21 @@ export default function Page() {
                                                 id="outlined-basic"
                                                 variant="outlined"
                                                 type="file"
+                                                inputRef={fileUploadRef}
                                                 inputProps={{
                                                     multiple: true
                                                 }}
                                                 onChange={handleFileUpload}
                                             />
+                                            <IconButton aria-label="delete" size="small" onClick={handleCleanFileUpload}>
+                                                <DeleteIcon fontSize="inherit" />
+                                            </IconButton>
                                         </FormField>
+                                        {fileNamesMessage &&
+                                            <div id="messageDiv">
+                                                Attached: {fileNamesMessage}
+                                            </div>
+                                        }
                                     </Grid>
                                 </div>
                                 } />
@@ -558,7 +572,7 @@ export default function Page() {
             }
             {message &&
                 <div id="messageDiv">
-                    <Typography variant="caption" sx={{ color: '#555', fontWeight: '700', padding: '4px 10px 20px 30px', ml: '4px', fontSize: '16px', display: 'block', boxSizing: 'border-box' }}>
+                    <Typography variant="caption" sx={{ color: '#D8292F', fontWeight: '700', padding: '4px 10px 20px 30px', ml: '4px', fontSize: '16px', display: 'block', boxSizing: 'border-box' }}>
                         {message}
                     </Typography>
 

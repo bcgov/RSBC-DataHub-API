@@ -166,12 +166,10 @@ export default function Page() {
 
     const handleStep3Data = (step3Data: Step3Data) => {
         setStep3Data(step3Data);
-        console.log(step3Data);
     };
 
     const handleStep4Data = (step4Data: Step4Data) => {
         setStep4Data(step4Data);
-        console.log(step4Data);
     };
 
     const hasSubmitError = () => {

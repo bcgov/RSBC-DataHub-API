@@ -13,7 +13,7 @@ export const generatePDF = async (value: props[], headerText:string): Promise<js
 
     for (let i = 1; i <= totalPages; i++) {
 
-        const imgWidth = 170;
+        const imgWidth = 190;
         const pageHeight = 295;
         const margin = 15;
         //Add header
@@ -33,11 +33,12 @@ export const generatePDF = async (value: props[], headerText:string): Promise<js
             if (element.pageNumber === i) {                
                 const content = document.getElementById(element.id);
                 const canvas = await html2canvas(content as HTMLElement);
-                const img = canvas.toDataURL("image/png", 4.0);
+                const img = canvas.toDataURL("image/png", 0.8);
+               
                 const imgHeight = canvas.height * imgWidth / canvas.width;
                 if (img !== 'data:,') {
-                    doc.addImage(img, 'PNG', margin, yPosition, imgWidth, imgHeight);
-                    yPosition += imgHeight + 5;
+                        doc.addImage(img, 'PNG', margin, yPosition, imgWidth, imgHeight);
+                        yPosition += imgHeight + 5;    
                 }
             }
         }
