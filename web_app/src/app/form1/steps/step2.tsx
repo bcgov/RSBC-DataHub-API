@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 import { Radio, RadioGroup, FormControlLabel, Grid, MenuItem, Select, InputAdornment, Input, IconButton, } from '@mui/material';
 import CallIcon from '@mui/icons-material/Call';
 import DeleteIcon from '@mui/icons-material/Delete';
-import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react';
+import React, { useEffect, useState, forwardRef, useImperativeHandle, useRef } from 'react';
 import { Step2Data, Step2DataErrors } from '../../interfaces';
 import { checkVirusScanner } from '@/app/_nonRoutingAssets/lib/virusScanApi';
 import { file2Base64 } from '@/app/_nonRoutingAssets/lib/util';
@@ -89,12 +89,24 @@ const Step2 = forwardRef((props: Props, ref) => {
         props.step2DatatoSend(step2Data);
     });
 
+    const fileUploadRef = useRef<HTMLInputElement | null>(null);
+
+    const handleCleanFileUpload = () => {
+        setFile(null);
+        setStep2Data({ ...step2Data, consentFile: '', consentFileName: '' });
+        if (fileUploadRef.current) {
+            console.log("calling ref", fileUploadRef, fileUploadRef.current);
+            fileUploadRef.current.value = "";
+            fileUploadRef.current.type = "text";
+            fileUploadRef.current.type = "file";
+        }
+        setFileUploadMessage("Upload file removed.")
+        console.log("handleCleanFileUpload", step2Data.consentFileName);
+    }
 
     const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files?.length) {
             var file = e.target.files[0];
-            console.log("File is captured: ", file.size, file.name);
-            console.log("debug: step2Data.consentFile before the call: ", step2Data.consentFile)
             var fileContent: string = await file2Base64(file);
             console.log("calling checkVirusScanner: ", fileContent.length);
             if (await checkVirusScanner(fileContent)) {
@@ -192,9 +204,9 @@ const Step2 = forwardRef((props: Props, ref) => {
 
         setStep2DataErrors(errors);
         if (Object.values(errors).every(value => value === null || value === '')) {
-            setStep2Data({... step2Data, hasError: false});
+            setStep2Data({ ...step2Data, hasError: false });
         } else {
-            setStep2Data({... step2Data, hasError: true});
+            setStep2Data({ ...step2Data, hasError: true });
         }
     };
 
@@ -280,8 +292,9 @@ const Step2 = forwardRef((props: Props, ref) => {
                                         id="outlined-basic"
                                         variant="outlined"
                                         type="file"
-                                        onChange={handleFileUpload} /> {fileUploadMessage} { }
-                                    <IconButton aria-label="delete" size="small">
+                                        inputRef={fileUploadRef}
+                                        onChange={handleFileUpload} />
+                                    <IconButton aria-label="delete" size="small"  onClick={handleCleanFileUpload}>
                                         <DeleteIcon fontSize="inherit" />
                                     </IconButton>
                                 </FormField>

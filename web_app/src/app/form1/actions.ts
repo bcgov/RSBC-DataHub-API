@@ -9,7 +9,7 @@ export async function sendEmail(fileContent: string | null, fileName: string | n
         "filecontents": pagePdf,
     }];
 
-    console.log("test: ", (fileContent && fileName))
+    //console.log("test: ", (fileContent && fileName))
     if (fileContent && fileName) {
         attachments.push({
             "filename": fileName,
@@ -23,9 +23,6 @@ export async function sendEmail(fileContent: string | null, fileName: string | n
 
     const encoded = Buffer.from(`${process.env.EMAIL_BASIC_AUTH_USER}` + ':' +
         `${process.env.EMAIL_BASIC_AUTH}`).toString('base64');
-
-    console.log("user/pass for mailer: ", `${ process.env.EMAIL_BASIC_AUTH_USER }` + ':' +
-        `${ process.env.EMAIL_BASIC_AUTH }`);
 
     var config = {
         headers: {
@@ -179,18 +176,18 @@ function getEmailTemplate(attachments: object, step1Data: Step1Data, step2Data: 
         "subject": "Copy of Application Form - Driving Prohibition " + `${step1Data.controlProhibitionNumber}` + " Review",
         "content": {
             "type": "text/plain",
-            "value": `	 
-                Dear ${step2Data.applicantFirstName} ${step2Data.applicantLastName},
+            "value": `
+Dear ${step2Data.applicantFirstName} ${step2Data.applicantLastName},
 
-                Please find attached the completed PDF of your application for review of driving prohibition 21-013009.
+Please find attached the completed PDF of your application for review of driving prohibition 21-013009.
             
-                You must not drive while your licence is prohibited. Driving while prohibited is illegal. It carries a minimum fine of $500 for a first offence, a 12-month prohibition and possible imprisonment. Imprisonment is mandatory for a second offence.
+You must not drive while your licence is prohibited. Driving while prohibited is illegal. It carries a minimum fine of $500 for a first offence, a 12-month prohibition and possible imprisonment. Imprisonment is mandatory for a second offence.
             
-                Thank you,
-                RoadSafetyBC
+Thank you,
+RoadSafetyBC
             
-                Please do not respond to this email. We've sent it from account that doesn't accept responses. If you need to reach us, call 1-855-387-7747. Select option 5 to reach the Appeals Registry.
-                `
+Please do not respond to this email. We've sent it from account that doesn't accept responses. If you need to reach us, call 1-855-387-7747. Select option 5 to reach the Appeals Registry.
+`
         },
         "attachment": attachments
     };

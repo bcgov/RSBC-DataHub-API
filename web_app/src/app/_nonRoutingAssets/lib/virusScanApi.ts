@@ -8,7 +8,7 @@ export const checkVirusScanner = async (file: string): Promise<boolean> => {
     const encoded = Buffer.from(`${process.env.CLAMAV_CLIENT_BASIC_AUTH_USER}` + ':' +
         `${process.env.CLAMAV_CLIENT_BASIC_AUTH}`).toString('base64');
 
-    console.log("encoded: ", encoded, `${process.env.CLAMAV_CLIENT_BASIC_AUTH}`)
+    //console.log("encoded: ", encoded, `${process.env.CLAMAV_CLIENT_BASIC_AUTH}`)
 
     var config = {
         headers: {

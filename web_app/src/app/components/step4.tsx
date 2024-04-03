@@ -52,7 +52,7 @@ const Step4 = forwardRef((props: Props, ref) => {
             setSignatureApplicantNameErrorText('Please enter your name to confirm the information submitted is correct.');
             step4Data.signatureApplicantErrorText = signatureApplicantNameErrorText;
         }
-        console.log("step4Data.signedDate: ", step4Data.signedDate);
+        //console.log("step4Data.signedDate: ", step4Data.signedDate);
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
