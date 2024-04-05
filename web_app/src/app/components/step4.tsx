@@ -1,12 +1,12 @@
 /* eslint-disable react/display-name */
 import React, { useState, forwardRef, useImperativeHandle } from 'react';
-import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import { FormField } from './FormField';
 import { Step4Data } from '../interfaces';
+import { TextField, SxProps, Theme } from '@mui/material';
 
 interface Props {
     step4DatatoSend: (data: Step4Data) => void;
@@ -35,15 +35,15 @@ const Step4 = forwardRef((props: Props, ref) => {
     }
 
     useImperativeHandle(ref, () => ({
+        validate() {
+            validate(step4Data.signatureApplicantName);
+        },
         clearData() {
             setStep4Data({
                 signatureApplicantName: '',
                 signedDate: dayjs(Date.now()).format('YYYY-MM-DD') + offsetHours,
                 signatureApplicantErrorText: '',
             });
-        },
-        validate() {
-            validate(step4Data.signatureApplicantName);
         }
     }));
 
@@ -51,6 +51,8 @@ const Step4 = forwardRef((props: Props, ref) => {
         if (value === '') {
             setSignatureApplicantNameErrorText('Please enter your name to confirm the information submitted is correct.');
             step4Data.signatureApplicantErrorText = signatureApplicantNameErrorText;
+        } else {
+            setSignatureApplicantNameErrorText('');
         }
         //console.log("step4Data.signedDate: ", step4Data.signedDate);
     }
@@ -61,14 +63,15 @@ const Step4 = forwardRef((props: Props, ref) => {
     };
 
 
-
     return (
         <div style={{ display: 'grid' }} id="page5">
             <div>
                 <span style={{ fontSize: '16px', paddingLeft: '15px' }} > <strong>By typing your name below and submitting this form, you confirm the information you provide above is correct. </strong></span>
             </div>
-            <FormField
+            <FormField 
                 id="signature-applicant-name"
+                labelText=""
+                tooltipTitle=""
                 error={!!(signatureApplicantNameErrorText)}
                 errorText={signatureApplicantNameErrorText}
             >
