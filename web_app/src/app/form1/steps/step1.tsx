@@ -141,8 +141,6 @@ const Step1 = forwardRef((props: Props, ref) => {
                         value={step1Data.controlProhibitionNumber} onChange={prohibitionNumberChanged} onBlur={validateField}>
                     </TextField></FormField>
                 <div style={{ marginTop: '-30px', marginBottom: '30px' }}>
-                    <Typography sx={{ color: '#313132', fontSize: '16px', fontWeight: '700', mt: '10px', ml: '10px', paddingBottom: '10px' }}>(optional)</Typography>
-
                     <img src="/./././assets/images/Combo_prohibition_no.png" width={280}
                         height={178}
                         alt="Info" 

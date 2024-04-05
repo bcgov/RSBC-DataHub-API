@@ -21,7 +21,7 @@ export default function Page() {
     const step1Ref = useRef<{ clearData: () => void }>(null);
     const step2Ref = useRef<{ clearData: () => void }>(null);
     const step3Ref = useRef<{ clearData: () => void }>(null);
-    const step4Ref = useRef<{ clearData: () => void }>(null);
+    const step4Ref = useRef<{ clearData: () => void, validate: () => void }>(null);
 
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -29,6 +29,12 @@ export default function Page() {
     const [submitError, setSubmitError] = useState<boolean>(false);
 
     const submitData = async () => {
+        if (!step4Data.signatureApplicantName) {
+            step4Ref.current?.validate();
+            return;
+        }
+
+        setIsLoading(true);
         setIsExpanded(true);
         console.log("posting xml: ", step1Data, step2Data, step3Data, step4Data);
         try {
@@ -39,8 +45,8 @@ export default function Page() {
                 return;//stop going further?
             } else {
                 setSubmitError(false);
-            }    
-        } catch(error) {}
+            }
+        } catch (error) { }
         console.log("posting xml done!! ");
 
         let pdfList = [
@@ -85,8 +91,10 @@ export default function Page() {
             fileContent = reader.result?.toString().split('base64,')[1] || '';
             let result = await sendEmail(step2Data.consentFile, step2Data.consentFileName, fileContent, step1Data, step2Data);
             console.log("email sent", result);
-            if (result === 202 && !submitError ) {
+            if (result === 202 && !submitError) {
                 setMessage(SUCCESS_MESSAGE);
+            } else {
+                setIsLoading(false);
             }
         };
         // callback to reader.onload
@@ -99,7 +107,10 @@ export default function Page() {
         step2Ref.current?.clearData();
         step3Ref.current?.clearData();
         step4Ref.current?.clearData();
+        step4Data.signatureApplicantErrorText = '';
         setIsExpanded(false);
+        setIsLoading(false);
+        setMessage('');
     }
 
     const [step1Data, setStep1Data] = useState<Step1Data>({
@@ -173,8 +184,8 @@ export default function Page() {
     };
 
     const hasSubmitError = () => {
-        console.log("submitError: ", step1Data.hasError, step2Data.hasError, step3Data.hasError, step4Data?.signatureApplicantErrorText?.length > 0);
-        return step1Data.hasError || step2Data.hasError || step3Data.hasError || step4Data?.signatureApplicantErrorText?.length > 0;
+        console.log("submitError: ", step1Data.hasError, step2Data.hasError, step3Data.hasError, !step4Data.signatureApplicantName);
+        return step1Data.hasError || step2Data.hasError || step3Data.hasError || step4Data.signatureApplicantErrorText;
     }
 
     return (
@@ -208,11 +219,15 @@ export default function Page() {
 
 
                 <CustomAccordion title="Step 2: Enter Applicant Information" id="step2" isExpanded={isExpanded}
-                    content={<Step2 step2DatatoSend={handleStep2Data} isEnabled={step1Data.licenseSeized === 'licenseSeized' || step1Data.controlIsUl} ref={step2Ref}></Step2>} />
+                    content={<Step2 step2DatatoSend={handleStep2Data} isEnabled={step1Data.licenseSeized === 'licenseSeized' || step1Data.controlIsUl}
+                        ref={step2Ref} hasError={false} ></Step2>} />
 
                 <CustomAccordion title="Step 3: Complete Review Information" id="step3" isExpanded={isExpanded}
-                    content={<Step3 controlIsUl={step1Data.controlIsUl} controlIsIrp={step1Data.controlIsIrp} controlIsAdp={step1Data.controlIsAdp} ref={step3Ref}
-                        step3DatatoSend={handleStep3Data} isEnabled={step1Data.licenseSeized === 'licenseSeized' || step1Data.controlIsUl} hasError={false} />
+                    content={<Step3 controlIsUl={step1Data.controlIsUl}
+                        controlIsIrp={step1Data.controlIsIrp} controlIsAdp={step1Data.controlIsAdp}
+                        ref={step3Ref}
+                        step3DatatoSend={handleStep3Data} isEnabled={step1Data.licenseSeized === 'licenseSeized' || step1Data.controlIsUl}
+                        hasError={false} />
                     } />
 
 
@@ -224,7 +239,7 @@ export default function Page() {
 
 
             </div>
-            {/* { hasSubmitError() &&
+            {hasSubmitError() &&
                 <div id="errorText">
                     <Typography variant="caption" sx={{ color: '#D8292F', fontWeight: '700', padding: '4px 10px 20px 30px', ml: '4px', fontSize: '16px', display: 'block' }}>
 
@@ -232,7 +247,7 @@ export default function Page() {
                     </Typography>
 
                 </div>
-            } */}
+            }
             {message &&
                 <div id="messageDiv">
                     <Typography variant="caption" sx={{ color: '#555', fontWeight: '700', padding: '4px 10px 20px 30px', ml: '4px', fontSize: '16px', display: 'block', boxSizing: 'border-box' }}>
@@ -249,7 +264,7 @@ export default function Page() {
                             Clear
                         </Button>
                         <Button
-                            // disabled={hasSubmitError()}
+                            disabled={isLoading}
                             onClick={submitData}
                             variant="contained"
                             sx={{ borderColor: '#003366', backgroundColor: '#003366', color: 'white', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }}

@@ -78,7 +78,7 @@ export async function postValidateFormData(applicantInfo: Form3Data,): Promise<A
 
 
 
-export const sendForm3Email = async (filesContent: string[], filesName: string[], applicantInfo: Form3Data): Promise<ActionResponse> => {
+export const sendForm3Email = async (filesContent: string[], filesName: string[], applicantInfo: Form3Data): Promise<number> => {
     console.log("axiosMailItClient.getUri: " + axiosMailItClient.getUri());
 
     const encoded = Buffer.from(`${process.env.EMAIL_BASIC_AUTH_USER}` + ':' +
@@ -97,9 +97,10 @@ export const sendForm3Email = async (filesContent: string[], filesName: string[]
         const response = await axiosMailItClient.post(axiosMailItClient.getUri() + '/mail/send', email, config);
 
         console.debug("Email sent successfully with return code: " + response.status);
-        return response;
+        return response.status;
     } catch (error) {
-        return handleError(error);
+        console.log("Error sending email: ", error);
+        return 500;
     }
 }
 
