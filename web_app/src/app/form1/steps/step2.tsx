@@ -210,6 +210,20 @@ const Step2 = forwardRef((props: Props, ref) => {
         }
     };
 
+    const handleChangePhoneNumber = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newInput = event.target.value.replace(/\D/g, '');
+        const newValueArr = [
+          newInput.slice(0, 3),
+          newInput.slice(3, 6),
+          newInput.slice(6, 10)
+        ].filter(x => x);
+    
+        const newValue = newValueArr.join('-');
+        const { name } = event.target;
+        setStep2Data({ ...step2Data, [name]: newValue });
+        props.step2DatatoSend(step2Data);    
+    };
+
     return (
         <div style={{ display: 'grid', marginTop: '20px', pointerEvents: (props.isEnabled ? '' : 'none') as React.CSSProperties["pointerEvents"], }} >
             <div id="page2img2">
@@ -342,9 +356,15 @@ const Step2 = forwardRef((props: Props, ref) => {
                     error={!!step2DataErrors.applicantPhoneNumber}
                     errorText={step2DataErrors.applicantPhoneNumber}
                 >
-                    <TextField id="ph-number-field" style={{ paddingLeft: '5px' }} placeholder="(555) 555-5555"
-                        variant="outlined" name='applicantPhoneNumber'
-                        value={step2Data.applicantPhoneNumber} onChange={handleChange} onBlur={handleBlur} InputProps={{
+                    <TextField id="ph-number-field" 
+                        style={{ paddingLeft: '5px' }} 
+                        placeholder="(555) 555-5555"
+                        variant="outlined" 
+                        name='applicantPhoneNumber'
+                        value={step2Data.applicantPhoneNumber} 
+                        onChange={ handleChangePhoneNumber}
+                        onBlur={handleBlur} 
+                        InputProps={{
                             endAdornment: (
                                 <InputAdornment position="end">
                                     <CallIcon />

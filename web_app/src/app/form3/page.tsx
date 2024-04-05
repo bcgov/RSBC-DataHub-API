@@ -45,6 +45,7 @@ export default function Page() {
     const [isValidData, setIsValidData] = useState(false);
     const [isValidComboErrorText, setIsValidComboErrorText] = useState('');
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [filesContent, setFilesContent] = useState<string[]>([]);
     const [filesNames, setFilesNames] = useState<string[]>([]);
     const [fileNamesMessage, setFileNamesMessage] = useState('');
@@ -60,6 +61,7 @@ export default function Page() {
     const validateField = () => {
         if (prohibitionNumberRegex.exec(applicantInfo.controlProhibitionNumber)) {
             setValidProhibitionNumber(true);
+            setProhibitionNumberErrorText('');
             setApplicantInfo({
                 ...applicantInfo,
                 controlIsUl: applicantInfo.controlProhibitionNumber.startsWith('30'),
@@ -74,7 +76,6 @@ export default function Page() {
             setApplicantInfo({ ...applicantInfo, controlIsIrp: false });
             setApplicantInfo({ ...applicantInfo, controlIsAdp: false });
         }
-
     };
 
     const driverLastNameChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,6 +97,7 @@ export default function Page() {
     }
 
     async function submitData() {
+        setIsLoading(true);
         let message = "There was an error.";
         let formSubmitted = false;
         if (validateData()) {
@@ -111,14 +113,16 @@ export default function Page() {
                 console.log("file names before email call: ", filesNames);
                 const emailResult = await sendForm3Email(filesContent, filesNames, applicantInfo);
 
-                if (formSubmitted && emailResult.data.is_success)
+                if (formSubmitted && emailResult === 202)
                     message = "Your documents are sent. Please check your email. If you would like a copy of this form, click the PDF button.";
                 else
-                    message += emailResult.data?.error;
+                    message += " We are unable to send emails at this time please try again.";
             } catch (error) { }
         }
         setIsFormSubmitted(formSubmitted);
         setMessage(message);
+        if (!formSubmitted)
+            setIsLoading(false);
     }
 
     useEffect(() => {
@@ -187,6 +191,7 @@ export default function Page() {
         setFileNamesMessage('');
         setFilesContent([]);
         setFilesNames([]);
+        setIsLoading(false);
     }
 
     const callValidateFormData = async () => {
@@ -360,8 +365,6 @@ export default function Page() {
                                     value={applicantInfo.controlProhibitionNumber} onChange={prohibitionNumberChanged} onBlur={validateField}>
                                 </TextField></FormField>
                             <div style={{ marginTop: '-30px', marginBottom: '30px' }}>
-                                <Typography sx={{ color: '#313132', fontSize: '16px', fontWeight: '700', mt: '10px', ml: '10px', paddingBottom: '10px' }}>(optional)</Typography>
-
                                 <img src="/./././assets/images/Combo_prohibition_no.png" width={280}
                                     height={180}
                                     alt="Info" />
@@ -553,9 +556,13 @@ export default function Page() {
                                     </Grid>
                                 </div>
                                 } />
+                            <div>
+                                <Grid item xs={5} sx={{ padding: "1px" }}>
 
-                            <CustomAccordion title="Step 4: Consent and Submit" id="step4" isExpanded={isExpanded}
-                                content={<Step4 step4DatatoSend={handleStep4Data} ref={step4Ref} />} />
+                                    <CustomAccordion title="Step 4: Consent and Submit" id="step4" isExpanded={isExpanded}
+                                        content={<Step4 step4DatatoSend={handleStep4Data} ref={step4Ref} />} />
+                                </Grid>
+                            </div>
                         </div>
                     }
                 </div>
@@ -572,7 +579,7 @@ export default function Page() {
             }
             {message &&
                 <div id="messageDiv">
-                    <Typography variant="caption" sx={{ color: '#D8292F', fontWeight: '700', padding: '4px 10px 20px 30px', ml: '4px', fontSize: '16px', display: 'block', boxSizing: 'border-box' }}>
+                    <Typography variant="caption" sx={{ color: '#555', fontWeight: '700', padding: '4px 10px 20px 30px', ml: '4px', fontSize: '16px', display: 'block', boxSizing: 'border-box' }}>
                         {message}
                     </Typography>
 
@@ -588,7 +595,7 @@ export default function Page() {
                         <Button disabled={!isFormSubmitted} onClick={generatePdfAction} variant="outlined" sx={{ cursor: 'pointer', color: '#003366', borderColor: '#003366', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }} startIcon={<Print sx={{ fontWeight: 'bold' }} />}>
                             PDF
                         </Button>
-                        <Button onClick={submitData} variant="contained" disabled={isFormSubmitted} sx={{ borderColor: '#003366', backgroundColor: '#003366', color: 'white', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }} startIcon={<ArrowForward sx={{ fontWeight: 'bold' }} />}>
+                        <Button onClick={submitData} variant="contained" disabled={isLoading} sx={{ borderColor: '#003366', backgroundColor: '#003366', color: 'white', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }} startIcon={<ArrowForward sx={{ fontWeight: 'bold' }} />}>
                             Send
                         </Button>
                     </Grid>
