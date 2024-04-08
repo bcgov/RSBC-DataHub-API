@@ -71,7 +71,7 @@ function getForm1Xml(step1Data: Step1Data, step2Data: Step2Data, step3data: Step
     const licenceNotSurrendered = step1Data.licenseNoSurrendered ? `<licence-not-surrendered>${step1Data.licenseNoSurrendered}</licence-not-surrendered>` : '<licence-not-surrendered/>';
     const licenceLostOrStolen = step1Data.licenseLostOrStolen ? `<licence-lost-or-stolen>${step1Data.licenseLostOrStolen}</licence-lost-or-stolen>` : '<licence-lost-or-stolen/>';
     const licenceNotIssued = step1Data.licenseNotIssued ? `<licence-not-issued>${step1Data.licenseNotIssued}</licence-not-issued>` : '<licence-not-issued/>';
-    const licenseSeized = step1Data.licenseSeized ? `<licence-seized>licence-seized</licence-seized>` : `</licence-seized>`;
+    const licenseSeized = step1Data.licenseSeized ? `<licence-seized>licence-seized</licence-seized>` : `<licence-seized />`;
     const dateOfService = step1Data.dateOfService ? `<date-of-service>` + step1Data.dateOfService.toISOString().slice(0, 10) + `</date-of-service>` : (() => { throw new Error("Field is required: date-of-service"); })();
     const driverFirstName = step2Data.driverFirstName ? `<driver-first-name>${step2Data.driverFirstName}</driver-first-name>` : '<driver-first-name/>';
     const driverLastName = step2Data.driverLastName ? `<driver-last-name>${step2Data.driverLastName}</driver-last-name>` : '<driver-last-name/>';
