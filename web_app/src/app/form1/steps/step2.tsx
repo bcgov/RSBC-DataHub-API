@@ -13,6 +13,7 @@ import { file2Base64 } from '@/app/_nonRoutingAssets/lib/util';
 interface Props {
     step2DatatoSend: (data: Step2Data) => void;
     isEnabled: boolean;
+    hasError: boolean;
 }
 
 const Step2 = forwardRef((props: Props, ref) => {
