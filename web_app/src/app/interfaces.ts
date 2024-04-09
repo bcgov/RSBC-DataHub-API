@@ -72,6 +72,7 @@ export interface Step3InputProps {
     controlIsAdp: boolean;
     isEnabled: boolean;
     hasError: boolean;
+    irpProhibitionTypeLength: string | null;
     step3DatatoSend: (data: Step3Data) => void;
 }
 

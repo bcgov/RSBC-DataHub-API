@@ -33,7 +33,7 @@ export default function Page() {
             step4Ref.current?.validate();
             return;
         }
-
+        let form1SubmitOk = false;
         setIsLoading(true);
         setIsExpanded(true);
         console.log("posting xml: ", step1Data, step2Data, step3Data, step4Data);
@@ -44,10 +44,12 @@ export default function Page() {
                 setMessage(response.data.error);
                 return;//stop going further?
             } else {
+                form1SubmitOk = true;
                 setSubmitError(false);
             }
+            console.log("posting xml done!! ");
         } catch (error) { }
-        console.log("posting xml done!! ");
+        console.log("after posting xml");
 
         let pdfList = [
             { id: 'page1img1', pageNumber: 1 },// Before You Begin display block
@@ -90,12 +92,13 @@ export default function Page() {
             console.log("reader.result", reader.result?.toString().slice(0, 50));
             fileContent = reader.result?.toString().split('base64,')[1] || '';
             let result = await sendEmail(step2Data.consentFile, step2Data.consentFileName, fileContent, step1Data, step2Data);
-            console.log("email sent", result);
-            if (result === 202 && !submitError) {
+            console.log("email sent and form1SubmitOK? ", result, form1SubmitOk);
+            if (result === 202 && form1SubmitOk) {
                 setMessage(SUCCESS_MESSAGE);
             } else {
                 setIsLoading(false);
             }
+            console.log("email sent msg: ", message);
         };
         // callback to reader.onload
         if (file || file !== undefined)
@@ -188,7 +191,7 @@ export default function Page() {
         return step1Data.hasError || step2Data.hasError || step3Data.hasError || step4Data.signatureApplicantErrorText;
     }
 
-    return (
+        return (
 
         <div className="formContent">
 
@@ -227,7 +230,7 @@ export default function Page() {
                         controlIsIrp={step1Data.controlIsIrp} controlIsAdp={step1Data.controlIsAdp}
                         ref={step3Ref}
                         step3DatatoSend={handleStep3Data} isEnabled={step1Data.licenseSeized === 'licenseSeized' || step1Data.controlIsUl}
-                        hasError={false} />
+                        hasError={false} irpProhibitionTypeLength={step1Data.irpProhibitionTypeLength} />
                     } />
 
 
