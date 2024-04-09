@@ -126,7 +126,7 @@ export default function Page() {
     }
 
     useEffect(() => {
-        console.log(isFormSubmitted, message, fileNamesMessage);
+        console.log("useEffect: ", isFormSubmitted, message, fileNamesMessage);
     }, [isFormSubmitted, message, fileNamesMessage]);
 
     const generatePdfAction = () => {
@@ -215,13 +215,13 @@ export default function Page() {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.currentTarget;
-        console.log("name/value: ", name, value);
+        //console.log("name/value: ", name, value);
         setApplicantInfo({ ...applicantInfo, [name]: value });
     }
 
     const handleBlurEmailAddress = (e: React.FocusEvent<HTMLInputElement>) => {
         const { name, value } = e.currentTarget;
-        console.log("blur name/value: ", name, value);
+        //console.log("blur name/value: ", name, value);
         validateEmailAddress(value, name);
     }
 

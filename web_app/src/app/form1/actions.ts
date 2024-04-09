@@ -54,7 +54,21 @@ export async function postForm1(step1Data: Step1Data, step2Data: Step2Data, step
     try {
         const response = await axiosApiClient.post(url, xmlData, config);
         console.debug("postForm1 done with return code: " + response.status);
-        return response;
+        if (response.status === 200) {
+            return {
+                data: {
+                    is_success: true,
+                    error: '',
+                }
+            };
+        } else {
+            return {
+                data: {
+                    is_success: false,
+                    error: 'Review could not be schedule at this time, please try again later.',
+                }
+            };
+        }
     } catch (error) {
         return handleError(error);
     }
@@ -79,7 +93,7 @@ function getForm1Xml(step1Data: Step1Data, step2Data: Step2Data, step3data: Step
     const hearingRequest = step3data.hearingRequest ? `<hearing-request-type>${step3data.hearingRequest}</hearing-request-type>` : '<hearing-request-type/>';
     const representedByLawyer = step2Data.representedByLawyer ? `<represented-by-lawyer>${step2Data.representedByLawyer}</represented-by-lawyer>` : '<represented-by-lawyer/>';
     const applicantRoleSelect = step2Data.applicantRoleSelect ? `<applicant-role-select>${step2Data.applicantRoleSelect}</applicant-role-select>` : '<applicant-role-select/>';
-    const applicantRole = step2Data.applicantRoleSelect ? `<applicant-role>${step2Data.applicantRoleSelect}</applicant-role>` : '<applicant-role/>';
+    const applicantRole = step2Data.applicantRoleSelect === 'driver' && step2Data.representedByLawyer === 'yes' ? `<applicant-role>lawyer</applicant-role>` : `<applicant-role>${step2Data.applicantRoleSelect}</applicant-role>`;
 
     // Construct the XML string using the data from step1Data, step2Data, and step3InputProps.
     const xmlString = `
@@ -147,7 +161,7 @@ function getForm1Xml(step1Data: Step1Data, step2Data: Step2Data, step3data: Step
                 <preparing-for-review-irp-text/>
                 <preparing-for-review-ul-text/>
                 ${hearingRequest}
-                <written-review-information/>
+                <wirtten-review-information/>
                 <oral-review-instructions/>
             </review-information>
             <consent-and-submission>
@@ -179,7 +193,7 @@ function getEmailTemplate(attachments: object, step1Data: Step1Data, step2Data: 
             "value": `
 Dear ${step2Data.applicantFirstName} ${step2Data.applicantLastName},
 
-Please find attached the completed PDF of your application for review of driving prohibition 21-013009.
+Please find attached the completed PDF of your application for review of driving prohibition ${step1Data.controlProhibitionNumber}.
             
 You must not drive while your licence is prohibited. Driving while prohibited is illegal. It carries a minimum fine of $500 for a first offence, a 12-month prohibition and possible imprisonment. Imprisonment is mandatory for a second offence.
             
