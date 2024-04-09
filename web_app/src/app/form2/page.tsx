@@ -196,7 +196,7 @@ export default function Page() {
                 <Grid item xs={8} sx={{ padding: "1px" }}>
                     {message &&
                         <div>
-                            <Typography variant="caption" sx={{ color: '#D8292F', fontWeight: '700', padding: '4px 0px 2px 0px', ml: '4px', fontSize: '16px', display: 'block' }}>
+                            <Typography variant="caption" sx={{ color: '#555', fontWeight: '700', padding: '4px 0px 2px 0px', ml: '4px', fontSize: '16px', display: 'block' }}>
                                 {message}
                             </Typography>
                         </div>
