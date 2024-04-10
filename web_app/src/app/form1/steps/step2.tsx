@@ -129,8 +129,17 @@ const Step2 = forwardRef((props: Props, ref) => {
         | 'driverLastName'
         | 'streetAddress'
         | 'controlDriverCityTown'
-        | 'controlDriverProvince') => {
+        | 'controlDriverProvince'
+        | 'applicantRoleSelect') => {
         errors[field] = value ? '' : `${getErrorMessage(field)}.`;
+        if((field === 'applicantFirstName' || field ==='driverFirstName')
+            && step2Data.applicantRoleSelect === '' ) {
+                errors['applicantRoleSelect'] = getErrorMessage('applicantRoleSelect');
+        }
+        if( field === 'applicantRoleSelect') {
+            errors.applicantRoleSelect = '';
+        }
+        console.log("errors: ", errors );
     };
 
     const getErrorMessage = (field: string) => {
@@ -142,6 +151,7 @@ const Step2 = forwardRef((props: Props, ref) => {
             case 'streetAddress': return "Please enter the street address";
             case 'controlDriverCityTown': return "Please enter the name of the city";
             case 'controlDriverProvince': return "Please select a province";
+            case 'applicantRoleSelect': return "Please select a role"
         }
     }
 
@@ -187,6 +197,7 @@ const Step2 = forwardRef((props: Props, ref) => {
             case 'streetAddress':
             case 'controlDriverCityTown':
             case 'controlDriverProvince':
+            case 'applicantRoleSelect':
                 validateApplicantName(value, errors, fieldName);
                 break;
             case 'applicantPhoneNumber':
@@ -237,7 +248,9 @@ const Step2 = forwardRef((props: Props, ref) => {
                         labelText="Applicant's Role:"
                         tooltipTitle="Applicant's Role:"
                         tooltipContent={<p>You can submit your application, or a lawyer or person you authorize can do it on your behalf.</p>}
-                    >
+                        error={!!step2DataErrors.applicantRoleSelect}
+                        errorText={step2DataErrors.applicantRoleSelect}        
+                >
                         <RadioGroup id="applicant-role-select-field"
                             name="applicantRoleSelect" value={step2Data.applicantRoleSelect} onChange={handleChange} onBlur={handleBlur}
                         >

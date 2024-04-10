@@ -205,6 +205,8 @@ export default function Page() {
 
             if (!result.data.is_success)
                 setIsValidComboErrorText("Error: " + result.data.error);
+            else 
+                setIsValidComboErrorText('');
             console.log("finished...")
         } catch (error) {
             setIsValidData(false);
