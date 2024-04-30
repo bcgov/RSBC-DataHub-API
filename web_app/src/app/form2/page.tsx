@@ -33,7 +33,7 @@ export default function Page() {
             setRequestAvailDates(false);
             setMessage('');
             const response = await getAvailableReviewDates(cleanControlProhibitionNumber, driverLastName);
-            //console.log("after calling service: ", response);
+            //console.log("getAvailableReviewDates response: ", response);
             if (response.time_slots) {
                 //console.log("set time slots: ", response.time_slots?.length);
                 setReviewDates(response);
@@ -185,7 +185,7 @@ export default function Page() {
                                         <FormControlLabel key={date.value} value={date.value} label={date.label} control={<Radio sx={{
                                             '&.Mui-checked': { color: 'rgb(49,49,50)', },
                                         }} />}
-                                            onChange={e => { setSelectedReviewDate(date.value) }} />
+                                            onChange={e => { setSelectedReviewDate(date.value) }} /> 
                                     ))}
                                 </RadioGroup>
                             </FormControl>
