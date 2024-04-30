@@ -187,7 +187,6 @@ export default function Page() {
     };
 
     const hasSubmitError = () => {
-        console.log("submitError: ", step1Data.hasError, step2Data.hasError, step3Data.hasError, !step4Data.signatureApplicantName);
         return step1Data.hasError || step2Data.hasError || step3Data.hasError || step4Data.signatureApplicantErrorText;
     }
 

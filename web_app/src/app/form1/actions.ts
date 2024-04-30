@@ -9,7 +9,6 @@ export async function sendEmail(fileContent: string | null, fileName: string | n
         "filecontents": pagePdf,
     }];
 
-    //console.log("test: ", (fileContent && fileName))
     if (fileContent && fileName) {
         attachments.push({
             "filename": fileName,
