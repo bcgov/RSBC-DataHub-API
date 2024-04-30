@@ -1,6 +1,5 @@
 'use server'
 import { axiosApiClient, handleError } from "@/app/_nonRoutingAssets/lib/form.api";
-import { AxiosResponse } from "axios";
 import { ActionResponse, AvailableReviewDates } from "../interfaces";
 
 //------------------------------------------
@@ -24,15 +23,12 @@ export async function getAvailableReviewDates(prohibitionNumber: string, driverL
     };
     try {
         const { data } = await axiosApiClient.post(url, formData, config);
-        //console.log("after the call: ", data.data.is_valid);
         if (data.data.time_slots) {
-            //console.log("is valid: ");
             return {
                 is_success: true,
                 time_slots: data.data.time_slots,
             };
         } else {
-            //console.log("after return is valid: ");
             return data.data;
         }
     } catch (error) {

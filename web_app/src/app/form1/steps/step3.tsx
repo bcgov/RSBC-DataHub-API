@@ -89,11 +89,10 @@ const Step3 = forwardRef((props: Step3InputProps, ref) => {
             setIsWrittenSelected(true);
             setIsOralSelected(false);
         }
-        setStep3Data({
-            ...step3Data,
-            hearingRequest: value,
-        });
+        
+        step3Data.hearingRequest = value;
         props.step3DatatoSend(step3Data);
+       // console.log("step3Data: " + step3Data);
     };
 
     const AdditionInfo21 = () => {
