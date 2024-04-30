@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ArrowForward } from "@mui/icons-material";
 import { AvailableReviewDates } from "../interfaces";
 import { getAvailableReviewDates, scheduleReviewDate } from "./actions";
@@ -33,13 +33,10 @@ export default function Page() {
             setRequestAvailDates(false);
             setMessage('');
             const response = await getAvailableReviewDates(cleanControlProhibitionNumber, driverLastName);
-            //console.log("getAvailableReviewDates response: ", response);
             if (response.time_slots) {
-                //console.log("set time slots: ", response.time_slots?.length);
                 setReviewDates(response);
                 setRequestAvailDates(true);
             } else {
-                //console.log("set error to message: ", response?.error);
                 setMessage(response?.error ? response?.error : "Site is not available.");
             }
         }
