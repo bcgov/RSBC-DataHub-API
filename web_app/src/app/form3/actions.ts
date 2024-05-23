@@ -38,7 +38,7 @@ export async function submitToApi(applicantInfo: Form3Data): Promise<ActionRespo
 
 export async function postValidateFormData(applicantInfo: Form3Data,): Promise<ActionResponse> {
     try {
-        console.log("postValidateFormData: ", applicantInfo);
+        console.log("postValidateFormData: ", applicantInfo.controlProhibitionNumber);
 
         const formData = new FormData();
         formData.append('prohibition_number', applicantInfo.prohibitionNumberClean);
@@ -55,7 +55,7 @@ export async function postValidateFormData(applicantInfo: Form3Data,): Promise<A
             },
         });
 
-        console.log("postValidateFormData response status, data: ", response.status, response.data);
+        console.log("postValidateFormData response status: ", response.status);
         if (response.status === 200 && response.data.data.is_valid) {
             return {
                 data: {
@@ -92,14 +92,14 @@ export const sendForm3Email = async (filesContent: string[], filesName: string[]
     };
 
     let email = getEmailTemplate(filesContent, filesName, applicantInfo);
-    console.log("email: ", email);
+    console.log("sendForm3Email for: ", applicantInfo.controlProhibitionNumber);
     try {
         const response = await axiosMailItClient.post(axiosMailItClient.getUri() + '/mail/send', email, config);
 
-        console.debug("Email sent successfully with return code: " + response.status);
+        console.log("Email sent successfully with return code: " + response.status);
         return response.status;
     } catch (error) {
-        console.log("Error sending email: ", error);
+        console.error("Error sending email: ", error);
         return 500;
     }
 }
