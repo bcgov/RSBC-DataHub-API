@@ -7,4 +7,3 @@ Presently, the following services are hosted in this folder:
   
 - Email Service
 - Antivirus / malware scanner.
-- 
