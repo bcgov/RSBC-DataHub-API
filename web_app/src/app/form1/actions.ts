@@ -49,7 +49,7 @@ export async function postForm1(step1Data: Step1Data, step2Data: Step2Data, step
         headers: { 'Content-Type': 'application/xml' }
     };
     let xmlData = getForm1Xml(step1Data, step2Data, step3data, step4data).replace(/\n/g, '').trim();
-    console.log("xml body: ", xmlData);
+    console.log("postForm1 for: ", step1Data.controlProhibitionNumber);
     try {
         const response = await axiosApiClient.post(url, xmlData, config);
         console.debug("postForm1 done with return code: " + response.status);
