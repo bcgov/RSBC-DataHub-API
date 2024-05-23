@@ -7,7 +7,7 @@ import { ActionResponse, AvailableReviewDates } from "../interfaces";
 //------------------------------------------
 export async function getAvailableReviewDates(prohibitionNumber: string, driverLastName: string): Promise<AvailableReviewDates> {
     let url = axiosApiClient.getUri() + `/schedule`;
-    console.log("Get available review dates url: ", url, prohibitionNumber, driverLastName);
+    console.log("Get available review dates for: ", prohibitionNumber);
 
     const formData = new FormData();
     formData.append('prohibition_number', prohibitionNumber);
@@ -42,7 +42,7 @@ export async function getAvailableReviewDates(prohibitionNumber: string, driverL
 
 export async function scheduleReviewDate(prohibitionNumber: string, selectedReviewDate: string, driverLastName: string): Promise<ActionResponse> {
     let url = axiosApiClient.getUri() + '/v1/publish/event/form?form=review_schedule_picker';
-    console.log("scheduleReviewDate url: ", url, prohibitionNumber, driverLastName, scheduleReviewDate);
+    console.log("scheduleReviewDate for: ", prohibitionNumber);
 
     var config = {
         headers: { 'Content-Type': 'application/xml' }

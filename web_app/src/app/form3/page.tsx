@@ -110,7 +110,7 @@ export default function Page() {
                 message = result.data.error;
             } catch (error) { }
             try {
-                console.log("file names before email call: ", filesNames);
+                //console.log("file names before email call: ", filesNames);
                 const emailResult = await sendForm3Email(filesContent, filesNames, applicantInfo);
 
                 if (formSubmitted && emailResult === 202)
@@ -284,12 +284,12 @@ export default function Page() {
         if (files && files.length > 0) {
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
-                console.log("evidenceFile: ", file.name);
+                //console.log("evidenceFile: ", file.name);
                 let reader = new FileReader();
                 reader.onload = async function (event) {
                     // The file's text will be printed here
                     let fileContent: string = await file2Base64(file);
-                    console.log("calling checkVirusScanner: ");
+                    //console.log("calling checkVirusScanner: ");
                     //add the file here
                     if (await checkVirusScanner(fileContent)) {
                         if (!filesNames.some(name => name === file.name)) {

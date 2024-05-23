@@ -33,7 +33,7 @@ export const generatePDF = async (value: props[], headerText:string): Promise<js
             if (element.pageNumber === i) {                
                 const content = document.getElementById(element.id);
                 const canvas = await html2canvas(content as HTMLElement);
-                const img = canvas.toDataURL("image/png", 0.8);
+                const img = canvas.toDataURL("image/png", 0.7);
                
                 const imgHeight = canvas.height * imgWidth / canvas.width;
                 if (img !== 'data:,') {

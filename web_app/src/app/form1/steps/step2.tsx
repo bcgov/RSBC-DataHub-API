@@ -96,20 +96,20 @@ const Step2 = forwardRef((props: Props, ref) => {
         setFile(null);
         setStep2Data({ ...step2Data, consentFile: '', consentFileName: '' });
         if (fileUploadRef.current) {
-            console.log("calling ref", fileUploadRef, fileUploadRef.current);
+            //console.log("calling ref", fileUploadRef, fileUploadRef.current);
             fileUploadRef.current.value = "";
             fileUploadRef.current.type = "text";
             fileUploadRef.current.type = "file";
         }
         setFileUploadMessage("Upload file removed.")
-        console.log("handleCleanFileUpload", step2Data.consentFileName);
+        //console.log("handleCleanFileUpload", step2Data.consentFileName);
     }
 
     const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files?.length) {
             var file = e.target.files[0];
             var fileContent: string = await file2Base64(file);
-            console.log("calling checkVirusScanner: ", fileContent.length);
+            //console.log("calling checkVirusScanner: ", fileContent.length);
             if (await checkVirusScanner(fileContent)) {
                 setStep2Data({ ...step2Data, consentFile: fileContent, consentFileName: file.name });
                 setFile(file);
