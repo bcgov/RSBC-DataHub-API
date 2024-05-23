@@ -36,7 +36,7 @@ export default function Page() {
         let form1SubmitOk = false;
         setIsLoading(true);
         setIsExpanded(true);
-        console.log("posting xml: ", step1Data, step2Data, step3Data, step4Data);
+        //console.log("posting xml: ", step1Data, step2Data, step3Data, step4Data);
         try {
             let response = await postForm1(step1Data, step2Data, step3Data, step4Data);
             if (!response.data.is_success) {
@@ -67,13 +67,14 @@ export default function Page() {
         if (step1Data.controlIsUl)
             pdfList.push({ id: 'ulControlBlock', pageNumber: 5 }, { id: 'step4', pageNumber: 6 });
         else if (step1Data.controlIsIrp)
-            pdfList.push({ id: 'irpControlBlock', pageNumber: 5 }, { id: 'step4', pageNumber: 6 });
+            pdfList.push({ id: 'irpControlBlock', pageNumber: 5 }, { id: 'revOption', pageNumber: 6 }, { id: 'step4', pageNumber: 7 });
         else if (step1Data.controlIsAdp) {
             pdfList.push({ id: 'adp-burden-of-proof-text', pageNumber: 5 });
             pdfList.push({ id: 'page5img1', pageNumber: 5 });
             pdfList.push({ id: 'page5img2', pageNumber: 6 });
-            pdfList.push({ id: 'page6img1', pageNumber: 6 });
-            pdfList.push({ id: 'step4', pageNumber: 7 });
+            pdfList.push({ id: 'page5img3', pageNumber: 7 });
+            pdfList.push({ id: "page5img4", pageNumber: 8 });
+            pdfList.push({ id: 'step4', pageNumber: 8 });
         }
         // setTimeout(async () => {
         //     const pdf = await generatePDF(pdfList, 'Notice of Driving Prohibition Application for Review');
@@ -98,7 +99,7 @@ export default function Page() {
             } else {
                 setIsLoading(false);
             }
-            console.log("email sent msg: ", message);
+            //console.log("email sent msg: ", message);
         };
         // callback to reader.onload
         if (file || file !== undefined)

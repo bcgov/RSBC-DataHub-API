@@ -89,7 +89,7 @@ const Step3 = forwardRef((props: Step3InputProps, ref) => {
             setIsWrittenSelected(true);
             setIsOralSelected(false);
         }
-        
+
         step3Data.hearingRequest = value;
         props.step3DatatoSend(step3Data);
     };
@@ -98,9 +98,9 @@ const Step3 = forwardRef((props: Step3InputProps, ref) => {
         return (
             <Grid item xs={8} sx={{ padding: "1px" }}>
                 <div className="step3Div" ><strong><span style={{ fontSize: '16px' }}>Additional Information:</span></strong>
-                <ul>
-                    <li><a href="https://www2.gov.bc.ca/gov/content/transportation/driving-and-cycling/roadsafetybc/prohibitions/apply-online/certificates" target="_blank" rel="noopener noreferrer">Technical materials</a> the adjudicator may rely on in the review.</li>
-                </ul>
+                    <ul>
+                        <li><a href="https://www2.gov.bc.ca/gov/content/transportation/driving-and-cycling/roadsafetybc/prohibitions/apply-online/certificates" target="_blank" rel="noopener noreferrer">Technical materials</a> the adjudicator may rely on in the review.</li>
+                    </ul>
                 </div>
                 <WrittenReview />
             </Grid>
@@ -135,7 +135,7 @@ const Step3 = forwardRef((props: Step3InputProps, ref) => {
     const OralWrittenOption = () => {
         return (
             <Grid item xs={8} >
-                <div id='step3Div'>
+                <div>
                     <FormField
                         id="review-type"
                         labelText="Please select a review type:"
@@ -230,9 +230,9 @@ const Step3 = forwardRef((props: Step3InputProps, ref) => {
                         </div>
                     }
                 </div>
-                <div className="step3Div" id="irpControlBlock">
-                    {props.controlIsIrp &&
-                        <div id="irp-step3">
+                {props.controlIsIrp &&
+                    <div>
+                        <div className="step3Div" id="irpControlBlock">
                             <div className="step3Div" id="irp-burden-of-proof-text">
                                 <span>The information you will provide should address the grounds you choose below. The burden of proof is on the applicant in a review. Hardship is not a consideration in a review.</span>
                                 <span>These are the only grounds for review under <a href="https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/96318_07">s.215.5</a> of the Motor Vehicle Act. They have been simplified for readability.</span>
@@ -240,7 +240,7 @@ const Step3 = forwardRef((props: Step3InputProps, ref) => {
                             </div>
                             <div className="step3Div" id="dataInfoIrp">
                                 <FormGroup className="step3Div" id="irp-grounds" >
-                                    <FormControlLabel control={<Checkbox onChange={handleChange} value={0} name="irpGrounds" />} label="I was not the driver or in care or control of the motor vehicle." />
+                                    <FormControlLabel control={<Checkbox onChange={handleChange} value={0} name="irpGrounds" />} label={<span style={{ paddingTop: '15px', fontSize: '16px' }}>I was not the driver or in care or control of the motor vehicle.</span>} />
                                     <FormControlLabel control={<Checkbox onChange={handleChange} value={1} name="irpGrounds" />} label="I was not advised of my right to a second breath test on an approved screening device." />
                                     <FormControlLabel control={<Checkbox onChange={handleChange} value={2} name="irpGrounds" />} label="I requested a second test but the officer did not perform it." />
                                     <FormControlLabel control={<Checkbox onChange={handleChange} value={3} name="irpGrounds" />} label="My second test was not performed on a different approved screening device." />
@@ -255,18 +255,19 @@ const Step3 = forwardRef((props: Step3InputProps, ref) => {
                                     <FormControlLabel control={<Checkbox onChange={handleChange} value={12} name="irpGrounds" />} label="I had a reasonable excuse for refusing or failing to comply with a demand." />
                                 </FormGroup>
                             </div>
+                        </div>
+                        <div className="step3Div" id="revOption">
                             <PrepareForeReview />
                             <AdditionInfo21 />
                             {props.irpProhibitionTypeLength &&
                                 (props.irpProhibitionTypeLength === '30-days-warn'
                                     || props.irpProhibitionTypeLength === '90-days-fail'
                                     || props.irpProhibitionTypeLength === '90-days-refusal') &&
-
                                 <OralWrittenOption />
                             }
                         </div>
-                    }
-                </div>
+                    </div>
+                }
                 <div className="step3Div" id="adpControlBlock">
                     {props.controlIsAdp &&
                         <div id="adp-step3">
@@ -280,7 +281,7 @@ const Step3 = forwardRef((props: Step3InputProps, ref) => {
                                     <div className="step3Div" ><strong><span style={{ fontSize: '16px' }}>SECTION 94.1(1)(a) - Blood Alcohol Concentration</span></strong></div>
                                     <div className="step3Div" ><strong><span style={{ fontSize: '16px' }}>(optional)</span></strong></div>
                                     <FormGroup className="step3Div" id="adp-grounds-alochol">
-                                        <FormControlLabel control={<Checkbox onChange={handleChange} value={0} name="adpGroundsAlcohol" />} label="I did not operate a motor vehicle." />
+                                        <FormControlLabel control={<Checkbox onChange={handleChange} value={0} name="adpGroundsAlcohol" />} label={<span style={{ paddingTop: '15px', fontSize: '16px' }}>I did not operate a motor vehicle.</span>} />
                                         <FormControlLabel control={<Checkbox onChange={handleChange} value={1} name="adpGroundsAlcohol" />} label="I did not have, within 2 hours after ceasing to operate a motor vehicle, a blood alcohol concentration equal to or exceeding 80 milligrams (mg) of alcohol in 100 millilitres (mL) of blood." />
                                         <FormControlLabel control={<Checkbox onChange={handleChange} value={2} name="adpGroundsAlcohol" />} label="All of the following apply: " />
                                         <ul>
@@ -292,7 +293,7 @@ const Step3 = forwardRef((props: Step3InputProps, ref) => {
                                     <div className="step3Div" ><strong><span style={{ fontSize: '16px' }}>SECTION 94.1(1)(a.1) - Blood Drug Concentration</span></strong></div>
                                     <div className="step3Div" ><strong><span style={{ fontSize: '16px' }}>(optional)</span></strong></div>
                                     <FormGroup className="step3Div" id="adp-grounds-drugs">
-                                        <FormControlLabel control={<Checkbox onChange={handleChange} value={0} name="adpGroundsDrugs" />} label="I did not operate a motor vehicle." />
+                                        <FormControlLabel control={<Checkbox onChange={handleChange} value={0} name="adpGroundsDrugs" />} label={<span style={{ paddingTop: '15px', fontSize: '16px' }}>I did not operate a motor vehicle.</span>} />
                                         <FormControlLabel control={<Checkbox onChange={handleChange} value={1} name="adpGroundsDrugs" />} label="I did not have, within 2 hours after ceasing to operate a motor vehicle, a blood drug concentration equal to or exceeding the blood drug concentration for the drug that is prescribed for this section." />
                                         <FormControlLabel control={<Checkbox onChange={handleChange} value={2} name="adpGroundsDrugs" />} label="Both of the following apply: " />
                                         <ul>
@@ -300,10 +301,12 @@ const Step3 = forwardRef((props: Step3InputProps, ref) => {
                                             <li>After ceasing to operate the motor vehicle, I had no reasonable expectation that I would be required to provide a sample of blood.</li>
                                         </ul>
                                     </FormGroup>
+                                </div>
+                                <div id='page5img2'>
                                     <div className="step3Div" ><strong><span style={{ fontSize: '16px' }}>SECTION 94.1(1)(a.2) - Blood Alcohol and Drug Concentration</span></strong></div>
                                     <div className="step3Div" ><strong><span style={{ fontSize: '16px' }}>(optional)</span></strong></div>
                                     <FormGroup className="step3Div" id="adp-grounds-alcohol-and-drugs">
-                                        <FormControlLabel control={<Checkbox onChange={handleChange} value={0} name="adpGroundsAlcoholDrugs" />} label="I did not operate a motor vehicle." />
+                                        <FormControlLabel control={<Checkbox onChange={handleChange} value={0} name="adpGroundsAlcoholDrugs" />} label={<span style={{ paddingTop: '15px', fontSize: '16px' }}>I did not operate a motor vehicle.</span>} />
                                         <FormControlLabel control={<Checkbox onChange={handleChange} value={1} name="adpGroundsAlcoholDrugs" />} label="I did not have, within 2 hours after ceasing to operate a motor vehicle, a blood drug concentration and a blood alcohol concentration equal to or exceeding the amounts prescribed for this section." />
                                         <FormControlLabel control={<Checkbox onChange={handleChange} value={2} name="adpGroundsAlcoholDrugs" />} label="All of the following apply: " />
                                         <ul>
@@ -313,11 +316,11 @@ const Step3 = forwardRef((props: Step3InputProps, ref) => {
                                         </ul>
                                     </FormGroup>
                                 </div>
-                                <div id='page5img2'>
+                                <div id='page5img3'>
                                     <div className="step3Div" ><strong><span style={{ fontSize: '16px' }}>SECTION 94.1(1)(a.3) - Drug Recognition Expert Evaluation</span></strong></div>
                                     <div className="step3Div" ><strong><span style={{ fontSize: '16px' }}>(optional)</span></strong></div>
                                     <FormGroup className="step3Div" id="adp-grounds-drug-expert">
-                                        <FormControlLabel control={<Checkbox onChange={handleChange} value={0} name="adpGroundsDrugExpert" />} label="I did not operate a motor vehicle." />
+                                        <FormControlLabel control={<Checkbox onChange={handleChange} value={0} name="adpGroundsDrugExpert" />} label={<span style={{ paddingTop: '15px', fontSize: '16px' }}>I did not operate a motor vehicle.</span>} />
                                         <FormControlLabel control={<Checkbox onChange={handleChange} value={1} name="adpGroundsDrugExpert" />} label="My evaluation was not conducted by an evaluating officer." />
                                         <FormControlLabel control={<Checkbox onChange={handleChange} value={2} name="adpGroundsDrugExpert" />} label="The evaluating officer did not comply with the requirements that are prescribed for the purposes of this section." />
                                         <FormControlLabel control={<Checkbox onChange={handleChange} value={3} name="adpGroundsDrugExpert" />} label="The analysis of my bodily substance did not confirm the presence in my body of one or more of the types of drugs identified by the evaluating officer as impairing my ability to operate a motor vehicle." />
@@ -331,7 +334,7 @@ const Step3 = forwardRef((props: Step3InputProps, ref) => {
                                     <div className="step3Div" ><strong><span style={{ fontSize: '16px' }}>SECTION 94.1(1)(b) - Refusal or Failure to Comply</span></strong></div>
                                     <div className="step3Div" ><strong><span style={{ fontSize: '16px' }}>(optional)</span></strong></div>
                                     <FormGroup className="step3Div" id="adp-grounds-refusal">
-                                        <FormControlLabel control={<Checkbox onChange={handleChange} value={0} name="adpGroundsRefusal" />} label="I did not operate a motor vehicle." />
+                                        <FormControlLabel control={<Checkbox onChange={handleChange} value={0} name="adpGroundsRefusal" />} label={<span style={{ paddingTop: '15px', fontSize: '16px' }}>I did not operate a motor vehicle.</span>} />
                                         <FormControlLabel control={<Checkbox onChange={handleChange} value={1} name="adpGroundsRefusal" />} label={<span><span>I did not refuse or fail to comply with a demand made under <a href="https://laws-lois.justice.gc.ca/eng/acts/c-46/page-71.html#docCont" rel="noopener" target="_blank">s.320.27</a> or <a href="https://laws-lois.justice.gc.ca/eng/acts/c-46/page-71.html#docCont" rel="noopener" target="_blank">s.320.28</a> of the Criminal Code.</span></span>} />
                                         <FormControlLabel control={<Checkbox onChange={handleChange} value={2} name="adpGroundsRefusal" />} label={<span>I had a reasonable excuse for refusing to comply with the demand made under <a href="https://laws-lois.justice.gc.ca/eng/acts/c-46/page-71.html#docCont" rel="noopener" target="_blank">s.320.27</a> or <a href="https://laws-lois.justice.gc.ca/eng/acts/c-46/page-71.html#docCont" rel="noopener" target="_blank">s.320.28</a> of the Criminal Code.</span>} />
 
@@ -347,8 +350,10 @@ const Step3 = forwardRef((props: Step3InputProps, ref) => {
                                     }
 
                                 </div>
-                                <PrepareForeReview />
-                                <OralWrittenOption />
+                                <div id='page5img4'>
+                                    <PrepareForeReview />
+                                    <OralWrittenOption />
+                                </div>
                             </div>
                         </div>
                     }

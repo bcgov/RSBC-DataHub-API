@@ -12,3 +12,4 @@ node_modules/
 env/
 dist_old/
 dist
+.vs/
