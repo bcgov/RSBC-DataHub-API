@@ -1,0 +1,79 @@
+{
+  "123": {
+    "respMsg": "string",
+    "result": {
+      "dfId": 0,
+      "cancelled": true,
+      "cityNm": "string",
+      "documents": [
+        {
+          "addToFileDtm": "string",
+          "disclosedToClientDtm": "string",
+          "disclosureDocumentYN": "string",
+          "documentId": 0,
+          "documentTypeCd": "string",
+          "documentTypeDsc": "string",
+          "impoundmentId": 0,
+          "pageCount": 0,
+          "prohibitionId": 0,
+          "receivedDtm": "string"
+        }
+      ],
+      "dreEvaluationCds": [
+        "string"
+      ],
+      "driverLicenceSeizedYN": "string",
+      "effectiveDt": "string",
+      "expiryDt": "string",
+      "icbcTransmissionCd": "string",
+      "incidentDtm": "string",
+      "licenceId": 0,
+      "noticeServedDt": "string",
+      "noticeSubjectCd": "string",
+      "noticeTypeCd": "string",
+      "originalCauseCd": "string",
+      "policeDetatchmentId": 0,
+      "policeFileNo": "string",
+      "policeOfficerNm": "string",
+      "policeOfficerNo": "string",
+      "prohibitionId": 123,
+      "prohibitionNoticeNo": "222",
+      "provinceCd": "string",
+      "registration": {
+        "dataSourceCd": "string",
+        "firstGivenNm": "string",
+        "icbcEnterpriseId": "string",
+        "licenceId": 0,
+        "organizationNm": "string",
+        "registrationId": 0,
+        "registrationRoleCd": "string",
+        "secondGivenNm": "string",
+        "surnameNm": "string",
+        "thirdGivenNm": "string",
+        "vehicleId": 0,
+        "vipsAddressArray": [
+          {
+            "additionalDeliveryLineTxt": "string",
+            "addressFirstLineTxt": "string",
+            "addressSecondLineTxt": "string",
+            "addressThirdLineTxt": "string",
+            "cityNm": "string",
+            "countryNm": "str",
+            "postalCodeTxt": "string",
+            "provinceCd": "st",
+            "registrationAddressTypeCd": "string"
+          }
+        ],
+        "vipsLicenceObj": {
+          "birthDt": "string",
+          "dlJurisdictionCd": "string",
+          "driverLicenceNo": "string",
+          "licenceId": 0
+        }
+      },
+      "streetDetailsTxt": "string",
+      "tempDlEffectiveDt": "string",
+      "tempDlExpiryDt": "string"
+    }
+  }
+}
