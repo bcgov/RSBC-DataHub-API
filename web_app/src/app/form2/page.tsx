@@ -91,7 +91,7 @@ export default function Page() {
                 <h1 className="header1" id="hed">Schedule a Driving Prohibition Review</h1>
                 <div style={{ fontSize: "16px", fontFamily: "'BC Sans', 'Noto Sans',  Arial, sans-serif", paddingLeft: '10px', lineHeight: '2.5' }}>
                     <p>When you see this symbol <Image
-                        src="/./././assets/icons/info-icon.png"
+                        src="/assets/icons/info-icon.png"
                         width={15}
                         height={15}
                         alt="Info" />
