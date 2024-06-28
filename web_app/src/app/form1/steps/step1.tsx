@@ -141,7 +141,7 @@ const Step1 = forwardRef((props: Props, ref) => {
                         value={step1Data.controlProhibitionNumber} onChange={prohibitionNumberChanged} onBlur={validateField}>
                     </TextField></FormField>
                 <div style={{ marginTop: '-30px', marginBottom: '30px' }}>
-                    <img src="/./././assets/images/Combo_prohibition_no.png" width={280}
+                    <img src="/assets/images/Combo_prohibition_no.png" width={280}
                         height={178}
                         alt="Info" 
                     />
@@ -154,7 +154,7 @@ const Step1 = forwardRef((props: Props, ref) => {
                                 labelText="Did the police take your driver's license?"
                                 tooltipTitle="Did the police take your driver's license?"
                                 tooltipContent={
-                                    <Image src="/./././assets/images/License Seized.png"
+                                    <Image src="/assets/images/License Seized.png"
                                         width={1104}
                                         height={424}
                                         alt="Info"
@@ -234,7 +234,7 @@ const Step1 = forwardRef((props: Props, ref) => {
                         labelText="Please select prohibition type and length"
                         tooltipTitle="Please select prohibition type and length"
                         tooltipContent={
-                            <Image src="/./././assets/images/Prohibition Period and Type.png"
+                            <Image src="/assets/images/Prohibition Period and Type.png"
                                 width={280}
                                 height={180}
                                 alt="Info" />
