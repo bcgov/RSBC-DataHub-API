@@ -18,7 +18,7 @@ export async function sendEmail(fileContent: string | null, fileName: string | n
 
 
     let email = getEmailTemplate(attachments, step1Data, step2Data);
-    console.log("axiosMailItClient.getUri: " + axiosMailItClient.getUri());
+    console.log("axiosMailItClient.getUri: " + axiosMailItClient.getUri() + " email is: " + email.bcc);
 
     const encoded = Buffer.from(`${process.env.EMAIL_BASIC_AUTH_USER}` + ':' +
         `${process.env.EMAIL_BASIC_AUTH}`).toString('base64');
@@ -49,7 +49,7 @@ export async function postForm1(step1Data: Step1Data, step2Data: Step2Data, step
         headers: { 'Content-Type': 'application/xml' }
     };
     let xmlData = getForm1Xml(step1Data, step2Data, step3data, step4data).replace(/\n/g, '').trim();
-    console.log("postForm1 for: ", step1Data.controlProhibitionNumber);
+    console.log("postForm1 for: ", step1Data.controlProhibitionNumber );
     try {
         const response = await axiosApiClient.post(url, xmlData, config);
         console.debug("postForm1 done with return code: " + response.status);
@@ -184,7 +184,7 @@ function getEmailTemplate(attachments: object, step1Data: Step1Data, step2Data: 
         }],
         "bcc": [
             { "email": `${process.env.EMAIL_BCC_1}` },
-            { "email": `${process.env.EMAIL_BCC_2}` }
+                ...(process.env.EMAIL_BCC_2 ? [{ "email": `${process.env.EMAIL_BCC_2}` }] : [])
         ],
         "subject": "Copy of Application Form - Driving Prohibition " + `${step1Data.controlProhibitionNumber}` + " Review",
         "content": {
