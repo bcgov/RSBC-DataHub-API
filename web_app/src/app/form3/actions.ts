@@ -131,7 +131,9 @@ Attached is the evidence as submitted by the applicants.
 }
 
 
-const offsetHours = new Date().getTimezoneOffset() / -60;
+let offset = (new Date().getTimezoneOffset());
+offset = offset/60;
+offset = offset * -1;
 
 const getXMLData = (form3Data: Form3Data): string => {
     const xmlString = `<?xml version="1.0" encoding="UTF-8"?>
@@ -174,7 +176,7 @@ const getXMLData = (form3Data: Form3Data): string => {
     </evidence-section>
     <consent-section>
         <control-applicant-name>${form3Data.signatureApplicantName}</control-applicant-name>
-        <date-signed>${dayjs(Date.now()).toISOString().substring(0, 10) + offsetHours}</date-signed>
+        <date-signed>${dayjs(Date.now()).toISOString().substring(0, 10) + offset.toString()}</date-signed>
         <control-5/>
     </consent-section>
 </form>

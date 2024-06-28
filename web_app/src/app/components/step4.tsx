@@ -15,11 +15,13 @@ interface Props {
 const Step4 = forwardRef((props: Props, ref) => {
 
     const dateSigned = dayjs(Date.now());
-    const offsetHours = new Date().getTimezoneOffset() / -60;
+    let offset = (new Date().getTimezoneOffset());
+    offset = offset/60;
+    offset = offset * -1;
 
     const [step4Data, setStep4Data] = useState<Step4Data>({
         signatureApplicantName: '',
-        signedDate: dayjs(Date.now()).format('YYYY-MM-DD') + offsetHours,
+        signedDate: dayjs(Date.now()).toISOString().substring(0, 10) + offset.toString(),
         signatureApplicantErrorText: '',
     });
 
@@ -41,7 +43,7 @@ const Step4 = forwardRef((props: Props, ref) => {
         clearData() {
             setStep4Data({
                 signatureApplicantName: '',
-                signedDate: dayjs(Date.now()).format('YYYY-MM-DD') + offsetHours,
+                signedDate: dayjs(Date.now()).toISOString().substring(0, 10) + offset,
                 signatureApplicantErrorText: '',
             });
         }

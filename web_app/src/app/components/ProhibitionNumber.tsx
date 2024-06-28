@@ -78,7 +78,7 @@ const ProhibitionNumber: React.FC<Props> = ({ onProhibitionDataChange }) => {
                 <div style={{ marginTop: '-30px', marginBottom: '30px' }}>
                     <Typography sx={{ color: '#313132', fontSize: '16px', fontWeight: '700', mt: '10px', ml: '10px', paddingBottom: '10px' }}>(optional)</Typography>
 
-                    <Image src="/./././assets/images/Combo prohibition no.png" width={280}
+                    <Image src="/assets/images/Combo prohibition no.png" width={280}
                         height={180}
                         alt="Info" style={{ marginLeft: "10px", marginBottom: '20px', height: 'auto', width: 'auto' }}
                     />
