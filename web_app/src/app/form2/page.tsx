@@ -122,7 +122,7 @@ export default function Page() {
                             value={controlProhibitionNumber} onChange={e => { setControlProhibitionNumber(e.target.value) }} onBlur={validateProhibitionNumber}>
                         </TextField></FormField>
                     <div style={{ marginTop: '-30px', marginBottom: '30px' }}>
-                        <Image src="/./././assets/images/Combo prohibition no.png" width={280}
+                        <Image src="/assets/images/Combo prohibition no.png" width={280}
                             height={180}
                             alt="Info" style={{ marginLeft: "10px", marginBottom: '1px', height: 'auto', width: 'auto' }}
                         />

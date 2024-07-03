@@ -459,7 +459,7 @@ const Step2 = forwardRef((props: Props, ref) => {
                     labelText="BC Driver License No. (optional)"
                     helperText="Optional"
                     tooltipTitle="BC Driver License No."
-                    tooltipContent={<Image src="/./././assets/images/BC Driver License Number.png" width={280}
+                    tooltipContent={<Image src="/assets/images/BC Driver License Number.png" width={280}
                         height={180}
                         alt="Info" style={{ marginLeft: "10px", marginBottom: '20px', height: 'auto', width: 'auto' }}
                     />}

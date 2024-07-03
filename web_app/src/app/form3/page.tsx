@@ -365,7 +365,7 @@ export default function Page() {
                                     value={applicantInfo.controlProhibitionNumber} onChange={prohibitionNumberChanged} onBlur={validateField}>
                                 </TextField></FormField>
                             <div style={{ marginTop: '-30px', marginBottom: '30px' }}>
-                                <img src="/./././assets/images/Combo_prohibition_no.png" width={280}
+                                <img src="/assets/images/Combo_prohibition_no.png" width={280}
                                     height={180}
                                     alt="Info" />
                             </div>
