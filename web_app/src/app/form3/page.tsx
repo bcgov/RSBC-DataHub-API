@@ -226,7 +226,7 @@ export default function Page() {
     }
 
     const validateEmailAddress = (value: string, field: string) => {
-        const emailAddressRegex = /^[^@]*@[a-zA-Z0-9-]{2,20}\.[a-zA-Z-.]{2,20}[a-zA-Z]$/;
+        const emailAddressRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (field === 'applicantEmailAddress') {
             if (value)
                 emailAddressRegex.exec(value) ? setEmailAddressErrorText('') : setEmailAddressErrorText('Incorrect email format, enter in format name@example.com');

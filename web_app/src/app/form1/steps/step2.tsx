@@ -165,7 +165,7 @@ const Step2 = forwardRef((props: Props, ref) => {
     };
 
     const validateEmailAddress = (value: string, errors: Step2DataErrors, field: 'applicantEmailAddress' | 'applicantEmailConfirm') => {
-        const emailAddressRegex = /^[^@]*@[a-zA-Z0-9-]{2,20}\.[a-zA-Z-.]{2,20}[a-zA-Z]$/;
+        const emailAddressRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (field === 'applicantEmailAddress') {
             if (value)
                 errors.applicantEmailAddress = emailAddressRegex.exec(value) ? '' : 'Incorrect email format, enter in format name@example.com';
