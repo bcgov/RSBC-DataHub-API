@@ -18,11 +18,10 @@ WORKDIR /tmp/
 	
 RUN mvn clean package -Dmaven.test.skip=true
 
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jre-alpine
 
-RUN useradd -m appuser
-
-USER appuser
+# RUN useradd -m appuser
+# USER appuser
 
 EXPOSE 8080
 
