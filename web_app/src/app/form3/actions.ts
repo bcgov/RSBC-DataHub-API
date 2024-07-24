@@ -132,7 +132,6 @@ Attached is the evidence as submitted by the applicants.
 
 
 const offsetHour = '-0'+ (new Date().getTimezoneOffset())/60 + ':00';
-console.log("offsetHour: " + offsetHour);
 
 const getXMLData = (form3Data: Form3Data): string => {
     const xmlString = `<?xml version="1.0" encoding="UTF-8"?>

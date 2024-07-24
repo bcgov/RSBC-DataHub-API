@@ -20,7 +20,7 @@ export default function Page() {
 
     const step1Ref = useRef<{ clearData: () => void }>(null);
     const step2Ref = useRef<{ clearData: () => void }>(null);
-    const step3Ref = useRef<{ clearData: () => void }>(null);
+    const step3Ref = useRef<{ clearData: () => void, validate: () => boolean }>(null);
     const step4Ref = useRef<{ clearData: () => void, validate: () => void }>(null);
 
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
@@ -33,10 +33,13 @@ export default function Page() {
             step4Ref.current?.validate();
             return;
         }
+        step3Data.hasError = step3Ref.current?.validate() || false;
+        if(step3Data.hasError) {            
+            return;
+        }
         let form1SubmitOk = false;
         setIsLoading(true);
         setIsExpanded(true);
-        //console.log("posting xml: ", step1Data, step2Data, step3Data, step4Data);
         try {
             let response = await postForm1(step1Data, step2Data, step3Data, step4Data);
             if (!response.data.is_success) {
@@ -188,7 +191,7 @@ export default function Page() {
     };
 
     const hasSubmitError = () => {
-        return step1Data.hasError || step2Data.hasError || step3Data.hasError || step4Data.signatureApplicantErrorText;
+        return step1Data.hasError || step2Data.hasError || step4Data.signatureApplicantErrorText;
     }
 
         return (
