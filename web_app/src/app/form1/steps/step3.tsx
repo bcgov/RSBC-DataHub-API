@@ -3,7 +3,7 @@ import React, { useState, forwardRef, useImperativeHandle } from 'react';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Step3InputProps, Step3Data } from '../../interfaces';
-import { Checkbox, TextField, RadioGroup, Radio, Grid } from '@mui/material';
+import { Checkbox, TextField, RadioGroup, Radio, Grid, Typography } from '@mui/material';
 import { FormField } from '../../components/FormField';
 
 const Step3 = forwardRef((props: Step3InputProps, ref) => {
@@ -22,6 +22,15 @@ const Step3 = forwardRef((props: Step3InputProps, ref) => {
     });
 
     useImperativeHandle(ref, () => ({
+        validate() {
+            if (step3Data.irpGroundsList.length > 0 || step3Data.ulGrounds.length > 0 || step3Data.control6 > 0) {
+                step3Data.hasError= false;
+            } else {
+                step3Data.hasError= true;
+            }
+            props.step3DatatoSend(step3Data);
+            return step3Data.hasError;
+        },
         clearData() {
             setStep3Data({
                 ulGrounds: [],
@@ -44,15 +53,21 @@ const Step3 = forwardRef((props: Step3InputProps, ref) => {
         const name = e.target.name;
 
         const val = Number(value);
-
-        if (name === 'ulGrounds')
+        if (name === 'ulGrounds') {            
             checked ? step3Data.ulGrounds.push(val) : step3Data.ulGrounds.splice(step3Data.ulGrounds.indexOf(val), 1);
-        else if (name === 'irpGrounds')
+            setStep3Data({...step3Data, control6: 0, irpGroundsList: [], });
+        } else if (name === 'irpGrounds') {
             checked ? step3Data.irpGroundsList.push(val) : step3Data.irpGroundsList.splice(step3Data.irpGroundsList.indexOf(val), 1);
-        else {
+            setStep3Data({...step3Data, control6: 0, ulGrounds: [], });
+        } else {
             setAdpGrounds(name, val, checked);
         }
 
+        if (step3Data.irpGroundsList.length > 0 || step3Data.ulGrounds.length > 0 || step3Data.control6 > 0) {
+            step3Data.hasError= false;
+        } else {
+            step3Data.hasError= true;
+        }
         props.step3DatatoSend(step3Data);
     }
 
@@ -67,12 +82,14 @@ const Step3 = forwardRef((props: Step3InputProps, ref) => {
             checked ? step3Data.adpGroundsDrugExpert.push(val) : step3Data.adpGroundsDrugExpert.splice(step3Data.adpGroundsDrugExpert.indexOf(val), 1);
         else if (name === 'adpGroundsRefusal')
             checked ? step3Data.adpGroundsRefusal.push(val) : step3Data.adpGroundsRefusal.splice(step3Data.adpGroundsRefusal.indexOf(val), 1);
+        
         setStep3Data({
             ...step3Data, control6: step3Data.adpGroundsAlcohol.length +
                 step3Data.adpGroundsDrugs.length +
                 step3Data.adpGroundsAlcoholDrugs.length +
                 step3Data.adpGroundsDrugExpert.length +
-                step3Data.adpGroundsRefusal.length
+                step3Data.adpGroundsRefusal.length, 
+                irpGroundsList: [], ulGrounds: [], 
         });
     }
 
@@ -206,6 +223,13 @@ const Step3 = forwardRef((props: Step3InputProps, ref) => {
 
     return (
         <div className="step3Div" style={{ display: 'grid', marginTop: '20px', marginRight: '150px', pointerEvents: (props.isEnabled ? '' : 'none') as React.CSSProperties["pointerEvents"], }} >
+            {step3Data.hasError &&
+                <div id="errorText">
+                    <Typography variant="caption" sx={{ color: '#D8292F', fontWeight: '700', padding: '4px 10px 20px 30px', ml: '4px', fontSize: '16px', display: 'block' }}>
+                        At least one must be selected to proceed.
+                    </Typography>
+                </div>
+            }
             <Grid item xs={12} md={8} sm={10} lg={12} sx={{ padding: "1px" }}>
                 <div className="step3Div" id="ulControlBlock">
                     {props.controlIsUl &&
