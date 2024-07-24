@@ -76,6 +76,7 @@ public class MailApiController implements MailApi {
                 // Extract the to(s).
                 List<String> tos = new ArrayList<String>();
                 for (EmailObject element : emailRequest.getTo()) {
+                	logger.info("TO: " + element.getEmail());
                     tos.add(element.getEmail());
                 }
                 helper.setTo(tos.toArray(new String[0]));
@@ -84,6 +85,7 @@ public class MailApiController implements MailApi {
                 if ( null != emailRequest.getCc() && emailRequest.getCc().size() > 0 ) {
 	                List<String> ccs = new ArrayList<String>();
 	                for (EmailObject element : emailRequest.getCc()) {
+	                	logger.info("CC: " + element.getEmail());
 	                    ccs.add(element.getEmail());
 	                }
 	                helper.setCc(ccs.toArray(new String[0]));
@@ -93,6 +95,7 @@ public class MailApiController implements MailApi {
                 if ( null != emailRequest.getBcc() && emailRequest.getBcc().size() > 0 ) {
 	                List<String> bccs = new ArrayList<String>();
 	                for (EmailObject element : emailRequest.getBcc()) {
+	                	logger.info("BCC: " + element.getEmail());
 	                    bccs.add(element.getEmail());
 	                }
 	                helper.setBcc(bccs.toArray(new String[0]));

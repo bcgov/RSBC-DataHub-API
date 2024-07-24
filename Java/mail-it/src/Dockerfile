@@ -19,11 +19,10 @@ RUN mvn clean package -Dmaven.test.skip=true
 
 # running the service
 
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jre-alpine
 
-RUN useradd -m appuser
-
-USER appuser
+# RUN useradd -m appuser
+# USER appuser
 
 COPY --from=build /tmp/target/mail-it-*.jar /app/service.jar
 
