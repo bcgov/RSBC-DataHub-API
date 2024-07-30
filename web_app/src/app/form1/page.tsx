@@ -256,7 +256,7 @@ export default function Page() {
             }
             {message &&
                 <div id="messageDiv">
-                    <Typography variant="caption" sx={{ color: '#555', fontWeight: '700', padding: '4px 10px 20px 30px', ml: '4px', fontSize: '16px', display: 'block', boxSizing: 'border-box' }}>
+                    <Typography variant="caption" sx={{ color: '#D8292F', fontWeight: '700', padding: '4px 10px 20px 30px', ml: '4px', fontSize: '16px', display: 'block', boxSizing: 'border-box' }}>
                         {message}
                     </Typography>
 
