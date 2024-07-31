@@ -23,13 +23,21 @@ const Step3 = forwardRef((props: Step3InputProps, ref) => {
 
     useImperativeHandle(ref, () => ({
         validate() {
+            var error = false;
             if (step3Data.irpGroundsList.length > 0 || step3Data.ulGrounds.length > 0 || step3Data.control6 > 0) {
-                step3Data.hasError= false;
+                setGroundsError(false);
             } else {
-                step3Data.hasError= true;
+                setGroundsError(true);
+                error = true;
             }
-            props.step3DatatoSend(step3Data);
-            return step3Data.hasError;
+
+            if ((isExamTypeRequired() || props.controlIsAdp) && !step3Data.hearingRequest) {
+                setExamOptionError(true);
+                error = true;
+            } else {
+                setExamOptionError(false);
+            }
+            return error;
         },
         clearData() {
             setStep3Data({
@@ -95,6 +103,8 @@ const Step3 = forwardRef((props: Step3InputProps, ref) => {
 
     const [isOralSelected, setIsOralSelected] = useState(false);
     const [isWrittenSelected, setIsWrittenSelected] = useState(false);
+    const [examOptionError, setExamOptionError] = useState(false);
+    const [groundsError, setGroundsError] = useState(false);
 
     const hearingRequestChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -152,6 +162,13 @@ const Step3 = forwardRef((props: Step3InputProps, ref) => {
     const OralWrittenOption = () => {
         return (
             <Grid item xs={8} >
+                {examOptionError && 
+                    <div id="errorText">
+                        <Typography variant="caption" sx={{ color: '#D8292F', fontWeight: '700', padding: '4px 10px 20px 30px', ml: '4px', fontSize: '16px', display: 'block' }}>
+                            <span>You must select an option to proceed.</span>
+                        </Typography>
+                    </div>
+                }
                 <div>
                     <FormField
                         id="review-type"
@@ -221,16 +238,24 @@ const Step3 = forwardRef((props: Step3InputProps, ref) => {
         )
     }
 
+    const isExamTypeRequired = () => {
+        return (props.irpProhibitionTypeLength &&
+            (props.irpProhibitionTypeLength === '30-days-warn'
+                || props.irpProhibitionTypeLength === '90-days-fail'
+                || props.irpProhibitionTypeLength === '90-days-refusal')
+        );
+    }
+
     return (
         <div className="step3Div" style={{ display: 'grid', marginTop: '20px', marginRight: '150px', pointerEvents: (props.isEnabled ? '' : 'none') as React.CSSProperties["pointerEvents"], }} >
-            {step3Data.hasError &&
-                <div id="errorText">
-                    <Typography variant="caption" sx={{ color: '#D8292F', fontWeight: '700', padding: '4px 10px 20px 30px', ml: '4px', fontSize: '16px', display: 'block' }}>
-                        At least one must be selected to proceed.
-                    </Typography>
-                </div>
-            }
             <Grid item xs={12} md={8} sm={10} lg={12} sx={{ padding: "1px" }}>
+                {groundsError &&
+                    <div id="errorText">
+                        <Typography variant="caption" sx={{ color: '#D8292F', fontWeight: '700', padding: '4px 10px 20px 30px', ml: '4px', fontSize: '16px', display: 'block' }}>
+                            <span>You must select at least 1 ground to proceed.</span>
+                        </Typography>
+                    </div>
+                }
                 <div className="step3Div" id="ulControlBlock">
                     {props.controlIsUl &&
                         <div id="ul-step3">
@@ -283,10 +308,7 @@ const Step3 = forwardRef((props: Step3InputProps, ref) => {
                         <div className="step3Div" id="revOption">
                             <PrepareForeReview />
                             <AdditionInfo21 />
-                            {props.irpProhibitionTypeLength &&
-                                (props.irpProhibitionTypeLength === '30-days-warn'
-                                    || props.irpProhibitionTypeLength === '90-days-fail'
-                                    || props.irpProhibitionTypeLength === '90-days-refusal') &&
+                            {isExamTypeRequired() &&
                                 <OralWrittenOption />
                             }
                         </div>
@@ -383,9 +405,6 @@ const Step3 = forwardRef((props: Step3InputProps, ref) => {
                     }
                 </div>
             </Grid>
-
-
-
         </div>
     );
 });
