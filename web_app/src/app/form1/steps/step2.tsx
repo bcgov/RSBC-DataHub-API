@@ -39,7 +39,21 @@ const Step2 = forwardRef((props: Props, ref) => {
         hasError: false,
     });
 
+    const [step2DataErrors, setStep2DataErrors] = useState<Step2DataErrors>({});
+    const [consentFile, setFile] = useState<File | null>();
+    const [fileUploadMessage, setFileUploadMessage] = useState('');
+
     useImperativeHandle(ref, () => ({
+        validate() {
+            let hasErrors = 0;
+            hasErrors = validate('applicantRoleSelect', step2Data.applicantRoleSelect);
+            if (step2Data.applicantRoleSelect !== 'driver') {
+                hasErrors += validate('driverLastName', step2Data.driverLastName);
+                hasErrors += validate('driverFirstName', step2Data.driverFirstName);
+                hasErrors += validate('consentFile', consentFile?.name ?? '');
+            }
+           return hasErrors > 0;
+        },
         clearData() {
             setFile(null);
             setFileUploadMessage('');
@@ -66,10 +80,6 @@ const Step2 = forwardRef((props: Props, ref) => {
         }
     }));
 
-    const [step2DataErrors, setStep2DataErrors] = useState<Step2DataErrors>({});
-    const [consentFile, setFile] = useState<File | null>();
-    const [fileUploadMessage, setFileUploadMessage] = useState('');
-
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setStep2Data({ ...step2Data, [name]: value });
@@ -85,10 +95,6 @@ const Step2 = forwardRef((props: Props, ref) => {
         const { name, value } = e.target;
         validate(name, value);
     }
-
-    useEffect(() => {
-        props.step2DatatoSend(step2Data);
-    });
 
     const fileUploadRef = useRef<HTMLInputElement | null>(null);
 
@@ -114,12 +120,14 @@ const Step2 = forwardRef((props: Props, ref) => {
                 setStep2Data({ ...step2Data, consentFile: fileContent, consentFileName: file.name });
                 setFile(file);
                 setFileUploadMessage("Upload Complete");
-                step2DataErrors.fileUploadErrorText = '';
+                setStep2DataErrors({...setStep2DataErrors, 'fileUploadErrorText': '',});
+                setStep2Data({ ...step2Data, hasError: false });
             } else {
                 setFileUploadMessage('');
-                step2DataErrors.fileUploadErrorText = 'There is a problem with the uploaded document. Please recheck the documents';
+                setStep2DataErrors({...setStep2DataErrors, 'fileUploadErrorText':'There is a problem with the uploaded document. Please recheck the documents'});
                 setStep2Data({ ...step2Data, hasError: true });
             }
+            props.step2DatatoSend(step2Data);
         }
     }
 
@@ -138,6 +146,12 @@ const Step2 = forwardRef((props: Props, ref) => {
         }
         if( field === 'applicantRoleSelect') {
             errors.applicantRoleSelect = '';
+        }
+        if (field === 'applicantRoleSelect' && value !== 'driver') {
+            if (step2Data.driverFirstName === '')
+                errors.driverFirstName = getErrorMessage('driverFirstName');
+            if (step2Data.driverLastName === '')
+                errors.driverLastName = getErrorMessage('driverLastName');
         }
         console.log("errors: ", errors );
     };
@@ -186,6 +200,14 @@ const Step2 = forwardRef((props: Props, ref) => {
             errors.controlDriverPostalCode = 'Please enter a postal code.';
     };
 
+    const validateConsentFile  = (value: string, errors: Step2DataErrors) => {
+        if (step2Data.applicantRoleSelect !== 'driver' && value === '' ){
+            errors.fileUploadErrorText = 'A consent file must be uploaded.';
+        } else {
+            errors.fileUploadErrorText = '';
+        }
+    }
+
     const validate = (fieldName: string, value: string) => {
         let errors: Step2DataErrors = { ...step2DataErrors };
 
@@ -210,15 +232,21 @@ const Step2 = forwardRef((props: Props, ref) => {
             case 'controlDriverPostalCode':
                 validatePostalCode(value, errors);
                 break;
+            case 'consentFile':
+                validateConsentFile(value, errors);
+                break;
             default:
                 break;
         }
 
         setStep2DataErrors(errors);
+        props.step2DatatoSend(step2Data);
         if (Object.values(errors).every(value => value === null || value === '')) {
-            setStep2Data({ ...step2Data, hasError: false });
+            setStep2Data({ ...step2Data, hasError: false });              
+            return 0;
         } else {
             setStep2Data({ ...step2Data, hasError: true });
+            return 1;
         }
     };
 
@@ -315,7 +343,9 @@ const Step2 = forwardRef((props: Props, ref) => {
                                 <FormField id="attach-consent"
                                     labelText="Attach signed consent from driver"
                                     tooltipTitle="Attach signed consent from driver"
-                                    tooltipContent={<p>Please upload signed consent from the driver, authorizing you to send and receive documents on their behalf.</p>}>
+                                    tooltipContent={<p>Please upload signed consent from the driver, authorizing you to send and receive documents on their behalf.</p>}
+                                    error={!!step2DataErrors.fileUploadErrorText}
+                                    errorText={step2DataErrors.fileUploadErrorText}>
                                     <TextField
                                         id="outlined-basic"
                                         variant="outlined"
