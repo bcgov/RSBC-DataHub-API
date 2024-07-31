@@ -19,7 +19,7 @@ export default function Page() {
     const SUCCESS_MESSAGE = "Your Request for review is sent. Please check your email.";
 
     const step1Ref = useRef<{ clearData: () => void }>(null);
-    const step2Ref = useRef<{ clearData: () => void }>(null);
+    const step2Ref = useRef<{ clearData: () => void, validate: () => boolean }>(null);
     const step3Ref = useRef<{ clearData: () => void, validate: () => boolean }>(null);
     const step4Ref = useRef<{ clearData: () => void, validate: () => void }>(null);
 
@@ -28,7 +28,7 @@ export default function Page() {
     const [message, setMessage] = useState('');
     const [submitError, setSubmitError] = useState<boolean>(false);
 
-    const submitData = async () => {
+    const submitData = () => {
         if (!step4Data.signatureApplicantName) {
             step4Ref.current?.validate();
             return;
@@ -37,6 +37,14 @@ export default function Page() {
         if(step3Data.hasError) {            
             return;
         }
+
+        if(step2Ref.current?.validate()) {
+            return;
+        }
+        submitDataAfterValidation();
+    }
+
+    const submitDataAfterValidation = async () => {
         let form1SubmitOk = false;
         setIsLoading(true);
         setIsExpanded(true);
