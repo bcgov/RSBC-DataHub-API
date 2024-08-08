@@ -43,6 +43,7 @@ const Step4 = forwardRef((props: Props, ref) => {
                 signedDate: dayjs(Date.now()).toISOString().substring(0, 10) + offsetHour,
                 signatureApplicantErrorText: '',
             });
+            setSignatureApplicantNameErrorText('');
         }
     }));
 
