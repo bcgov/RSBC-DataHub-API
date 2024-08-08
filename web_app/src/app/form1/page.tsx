@@ -13,12 +13,13 @@ import { Step1Data, Step2Data, Step3Data, Step4Data } from '../interfaces';
 import { generatePDF } from '../components/GeneratePDF';
 import { postForm1, sendEmail } from './actions';
 import dayjs from 'dayjs';
+import { useRouter } from 'next/navigation';
 
 export default function Page() {
 
-    const SUCCESS_MESSAGE = "Your Request for review is sent. Please check your email.";
+    const router = useRouter();
 
-    const step1Ref = useRef<{ clearData: () => void }>(null);
+    const step1Ref = useRef<{ clearData: () => void, validate: () => boolean }>(null);
     const step2Ref = useRef<{ clearData: () => void, validate: () => boolean }>(null);
     const step3Ref = useRef<{ clearData: () => void, validate: () => boolean }>(null);
     const step4Ref = useRef<{ clearData: () => void, validate: () => void }>(null);
@@ -26,22 +27,37 @@ export default function Page() {
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState('');
-    const [submitError, setSubmitError] = useState<boolean>(false);
 
+    const combineError = (errorMsg: string, newError: string) => {
+        if (errorMsg.startsWith("There are error in"))
+            return errorMsg + ", " + newError;
+        else
+            return "There are error in " + newError;
+    }
+    
     const submitData = () => {
+        let errorMsg = ""; 
         if (!step4Data.signatureApplicantName) {
             step4Ref.current?.validate();
-            return;
+            errorMsg = combineError(errorMsg, "Step 4");
         }
         step3Data.hasError = step3Ref.current?.validate() || false;
-        if(step3Data.hasError) {            
-            return;
+        if (step3Data.hasError) {           
+            errorMsg = combineError(errorMsg, "Step 3");
+        }
+    
+        if (step2Ref.current?.validate()) {
+            errorMsg = combineError(errorMsg, "Step 2");
         }
 
-        if(step2Ref.current?.validate()) {
-            return;
+        if (step1Data.hasError || !step1Ref.current?.validate()) {
+            errorMsg = combineError(errorMsg, "Step 1");
         }
-        submitDataAfterValidation();
+
+        setMessage(errorMsg);
+
+        if(errorMsg === "")
+            submitDataAfterValidation();
     }
 
     const submitDataAfterValidation = async () => {
@@ -51,12 +67,10 @@ export default function Page() {
         try {
             let response = await postForm1(step1Data, step2Data, step3Data, step4Data);
             if (!response.data.is_success) {
-                setSubmitError(true);
                 setMessage(response.data.error);
                 return;//stop going further?
             } else {
                 form1SubmitOk = true;
-                setSubmitError(false);
             }
             console.log("posting xml done!! ");
         } catch (error) { }
@@ -96,7 +110,7 @@ export default function Page() {
         const pdf = await generatePDF(pdfList, 'Notice of Driving Prohibition Application for Review');
         const file = pdf?.output('blob');
         console.log("pdf file gen size:", file?.size);
-        var reader = new FileReader();
+        let reader = new FileReader();
 
         reader.onload = async function (e) {
             // The file converted into text base64
@@ -106,11 +120,10 @@ export default function Page() {
             let result = await sendEmail(step2Data.consentFile, step2Data.consentFileName, fileContent, step1Data, step2Data);
             console.log("email sent and form1SubmitOK? ", result, form1SubmitOk);
             if (result === 202 && form1SubmitOk) {
-                setMessage(SUCCESS_MESSAGE);
+                router.push('/form1/acknowledgement');
             } else {
                 setIsLoading(false);
             }
-            //console.log("email sent msg: ", message);
         };
         // callback to reader.onload
         if (file || file !== undefined)

@@ -35,6 +35,16 @@ const Step1 = forwardRef((props: Props, ref) => {
     });
 
     useImperativeHandle(ref, () => ({
+        validate() {
+            console.log("step1=: " + !step1Data.licenseSeized + "=" + (step1Data.licenseSeized === '') + "=" + step1Data.irpProhibitionTypeLength + "=" + step1Data.dateOfService);
+            if (step1Data.licenseSeized === '') {
+                return false;
+            } else if (step1Data.controlIsIrp && !step1Data.irpProhibitionTypeLength) {
+                return false;
+            } else if (!step1Data.controlIsIrp && !step1Data.dateOfService) { return false; }
+            else { return true; }
+
+        },
         clearData() {
             setStep1Data({
                 controlProhibitionNumber: '',
@@ -228,6 +238,8 @@ const Step1 = forwardRef((props: Props, ref) => {
                 </Grid>
             </div>
             <div id="page2img1">
+                <Grid container spacing={2} >
+                    <Grid item xs={5} sx={{ padding: "1px" }}>
                 {(step1Data.controlIsIrp === true && step1Data.licenseSeized === "licenseSeized") &&
                     <FormField
                         id="irp-prohibition-type-length"
@@ -300,6 +312,8 @@ const Step1 = forwardRef((props: Props, ref) => {
                         </LocalizationProvider>
                     </FormField>
                 }
+                    </Grid>
+                </Grid>
             </div>
 
         </div>
