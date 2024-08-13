@@ -1,5 +1,5 @@
 ﻿'use client'
-import React, { useRef, useState } from 'react';
+import React, { CSSProperties, useRef, useState } from 'react';
 import Image from 'next/image';
 import CustomAccordion from '../components/Accordion';
 import Step1 from './steps/step1';
@@ -14,10 +14,12 @@ import { generatePDF } from '../components/GeneratePDF';
 import { postForm1, sendEmail } from './actions';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
+import { height } from '@mui/system';
 
 export default function Page() {
 
     const router = useRouter();
+    const [progress, setProgress] = useState(0);
 
     const step1Ref = useRef<{ clearData: () => void, validate: () => boolean }>(null);
     const step2Ref = useRef<{ clearData: () => void, validate: () => boolean }>(null);
@@ -64,16 +66,25 @@ export default function Page() {
         let form1SubmitOk = false;
         setIsLoading(true);
         setIsExpanded(true);
+
+        setProgress(20); // Initial progress
         try {
             let response = await postForm1(step1Data, step2Data, step3Data, step4Data);
             if (!response.data.is_success) {
                 setMessage(response.data.error);
+                setProgress(30); // Complete progress with error
+                setIsLoading(false);
                 return;//stop going further?
             } else {
                 form1SubmitOk = true;
             }
             console.log("posting xml done!! ");
-        } catch (error) { }
+        } catch (error) { 
+            setMessage("An error occurred while submitting the form. Please try another time or contact RoadSafetyBC by calling 1-855-387-7747 and select option 5.");
+            setProgress(100); // Complete progress with error
+            setIsLoading(false);
+            return;
+        }
         console.log("after posting xml");
 
         let pdfList = [
@@ -109,6 +120,7 @@ export default function Page() {
         let fileContent = '';
         const pdf = await generatePDF(pdfList, 'Notice of Driving Prohibition Application for Review');
         const file = pdf?.output('blob');
+        setProgress(80);
         console.log("pdf file gen size:", file?.size);
         let reader = new FileReader();
 
@@ -120,8 +132,10 @@ export default function Page() {
             let result = await sendEmail(step2Data.consentFile, step2Data.consentFileName, fileContent, step1Data, step2Data);
             console.log("email sent and form1SubmitOK? ", result, form1SubmitOk);
             if (result === 202 && form1SubmitOk) {
+                setProgress(100);
                 router.push('/form1/acknowledgement');
             } else {
+                setProgress(100);
                 setIsLoading(false);
             }
         };
@@ -215,9 +229,24 @@ export default function Page() {
         return step1Data.hasError || step2Data.hasError || step4Data.signatureApplicantErrorText;
     }
 
+    const progressBarStyles: { overlay: CSSProperties } = {
+        overlay: {
+            position: 'fixed', // Ensure this is a valid CSS position value
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1000,
+        },
+    };
+
         return (
 
-        <div className="formContent">
+        <div className="formContent" style={{ display: 'grid', marginTop: '2px', marginRight: '2px' }} >
 
             <div id="formContent" >
                 <div id="page1img1">
@@ -266,6 +295,21 @@ export default function Page() {
 
 
             </div>
+            {isLoading &&
+                    <div style={progressBarStyles.overlay}>
+                        <progress value={progress} max="100" style={{ width: '30%', height: '9%' }}></progress>
+                        <div style={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            color: 'black', // Adjust color as needed
+                            fontWeight: 'bold'
+                        }}>
+                            {progress}%
+                        </div>
+                    </div>
+            }
             {hasSubmitError() &&
                 <div id="errorText">
                     <Typography variant="caption" sx={{ color: '#D8292F', fontWeight: '700', padding: '4px 10px 20px 30px', ml: '4px', fontSize: '16px', display: 'block' }}>
