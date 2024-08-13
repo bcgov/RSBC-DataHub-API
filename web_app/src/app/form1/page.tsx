@@ -135,6 +135,7 @@ export default function Page() {
                 setProgress(100);
                 router.push('/form1/acknowledgement');
             } else {
+                setMessage("An error occurred while submitting pdf email. Please try another time or contact RoadSafetyBC by calling 1-855-387-7747 and select option 5.");
                 setProgress(100);
                 setIsLoading(false);
             }
