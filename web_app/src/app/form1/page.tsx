@@ -18,6 +18,9 @@ import { height } from '@mui/system';
 
 export default function Page() {
 
+    const apiSubmitErrorMsg = "Error occurred while submitting the form. Please try another time or contact RoadSafetyBC by calling 1-855-387-7747 and select option 5.";
+    const pdfEmailSubmitError = "An error occurred while submitting pdf email. Please try another time or contact RoadSafetyBC by calling 1-855-387-7747 and select option 5.";
+
     const router = useRouter();
     const [progress, setProgress] = useState(0);
 
@@ -71,7 +74,7 @@ export default function Page() {
         try {
             let response = await postForm1(step1Data, step2Data, step3Data, step4Data);
             if (!response.data.is_success) {
-                setMessage(response.data.error);
+                setMessage(response.data.error + ". " + apiSubmitErrorMsg);
                 setProgress(30); // Complete progress with error
                 setIsLoading(false);
                 return;//stop going further?
@@ -80,7 +83,7 @@ export default function Page() {
             }
             console.log("posting xml done!! ");
         } catch (error) { 
-            setMessage("An error occurred while submitting the form. Please try another time or contact RoadSafetyBC by calling 1-855-387-7747 and select option 5.");
+            setMessage(apiSubmitErrorMsg);
             setProgress(100); // Complete progress with error
             setIsLoading(false);
             return;
@@ -135,7 +138,7 @@ export default function Page() {
                 setProgress(100);
                 router.push('/form1/acknowledgement');
             } else {
-                setMessage("An error occurred while submitting pdf email. Please try another time or contact RoadSafetyBC by calling 1-855-387-7747 and select option 5.");
+                setMessage(pdfEmailSubmitError);
                 setProgress(100);
                 setIsLoading(false);
             }
@@ -252,7 +255,7 @@ export default function Page() {
             <div id="formContent" >
                 <div id="page1img1">
                     <h1 className="header1" id="hed">Notice of Driving Prohibition Application for Review</h1>
-                    <CustomAccordion title="Before You Begin:" id="step0" isExpanded={isExpanded}
+                    <CustomAccordion title="Before You Begin:" id="step0" isExpanded={true}
                         content={<div style={{ fontSize: "16px", fontFamily: "'BC Sans', 'Noto Sans',  Arial, sans-serif", paddingLeft: '10px', lineHeight: '2.5' }}><p>When you see this symbol <Image
                             src="/assets/icons/info-icon.png"
                             width={15}
