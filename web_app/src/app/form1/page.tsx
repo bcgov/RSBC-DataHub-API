@@ -32,10 +32,10 @@ export default function Page() {
     const [message, setMessage] = useState('');
 
     const combineError = (errorMsg: string, newError: string) => {
-        if (errorMsg.startsWith("There are error in"))
+        if (errorMsg.startsWith("There are errors in"))
             return errorMsg + ", " + newError;
         else
-            return "There are error in " + newError;
+            return "There are errors in " + newError;
     }
     
     const submitData = () => {
