@@ -17,6 +17,8 @@ import { Form3Data, Step4Data } from '../interfaces';
 
 export default function Page() {
 
+    const submitErrorMsg = "An error occurred while submitting the application. Please try again at a later time.";
+
     const [applicantInfo, setApplicantInfo] = useState<Form3Data>({
         controlProhibitionNumber: '',
         isProhibitionNumberValid: false,
@@ -32,7 +34,7 @@ export default function Page() {
     });
 
     const [message, setMessage] = useState('');
-    const step4Ref = useRef<{ clearData: () => void, validate: () => void }>(null);
+    const step4Ref = useRef<{ clearData: () => void, validate: () => boolean }>(null);
     const [validProhibitionNumber, setValidProhibitionNumber] = useState(false);
     const [prohibitionNumberErrorText, setProhibitionNumberErrorText] = useState('');
     const [validDriverLastName, setValidDriverLastName] = useState(false);
@@ -50,7 +52,6 @@ export default function Page() {
     const [filesNames, setFilesNames] = useState<string[]>([]);
     const [fileNamesMessage, setFileNamesMessage] = useState('');
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
-    const [isValidForm, setIsValidForm] = useState<boolean>(true);
     const prohibitionNumberRegex = /^(00|21|30|40)-\d{6}$/;
 
     const prohibitionNumberChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -97,37 +98,56 @@ export default function Page() {
     }
 
     async function submitData() {
-        setIsLoading(true);
-        let message = "There was an error.";
+        let message = "";
         let formSubmitted = false;
         if (validateData()) {
+            setIsLoading(true);
             try {
-                console.log("before submission:");
                 const result = await submitToApi(applicantInfo);
-                console.log("result after submission:");
-                console.log(result);
                 formSubmitted = result.data.is_success;
                 message = result.data.error;
-            } catch (error) { }
+            } catch (error) { 
+                setIsFormSubmitted(false);
+                setMessage(submitErrorMsg);
+                setIsLoading(false);
+                return;
+            }
             try {
                 //console.log("file names before email call: ", filesNames);
                 const emailResult = await sendForm3Email(filesContent, filesNames, applicantInfo);
 
-                if (formSubmitted && emailResult === 202)
-                    message = "Your documents are sent. Please check your email. If you would like a copy of this form, click the PDF button.";
-                else
-                    message += " We are unable to send emails at this time please try again.";
-            } catch (error) { }
+                if (formSubmitted && emailResult === 202) {
+                    setIsFormSubmitted(formSubmitted);
+                    setMessage("Your documents are sent. Please check your email. If you would like a copy of this form, click the PDF button.");
+                    setIsLoading(false);
+                } else {
+                    setMessage(submitErrorMsg + " " + message);
+                }
+            } catch (error) {                 
+                setIsFormSubmitted(false);
+                setMessage(submitErrorMsg);
+                setIsLoading(false);
+                return;
+            }
         }
-        setIsFormSubmitted(formSubmitted);
-        setMessage(message);
-        if (!formSubmitted)
-            setIsLoading(false);
     }
 
+    const [tooltipContent, setTooltipContent] = useState<{ [key: string]: JSX.Element | string }>({});
+
     useEffect(() => {
-        console.log("useEffect: ", isFormSubmitted, message, fileNamesMessage);
-    }, [isFormSubmitted, message, fileNamesMessage]);
+        setTooltipContent({
+            tooltipContent1: "Enter first 8 numbers with the dash.Don't enter the digit in the grey box. Prohibition numbers start with 00, 21, 30 or 40.",
+            tooltipContent2: "Enter the last name on your driver's prohibition number form.",
+            tooltipContent3: "You can submit your evidence, or a lawyer or person you authorize can do it on your behalf.",
+            tooltipContent4: "Please enter an email address for communication with RoadSafetyBC.",
+            tooltipContent5: "Please confirm the email address entered above.",
+            tooltipContent6: "Please upload statements and evidences.",
+        });
+    }, []);
+
+    useEffect(() => {
+        console.log("useEffect: ", isFormSubmitted, message, fileNamesMessage, signatureApplicantNameErrorText);
+    }, [isFormSubmitted, message, fileNamesMessage, signatureApplicantNameErrorText]);
 
     const generatePdfAction = () => {
         if (isFormSubmitted) {
@@ -149,27 +169,44 @@ export default function Page() {
         }
     }
 
-    const validateData = () => {
+    function validateData() {
         let isApplicantValid = true;
         if (applicantInfo.applicantRoleSelect === '') {
             isApplicantValid = false;
             setApplicantRoleErrorText('Please select an applicant role');
         }
-        if (applicantInfo.signatureApplicantName === '') {
-            setSignatureApplicantNameErrorText('Please enter your name to confirm the information submitted is correct.');
+        if (applicantInfo.applicantEmailAddress === '') {
+            setEmailAddressErrorText('Please enter a valid email address.');
+            isApplicantValid = false;
+        } 
+        if (!step4Ref.current?.validate()) {
             isApplicantValid = false;
         }
+        if (filesContent.length === 0) {
+            isApplicantValid = false;
+            setFileUploadErrorText('Please attach your file(s).');
+        }
+        console.log("valid?", isApplicantValid + "-" + prohibitionNumberErrorText+ "-" + driverLastNameErrorText+ "-" +
+            emailAddressErrorText+ "-" + confirmEmailErrorText+ "-" + fileUploadErrorText+ "-" + isValidComboErrorText);
 
-        console.log("valid?", isApplicantValid, prohibitionNumberErrorText, driverLastNameErrorText,
-            emailAddressErrorText, confirmEmailErrorText, fileUploadErrorText, isValidComboErrorText);
-
-        if (!isApplicantValid || prohibitionNumberErrorText || driverLastNameErrorText ||
+        if ( prohibitionNumberErrorText || driverLastNameErrorText ||
             emailAddressErrorText || confirmEmailErrorText || fileUploadErrorText || isValidComboErrorText)
             isApplicantValid = false;
 
-        setIsValidForm(isApplicantValid);
         console.log("validation is finished", isApplicantValid);
         return isApplicantValid;
+    }
+
+    function formHasError() {
+        console.log("formHasError: " + prohibitionNumberErrorText + "-" + driverLastNameErrorText + "-" + applicantRoleErrorText
+            + "-" + emailAddressErrorText + "-" + confirmEmailErrorText + "-" +
+            fileUploadErrorText + "-" + isValidComboErrorText + "-" + (prohibitionNumberErrorText + "-" + driverLastNameErrorText || applicantRoleErrorText ||
+                emailAddressErrorText || confirmEmailErrorText || fileUploadErrorText || isValidComboErrorText));
+        if (prohibitionNumberErrorText + "-" + driverLastNameErrorText || applicantRoleErrorText ||
+            emailAddressErrorText || confirmEmailErrorText || fileUploadErrorText || isValidComboErrorText)
+            return false;
+        else
+            return true;
     }
 
     const clearData = () => {
@@ -186,6 +223,14 @@ export default function Page() {
             applicantEmailConfirm: '',
             signatureApplicantName: '',
         });
+        setApplicantRoleErrorText('');
+        setConfirmEmailErrorText('');
+        setDriverLastNameErrorText('');
+        setEmailAddressErrorText('');
+        setFileUploadErrorText('');
+        setIsValidComboErrorText('');
+        setProhibitionNumberErrorText('');
+        setApplicantRoleErrorText('');
         setIsValidData(false);
         setMessage('');
         setFileNamesMessage('');
@@ -207,11 +252,9 @@ export default function Page() {
                 setIsValidComboErrorText("Error: " + result.data.error);
             else 
                 setIsValidComboErrorText('');
-            console.log("finished...")
         } catch (error) {
             setIsValidData(false);
             setIsValidComboErrorText("Error: System failed to process your request.");
-
         }
     }
 
@@ -220,6 +263,12 @@ export default function Page() {
         setApplicantInfo({ ...applicantInfo, [name]: value });
     }
 
+    const handleApplicantRoleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setApplicantRoleErrorText('');
+        const { name, value } = e.currentTarget;
+        setApplicantInfo({ ...applicantInfo, [name]: value });
+    } 
+    
     const handleBlurEmailAddress = (e: React.FocusEvent<HTMLInputElement>) => {
         const { name, value } = e.currentTarget;
         validateEmailAddress(value, name);
@@ -239,7 +288,6 @@ export default function Page() {
     };
 
     const handleStep4Data = (step4Data: Step4Data) => {
-        console.log("set signiture: ", step4Data.signatureApplicantName);
         if (!step4Data.signatureApplicantName)
             setSignatureApplicantNameErrorText('Please enter your name to confirm the information submitted is correct.');
         else
@@ -326,7 +374,7 @@ export default function Page() {
             <div id="formContent" >
                 <div id="page1img1">
                     <h1 className="header1" id="hed">Upload Evidence and Statement</h1>
-                    <CustomAccordion title="Before You Begin:" id="step0" isExpanded={isExpanded}
+                    <CustomAccordion title="Before You Begin:" id="step0" isExpanded={true}
                         content={<div style={{ fontSize: "16px", fontFamily: "'BC Sans', 'Noto Sans',  Arial, sans-serif", paddingLeft: '10px', lineHeight: '2.5' }}><p>When you see this symbol <Image
                             src="/assets/icons/info-icon.png"
                             width={15}
@@ -358,14 +406,14 @@ export default function Page() {
                                 tooltipTitle="Prohibition No."
                                 error={!validProhibitionNumber}
                                 errorText={prohibitionNumberErrorText}
-                                tooltipContent={<p>Enter first 8 numbers with the dash.Don&apos;t enter the digit in the grey box. Prohibition numbers start with 00, 21, 30 or 40.</p>}
+                                tooltipContent={tooltipContent.tooltipContent1}
                             >
                                 <TextField key="key1" id="control-prohibition-number-field" style={{ paddingLeft: '5px' }}
                                     variant="outlined"
                                     value={applicantInfo.controlProhibitionNumber} onChange={prohibitionNumberChanged} onBlur={validateField}>
                                 </TextField></FormField>
                             <div style={{ marginTop: '-30px', marginBottom: '30px' }}>
-                                <img src="/assets/images/Combo_prohibition_no.png" width={280}
+                                <Image src="/assets/images/Combo_prohibition_no.png" width={280}
                                     height={180}
                                     alt="Info" />
                             </div>
@@ -373,7 +421,7 @@ export default function Page() {
                                 id="driver-last-name"
                                 labelText="Driver's Last Name"
                                 tooltipTitle="Driver's Last Name"
-                                tooltipContent={<p>Enter the driver&apos;s last name exactly as it appears on the driver&apos;s licence.</p>}
+                                tooltipContent={tooltipContent.tooltipContent2}
                                 error={validDriverLastName}
                                 errorText={driverLastNameErrorText}
 
@@ -413,13 +461,13 @@ export default function Page() {
                                                     id="applicant-role-select"
                                                     labelText="Applicant's Role:"
                                                     tooltipTitle="Applicant's Role:"
-                                                    tooltipContent={<p>You can submit your evidence, or a lawyer or person you authorize can do it on your behalf.</p>}
+                                                    tooltipContent={tooltipContent.tooltipContent3}
                                                     error={!!applicantRoleErrorText}
                                                     errorText={applicantRoleErrorText}
 
                                                 >
                                                     <RadioGroup id="applicant-role-select-field"
-                                                        name="applicantRoleSelect" value={applicantInfo.applicantRoleSelect} onChange={handleChange}
+                                                        name="applicantRoleSelect" value={applicantInfo.applicantRoleSelect} onChange={handleApplicantRoleSelect}
                                                     >
                                                         <FormControlLabel value="driver" control={<Radio sx={{
                                                             '&.Mui-checked': {
@@ -464,7 +512,7 @@ export default function Page() {
                                             id="email-address"
                                             labelText="Email address to send your confirmation:"
                                             tooltipTitle="Email address to send your confirmation:"
-                                            tooltipContent={<p>Please enter an email address for communication with RoadSafetyBC.</p>}
+                                            tooltipContent={tooltipContent.tooltipContent4}
                                             error={!!emailAddressErrorText}
                                             errorText={emailAddressErrorText}
                                         >
@@ -477,7 +525,7 @@ export default function Page() {
                                             id="cnf-email-address"
                                             labelText="Confirm Email Address"
                                             tooltipTitle="Confirm Email Address"
-                                            tooltipContent={<p>Please confirm the email address entered above.</p>}
+                                            tooltipContent={tooltipContent.tooltipContent5}
                                             error={!!confirmEmailErrorText}
                                             errorText={confirmEmailErrorText}
                                         >
@@ -530,7 +578,7 @@ export default function Page() {
                                         <FormField id="attach-evidence"
                                             labelText="Attach statements and evidence from driver"
                                             tooltipTitle="Attach statements and evidence from driver"
-                                            tooltipContent={<p>Please upload statements and evidences.</p>}
+                                            tooltipContent={tooltipContent.tooltipContent6}
                                             error={!!fileUploadErrorText}
                                             errorText={fileUploadErrorText}
                                         >
@@ -568,11 +616,11 @@ export default function Page() {
                 </div>
 
             </div>
-            {!isValidForm &&
+            {formHasError() &&
                 <div id="errorText">
                     <Typography variant="caption" sx={{ color: '#D8292F', fontWeight: '700', padding: '4px 10px 20px 30px', ml: '4px', fontSize: '16px', display: 'block' }}>
 
-                        Your form containes errors. Please correct them to proceed.
+                        Your form contains errors. Please correct them to proceed.
                     </Typography>
 
                 </div>
@@ -595,7 +643,7 @@ export default function Page() {
                         <Button disabled={!isFormSubmitted} onClick={generatePdfAction} variant="outlined" sx={{ cursor: 'pointer', color: '#003366', borderColor: '#003366', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }} startIcon={<Print sx={{ fontWeight: 'bold' }} />}>
                             PDF
                         </Button>
-                        <Button onClick={submitData} variant="contained" disabled={isLoading} sx={{ borderColor: '#003366', backgroundColor: '#003366', color: 'white', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }} startIcon={<ArrowForward sx={{ fontWeight: 'bold' }} />}>
+                        <Button onClick={submitData} variant="contained" disabled={isLoading||!isValidData} sx={{ borderColor: '#003366', backgroundColor: '#003366', color: 'white', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }} startIcon={<ArrowForward sx={{ fontWeight: 'bold' }} />}>
                             Send
                         </Button>
                     </Grid>
