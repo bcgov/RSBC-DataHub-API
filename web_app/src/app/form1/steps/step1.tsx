@@ -1,5 +1,4 @@
 /* eslint-disable react/display-name */
-import Image from 'next/image';
 import { FormField } from '../../components/FormField';
 import TextField from '@mui/material/TextField';
 import { Radio, RadioGroup, FormControlLabel, Typography, Grid } from '@mui/material';
@@ -14,8 +13,6 @@ interface Props {
     step1DatatoSend: (data: Step1Data) => void;
     hasError: boolean;
 }
-
-
 
 const Step1 = forwardRef((props: Props, ref) => {
 
@@ -103,6 +100,30 @@ const Step1 = forwardRef((props: Props, ref) => {
         props.step1DatatoSend(step1Data);
     };
 
+    const [tooltipContent, setTooltipContent] = useState<{ [key: string]: JSX.Element | string }>({});
+
+    useEffect(() => {
+        setTooltipContent({
+            tooltipContent1: "Enter first 8 numbers with the dash. Don't enter the digit in the grey box. Prohibition numbers start with 00, 21, 30 or 40.",
+            tooltipContent2: (
+                <img 
+                    src="/assets/images/License Seized.png"
+                    width={380}
+                    height={145}
+                />
+            ),
+            tooltipContent3: (
+                <img src="/assets/images/Prohibition Period and Type.png"
+                    width={280}
+                    height={180}
+                    alt="Info" />),
+            tooltipContent4: (
+                <p>Enter first 8 numbers with the dash.Don&apos;t enter the digit in the grey box. Prohibition numbers start with 00, 21, 30 or 40.</p>
+            )
+
+        });
+    }, []);
+
     useEffect(() => {
         props.step1DatatoSend(step1Data);
     });
@@ -144,7 +165,7 @@ const Step1 = forwardRef((props: Props, ref) => {
                     tooltipTitle="Prohition No."
                     error={!validProhibitionNumber}
                     errorText={prohibitionNumberErrorText}
-                    tooltipContent={<p>Enter first 8 numbers with the dash.Don&apos;t enter the digit in the grey box. Prohibition numbers start with 00, 21, 30 or 40.</p>}
+                    tooltipContent={tooltipContent.tooltipContent1}
                 >
                     <TextField key="key1" id="control-prohibition-number-field" style={{ paddingLeft: '5px' }}
                         variant="outlined"
@@ -163,13 +184,7 @@ const Step1 = forwardRef((props: Props, ref) => {
                                 id="license-seized"
                                 labelText="Did the police take your driver's license?"
                                 tooltipTitle="Did the police take your driver's license?"
-                                tooltipContent={
-                                    <Image src="/assets/images/License Seized.png"
-                                        width={1104}
-                                        height={424}
-                                        alt="Info"
-                                        layout="responsive" style={{ marginLeft: "10px", marginBottom: '20px', height: 'auto', width: 'auto' }} />
-                                }
+                                tooltipContent={tooltipContent.tooltipContent2}
                                 error={!validLicenseSeized}
                                 errorText="To use this form, the police must have taken your licence."
                             >
@@ -245,12 +260,7 @@ const Step1 = forwardRef((props: Props, ref) => {
                         id="irp-prohibition-type-length"
                         labelText="Please select prohibition type and length"
                         tooltipTitle="Please select prohibition type and length"
-                        tooltipContent={
-                            <Image src="/assets/images/Prohibition Period and Type.png"
-                                width={280}
-                                height={180}
-                                alt="Info" />
-                        }
+                        tooltipContent={tooltipContent.tooltipContent3}
                         error={true}
                         errorText=""
 
@@ -297,7 +307,7 @@ const Step1 = forwardRef((props: Props, ref) => {
                         labelText="When was the prohibition issued?"
                         placeholder="MM/DD/YYYY"
                         tooltipTitle="Did the police take your driver's license?"
-                        tooltipContent={<p>Enter first 8 numbers with the dash.Don&apos;t enter the digit in the grey box. Prohibition numbers start with 00, 21, 30 or 40.</p>}
+                        tooltipContent={tooltipContent.tooltipContent4}
                         error={true}
                         errorText=""
                         helperText="Click calendar button and select date"

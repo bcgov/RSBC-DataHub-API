@@ -1,6 +1,5 @@
 ﻿'use client'
 import React, { CSSProperties, useRef, useState } from 'react';
-import Image from 'next/image';
 import CustomAccordion from '../components/Accordion';
 import Step1 from './steps/step1';
 import Step2 from './steps/step2';
@@ -14,12 +13,11 @@ import { generatePDF } from '../components/GeneratePDF';
 import { postForm1, sendEmail } from './actions';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
-import { height } from '@mui/system';
 
 export default function Page() {
 
-    const apiSubmitErrorMsg = "Error occurred while submitting the form. Please try another time or contact RoadSafetyBC by calling 1-855-387-7747 and select option 5.";
-    const pdfEmailSubmitError = "An error occurred while submitting pdf email. Please try another time or contact RoadSafetyBC by calling 1-855-387-7747 and select option 5.";
+    const apiSubmitErrorMsg = "An error occurred while submitting the application. Please try again or contact RoadSafetyBC by calling 1-855-387-7747 and select option 5. You may also attend a driver licensing office to apply for a review.";
+    const pdfEmailSubmitError = "An error occurred while submitting pdf email. Please try again or contact RoadSafetyBC by calling 1-855-387-7747 and select option 5. You may also attend a driver licensing office to apply for a review.";
 
     const router = useRouter();
     const [progress, setProgress] = useState(0);
@@ -256,7 +254,7 @@ export default function Page() {
                 <div id="page1img1">
                     <h1 className="header1" id="hed">Notice of Driving Prohibition Application for Review</h1>
                     <CustomAccordion title="Before You Begin:" id="step0" isExpanded={true}
-                        content={<div style={{ fontSize: "16px", fontFamily: "'BC Sans', 'Noto Sans',  Arial, sans-serif", paddingLeft: '10px', lineHeight: '2.5' }}><p>When you see this symbol <Image
+                        content={<div style={{ fontSize: "16px", fontFamily: "'BC Sans', 'Noto Sans',  Arial, sans-serif", paddingLeft: '10px', lineHeight: '2.5' }}><p>When you see this symbol <img
                             src="/assets/icons/info-icon.png"
                             width={15}
                             height={15}
@@ -335,7 +333,8 @@ export default function Page() {
                 <Grid container spacing={2} >
                     <Grid item xs={8} sx={{ padding: "1px" }}></Grid>
                     <Grid item xs={4} sx={{ padding: "1px" }}>
-                        <Button onClick={clearData} variant="outlined" sx={{ cursor: 'pointer', color: '#003366', borderColor: '#003366', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }} startIcon={<CloseIcon sx={{ fontWeight: 'bold' }} />}>
+                        <Button onClick={clearData} variant="outlined" 
+                        sx={{ cursor: 'pointer', color: '#003366', borderColor: '#003366', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }} startIcon={<CloseIcon sx={{ fontWeight: 'bold' }} />}>
                             Clear
                         </Button>
                         <Button

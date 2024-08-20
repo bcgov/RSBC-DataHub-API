@@ -1,9 +1,8 @@
 'use client'
 
-import Image from 'next/image';
 import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowForward } from "@mui/icons-material";
 import { AvailableReviewDates } from "../interfaces";
 import { getAvailableReviewDates, scheduleReviewDate } from "./actions";
@@ -24,11 +23,17 @@ export default function Page() {
     const [cleanControlProhibitionNumber, setCleanControlProhibitionNumber] = useState('');
     const [validDriverLastName, setValidDriverLastName] = useState(false);
     const [message, setMessage] = useState('');
-    const [submitError, setSubmitError] = useState<boolean>(false);
 
+    const [tooltipContent, setTooltipContent] = useState<{ [key: string]: JSX.Element | string }>({});
+
+    useEffect(() => {
+        setTooltipContent({
+            tooltipContent1: "Enter first 8 numbers with the dash.Don't enter the digit in the grey box. Prohibition numbers start with 00, 21, 30 or 40.",
+            tooltipContent2: "Enter the last name on your driver's prohibition number form."
+        });
+    }, []);
 
     async function fetchAvailableReviewDates() {
-        console.log("calling service: ", cleanControlProhibitionNumber, (validProhibitionNumber && validDriverLastName), submitError);
         if (validProhibitionNumber && validDriverLastName) {
             setRequestAvailDates(false);
             setMessage('');
@@ -66,6 +71,7 @@ export default function Page() {
             const result = await scheduleReviewDate(controlProhibitionNumber, selectedReviewDate, driverLastName);
             if (result?.data?.is_success) {
                 setMessage("Your review is scheduled. Please check your email.")
+                setSelectedReviewDate('');
             } else {
                 setMessage(result.data?.error);
             }
@@ -90,7 +96,7 @@ export default function Page() {
             <div id="page1img1">
                 <h1 className="header1" id="hed">Schedule a Driving Prohibition Review</h1>
                 <div style={{ fontSize: "16px", fontFamily: "'BC Sans', 'Noto Sans',  Arial, sans-serif", paddingLeft: '10px', lineHeight: '2.5' }}>
-                    <p>When you see this symbol <Image
+                    <p>When you see this symbol <img
                         src="/assets/icons/info-icon.png"
                         width={15}
                         height={15}
@@ -105,7 +111,7 @@ export default function Page() {
                     </ol>
                     <p>If you don&apos;t enter anything in the form for 15 minutes, it may time out.</p> </div>
             </div>
-            <Grid container spacing={2} >
+            <Grid container spacing={1} >
                 <Grid item xs={8} sx={{ padding: "1px" }}>
                     <FormField
                         id="control-prohibition-number"
@@ -115,17 +121,17 @@ export default function Page() {
                         tooltipTitle="Prohibition No."
                         error={!validProhibitionNumber}
                         errorText={prohibitionNumberErrorText}
-                        tooltipContent={<p>Enter first 8 numbers with the dash.Don&apos;t enter the digit in the grey box. Prohibition numbers start with 00, 21, 30 or 40.</p>}
+                        tooltipContent={tooltipContent.tooltipContent1}
                     >
                         <TextField key="key1" id="control-prohibition-number-field" style={{ paddingLeft: '5px' }}
                             variant="outlined"
                             value={controlProhibitionNumber} onChange={e => { setControlProhibitionNumber(e.target.value) }} onBlur={validateProhibitionNumber}>
                         </TextField></FormField>
                     <div style={{ marginTop: '-30px', marginBottom: '30px' }}>
-                        <Image src="/assets/images/Combo prohibition no.png" width={280}
-                            height={180}
-                            alt="Info" style={{ marginLeft: "10px", marginBottom: '1px', height: 'auto', width: 'auto' }}
-                        />
+                    <img src="/assets/images/Combo_prohibition_no.png" width={280}
+                        height={178}
+                        alt="Info" 
+                    />
                     </div>
                 </Grid>
                 <Grid item xs={8} sx={{ padding: "1px" }}>
@@ -138,7 +144,7 @@ export default function Page() {
                         tooltipTitle="Driver's last name"
                         error={!validDriverLastName}
                         errorText={driverLastNameErrorText}
-                        tooltipContent={<p>Enter the last name on your driver&apos;s prohibition number form.</p>}
+                        tooltipContent={tooltipContent.tooltipContent2}
                     >
                         <TextField key="key2"
                             id="driverLastNameId"
@@ -171,47 +177,42 @@ export default function Page() {
                 </Grid>
                 {validProhibitionNumber && validDriverLastName && requestAvailDates &&
                     <Grid item xs={8} sx={{ padding: "1px" }}>
-                        <div className="formContent">
-                            <FormControl>
-                                <FormLabel id="demo-radio-buttons-group-label">
-                                    Select a review date:
-                                    <p>(Do not refresh this page. It will not give you more dates.)</p>
-                                </FormLabel>
-                                <RadioGroup name="select-available-review-dates" defaultValue={''} >
-                                    {reviewDates.time_slots?.map((date) => (
-                                        <FormControlLabel key={date.value} value={date.value} label={date.label} control={<Radio sx={{
-                                            '&.Mui-checked': { color: 'rgb(49,49,50)', },
-                                        }} />}
-                                            onChange={e => { setSelectedReviewDate(date.value) }} /> 
-                                    ))}
-                                </RadioGroup>
-                            </FormControl>
-                        </div>
+                        <FormControl>
+                            <FormLabel id="demo-radio-buttons-group-label">
+                                Select a review date:
+                                <p>(Do not refresh this page. It will not give you more dates.)</p>
+                            </FormLabel>
+                            <RadioGroup name="select-available-review-dates" defaultValue={''} >
+                                {reviewDates.time_slots?.map((date) => (
+                                    <FormControlLabel key={date.value} value={date.value} label={date.label} control={<Radio sx={{
+                                        '&.Mui-checked': { color: 'rgb(49,49,50)', },
+                                    }} />}
+                                        onChange={e => { setSelectedReviewDate(date.value) }} />
+                                ))}
+                            </RadioGroup>
+                        </FormControl>
                     </Grid>
-
                 }
                 <Grid item xs={8} sx={{ padding: "1px" }}>
                     {message &&
-                        <div>
-                            <Typography variant="caption" sx={{ color: '#555', fontWeight: '700', padding: '4px 0px 2px 0px', ml: '4px', fontSize: '16px', display: 'block' }}>
-                                {message}
-                            </Typography>
-                        </div>
+                        <Typography variant="caption" sx={{ color: '#555', fontWeight: '700', padding: '4px 0px 2px 0px', ml: '4px', fontSize: '16px', display: 'block' }}>
+                            {message}
+                        </Typography>
                     }
                 </Grid>
-
-                <Grid item xs={8} sx={{ padding: "1px" }}>
-                    <Button onClick={clearData} variant="outlined" sx={{ cursor: 'pointer', color: '#003366', borderColor: '#003366', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }}
+                <Grid item xs={4} sx={{ padding: "0px" }}>
+                    <Button onClick={clearData} variant="outlined"
+                        sx={{ cursor: 'pointer', color: '#003366', borderColor: '#003366', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }}
                         startIcon={<CloseIcon sx={{ fontWeight: 'bold' }} />}>
                         Clear
                     </Button>
-                    <Button disabled={!(validDriverLastName && validProhibitionNumber)} onClick={submitData} variant="contained" sx={{ borderColor: '#003366', backgroundColor: '#003366', color: 'white', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }} startIcon={<ArrowForward sx={{ fontWeight: 'bold' }} />}>
+                    <Button disabled={selectedReviewDate === ''} onClick={submitData} variant="contained"
+                        sx={{ borderColor: '#003366', backgroundColor: '#003366', color: 'white', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }}
+                        startIcon={<ArrowForward sx={{ fontWeight: 'bold' }} />}>
                         Send
                     </Button>
                 </Grid>
-
-                <Grid item xs={8} sx={{ padding: "1px" }}></Grid>
-            </Grid >
+            </Grid>
         </div>
     );
 }
