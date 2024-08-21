@@ -1,6 +1,5 @@
 ﻿'use client'
-import React, { useRef, useState } from 'react';
-import Image from 'next/image';
+import React, { CSSProperties, useRef, useState } from 'react';
 import CustomAccordion from '../components/Accordion';
 import Step1 from './steps/step1';
 import Step2 from './steps/step2';
@@ -13,12 +12,17 @@ import { Step1Data, Step2Data, Step3Data, Step4Data } from '../interfaces';
 import { generatePDF } from '../components/GeneratePDF';
 import { postForm1, sendEmail } from './actions';
 import dayjs from 'dayjs';
+import { useRouter } from 'next/navigation';
 
 export default function Page() {
 
-    const SUCCESS_MESSAGE = "Your Request for review is sent. Please check your email.";
+    const apiSubmitErrorMsg = "An error occurred while submitting the application. Please try again or contact RoadSafetyBC by calling 1-855-387-7747 and select option 5. You may also attend a driver licensing office to apply for a review.";
+    const pdfEmailSubmitError = "An error occurred while submitting pdf email. Please try again or contact RoadSafetyBC by calling 1-855-387-7747 and select option 5. You may also attend a driver licensing office to apply for a review.";
 
-    const step1Ref = useRef<{ clearData: () => void }>(null);
+    const router = useRouter();
+    const [progress, setProgress] = useState(0);
+
+    const step1Ref = useRef<{ clearData: () => void, validate: () => boolean }>(null);
     const step2Ref = useRef<{ clearData: () => void, validate: () => boolean }>(null);
     const step3Ref = useRef<{ clearData: () => void, validate: () => boolean }>(null);
     const step4Ref = useRef<{ clearData: () => void, validate: () => void }>(null);
@@ -26,40 +30,62 @@ export default function Page() {
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState('');
-    const [submitError, setSubmitError] = useState<boolean>(false);
 
+    const combineError = (errorMsg: string, newError: string) => {
+        if (errorMsg.startsWith("There are errors in"))
+            return errorMsg + ", " + newError;
+        else
+            return "There are errors in " + newError;
+    }
+    
     const submitData = () => {
+        let errorMsg = ""; 
         if (!step4Data.signatureApplicantName) {
             step4Ref.current?.validate();
-            return;
+            errorMsg = combineError(errorMsg, "Step 4");
         }
         step3Data.hasError = step3Ref.current?.validate() || false;
-        if(step3Data.hasError) {            
-            return;
+        if (step3Data.hasError) {           
+            errorMsg = combineError(errorMsg, "Step 3");
+        }
+    
+        if (step2Ref.current?.validate()) {
+            errorMsg = combineError(errorMsg, "Step 2");
         }
 
-        if(step2Ref.current?.validate()) {
-            return;
+        if (step1Data.hasError || !step1Ref.current?.validate()) {
+            errorMsg = combineError(errorMsg, "Step 1");
         }
-        submitDataAfterValidation();
+
+        setMessage(errorMsg);
+
+        if(errorMsg === "")
+            submitDataAfterValidation();
     }
 
     const submitDataAfterValidation = async () => {
         let form1SubmitOk = false;
         setIsLoading(true);
         setIsExpanded(true);
+
+        setProgress(20); // Initial progress
         try {
             let response = await postForm1(step1Data, step2Data, step3Data, step4Data);
             if (!response.data.is_success) {
-                setSubmitError(true);
-                setMessage(response.data.error);
+                setMessage(response.data.error + ". " + apiSubmitErrorMsg);
+                setProgress(30); // Complete progress with error
+                setIsLoading(false);
                 return;//stop going further?
             } else {
                 form1SubmitOk = true;
-                setSubmitError(false);
             }
             console.log("posting xml done!! ");
-        } catch (error) { }
+        } catch (error) { 
+            setMessage(apiSubmitErrorMsg);
+            setProgress(100); // Complete progress with error
+            setIsLoading(false);
+            return;
+        }
         console.log("after posting xml");
 
         let pdfList = [
@@ -95,8 +121,9 @@ export default function Page() {
         let fileContent = '';
         const pdf = await generatePDF(pdfList, 'Notice of Driving Prohibition Application for Review');
         const file = pdf?.output('blob');
+        setProgress(80);
         console.log("pdf file gen size:", file?.size);
-        var reader = new FileReader();
+        let reader = new FileReader();
 
         reader.onload = async function (e) {
             // The file converted into text base64
@@ -106,11 +133,13 @@ export default function Page() {
             let result = await sendEmail(step2Data.consentFile, step2Data.consentFileName, fileContent, step1Data, step2Data);
             console.log("email sent and form1SubmitOK? ", result, form1SubmitOk);
             if (result === 202 && form1SubmitOk) {
-                setMessage(SUCCESS_MESSAGE);
+                setProgress(100);
+                router.push('/form1/acknowledgement');
             } else {
+                setMessage(pdfEmailSubmitError);
+                setProgress(100);
                 setIsLoading(false);
             }
-            //console.log("email sent msg: ", message);
         };
         // callback to reader.onload
         if (file || file !== undefined)
@@ -202,15 +231,30 @@ export default function Page() {
         return step1Data.hasError || step2Data.hasError || step4Data.signatureApplicantErrorText;
     }
 
+    const progressBarStyles: { overlay: CSSProperties } = {
+        overlay: {
+            position: 'fixed', // Ensure this is a valid CSS position value
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1000,
+        },
+    };
+
         return (
 
-        <div className="formContent">
+        <div className="formContent" style={{ display: 'grid', marginTop: '2px', marginRight: '2px' }} >
 
             <div id="formContent" >
                 <div id="page1img1">
                     <h1 className="header1" id="hed">Notice of Driving Prohibition Application for Review</h1>
-                    <CustomAccordion title="Before You Begin:" id="step0" isExpanded={isExpanded}
-                        content={<div style={{ fontSize: "16px", fontFamily: "'BC Sans', 'Noto Sans',  Arial, sans-serif", paddingLeft: '10px', lineHeight: '2.5' }}><p>When you see this symbol <Image
+                    <CustomAccordion title="Before You Begin:" id="step0" isExpanded={true}
+                        content={<div style={{ fontSize: "16px", fontFamily: "'BC Sans', 'Noto Sans',  Arial, sans-serif", paddingLeft: '10px', lineHeight: '2.5' }}><p>When you see this symbol <img
                             src="/assets/icons/info-icon.png"
                             width={15}
                             height={15}
@@ -253,6 +297,21 @@ export default function Page() {
 
 
             </div>
+            {isLoading &&
+                    <div style={progressBarStyles.overlay}>
+                        <progress value={progress} max="100" style={{ width: '30%', height: '9%' }}></progress>
+                        <div style={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            color: 'black', // Adjust color as needed
+                            fontWeight: 'bold'
+                        }}>
+                            {progress}%
+                        </div>
+                    </div>
+            }
             {hasSubmitError() &&
                 <div id="errorText">
                     <Typography variant="caption" sx={{ color: '#D8292F', fontWeight: '700', padding: '4px 10px 20px 30px', ml: '4px', fontSize: '16px', display: 'block' }}>
@@ -274,7 +333,8 @@ export default function Page() {
                 <Grid container spacing={2} >
                     <Grid item xs={8} sx={{ padding: "1px" }}></Grid>
                     <Grid item xs={4} sx={{ padding: "1px" }}>
-                        <Button onClick={clearData} variant="outlined" sx={{ cursor: 'pointer', color: '#003366', borderColor: '#003366', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }} startIcon={<CloseIcon sx={{ fontWeight: 'bold' }} />}>
+                        <Button onClick={clearData} variant="outlined" 
+                        sx={{ cursor: 'pointer', color: '#003366', borderColor: '#003366', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }} startIcon={<CloseIcon sx={{ fontWeight: 'bold' }} />}>
                             Clear
                         </Button>
                         <Button

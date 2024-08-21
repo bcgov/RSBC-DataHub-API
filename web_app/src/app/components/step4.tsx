@@ -6,7 +6,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import { FormField } from './FormField';
 import { Step4Data } from '../interfaces';
-import { TextField, SxProps, Theme } from '@mui/material';
+import { TextField } from '@mui/material';
 
 interface Props {
     step4DatatoSend: (data: Step4Data) => void;
@@ -35,7 +35,7 @@ const Step4 = forwardRef((props: Props, ref) => {
 
     useImperativeHandle(ref, () => ({
         validate() {
-            validate(step4Data.signatureApplicantName);
+           return validate(step4Data.signatureApplicantName);
         },
         clearData() {
             setStep4Data({
@@ -43,17 +43,21 @@ const Step4 = forwardRef((props: Props, ref) => {
                 signedDate: dayjs(Date.now()).toISOString().substring(0, 10) + offsetHour,
                 signatureApplicantErrorText: '',
             });
+            setSignatureApplicantNameErrorText('');
         }
     }));
 
     const validate = (value: string) => {
+        let valid = false;
         if (value === '') {
             setSignatureApplicantNameErrorText('Please enter your name to confirm the information submitted is correct.');
             step4Data.signatureApplicantErrorText = signatureApplicantNameErrorText;
         } else {
             setSignatureApplicantNameErrorText('');
+            valid = true;
         }
-        //console.log("step4Data.signedDate: ", step4Data.signedDate);
+        //console.log("step4 step4Data.signatureApplicantName: ", step4Data.signatureApplicantName + " value: " + value);
+        return valid;
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

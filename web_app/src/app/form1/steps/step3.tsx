@@ -121,10 +121,10 @@ const Step3 = forwardRef((props: Step3InputProps, ref) => {
         props.step3DatatoSend(step3Data);
     };
 
-    const AdditionInfo21 = () => {
+    function AdditionInfo21() {
         return (
             <Grid item xs={8} sx={{ padding: "1px" }}>
-                <div className="step3Div" ><strong><span style={{ fontSize: '16px' }}>Additional Information:</span></strong>
+                <div className="step3Div"><strong><span style={{ fontSize: '16px' }}>Additional Information:</span></strong>
                     <ul>
                         <li><a href="https://www2.gov.bc.ca/gov/content/transportation/driving-and-cycling/roadsafetybc/prohibitions/apply-online/certificates" target="_blank" rel="noopener noreferrer">Technical materials</a> the adjudicator may rely on in the review.</li>
                     </ul>

@@ -57,6 +57,7 @@ const Step2 = forwardRef((props: Props, ref) => {
         clearData() {
             setFile(null);
             setFileUploadMessage('');
+            setStep2DataErrors({});
             setStep2Data({
                 applicantRoleSelect: '',
                 representedByLawyer: '',
@@ -146,6 +147,9 @@ const Step2 = forwardRef((props: Props, ref) => {
         }
         if( field === 'applicantRoleSelect') {
             errors.applicantRoleSelect = '';
+            errors.fileUploadErrorText = '';
+            errors.driverFirstName = '';
+            errors.driverLastName = '';
         }
         if (field === 'applicantRoleSelect' && value !== 'driver') {
             if (step2Data.driverFirstName === '')
