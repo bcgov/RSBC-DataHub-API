@@ -23,7 +23,7 @@ export async function sendEmail(fileContent: string | null, fileName: string | n
     const encoded = Buffer.from(`${process.env.EMAIL_BASIC_AUTH_USER}` + ':' +
         `${process.env.EMAIL_BASIC_AUTH}`).toString('base64');
 
-    var config = {
+    let config = {
         headers: {
             'Authorization': 'Basic ' + encoded,
             'Content-Type': 'application/json'
@@ -45,7 +45,7 @@ export async function postForm1(step1Data: Step1Data, step2Data: Step2Data, step
 
     console.log("Post to url: ", url);
 
-    var config = {
+    let config = {
         headers: { 'Content-Type': 'application/xml' }
     };
     let xmlData = getForm1Xml(step1Data, step2Data, step3data, step4data).replace(/\n/g, '').trim();
