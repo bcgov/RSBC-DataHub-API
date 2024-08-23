@@ -29,10 +29,11 @@ export async function sendEmail(fileContent: string | null, fileName: string | n
             'Content-Type': 'application/json'
         }
     };
+    console.log("sending email for: ", step1Data.controlProhibitionNumber );
     try {
         const response = await axiosMailItClient.post(axiosMailItClient.getUri() + '/mail/send', email, config);
 
-        console.debug("Email sent with return code: " + response.status);
+        console.debug( "Email for " + step1Data.controlProhibitionNumber + " sent with return code: " + response.status);
         return response.status;
     } catch (error) {
         console.log("Email failed: ", error);
