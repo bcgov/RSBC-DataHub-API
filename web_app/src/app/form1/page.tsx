@@ -40,8 +40,7 @@ export default function Page() {
     
     const submitData = () => {
         let errorMsg = ""; 
-        if (!step4Data.signatureApplicantName) {
-            step4Ref.current?.validate();
+        if (!step4Ref.current?.validate()) {
             errorMsg = combineError(errorMsg, "Step 4");
         }
         step3Data.hasError = step3Ref.current?.validate() || false;
