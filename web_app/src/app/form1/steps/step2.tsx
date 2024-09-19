@@ -51,7 +51,16 @@ const Step2 = forwardRef((props: Props, ref) => {
                 hasErrors += validate('driverLastName', step2Data.driverLastName);
                 hasErrors += validate('driverFirstName', step2Data.driverFirstName);
                 hasErrors += validate('consentFile', consentFile?.name ?? '');
+            } else {
+                hasErrors += validate('applicantEmailConfirm', step2Data.applicantEmailConfirm);
+                hasErrors += validate('applicantLastName', step2Data.applicantLastName);
+                hasErrors += validate('applicantFirstName', step2Data.applicantFirstName);
+                hasErrors += validate('controlDriverCityTown', step2Data.controlDriverCityTown);
+                hasErrors += validate('controlDriverProvince', step2Data.controlDriverProvince ?? '');
+                hasErrors += validate('controlDriverPostalCode', step2Data.controlDriverPostalCode);
+                hasErrors += validate('applicantPhoneNumber', step2Data.applicantPhoneNumber);
             }
+            console.log("hasErrors is: " + hasErrors);
            return hasErrors > 0;
         },
         clearData() {
@@ -213,7 +222,7 @@ const Step2 = forwardRef((props: Props, ref) => {
     }
 
     const validate = (fieldName: string, value: string) => {
-        let errors: Step2DataErrors = { ...step2DataErrors };
+        let errors: Step2DataErrors = step2DataErrors ;
 
         switch (fieldName) {
             case 'applicantFirstName':
