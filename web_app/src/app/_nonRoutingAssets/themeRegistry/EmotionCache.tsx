@@ -39,7 +39,7 @@ export default function NextAppDirEmotionCacheProvider(props: { options: any; Ca
     let styles = '';
     let dataEmotionAttribute = registry.cache.key;
 
-    const globals: { name: any; style: string; }[] = [];
+    const globals: { name: any; style: string|undefined; }[] = [];
 
     inserted.forEach(({ name, isGlobal }) => {
       const style = registry.cache.inserted[name];
@@ -61,7 +61,7 @@ export default function NextAppDirEmotionCacheProvider(props: { options: any; Ca
             key={name}
             data-emotion={`${registry.cache.key}-global ${name}`}
             // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{ __html: style }}
+            dangerouslySetInnerHTML={{ __html: style || '' }}
           />
         ))}
         {styles && (

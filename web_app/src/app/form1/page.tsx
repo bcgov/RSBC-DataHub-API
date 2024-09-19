@@ -1,18 +1,18 @@
 ﻿'use client'
 import React, { CSSProperties, useRef, useState } from 'react';
+import { Button, Grid, Typography } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import ArrowForward from '@mui/icons-material/ArrowForward';
+import { Step1Data, Step2Data, Step3Data, Step4Data } from '../interfaces';
+import { postForm1, sendEmail } from './actions';
+import dayjs from 'dayjs';
+import { useRouter } from 'next/navigation';
 import CustomAccordion from '../components/Accordion';
 import Step1 from './steps/step1';
 import Step2 from './steps/step2';
 import Step3 from './steps/step3';
 import Step4 from '../components/step4';
-import { Button, Grid, Typography } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-import ArrowForward from '@mui/icons-material/ArrowForward';
-import { Step1Data, Step2Data, Step3Data, Step4Data } from '../interfaces';
-import { generatePDF } from '../components/GeneratePDF';
-import { postForm1, sendEmail } from './actions';
-import dayjs from 'dayjs';
-import { useRouter } from 'next/navigation';
+import { generatePDFWithHeaderFooter } from '../components/PDFGenerator';
 
 export default function Page() {
 
@@ -64,85 +64,66 @@ export default function Page() {
 
     const submitDataAfterValidation = async () => {
         let form1SubmitOk = false;
-        setIsLoading(true);
-        setIsExpanded(true);
-
-        setProgress(20); // Initial progress
+        
         try {
-            let response = await postForm1(step1Data, step2Data, step3Data, step4Data);
-            if (!response.data.is_success) {
-                setMessage(response.data.error + ". " + apiSubmitErrorMsg);
-                setProgress(30); // Complete progress with error
+            const formContentElement = document.getElementsByClassName('formContent')[0] as HTMLElement;
+            const pdf = await generatePDFWithHeaderFooter(formContentElement, 'Notice of Driving Prohibition Application for Review');
+            //pdf.save();
+
+            setIsLoading(true);
+            setIsExpanded(true);
+
+            setProgress(20); // Initial progress
+            try {
+                let response = await postForm1(step1Data, step2Data, step3Data, step4Data);
+                if (!response.data.is_success) {
+                    setMessage(response.data.error + ". " + apiSubmitErrorMsg);
+                    setProgress(30); // Complete progress with error
+                    setIsLoading(false);
+                    return;//stop going further?
+                } else {
+                    form1SubmitOk = true;
+                }
+                console.log("posting xml done!! ");
+            } catch (error) {
+                setMessage(apiSubmitErrorMsg);
+                setProgress(100); // Complete progress with error
                 setIsLoading(false);
-                return;//stop going further?
-            } else {
-                form1SubmitOk = true;
+                return;
             }
-            console.log("posting xml done!! ");
-        } catch (error) { 
+            console.log("after posting xml");
+
+            const file = pdf?.output('blob');
+            setProgress(80);
+            console.log("pdf file gen size:", file?.size);
+            let reader = new FileReader();
+
+            reader.onload = async function (e) {
+                // The file converted into text base64
+                console.log("isArrayBuffer ", reader.result instanceof ArrayBuffer);
+                console.log("reader.result", reader.result?.toString().slice(0, 50));
+                let fileContent = '';
+                fileContent = reader.result?.toString().split('base64,')[1] || '';
+                let result = await sendEmail(step2Data.consentFile, step2Data.consentFileName, fileContent, step1Data, step2Data);
+                console.log("email sent and form1SubmitOK? ", result, form1SubmitOk);
+                if (result === 202 && form1SubmitOk) {
+                    setProgress(100);
+                    router.push('/form1/acknowledgement');
+                } else {
+                    setMessage(pdfEmailSubmitError);
+                    setProgress(100);
+                    setIsLoading(false);
+                }
+            };
+            // callback to reader.onload
+            if (file || file !== undefined)
+                reader.readAsDataURL(file);
+        } catch (error) {
             setMessage(apiSubmitErrorMsg);
             setProgress(100); // Complete progress with error
             setIsLoading(false);
             return;
         }
-        console.log("after posting xml");
-
-        let pdfList = [
-            { id: 'page1img1', pageNumber: 1 },// Before You Begin display block
-            { id: 'summarystep1', pageNumber: 1 }, // Step 1 header
-            { id: 'page1img2', pageNumber: 1 }, //Step 1 Info Part 1
-            { id: 'page2img1', pageNumber: 2 }, //Step 1 Info Part 2
-            { id: 'summarystep2', pageNumber: 2 },// Step 2 Header
-            { id: 'page2img2', pageNumber: 2 },//Step 2 Info Part 1
-            { id: 'page3img1', pageNumber: 3 },//Step 2 Info Part 2
-            { id: 'page3img2', pageNumber: 3 },//Step 2 Info Part 3
-            { id: 'page4img1', pageNumber: 4 }, //Step 2 Info Part 4
-            { id: 'summarystep3', pageNumber: 5 }, // Step 3 Header
-        ];
-
-        if (step1Data.controlIsUl)
-            pdfList.push({ id: 'ulControlBlock', pageNumber: 5 }, { id: 'step4', pageNumber: 6 });
-        else if (step1Data.controlIsIrp)
-            pdfList.push({ id: 'irpControlBlock', pageNumber: 5 }, { id: 'revOption', pageNumber: 6 }, { id: 'step4', pageNumber: 7 });
-        else if (step1Data.controlIsAdp) {
-            pdfList.push({ id: 'adp-burden-of-proof-text', pageNumber: 5 });
-            pdfList.push({ id: 'page5img1', pageNumber: 5 });
-            pdfList.push({ id: 'page5img2', pageNumber: 6 });
-            pdfList.push({ id: 'page5img3', pageNumber: 7 });
-            pdfList.push({ id: "page5img4", pageNumber: 8 });
-            pdfList.push({ id: 'step4', pageNumber: 8 });
-        }
-        // setTimeout(async () => {
-        //     const pdf = await generatePDF(pdfList, 'Notice of Driving Prohibition Application for Review');
-        //     pdf?.save('Notice of Driving Prohibition Application for Review.pdf');
-        // }, 500);
-
-        let fileContent = '';
-        const pdf = await generatePDF(pdfList, 'Notice of Driving Prohibition Application for Review');
-        const file = pdf?.output('blob');
-        setProgress(80);
-        console.log("pdf file gen size:", file?.size);
-        let reader = new FileReader();
-
-        reader.onload = async function (e) {
-            // The file converted into text base64
-            console.log("isArrayBuffer ", reader.result instanceof ArrayBuffer);
-            console.log("reader.result", reader.result?.toString().slice(0, 50));
-            fileContent = reader.result?.toString().split('base64,')[1] || '';
-            let result = await sendEmail(step2Data.consentFile, step2Data.consentFileName, fileContent, step1Data, step2Data);
-            console.log("email sent and form1SubmitOK? ", result, form1SubmitOk);
-            if (result === 202 && form1SubmitOk) {
-                setProgress(100);
-                router.push('/form1/acknowledgement');
-            } else {
-                setMessage(pdfEmailSubmitError);
-                setProgress(100);
-                setIsLoading(false);
-            }
-        };
-        // callback to reader.onload
-        if (file || file !== undefined)
-            reader.readAsDataURL(file);
     }
 
     const clearData = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -252,8 +233,8 @@ export default function Page() {
             <div id="formContent" >
                 <div id="page1img1">
                     <h1 className="header1" id="hed">Notice of Driving Prohibition Application for Review</h1>
-                    <CustomAccordion title="Before You Begin:" id="step0" isExpanded={true}
-                        content={<div style={{ fontSize: "16px", fontFamily: "'BC Sans', 'Noto Sans',  Arial, sans-serif", paddingLeft: '10px', lineHeight: '2.5' }}><p>When you see this symbol <img
+                    <CustomAccordion title="Before You Begin:" id="step0" isExpanded={true} 
+                        content={<div style={{ fontSize: '1.5vw', fontFamily: "'BC Sans', 'Noto Sans',  Arial, sans-serif", paddingLeft: '10px', lineHeight: '2.5' }}><p>When you see this symbol <img
                             src="/assets/icons/info-icon.png"
                             width={15}
                             height={15}
@@ -291,7 +272,7 @@ export default function Page() {
                 <CustomAccordion title="Step 4: Consent and Submit" id="step4" isExpanded={isExpanded}
                     content={<div>
                         <Step4 step4DatatoSend={handleStep4Data} ref={step4Ref} />
-                        <div style={{ paddingTop: '30px' }}><strong><span style={{ fontSize: '16px' }} >Submit only 1 online application for your prohibition review.</span></strong></div>
+                        <div style={{ paddingTop: '30px' }}><strong><span style={{ fontSize: '1.5vw' }} >Submit only 1 online application for your prohibition review.</span></strong></div>
                     </div>} />
 
 
@@ -313,7 +294,7 @@ export default function Page() {
             }
             {hasSubmitError() &&
                 <div id="errorText">
-                    <Typography variant="caption" sx={{ color: '#D8292F', fontWeight: '700', padding: '4px 10px 20px 30px', ml: '4px', fontSize: '16px', display: 'block' }}>
+                    <Typography variant="caption" sx={{ color: '#D8292F', fontWeight: '700', padding: '4px 10px 20px 30px', ml: '4px', fontSize: '1.5vw', display: 'block' }}>
 
                         Your form contains errors. Please correct them to proceed.
                     </Typography>
@@ -322,7 +303,7 @@ export default function Page() {
             }
             {message &&
                 <div id="messageDiv">
-                    <Typography variant="caption" sx={{ color: '#D8292F', fontWeight: '700', padding: '4px 10px 20px 30px', ml: '4px', fontSize: '16px', display: 'block', boxSizing: 'border-box' }}>
+                    <Typography variant="caption" sx={{ color: '#D8292F', fontWeight: '700', padding: '4px 50px 20px 50px', fontSize: '1.5vw', display: 'block' }}>
                         {message}
                     </Typography>
 
@@ -331,16 +312,16 @@ export default function Page() {
             <div style={{ paddingBottom: '40px' }}>
                 <Grid container spacing={2} >
                     <Grid item xs={8} sx={{ padding: "1px" }}></Grid>
-                    <Grid item xs={4} sx={{ padding: "1px" }}>
+                    <Grid item xs={8} sx={{  padding: "1px", display: 'flex', justifyContent: 'flex-end' }}>
                         <Button onClick={clearData} variant="outlined" 
-                        sx={{ cursor: 'pointer', color: '#003366', borderColor: '#003366', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }} startIcon={<CloseIcon sx={{ fontWeight: 'bold' }} />}>
+                        sx={{ cursor: 'pointer', color: '#003366', borderColor: '#003366', marginRight: '15px', fontWeight: '700', fontSize: '1.5vw', minWidth: '9.5em' }} startIcon={<CloseIcon sx={{ fontWeight: 'bold' }} />}>
                             Clear
                         </Button>
                         <Button
                             disabled={isLoading}
                             onClick={submitData}
                             variant="contained"
-                            sx={{ borderColor: '#003366', backgroundColor: '#003366', color: 'white', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }}
+                            sx={{ borderColor: '#003366', backgroundColor: '#003366', color: 'white', marginRight: '10px', fontWeight: '700', fontSize: '1.5vw', minWidth: '9.5em' }}
                             startIcon={<ArrowForward sx={{ fontWeight: 'bold' }} />}>
                             Send
                         </Button>

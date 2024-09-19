@@ -345,8 +345,8 @@ const Step2 = forwardRef((props: Props, ref) => {
                         <Grid container spacing={2} >
                             <Grid item xs={7} sx={{ padding: "1px" }}>
                                 <div className="attachConsent" >
-                                    <div style={{ lineHeight: '1' }}><strong style={{ fontSize: '14px', lineHeight: '1.25' }}> Before the review you must provide a signed consent from the driver authorizing you to send and receive documents on their behalf.&nbsp;</strong></div>
-                                    <div style={{ lineHeight: '1' }}><strong style={{ fontSize: '14px' }}>Upload the signed consent below or on the evidence submission form. You&apos;ll have access to the evidence form after you pay and schedule the review. </strong></div></div>
+                                    <div style={{ lineHeight: '1' }}><strong style={{ fontSize: '1.1vw', lineHeight: '1.25' }}> Before the review you must provide a signed consent from the driver authorizing you to send and receive documents on their behalf.&nbsp;</strong></div>
+                                    <div style={{ lineHeight: '1' }}><strong style={{ fontSize: '1.1vw' }}>Upload the signed consent below or on the evidence submission form. You&apos;ll have access to the evidence form after you pay and schedule the review. </strong></div></div>
                             </Grid>
                             <Grid item xs={5} sx={{ padding: "1px" }}>
                             </Grid>
@@ -375,8 +375,8 @@ const Step2 = forwardRef((props: Props, ref) => {
                         </Grid>
                     </div>
                 }
-                {(step2Data.applicantRoleSelect === 'lawyer' || (step2Data.applicantRoleSelect === 'driver' && step2Data.representedByLawyer === 'yes')) && <strong style={{ fontSize: '16px', paddingBottom: '20px', paddingLeft: '10px' }}> Lawyer Information:</strong>}
-                {step2Data.applicantRoleSelect === 'advocate' && <strong style={{ fontSize: '16px', paddingBottom: '20px', paddingLeft: '10px' }}> Authorized person Information:</strong>}
+                {(step2Data.applicantRoleSelect === 'lawyer' || (step2Data.applicantRoleSelect === 'driver' && step2Data.representedByLawyer === 'yes')) && <strong style={{ fontSize: '1.5vw', paddingBottom: '20px', paddingLeft: '10px' }}> Lawyer Information:</strong>}
+                {step2Data.applicantRoleSelect === 'advocate' && <strong style={{ fontSize: '1.5vw', paddingBottom: '20px', paddingLeft: '10px' }}> Authorized person Information:</strong>}
                 <FormField
                     id="first-name"
                     labelText="First Name"
@@ -385,7 +385,7 @@ const Step2 = forwardRef((props: Props, ref) => {
                     error={!!step2DataErrors.applicantFirstName}
                     errorText={step2DataErrors.applicantFirstName}
                 >
-                    <TextField id="first-name-field" style={{ paddingLeft: '5px' }} inputProps={{ maxLength: '35' }}
+                    <TextField id="first-name-field" inputProps={{ maxLength: '35' }}
                         variant="outlined" name='applicantFirstName'
                         value={step2Data.applicantFirstName} onChange={handleChange} onBlur={handleBlur}>
                     </TextField>
@@ -398,7 +398,7 @@ const Step2 = forwardRef((props: Props, ref) => {
                     error={!!step2DataErrors.applicantLastName}
                     errorText={step2DataErrors.applicantLastName}
                 >
-                    <TextField id="last-name-field" style={{ paddingLeft: '5px' }}
+                    <TextField id="last-name-field" 
                         variant="outlined" name='applicantLastName'
                         value={step2Data.applicantLastName} onChange={handleChange} onBlur={handleBlur} >
                     </TextField>
@@ -414,7 +414,7 @@ const Step2 = forwardRef((props: Props, ref) => {
                     errorText={step2DataErrors.applicantPhoneNumber}
                 >
                     <TextField id="ph-number-field" 
-                        style={{ paddingLeft: '5px' }} 
+                         
                         placeholder="(555) 555-5555"
                         variant="outlined" 
                         name='applicantPhoneNumber'
@@ -431,7 +431,7 @@ const Step2 = forwardRef((props: Props, ref) => {
                     </TextField>
                 </FormField>
                 {((step2Data.applicantRoleSelect === 'driver' && step2Data.representedByLawyer === 'yes'))
-                    && <strong style={{ fontSize: '16px', paddingBottom: '20px', paddingLeft: '10px' }}> Driver Contact Information:</strong>}
+                    && <strong style={{ fontSize: '1.5vw', paddingBottom: '20px', paddingLeft: '10px' }}> Driver Contact Information:</strong>}
                 <FormField
                     id="email-address"
                     labelText="Email Address"
@@ -440,7 +440,7 @@ const Step2 = forwardRef((props: Props, ref) => {
                     error={!!step2DataErrors.applicantEmailAddress}
                     errorText={step2DataErrors.applicantEmailAddress}
                 >
-                    <TextField id="email-address-field" style={{ paddingLeft: '5px' }}
+                    <TextField id="email-address-field" 
                         variant="outlined" name='applicantEmailAddress'
                         value={step2Data.applicantEmailAddress} onChange={handleChange} onBlur={handleBlur}>
                     </TextField>
@@ -453,7 +453,7 @@ const Step2 = forwardRef((props: Props, ref) => {
                     error={!!step2DataErrors.applicantEmailConfirm}
                     errorText={step2DataErrors.applicantEmailConfirm}
                 >
-                    <TextField id="cnf-email-address-field" style={{ paddingLeft: '5px' }}
+                    <TextField id="cnf-email-address-field" 
                         variant="outlined" name='applicantEmailConfirm'
                         value={step2Data.applicantEmailConfirm} onChange={handleChange} onBlur={handleBlur}>
                     </TextField>
@@ -463,7 +463,7 @@ const Step2 = forwardRef((props: Props, ref) => {
                 {((step2Data.applicantRoleSelect === 'driver' && step2Data.representedByLawyer === 'yes') ||
                     step2Data.applicantRoleSelect === 'lawyer' ||
                     step2Data.applicantRoleSelect === 'advocate') &&
-                    <strong style={{ fontSize: '16px', paddingBottom: '20px', paddingLeft: '10px' }}> Driver Information:</strong>
+                    <strong style={{ fontSize: '1.5vw', paddingBottom: '20px', paddingLeft: '10px' }}> Driver Information:</strong>
                 }
                 {((step2Data.applicantRoleSelect === 'driver' && step2Data.representedByLawyer === 'yes') ||
                     step2Data.applicantRoleSelect === 'lawyer' ||
@@ -477,7 +477,7 @@ const Step2 = forwardRef((props: Props, ref) => {
                             error={!!step2DataErrors.driverFirstName}
                             errorText={step2DataErrors.driverFirstName}
                         >
-                            <TextField id="driver-first-name-field" style={{ paddingLeft: '5px' }} inputProps={{ maxLength: '35' }}
+                            <TextField id="driver-first-name-field"  inputProps={{ maxLength: '35' }}
                                 variant="outlined" name='driverFirstName'
                                 value={step2Data.driverFirstName} onChange={handleChange} onBlur={handleBlur}>
                             </TextField>
@@ -490,7 +490,7 @@ const Step2 = forwardRef((props: Props, ref) => {
                             error={!!step2DataErrors.driverLastName}
                             errorText={step2DataErrors.driverLastName}
                         >
-                            <TextField id="driver-last-name-field" style={{ paddingLeft: '5px' }}
+                            <TextField id="driver-last-name-field" 
                                 variant="outlined" name='driverLastName'
                                 value={step2Data.driverLastName} onChange={handleChange} onBlur={handleBlur} >
                             </TextField>
@@ -509,12 +509,12 @@ const Step2 = forwardRef((props: Props, ref) => {
                     error={!!step2DataErrors.driverBcdl}
                     errorText={step2DataErrors.driverBcdl}
                 >
-                    <TextField id="bc-driver-license-no-field" style={{ paddingLeft: '5px' }}
+                    <TextField id="bc-driver-license-no-field" 
                         variant="outlined" name='driverBcdl'
                         value={step2Data.driverBcdl} onChange={handleChange} onBlur={handleBlur}>
                     </TextField>
                 </FormField>
-                <strong style={{ fontSize: '16px', paddingBottom: '30px', paddingLeft: '10px' }}>Address where you want the decision mailed:</strong>
+                <strong style={{ fontSize: '1.5vw', paddingBottom: '30px', paddingLeft: '10px' }}>Address where you want the decision mailed:</strong>
                 <FormField
                     id="address"
                     labelText="Address"
@@ -537,7 +537,7 @@ const Step2 = forwardRef((props: Props, ref) => {
                     error={!!step2DataErrors.controlDriverCityTown}
                     errorText={step2DataErrors.controlDriverCityTown}
                 >
-                    <TextField id="city-field" style={{ paddingLeft: '5px' }}
+                    <TextField id="city-field" 
                         variant="outlined" name='controlDriverCityTown'
                         value={step2Data.controlDriverCityTown} onChange={handleChange} onBlur={handleBlur}>
                     </TextField>
@@ -579,7 +579,7 @@ const Step2 = forwardRef((props: Props, ref) => {
                     error={!!step2DataErrors.controlDriverPostalCode}
                     errorText={step2DataErrors.controlDriverPostalCode}
                 >
-                    <TextField id="postal-code-field" style={{ paddingLeft: '5px' }}
+                    <TextField id="postal-code-field" 
                         variant="outlined" name='controlDriverPostalCode'
                         value={step2Data.controlDriverPostalCode} onChange={handleChange} onBlur={handleBlur}>
                     </TextField>
