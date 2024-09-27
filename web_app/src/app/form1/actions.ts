@@ -123,7 +123,7 @@ function getForm1Xml(step1Data: Step1Data, step2Data: Step2Data, step3data: Step
                 ${representedByLawyer}
                 ${applicantRole}
                 <control-4/>
-                <consent-upload filename="" mediatype="" size=""/>
+                <consent-upload filename="${step2Data.consentFileName}" mediatype="" size="${step2Data.consentFile ? step2Data.consentFile.length : ''}"/>
                 <lawyer-information-label/>
                 <control-2/>
                 <first-name-applicant>${step2Data.applicantFirstName}</first-name-applicant>

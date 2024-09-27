@@ -123,15 +123,14 @@ const Step2 = forwardRef((props: Props, ref) => {
 
     const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files?.length) {
-            var file = e.target.files[0];
-            var fileContent: string = await file2Base64(file);
+            let file: File = e.target.files[0];
+            let fileContent: string = await file2Base64(file);
             //console.log("calling checkVirusScanner: ", fileContent.length);
             if (await checkVirusScanner(fileContent)) {
-                setStep2Data({ ...step2Data, consentFile: fileContent, consentFileName: file.name });
                 setFile(file);
                 setFileUploadMessage("Upload Complete");
                 setStep2DataErrors({...setStep2DataErrors, 'fileUploadErrorText': '',});
-                setStep2Data({ ...step2Data, hasError: false });
+                setStep2Data({ ...step2Data, consentFile: fileContent, consentFileName: file.name, hasError: false });
             } else {
                 setFileUploadMessage('');
                 setStep2DataErrors({...setStep2DataErrors, 'fileUploadErrorText':'There is a problem with the uploaded document. Please recheck the documents'});
@@ -351,8 +350,8 @@ const Step2 = forwardRef((props: Props, ref) => {
                             <Grid item xs={5} sx={{ padding: "1px" }}>
                             </Grid>
                         </Grid>
-                        <Grid container spacing={2} style={{ paddingTop: '30px' }} >
-                            <Grid item xs={7} sx={{ padding: "1px" }}>
+                        <Grid container spacing={1} style={{ paddingTop: '30px', paddingBottom: '1px' }} >
+                            <Grid item xs={8} sx={{ padding: "1px" }}>
                                 <FormField id="attach-consent"
                                     labelText="Attach signed consent from driver"
                                     tooltipTitle="Attach signed consent from driver"
@@ -369,8 +368,12 @@ const Step2 = forwardRef((props: Props, ref) => {
                                         <DeleteIcon fontSize="inherit" />
                                     </IconButton>
                                 </FormField>
-                            </Grid>
-                            <Grid item xs={5} sx={{ padding: "1px" }}>
+                                    {step2Data.consentFileName &&
+                                        <div style={{ lineHeight: '1', paddingBottom: '20px', fontSize: '14px' }}>
+                                            <strong style={{ color: '#313132' }}>
+                                                Consent file attached:</strong> {step2Data.consentFileName}
+                                        </div>
+                                    }
                             </Grid>
                         </Grid>
                     </div>
