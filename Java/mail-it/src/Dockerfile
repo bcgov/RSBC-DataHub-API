@@ -19,7 +19,7 @@ RUN mvn clean package -Dmaven.test.skip=true
 
 # running the service
 
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:23-jre-alpine
 
 # RUN useradd -m appuser
 # USER appuser
