@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/rhscl/python-36-rhel7:latest
+FROM registry.redhat.io/rhel9/python-39
 ARG VERSION
 ENV VERSION=$VERSION
 
@@ -14,5 +14,4 @@ COPY __init__.py ${APP_ROOT}/src/python/
 COPY common/*.py ${APP_ROOT}/src/python/common/
 COPY validator/*.py ${APP_ROOT}/src/python/validator/
 COPY validator/schema.json ${APP_ROOT}/src/python/validator/
-
 CMD [ "python", "python/validator/listener.py" ]
