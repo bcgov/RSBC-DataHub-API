@@ -62,7 +62,7 @@ jobs:
       - name: Build & Push the image
         working-directory: ${{env.WORKING_DIRECTORY}}
         run: |
-          docker build -f ${{ inputs.DOCKER_FILE }} ./${{ inputs.DOCKER_CONTEXT }} -t "${{ secrets.DOCKER_REGISTRY_BE78D6 }}/${{ inputs.DOCKER_IMAGE_NAME }}:latest"
+          docker build -f ${{ inputs.DOCKER_FILE }} ./${{ inputs.DOCKER_CONTEXT }} -t ${{ secrets.DOCKER_REGISTRY_BE78D6 }}/${{ inputs.DOCKER_IMAGE_NAME }}:latest
           docker push ${{ secrets.DOCKER_REGISTRY_BE78D6 }}/${{ inputs.DOCKER_IMAGE_NAME }}:latest
         
       - name: Authenticate and set context for tools namespace
@@ -73,8 +73,6 @@ jobs:
           namespace: "${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools"
 
       - name: Import new image in Openshift from Artifactory
-        env:
-          IMAGE_NAME: ${{ env.DOCKER_IMAGE_NAME }}
         run: |
           oc import-image ${{ inputs.DOCKER_IMAGE_NAME }}:latest --confirm
 
