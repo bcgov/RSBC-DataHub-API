@@ -62,6 +62,6 @@ jobs:
       - name: Build & Push the image
         working-directory: ${{env.WORKING_DIRECTORY}}
         run: |
-          docker build -f ${{ inputs.DOCKER_FILE }} ./${{ inputs.DOCKER_CONTEXT }} -t ${{ secrets.DOCKER_REGISTRY_BE78D6 }}/${{ env.DOCKER_IMAGE_NAME }}:latest
-          docker push ${{ secrets.DOCKER_REGISTRY_BE78D6 }}/${{ env.DOCKER_IMAGE_NAME }}:latest
+          docker build -f ${{ inputs.DOCKER_FILE }} ./${{ inputs.DOCKER_CONTEXT }} -t "${{ secrets.DOCKER_REGISTRY_BE78D6 }}/${{ inputs.DOCKER_IMAGE_NAME }}:latest"
+          docker push ${{ secrets.DOCKER_REGISTRY_BE78D6 }}/${{ inputs.DOCKER_IMAGE_NAME }}:latest
 
