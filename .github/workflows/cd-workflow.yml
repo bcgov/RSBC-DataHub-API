@@ -39,10 +39,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup
-        uses: docker/setup-buildx-action@v2
-        with:
-          install: true
+#      - name: Setup
+#        uses: docker/setup-buildx-action@v2
+#        with:
+#          install: true
 
       - name: Login
         uses: docker/login-action@v2
@@ -59,12 +59,22 @@ jobs:
           tag_prefix: ${{ inputs.DOCKER_IMAGE_NAME }}=v
           fetch_all_tags: true
 
-      - name: Build
-        uses: docker/build-push-action@v3
+      - name: Build & Push the image
+        working-directory: ${{env.WORKING_DIRECTORY}}
+        run: |
+          docker build -f ${{ inputs.DOCKER_FILE }} ./${{ inputs.DOCKER_CONTEXT }} -t "${{ secrets.DOCKER_REGISTRY_BE78D6 }}/${{ inputs.DOCKER_IMAGE_NAME }}:latest"
+          docker push ${{ secrets.DOCKER_REGISTRY_BE78D6 }}/${{ inputs.DOCKER_IMAGE_NAME }}:latest
+        
+      - name: Authenticate and set context for tools namespace
+        uses: redhat-actions/oc-login@v1.1.2
         with:
-          context: ${{ inputs.DOCKER_CONTEXT }}
-          file: ${{ inputs.DOCKER_FILE }}
-          push: true
-          build-args: |
-            VERSION=${{ steps.tag.outputs.new_version }}
-          tags: ${{ secrets.DOCKER_REGISTRY_BE78D6 }}/${{ inputs.DOCKER_IMAGE_NAME }}:${{ inputs.DOCKER_IMAGE_TAG }}
+          openshift_server_url: ${{ secrets.OPENSHIFT_SERVER_URL_SILVER }}
+          openshift_token: ${{ secrets.OPENSHIFT_SA_PIPELINE_TOKEN_SILVER }}
+          namespace: "${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools"
+
+      - name: Import new image in Openshift from Artifactory
+        env:
+          IMAGE_NAME: ${{ env.DOCKER_IMAGE_NAME }}
+        run: |
+          oc import-image ${{ inputs.DOCKER_IMAGE_NAME }}:latest --confirm
+
