@@ -76,5 +76,5 @@ jobs:
         env:
           IMAGE_NAME: ${{ env.DOCKER_IMAGE_NAME }}
         run: |
-          oc import-image $IMAGE_NAME:latest --confirm
+          oc import-image ${{ inputs.DOCKER_IMAGE_NAME }}:latest --confirm
 
