@@ -69,7 +69,7 @@ const Step4 = forwardRef((props: Props, ref) => {
     return (
         <div style={{ display: 'grid' }} id="page5">
             <div>
-                <span style={{ fontSize: '16px', paddingLeft: '15px' }} > <strong>By typing your name below and submitting this form, you confirm the information you provide above is correct. </strong></span>
+                <span style={{ fontSize: '1.5vw', paddingLeft: '15px' }} > <strong>By typing your name below and submitting this form, you confirm the information you provide above is correct. </strong></span>
             </div>
             <FormField 
                 id="signature-applicant-name"
@@ -103,7 +103,7 @@ const Step4 = forwardRef((props: Props, ref) => {
                 </LocalizationProvider>
             </FormField>
 
-            <p style={{ paddingTop: '15px', fontSize: '16px', }}>The personal information is collected under <a href="https://www.bclaws.ca/civix/document/id/complete/statreg/96165_03#section26" rel="noopener" target="_blank">s.26 (a) and (c)</a> of the Freedom of Information and Protection of Privacy Act for the purpose of administering the Motor Vehicle Act. If you have any questions about the collection, use and disclosure of the information collected contact RoadSafetyBC at PO Box 9254 Stn Prov Govt, Victoria, BC V8W 9J2. Phone (250) 387-7747.</p>
+            <p style={{ paddingTop: '15px', fontSize: '1.5vw', }}>The personal information is collected under <a href="https://www.bclaws.ca/civix/document/id/complete/statreg/96165_03#section26" rel="noopener" target="_blank">s.26 (a) and (c)</a> of the Freedom of Information and Protection of Privacy Act for the purpose of administering the Motor Vehicle Act. If you have any questions about the collection, use and disclosure of the information collected contact RoadSafetyBC at PO Box 9254 Stn Prov Govt, Victoria, BC V8W 9J2. Phone (250) 387-7747.</p>
 
         </div>
 

@@ -95,7 +95,7 @@ export default function Page() {
         <div id="formContent" >
             <div id="page1img1">
                 <h1 className="header1" id="hed">Schedule a Driving Prohibition Review</h1>
-                <div style={{ fontSize: "16px", fontFamily: "'BC Sans', 'Noto Sans',  Arial, sans-serif", paddingLeft: '10px', lineHeight: '2.5' }}>
+                <div style={{ fontSize: '1.5vw', fontFamily: "'BC Sans', 'Noto Sans',  Arial, sans-serif", paddingLeft: '10px', lineHeight: '2.5' }}>
                     <p>When you see this symbol <img
                         src="/assets/icons/info-icon.png"
                         width={15}
@@ -135,7 +135,7 @@ export default function Page() {
                     </div>
                 </Grid>
                 <Grid item xs={8} sx={{ padding: "1px" }}>
-                    <Typography sx={{ color: '#313132', fontSize: '16px', fontWeight: '700', mt: '10px', ml: '10px', paddingBottom: '10px' }}>
+                    <Typography sx={{ color: '#313132', fontSize: '1.5vw', fontWeight: '700', mt: '10px', ml: '10px', paddingBottom: '10px' }}>
                     </Typography>
                     <FormField
                         id="driver-lastname-number"
@@ -163,13 +163,13 @@ export default function Page() {
                     {validProhibitionNumber && validDriverLastName &&
                         <Button onClick={fetchAvailableReviewDates}
                             variant="contained"
-                            sx={{ borderColor: '#003366', backgroundColor: '#003366', color: 'white', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }}
+                            sx={{ borderColor: '#003366', backgroundColor: '#003366', color: 'white', marginRight: '20px', fontWeight: '700', fontSize: '1.5vw', minWidth: '9.5em' }}
                             startIcon={<ArrowForward sx={{ fontWeight: 'bold' }} />}>
                             Search for a review date
                         </Button>}
                     {(!validProhibitionNumber || !validDriverLastName) &&
                         <Button disabled
-                            sx={{ marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }}
+                            sx={{ marginRight: '20px', fontWeight: '700', fontSize: '1.5vw', minWidth: '9.5em' }}
                             startIcon={<ArrowForward sx={{ fontWeight: 'bold' }} />}>
                             Search for a review date
                         </Button>}
@@ -195,19 +195,19 @@ export default function Page() {
                 }
                 <Grid item xs={8} sx={{ padding: "1px" }}>
                     {message &&
-                        <Typography variant="caption" sx={{ color: '#555', fontWeight: '700', padding: '4px 0px 2px 0px', ml: '4px', fontSize: '16px', display: 'block' }}>
+                        <Typography variant="caption" sx={{ color: '#555', fontWeight: '700', padding: '4px 0px 2px 0px', ml: '4px', fontSize: '1.5vw', display: 'block' }}>
                             {message}
                         </Typography>
                     }
                 </Grid>
                 <Grid item xs={4} sx={{ padding: "0px" }}>
                     <Button onClick={clearData} variant="outlined"
-                        sx={{ cursor: 'pointer', color: '#003366', borderColor: '#003366', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }}
+                        sx={{ cursor: 'pointer', color: '#003366', borderColor: '#003366', marginRight: '20px', fontWeight: '700', fontSize: '1.5vw', minWidth: '9.5em' }}
                         startIcon={<CloseIcon sx={{ fontWeight: 'bold' }} />}>
                         Clear
                     </Button>
                     <Button disabled={selectedReviewDate === ''} onClick={submitData} variant="contained"
-                        sx={{ borderColor: '#003366', backgroundColor: '#003366', color: 'white', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }}
+                        sx={{ borderColor: '#003366', backgroundColor: '#003366', color: 'white', marginRight: '20px', fontWeight: '700', fontSize: '1.5vw', minWidth: '9.5em' }}
                         startIcon={<ArrowForward sx={{ fontWeight: 'bold' }} />}>
                         Send
                     </Button>

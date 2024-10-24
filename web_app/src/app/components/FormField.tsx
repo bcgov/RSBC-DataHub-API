@@ -48,7 +48,7 @@ export function FormField({
                     <IconButton size="small" onClick={handleTooltipOpen}>
                         <HelpIcon fontSize="small" style={{ color: 'black', height: '16px', width: '16px' }} />
                     </IconButton>
-                    <Typography variant='subtitle1' component="label" htmlFor={id + '-field'} sx={{ color: '#313132', fontSize: '16px', fontWeight: '700' }}>
+                    <Typography variant='subtitle1' component="label" htmlFor={id + '-field'} sx={{ color: '#313132', fontSize: '1.5vw', fontWeight: '700' }}>
                         {labelText}
                     </Typography>
                 </Box>
@@ -101,7 +101,7 @@ export function FormField({
                     <Box sx={{ display: 'table-cell', paddingLeft: '2px', paddingTop:'15px' }}>
                         {children}
                         {error &&
-                            <Typography variant="caption" sx={{ color: '#D8292F', fontWeight: '700', padding: '4px 0px 2px 0px', ml: '4px', fontSize: '16px', display: 'block' }}>
+                            <Typography variant="caption" sx={{ color: '#D8292F', fontWeight: '700', padding: '4px 0px 2px 0px', ml: '4px', fontSize: '1.5vw', display: 'block' }}>
 
                                 {errorText}
                             </Typography>
@@ -109,7 +109,7 @@ export function FormField({
                     </Box>
                 </Tooltip>
             </Box>
-            <Typography variant="caption" sx={{ mb: 1, color: '#767676', display: 'block', fontSize: '16px', mt: 0, paddingLeft: '10px', fontFamily: "'BC Sans', 'Noto Sans',  Arial, sans-serif" }}>
+            <Typography variant="caption" sx={{ mb: 1, color: '#767676', display: 'block', fontSize: '1.5vw', mt: 0, paddingLeft: '10px', fontFamily: "'BC Sans', 'Noto Sans',  Arial, sans-serif" }}>
                 {helperText}
             </Typography>
         </Box>

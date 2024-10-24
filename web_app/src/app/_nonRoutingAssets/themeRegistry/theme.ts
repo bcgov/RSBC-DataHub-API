@@ -77,7 +77,7 @@ const components = {
             },
             body: {
                 color: 'black',
-                fontSize: '16px',
+                fontSize: '1.5vw',
             },
         },
     },
@@ -102,8 +102,29 @@ const theme = createTheme({
             disabled: colors.text.disabled,
         },
     },
-    typography,
-    components: components,
+    typography: {
+        ...typography,
+        fontSize: 14, // Default font size in pixels
+    },
+    components: {
+        ...components,
+        MuiFormControlLabel: {
+            styleOverrides: {
+                label: {
+                    fontSize: '1.5vw'
+                },
+            },
+        },
+        MuiAccordionSummary: {
+            styleOverrides: {
+                root: {
+                    '& .MuiTypography-root': {
+                        fontSize: '2.5vw !important',
+                    },
+                }
+            }
+        } 
+    },
     // breakpoints,
     // Other global theme overrides or additions
 });

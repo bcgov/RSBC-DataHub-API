@@ -76,7 +76,7 @@ const ProhibitionNumber: React.FC<Props> = ({ onProhibitionDataChange }) => {
                         value={controlProhibitionNumber} onChange={handleChange} onBlur={validateField}>
                     </TextField></FormField>
                 <div style={{ marginTop: '-30px', marginBottom: '30px' }}>
-                    <Typography sx={{ color: '#313132', fontSize: '16px', fontWeight: '700', mt: '10px', ml: '10px', paddingBottom: '10px' }}>(optional)</Typography>
+                    <Typography sx={{ color: '#313132', fontSize: '1.5vw', fontWeight: '700', mt: '10px', ml: '10px', paddingBottom: '10px' }}>(optional)</Typography>
 
                     <Image src="/assets/images/Combo prohibition no.png" width={280}
                         height={180}
