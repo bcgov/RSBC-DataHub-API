@@ -1,8 +1,9 @@
-FROM registry.access.redhat.com/rhscl/python-36-rhel7:latest
+FROM registry.access.redhat.com/ubi8/python-311
 ARG VERSION
 ENV VERSION=$VERSION
 
 COPY validator/requirements.txt ${APP_ROOT}/src/
+
 
 RUN source /opt/app-root/etc/scl_enable && \
     set -x && \
@@ -14,5 +15,4 @@ COPY __init__.py ${APP_ROOT}/src/python/
 COPY common/*.py ${APP_ROOT}/src/python/common/
 COPY validator/*.py ${APP_ROOT}/src/python/validator/
 COPY validator/schema.json ${APP_ROOT}/src/python/validator/
-
 CMD [ "python", "python/validator/listener.py" ]

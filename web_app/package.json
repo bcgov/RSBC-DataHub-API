@@ -26,6 +26,8 @@
     "@types/jspdf": "^2.0.0",
     "axios": "^1.7",
     "dayjs": "^1.11",
+    "axios": "^1.7",
+    "dayjs": "^1.11",
     "framer-motion": "^11.0.5",
     "html2canvas": "^1.4.1",
     "html2pdf.js": "^0.10.2",

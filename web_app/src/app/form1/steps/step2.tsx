@@ -125,6 +125,8 @@ const Step2 = forwardRef((props: Props, ref) => {
         if (e.target.files?.length) {
             let file: File = e.target.files[0];
             let fileContent: string = await file2Base64(file);
+            let file: File = e.target.files[0];
+            let fileContent: string = await file2Base64(file);
             //console.log("calling checkVirusScanner: ", fileContent.length);
             if (await checkVirusScanner(fileContent)) {
                 setFile(file);
@@ -352,6 +354,8 @@ const Step2 = forwardRef((props: Props, ref) => {
                         </Grid>
                         <Grid container spacing={1} style={{ paddingTop: '30px', paddingBottom: '1px' }} >
                             <Grid item xs={8} sx={{ padding: "1px" }}>
+                        <Grid container spacing={1} style={{ paddingTop: '30px', paddingBottom: '1px' }} >
+                            <Grid item xs={8} sx={{ padding: "1px" }}>
                                 <FormField id="attach-consent"
                                     labelText="Attach signed consent from driver"
                                     tooltipTitle="Attach signed consent from driver"
@@ -368,6 +372,12 @@ const Step2 = forwardRef((props: Props, ref) => {
                                         <DeleteIcon fontSize="inherit" />
                                     </IconButton>
                                 </FormField>
+                                    {step2Data.consentFileName &&
+                                        <div style={{ lineHeight: '1', paddingBottom: '20px', fontSize: '14px' }}>
+                                            <strong style={{ color: '#313132' }}>
+                                                Consent file attached:</strong> {step2Data.consentFileName}
+                                        </div>
+                                    }
                                     {step2Data.consentFileName &&
                                         <div style={{ lineHeight: '1', paddingBottom: '20px', fontSize: '14px' }}>
                                             <strong style={{ color: '#313132' }}>
