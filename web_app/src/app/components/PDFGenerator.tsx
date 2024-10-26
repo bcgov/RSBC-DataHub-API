@@ -1,6 +1,8 @@
 'use client';
 import { jsPDF } from 'jspdf';
-import html2pdf from 'html2pdf.js';
+import dynamic from 'next/dynamic';
+
+const html2pdf = dynamic(() => import('html2pdf.js'), { ssr: false }) as unknown as typeof import('html2pdf.js');
 
 interface PdfOptions {
     margin?: number;
@@ -11,11 +13,11 @@ interface PdfOptions {
     pagebreak?: { mode: string[] };
 }
 
-export async function generatePDFWithHeaderFooter(
-    element: HTMLElement,
-    title: string,
-    options: PdfOptions = {}
-) {
+const generatePDFWithHeaderFooter = (element: HTMLElement, title: string) => {
+    if (typeof window === 'undefined') {
+        throw new Error('This function can only be run in the browser.');
+    }
+
     const defaultOptions: PdfOptions = {
         margin: 15,
         filename: 'document.pdf',
@@ -24,10 +26,8 @@ export async function generatePDFWithHeaderFooter(
         pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
         
     };
-
-    const opt = { ...defaultOptions, ...options };
-    
-    return html2pdf().from(element).set(opt).toPdf().get('pdf').then((pdf: jsPDF) => {
+ 
+    return html2pdf.default().from(element).set(defaultOptions).toPdf().get('pdf').then((pdf: jsPDF) => {
         const totalPages = pdf.internal.pages;
         console.log("pages are: " + totalPages.length );
         for (let i = 1; i < totalPages.length; i++) {
@@ -48,6 +48,10 @@ export async function generatePDFWithHeaderFooter(
             pdf.text(footerText, pageWidth - margin - pdf.getStringUnitWidth(footerText) * pdf.getFontSize() / 2, pageHeight - 10);
             pdf.line(margin, pageHeight - 15, pageWidth - margin, pageHeight - 15);
         }
-        return pdf;
+        const file = pdf?.output('blob');
+        console.log("pdf file gen size:", file?.size);
+        //pdf.save(); //for testing to save the file before sending email
+        return file;
     });
 }
+export default generatePDFWithHeaderFooter;

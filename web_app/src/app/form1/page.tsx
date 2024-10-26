@@ -13,7 +13,7 @@ import Step1 from './steps/step1';
 import Step2 from './steps/step2';
 import Step3 from './steps/step3';
 import Step4 from '../components/step4';
-import { generatePDFWithHeaderFooter } from '../components/PDFGenerator';
+import generatePDFWithHeaderFooter from '../components/PDFGenerator';
 
 export default function Page() {
 
@@ -68,8 +68,7 @@ export default function Page() {
         
         try {
             const formContentElement = document.getElementsByClassName('formContent')[0] as HTMLElement;
-            const pdf = await generatePDFWithHeaderFooter(formContentElement, 'Notice of Driving Prohibition Application for Review');
-            //pdf.save();
+            const file = generatePDFWithHeaderFooter(formContentElement, 'Notice of Driving Prohibition Application for Review');
 
             setIsLoading(true);
             setIsExpanded(true);
@@ -94,9 +93,7 @@ export default function Page() {
             }
             console.log("after posting xml");
 
-            const file = pdf?.output('blob');
             setProgress(80);
-            console.log("pdf file gen size:", file?.size);
             let reader = new FileReader();
 
             reader.onload = async function (e) {
