@@ -178,7 +178,7 @@ const Step1 = forwardRef((props: Props, ref) => {
                     />
                 </div>
                 <Grid container spacing={2} >
-                    <Grid item xs={5} sx={{ padding: "1px" }}>
+                    <Grid item xs={8} sx={{ padding: "1px" }}>
                         {(step1Data.controlIsIrp === true || step1Data.controlIsAdp === true) &&
                             <FormField
                                 id="license-seized"
@@ -223,16 +223,16 @@ const Step1 = forwardRef((props: Props, ref) => {
                     </Grid>
 
 
-                    <Grid item xs={7} sx={{ padding: "1px" }}>
+                    <Grid item xs={8} sx={{ padding: "1px" }}>
                         {
                             (step1Data.controlIsIrp === true || step1Data.controlIsAdp === true) && showNoLicenseDiv === true &&
                             <div className="noLicense" >
                                 <div>
                                     <div style={{ display: 'inline-grid' }}>
-                                        <span style={{ fontSize: '14px' }} >
+                                        <span style={{ fontSize: '1.1vw' }} >
                                             <strong> You&apos;re ineligible to apply online because your licence wasn&apos;t surrendered to the police.</strong>
                                         </span>
-                                        <span style={{ fontSize: '14px' }} >
+                                        <span style={{ fontSize: '1.1vw' }} >
                                             <strong>Apply in person for a review by:</strong>
                                         </span>
                                     </div>
@@ -240,10 +240,10 @@ const Step1 = forwardRef((props: Props, ref) => {
                                     <ol style={{
                                         padding: 0, marginBottom: '10px', marginLeft: '25px', marginRight: '0px', marginTop: '20px'
                                     }}>
-                                        <li style={{ fontSize: '16px' }}><span style={{ fontSize: '14px' }} > <strong>Visiting&nbsp;<a href="https://www.icbc.com/driver-licensing/visit-dl-office/Pages/Book-a-knowledge-test-and-other-services.aspx" rel="noopener" target="_blank">ICBC,</a> select<a href="https://appointments.servicebc.gov.bc.ca/appointment" rel="noopener" target="_blank"> ServiceBC</a>&nbsp;centres, or an appointed agent within 7 days from the date the prohibition was issued.</strong></span></li>
-                                        <li style={{ fontSize: '16px' }}><span style={{ fontSize: '14px' }} > <strong> Taking your notice with you.</strong></span></li>
-                                        <li style={{ fontSize: '16px' }}><span style={{ fontSize: '14px' }}><strong>Surrendering your licence.</strong></span></li>
-                                        <li style={{ fontSize: '16px' }}><span style={{ fontSize: '14px' }}> <strong>Completing an Application for a Review of a Driving Prohibition. </strong></span></li>
+                                        <li style={{ fontSize: '1.5vw' }}><span style={{ fontSize: '1.1vw' }} > <strong>Visiting&nbsp;<a href="https://www.icbc.com/driver-licensing/visit-dl-office/Pages/Book-a-knowledge-test-and-other-services.aspx" rel="noopener" target="_blank">ICBC,</a> select<a href="https://appointments.servicebc.gov.bc.ca/appointment" rel="noopener" target="_blank"> ServiceBC</a>&nbsp;centres, or an appointed agent within 7 days from the date the prohibition was issued.</strong></span></li>
+                                        <li style={{ fontSize: '1.5vw' }}><span style={{ fontSize: '1.1vw' }} > <strong> Taking your notice with you.</strong></span></li>
+                                        <li style={{ fontSize: '1.5vw' }}><span style={{ fontSize: '1.1vw' }}><strong>Surrendering your licence.</strong></span></li>
+                                        <li style={{ fontSize: '1.5vw' }}><span style={{ fontSize: '1.1vw' }}> <strong>Completing an Application for a Review of a Driving Prohibition. </strong></span></li>
                                     </ol>
                                 </div>
                             </div>
@@ -254,7 +254,7 @@ const Step1 = forwardRef((props: Props, ref) => {
             </div>
             <div id="page2img1">
                 <Grid container spacing={2} >
-                    <Grid item xs={5} sx={{ padding: "1px" }}>
+                    <Grid item xs={8} sx={{ padding: "1px" }}>
                 {(step1Data.controlIsIrp === true && step1Data.licenseSeized === "licenseSeized") &&
                     <FormField
                         id="irp-prohibition-type-length"

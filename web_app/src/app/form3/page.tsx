@@ -375,23 +375,23 @@ export default function Page() {
                 <div id="page1img1">
                     <h1 className="header1" id="hed">Upload Evidence and Statement</h1>
                     <CustomAccordion title="Before You Begin:" id="step0" isExpanded={true}
-                        content={<div style={{ fontSize: "16px", fontFamily: "'BC Sans', 'Noto Sans',  Arial, sans-serif", paddingLeft: '10px', lineHeight: '2.5' }}><p>When you see this symbol <Image
+                        content={<div style={{ fontSize: '1.5vw', fontFamily: "'BC Sans', 'Noto Sans',  Arial, sans-serif", paddingLeft: '10px', lineHeight: '2.5' }}><p>When you see this symbol <Image
                             src="/assets/icons/info-icon.png"
                             width={15}
                             height={15}
                             alt="Info" />
                             &nbsp;click it for more information.
                         </p>
-                            <p style={{ fontSize: '16px' }}>To complete the form:</p>
+                            <p style={{ fontSize: '1.5vw' }}>To complete the form:</p>
                             <ol style={{ paddingLeft: '30px' }}>
-                                <li><strong><span style={{ fontSize: '16px' }}>Enter the prohibition number and last name from the notice</span></strong></li>
-                                <li><strong><span style={{ fontSize: '16px' }}>Click the &apos;Next&apos; button</span></strong></li>
-                                <li><span style={{ fontSize: '16px' }}>Read the guidelines</span></li><li><span style={{ fontSize: '16px' }}>Attach your file(s)</span></li>
-                                <li><span style={{ fontSize: '16px' }}>Click Send</span></li>
+                                <li><strong><span style={{ fontSize: '1.5vw' }}>Enter the prohibition number and last name from the notice</span></strong></li>
+                                <li><strong><span style={{ fontSize: '1.5vw' }}>Click the &apos;Next&apos; button</span></strong></li>
+                                <li><span style={{ fontSize: '1.5vw' }}>Read the guidelines</span></li><li><span style={{ fontSize: '1.5vw' }}>Attach your file(s)</span></li>
+                                <li><span style={{ fontSize: '1.5vw' }}>Click Send</span></li>
                             </ol>
 
-                            <div><span style={{ fontSize: '16px' }}>You&apos;ll receive a confirmation email if you attached your file(s).&nbsp;</span></div>
-                            <div><span style={{ fontSize: '16px' }}>If you don&apos;t enter anything in the form for 15 minutes, it may time out.</span></div>
+                            <div><span style={{ fontSize: '1.5vw' }}>You&apos;ll receive a confirmation email if you attached your file(s).&nbsp;</span></div>
+                            <div><span style={{ fontSize: '1.5vw' }}>If you don&apos;t enter anything in the form for 15 minutes, it may time out.</span></div>
                         </div>} />
                 </div>
 
@@ -433,14 +433,14 @@ export default function Page() {
                             </FormField>
                         </div>
                         <Grid item xs={4} sx={{ padding: "1px" }}>
-                            <Button variant="outlined" sx={{ cursor: 'pointer', color: '#003366', borderColor: '#003366', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }}
+                            <Button variant="outlined" sx={{ cursor: 'pointer', color: '#003366', borderColor: '#003366', marginRight: '20px', fontWeight: '700', fontSize: '1.5vw', minWidth: '9.5em' }}
                                 onClick={callValidateFormData}>
                                 Next
                             </Button>
                         </Grid>
                         {!isValidData &&
                             <div>
-                                <Typography variant="caption" sx={{ color: '#D8292F', fontWeight: '700', padding: '4px 0px 2px 0px', ml: '4px', fontSize: '16px', display: 'block' }}>
+                                <Typography variant="caption" sx={{ color: '#D8292F', fontWeight: '700', padding: '4px 0px 2px 0px', ml: '4px', fontSize: '1.5vw', display: 'block' }}>
 
                                     {isValidComboErrorText}
                                 </Typography>
@@ -452,7 +452,7 @@ export default function Page() {
                                 <div id="page1img3">
                                     <Grid item xs={6} md={8} sm={10} lg={12} sx={{ padding: "1px", paddingBottom: '20px', paddingTop: '20px' }}>
                                         <div style={{ paddingBottom: '10px' }}>
-                                            <strong style={{ fontSize: '16px', paddingLeft: '10px' }}> Applicant Contact Information:</strong>
+                                            <strong style={{ fontSize: '1.5vw', paddingLeft: '10px' }}> Applicant Contact Information:</strong>
                                         </div>
 
                                         <Grid container spacing={2} sx={{ paddingTop: '10px' }} >
@@ -493,7 +493,7 @@ export default function Page() {
                                                     <div className="noLicense" >
                                                         <div>
                                                             <div style={{ display: 'inline-grid' }}>
-                                                                <span style={{ fontSize: '14px' }} >
+                                                                <span style={{ fontSize: '1.1vw' }} >
                                                                     <strong> If you haven&apos;t submitted a signed consent from the driver authorizing you to send and receive documents on their behalf. </strong>
                                                                 </span>
 
@@ -544,9 +544,9 @@ export default function Page() {
                     {isValidData &&
                         <div>
                             <CustomAccordion title="Step 2: Read the Guidelines" id="step2" isExpanded={isExpanded}
-                                content={<div style={{ fontSize: "16px", fontFamily: "'BC Sans', 'Noto Sans',  Arial, sans-serif", paddingLeft: '10px', lineHeight: '2.5' }}>
-                                    <div><span style={{ fontSize: "16px", }} > <strong>Providing Information</strong></span></div>
-                                    <ul style={{ fontSize: "16px", paddingLeft: '20px', paddingBottom: '20px', paddingTop: '10px' }}>
+                                content={<div style={{ fontSize: '1.5vw', fontFamily: "'BC Sans', 'Noto Sans',  Arial, sans-serif", paddingLeft: '10px', lineHeight: '2.5' }}>
+                                    <div><span style={{ fontSize: '1.5vw', }} > <strong>Providing Information</strong></span></div>
+                                    <ul style={{ fontSize: '1.5vw', paddingLeft: '20px', paddingBottom: '20px', paddingTop: '10px' }}>
                                         <li>You must provide the information you want considered <strong>2 days</strong> before your scheduled review.</li>
                                         <li>The information you&apos;ll provide should address the grounds you chose on your application.</li>
                                         <li>The adjudicator won&apos;t consider evidence you submit after the scheduled review date.</li>
@@ -555,10 +555,10 @@ export default function Page() {
                                 </div>} />
 
                             <CustomAccordion title="Step 3: Attach Statement and Evidence" id="step3" isExpanded={isExpanded}
-                                content={<div style={{ fontSize: "16px", fontFamily: "'BC Sans', 'Noto Sans',  Arial, sans-serif", paddingLeft: '10px', lineHeight: '2.5' }}>
-                                    <div><span style={{ fontSize: "16px", }} > <strong>Things you should know</strong></span></div>
+                                content={<div style={{ fontSize: '1.5vw', fontFamily: "'BC Sans', 'Noto Sans',  Arial, sans-serif", paddingLeft: '10px', lineHeight: '2.5' }}>
+                                    <div><span style={{ fontSize: '1.5vw', }} > <strong>Things you should know</strong></span></div>
                                     <div>
-                                        <ul style={{ fontSize: "16px", paddingLeft: '20px', paddingBottom: '20px', paddingTop: '10px' }}>
+                                        <ul style={{ fontSize: '1.5vw', paddingLeft: '20px', paddingBottom: '20px', paddingTop: '10px' }}>
                                             <li>If you have a slow Internet connection, it will take longer to upload your files. </li>
                                             <li>You can upload as many files as you need, but the maximum size for a single file is 25MB.</li>
                                             <li>The maximum total size for all the files in a single upload is 50MB.</li>
@@ -566,8 +566,8 @@ export default function Page() {
                                         </ul>
                                     </div>
                                     <div>
-                                        <div><span style={{ fontSize: '16px', }} > <strong>Accepted file types: </strong></span></div>
-                                        <ul style={{ fontSize: "16px", paddingLeft: '20px', paddingBottom: '20px', paddingTop: '10px' }}>
+                                        <div><span style={{ fontSize: '1.5vw', }} > <strong>Accepted file types: </strong></span></div>
+                                        <ul style={{ fontSize: '1.5vw', paddingLeft: '20px', paddingBottom: '20px', paddingTop: '10px' }}>
                                             <li>.pdf, .doc, .docx, and .txt files</li>
                                             <li>.xls, and .xlsx files</li>
                                             <li>.png, .jpg and .gif files</li>
@@ -618,7 +618,7 @@ export default function Page() {
             </div>
             {formHasError() &&
                 <div id="errorText">
-                    <Typography variant="caption" sx={{ color: '#D8292F', fontWeight: '700', padding: '4px 10px 20px 30px', ml: '4px', fontSize: '16px', display: 'block' }}>
+                    <Typography variant="caption" sx={{ color: '#D8292F', fontWeight: '700', padding: '4px 10px 20px 30px', ml: '4px', fontSize: '1.5vw', display: 'block' }}>
 
                         Your form contains errors. Please correct them to proceed.
                     </Typography>
@@ -627,7 +627,7 @@ export default function Page() {
             }
             {message &&
                 <div id="messageDiv">
-                    <Typography variant="caption" sx={{ color: '#555', fontWeight: '700', padding: '4px 10px 20px 30px', ml: '4px', fontSize: '16px', display: 'block', boxSizing: 'border-box' }}>
+                    <Typography variant="caption" sx={{ color: '#555', fontWeight: '700', padding: '4px 10px 20px 30px', ml: '4px', fontSize: '1.5vw', display: 'block', boxSizing: 'border-box' }}>
                         {message}
                     </Typography>
 
@@ -637,13 +637,13 @@ export default function Page() {
             <div style={{ paddingBottom: '40px' }}>
                 <Grid container spacing={2} >
                     <Grid item xs={6} sx={{ padding: "1px" }}></Grid>                  <Grid item xs={6} sx={{ padding: "1px" }}>
-                        <Button onClick={clearData} variant="outlined" sx={{ cursor: 'pointer', color: '#003366', borderColor: '#003366', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }} startIcon={<CloseIcon sx={{ fontWeight: 'bold' }} />}>
+                        <Button onClick={clearData} variant="outlined" sx={{ cursor: 'pointer', color: '#003366', borderColor: '#003366', marginRight: '20px', fontWeight: '700', fontSize: '1.5vw', minWidth: '9.5em' }} startIcon={<CloseIcon sx={{ fontWeight: 'bold' }} />}>
                             Clear
                         </Button>
-                        <Button disabled={!isFormSubmitted} onClick={generatePdfAction} variant="outlined" sx={{ cursor: 'pointer', color: '#003366', borderColor: '#003366', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }} startIcon={<Print sx={{ fontWeight: 'bold' }} />}>
+                        <Button disabled={!isFormSubmitted} onClick={generatePdfAction} variant="outlined" sx={{ cursor: 'pointer', color: '#003366', borderColor: '#003366', marginRight: '20px', fontWeight: '700', fontSize: '1.5vw', minWidth: '9.5em' }} startIcon={<Print sx={{ fontWeight: 'bold' }} />}>
                             PDF
                         </Button>
-                        <Button onClick={submitData} variant="contained" disabled={isLoading||!isValidData} sx={{ borderColor: '#003366', backgroundColor: '#003366', color: 'white', marginRight: '20px', fontWeight: '700', fontSize: '16px', minWidth: '9.5em' }} startIcon={<ArrowForward sx={{ fontWeight: 'bold' }} />}>
+                        <Button onClick={submitData} variant="contained" disabled={isLoading||!isValidData} sx={{ borderColor: '#003366', backgroundColor: '#003366', color: 'white', marginRight: '20px', fontWeight: '700', fontSize: '1.5vw', minWidth: '9.5em' }} startIcon={<ArrowForward sx={{ fontWeight: 'bold' }} />}>
                             Send
                         </Button>
                     </Grid>
