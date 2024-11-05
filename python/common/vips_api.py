@@ -65,6 +65,12 @@ def status_get(prohibition_id: str, config, correlation_id='abcd') -> tuple:
         return True, data
     return False, dict({})
 
+def duplicate_get(prohibition_id: str, config, correlation_id='abcd'): 
+    endpoint = build_endpoint(config.VIPS_API_ROOT_URL, 'application', 'notice', prohibition_id, correlation_id)
+    is_response_successful, data = get(endpoint, config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD, correlation_id)
+    if 'resp' in data:
+        return True, data
+    return False, dict({})
 
 def disclosure_get(document_id: str, config, correlation_id='abcd'):
     endpoint = build_endpoint(config.VIPS_API_ROOT_URL, document_id, 'disclosure', correlation_id)
