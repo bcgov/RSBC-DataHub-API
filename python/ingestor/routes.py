@@ -162,7 +162,9 @@ def check_templates():
 @application.route('/duplicate', methods=['GET'])
 @basic_auth_required
 def check_duplicate():
-    
+    """
+    This endpoint provides indication if a review has already been submitted for a given prohibition.
+    """
     prohibition_number = request.args.get('prohibition_number')
 
     is_api_callout_successful, vips_duplicate_data = vips.duplicate_get(
