@@ -591,8 +591,8 @@ def content_data() -> dict:
             "title": "Submit Evidence",
         },
         "evidence_received.html": {
-            "raw_subject": "Evidence Received - Driving Prohibition {} Review",
-            "title": "Evidence Received",
+            "raw_subject": "Documents Received - Driving Prohibition {} Review",
+            "title": "Documents Received",
         },
         "review_type_change.html": {
             "raw_subject": "Review Type Change - Driving Prohibition {} Review",
