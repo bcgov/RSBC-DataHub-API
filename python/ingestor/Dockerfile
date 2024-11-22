@@ -1,4 +1,5 @@
-FROM registry.access.redhat.com/rhscl/python-36-rhel7:latest
+#FROM registry.access.redhat.com/rhscl/python-36-rhel7:latest
+FROM registry.access.redhat.com/ubi8/python-38
 ARG VERSION
 ENV VERSION=$VERSION
 
@@ -23,6 +24,7 @@ RUN [ "pwd" ]
 RUN [ "ls", "-R" ]
 
 RUN ["python", "-m", "pytest", "python/ingestor"]
+
 
 #TODO - Add worker processes to gunicorn below
 CMD [ "gunicorn", "--error-logfile", "-", "--bind", "0.0.0.0:5000", "--pythonpath", "python/ingestor", "wsgi" ]
