@@ -1,5 +1,5 @@
 # FROM python:3.7.3-stretch
-FROM registry.access.redhat.com/ubi8/python-311
+FROM registry.access.redhat.com/ubi8/python-38
 #FROM registry.access.redhat.com/rhscl/python-36-rhel7:latest
 ARG VERSION
 ENV VERSION=$VERSION
@@ -17,6 +17,6 @@ COPY __init__.py ${APP_ROOT}/src/python/
 COPY common ${APP_ROOT}/src/python/common
 COPY form_handler ${APP_ROOT}/src/python/form_handler
 
-#RUN ["python", "-m", "pytest", "python/form_handler"]
+RUN ["python", "-m", "pytest", "python/form_handler"]
 
 CMD [ "python", "python/form_handler/listener.py" ]

@@ -1,5 +1,5 @@
 #FROM registry.access.redhat.com/rhscl/python-36-rhel7:latest
-FROM registry.access.redhat.com/ubi8/python-311
+FROM registry.access.redhat.com/ubi8/python-38
 ARG VERSION
 ENV VERSION=$VERSION
 
@@ -23,8 +23,7 @@ COPY ingestor ${APP_ROOT}/src/python/ingestor
 RUN [ "pwd" ]
 RUN [ "ls", "-R" ]
 
-# ( Commenting Line 27 as pytest is not working with new python 311 image and removal of orbeaon forms)
-#RUN ["python", "-m", "pytest", "python/ingestor"]
+RUN ["python", "-m", "pytest", "python/ingestor"]
 
 
 #TODO - Add worker processes to gunicorn below
