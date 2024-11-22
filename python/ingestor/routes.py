@@ -1,4 +1,5 @@
 import python.common.helper as helper
+import python.common.vips_api as vips
 from python.ingestor.config import Config
 from python.common.rabbitmq import RabbitMQ
 from python.common.message import encode_message
@@ -13,7 +14,7 @@ import python.common.rsi_email as rsi_email
 application = Flask(__name__)
 application.secret = Config.FLASK_SECRET_KEY
 logging.config.dictConfig(Config.LOGGING)
-logging.warning('*** flask initialized ***')
+logging.warning('*** flask initialized  ***')
 
 
 @application.before_request
@@ -124,7 +125,6 @@ def evidence():
             }
         }))
 
-
 @application.route('/check', methods=['GET'])
 def check():
     """
@@ -159,6 +159,24 @@ def check_templates():
             templates=rsi_email.content_data()
         )
 
+@application.route('/duplicate', methods=['GET'])
+@basic_auth_required
+def check_duplicate():
+    """
+    This endpoint provides indication if a review has already been submitted for a given prohibition.
+    """
+    prohibition_number = request.args.get('prohibition_number')
+
+    is_api_callout_successful, vips_duplicate_data = vips.duplicate_get(
+        prohibition_id=prohibition_number, 
+        config=Config)
+    if is_api_callout_successful:
+        return vips_duplicate_data
+    error = 'the VIPS get_duplicate operation returned an invalid response'
+    args['error_string'] = "The system is down, please try again later."
+    logging.info(error)
+    return False, args
+         
 
 if __name__ == "__main__":
     application.run(host='0.0.0.0')
