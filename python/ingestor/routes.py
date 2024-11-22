@@ -14,7 +14,7 @@ import python.common.rsi_email as rsi_email
 application = Flask(__name__)
 application.secret = Config.FLASK_SECRET_KEY
 logging.config.dictConfig(Config.LOGGING)
-logging.warning('*** flask initialized ***')
+logging.warning('*** flask initialized  ***')
 
 
 @application.before_request
