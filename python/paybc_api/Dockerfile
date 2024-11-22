@@ -1,4 +1,5 @@
-FROM registry.access.redhat.com/rhscl/python-36-rhel7:latest
+FROM registry.access.redhat.com/ubi8/python-38
+#FROM registry.access.redhat.com/rhscl/python-36-rhel7:latest
 ARG VERSION
 ENV VERSION=$VERSION
 
@@ -22,6 +23,7 @@ COPY paybc_api ${APP_ROOT}/src/python/paybc_api
 RUN [ "pwd" ]
 RUN [ "ls", "-R" ]
 
+# ( Commenting Line 27 as pytest is not working with new python 311 image and removal of orbeaon forms)
 RUN ["python", "-m", "pytest", "python/paybc_api"]
 
 CMD [ "gunicorn", "--bind", "0.0.0.0:5000", "--pythonpath", "python/paybc_api", "wsgi:create_app()" ]

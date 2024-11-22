@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi8/python-311
+FROM registry.access.redhat.com/ubi8/python-38
 ARG VERSION
 ENV VERSION=$VERSION
 
