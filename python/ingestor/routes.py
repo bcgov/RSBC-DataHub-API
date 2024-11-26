@@ -163,7 +163,7 @@ def check_templates():
 @basic_auth_required
 def check_duplicate():
     """
-    This endpoint provides indication if a review has already been submitted for a given prohibition.
+    This endpoint provides indication if a review has already been submitted for a given prohibition. 
     """
     prohibition_number = request.args.get('prohibition_number')
 
