@@ -587,8 +587,8 @@ def content_data() -> dict:
             "title": "Send Disclosure",
         },
         "send_evidence_instructions.html": {
-            "raw_subject": "Submit Evidence - Driving Prohibition {} Review",
-            "title": "Submit Evidence",
+            "raw_subject": "Upload Supporting Documents - Driving Prohibition {} Review",
+            "title": "Upload Supporting Documents",
         },
         "evidence_received.html": {
             "raw_subject": "Documents Received - Driving Prohibition {} Review",
