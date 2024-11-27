@@ -21,6 +21,7 @@ class Config(BaseConfig):
     LINK_TO_SCHEDULE_FORM               = os.getenv('LINK_TO_SCHEDULE_FORM', 'http://localhost')
     LINK_TO_EVIDENCE_FORM               = os.getenv('LINK_TO_EVIDENCE_FORM', 'http://localhost')
     LINK_TO_APPLICATION_FORM            = os.getenv('LINK_TO_APPLICATION_FORM', 'http://localhost')
+    LINK_TO_RSBC_HOME_PAGE              = os.getenv('LINK_TO_RSBC_HOME_PAGE', 'http://localhost')
 
     LINK_TO_ICBC                        = os.getenv('LINK_TO_ICBC', 'http://localhost')
 
