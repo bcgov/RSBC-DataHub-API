@@ -394,6 +394,7 @@ def applicant_evidence_instructions(**args) -> tuple:
         content["subject"],
         config,
         template.render(
+            link_to_rsbc_home_page=config.LINK_TO_RSBC_HOME_PAGE,
             link_to_evidence_form=config.LINK_TO_EVIDENCE_FORM,
             full_name=args.get('applicant_name'),
             prohibition_number=prohibition_number,
@@ -587,12 +588,12 @@ def content_data() -> dict:
             "title": "Send Disclosure",
         },
         "send_evidence_instructions.html": {
-            "raw_subject": "Submit Evidence - Driving Prohibition {} Review",
-            "title": "Submit Evidence",
+            "raw_subject": "Upload Supporting Documents - Driving Prohibition {} Review",
+            "title": "Upload Supporting Documents",
         },
         "evidence_received.html": {
-            "raw_subject": "Evidence Received - Driving Prohibition {} Review",
-            "title": "Evidence Received",
+            "raw_subject": "Documents Received - Driving Prohibition {} Review",
+            "title": "Documents Received",
         },
         "review_type_change.html": {
             "raw_subject": "Review Type Change - Driving Prohibition {} Review",
