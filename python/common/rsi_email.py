@@ -394,6 +394,7 @@ def applicant_evidence_instructions(**args) -> tuple:
         content["subject"],
         config,
         template.render(
+            link_to_rsbc_home_page=config.LINK_TO_RSBC_HOME_PAGE,
             link_to_evidence_form=config.LINK_TO_EVIDENCE_FORM,
             full_name=args.get('applicant_name'),
             prohibition_number=prohibition_number,
