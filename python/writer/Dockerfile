@@ -1,4 +1,5 @@
-FROM registry.access.redhat.com/rhscl/python-36-rhel7:latest
+FROM registry.access.redhat.com/ubi8/python-38
+#FROM registry.access.redhat.com/rhscl/python-36-rhel7:latest
 ARG VERSION
 ENV VERSION=$VERSION
 
