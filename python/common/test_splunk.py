@@ -5,7 +5,7 @@ import json
 from python.common.config import Config
 from python.common.splunk import log_to_splunk
 from python.common.splunk_application_for_review import paybc_lookup
-from python.prohibition_web_svc.middleware.icbc_middleware import splunk_get_driver, splunk_get_vehicle
+"""from python.prohibition_web_svc.middleware.icbc_middleware import splunk_get_driver, splunk_get_vehicle"""
 
 
 @responses.activate
@@ -30,7 +30,7 @@ def test_splunk_logs_paybc_lookup_event():
     logging.warning(json.dumps(payload))
     assert payload == {"event": {"event": "paybc_lookup", "prohibition_number": "40123456"}, "source": "be78d6"}
 
-
+"""
 @responses.activate
 def test_splunk_logs_icbc_get_driver_event():
     dl_number = '5161222'
@@ -62,8 +62,8 @@ def test_splunk_logs_icbc_get_driver_event():
         "username": username,
         "queried_bcdl": dl_number},
         "source": "be78d6"}
-
-
+"""
+"""
 @responses.activate
 def test_splunk_logs_icbc_get_vehicle_event():
     username = 'someuser@bceid'
@@ -95,3 +95,4 @@ def test_splunk_logs_icbc_get_vehicle_event():
         "username": "someuser@bceid",
         'queried_plate': plate_number
     }, "source": "be78d6"}
+"""

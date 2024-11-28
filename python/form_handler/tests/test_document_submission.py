@@ -29,8 +29,8 @@ def test_applicant_sent_email_confirming_evidence_received(monkeypatch):
         print('inside mock_send_email()')
         assert "me@gov.bc.ca" in args[0]
         print("Subject: {}".format(args[1]))
-        assert "Evidence Received - Driving Prohibition 20-123456 Review" in args[3]
-        assert "we received the evidence that will be considered for your review." in args[3]
+        assert "Documents Received - Driving Prohibition 20-123456 Review" in args[3]
+        assert "we received the documents you uploaded that will be considered by the adjudicator for your review." in args[3]
         assert "http://link-to-evidence-form" in args[3]
         return True
 
