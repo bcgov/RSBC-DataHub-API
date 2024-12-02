@@ -8,7 +8,7 @@ charset-normalizer==2.0.9
 click==7.1.2
 convertdate==2.2.0
 cryptography==36.0.0
-dparse==0.5.1
+dparse==0.5.2
 ecdsa==0.17.0
 Flask==2.0.2
 Flask-SQLAlchemy==2.4.1
