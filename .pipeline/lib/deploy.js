@@ -116,6 +116,19 @@ module.exports = settings => {
   //   }
   // }))
   if (phase !== "prod") {
+    objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-vips-mock-svc-deploy.yaml`, {
+      'param': {
+        'NAME': phases[phase].name,
+        'SUFFIX': phases[phase].suffix,
+        'VERSION': phases[phase].tag,
+        'PHASE': phases[phase].phase,
+        'URL_SUFFIX': phases[phase].url_suffix,
+        'CPU_REQUEST': phases[phase].cpu_request,
+        'CPU_LIMIT': phases[phase].cpu_limit,
+        'MEMORY_REQUEST': phases[phase].memory_request,
+        'MEMORY_LIMIT': phases[phase].memory_limit
+      }
+    }))
     objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/rsbcdh-icbc-mock-svc-deploy.yaml`, {
       'param': {
         'NAME': phases[phase].name,

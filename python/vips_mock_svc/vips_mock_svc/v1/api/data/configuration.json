@@ -1,0 +1,295 @@
+{
+  "configuration": {
+    "addresses": [
+      {
+        "activeYN": "string",
+        "internalYN": "string",
+        "objectCd": "string",
+        "objectDsc": "string"
+      }
+    ],
+    "contactMethods": [
+      {
+        "activeYN": "string",
+        "internalYN": "string",
+        "objectCd": "string",
+        "objectDsc": "string"
+      }
+    ],
+    "countries": [
+      {
+        "activeYN": "string",
+        "internalYN": "string",
+        "objectCd": "string",
+        "objectDsc": "string"
+      }
+    ],
+    "data_sources": [
+      {
+        "activeYN": "string",
+        "internalYN": "string",
+        "objectCd": "string",
+        "objectDsc": "string"
+      }
+    ],
+    "decisionOutcomes": [
+      {
+        "codes": [
+          {
+            "activeYN": "string",
+            "internalYN": "string",
+            "objectCd": "string",
+            "objectDsc": "string"
+          }
+        ],
+        "noticeActiveYN": "string",
+        "noticeTypeCd": "string",
+        "noticeTypeDsc": "string"
+      }
+    ],
+    "disposalActs": [
+      {
+        "activeYN": "string",
+        "internalYN": "string",
+        "objectCd": "string",
+        "objectDsc": "string"
+      }
+    ],
+    "disposalDecisions": [
+      {
+        "activeYN": "string",
+        "internalYN": "string",
+        "objectCd": "string",
+        "objectDsc": "string"
+      }
+    ],
+    "documentNotices": [
+      {
+        "codes": [
+          {
+            "activeYN": "string",
+            "internalYN": "string",
+            "objectCd": "string",
+            "objectDsc": "string"
+          }
+        ],
+        "documentActiveYN": "string",
+        "documentTypeCd": "string",
+        "documentTypeDsc": "string"
+      }
+    ],
+    "documents": [
+      {
+        "codes": [
+          {
+            "activeYN": "string",
+            "internalYN": "string",
+            "objectCd": "string",
+            "objectDsc": "string"
+          }
+        ],
+        "noticeActiveYN": "string",
+        "noticeTypeCd": "string",
+        "noticeTypeDsc": "string"
+      }
+    ],
+    "dreEvaluations": [
+      {
+        "codes": [
+          {
+            "activeYN": "string",
+            "internalYN": "string",
+            "objectCd": "string",
+            "objectDsc": "string"
+          }
+        ],
+        "noticeActiveYN": "string",
+        "noticeTypeCd": "string",
+        "noticeTypeDsc": "string"
+      }
+    ],
+    "driverLicenceOffices": [
+      {
+        "activeYN": "string",
+        "identityId": 0,
+        "identityNm": "string"
+      }
+    ],
+    "groundsDecisions": [
+      {
+        "codes": [
+          {
+            "activeYN": "string",
+            "internalYN": "string",
+            "objectCd": "string",
+            "objectDsc": "string"
+          }
+        ],
+        "reviewAppActiveYN": "string",
+        "reviewAppTypeCd": "string",
+        "reviewAppTypeDsc": "string"
+      }
+    ],
+    "impoundLotOperators": [
+      {
+        "activeYN": "string",
+        "identityId": 0,
+        "identityNm": "string"
+      }
+    ],
+    "jurisdictions": [
+      {
+        "activeYN": "string",
+        "internalYN": "string",
+        "objectCd": "string",
+        "objectDsc": "string"
+      }
+    ],
+    "noticePrefixNos": [
+      {
+        "codes": [
+          {
+            "activeYN": "string",
+            "internalYN": "string",
+            "objectCd": "string",
+            "objectDsc": "string"
+          }
+        ],
+        "noticeActiveYN": "string",
+        "noticeTypeCd": "string",
+        "noticeTypeDsc": "string"
+      }
+    ],
+    "noticeTypes": [
+      {
+        "activeYN": "string",
+        "internalYN": "string",
+        "objectCd": "string",
+        "objectDsc": "string"
+      }
+    ],
+    "originalCauses": [
+      {
+        "codes": [
+          {
+            "activeYN": "string",
+            "objectAbbrev": "string",
+            "objectCd": "string",
+            "objectDsc": "string"
+          }
+        ],
+        "noticeActiveYN": "string",
+        "noticeTypeCd": "string",
+        "noticeTypeDsc": "string"
+      }
+    ],
+    "policeDetachments": [
+      {
+        "activeYN": "string",
+        "identityId": 0,
+        "identityNm": "string"
+      }
+    ],
+    "provinces": [
+      {
+        "activeYN": "string",
+        "internalYN": "string",
+        "objectCd": "string",
+        "objectDsc": "string"
+      }
+    ],
+    "registration_roles": [
+      {
+        "activeYN": "string",
+        "internalYN": "string",
+        "objectCd": "string",
+        "objectDsc": "string"
+      }
+    ],
+    "releaseReasons": [
+      {
+        "activeYN": "string",
+        "internalYN": "string",
+        "objectCd": "string",
+        "objectDsc": "string"
+      }
+    ],
+    "reviewApplications": [
+      {
+        "codes": [
+          {
+            "activeYN": "string",
+            "internalYN": "string",
+            "objectCd": "string",
+            "objectDsc": "string"
+          }
+        ],
+        "noticeActiveYN": "string",
+        "noticeTypeCd": "string",
+        "noticeTypeDsc": "string"
+      }
+    ],
+    "reviewRoles": [
+      {
+        "codes": [
+          {
+            "activeYN": "string",
+            "internalYN": "string",
+            "objectCd": "string",
+            "objectDsc": "string"
+          }
+        ],
+        "noticeActiveYN": "string",
+        "noticeTypeCd": "string",
+        "noticeTypeDsc": "string"
+      }
+    ],
+    "reviewStatuses": [
+      {
+        "activeYN": "string",
+        "internalYN": "string",
+        "objectCd": "string",
+        "objectDsc": "string"
+      }
+    ],
+    "reviewTypes": [
+      {
+        "codes": [
+          {
+            "activeYN": "string",
+            "internalYN": "string",
+            "objectCd": "string",
+            "objectDsc": "string"
+          }
+        ],
+        "noticeActiveYN": "string",
+        "noticeTypeCd": "string",
+        "noticeTypeDsc": "string"
+      }
+    ],
+    "scheduleAppTypes": [
+      {
+        "activeYN": "string",
+        "identityId": 0,
+        "identityNm": "string"
+      }
+    ],
+    "unavailabilityReasons": [
+      {
+        "activeYN": "string",
+        "internalYN": "string",
+        "objectCd": "string",
+        "objectDsc": "string"
+      }
+    ],
+    "vehicleTypes": [
+      {
+        "activeYN": "string",
+        "internalYN": "string",
+        "objectCd": "string",
+        "objectDsc": "string"
+      }
+    ]
+  },
+  "respMsg": "string"
+}

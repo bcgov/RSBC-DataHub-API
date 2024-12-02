@@ -170,6 +170,18 @@ services:
         - "5003:5000"
 
 
+    vips_mock_svc:
+      build:
+        context: python
+        dockerfile: vips_mock_svc/Dockerfile-local
+      environment:
+        FLASK_SECRET_KEY: "${FLASK_SECRET_KEY}"
+
+      networks:
+        - docker-network
+      ports:
+        - "5004:5000"
+
 
 networks:
   docker-network:
