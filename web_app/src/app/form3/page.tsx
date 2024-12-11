@@ -888,7 +888,7 @@ export default function Page() {
                         </li>
                         <li>
                           Effective January 1st 2025, a statement must not
-                          exceed 30 pages totoal, for more information refer to
+                          exceed 30 pages total, for more information refer to
                           the RoadSafetyBC website.
                         </li>
                       </ul>
