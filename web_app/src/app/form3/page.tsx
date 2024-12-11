@@ -887,8 +887,9 @@ export default function Page() {
                           48 hours before your review.
                         </li>
                         <li>
-                          A statement must not exceed 30 pages totoal, for more
-                          information refer to the RoadSafetyBC website.
+                          Effective January 1st 2025, a statement must not
+                          exceed 30 pages total, for more information refer to
+                          the RoadSafetyBC website.
                         </li>
                       </ul>
                     </div>
