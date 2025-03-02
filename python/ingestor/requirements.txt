@@ -41,5 +41,5 @@ safety==1.10.3
 six==1.16.0
 toml==0.10.2
 urllib3==1.26.7
-Werkzeug==2.0.2
+Werkzeug==2.2.3
 xmltodict==0.12.0
