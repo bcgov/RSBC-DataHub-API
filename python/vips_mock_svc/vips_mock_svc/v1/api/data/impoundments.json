@@ -1,0 +1,92 @@
+{
+  "123": {
+    "respMsg": "string",
+    "result": {
+      "dfId": 0,
+      "cancelled": true,
+      "dlJurisdictionCd": "string",
+      "documents": [
+        {
+          "addToFileDtm": "string",
+          "disclosedToClientDtm": "string",
+          "disclosureDocumentYN": "string",
+          "documentId": 0,
+          "documentTypeCd": "string",
+          "documentTypeDsc": "string",
+          "impoundmentId": 0,
+          "pageCount": 0,
+          "prohibitionId": 0,
+          "receivedDtm": "string"
+        }
+      ],
+      "driverLicenceNo": "string",
+      "icbcTransmissionCd": "string",
+      "impoundLotOperatorId": 0,
+      "impoundmentDt": "string",
+      "impoundmentId": 0,
+      "impoundmentNoticeNo": "222",
+      "noticeSubjectCd": "string",
+      "noticeTypeCd": "string",
+      "originalCauseCds": [
+        "string"
+      ],
+      "policeDetatchmentId": 0,
+      "policeFileNo": "string",
+      "policeOfficerNm": "string",
+      "policeOfficerNo": "string",
+      "projectedReleaseDt": "string",
+      "registrations": [
+        {
+          "dataSourceCd": "string",
+          "firstGivenNm": "string",
+          "icbcEnterpriseId": "string",
+          "licenceId": 0,
+          "organizationNm": "string",
+          "registrationId": 0,
+          "registrationRoleCd": "string",
+          "secondGivenNm": "string",
+          "surnameNm": "string",
+          "thirdGivenNm": "string",
+          "vehicleId": 0,
+          "vipsAddressArray": [
+            {
+              "additionalDeliveryLineTxt": "string",
+              "addressFirstLineTxt": "string",
+              "addressSecondLineTxt": "string",
+              "addressThirdLineTxt": "string",
+              "cityNm": "string",
+              "countryNm": "str",
+              "postalCodeTxt": "string",
+              "provinceCd": "st",
+              "registrationAddressTypeCd": "string"
+            }
+          ],
+          "vipsLicenceObj": {
+            "birthDt": "string",
+            "dlJurisdictionCd": "string",
+            "driverLicenceNo": "string",
+            "licenceId": 0
+          }
+        }
+      ],
+      "seizureLocationTxt": "string",
+      "vehicle": {
+        "commercialMotorCarrierId": "string",
+        "licencePlateNo": "string",
+        "lpDecalValidYy": 0,
+        "lpJurisdictionCd": "string",
+        "manufacturedYy": 0,
+        "nscJurisdictionTxt": "string",
+        "registrationNo": "string",
+        "vehicleColourTxt": "string",
+        "vehicleId": 0,
+        "vehicleIdentificationNo": "string",
+        "vehicleMakeTxt": "string",
+        "vehicleModelTxt": "string",
+        "vehicleStyleTxt": "string",
+        "vehicleTypeCd": "string"
+      },
+      "vehicleId": 0
+    }
+  }
+}
