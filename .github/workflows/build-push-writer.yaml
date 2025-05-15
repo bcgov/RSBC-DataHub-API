@@ -10,7 +10,7 @@ on:
       - .github/workflows/build-push-writer.yaml
       - trigger.txt
   workflow_dispatch:
-  
+
 env:
   IMAGE_NAME: writer
   WORKING_DIRECTORY: ./python/writer
@@ -47,8 +47,8 @@ jobs:
       - name: Build Image
         working-directory: ${{env.WORKING_DIRECTORY}}
         run: |
-          docker build -t artifacts.developer.gov.bc.ca/${{env.REPO_KEY}-${{env.IMAGE_NAME}}/${{env.IMAGE_NAME}}:dev .
+          docker build -t artifacts.developer.gov.bc.ca/${{env.REPO_KEY}}-${{env.IMAGE_NAME}}/${{env.IMAGE_NAME}}:dev .
       
       - name: Docker Push to Artifactory
         run: |
-          docker push artifacts.developer.gov.bc.ca/${{env.REPO_KEY}-${{env.IMAGE_NAME}}/${{env.IMAGE_NAME}}:dev
+          docker push artifacts.developer.gov.bc.ca/${{env.REPO_KEY}}-${{env.IMAGE_NAME}}/${{env.IMAGE_NAME}}:dev
