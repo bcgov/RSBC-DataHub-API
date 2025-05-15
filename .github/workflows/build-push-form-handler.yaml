@@ -1,0 +1,54 @@
+name: form-handler-build-and-push-dev
+
+on:
+  push:
+    branches: [new-namespace]
+    paths:
+      - python/*.py
+      - python/common/**
+      - python/form_handler/**
+      - .github/workflows/build-push-form-handler.yaml
+      - trigger.txt
+  workflow_dispatch:
+  
+env:
+  IMAGE_NAME: form-handler
+  WORKING_DIRECTORY: ./python/form_handler
+  REPO_KEY: af03
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Login to Artifactory
+        uses: docker/login-action@v1
+        with:
+          registry: artifacts.developer.gov.bc.ca
+          username: ${{ secrets.ARTIFACTORY_USERNAME }}
+          password: ${{ secrets.ARTIFACTORY_PASSWORD }}
+      
+      # Get SHORT_SHA for the version
+      - name: Get short SHA
+        id: short_sha
+        run: |
+          echo "::set-output name=SHORT_SHA::$(git rev-parse --short HEAD)"
+          echo "Short SHA: $SHORT_SHA"
+
+      - name: Build
+        uses: docker/build-push-action@v3
+        with:
+          context: ${{ inputs.DOCKER_CONTEXT }}
+          file: ${{ inputs.DOCKER_FILE }}
+          push: false
+
+      - name: Build Image
+        working-directory: ${{env.WORKING_DIRECTORY}}
+        run: |
+          docker build -t artifacts.developer.gov.bc.ca/${{env.REPO_KEY}-${{env.IMAGE_NAME}}/${{env.IMAGE_NAME}}:dev .
+      
+      - name: Docker Push to Artifactory
+        run: |
+          docker push artifacts.developer.gov.bc.ca/${{env.REPO_KEY}-${{env.IMAGE_NAME}}/${{env.IMAGE_NAME}}:dev
