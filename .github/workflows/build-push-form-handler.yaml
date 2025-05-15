@@ -37,13 +37,6 @@ jobs:
           echo "::set-output name=SHORT_SHA::$(git rev-parse --short HEAD)"
           echo "Short SHA: $SHORT_SHA"
 
-      - name: Build
-        uses: docker/build-push-action@v3
-        with:
-          context: ${{ inputs.DOCKER_CONTEXT }}
-          file: ${{ inputs.DOCKER_FILE }}
-          push: false
-
       - name: Build Image
         working-directory: ${{env.WORKING_DIRECTORY}}
         run: |
