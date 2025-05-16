@@ -1,17 +1,19 @@
-name: mailnet-build-and-push-dev
+name: validator-build-and-push-dev
 
 on:
   push:
     branches: [new-namespace]
     paths:
-      - "Java/README.md"
-      - "Java/mail-it/**"
-      - ".github/workflows/build-push-mail-net.yaml"
+      - python/*.py
+      - python/common/**
+      - python/validator/**
+      - .github/workflows/build-push-validator.yaml
+      - trigger.txt
   workflow_dispatch:
 
 env:
-  IMAGE_NAME: mail-net
-  WORKING_DIRECTORY: Java/mail-it/src
+  IMAGE_NAME: validator
+  WORKING_DIRECTORY: ./python
   REPO_KEY: af03
 
 jobs:
@@ -38,7 +40,7 @@ jobs:
       - name: Build Image
         working-directory: ${{env.WORKING_DIRECTORY}}
         run: |
-          docker build -t artifacts.developer.gov.bc.ca/${{env.REPO_KEY}}-${{env.IMAGE_NAME}}/${{env.IMAGE_NAME}}:dev .
+          docker build -t artifacts.developer.gov.bc.ca/${{env.REPO_KEY}}-${{env.IMAGE_NAME}}/${{env.IMAGE_NAME}}:dev -f validator/Dockerfile .
       
       - name: Docker Push to Artifactory
         run: |
