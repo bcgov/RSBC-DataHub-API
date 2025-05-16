@@ -2,7 +2,7 @@ name: form-handler-build-and-push-dev
 
 on:
   push:
-    branches: [new-namespace]
+    branches: [master]
     paths:
       - python/*.py
       - python/common/**
@@ -45,3 +45,13 @@ jobs:
       - name: Docker Push to Artifactory
         run: |
           docker push artifacts.developer.gov.bc.ca/${{env.REPO_KEY}}-${{env.IMAGE_NAME}}/${{env.IMAGE_NAME}}:dev
+      
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: image
+          image-ref: artifacts.developer.gov.bc.ca/${{env.REPO_KEY}}-${{env.IMAGE_NAME}}/${{env.IMAGE_NAME}}:dev
+          format: 'table'
+          ignore-unfixed: true
+          limit-severities-for-sarif: true
+          severity: HIGH,CRITICAL
