@@ -1,19 +1,17 @@
-name: geocodersvc-build-and-push-dev
+name: paybc-build-and-push-dev
 
 on:
   push:
     branches: [new-namespace]
     paths:
-      - python/*.py
-      - python/common/**
-      - python/geocodersvc/**
-      - .github/workflows/build-push-geocodersvc.yaml
-      - trigger.txt
+      - "Java/README.md"
+      - "Java/mail-it/**"
+      - ".github/workflows/build-push-mail-net.yaml"
   workflow_dispatch:
 
 env:
-  IMAGE_NAME: geocodersvc
-  WORKING_DIRECTORY: ./python
+  IMAGE_NAME: mail-net
+  WORKING_DIRECTORY: Java/mail-it/src
   REPO_KEY: af03
 
 jobs:
@@ -40,7 +38,7 @@ jobs:
       - name: Build Image
         working-directory: ${{env.WORKING_DIRECTORY}}
         run: |
-          docker build -t artifacts.developer.gov.bc.ca/${{env.REPO_KEY}}-${{env.IMAGE_NAME}}/${{env.IMAGE_NAME}}:dev -f geocodersvc/Dockerfile .
+          docker build -t artifacts.developer.gov.bc.ca/${{env.REPO_KEY}}-${{env.IMAGE_NAME}}/${{env.IMAGE_NAME}}:dev .
       
       - name: Docker Push to Artifactory
         run: |
