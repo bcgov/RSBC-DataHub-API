@@ -2,7 +2,7 @@ name: clamav-client-build-and-push-dev
 
 on:
   push:
-    branches: [new-namespace]
+    branches: [master]
     paths:
       - "Java/README.md"
       - "Java/clamav_client/**"
