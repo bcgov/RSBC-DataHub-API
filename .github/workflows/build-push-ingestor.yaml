@@ -15,6 +15,8 @@ env:
   IMAGE_NAME: ingestor
   WORKING_DIRECTORY: ./python
   REPO_KEY: af03
+  BRANCH_NAME: develop
+  VALUES_FILE: dev
 
 jobs:
   build:
@@ -55,3 +57,47 @@ jobs:
           ignore-unfixed: true
           limit-severities-for-sarif: true
           severity: HIGH,CRITICAL
+
+      - name: Set GitOps SSH Key
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.RSBC_SSH_KEY }}
+      
+      - name: Update Helm Dev Values and Commit
+        id: helm
+        run: |
+
+          echo "Updating ${{ env.BRANCH_NAME }} helm  values to trigger ArgoCD deployment "
+            
+          # Commit and push the changes
+          git config --global user.email "actions@github.com"
+          git config --global user.name "RSBC-APR GitHub Actions"
+          git clone -b ${{ env.BRANCH_NAME }} --single-branch git@github.com:bcgov-c/tenant-gitops-f0392a.git
+            
+          # Navigate to the directory containing your Helm values file for the environment develop -> DEV, test -> test
+          
+          cd tenant-gitops-f0392a/charts
+            
+          # Update the Helm values file with the new image tag and version
+          DATETIME=$(date +'%Y-%m-%d %H:%M:%S')  # Get current date and time
+          echo "Updating tag iversion: to ${{ steps.short_sha.outputs.SHORT_SHA }}"
+  
+          sed -i "s/iversion: .*/iversion: v-${{ steps.short_sha.outputs.SHORT_SHA }} # Image Updated on $DATETIME/" ../deploy/${{ env.VALUES_FILE }}_values.yaml
+
+          git add .
+            
+          git add ../deploy/${{ env.VALUES_FILE }}_values.yaml
+            
+          # Repackage Helm Chart      
+  
+          cd gitops
+  
+          helm dependency build
+  
+          git add .
+            
+          git commit -m "Update ${{ env.BRANCH_NAME }} ingestor image tag"
+
+          # pull any changes
+          git pull origin ${{ env.BRANCH_NAME }}
+          git push origin ${{ env.BRANCH_NAME }}  # Update the branch name as needed
