@@ -81,9 +81,8 @@ jobs:
           echo "Updating tag ccversion: to ${{ steps.short_sha.outputs.SHORT_SHA }}"
   
           sed -i "s/ccversion: .*/ccversion: v-${{ steps.short_sha.outputs.SHORT_SHA }} # Image Updated on $DATETIME/" ../deploy/${{ env.VALUES_FILE }}_values.yaml
-          sed -i "s/ccversion: .*/ccversion: v-${{ steps.short_sha.outputs.SHORT_SHA }} # Image Updated on $DATETIME/" ../rsbc/values.yaml
 
-          git add ../rsbc/values.yaml
+          git add .
             
           git add ../deploy/${{ env.VALUES_FILE }}_values.yaml
             
