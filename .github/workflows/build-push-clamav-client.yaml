@@ -14,6 +14,7 @@ env:
   WORKING_DIRECTORY: Java/clamav_client
   REPO_KEY: af03
   BRANCH_NAME: develop
+  VALUES_FILE: dev
 
 jobs:
   build:
