@@ -2,10 +2,10 @@ spring:
   application:
     name: pdf-gen-service
   rabbitmq:
-    host: localhost
+    host: ${RABBITMQ_URL}
     port: 5672
-    username: guest
-    password: guest
+    username: ${RABBITMQ_USER}
+    password: ${RABBITMQ_PASS}
 
 server:
   port: 8082
