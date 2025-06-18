@@ -15,9 +15,20 @@ import org.springframework.stereotype.Service;
 public class RabbitMQListener {
 	
 	private static final Logger logger = LoggerFactory.getLogger(RabbitMQListener.class);
+	
+	private XMLParserDecoder xmlDecoder; 
 
-    @RabbitListener(queues = "DF.pdf")
+	public XMLParserDecoder getXmlDecoder() {
+		return xmlDecoder;
+	}
+	
+	public void setXmlDecoder(XMLParserDecoder xmlDecoder) {
+		this.xmlDecoder = xmlDecoder;
+	}
+
+	@RabbitListener(queues = "DF.pdf")
     public void receiveMessage(String message) {
-        logger.info("APR PDF Generator received a message from the DF.pdf queue: " + message);
+        //logger.info("APR PDF Generator received a message from the DF.pdf queue: " + message);
+        logger.info("XML extraction: " + XMLParserDecoder.extractAndDecodeXml(message));
     }
 }
