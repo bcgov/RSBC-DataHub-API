@@ -5,6 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
+
+/**
+ * 
+ * Receives message from DF.pdf queue, renders form and mails. 
+ * 
+ */
 @Service
 public class RabbitMQListener {
 	
