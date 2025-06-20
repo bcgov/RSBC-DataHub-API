@@ -1,10 +1,8 @@
 name: OWASP ZAP Baseline Scan
 on:
-  push:
-    branches: [master]
-  #schedule:
+  schedule:
     # Runs every week at 01:00 Sunday Morning.
-  #  - cron:  '0 1 * 6 0'
+    - cron:  '1 1 1 */6 *'
   workflow_dispatch:
 
 permissions:
@@ -12,9 +10,9 @@ permissions:
   issues: write
 
 jobs:
-  zap_scan:
+  build:
     runs-on: ubuntu-latest
-    name: Scan ZAP Test Site
+    name: Scan ZAP Site
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
