@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
+import ca.bc.gov.open.pssg.rsbc.pdf.exception.UnsupportedXMLFormTypeException;
 import ca.bc.gov.open.pssg.rsbc.pdf.utils.XmlUtilities;
 import ca.bc.gov.open.pssg.rsbc.pdf.utils.XmlUtilities.FormType;
 
@@ -39,29 +40,34 @@ public class RabbitMQListener {
 
 	@RabbitListener(queues = "DF.pdf")
     public void receiveMessage(String message) {
+		
         logger.info("APR PDF Generator received a message from the DF.pdf queue.");
+        
         try {
         	
         	//STEP 1 - Extract and decode the XML form data from the JSON payload.  
-			logger.info("Extracting XML form payload..."); 
 			String xml = XMLParserDecoder.extractAndDecodeXml(message);
-			logger.info(xml);
-			logger.info(XmlUtilities.formatXml(xml));
 			
-			//STEP 2 - Select the XDP template type based on the XML form data.
+			//STEP 2 - Parse the XML form payload
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 	        dbFactory.setNamespaceAware(false);
 	        dbFactory.setNamespaceAware(false);
 	        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-
-	        // Parse from string
-	        InputSource is = new InputSource(new StringReader(xml));
+	        String _xml = XmlUtilities.formatXml(xml);
+	        InputSource is = new InputSource(new StringReader(_xml));
 	        Document doc = dBuilder.parse(is);
 
-	        // TODO need to enhance the next line to pick out form 3 types 
+	        //STEP 3 - Categorize the XML form payload 
 	        FormType formType = XmlUtilities.categorizeFormType(doc);
-	        logger.info("Form type: " + formType);
-			
+	       
+	        if (!formType.equals(FormType.UNKNOWN)) {
+	        	logger.info("XML form type identified as " + formType);
+	        
+	        	//STEPS 4, 5, etc. - Continue here to generate PDF, add template body, and mail. 
+	        	
+	        } else {
+	        	throw new UnsupportedXMLFormTypeException("Unknown XML for type content in JSON payload.");
+	        }
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());

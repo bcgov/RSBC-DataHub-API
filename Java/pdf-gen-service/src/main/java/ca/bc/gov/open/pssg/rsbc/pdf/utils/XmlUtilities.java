@@ -17,8 +17,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 
-import ca.bc.gov.open.pssg.rsbc.pdf.exception.UnsupportedFormTypeException;
-
+/**
+ * 
+ * XML Utilities for parsing an APR XML Payload. 
+ * 
+ */
 public class XmlUtilities {
 	
     public enum FormType {
@@ -26,6 +29,7 @@ public class XmlUtilities {
         f1p2, // form 1, permutation 2, driver obtained Lawyer
         f1p3, // form 1, permutation 3, Lawyer Office
         f1p4, // form 1, permutation 4, Authorized Person
+        f3,   // form 3
         UNKNOWN // unknown form 1 permutation. 
     }
 
@@ -65,10 +69,12 @@ public class XmlUtilities {
         }
     }
     
-    public static FormType categorizeFormType(Document xmlDoc) throws UnsupportedFormTypeException {
-        String role = getNodeValue(xmlDoc, "applicant-role-select");
+    public static FormType categorizeFormType(Document xmlDoc) {
+        
+    	// test for form 1
+    	String role = getNodeValue(xmlDoc, "applicant-role-select");
         String represented = getNodeValue(xmlDoc, "represented-by-lawyer");
-
+        
         if ("driver".equalsIgnoreCase(role) && "no".equalsIgnoreCase(represented)) {
             return FormType.f1p1;
         } else if ("driver".equalsIgnoreCase(role) && "yes".equalsIgnoreCase(represented)) {
@@ -78,9 +84,12 @@ public class XmlUtilities {
         } else if ("advocate".equalsIgnoreCase(role) && (represented == null || represented.isEmpty())) {
             return FormType.f1p4;
         } else {
-            throw new UnsupportedFormTypeException(
-                "Unsupported combination: applicant-role-select = '" + role + "', represented-by-lawyer = '" + represented + "'"
-            );
+        	
+        	String evidenceSection  = getNodeValue(xmlDoc, "evidence-section");
+        	if (evidenceSection != null) 
+        		return FormType.f3;
+        	else
+        		return FormType.UNKNOWN;
         }
     }
     
