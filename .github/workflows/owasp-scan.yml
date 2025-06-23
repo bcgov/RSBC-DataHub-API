@@ -1,0 +1,22 @@
+name: OWASP ZAP Baseline Scan
+on:
+  schedule:
+    # Runs every week at 01:00 Sunday Morning.
+    - cron:  '1 1 1 */6 *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Scan ZAP Site
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: ZAP Scan
+        uses: zaproxy/action-baseline@v0.12.0
+        with:
+          target: "https://rsbc-dh-web-form-prod.apps.silver.devops.gov.bc.ca"
