@@ -5,6 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
+import ca.bc.gov.open.pssg.rsbc.pdf.exception.UnsupportedPayloadException;
+import ca.bc.gov.open.pssg.rsbc.pdf.exception.XmlExtractionException;
+
 
 /**
  * 
@@ -28,7 +31,13 @@ public class RabbitMQListener {
 
 	@RabbitListener(queues = "DF.pdf")
     public void receiveMessage(String message) {
-        //logger.info("APR PDF Generator received a message from the DF.pdf queue: " + message);
-        logger.info("XML extraction: " + XMLParserDecoder.extractAndDecodeXml(message));
+        logger.info("APR PDF Generator received a message from the DF.pdf queue.");
+        try {
+			logger.info("Extracting XML form payload..."); 
+			XMLParserDecoder.extractAndDecodeXml(message);
+		} catch (XmlExtractionException | UnsupportedPayloadException e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+		}
     }
 }
