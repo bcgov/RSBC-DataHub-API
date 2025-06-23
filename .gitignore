@@ -13,4 +13,3 @@ env/
 dist_old/
 dist
 .vs/
-/Java/pdf-gen-service
