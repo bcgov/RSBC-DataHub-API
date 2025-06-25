@@ -1,7 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.pdf.service;
 
 
-
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
