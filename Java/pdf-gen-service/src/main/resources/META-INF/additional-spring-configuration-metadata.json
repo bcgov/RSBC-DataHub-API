@@ -1,0 +1,17 @@
+{"properties": [
+  {
+    "name": "adobeOrds.auth.username",
+    "type": "java.lang.String",
+    "description": "A description for 'adobeOrds.auth.username'"
+  },
+  {
+    "name": "adobeOrds.auth.password",
+    "type": "java.lang.String",
+    "description": "A description for 'adobeOrds.auth.password'"
+  },
+  {
+    "name": "adobeOrds.url",
+    "type": "java.lang.String",
+    "description": "A description for 'adobeOrds.url'"
+  }
+]}
