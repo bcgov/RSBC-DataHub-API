@@ -4,11 +4,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties(prefix = "adobeOrds")
+@ConfigurationProperties(prefix = "adobeords")
 public class AdobeOrdsProperties {
 	
 	private Auth auth;
-    private String url;
+    private String baseUrl;
 
     public static class Auth {
     	
@@ -21,13 +21,28 @@ public class AdobeOrdsProperties {
 		public String getPassword() {
 			return password;
 		}
+		public void setUsername(String username) {
+			this.username = username;
+		}
+		public void setPassword(String password) {
+			this.password = password;
+		}
     }
 
 	public Auth getAuth() {
 		return auth;
 	}
 
-	public String getUrl() {
-		return url;
+	public String getBaseUrl() {
+		return baseUrl;
 	}
+
+	public void setAuth(Auth auth) {
+		this.auth = auth;
+	}
+
+	public void setBaseUrl(String baseUrl) {
+		this.baseUrl = baseUrl;
+	}
+	
 }

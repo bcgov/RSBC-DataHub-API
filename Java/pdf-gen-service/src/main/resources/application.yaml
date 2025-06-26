@@ -7,11 +7,11 @@ spring:
     username: ${RABBITMQ_USER}
     password: ${RABBITMQ_PASS}
 
-adobeOrds:
+adobeords:
     auth:
-      username: yourUsername
-      password: yourPassword
-    url: https://api.example.com/adobe/save
+      username: ${ADOBEORDS_USER}
+      password: ${ADOBEORDS_USER}
+    base_url: ${ADOBEORDS_BASE_URL}
 
 server:
   port: 8082

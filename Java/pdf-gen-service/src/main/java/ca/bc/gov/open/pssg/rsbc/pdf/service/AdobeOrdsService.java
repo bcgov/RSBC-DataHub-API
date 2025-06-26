@@ -38,7 +38,7 @@ public class AdobeOrdsService {
      * @param adobeOrdsProperties
      * @param restTemplate
      */
-    public AdobeOrdsService(AdobeOrdsProperties adobeOrdsProperties, RestTemplate restTemplate) {
+    public AdobeOrdsService(AdobeOrdsProperties adobeOrdsProperties) {
         this.adobeOrdsProperties = adobeOrdsProperties;
         this.restTemplate = new RestTemplateBuilder()
                 .basicAuthentication(
@@ -55,6 +55,7 @@ public class AdobeOrdsService {
      * @param xmlPayload
      * @return
      */
+    //TODO - Add retryable
     public ResponseEntity<String> adobeSaveXML(String xmlPayload) {
         
     	HttpHeaders headers = new HttpHeaders();
@@ -62,9 +63,9 @@ public class AdobeOrdsService {
         HttpEntity<String> request = new HttpEntity<>(xmlPayload, headers);
 
         try {
-            logger.info("Sending XML payload to Adobe ORDS endpoint: {}", adobeOrdsProperties.getUrl());
+            logger.info("Sending XML payload to Adobe ORDS endpoint: {}", adobeOrdsProperties.getBaseUrl() + "adobesavexml");
             ResponseEntity<String> response = restTemplate.postForEntity(
-                adobeOrdsProperties.getUrl(), request, String.class);
+                adobeOrdsProperties.getBaseUrl() + "adobesavexml", request, String.class);
             logger.info("Received response with status: {}", response.getStatusCode());
             return response;
         } catch (HttpClientErrorException | HttpServerErrorException ex) {
