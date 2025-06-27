@@ -10,7 +10,7 @@ spring:
 adobeords:
     auth:
       username: ${ADOBEORDS_USER}
-      password: ${ADOBEORDS_USER}
+      password: ${ADOBEORDS_PASS}
     base_url: ${ADOBEORDS_BASE_URL}
 
 server:
