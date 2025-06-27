@@ -1,0 +1,36 @@
+package ca.bc.gov.open.pssg.rsbc.pdf.controller;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import ca.bc.gov.open.pssg.rsbc.pdf.service.AdobeReportServerService;
+
+@RestController
+public class AEMReportServerTestController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(AEMReportServerTestController.class);
+	
+	private AdobeReportServerService service;  
+	
+	public AEMReportServerTestController (AdobeReportServerService service) {
+		this.service = service; 
+	}
+	
+    public AdobeReportServerService getService() {
+		return service;
+	}
+
+	@GetMapping("/aemtest")
+    public ResponseEntity<byte[]> ordsTest() {
+		
+    	logger.info("Heard a call to the AEM Report Server test controller");
+    	
+    	return service.callReportServer("rsbc-apr-dev", "form1_p1", "key");
+       
+    }
+}
+
+

@@ -7,11 +7,24 @@ spring:
     username: ${RABBITMQ_USER}
     password: ${RABBITMQ_PASS}
 
-adobeords:
+  logging:
+     level:
+        org:
+          springframework:
+                       retry:DEBUG
+
+adobe:
+   ords:
     auth:
       username: ${ADOBEORDS_USER}
       password: ${ADOBEORDS_PASS}
     base_url: ${ADOBEORDS_BASE_URL}
 
+   aem:
+      report:
+          server:
+             url: ${AEM_REPORT_SRV_URL}
+             config: ${AEM_REPORT_SRV_CONFIG} 
+             
 server:
   port: 8082

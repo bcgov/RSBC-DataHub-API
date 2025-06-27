@@ -38,12 +38,12 @@ public class AdobeOrdsService {
 	 * Service Constructor
 	 * 
 	 * @param adobeOrdsProperties
-	 * @param restTemplate
+	 * 
 	 */
 	public AdobeOrdsService(AdobeOrdsProperties adobeOrdsProperties) {
 		this.adobeOrdsProperties = adobeOrdsProperties;
-		this.restTemplate = new RestTemplateBuilder().basicAuthentication(adobeOrdsProperties.getAuth().getUsername(),
-				adobeOrdsProperties.getAuth().getPassword()).build();
+		this.restTemplate = new RestTemplateBuilder().basicAuthentication(adobeOrdsProperties.getOrds().getAuth().getUsername(),
+				adobeOrdsProperties.getOrds().getAuth().getPassword()).build();
 	}
 
 	/**
@@ -66,9 +66,9 @@ public class AdobeOrdsService {
 		HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(formData, headers);
 
 		logger.info("Sending XML payload to Adobe ORDS endpoint: {}",
-				adobeOrdsProperties.getBaseUrl() + "adobesavexml");
+				adobeOrdsProperties.getOrds().getBaseUrl() + "adobesavexml");
 
-		ResponseEntity<String> response = restTemplate.postForEntity(adobeOrdsProperties.getBaseUrl() + "adobesavexml",
+		ResponseEntity<String> response = restTemplate.postForEntity(adobeOrdsProperties.getOrds().getBaseUrl() + "adobesavexml",
 				request, String.class);
 
 		logger.info("Received response with status: {}", response.getStatusCode());
@@ -76,13 +76,13 @@ public class AdobeOrdsService {
 	}
 
 	@Recover
-	public ResponseEntity<String> recover(ResourceAccessException ex, String xmlPayload) {
+	private ResponseEntity<String> recover(ResourceAccessException ex, String xmlPayload) {
 		logger.error("Connection issue—retries exhausted: {}", ex.getMessage(), ex);
 		return new ResponseEntity<>("Unable to connect to Adobe ORDS after retries.", HttpStatus.SERVICE_UNAVAILABLE);
 	}
 
 	@Recover
-	public ResponseEntity<String> recover(HttpServerErrorException ex, String xmlPayload) {
+	private ResponseEntity<String> recover(HttpServerErrorException ex, String xmlPayload) {
 		logger.error("Server error—retries exhausted: {} - {}", ex.getStatusCode(), ex.getResponseBodyAsString(), ex);
 		return new ResponseEntity<>(ex.getResponseBodyAsString(), ex.getStatusCode());
 	}

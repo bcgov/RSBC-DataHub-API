@@ -1,17 +1,47 @@
 {"properties": [
   {
-    "name": "adobeords.auth.username",
-    "type": "java.lang.String",
-    "description": "A description for 'adobeords.auth.username'"
-  },
-  {
-    "name": "adobeords.auth.password",
-    "type": "java.lang.String",
-    "description": "A description for 'adobeords.auth.password'"
-  },
-  {
     "name": "adobeords.base_url",
     "type": "java.lang.String",
     "description": "A description for 'adobeords.base_url'"
+  },
+  {
+    "name": "aem.report.server.url",
+    "type": "java.lang.String",
+    "description": "A description for 'aem.report.server.url'"
+  },
+  {
+    "name": "aem.report.server.config",
+    "type": "java.lang.String",
+    "description": "A description for 'aem.report.server.config'"
+  },
+  {
+    "name": "adobe.ords.auth.username",
+    "type": "java.lang.String",
+    "description": "A description for 'adobe.ords.auth.username'"
+  },
+  {
+    "name": "adobe.ords.auth.password",
+    "type": "java.lang.String",
+    "description": "A description for 'adobe.ords.auth.password'"
+  },
+  {
+    "name": "adobe.ords.base_url",
+    "type": "java.lang.String",
+    "description": "A description for 'adobe.ords.base_url'"
+  },
+  {
+    "name": "adobe.aem.report.server.url",
+    "type": "java.lang.String",
+    "description": "A description for 'adobe.aem.report.server.url'"
+  },
+  {
+    "name": "adobe.aem.report.server.config",
+    "type": "java.lang.String",
+    "description": "A description for 'adobe.aem.report.server.config'"
+  },
+  {
+    "name": "spring.logging.level.org.springframework",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.logging.level.org.springframework'"
   }
 ]}
