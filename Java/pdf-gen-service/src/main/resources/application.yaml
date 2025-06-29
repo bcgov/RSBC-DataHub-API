@@ -7,11 +7,11 @@ spring:
     username: ${RABBITMQ_USER}
     password: ${RABBITMQ_PASS}
 
-  logging:
-     level:
-        org:
-          springframework:
-                       retry:DEBUG
+logging:
+    level:
+      root: INFO
+org:
+  springframework:DEBUG
 
 adobe:
    ords:
