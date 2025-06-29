@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.bc.gov.open.pssg.rsbc.pdf.exception.AdobeReportServerException;
 import ca.bc.gov.open.pssg.rsbc.pdf.service.AdobeReportServerService;
 
 @RestController
@@ -24,7 +25,7 @@ public class AEMReportServerTestController {
 	}
 
 	@GetMapping("/aemtest")
-    public ResponseEntity<byte[]> ordsTest() {
+    public ResponseEntity<byte[]> ordsTest() throws AdobeReportServerException {
 		
     	logger.info("Heard a call to the AEM Report Server test controller");
     	

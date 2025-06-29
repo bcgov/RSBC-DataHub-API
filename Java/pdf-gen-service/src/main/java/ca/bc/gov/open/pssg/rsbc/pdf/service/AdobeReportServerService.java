@@ -16,10 +16,11 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import ca.bc.gov.open.pssg.rsbc.pdf.component.AdobeOrdsProperties;
+import ca.bc.gov.open.pssg.rsbc.pdf.exception.AdobeReportServerException;
 
 /**
  * 
- * Provides access to AEM Report Server operations.
+ * Provides access to AEM Report Server operations for PDF rendering.
  * 
  */
 @Service
@@ -44,52 +45,48 @@ public class AdobeReportServerService {
 
 	/**
 	 * 
-	 * callReportServer - Calls AEM Report Server rto fetch PDF based on key and
-	 * environmental config name.
+	 * callReportServer - Renders a PDF. 
 	 * 
-	 * @param xmlPayload
+	 * @param configName
+	 * @param XdpName
+	 * @param pKey
 	 * @return
+	 * @throws AdobeReportServerException
 	 */
-	@Retryable(retryFor = { HttpServerErrorException.class, ResourceAccessException.class,
-			HttpClientErrorException.class }, maxAttempts = 5, backoff = @Backoff(delay = 10000))
-	public ResponseEntity<byte[]> callReportServer(String configName, String XdpName, String pKey) {
+	@Retryable(retryFor = { 
+			HttpClientErrorException.class,
+            HttpServerErrorException.class,
+            ResourceAccessException.class}, maxAttempts = 5, backoff = @Backoff(delay = 10000))
+	public ResponseEntity<byte[]> callReportServer(String configName, String XdpName, String pKey) throws AdobeReportServerException {
 
-		// Create the url
+		// Create the Adobe Report Server url
 		String url = UriComponentsBuilder.fromUriString(adobeOrdsProperties.getAem().getReport().getServer().getUrl())
 				.queryParam("param1", XdpName).queryParam("param2", pKey).queryParam("param3", configName)
 				.queryParam("document_format", "pdfa").toUriString();
 
-		logger.info("Requesting a PDF from the AEM Report Server endpoint: {}", url);
+		logger.info("Requesting a PDF from the AEM Report Server endpoint of: {}", url);
 
 		// Requesting binary data (PDF)
-		ResponseEntity<byte[]> response = restTemplate.getForEntity(url, byte[].class);
-
-		logger.info("Received response with status: {}", response.getStatusCode());
-
-		return response;
+		return restTemplate.getForEntity(url, byte[].class);
 	}
+	
+	
+    @Recover
+    public ResponseEntity<byte[]> recover(HttpClientErrorException ex, String configName, String XdpName, String pKey) {
+    	logger.error("Server error—retries exhausted when accessing {} {} - {}", ex.getStatusCode(), ex.getResponseBodyAsString(), ex);
+    	return new ResponseEntity<>("Retries exhausted attempting to call the Adobe Report Server".getBytes(), HttpStatus.BAD_REQUEST);
+    }
 
 	@Recover
-	private ResponseEntity<String> recover(HttpClientErrorException ex) {
-		if (ex instanceof HttpClientErrorException.BadRequest) {
-			logger.error("BadRequest exception—retries exhausted: {}", ex.getMessage(), ex);
-		} else {
-			logger.error("Other client error—retries exhausted: {}", ex.getMessage(), ex);
-		}
-		return new ResponseEntity<>("Client error after retries.", HttpStatus.BAD_REQUEST);
+	private ResponseEntity<byte[]> recover(HttpServerErrorException ex, String configName, String XdpName, String pKey) {
+		logger.error("Server error—retries exhausted: {}", ex);
+		return new ResponseEntity<>("Retries exhausted attempting to call the Adobe Report Server".getBytes(), HttpStatus.NOT_FOUND);
 	}
-
+	
 	@Recover
-	private ResponseEntity<String> recover(ResourceAccessException ex) {
-		logger.error("Connection issue—retries exhausted: {}", ex.getMessage(), ex);
-		return new ResponseEntity<>("Unable to connect to Adobe Report Server after retries.",
-				HttpStatus.SERVICE_UNAVAILABLE);
-	}
-
-	@Recover
-	private ResponseEntity<String> recover(HttpServerErrorException ex) {
-		logger.error("Server error—retries exhausted: {} - {}", ex.getStatusCode(), ex.getResponseBodyAsString(), ex);
-		return new ResponseEntity<>(ex.getResponseBodyAsString(), ex.getStatusCode());
+	private ResponseEntity<byte[]> recover(ResourceAccessException ex, String configName, String XdpName, String pKey) {
+		logger.error("Server error—retries exhausted: {}", ex);
+		return new ResponseEntity<>("Adobe Report Server endpoint unavailable".getBytes(), HttpStatus.SERVICE_UNAVAILABLE);
 	}
 
 }

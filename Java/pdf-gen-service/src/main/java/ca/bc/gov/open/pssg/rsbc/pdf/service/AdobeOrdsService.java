@@ -14,6 +14,7 @@ import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
@@ -53,8 +54,11 @@ public class AdobeOrdsService {
 	 * @param xmlPayload
 	 * @return
 	 */
-	@Retryable(retryFor = { HttpServerErrorException.class,
-			ResourceAccessException.class }, maxAttempts = 5, backoff = @Backoff(delay = 10000))
+	@Retryable(retryFor = { 
+			HttpServerErrorException.class,
+			HttpClientErrorException.class,
+			ResourceAccessException.class
+	}, maxAttempts = 5, backoff = @Backoff(delay = 10000))
 	public ResponseEntity<String> adobeSaveXML(String xmlPayload) {
 
 		HttpHeaders headers = new HttpHeaders();
@@ -72,18 +76,25 @@ public class AdobeOrdsService {
 				request, String.class);
 
 		logger.info("Received response with status: {}", response.getStatusCode());
+		
 		return response;
 	}
 
 	@Recover
 	private ResponseEntity<String> recover(ResourceAccessException ex, String xmlPayload) {
-		logger.error("Connection issue—retries exhausted: {}", ex.getMessage(), ex);
+		logger.error("Connection issue—retries exhausted when calling Adobe ORDs: {}", ex.getMessage(), ex);
 		return new ResponseEntity<>("Unable to connect to Adobe ORDS after retries.", HttpStatus.SERVICE_UNAVAILABLE);
 	}
+	
+    @Recover
+    public ResponseEntity<String> recover(HttpClientErrorException ex, String xmlPayload) {
+    	logger.error("Server error—retries exhausted when calling Adobe ORDs {} {} - {}", ex.getStatusCode(), ex.getResponseBodyAsString(), ex);
+    	return new ResponseEntity<>("Retries exhausted attempting to call the Adobe ORDS", HttpStatus.BAD_REQUEST);
+    }
 
 	@Recover
 	private ResponseEntity<String> recover(HttpServerErrorException ex, String xmlPayload) {
-		logger.error("Server error—retries exhausted: {} - {}", ex.getStatusCode(), ex.getResponseBodyAsString(), ex);
+		logger.error("Server error—retries exhausted when calling Adobe ORDs: {} - {}", ex.getStatusCode(), ex.getResponseBodyAsString(), ex);
 		return new ResponseEntity<>(ex.getResponseBodyAsString(), ex.getStatusCode());
 	}
 

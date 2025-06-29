@@ -16,8 +16,6 @@ import ca.bc.gov.open.pssg.rsbc.pdf.exception.UnsupportedXMLFormTypeException;
 import ca.bc.gov.open.pssg.rsbc.pdf.utils.XmlUtilities;
 import ca.bc.gov.open.pssg.rsbc.pdf.utils.XmlUtilities.FormType;
 
-
-
 /**
  * 
  * Receives message from DF.pdf queue, renders form and mails. 
@@ -25,17 +23,24 @@ import ca.bc.gov.open.pssg.rsbc.pdf.utils.XmlUtilities.FormType;
  */
 @Service
 public class RabbitMQListener {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(RabbitMQListener.class);
 	
 	private XMLParserDecoder xmlDecoder; 
+	private PdfRenderService renderer;
+	
+	public RabbitMQListener(XMLParserDecoder xmlDecoder, PdfRenderService renderer) {
+		super();
+		this.xmlDecoder = xmlDecoder;
+		this.renderer = renderer;
+	}
 
 	public XMLParserDecoder getXmlDecoder() {
 		return xmlDecoder;
 	}
-	
-	public void setXmlDecoder(XMLParserDecoder xmlDecoder) {
-		this.xmlDecoder = xmlDecoder;
+
+	public PdfRenderService getRenderer() {
+		return renderer;
 	}
 
 	@RabbitListener(queues = "DF.pdf")
