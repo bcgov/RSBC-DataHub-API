@@ -1,6 +1,7 @@
 package ca.bc.gov.open.pssg.rsbc.pdf.service;
 
 import org.springframework.stereotype.Service;
+import org.w3c.dom.Document;
 
 import ca.bc.gov.open.pssg.rsbc.pdf.component.AdobeOrdsProperties;
 import ca.bc.gov.open.pssg.rsbc.pdf.models.PDFRenderResponse;
@@ -23,12 +24,14 @@ public class PdfRenderService {
 	
 	private AdobeOrdsService oService;
 	private AdobeReportServerService rService;
-	private AdobeOrdsProperties props; 
+	private AdobeOrdsProperties props;
+	private EmailTemplateService eService; 
 
-	public PdfRenderService(AdobeOrdsService oService, AdobeReportServerService rService, AdobeOrdsProperties props) {
+	public PdfRenderService(AdobeOrdsService oService, AdobeReportServerService rService, EmailTemplateService eService, AdobeOrdsProperties props) {
 		super();
 		this.oService = oService;
 		this.rService = rService;
+		this.eService = eService;
 		this.props = props;
 	} 
 	
@@ -44,9 +47,13 @@ public class PdfRenderService {
 		return props;
 	}
 
-	public PDFRenderResponse render(FormType type, String xml) {
-		return null; 
-		//TODO - continue here. 
+	
+	public PDFRenderResponse render(FormType type, Document doc) {
+		
+		//TODO - return here
+		String email = eService.generateEmailHtml(type, doc);
+		System.out.println(email);
+		return null;
 	} 
 
 }

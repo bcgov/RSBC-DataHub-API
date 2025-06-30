@@ -11,6 +11,7 @@ public class PDFRenderResponse {
 
 	private HttpStatus respCd;
 	private byte[] pdf;
+	private String emailBody; 
 
 	public HttpStatus getRespCd() {
 		return respCd;
@@ -27,4 +28,13 @@ public class PDFRenderResponse {
 	public void setPdf(byte[] pdf) {
 		this.pdf = pdf;
 	}
+
+	public String getEmailBody() {
+		return emailBody;
+	}
+
+	public void setEmailBody(String emailBody) {
+		this.emailBody = emailBody;
+	}
+
 }
