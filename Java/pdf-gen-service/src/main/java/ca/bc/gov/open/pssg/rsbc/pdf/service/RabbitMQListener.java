@@ -68,7 +68,9 @@ public class RabbitMQListener {
 	        if (!formType.equals(FormType.UNKNOWN)) {
 	        	logger.info("XML form type identified as " + formType);
 	        
-	        	//STEPS 4, 5, etc. - Continue here to generate PDF, add template body, and mail. 
+	        	//STEPS 4, 5, etc. - Continue here to generate PDF, add template body, and mail.
+	        	//TODO - renderer called here. 
+	        	renderer.render(formType, doc);
 	        	
 	        } else {
 	        	throw new UnsupportedXMLFormTypeException("Unknown XML for type content in JSON payload.");
