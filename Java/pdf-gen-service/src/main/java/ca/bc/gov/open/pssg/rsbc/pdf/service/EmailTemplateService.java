@@ -14,18 +14,26 @@ import org.w3c.dom.Document;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import ca.bc.gov.open.pssg.rsbc.pdf.exception.EmailTemplateServiceException;
 import ca.bc.gov.open.pssg.rsbc.pdf.utils.XmlUtilities.FormType;
 
+/**
+ * 
+ * Provides HTML Email generation for Form1 only.
+ * 
+ */
 @Service
 public class EmailTemplateService {
 
     @Autowired
     private TemplateEngine templateEngine;
 
-    public String generateEmailHtml(FormType formType, Document xmlDocument) {
+    public String generateEmailHtml(FormType formType, Document xmlDocument) throws EmailTemplateServiceException {
+    	
         String templateName = getTemplateName(formType);
-        Map<String, Object> variables = extractVariablesFromXml(xmlDocument);
-
+        
+        Map<String, Object> variables = extractVariablesFromXml(formType, xmlDocument);
+        
         Context context = new Context();
         context.setVariables(variables);
 
@@ -36,19 +44,40 @@ public class EmailTemplateService {
         return formType.name().toLowerCase(); // e.g., "f1p1"
     }
 
-    private Map<String, Object> extractVariablesFromXml(Document document) {
+    private Map<String, Object> extractVariablesFromXml(FormType formType, Document document) throws EmailTemplateServiceException {
     	
         Map<String, Object> variables = new HashMap<>();
         XPath xpath = XPathFactory.newInstance().newXPath();
-
+        
         try {
-            // Extract values from the XML payload using XPath
-            variables.put("applicantFirstName", xpath.evaluate("/form/identification-information/first-name-applicant", document));
-            variables.put("applicantLastName", xpath.evaluate("/form/identification-information/last-name-applicant", document));
-            variables.put("noticeNumber", xpath.evaluate("/form/prohibition-information/control-prohibition-number", document));
-            
-        } catch (XPathExpressionException e) {
-            throw new RuntimeException("Error parsing XML", e);
+        
+	        switch (formType) {
+	        case f1p1:
+	        	variables.put("applicantFirstName", xpath.evaluate("/form/identification-information/first-name-applicant", document));
+	            variables.put("applicantLastName", xpath.evaluate("/form/identification-information/last-name-applicant", document));
+	            variables.put("noticeNumber", xpath.evaluate("/form/prohibition-information/control-prohibition-number", document));
+	            break;
+	        case f1p2:
+	        	 variables.put("lawyerFirstName", xpath.evaluate("/form/identification-information/first-name-applicant", document));
+	             variables.put("lawyerLastName", xpath.evaluate("/form/identification-information/last-name-applicant", document));
+	             variables.put("noticeNumber", xpath.evaluate("/form/prohibition-information/control-prohibition-number", document));
+	            break;  
+	        case f1p3:
+	       	 	variables.put("lawyerFirstName", xpath.evaluate("/form/identification-information/first-name-applicant", document));
+	            variables.put("lawyerLastName", xpath.evaluate("/form/identification-information/last-name-applicant", document));
+	            variables.put("noticeNumber", xpath.evaluate("/form/prohibition-information/control-prohibition-number", document));
+	           break; 
+	        case f1p4:
+	       	 	variables.put("AuthPersonFirstName", xpath.evaluate("/form/identification-information/first-name-applicant", document));
+	            variables.put("AuthPersonLastName", xpath.evaluate("/form/identification-information/last-name-applicant", document));
+	            variables.put("noticeNumber", xpath.evaluate("/form/prohibition-information/control-prohibition-number", document));
+	           break;
+	        default:
+	            throw new EmailTemplateServiceException("Unsupported formType value: " + formType);
+	        }
+        
+        } catch (XPathExpressionException ex) {
+        	throw new EmailTemplateServiceException(ex.getMessage(), ex);
         }
 
         return variables;

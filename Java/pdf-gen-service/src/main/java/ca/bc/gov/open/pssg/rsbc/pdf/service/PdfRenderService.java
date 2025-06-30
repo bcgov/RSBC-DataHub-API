@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 
 import ca.bc.gov.open.pssg.rsbc.pdf.component.AdobeOrdsProperties;
+import ca.bc.gov.open.pssg.rsbc.pdf.exception.EmailTemplateServiceException;
 import ca.bc.gov.open.pssg.rsbc.pdf.models.PDFRenderResponse;
 import ca.bc.gov.open.pssg.rsbc.pdf.utils.XmlUtilities.FormType;
 
@@ -51,9 +52,14 @@ public class PdfRenderService {
 	public PDFRenderResponse render(FormType type, Document doc) {
 		
 		//TODO - return here
-		String email = eService.generateEmailHtml(type, doc);
-		System.out.println(email);
+		String email;
+		try {
+			email = eService.generateEmailHtml(type, doc);
+			System.out.println(email);
+		} catch (EmailTemplateServiceException e) {
+			e.printStackTrace();
+		}
+	
 		return null;
 	} 
-
 }
