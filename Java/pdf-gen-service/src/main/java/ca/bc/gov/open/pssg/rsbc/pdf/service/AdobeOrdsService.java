@@ -80,22 +80,25 @@ public class AdobeOrdsService {
 		return response;
 	}
 
-	@Recover
-	private ResponseEntity<String> recover(ResourceAccessException ex, String xmlPayload) {
-		logger.error("Connection issue—retries exhausted when calling Adobe ORDs: {}", ex.getMessage(), ex);
-		return new ResponseEntity<>("Unable to connect to Adobe ORDS after retries.", HttpStatus.SERVICE_UNAVAILABLE);
-	}
-	
+	// 4xx
     @Recover
     public ResponseEntity<String> recover(HttpClientErrorException ex, String xmlPayload) {
     	logger.error("Server error—retries exhausted when calling Adobe ORDs {} {} - {}", ex.getStatusCode(), ex.getResponseBodyAsString(), ex);
     	return new ResponseEntity<>("Retries exhausted attempting to call the Adobe ORDS", HttpStatus.BAD_REQUEST);
     }
 
+    //5xx
 	@Recover
 	private ResponseEntity<String> recover(HttpServerErrorException ex, String xmlPayload) {
 		logger.error("Server error—retries exhausted when calling Adobe ORDs: {} - {}", ex.getStatusCode(), ex.getResponseBodyAsString(), ex);
-		return new ResponseEntity<>(ex.getResponseBodyAsString(), ex.getStatusCode());
+		return new ResponseEntity<>(ex.getResponseBodyAsString(), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	// I/O errors - connection time out, etc. No logical status code for this situation. 
+	@Recover
+	private ResponseEntity<String> recover(ResourceAccessException ex, String xmlPayload) {
+		logger.error("Connection issue—retries exhausted when calling Adobe ORDs: {}", ex.getMessage(), ex);
+		return new ResponseEntity<>("Unable to connect to Adobe ORDS after retries.", null);
 	}
 
 }
