@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Copy of Application Form - Driving Prohibition <span th:text="${applicantLastName}"></span> Review</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .footer {
+      font-size: 0.9em;
+      color: #666;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <p>Dear <span th:text="${lawyerFirstName}"></span> <span th:text="${lawyerLastName}"></span>,</p>
+
+    <p>Please find attached the completed PDF of your application for review of driving prohibition <span th:text="${noticeNumber}"></span>.</p>
+
+    <p><strong>You must not drive while your licence is prohibited.</strong> Driving while prohibited is illegal. It carries a minimum fine of $500 for a first offence, a 12-month prohibition, and possible imprisonment. <strong>Imprisonment is mandatory for a second offence.</strong></p>
+
+    <p>Thank you,<br>
+    RoadSafetyBC</p>
+
+    <div class="footer">
+      <p>Please do not respond to this email. We've sent it from an account that doesn't accept responses. If you need to reach us, call <strong>1-855-387-7747</strong>. Select option 5 to reach the Appeals Registry.</p>
+    </div>
+  </div>
+</body>
+</html>

@@ -29,7 +29,10 @@ public class AEMReportServerTestController {
 		
     	logger.info("Heard a call to the AEM Report Server test controller");
     	
-    	return service.callReportServer("rsbc-apr-dev", "form1_p1", "key");
+    	//TODO - switch this once the new XDPs have been installed. 
+    	//return service.callReportServer("rsbc-apr-dev", "form1_p1", "key");
+    	
+    	return service.callReportServer("justindev", "PCR014", "SHAUN_APR_DATA");
        
     }
 }
