@@ -70,23 +70,26 @@ public class AdobeReportServerService {
 		return restTemplate.getForEntity(url, byte[].class);
 	}
 	
-	
+	// 4xx
     @Recover
     public ResponseEntity<byte[]> recover(HttpClientErrorException ex, String configName, String XdpName, String pKey) {
     	logger.error("Server error—retries exhausted when accessing {} {} - {}", ex.getStatusCode(), ex.getResponseBodyAsString(), ex);
     	return new ResponseEntity<>("Retries exhausted attempting to call the Adobe Report Server".getBytes(), HttpStatus.BAD_REQUEST);
     }
 
+    
+    //5xx
 	@Recover
 	private ResponseEntity<byte[]> recover(HttpServerErrorException ex, String configName, String XdpName, String pKey) {
 		logger.error("Server error—retries exhausted: {}", ex);
-		return new ResponseEntity<>("Retries exhausted attempting to call the Adobe Report Server".getBytes(), HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>("Retries exhausted attempting to call the Adobe Report Server".getBytes(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+	// I/O errors - connection time out, etc. No logical status code for this situation. 
 	@Recover
 	private ResponseEntity<byte[]> recover(ResourceAccessException ex, String configName, String XdpName, String pKey) {
 		logger.error("Server error—retries exhausted: {}", ex);
-		return new ResponseEntity<>("Adobe Report Server endpoint unavailable".getBytes(), HttpStatus.SERVICE_UNAVAILABLE);
+		return new ResponseEntity<>("Adobe Report Server endpoint unavailable".getBytes(), null);
 	}
 
 }
