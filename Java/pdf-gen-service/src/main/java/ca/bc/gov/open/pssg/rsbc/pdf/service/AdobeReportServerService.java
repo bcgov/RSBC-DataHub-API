@@ -57,7 +57,7 @@ public class AdobeReportServerService {
 			HttpClientErrorException.class,
             HttpServerErrorException.class,
             ResourceAccessException.class}, maxAttempts = 5, backoff = @Backoff(delay = 10000))
-	public ResponseEntity<byte[]> callReportServer(String configName, String XdpName, String pKey) throws AdobeReportServerException {
+	public ResponseEntity<byte[]> callReportServer(String configName, String XdpName, String pKey) {
 
 		// Create the Adobe Report Server url
 		String url = UriComponentsBuilder.fromUriString(adobeOrdsProperties.getAem().getReport().getServer().getUrl())
