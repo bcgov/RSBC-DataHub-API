@@ -101,5 +101,7 @@ public class XmlUtilities {
         return null;
     }
 
-
+	public static String getNoticeNumber(Document doc) {
+		return getNodeValue(doc, "prohibition-number-clean");
+	}
 }
