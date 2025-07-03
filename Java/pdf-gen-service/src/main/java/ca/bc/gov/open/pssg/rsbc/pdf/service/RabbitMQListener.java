@@ -68,7 +68,7 @@ public class RabbitMQListener {
 	        String _xml = XmlUtilities.formatXml(xml);
 	        InputSource is = new InputSource(new StringReader(_xml));
 	        Document doc = dBuilder.parse(is);
-
+	       
 	        //STEP 3 - Categorize the XML form payload 
 	        noticeNumber = XmlUtilities.getNoticeNumber(doc);
 	        FormType formType = XmlUtilities.categorizeFormType(doc);
