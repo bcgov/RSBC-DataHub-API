@@ -25,6 +25,11 @@ adobe:
           server:
              url: ${AEM_REPORT_SRV_URL}
              config: ${AEM_REPORT_SRV_CONFIG} 
+mail:
+   it: 
+     username: ${MAILIT_USER}
+     password: ${MAILIT_PASS}	
+     url: ${MAILIT_URL}
              
 server:
   port: 8082
