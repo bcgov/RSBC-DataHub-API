@@ -49,12 +49,11 @@ public class EmailClientService {
 			HttpServerErrorException.class,
 			HttpClientErrorException.class,
 			ResourceAccessException.class
-	}, maxAttempts = 2, backoff = @Backoff(delay = 3000))
+	}, maxAttempts = 5, backoff = @Backoff(delay = 10000))
     public ResponseEntity<EmailResponse> sendEmail(EmailRequest emailRequest, String noticeNumber) {
     	
 		logger.info("Sending mail via EmailClientService.sendMail for Notice: {}", noticeNumber);
-    	
-    	//TODO - Does it make sense to use postForEntity instead. 
+    	 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -97,18 +96,6 @@ public class EmailClientService {
 		EmailResponse resp = new EmailResponse();
     	resp.setAcknowledge(false);
 		return new ResponseEntity<>(resp, null);
-	}
-
-//    @Recover
-//    public ResponseEntity<EmailResponse> recoverSendEmail(Exception ex, EmailRequest failedRequest) {
-//        // Log the exception and gracefully degrade
-//        System.err.println("All retry attempts failed: " + ex.getMessage());
-//
-//        EmailResponse fallback = new EmailResponse();
-//        fallback.setAcknowledge(false);
-//
-//        return new ResponseEntity<>(fallback, HttpStatus.SERVICE_UNAVAILABLE);
-//    }
-    
+	}    
     
 }
