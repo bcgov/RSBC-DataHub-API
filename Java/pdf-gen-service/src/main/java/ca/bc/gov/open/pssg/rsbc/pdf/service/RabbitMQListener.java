@@ -8,12 +8,14 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
 import ca.bc.gov.open.pssg.rsbc.pdf.exception.UnsupportedXMLFormTypeException;
 import ca.bc.gov.open.pssg.rsbc.pdf.models.EmailRequest;
+import ca.bc.gov.open.pssg.rsbc.pdf.models.EmailResponse;
 import ca.bc.gov.open.pssg.rsbc.pdf.models.PDFRenderResponse;
 import ca.bc.gov.open.pssg.rsbc.pdf.utils.XmlUtilities;
 import ca.bc.gov.open.pssg.rsbc.pdf.utils.XmlUtilities.FormType;
@@ -63,7 +65,7 @@ public class RabbitMQListener {
 	@RabbitListener(queues = "DF.pdf")
     public void receiveMessage(String message) {
 		
-        logger.info("APR PDF Generator received a message from the DF.pdf queue.");
+        logger.info("RabbitMQListener: APR PDF Generator received a message from the DF.pdf queue.");
         
         String noticeNumber = "unknown"; 
         
@@ -83,13 +85,15 @@ public class RabbitMQListener {
 	       
 	        //STEP 3 - Determine the form payload type. 
 	        noticeNumber = XmlUtilities.getNoticeNumber(doc);
+	        logger.info("RabbitMQListener: Received a form 1 payload for notice number: " + noticeNumber);
+	        
 	        FormType formType = XmlUtilities.categorizeFormType(doc);
 	        
-	        if (formType.equals(FormType.UNKNOWN) || !formType.equals(FormType.f3)) {
-	        	throw new UnsupportedXMLFormTypeException("Unknown XML for type content in JSON payload for notice: " + noticeNumber);
+	        if (formType.equals(FormType.UNKNOWN) || formType.equals(FormType.f3)) {
+	        	throw new UnsupportedXMLFormTypeException("RabbitMQListener: Form3 or unknown XML for type content in JSON payload for notice: " + noticeNumber);
 	        }
 	        	
-	        logger.info("XML form type identified as " + formType);
+	        logger.info("RabbitMQListener: XML form type for notice number " + noticeNumber + " identified as " + formType);
 	        
         	//STEP 4 - Generate PDF and email body
         	PDFRenderResponse renderResp = pService.render(formType, _xml, doc);
@@ -104,10 +108,15 @@ public class RabbitMQListener {
         	EmailRequest req = aService.getEmailRequest(renderResp, doc, noticeNumber, consentForm);
         	
         	//STEP 7 - Mail it!
-        	eService.sendEmail(req, noticeNumber);	
+        	ResponseEntity<EmailResponse> eResp = eService.sendEmail(req, noticeNumber);
+        	if (!eResp.getStatusCode().is2xxSuccessful()) {
+        		logger.error("RabbitMQListener: Invalid status code returned when attempting to send mail for form 1, notice number: " + noticeNumber + ".");
+        	} else { 
+        		logger.info("RabbitMQListener: Email sent successfully for form 1, notice number: " + noticeNumber + ".");
+        	}
 			
 		} catch (Exception e) {
-			logger.error("An exception occurred while generating an applcant PDF and email for Notice Number {}, {}", noticeNumber, e.getMessage());
+			logger.error("RabbitMQListener: An exception occurred while generating an applcant PDF and email for Notice Number {}, {}", noticeNumber, e.getMessage());
 			e.printStackTrace();
 		}
     }

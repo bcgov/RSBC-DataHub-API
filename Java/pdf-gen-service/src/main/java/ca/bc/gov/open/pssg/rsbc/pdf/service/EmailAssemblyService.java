@@ -55,13 +55,13 @@ public class EmailAssemblyService {
 		eoTo1.setEmail(XmlUtilities.getApplicantEmailAddress(doc));
 		eoTos.add(eoTo1);
 
-		if (null != props.getBcc1()) {
+		if (!"null".equals(props.getBcc1())) {
 			EmailObject eoTo2 = new EmailObject();
 			eoTo2.setEmail(props.getBcc1());
 			eoTos.add(eoTo2);
 		}
 
-		if (null != props.getBcc2()) {
+		if (!"null".equals(props.getBcc2())) {
 			EmailObject eoTo3 = new EmailObject();
 			eoTo3.setEmail(props.getBcc2());
 			eoTos.add(eoTo3);
