@@ -100,8 +100,28 @@ public class XmlUtilities {
         }
         return null;
     }
+    
+    private static String getAttributeValue(Document doc, String nodeName, String attributeName) {
+        NodeList nodeList = doc.getElementsByTagName(nodeName);
+        if (nodeList.getLength() > 0) {
+            Node node = nodeList.item(0);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element element = (Element) node;
+                return element.getAttribute(attributeName);
+            }
+        }
+        return null;
+    }
 
 	public static String getNoticeNumber(Document doc) {
 		return getNodeValue(doc, "prohibition-number-clean");
+	}
+	
+	public static String getApplicantEmailAddress(Document doc) {
+		return getNodeValue(doc, "applicant-email-address");
+	}
+
+	public static String getConsentFormData(Document doc) {
+		return getAttributeValue(doc, "consent-upload", "data");
 	}
 }

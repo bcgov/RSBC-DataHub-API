@@ -13,6 +13,7 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
 import ca.bc.gov.open.pssg.rsbc.pdf.exception.UnsupportedXMLFormTypeException;
+import ca.bc.gov.open.pssg.rsbc.pdf.models.EmailRequest;
 import ca.bc.gov.open.pssg.rsbc.pdf.models.PDFRenderResponse;
 import ca.bc.gov.open.pssg.rsbc.pdf.utils.XmlUtilities;
 import ca.bc.gov.open.pssg.rsbc.pdf.utils.XmlUtilities.FormType;
@@ -32,20 +33,31 @@ public class RabbitMQListener {
 	private static final Logger logger = LoggerFactory.getLogger(RabbitMQListener.class);
 	
 	private XMLParserDecoder xmlDecoder; 
-	private PdfRenderService renderer;
+	private PdfRenderService pService;
+	private EmailClientService eService; 
+	private EmailAssemblyService aService;
 	
-	public RabbitMQListener(XMLParserDecoder xmlDecoder, PdfRenderService renderer) {
+	public RabbitMQListener(XMLParserDecoder xmlDecoder, 
+			PdfRenderService pService, 
+			EmailClientService eService,
+			EmailAssemblyService aService) {
 		super();
 		this.xmlDecoder = xmlDecoder;
-		this.renderer = renderer;
+		this.pService = pService;
+		this.eService = eService;
+		this.aService = aService; 
 	}
 
 	public XMLParserDecoder getXmlDecoder() {
 		return xmlDecoder;
 	}
 
-	public PdfRenderService getRenderer() {
-		return renderer;
+	public PdfRenderService getpService() {
+		return pService;
+	}
+
+	public EmailClientService geteService() {
+		return eService;
 	}
 
 	@RabbitListener(queues = "DF.pdf")
@@ -53,7 +65,7 @@ public class RabbitMQListener {
 		
         logger.info("APR PDF Generator received a message from the DF.pdf queue.");
         
-        String noticeNumber = null; 
+        String noticeNumber = "unknown"; 
         
         try {
         	
@@ -69,23 +81,30 @@ public class RabbitMQListener {
 	        InputSource is = new InputSource(new StringReader(_xml));
 	        Document doc = dBuilder.parse(is);
 	       
-	        //STEP 3 - Categorize the XML form payload 
+	        //STEP 3 - Determine the form payload type. 
 	        noticeNumber = XmlUtilities.getNoticeNumber(doc);
 	        FormType formType = XmlUtilities.categorizeFormType(doc);
 	        
-	       
 	        if (formType.equals(FormType.UNKNOWN) || !formType.equals(FormType.f3)) {
-	        	throw new UnsupportedXMLFormTypeException("Unknown XML for type content in JSON payload.");
+	        	throw new UnsupportedXMLFormTypeException("Unknown XML for type content in JSON payload for notice: " + noticeNumber);
 	        }
 	        	
 	        logger.info("XML form type identified as " + formType);
 	        
-        	//STEPS 4 generate PDF and email body
-        	PDFRenderResponse resp = renderer.render(formType, _xml, doc);
-        	System.out.println(resp.getEmailBody());
-	        	
-        	//STEP 5 mail the PDF to the applicant 
-	        	
+        	//STEP 4 - Generate PDF and email body
+        	PDFRenderResponse renderResp = pService.render(formType, _xml, doc);
+        	
+        	//STEP 5 - Extract consent form data form1 types types 3 and 4. Should be found 
+        	String consentForm = null;
+        	//in the XML document already in base64. 
+        	if (formType.equals(FormType.f1p3) || formType.equals(FormType.f1p4)) {
+        		consentForm = XmlUtilities.getConsentFormData(doc); 
+        	} 
+        	
+        	EmailRequest req = aService.getEmailRequest(renderResp, doc, noticeNumber, consentForm);
+        	
+        	//STEP 7 - Mail it!
+        	eService.sendEmail(req, noticeNumber);	
 			
 		} catch (Exception e) {
 			logger.error("An exception occurred while generating an applcant PDF and email for Notice Number {}, {}", noticeNumber, e.getMessage());
