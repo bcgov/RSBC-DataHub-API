@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
+import ca.bc.gov.open.pssg.rsbc.pdf.exception.EmailRequestAssemblyException;
 import ca.bc.gov.open.pssg.rsbc.pdf.exception.UnsupportedXMLFormTypeException;
 import ca.bc.gov.open.pssg.rsbc.pdf.models.EmailRequest;
 import ca.bc.gov.open.pssg.rsbc.pdf.models.EmailResponse;
@@ -98,11 +99,15 @@ public class RabbitMQListener {
         	//STEP 4 - Generate PDF and email body
         	PDFRenderResponse renderResp = pService.render(formType, _xml, doc);
         	
-        	//STEP 5 - Extract consent form data form1 types types 3 and 4. Should be found 
+        	//STEP 5 - Extract expected consent form data for form 1 types types 3 and 4. 
         	String consentForm = null;
-        	//in the XML document already in base64. 
+        	
+        	//Consent form already in base64 format.  
         	if (formType.equals(FormType.f1p3) || formType.equals(FormType.f1p4)) {
-        		consentForm = XmlUtilities.getConsentFormData(doc); 
+        		consentForm = XmlUtilities.getConsentFormData(doc);
+        		if (null == consentForm) {
+        			throw new EmailRequestAssemblyException("Error creating email message. No consent form attachment found.");
+        		}
         	} 
         	
         	EmailRequest req = aService.getEmailRequest(renderResp, doc, noticeNumber, consentForm);

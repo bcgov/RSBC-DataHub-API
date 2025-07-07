@@ -79,13 +79,13 @@ public class EmailAssemblyService {
 			attachments.add(attachment);
 		}
 
-		// Add consent form (if available) 
+		// Add consent form (if available - assumed to already be b64 encoded) 
 		if ( null != consentForm) {
 			EmailAttachment attachment = new EmailAttachment();
 			attachment.setFilecontents(consentForm);
 			attachment.setFilename("consent.pdf");
 			attachments.add(attachment);
-		}
+		} 
 
 		er.setAttachment(attachments);
 
