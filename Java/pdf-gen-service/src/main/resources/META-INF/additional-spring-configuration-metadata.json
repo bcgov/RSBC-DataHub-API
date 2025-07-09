@@ -58,5 +58,30 @@
     "name": "mail.it.bcc1",
     "type": "java.lang.String",
     "description": "A description for 'mail.it.bcc1'"
+  },
+  {
+    "name": "mail.it.username",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.it.username'"
+  },
+  {
+    "name": "mail.it.password",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.it.password'"
+  },
+  {
+    "name": "mail.it.url",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.it.url'"
+  },
+  {
+    "name": "mail.it.from",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.it.from'"
+  },
+  {
+    "name": "org",
+    "type": "java.lang.String",
+    "description": "A description for 'org'"
   }
 ]}

@@ -104,7 +104,7 @@ public class PdfRenderService {
 		}
 
 		// STEP 3 - Render the applicant email.
-		logger.info("PdefRenderService, STEP 3. Generate email template...");
+		logger.info("PdefRenderService, Generating email template...");
 		String email;
 		try {
 			email = eService.generateEmailHtml(type, doc);

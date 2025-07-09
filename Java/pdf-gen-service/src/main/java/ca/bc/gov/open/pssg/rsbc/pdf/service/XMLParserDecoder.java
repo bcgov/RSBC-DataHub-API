@@ -39,7 +39,7 @@ public class XMLParserDecoder {
 	        
 	        String noticeNumber = findValueByKey(jsonObject, "control-prohibition-number");
 	        
-	        logger.info("Received JSON Payload Event type of '" + eventType + "' for Notice Number " + noticeNumber);
+	        logger.info("Received JSON Payload Event type of '" + eventType + ".");
 	        
 	        if (!"prohibition_review".equals(eventType) && !"Document_submission".equals(eventType)) {
 	            throw new UnsupportedPayloadException("Unsupported JSON Payload event_type: '" + eventType + "'");

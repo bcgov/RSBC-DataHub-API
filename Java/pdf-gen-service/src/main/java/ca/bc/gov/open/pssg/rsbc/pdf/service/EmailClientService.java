@@ -52,7 +52,7 @@ public class EmailClientService {
 	}, maxAttempts = 5, backoff = @Backoff(delay = 10000))
     public ResponseEntity<EmailResponse> sendEmail(EmailRequest emailRequest, String noticeNumber) {
     	
-		logger.info("Sending mail via EmailClientService.sendMail for Notice: {}", noticeNumber);
+		logger.info("Sending mail via EmailClientService.sendMail");
     	 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -74,7 +74,7 @@ public class EmailClientService {
     // 4xx
     @Recover
     public ResponseEntity<EmailResponse> recover(HttpClientErrorException ex, EmailRequest failedRequest, String noticeNumber) {
-    	logger.error("Server error—retries exhausted when calling Mail It for Notice: {} {} {} - {}", noticeNumber, ex.getStatusCode(), ex.getResponseBodyAsString(), ex);
+    	logger.error("Server error—retries exhausted when calling Mail It for Notice: {} {} - {}", ex.getStatusCode(), ex.getResponseBodyAsString(), ex);
     	EmailResponse resp = new EmailResponse();
     	resp.setAcknowledge(false);
     	return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
@@ -83,7 +83,7 @@ public class EmailClientService {
     //5xx
 	@Recover
 	private ResponseEntity<EmailResponse> recover(HttpServerErrorException ex, EmailRequest failedRequest, String noticeNumber) {
-		logger.error("Server error—retries exhausted when calling Mail It for Notice: {} {} - {}", noticeNumber, ex.getStatusCode(), ex.getResponseBodyAsString(), ex);
+		logger.error("Server error—retries exhausted when calling Mail It for Notice: {} {} - {}", ex.getStatusCode(), ex.getResponseBodyAsString(), ex);
 	   	EmailResponse resp = new EmailResponse();
     	resp.setAcknowledge(false);
 		return new ResponseEntity<>(resp, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -92,7 +92,7 @@ public class EmailClientService {
 	// I/O errors - connection time out, etc. No logical status code for this situation. 
 	@Recover
 	private ResponseEntity<EmailResponse> recover(ResourceAccessException ex, EmailRequest failedRequest, String noticeNumber) {
-		logger.error("Connection issue—retries exhausted when calling Mail It for Notice: {} {}", noticeNumber, ex.getMessage(), ex);
+		logger.error("Connection issue—retries exhausted when calling Mail It for Notice: {} {}", ex.getMessage(), ex);
 		EmailResponse resp = new EmailResponse();
     	resp.setAcknowledge(false);
 		return new ResponseEntity<>(resp, null);

@@ -10,6 +10,10 @@ spring:
 logging:
     level:
       root: INFO
+    structured:
+         format:
+            console: ecs
+
 org:
   springframework:DEBUG
 
@@ -33,7 +37,7 @@ mail:
      from: ${DO_NOT_REPLY_ADDRESS}
      registry: ${APPEALS_REGISTRY_EMAIL} 
      bcc1: ${EMAIL_BCC1:null}
-     bcc2: ${EMAIL_BCC2:null} 
-             
+     bcc2: ${EMAIL_BCC2:null}
+            
 server:
   port: 8082
