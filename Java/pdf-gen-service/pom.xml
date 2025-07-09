@@ -17,6 +17,15 @@
 	<properties>
 		<java.version>21</java.version>
 	</properties>
+	
+		<repositories>
+		<repository>
+			<id>splunk-artifactory</id>
+			<name>Splunk Releases</name>
+			<url>https://splunk.jfrog.io/splunk/ext-releases-local/</url>
+		</repository>
+	</repositories>
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -65,7 +74,15 @@
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
-
+		
+		<!-- Splunk -->
+		<dependency>
+		    <groupId>com.splunk.logging</groupId>
+		    <artifactId>splunk-library-javalogging</artifactId>
+		    <version>1.11.8</version>
+		    <scope>runtime</scope>
+		</dependency>
+		
 	</dependencies>
 
 	<build>
@@ -73,6 +90,11 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+	            	<profiles>
+	                	<profile>splunk</profile>
+	            	</profiles>
+        		</configuration>
 			</plugin>
 		</plugins>
 	</build>

@@ -7,6 +7,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -86,7 +87,9 @@ public class RabbitMQListener {
 	       
 	        //STEP 3 - Determine the form payload type. 
 	        noticeNumber = XmlUtilities.getNoticeNumber(doc);
-	        logger.info("RabbitMQListener: Received a form 1 payload for notice number: " + noticeNumber);
+	        MDC.put("notice", noticeNumber);	        
+	        
+	        logger.info("Received a form 1 payload for notice number: " + noticeNumber);
 	        
 	        FormType formType = XmlUtilities.categorizeFormType(doc);
 	        
@@ -94,7 +97,7 @@ public class RabbitMQListener {
 	        	throw new UnsupportedXMLFormTypeException("RabbitMQListener: Form3 or unknown XML for type content in JSON payload for notice: " + noticeNumber);
 	        }
 	        	
-	        logger.info("RabbitMQListener: XML form type for notice number " + noticeNumber + " identified as " + formType);
+	        logger.info("XML form type identified as " + formType);
 	        
         	//STEP 4 - Generate PDF and email body
         	PDFRenderResponse renderResp = pService.render(formType, _xml, doc);
@@ -115,14 +118,18 @@ public class RabbitMQListener {
         	//STEP 7 - Mail it!
         	ResponseEntity<EmailResponse> eResp = eService.sendEmail(req, noticeNumber);
         	if (!eResp.getStatusCode().is2xxSuccessful()) {
-        		logger.error("RabbitMQListener: Invalid status code returned when attempting to send mail for form 1, notice number: " + noticeNumber + ".");
+        		logger.error("Invalid status code returned when attempting to send mail for form 1.");
         	} else { 
-        		logger.info("RabbitMQListener: Email sent successfully for form 1, notice number: " + noticeNumber + ".");
+        		logger.info("Email sent successfully for form 1.");
         	}
 			
 		} catch (Exception e) {
-			logger.error("RabbitMQListener: An exception occurred while generating an applcant PDF and email for Notice Number {}, {}", noticeNumber, e.getMessage());
+			logger.error("An exception occurred while generating an applcant PDF and emailing, {}", e.getMessage());
 			e.printStackTrace();
 		}
+        
+        finally {
+        	MDC.remove("notice");
+        }
     }
 }
