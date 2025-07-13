@@ -2,10 +2,6 @@
 
 FROM maven:3.9.9-eclipse-temurin-21 AS maven_build
 
-ENV RABBITMQ_URL=$RABBITMQ_URL
-ENV RABBITMQ_USER=$RABBITMQ_USER
-ENV RABBITMQ_PASS=$RABBITMQ_PASS
-
 COPY pom.xml /tmp/
 
 COPY src /tmp/src/
