@@ -79,8 +79,8 @@ The application expects certain environment variables to be set for configuratio
 | `SPRING_ACTIVE_PROFILE` | Spring profile ('default' if not supplied)     |
 | `LOGGING_LEVEL` | Springboot logging level (e.g., `DEBUG`, `INFO`)     |
 
-** All variables except those marked optional are required for the application to start and
-function correctly **.  
+**All variables except those marked optional are required for the application to start and
+function correctly**.  
 
 ---
 
