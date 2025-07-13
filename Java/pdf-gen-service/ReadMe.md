@@ -84,6 +84,22 @@ function correctly**.
 
 ---
 
+## Run the application locally using Docker
+You can run the application locally using Docker once an environmental variables list 
+has been added to a new .env file. 
+
+- Copy the supplied .env.template file to a .env file. 
+
+- Customize your environmental variables in the new .env file.  
+
+- Launch the containerized application  
+
+```bash
+docker-compose up --build
+```
+
+---
+
 ## Deployment
 
 ### Pipelines
