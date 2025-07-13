@@ -97,6 +97,8 @@ has been added to a new .env file.
 ```bash
 docker-compose up --build
 ```
+**Note: If RabbitMQ is also containerized, you may have to create a common network and attach otherwise each container
+is isolated from the other.  
 
 ---
 
