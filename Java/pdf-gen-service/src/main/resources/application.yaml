@@ -6,24 +6,20 @@ spring:
     port: 5672
     username: ${RABBITMQ_USER}
     password: ${RABBITMQ_PASS}
-
+  profiles:
+    active: ${SPRING_ACTIVE_PROFILE:default}
 logging:
     level:
-      root: INFO
+      root: ${LOGGING_LEVEL:INFO}
     structured:
          format:
             console: ecs
-
-org:
-  springframework:DEBUG
-
 adobe:
    ords:
     auth:
       username: ${ADOBEORDS_USER}
       password: ${ADOBEORDS_PASS}
     base_url: ${ADOBEORDS_BASE_URL}
-
    aem:
       report:
           server:
