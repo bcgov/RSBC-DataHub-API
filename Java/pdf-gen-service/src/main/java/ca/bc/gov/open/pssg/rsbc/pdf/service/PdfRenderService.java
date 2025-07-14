@@ -21,9 +21,9 @@ import ca.bc.gov.open.pssg.rsbc.pdf.utils.XmlUtilities.FormType;
  * 
  * This service orchestrates:
  * 
- * - Saving XML payload to the Adobe Schema Document Content table. - Capturing
- * the returned pKey value. - Use the returned pKey to render the PDF of the
- * form 1 version of APR form.
+ * - Saving XML payload to the Adobe Schema Document Content table. 
+ * - Capturing the returned pKey value. 
+ * - Use of the returned pKey to render the PDF of the form 1 version of APR form.
  * 
  */
 @Service
@@ -102,7 +102,7 @@ public class PdfRenderService {
 //		}
 
 		// STEP 3 - Render the applicant email.
-		logger.info("PdefRenderService, Generating email template...");
+		logger.info("PdefRenderService, STEP 3. Generating email from template...");
 		String email;
 		try {
 			email = eService.generateEmailHtml(type, doc);
