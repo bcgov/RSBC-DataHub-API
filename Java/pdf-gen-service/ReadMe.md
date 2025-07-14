@@ -68,7 +68,7 @@ The application expects certain environment variables to be set for configuratio
 | `ADOBEORDS_PASS`      | Adobe ORDS password   |
 | `ADOBEORDS_BASE_URL`  | Adobe ORDS endpoint (should end ../adobeords/web/) |
 | `AEM_REPORT_SRV_URL`  | Adobe Report Server endpoint |
-| `AEM_REPORT_SRV_CONFIG`  | Adobe Report Server config name (This is environment specific)   |
+| `AEM_REPORT_SRV_APPID`  | Adobe Report Server AppId name  |
 | `MAILIT_USER`              | Mail it service user   |
 | `MAILIT_PASS`              | Mail it service password    |
 | `MAILIT_URL`              | Mail it service endpoint   |

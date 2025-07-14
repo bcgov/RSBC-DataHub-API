@@ -93,8 +93,8 @@ public class RabbitMQListener {
 	        
 	        FormType formType = XmlUtilities.categorizeFormType(doc);
 	        
-	        if (formType.equals(FormType.UNKNOWN) || formType.equals(FormType.f3)) {
-	        	throw new UnsupportedXMLFormTypeException("RabbitMQListener: Form3 or unknown XML for type content in JSON payload for notice: " + noticeNumber);
+	        if (formType.equals(FormType.UNKNOWN) || XmlUtilities.isFormTypeF3Permutation(formType)) {
+	        	throw new UnsupportedXMLFormTypeException("RabbitMQListener: Form3 permutation or unknown XML for type content in JSON payload for notice: " + noticeNumber);
 	        }
 	        	
 	        logger.info("XML form type identified as " + formType);
@@ -124,7 +124,7 @@ public class RabbitMQListener {
         	}
 			
 		} catch (Exception e) {
-			logger.error("An exception occurred while generating an applcant PDF and emailing, {}", e.getMessage());
+			logger.error("An exception occurred while generating a review submission form PDF and emailing, {}", e.getMessage());
 			e.printStackTrace();
 		}
         
