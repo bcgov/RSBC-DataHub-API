@@ -83,7 +83,7 @@ public class PdfRenderService {
 		//STEP 2 - Render the PDF. 
 		logger.info("PdefRenderService, STEP 2. Generate the PDF...");
 		ResponseEntity<byte[]> rResp = rService.callReportServer(
-				props.getAem().getReport().getServer().getConfig(), // AEM Report Server config name. 
+				props.getAem().getReport().getServer().getAppId(), // AEM Report Server config name. 
 				XmlUtilities.toXDPType(type).toString(), // XDP form type name. 
 				pKey);
 		if (!rResp.getStatusCode().equals(HttpStatus.OK)) {
