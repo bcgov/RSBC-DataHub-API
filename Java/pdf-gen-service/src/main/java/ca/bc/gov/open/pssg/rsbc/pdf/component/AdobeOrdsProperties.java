@@ -11,7 +11,10 @@ public class AdobeOrdsProperties {
 	private Aem aem;
 
 	public Ords getOrds() {
-		return ords;
+		if (null == this.ords) {
+			this.ords = new Ords();
+		}
+		return this.ords;
 	}
 
 	public void setOrds(Ords ords) {
@@ -19,7 +22,10 @@ public class AdobeOrdsProperties {
 	}
 
 	public Aem getAem() {
-		return aem;
+		if (null == this.aem) {
+			this.aem = new Aem();
+		}
+		return this.aem;
 	}
 
 	public void setAem(Aem aem) {
@@ -31,7 +37,10 @@ public class AdobeOrdsProperties {
 		private String baseUrl;
 
 		public Auth getAuth() {
-			return auth;
+			if (null == this.auth) {
+				this.auth = new Auth();
+			}
+			return this.auth;
 		}
 
 		public void setAuth(Auth auth) {
@@ -72,7 +81,10 @@ public class AdobeOrdsProperties {
 		private Report report;
 
 		public Report getReport() {
-			return report;
+			if (null == this.report) {
+				this.report = new Report();
+			}
+			return this.report;
 		}
 
 		public void setReport(Report report) {
@@ -83,7 +95,10 @@ public class AdobeOrdsProperties {
 			private Server server;
 
 			public Server getServer() {
-				return server;
+				if (null == this.server) {
+					this.server = new Server();
+				}
+				return this.server;
 			}
 
 			public void setServer(Server server) {
@@ -92,7 +107,7 @@ public class AdobeOrdsProperties {
 
 			public static class Server {
 				private String url;
-				private String config;
+				private String appId;
 
 				public String getUrl() {
 					return url;
@@ -102,53 +117,14 @@ public class AdobeOrdsProperties {
 					this.url = url;
 				}
 
-				public String getConfig() {
-					return config;
+				public String getAppId() {
+					return appId;
 				}
 
-				public void setConfig(String config) {
-					this.config = config;
+				public void setAppId(String appId) {
+					this.appId = appId;
 				}
-
 			}
 		}
 	}
 }
-
-//	private Auth auth;
-//    private String baseUrl;
-//
-//    public static class Auth {
-//    	
-//		private String username;
-//        private String password;
-//        
-//        public String getUsername() {
-//			return username;
-//		}
-//		public String getPassword() {
-//			return password;
-//		}
-//		public void setUsername(String username) {
-//			this.username = username;
-//		}
-//		public void setPassword(String password) {
-//			this.password = password;
-//		}
-//    }
-//
-//	public Auth getAuth() {
-//		return auth;
-//	}
-//
-//	public String getBaseUrl() {
-//		return baseUrl;
-//	}
-//
-//	public void setAuth(Auth auth) {
-//		this.auth = auth;
-//	}
-//
-//	public void setBaseUrl(String baseUrl) {
-//		this.baseUrl = baseUrl;
-//	}
