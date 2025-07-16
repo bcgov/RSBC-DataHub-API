@@ -67,7 +67,7 @@ public class RabbitMQListener {
 	@RabbitListener(queues = "DF.pdf")
     public void receiveMessage(String message) {
 		
-        logger.info("RabbitMQListener: APR PDF Generator received a message from the DF.pdf queue.");
+        logger.info("APR PDF Generator received a message from the DF.pdf queue.");
         
         String noticeNumber = "unknown"; 
         
@@ -84,17 +84,17 @@ public class RabbitMQListener {
 	        String _xml = XmlUtilities.formatXml(xml);
 	        InputSource is = new InputSource(new StringReader(_xml));
 	        Document doc = dBuilder.parse(is);
-	       
-	        //STEP 3 - Determine the form payload type. 
+	        
 	        noticeNumber = XmlUtilities.getNoticeNumber(doc);
 	        MDC.put("notice", noticeNumber);	        
 	        
 	        logger.info("Received a form 1 payload for notice number: " + noticeNumber);
 	        
+	        //STEP 3 - Determine the form payload type. 
 	        FormType formType = XmlUtilities.categorizeFormType(doc);
 	        
-	        if (formType.equals(FormType.UNKNOWN) || XmlUtilities.isFormTypeF3Permutation(formType)) {
-	        	throw new UnsupportedXMLFormTypeException("RabbitMQListener: Form3 permutation or unknown XML for type content in JSON payload for notice: " + noticeNumber);
+	        if (formType.equals(FormType.UNKNOWN) || formType.equals(FormType.f3)) {
+	        	throw new UnsupportedXMLFormTypeException("RabbitMQListener: Form3 permutation or unknown XML content in JSON payload for notice: " + noticeNumber);
 	        }
 	        	
 	        logger.info("XML form type identified as " + formType);
