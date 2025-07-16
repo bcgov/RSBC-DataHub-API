@@ -37,7 +37,7 @@ public class XMLParserDecoder {
 	        JSONObject jsonObject = new JSONObject(jsonPayload);
 	        String eventType = jsonObject.optString("event_type");
 	        
-	        String noticeNumber = findValueByKey(jsonObject, "control-prohibition-number");
+	        //String noticeNumber = findValueByKey(jsonObject, "control-prohibition-number");
 	        
 	        logger.info("Received JSON Payload Event type of '" + eventType + ".");
 	        

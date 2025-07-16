@@ -2,7 +2,6 @@ package ca.bc.gov.open.pssg.rsbc.pdf.utils;
 
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.util.EnumSet;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -30,9 +29,7 @@ public class XmlUtilities {
         f1p2, // form 1, permutation 2, driver obtained Lawyer
         f1p3, // form 1, permutation 3, Lawyer Office
         f1p4, // form 1, permutation 4, Authorized Person
-        f3p1,   // form 3, driver permutation
-        f3p2,   // form 3, law office permutation
-        f3p3,   // form 3, advocate permutation
+        f3,   // form 3 
         UNKNOWN // unknown form 1 permutation. 
     }
     
@@ -41,9 +38,7 @@ public class XmlUtilities {
     	Form_1_P2,
     	Form_1_P3,
     	Form_1_P4,
-    	Form_3_driver,
-    	Form_3_law_office,
-    	Form_3_advocate,
+    	Form_3,
         UNKNOWN
     }
     
@@ -64,19 +59,11 @@ public class XmlUtilities {
             case f1p2: return XDPType.Form_1_P2;
             case f1p3: return XDPType.Form_1_P3;
             case f1p4: return XDPType.Form_1_P4;
-            case f3p1: return XDPType.Form_3_driver;
-            case f3p2: return XDPType.Form_3_law_office;
-            case f3p3: return XDPType.Form_3_advocate;
+            case f3: return XDPType.Form_3;
             case UNKNOWN:
             default:   
             	return XDPType.UNKNOWN;
         }
-    }
-    
-    private static final EnumSet<FormType> F3_PERMUTATIONS = EnumSet.of(FormType.f3p1, FormType.f3p2, FormType.f3p3);
-
-    public static boolean isFormTypeF3Permutation(FormType formType) {
-        return F3_PERMUTATIONS.contains(formType);
     }
 
     public static String formatXml(String xml) throws Exception {
@@ -127,7 +114,7 @@ public class XmlUtilities {
 
 		try {
 
-			// test for form 1
+			// Test for form 1
 			String role = getNodeValue(xmlDoc, "applicant-role-select");
 			String represented = getNodeValue(xmlDoc, "represented-by-lawyer");
 
@@ -141,11 +128,11 @@ public class XmlUtilities {
 				return FormType.f1p4;
 			} else {
 				
-				//TODO - complete this for form3
-//				String evidenceSection = getNodeValue(xmlDoc, "evidence-section");
-//				if (evidenceSection != null)
-//					return FormType.f3;
-//				else
+				// Test for form3
+				String evidenceSection = getNodeValue(xmlDoc, "evidence-section");
+				if (evidenceSection != null)
+					return FormType.f3;
+				else
 					return FormType.UNKNOWN;
 			}
 

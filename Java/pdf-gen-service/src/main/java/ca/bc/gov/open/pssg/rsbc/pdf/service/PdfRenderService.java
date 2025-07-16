@@ -92,24 +92,21 @@ public class PdfRenderService {
 			resp.setPdf(rResp.getBody());
 			logger.debug("Pdf returned from AEM Report server. Size: {} bytes.", resp.getPdf().length);
 		}
-		
-// TODO - Remove this once XDPs are ready and installed 
-//		try {
-//			resp.setPdf(fService.loadFileFromResources("testdocuments/test.pdf"));
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//			throw new PdfRenderServiceException(e.getMessage(), e);
-//		}
 
 		// STEP 3 - Render the applicant email.
 		logger.info("PdefRenderService, STEP 3. Generating email from template...");
-		String email;
-		try {
-			email = eService.generateEmailHtml(type, doc);
-			resp.setEmailBody(email);
-		} catch (EmailTemplateServiceException e) {
-			e.printStackTrace();
-			throw new PdfRenderServiceException(e.getMessage(), e);
+		
+		if (!type.equals(FormType.f3)) {
+			String email;
+			try {
+				email = eService.generateEmailHtml(type, doc);
+				resp.setEmailBody(email);
+			} catch (EmailTemplateServiceException e) {
+				e.printStackTrace();
+				throw new PdfRenderServiceException(e.getMessage(), e);
+			}
+		} else {
+			resp.setEmailBody(null);
 		}
 
 		return resp;
