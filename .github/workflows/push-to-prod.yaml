@@ -19,7 +19,7 @@ on:
 env:
   IMAGE_NAME: ${{ github.event.inputs.application }}
   REPO_KEY: af03
-  BRANCH_NAME: prod
+  BRANCH_NAME: main
   VALUES_FILE: prod
 
 jobs:
