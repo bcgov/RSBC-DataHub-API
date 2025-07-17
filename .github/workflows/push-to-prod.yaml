@@ -1,11 +1,11 @@
-name: Push to Test 
+name: Push to Prod 
 
 on:
   workflow_dispatch:
     inputs:
       application:
         required: true
-        description: What application do you want to push to test?
+        description: What application do you want to push to prod?
         type: choice
         options:
           - clamav-client
@@ -19,8 +19,8 @@ on:
 env:
   IMAGE_NAME: ${{ github.event.inputs.application }}
   REPO_KEY: af03
-  BRANCH_NAME: test
-  VALUES_FILE: test
+  BRANCH_NAME: prod
+  VALUES_FILE: prod
 
 jobs:
   build:
