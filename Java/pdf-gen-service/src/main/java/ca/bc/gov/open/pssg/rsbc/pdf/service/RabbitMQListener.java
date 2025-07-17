@@ -1,10 +1,5 @@
 package ca.bc.gov.open.pssg.rsbc.pdf.service;
 
-import java.io.StringReader;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -12,7 +7,6 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
 
 import ca.bc.gov.open.pssg.rsbc.pdf.exception.EmailRequestAssemblyException;
 import ca.bc.gov.open.pssg.rsbc.pdf.exception.UnsupportedXMLFormTypeException;
@@ -77,16 +71,10 @@ public class RabbitMQListener {
 			String xml = XMLParserDecoder.extractAndDecodeXml(message);
 			
 			//STEP 2 - Parse the XML form payload
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-	        dbFactory.setNamespaceAware(false);
-	       
-	        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-	        String _xml = XmlUtilities.formatXml(xml);
-	        InputSource is = new InputSource(new StringReader(_xml));
-	        Document doc = dBuilder.parse(is);
-	        
-	        noticeNumber = XmlUtilities.getNoticeNumber(doc);
-	        MDC.put("notice", noticeNumber);	        
+			Document doc = XMLParserDecoder.getDocument(xml);
+			
+			noticeNumber = XmlUtilities.getNoticeNumber(doc);
+			MDC.put("notice", noticeNumber);	        
 	        
 	        logger.info("Received a form 1 payload for notice number: " + noticeNumber);
 	        
@@ -100,7 +88,7 @@ public class RabbitMQListener {
 	        logger.info("XML form type identified as " + formType);
 	        
         	//STEP 4 - Generate PDF and email body
-        	PDFRenderResponse renderResp = pService.render(formType, _xml, doc);
+        	PDFRenderResponse renderResp = pService.render(formType, xml, doc);
         	
         	//STEP 5 - Extract expected consent form data for form 1 types types 3 and 4. 
         	String consentForm = null;
@@ -115,7 +103,7 @@ public class RabbitMQListener {
         	
         	EmailRequest req = aService.getEmailRequest(renderResp, doc, noticeNumber, consentForm);
         	
-        	//STEP 7 - Mail it!
+        	//STEP 6 - Mail it!
         	ResponseEntity<EmailResponse> eResp = eService.sendEmail(req, noticeNumber);
         	if (!eResp.getStatusCode().is2xxSuccessful()) {
         		logger.error("Invalid status code returned when attempting to send mail for form 1.");

@@ -58,8 +58,8 @@ public class EmailTemplateService {
 	            variables.put("noticeNumber", xpath.evaluate("/form/prohibition-information/control-prohibition-number", document));
 	            break;
 	        case f1p2:
-	        	 variables.put("lawyerFirstName", xpath.evaluate("/form/identification-information/first-name-applicant", document));
-	             variables.put("lawyerLastName", xpath.evaluate("/form/identification-information/last-name-applicant", document));
+	        	 variables.put("applicantFirstName", xpath.evaluate("/form/identification-information/driver-first-name", document));
+	             variables.put("applicantLastName", xpath.evaluate("/form/identification-information/driver-last-name", document));
 	             variables.put("noticeNumber", xpath.evaluate("/form/prohibition-information/control-prohibition-number", document));
 	            break;  
 	        case f1p3:
