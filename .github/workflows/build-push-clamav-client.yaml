@@ -1,0 +1,101 @@
+name: clamav-client-build-and-push-dev
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "Java/README.md"
+      - "Java/clamav_client/**"
+      - .github/workflows/build-push-clamav-client.yaml
+  workflow_dispatch:
+
+env:
+  IMAGE_NAME: clamav
+  WORKING_DIRECTORY: Java/clamav_client
+  REPO_KEY: af03
+  BRANCH_NAME: develop
+  VALUES_FILE: dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Login to Artifactory
+        uses: docker/login-action@v1
+        with:
+          registry: artifacts.developer.gov.bc.ca
+          username: ${{ secrets.ARTIFACTORY_USERNAME }}
+          password: ${{ secrets.ARTIFACTORY_PASSWORD }}
+      
+      # Get SHORT_SHA for the version
+      - name: Get short SHA
+        id: short_sha
+        run: |
+          echo "::set-output name=SHORT_SHA::$(git rev-parse --short HEAD)"
+          echo "Short SHA: $SHORT_SHA"
+
+      - name: Build Image
+        working-directory: ${{env.WORKING_DIRECTORY}}
+        run: |
+          docker build -t artifacts.developer.gov.bc.ca/${{env.REPO_KEY}}-${{env.IMAGE_NAME}}/${{env.IMAGE_NAME}}-client:dev .
+      
+      - name: Docker Push to Artifactory
+        run: |
+          docker push artifacts.developer.gov.bc.ca/${{env.REPO_KEY}}-${{env.IMAGE_NAME}}/${{env.IMAGE_NAME}}-client:dev
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: image
+          image-ref: artifacts.developer.gov.bc.ca/${{env.REPO_KEY}}-${{env.IMAGE_NAME}}/${{env.IMAGE_NAME}}-client:dev
+          format: 'table'
+          ignore-unfixed: true
+          limit-severities-for-sarif: true
+          severity: HIGH,CRITICAL
+      
+      - name: Set GitOps SSH Key
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.RSBC_SSH_KEY }}
+      
+      - name: Update Helm Dev Values and Commit
+        id: helm
+        run: |
+
+          echo "Updating ${{ env.BRANCH_NAME }} helm  values to trigger ArgoCD deployment "
+            
+          # Commit and push the changes
+          git config --global user.email "actions@github.com"
+          git config --global user.name "RSBC-APR GitHub Actions"
+          git clone -b ${{ env.BRANCH_NAME }} --single-branch git@github.com:bcgov-c/tenant-gitops-f0392a.git
+            
+          # Navigate to the directory containing your Helm values file for the environment develop -> DEV, test -> test
+          
+          cd tenant-gitops-f0392a/charts
+            
+          # Update the Helm values file with the new image tag and version
+          DATETIME=$(date +'%Y-%m-%d %H:%M:%S')  # Get current date and time
+          echo "Updating tag ccversion: to ${{ steps.short_sha.outputs.SHORT_SHA }}"
+  
+          sed -i "s/ccversion: .*/ccversion: v-${{ steps.short_sha.outputs.SHORT_SHA }} # Image Updated on $DATETIME/" ../deploy/${{ env.VALUES_FILE }}_values.yaml
+
+          git add .
+            
+          git add ../deploy/${{ env.VALUES_FILE }}_values.yaml
+            
+          # Repackage Helm Chart      
+  
+          cd gitops
+  
+          helm dependency build
+  
+          git add .
+            
+          git commit -m "Update ${{ env.BRANCH_NAME }} clamavclient image tag"
+
+          # pull any changes
+          git pull origin ${{ env.BRANCH_NAME }}
+          git push origin ${{ env.BRANCH_NAME }}  # Update the branch name as needed
