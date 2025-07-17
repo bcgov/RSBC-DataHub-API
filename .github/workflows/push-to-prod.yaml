@@ -63,11 +63,11 @@ jobs:
           echo "::set-output name=SHORT_SHA::$(git rev-parse --short HEAD)"
           echo "Short SHA: $SHORT_SHA"
 
-      - name: Backup Prod Image
-        run: |
-          docker pull artifacts.developer.gov.bc.ca/${{env.REPO_KEY}}-${{env.IMAGE_NAME}}/${{env.IMAGE_NAME}}:prod
-          docker tag artifacts.developer.gov.bc.ca/${{env.REPO_KEY}}-${{env.IMAGE_NAME}}/${{env.IMAGE_NAME}}:prod artifacts.developer.gov.bc.ca/${{env.REPO_KEY}}-${{env.IMAGE_NAME}}/${{env.IMAGE_NAME}}:prod-backup
-          docker push artifacts.developer.gov.bc.ca/${{env.REPO_KEY}}-${{env.IMAGE_NAME}}/${{env.IMAGE_NAME}}:prod-backup
+      #- name: Backup Prod Image
+      #  run: |
+      #    docker pull artifacts.developer.gov.bc.ca/${{env.REPO_KEY}}-${{env.IMAGE_NAME}}/${{env.IMAGE_NAME}}:prod
+      #    docker tag artifacts.developer.gov.bc.ca/${{env.REPO_KEY}}-${{env.IMAGE_NAME}}/${{env.IMAGE_NAME}}:prod artifacts.developer.gov.bc.ca/${{env.REPO_KEY}}-${{env.IMAGE_NAME}}/${{env.IMAGE_NAME}}:prod-backup
+      #    docker push artifacts.developer.gov.bc.ca/${{env.REPO_KEY}}-${{env.IMAGE_NAME}}/${{env.IMAGE_NAME}}:prod-backup
     
       - name: Docker Pull to Artifactory
         run: |
