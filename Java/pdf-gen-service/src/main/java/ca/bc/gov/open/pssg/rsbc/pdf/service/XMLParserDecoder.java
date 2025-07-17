@@ -1,16 +1,23 @@
 package ca.bc.gov.open.pssg.rsbc.pdf.service;
 
+import java.io.StringReader;
 import java.util.Base64;
 import java.util.Iterator;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 
 import ca.bc.gov.open.pssg.rsbc.pdf.exception.UnsupportedPayloadException;
 import ca.bc.gov.open.pssg.rsbc.pdf.exception.XmlExtractionException;
+import ca.bc.gov.open.pssg.rsbc.pdf.utils.XmlUtilities;
 
 /**
  * 
@@ -57,6 +64,26 @@ public class XMLParserDecoder {
 	        throw new XmlExtractionException("Failed to decode XML from JSON payload", e);
 	    }
 	}
+	
+	/**
+	 * Create Document from XML string
+	 * 
+	 * @param xml
+	 * @return
+	 * @throws Exception
+	 */
+	public static Document getDocument(String xml) throws Exception {
+		
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		dbFactory.setNamespaceAware(false);
+
+		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+		String _xml = XmlUtilities.formatXml(xml);
+		InputSource is = new InputSource(new StringReader(_xml));
+		
+		return dBuilder.parse(is); 
+	}
+	
 	
 	/**
 	 * 
