@@ -16,8 +16,6 @@ import org.w3c.dom.Document;
 
 import ca.bc.gov.open.pssg.rsbc.pdf.exception.UnsupportedXMLFormTypeException;
 import ca.bc.gov.open.pssg.rsbc.pdf.models.PDFRenderResponse;
-import ca.bc.gov.open.pssg.rsbc.pdf.service.EmailAssemblyService;
-import ca.bc.gov.open.pssg.rsbc.pdf.service.EmailClientService;
 import ca.bc.gov.open.pssg.rsbc.pdf.service.PdfRenderService;
 import ca.bc.gov.open.pssg.rsbc.pdf.service.XMLParserDecoder;
 import ca.bc.gov.open.pssg.rsbc.pdf.utils.XmlUtilities;
@@ -34,33 +32,14 @@ public class HttpListener {
 	private static final Logger logger = LoggerFactory.getLogger(HttpListener.class);
 
 	private PdfRenderService pService;
-	private EmailAssemblyService aService;
-	private EmailClientService eService;
-	private XMLParserDecoder xmlDecoder; 
 
-	public HttpListener(XMLParserDecoder xmlDecoder, 
-			PdfRenderService pService, EmailAssemblyService aService, EmailClientService eService) {
+	public HttpListener(PdfRenderService pService) {
 		super();
-		this.xmlDecoder = xmlDecoder;
 		this.pService = pService;
-		this.aService = aService;
-		this.eService = eService;
 	}
 
 	public PdfRenderService getpService() {
 		return pService;
-	}
-
-	public EmailAssemblyService getaService() {
-		return aService;
-	}
-
-	public EmailClientService geteService() {
-		return eService;
-	}
-	
-	public XMLParserDecoder getXmlDecoder() {
-		return xmlDecoder;
 	}
 
 	@PostMapping("/renderpdf")
@@ -94,7 +73,7 @@ public class HttpListener {
 	        //STEP 3 - Ensure this is a form type 3 payload. 
 	        FormType formType = XmlUtilities.categorizeFormType(doc);
 	        
-	        if (formType.equals(FormType.UNKNOWN) && !formType.equals(FormType.f3)) {
+	        if (formType.equals(FormType.UNKNOWN) || !formType.equals(FormType.f3)) {
 	        	throw new UnsupportedXMLFormTypeException("HttpListener: XML form content not the expected Form 3 type.");
 	        }
 			
