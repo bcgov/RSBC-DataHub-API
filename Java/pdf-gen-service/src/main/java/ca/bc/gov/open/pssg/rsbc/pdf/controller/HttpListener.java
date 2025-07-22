@@ -64,13 +64,20 @@ public class HttpListener {
 	}
 
 	@PostMapping("/renderpdf")
-	public ResponseEntity<byte[]> renderPdf(@RequestBody String base64XmlPayload) {
+	public ResponseEntity<?> renderPdf(@RequestBody String base64XmlPayload) {
 
 		String noticeNumber = "unknown";
 
 		try {
 
 			logger.info("APR PDF Generator received a payload at the HttpListener.");
+			
+			if (base64XmlPayload == null) {
+	            return ResponseEntity
+	            	.status(HttpStatus.BAD_REQUEST)
+	            	.contentType(MediaType.TEXT_PLAIN)
+	                .body("Request body cannot be null");
+	        }
 
 			// STEP 1 - Decode the incoming XML payload content
 			byte[] decodedBytes = Base64.getDecoder().decode(base64XmlPayload);
