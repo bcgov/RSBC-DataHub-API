@@ -69,7 +69,7 @@ public class PdfRenderService {
 
 		//STEP 1 - Store the XML in the Adobe Schema content table.
 		String pKey = null; 
-		logger.info("PdefRenderService, STEP 1. Store form XML...");
+		logger.info("PdfRenderService, STEP 1. Store form XML...");
 		
 		ResponseEntity<String> oResp = oService.adobeSaveXML(xml);
 		if (!oResp.getStatusCode().equals(HttpStatus.OK)) {
@@ -81,7 +81,7 @@ public class PdfRenderService {
 		}
 		
 		//STEP 2 - Render the PDF. 
-		logger.info("PdefRenderService, STEP 2. Generate the PDF...");
+		logger.info("PdfRenderService, STEP 2. PDF rendering started.");
 		ResponseEntity<byte[]> rResp = rService.callReportServer(
 				props.getAem().getReport().getServer().getAppId(), // AEM Report Server config name. 
 				XmlUtilities.toXDPType(type).toString(), // XDP form type name. 
@@ -92,11 +92,13 @@ public class PdfRenderService {
 			resp.setPdf(rResp.getBody());
 			logger.debug("Pdf returned from AEM Report server. Size: {} bytes.", resp.getPdf().length);
 		}
-
-		// STEP 3 - Render the applicant email.
-		logger.info("PdefRenderService, STEP 3. Generating email from template...");
+		logger.info("PdfRenderService, STEP 2. PDF rendering complete");
 		
 		if (!type.equals(FormType.f3)) {
+			
+			// STEP 3 - Render the applicant email.
+			logger.info("PdfRenderService, STEP 3. Generating email from template...");
+		
 			String email;
 			try {
 				email = eService.generateEmailHtml(type, doc);

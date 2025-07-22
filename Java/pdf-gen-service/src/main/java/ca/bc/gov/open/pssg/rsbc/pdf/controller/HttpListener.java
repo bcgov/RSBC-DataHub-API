@@ -25,6 +25,8 @@ import ca.bc.gov.open.pssg.rsbc.pdf.utils.XmlUtilities.FormType;
  * 
  * Excepts APR, XML Form 3 Payloads. Returns PDF rendering as stream.
  * 
+ * This is not a public service. Called only from the NextJS, server side. 
+ * 
  */
 @RestController
 public class HttpListener {

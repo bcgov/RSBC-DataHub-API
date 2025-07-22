@@ -9,6 +9,12 @@ public class PDFRenderResponse {
 
 	private byte[] pdf;
 	private String emailBody; 
+	
+	public PDFRenderResponse() {}
+
+	public PDFRenderResponse(byte[] pdf) {
+		this.pdf = pdf;
+	}
 
 	public byte[] getPdf() {
 		return pdf;
