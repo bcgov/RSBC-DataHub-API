@@ -26,7 +26,7 @@ import ca.bc.gov.open.pssg.rsbc.pdf.exception.AdobeReportServerException;
 @Service
 public class AdobeReportServerService {
 
-	private static final Logger logger = LoggerFactory.getLogger(AdobeOrdsService.class);
+	private static final Logger logger = LoggerFactory.getLogger(AdobeReportServerService.class);
 
 	private final RestTemplate restTemplate;
 	private final AdobeOrdsProperties adobeOrdsProperties;
@@ -38,10 +38,10 @@ public class AdobeReportServerService {
 	 * @param adobeOrdsProperties
 	 * 
 	 */
-	public AdobeReportServerService(AdobeOrdsProperties adobeOrdsProperties) {
-		this.adobeOrdsProperties = adobeOrdsProperties;
-		this.restTemplate = new RestTemplateBuilder().build();
-	}
+	public AdobeReportServerService(AdobeOrdsProperties adobeOrdsProperties, RestTemplateBuilder restTemplateBuilder) {
+        this.adobeOrdsProperties = adobeOrdsProperties;
+        this.restTemplate = restTemplateBuilder.build();
+    }
 
 	/**
 	 * 
