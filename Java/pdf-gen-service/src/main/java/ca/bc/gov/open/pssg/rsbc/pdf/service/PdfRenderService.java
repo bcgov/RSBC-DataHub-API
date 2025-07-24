@@ -35,16 +35,14 @@ public class PdfRenderService {
 	private AdobeReportServerService rService;
 	private AdobeOrdsProperties props;
 	private EmailTemplateService eService;
-	private FileLoaderUtility fService;
 
 	public PdfRenderService(AdobeOrdsService oService, AdobeReportServerService rService, EmailTemplateService eService,
-			AdobeOrdsProperties props, FileLoaderUtility fService) {
+			AdobeOrdsProperties props) {
 		super();
 		this.oService = oService;
 		this.rService = rService;
 		this.eService = eService;
 		this.props = props;
-		this.fService = fService;
 	}
 
 	public AdobeOrdsService getoService() {
@@ -57,10 +55,6 @@ public class PdfRenderService {
 
 	public AdobeOrdsProperties getProps() {
 		return props;
-	}
-
-	public FileLoaderUtility getfService() {
-		return fService;
 	}
 
 	public PDFRenderResponse render(FormType type, String xml, Document doc) throws PdfRenderServiceException {
