@@ -7,12 +7,10 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.Document;
-
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+import org.w3c.dom.Document;
 
 import ca.bc.gov.open.pssg.rsbc.pdf.exception.EmailTemplateServiceException;
 import ca.bc.gov.open.pssg.rsbc.pdf.utils.XmlUtilities.FormType;
@@ -25,8 +23,11 @@ import ca.bc.gov.open.pssg.rsbc.pdf.utils.XmlUtilities.FormType;
 @Service
 public class EmailTemplateService {
 
-    @Autowired
     private TemplateEngine templateEngine;
+    
+    public EmailTemplateService(TemplateEngine templateEngine) {
+    	this.templateEngine = templateEngine;
+    }
 
     public String generateEmailHtml(FormType formType, Document xmlDocument) throws EmailTemplateServiceException {
     	
