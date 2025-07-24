@@ -34,8 +34,6 @@ public class EmailTemplateServiceTest {
 
     @Test
     public void testGenerateEmailHtml_f1p1_success() throws Exception {
-        
-    	//Document xmlDoc = loadTestXml("<?xml version=\"1.0\" encoding=\"UTF-8\"?><form xmlns:fr=\"http://orbeon.org/oxf/xml/form-runner\" fr:data-format-version=\"4.0.0\"><submitted>false</submitted><before-you-begin-section><help-text/></before-you-begin-section></form>");
     	
     	Document xmlDoc = XMLParserDecoder.getDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n"
     			+ "<form xmlns:fr=\"http://orbeon.org/oxf/xml/form-runner\" fr:data-format-version=\"4.0.0\">\r\n"
