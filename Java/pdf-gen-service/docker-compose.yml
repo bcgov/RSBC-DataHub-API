@@ -1,0 +1,7 @@
+# docker-compose.yml
+version: '3.8'
+services:
+  web:
+    build: .
+    env_file:
+      - .env
