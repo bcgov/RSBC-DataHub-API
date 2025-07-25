@@ -83,5 +83,25 @@
     "name": "adobe.aem.report.server.appid",
     "type": "java.lang.String",
     "description": "A description for 'adobe.aem.report.server.appid'"
+  },
+  {
+    "name": "security.httplistener.HTTP_-lISTENER_-uSER",
+    "type": "java.lang.String",
+    "description": "A description for 'security.httplistener.HTTP_-lISTENER_-uSER'"
+  },
+  {
+    "name": "security.httplistener.HTTP_LISTENER_PASS",
+    "type": "java.lang.String",
+    "description": "A description for 'security.httplistener.HTTP_LISTENER_PASS'"
+  },
+  {
+    "name": "security.httplistener.username",
+    "type": "java.lang.String",
+    "description": "A description for 'security.httplistener.username'"
+  },
+  {
+    "name": "security.httplistener.password",
+    "type": "java.lang.String",
+    "description": "A description for 'security.httplistener.password'"
   }
 ]}
