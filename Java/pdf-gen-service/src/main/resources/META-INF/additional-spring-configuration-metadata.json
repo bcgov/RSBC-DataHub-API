@@ -1,0 +1,87 @@
+{"properties": [
+  {
+    "name": "adobeords.base_url",
+    "type": "java.lang.String",
+    "description": "A description for 'adobeords.base_url'"
+  },
+  {
+    "name": "aem.report.server.url",
+    "type": "java.lang.String",
+    "description": "A description for 'aem.report.server.url'"
+  },
+  {
+    "name": "adobe.ords.auth.username",
+    "type": "java.lang.String",
+    "description": "A description for 'adobe.ords.auth.username'"
+  },
+  {
+    "name": "adobe.ords.auth.password",
+    "type": "java.lang.String",
+    "description": "A description for 'adobe.ords.auth.password'"
+  },
+  {
+    "name": "adobe.ords.base_url",
+    "type": "java.lang.String",
+    "description": "A description for 'adobe.ords.base_url'"
+  },
+  {
+    "name": "adobe.aem.report.server.url",
+    "type": "java.lang.String",
+    "description": "A description for 'adobe.aem.report.server.url'"
+  },
+  {
+    "name": "adobe.aem.report.server.config",
+    "type": "java.lang.String",
+    "description": "A description for 'adobe.aem.report.server.config'"
+  },
+  {
+    "name": "spring.logging.level.org.springframework",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.logging.level.org.springframework'"
+  },
+  {
+    "name": "mail.it.registry",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.it.registry'"
+  },
+  {
+    "name": "mail.it.bcc2",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.it.bcc2'"
+  },
+  {
+    "name": "mail.it.bcc1",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.it.bcc1'"
+  },
+  {
+    "name": "mail.it.username",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.it.username'"
+  },
+  {
+    "name": "mail.it.password",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.it.password'"
+  },
+  {
+    "name": "mail.it.url",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.it.url'"
+  },
+  {
+    "name": "mail.it.from",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.it.from'"
+  },
+  {
+    "name": "org",
+    "type": "java.lang.String",
+    "description": "A description for 'org'"
+  },
+  {
+    "name": "adobe.aem.report.server.appid",
+    "type": "java.lang.String",
+    "description": "A description for 'adobe.aem.report.server.appid'"
+  }
+]}
