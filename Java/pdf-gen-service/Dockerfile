@@ -14,6 +14,8 @@ RUN mvn clean package -Dmaven.test.skip=true
 
 FROM eclipse-temurin:23-jre-alpine
 
+USER nonroot
+
 COPY --from=maven_build /tmp/target/pdf-gen-service-*.jar /app/service.jar
 
 EXPOSE 8080
