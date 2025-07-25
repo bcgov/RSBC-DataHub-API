@@ -78,6 +78,8 @@ The application expects certain environment variables to be set for configuratio
 | `EMAIL_BCC2`              | BCC 2 (optional)   |
 | `SPRING_ACTIVE_PROFILE` | Spring profile ('default' if not supplied)     |
 | `LOGGING_LEVEL` | Springboot logging level (e.g., `DEBUG`, `INFO`)     |
+| `HTTP_LISTENER_USER`              | Http Listener user   |
+| `HTTP_LISTENER_PASS`              | Http Listener password    |
 
 **All variables except those marked optional are required for the application to start and
 function correctly**.  
