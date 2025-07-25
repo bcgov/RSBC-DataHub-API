@@ -2,7 +2,7 @@ name: pdf-generator-build-and-push-dev
 
 on:
   push:
-    branches: [pdfworkflow]
+    branches: [master]
     paths:
       - "Java/README.md"
       - "Java/pdf-gen-service/**"
