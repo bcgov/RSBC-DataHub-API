@@ -15,6 +15,7 @@ on:
           - paybc
           - validator
           - web-form
+          - pdf-generator
 
 env:
   IMAGE_NAME: ${{ github.event.inputs.application }}
@@ -45,6 +46,8 @@ jobs:
             echo "IMAGE_PREFIX=v" >> $GITHUB_ENV
           elif [[ "${{ env.IMAGE_NAME }}" == "web-form" ]]; then
             echo "IMAGE_PREFIX=wf" >> $GITHUB_ENV
+          elif [[ "${{ env.IMAGE_NAME }}" == "pdf-generator" ]]; then
+            echo "IMAGE_PREFIX=pdf" >> $GITHUB_ENV
           else
             echo "Unknown application: ${{ env.IMAGE_NAME }}"
           fi
