@@ -106,8 +106,19 @@ def add_to_rabbitmq_queue(**args) -> tuple:
     encoded_message = args.get('encoded_message')
     queue = args.get('queue')
     writer = args.get('writer')
-    logging.warning('writing to {} queue'.format(queue))
+
+    logging.info('Writing to {} queue'.format(queue))
+
+    # Publish to the original queue
     if not writer.publish(queue, encoded_message):
-        logging.critical('unable to write to RabbitMQ {} queue'.format(queue))
+        logging.critical('Unable to write to RabbitMQ {} queue'.format(queue))
         return False, args
+
+    # If the queue is DF.Valid, also publish to DF.pdf
+    if queue == 'DF.Valid':
+        logging.info('Writing secondary payload to DF.pdf queue')
+        if not writer.publish('DF.pdf', encoded_message):
+            logging.critical('Unable to write to RabbitMQ DF.pdf queue')
+            return False, args
+
     return True, args
