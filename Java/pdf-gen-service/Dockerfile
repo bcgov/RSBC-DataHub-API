@@ -7,18 +7,17 @@ COPY pom.xml /tmp/
 COPY src /tmp/src/
 
 WORKDIR /tmp/
-	
+
 RUN mvn clean package -Dmaven.test.skip=true
 
-FROM eclipse-temurin:21
+# running the service
 
-# RUN useradd -m appuser
-# USER appuser
+FROM eclipse-temurin:23-jre-alpine
+
+USER nonroot
+
+COPY --from=maven_build /tmp/target/pdf-gen-service-*.jar /app/service.jar
 
 EXPOSE 8080
 
-WORKDIR /app/
-
-COPY --from=maven_build /tmp/target/pdf-gen-service-0.0.1-SNAPSHOT.jar /app/pdf-gen-service-0.0.1-SNAPSHOT.jar
-
-CMD ["java", "-jar", "/app/pdf-gen-service-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "/app/service.jar"]
