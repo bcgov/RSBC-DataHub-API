@@ -115,7 +115,7 @@ def add_to_rabbitmq_queue(**args) -> tuple:
         return False, args
 
     # If the queue is DF.Valid, also publish to DF.pdf
-    if queue == 'DF.Valid':
+    if queue == 'DF.valid':
         logging.info('Writing secondary payload to DF.pdf queue')
         if not writer.publish('DF.pdf', encoded_message):
             logging.critical('Unable to write to RabbitMQ DF.pdf queue')
