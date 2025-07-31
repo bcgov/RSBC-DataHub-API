@@ -46,6 +46,8 @@ public class HttpListener {
 
 	@PostMapping("/renderpdf")
 	public ResponseEntity<?> renderPdf(@RequestBody String base64XmlPayload) {
+		
+		System.out.println("XML recd: " + base64XmlPayload);
 
 		String noticeNumber = "unknown";
 
