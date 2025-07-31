@@ -12,9 +12,14 @@ import {
   Radio,
   IconButton,
 } from "@mui/material";
-import { generatePDF } from "../components/GeneratePDF";
+
 import { FormField } from "../components/FormField";
-import { postValidateFormData, sendForm3Email, submitToApi } from "./actions";
+import {
+  postValidateFormData,
+  sendForm3Email,
+  submitToApi,
+  getXMLData,
+} from "./actions";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ArrowForward from "@mui/icons-material/ArrowForward";
@@ -196,7 +201,7 @@ export default function Page() {
     signatureApplicantNameErrorText,
   ]);
 
-  const generatePdfAction = () => {
+  /*   const generatePdfAction = () => {
     if (isFormSubmitted) {
       setIsExpanded(true);
 
@@ -213,6 +218,34 @@ export default function Page() {
         const pdf = await generatePDF(pdfList, "Upload Supporting Documents");
         pdf?.save("Upload Supporting Documents");
       }, 500);
+    }
+  }; */
+
+  const loadPDF = async (applicantInfo: Form3Data) => {
+    // the following is async so we have to 'await' the result.
+    const xml = await getXMLData(applicantInfo);
+    const base64Xml = btoa(xml);
+    try {
+      const response = await fetch("/api/sendXml", {
+        method: "POST",
+        //headers: {
+        //"Content-Type": "application/xml",
+        //Accept: "application/pdf",
+        //},
+        body: base64Xml,
+      });
+
+      if (!response.ok) throw new Error("Network response was not ok.");
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "response.pdf";
+      link.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("PDF download failed:", error);
     }
   };
 
@@ -1025,7 +1058,7 @@ export default function Page() {
             </Button>
             <Button
               disabled={!isFormSubmitted}
-              onClick={generatePdfAction}
+              onClick={() => loadPDF(applicantInfo)}
               variant="outlined"
               sx={{
                 cursor: "pointer",
