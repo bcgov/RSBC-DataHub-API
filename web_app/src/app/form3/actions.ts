@@ -11,7 +11,7 @@ export async function submitToApi(
   applicantInfo: Form3Data
 ): Promise<ActionResponse> {
   try {
-    const xml = getXMLData(applicantInfo);
+    const xml = await getXMLData(applicantInfo);
     console.log(
       "submitToAPI form3 xml",
       applicantInfo.controlProhibitionNumber
