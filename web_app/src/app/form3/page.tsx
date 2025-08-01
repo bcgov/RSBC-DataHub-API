@@ -237,6 +237,10 @@ export default function Page() {
 
       if (!response.ok) throw new Error("Network response was not ok.");
 
+      console.log(
+        "Request for form 3 PDF generation successful. Response: " +
+          response.status
+      );
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
