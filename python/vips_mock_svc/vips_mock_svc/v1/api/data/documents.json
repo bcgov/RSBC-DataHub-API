@@ -1,0 +1,26 @@
+{
+  "456": {
+      "addToFileDtm": "string",
+      "disclosedToClientDtm": "string",
+      "disclosureDocumentYN": "string",
+      "documentId": 0,
+      "documentTypeCd": "string",
+      "documentTypeDsc": "string",
+      "impoundmentId": 0,
+      "pageCount": 0,
+      "prohibitionId": 0,
+      "receivedDtm": "string"
+    },
+  "888": {
+      "addToFileDtm": "string",
+      "disclosedToClientDtm": "string",
+      "disclosureDocumentYN": "string",
+      "documentId": 0,
+      "documentTypeCd": "string",
+      "documentTypeDsc": "string",
+      "impoundmentId": 0,
+      "pageCount": 0,
+      "prohibitionId": 0,
+      "receivedDtm": "string"
+    }
+}
