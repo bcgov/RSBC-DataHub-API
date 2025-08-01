@@ -65,6 +65,8 @@ public class RabbitMQListener {
         
         String noticeNumber = "unknown"; 
         
+        logger.debug("RabbitMQListener received a message: " + noticeNumber);
+        
         try {
         	
         	//STEP 1 - Extract and decode the XML form data from the JSON payload.  
@@ -76,13 +78,13 @@ public class RabbitMQListener {
 			noticeNumber = XmlUtilities.getNoticeNumber(doc);
 			MDC.put("notice", noticeNumber);	        
 	        
-	        logger.info("Received a form 1 payload for notice number: " + noticeNumber);
+	        logger.info("Received a form payload for notice number: " + noticeNumber);
 	        
-	        //STEP 3 - Determine the form payload type. 
+	        //STEP 3 - Determine the form payload type. ONly allow form type 1 messages to be processed. 
 	        FormType formType = XmlUtilities.categorizeFormType(doc);
 	        
 	        if (formType.equals(FormType.UNKNOWN) || formType.equals(FormType.f3)) {
-	        	throw new UnsupportedXMLFormTypeException("RabbitMQListener: Form3 permutation or unknown XML content in JSON payload for notice: " + noticeNumber);
+	        	throw new UnsupportedXMLFormTypeException("RabbitMQListener: Form3 permutation or unknown XML content in JSON payload");
 	        }
 	        	
 	        logger.info("XML form type identified as " + formType);
@@ -106,14 +108,18 @@ public class RabbitMQListener {
         	//STEP 6 - Mail it!
         	ResponseEntity<EmailResponse> eResp = eService.sendEmail(req, noticeNumber);
         	if (!eResp.getStatusCode().is2xxSuccessful()) {
-        		logger.error("Invalid status code returned when attempting to send mail for form 1.");
+        		logger.error("Invalid status code returned when attempting to send mail for form.");
         	} else { 
-        		logger.info("Email sent successfully for form 1.");
+        		logger.info("Email sent successfully for form.");
         	}
 			
 		} catch (Exception e) {
-			logger.error("An exception occurred while generating a review submission form PDF and emailing, {}", e.getMessage());
-			e.printStackTrace();
+			
+			// just consume unsupported XML Form type exceptions as we're not interested in these message types. 
+			if (!(e instanceof UnsupportedXMLFormTypeException)) {
+				logger.error("An exception occurred while generating a review submission form PDF and emailing, {}", e.getMessage());
+				e.printStackTrace();
+			} 
 		}
         
         finally {
