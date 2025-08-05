@@ -12,6 +12,7 @@ import {
   InputAdornment,
   Input,
   IconButton,
+  Checkbox,
 } from "@mui/material";
 import CallIcon from "@mui/icons-material/Call";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -35,6 +36,7 @@ interface Props {
 
 const Step2 = forwardRef((props: Props, ref) => {
   const [step2Data, setStep2Data] = useState<Step2Data>({
+    sendConsentSeparately: false,
     applicantRoleSelect: "",
     representedByLawyer: "",
     applicantFirstName: "",
@@ -105,6 +107,7 @@ const Step2 = forwardRef((props: Props, ref) => {
       setFileUploadMessage("");
       setStep2DataErrors({});
       setStep2Data({
+        sendConsentSeparately: false,
         applicantRoleSelect: "",
         representedByLawyer: "",
         applicantFirstName: "",
@@ -292,7 +295,8 @@ const Step2 = forwardRef((props: Props, ref) => {
 
   const validateConsentFile = (value: string, errors: Step2DataErrors) => {
     if (step2Data.applicantRoleSelect !== "driver" && value === "") {
-      errors.fileUploadErrorText = "A consent file must be uploaded.";
+      if (step2Data.sendConsentSeparately === false)
+        errors.fileUploadErrorText = "A consent file must be uploaded.";
     } else {
       errors.fileUploadErrorText = "";
     }
@@ -586,6 +590,23 @@ const Step2 = forwardRef((props: Props, ref) => {
                   >
                     <DeleteIcon fontSize="inherit" />
                   </IconButton>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={step2Data.sendConsentSeparately}
+                        onChange={(e) =>
+                          setStep2Data({
+                            ...step2Data,
+                            sendConsentSeparately: e.target.checked,
+                          })
+                        }
+                        name="sendConsentSeparately"
+                        color="primary"
+                      />
+                    }
+                    label="I will send in the authorization form separately"
+                    sx={{ marginTop: "10px" }}
+                  />
                 </FormField>
                 {step2Data.consentFileName && (
                   <div
