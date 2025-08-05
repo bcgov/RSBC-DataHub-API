@@ -535,7 +535,7 @@ const Step2 = forwardRef((props: Props, ref) => {
                     <span style={{ fontSize: "14px", color: "#313132" }}>
                       Download a copy of the Lawyer Authorization form from{" "}
                       <a
-                        href="/forms/authorization_form.pdf"
+                        href={process.env.NEXT_PUBLIC_LAWYER_AUTHORIZATION_PDF}
                         target="_blank"
                         rel="noopener noreferrer"
                         style={{
