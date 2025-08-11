@@ -2,7 +2,7 @@ name: web-form-build-and-push-dev
 
 on:
   push:
-    branches: [apr-188]
+    branches: [master]
     paths:
       - .github/workflows/build-push-web-form.yaml
       - "Java/README.md"
