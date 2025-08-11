@@ -245,7 +245,7 @@ function getForm1Xml(
                   step2Data.consentFileName
                 }" mediatype="" size="${
     step2Data.consentFile ? step2Data.consentFile.length : ""
-  }  data="${step2Data.consentFile ? step2Data.consentFile : ""}" />
+  }" data="${step2Data.consentFile ? step2Data.consentFile : ""}" />
                 <lawyer-information-label/>
                 <control-2/>
                 <first-name-applicant>${
