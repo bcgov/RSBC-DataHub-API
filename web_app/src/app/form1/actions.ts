@@ -240,11 +240,11 @@ function getForm1Xml(
                 ${representedByLawyer}
                 ${applicantRole}
                 <control-4/>
-                <consent-upload separate="${
-                  step2Data.sendConsentSeparately
-                }" filename="${step2Data.consentFileName}" mediatype="" size="${
+            <consent-upload filename="${
+              step2Data.consentFileName
+            }" mediatype="" size="${
     step2Data.consentFile ? step2Data.consentFile.length : ""
-  }"/>
+  }" data="${step2Data.consentFile ? step2Data.consentFile : ""}" />
                 <lawyer-information-label/>
                 <control-2/>
                 <first-name-applicant>${
