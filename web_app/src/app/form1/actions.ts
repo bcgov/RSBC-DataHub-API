@@ -83,7 +83,7 @@ export async function postForm1(
   let url =
     axiosApiClient.getUri() + "/v1/publish/event/form?form=prohibition_review";
 
-  console.log("Post to url:  ", url);
+  console.log("Post to url:   ", url);
 
   let config = {
     headers: { "Content-Type": "application/xml" },
