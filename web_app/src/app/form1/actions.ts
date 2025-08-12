@@ -92,7 +92,6 @@ export async function postForm1(
     .replace(/\n/g, "")
     .trim();
   console.log("postForm1 for: ", step1Data.controlProhibitionNumber);
-  console.log("XML: ", xmlData);
   try {
     const response = await axiosApiClient.post(url, xmlData, config);
     console.debug("postForm1 done with return code: " + response.status);
