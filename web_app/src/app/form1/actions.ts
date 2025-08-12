@@ -241,6 +241,8 @@ function getForm1Xml(
                 ${applicantRole}
                 <control-4/>
                 <consent-upload filename="${
+                  step2Data.consentFileName
+                }" mediatype="" size="${
     step2Data.consentFile ? step2Data.consentFile.length : ""
   }" data="${step2Data.consentFile ? step2Data.consentFile : ""}" />
                 <lawyer-information-label/>
