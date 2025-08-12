@@ -80,7 +80,7 @@ public class EmailAssemblyService {
 		}
 
 		// Add consent form (if available - assumed to already be b64 encoded) 
-		if ( null != consentForm) {
+		if ( null != consentForm && consentForm.length() > 0) {
 			EmailAttachment attachment = new EmailAttachment();
 			attachment.setFilecontents(consentForm);
 			attachment.setFilename("consent.pdf");

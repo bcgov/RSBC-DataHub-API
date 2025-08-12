@@ -98,8 +98,8 @@ public class RabbitMQListener {
         	//Consent form already in base64 format.  
         	if (formType.equals(FormType.f1p3) || formType.equals(FormType.f1p4)) {
         		consentForm = XmlUtilities.getConsentFormData(doc);
-        		if (null == consentForm) {
-        			throw new EmailRequestAssemblyException("Error creating email message. No consent form attachment found.");
+        		if (null == consentForm || consentForm.length() == 0) {
+        			logger.info("No consent form attached.");
         		}
         	} 
         	
