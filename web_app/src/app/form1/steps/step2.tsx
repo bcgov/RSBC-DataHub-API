@@ -131,9 +131,29 @@ const Step2 = forwardRef((props: Props, ref) => {
   }));
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    /* APR-188
     const { name, value } = e.target;
     setStep2Data({ ...step2Data, [name]: value });
     props.step2DatatoSend(step2Data);
+    */
+    const { name, value } = e.target;
+
+    let updatedData = { ...step2Data, [name]: value };
+
+    // If applicantRoleSelect changes, reset the checkbox
+    if (name === "applicantRoleSelect") {
+      updatedData.sendConsentSeparately = false;
+      updatedData.consentFile = "";
+      updatedData.consentFileName = "";
+
+      // Also clear file input field if needed
+      if (fileUploadRef.current) {
+        fileUploadRef.current.value = "";
+      }
+    }
+
+    setStep2Data(updatedData);
+    props.step2DatatoSend(updatedData);
   };
 
   const handleProvinceChange = (value: string) => {
@@ -150,7 +170,11 @@ const Step2 = forwardRef((props: Props, ref) => {
 
   const handleCleanFileUpload = () => {
     setFile(null);
-    setStep2Data({ ...step2Data, consentFile: "", consentFileName: "" });
+    setStep2Data({
+      ...step2Data,
+      consentFile: "",
+      consentFileName: "",
+    });
     if (fileUploadRef.current) {
       //console.log("calling ref", fileUploadRef, fileUploadRef.current);
       fileUploadRef.current.value = "";
@@ -295,8 +319,7 @@ const Step2 = forwardRef((props: Props, ref) => {
 
   const validateConsentFile = (value: string, errors: Step2DataErrors) => {
     if (step2Data.applicantRoleSelect !== "driver" && value === "") {
-      errors.fileUploadErrorText = "A consent file must be uploaded.";
-    if (step2Data.sendConsentSeparately === false)
+      if (step2Data.sendConsentSeparately === false)
         errors.fileUploadErrorText = "A consent file must be uploaded.";
     } else {
       errors.fileUploadErrorText = "";
@@ -583,11 +606,13 @@ const Step2 = forwardRef((props: Props, ref) => {
                     type="file"
                     inputRef={fileUploadRef}
                     onChange={handleFileUpload}
+                    disabled={step2Data.sendConsentSeparately}
                   />
                   <IconButton
                     aria-label="delete"
                     size="small"
                     onClick={handleCleanFileUpload}
+                    disabled={step2Data.sendConsentSeparately}
                   >
                     <DeleteIcon fontSize="inherit" />
                   </IconButton>
@@ -595,12 +620,29 @@ const Step2 = forwardRef((props: Props, ref) => {
                     control={
                       <Checkbox
                         checked={step2Data.sendConsentSeparately}
+                        /* APR-188
                         onChange={(e) =>
                           setStep2Data({
                             ...step2Data,
                             sendConsentSeparately: e.target.checked,
                           })
-                        }
+                        }*/
+
+                        onChange={(e) => {
+                          const checked = e.target.checked;
+
+                          setStep2Data((step2Data) => ({
+                            ...step2Data,
+                            sendConsentSeparately: checked,
+                            consentFileName: checked
+                              ? ""
+                              : step2Data.consentFileName, // Clear file name
+                          }));
+
+                          if (checked && fileUploadRef.current) {
+                            fileUploadRef.current.value = ""; // Clear file input
+                          }
+                        }}
                         name="sendConsentSeparately"
                         color="primary"
                       />
