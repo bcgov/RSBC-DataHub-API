@@ -27,7 +27,7 @@ export interface Step1DataErrors {
   dateOfService?: Date;
 }
 export interface Step2Data {
-  sendConsentSeparately: false;
+  sendConsentSeparately: boolean | undefined;
   applicantRoleSelect: string;
   representedByLawyer: string;
   applicantFirstName: string;

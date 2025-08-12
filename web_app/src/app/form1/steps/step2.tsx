@@ -12,6 +12,7 @@ import {
   InputAdornment,
   Input,
   IconButton,
+  Checkbox,
 } from "@mui/material";
 import CallIcon from "@mui/icons-material/Call";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -25,6 +26,7 @@ import React, {
 import { Step2Data, Step2DataErrors } from "../../interfaces";
 import { checkVirusScanner } from "@/app/_nonRoutingAssets/lib/virusScanApi";
 import { file2Base64 } from "@/app/_nonRoutingAssets/lib/util";
+import { red } from "@mui/material/colors";
 
 interface Props {
   step2DatatoSend: (data: Step2Data) => void;
@@ -294,6 +296,8 @@ const Step2 = forwardRef((props: Props, ref) => {
   const validateConsentFile = (value: string, errors: Step2DataErrors) => {
     if (step2Data.applicantRoleSelect !== "driver" && value === "") {
       errors.fileUploadErrorText = "A consent file must be uploaded.";
+    if (step2Data.sendConsentSeparately === false)
+        errors.fileUploadErrorText = "A consent file must be uploaded.";
     } else {
       errors.fileUploadErrorText = "";
     }
@@ -513,19 +517,42 @@ const Step2 = forwardRef((props: Props, ref) => {
               <Grid item xs={7} sx={{ padding: "1px" }}>
                 <div className="attachConsent">
                   <div style={{ lineHeight: "1" }}>
-                    <strong style={{ fontSize: "14px", lineHeight: "1.25" }}>
+                    <strong
+                      style={{
+                        fontSize: "14px",
+                        lineHeight: "1.25",
+                        color: "red",
+                      }}
+                    >
                       {" "}
-                      Before the review you must provide a signed consent from
-                      the driver authorizing you to send and receive documents
-                      on their behalf.&nbsp;
+                      Important:&nbsp;
                     </strong>
                   </div>
                   <div style={{ lineHeight: "1" }}>
-                    <strong style={{ fontSize: "14px" }}>
-                      Upload the signed consent below or on the evidence
-                      submission form. You&apos;ll have access to the evidence
-                      form after you pay and schedule the review.{" "}
+                    <strong style={{ fontSize: "14px", color: "red" }}>
+                      If you are being represented, you must provide an
+                      authorization form prior to the review date & time. Your
+                      representative will be unable to conduct the review if an
+                      authorization form is not received.
                     </strong>
+                  </div>
+                  <div style={{ lineHeight: "1.25", marginTop: "6px" }}>
+                    <span style={{ fontSize: "14px", color: "#313132" }}>
+                      Download a copy of the Lawyer Authorization form from{" "}
+                      <a
+                        href={process.env.NEXT_PUBLIC_LAWYER_AUTHORIZATION_PDF}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          fontSize: "14px",
+                          color: "#0066cc",
+                          textDecoration: "underline",
+                        }}
+                      >
+                        here
+                      </a>
+                      .
+                    </span>
                   </div>
                 </div>
               </Grid>
@@ -564,6 +591,23 @@ const Step2 = forwardRef((props: Props, ref) => {
                   >
                     <DeleteIcon fontSize="inherit" />
                   </IconButton>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={step2Data.sendConsentSeparately}
+                        onChange={(e) =>
+                          setStep2Data({
+                            ...step2Data,
+                            sendConsentSeparately: e.target.checked,
+                          })
+                        }
+                        name="sendConsentSeparately"
+                        color="primary"
+                      />
+                    }
+                    label="I will send in the authorization form separately"
+                    sx={{ marginTop: "10px" }}
+                  />
                 </FormField>
                 {step2Data.consentFileName && (
                   <div
