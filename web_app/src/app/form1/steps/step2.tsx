@@ -295,7 +295,8 @@ const Step2 = forwardRef((props: Props, ref) => {
 
   const validateConsentFile = (value: string, errors: Step2DataErrors) => {
     if (step2Data.applicantRoleSelect !== "driver" && value === "") {
-      if (step2Data.sendConsentSeparately === false)
+      errors.fileUploadErrorText = "A consent file must be uploaded.";
+    if (step2Data.sendConsentSeparately === false)
         errors.fileUploadErrorText = "A consent file must be uploaded.";
     } else {
       errors.fileUploadErrorText = "";
