@@ -563,7 +563,7 @@ const Step2 = forwardRef((props: Props, ref) => {
                     <span style={{ fontSize: "14px", color: "#313132" }}>
                       Download a copy of the Lawyer Authorization form from{" "}
                       <a
-                        href={process.env.NEXT_PUBLIC_LAWYER_AUTHORIZATION_PDF}
+                        href="https://www2.gov.bc.ca/assets/gov/driving-and-transportation/driving/roadsafetybc/publications/authorization_for_representation_of_irp_adp_ul_24_hour_prohibition_vehicle_impoundment_reviews.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
                         style={{
