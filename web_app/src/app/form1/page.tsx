@@ -230,6 +230,7 @@ export default function Page() {
   });
 
   const [step2Data, setStep2Data] = useState<Step2Data>({
+    sendConsentSeparately: false,
     applicantRoleSelect: "",
     representedByLawyer: "",
     applicantFirstName: "",
