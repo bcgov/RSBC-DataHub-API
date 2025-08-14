@@ -11,7 +11,6 @@ import base64
 
 logging.config.dictConfig(Config.LOGGING)
 
-
 def list_of_weekdays_dates_between(start: datetime, end: datetime) -> list:
     delta = timedelta(days=1)
     query_date = start
@@ -52,6 +51,51 @@ def is_work_day(date_time: datetime) -> bool:
             return True
     return False
 
+
+def is_okay_to_apply(config, date_served: datetime, days_to_apply: int) -> bool:
+    payload = {
+        "startDate": date_served.strftime("%Y-%m-%d"),
+        "intervalDays": days_to_apply
+    }
+
+    url = f"{config.VIPS_API_ROOT_URL}/api/validation/withinTimeframe"
+    logging.info(f"Preparing to call VIPS API withinTimeFrame operation at {url}")
+    logging.info(f"Payload: {payload}")
+
+    try:
+        response = requests.get(
+            url,
+            params=payload,
+            auth=(config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD),
+            timeout=10  # Optional: set a timeout for robustness
+        )
+    except requests.RequestException as e:
+        logging.error(f"Request to VIPS API failed: {e}")
+        return False
+
+    logging.info(f"Received response with status code {response.status_code}")
+    logging.debug(f"Raw response content: {response.text}")
+
+    if response.status_code != 200:
+        logging.error(f"Unexpected status code {response.status_code}: {response.text}")
+        return False
+
+    try:
+        result = response.json()
+        logging.info(f"Parsed JSON response: {result}")
+
+        valid_flag = result.get("valid")
+        if valid_flag is None:
+            logging.error("Missing 'valid' field in response")
+            return False
+
+        is_valid = valid_flag.lower() == "true"
+        logging.info(f"Validation result: valid={is_valid}")
+        return is_valid
+
+    except ValueError as e:
+        logging.error(f"Failed to parse JSON response: {e}")
+        return False
 
 def status_get(prohibition_id: str, config, correlation_id='abcd') -> tuple:
     """

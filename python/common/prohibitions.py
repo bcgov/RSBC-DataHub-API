@@ -3,6 +3,7 @@ import logging.config
 from datetime import datetime, timedelta
 from python.common.config import Config
 import re
+import vips_api as vips
 
 logging.config.dictConfig(Config.LOGGING)
 
@@ -33,14 +34,12 @@ class ProhibitionBase:
     DAYS_TO_PAY = DAYS_TO_APPLY + 1
 
     @staticmethod
-    def is_okay_to_apply(date_served: datetime, today: datetime) -> bool:
+    def is_okay_to_apply(config, date_served: datetime) -> bool:
         """
-        IRPs and ADPs can only be appealed within 7 days after a driver receives their
-        prohibition.
+        Determines if it's still valid to apply for an appeal based on the date served.
+        Delegates to VIPS API for date validation.
         """
-        if (today.date() - date_served.date()).days <= ProhibitionBase.DAYS_TO_APPLY:
-            return True
-        return False
+        return vips.is_okay_to_apply(config, date_served, ProhibitionBase.DAYS_TO_APPLY)
 
     @staticmethod
     def is_okay_to_pay(date_served: datetime, today: datetime) -> bool:
@@ -104,7 +103,7 @@ class UnlicencedDriver(ProhibitionBase):
     CAN_APPLY_FOR_REVIEW_MORE_THAN_ONCE = True
 
     @staticmethod
-    def is_okay_to_apply(date_served: datetime, today: datetime) -> bool:
+    def is_okay_to_apply(config, date_served: datetime) -> bool:
         """
         UL Reviews are not restricted.  Applicants can apply anytime.
         """
