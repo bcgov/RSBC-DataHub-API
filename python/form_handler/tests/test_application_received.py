@@ -160,35 +160,6 @@ def test_an_applicant_that_applies_using_incorrect_last_name_gets_appropriate_em
     assert "You must re-apply within 7 days from the date of prohibition issue." in email_payload['body']
 
 
-'''
-@pytest.mark.parametrize("prohib", ["IRP", "ADP"])
-@responses.activate
-def test_an_applicant_that_has_not_surrendered_their_licence_gets_appropriate_email(prohib, monkeypatch):
-    date_served = datetime.datetime.now().strftime("%Y-%m-%d")
-
-    responses.add(responses.GET,
-                  '{}/{}/status/{}'.format(Config.VIPS_API_ROOT_URL, "21999344", "21999344"),
-                  json=vips_mock.status_has_never_applied(prohib, date_served, "Gordon", "N"),
-                  status=200, match_querystring=True)
-
-    responses.add(responses.POST, '{}/realms/{}/protocol/openid-connect/token'.format(
-        Config.COMM_SERV_AUTH_URL, Config.COMM_SERV_REALM), json={"access_token": "token"}, status=200)
-
-    responses.add(responses.POST, '{}/api/v1/email'.format(
-        Config.COMM_SERV_API_ROOT_URL), json={"response": "ignored"}, status=200)
-
-    message_dict = get_sample_application_submission(prohib)
-    results = helper.middle_logic(helper.get_listeners(business.process_incoming_form(), message_dict['event_type']),
-                                  message=message_dict,
-                                  config=Config,
-                                  writer=None)
-
-    email_payload = json.loads(responses.calls[2].request.body.decode())
-    assert "me@lost.com" in email_payload['to']
-    assert "Licence Not Surrendered - Driving Prohibition 21-999344 Review" == email_payload['subject']
-    assert "You're ineligible to apply online because your licence wasn't surrendered" in email_payload['body']
-'''
-
 @pytest.mark.parametrize("prohib", ["IRP", "ADP"])
 @responses.activate
 def test_an_irp_or_adp_applicant_that_has_previously_applied_gets_appropriate_email(prohib, monkeypatch):
@@ -218,81 +189,6 @@ def test_an_irp_or_adp_applicant_that_has_previously_applied_gets_appropriate_em
     assert "An application to review prohibition 21999344 has already been submitted." in email_payload['body']
     assert "You must call to make changes to your application." in email_payload['body']
 
-'''
-@pytest.mark.parametrize("prohib", ["IRP", "ADP"])
-@responses.activate
-def test_an_applicant_that_has_missed_the_window_to_apply_gets_appropriate_email(prohib, monkeypatch):
-    tz = pytz.timezone('America/Vancouver')
-    date_served = (datetime.datetime.now(tz) - datetime.timedelta(days=8)).strftime("%Y-%m-%d")
-
-    responses.add(responses.GET,
-                  '{}/{}/status/{}'.format(Config.VIPS_API_ROOT_URL, "21999344", "21999344"),
-                  json=vips_mock.status_has_never_applied(prohib, date_served),
-                  status=200, match_querystring=True)
-
-    responses.add(responses.POST, '{}/realms/{}/protocol/openid-connect/token'.format(
-        Config.COMM_SERV_AUTH_URL, Config.COMM_SERV_REALM), json={"access_token": "token"}, status=200)
-
-    responses.add(responses.POST, '{}/api/v1/email'.format(
-        Config.COMM_SERV_API_ROOT_URL), json={"response": "ignored"}, status=200)
-
-    message_dict = get_sample_application_submission(prohib)
-    results = helper.middle_logic(helper.get_listeners(business.process_incoming_form(), message_dict['event_type']),
-                                  message=message_dict,
-                                  config=Config,
-                                  writer=None)
-
-    email_payload = json.loads(responses.calls[2].request.body.decode())
-    assert "me@lost.com" in email_payload['to']
-    assert "7-day Application Window Missed - Driving Prohibition 21-999344 Review" == email_payload['subject']
-    assert "Your application for a review of driving prohibition 21999344 can't be accepted." in email_payload['body']
-    assert "Our records show your Notice of Prohibition was issued more than 7 days ago." in email_payload['body']
-'''
-'''
-@pytest.mark.parametrize("prohib", ["IRP", "ADP"])
-@responses.activate
-def test_a_successful_applicant_gets_an_application_accepted_email(prohib, monkeypatch):
-    date_served = "2021-02-19"
-
-    responses.add(responses.GET,
-                  '{}/{}/status/{}'.format(Config.VIPS_API_ROOT_URL, "21999344", "21999344"),
-                  json=vips_mock.status_has_never_applied(prohib, date_served),
-                  status=200, match_querystring=True)
-
-    responses.add(responses.POST,
-                  '{}/{}/{}/application/{}'.format(Config.VIPS_API_ROOT_URL, prohib, "21999344", "21999344"),
-                  json={},
-                  status=200)
-
-    responses.add(responses.POST, "{}:{}/services/collector".format(
-        Config.SPLUNK_HOST, Config.SPLUNK_PORT), status=200)
-
-    responses.add(responses.POST, '{}/realms/{}/protocol/openid-connect/token'.format(
-        Config.COMM_SERV_AUTH_URL, Config.COMM_SERV_REALM), json={"access_token": "token"}, status=200)
-
-    responses.add(responses.POST, '{}/api/v1/email'.format(
-        Config.COMM_SERV_API_ROOT_URL), json={"response": "ignored"}, status=200)
-
-    def mock_datetime_now(**args):
-        args['today_date'] = helper.localize_timezone(datetime.datetime.strptime("2021-02-23", "%Y-%m-%d"))
-        return True, args
-
-    monkeypatch.setattr(middleware, "determine_current_datetime", mock_datetime_now)
-    message_dict = get_sample_application_submission(prohib)
-
-    results = helper.middle_logic(helper.get_listeners(business.process_incoming_form(), message_dict['event_type']),
-                                  message=message_dict,
-                                  config=Config,
-                                  writer=None)
-
-    email_payload = json.loads(responses.calls[4].request.body.decode())
-    assert "me@lost.com" in email_payload['to']
-    assert "Application Accepted - Driving Prohibition 21-999344 Review" == email_payload['subject']
-    assert "Your application for a review of driving prohibition 21999344 has been accepted." in email_payload['body']
-    assert "You must pay in full by credit card by February 27, 2021" in email_payload['body']
-    assert "If you don't pay by February 27, 2021, your review will not go ahead." in email_payload['body']
-    assert "http://link-to-paybc" in email_payload['body']
-'''
 
 @responses.activate
 def test_a_unlicenced_applicant_that_was_served_yesterday_but_not_in_vips_gets_not_yet_email(monkeypatch):
