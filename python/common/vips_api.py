@@ -11,7 +11,6 @@ import base64
 
 logging.config.dictConfig(Config.LOGGING)
 
-
 def list_of_weekdays_dates_between(start: datetime, end: datetime) -> list:
     delta = timedelta(days=1)
     query_date = start
@@ -52,6 +51,29 @@ def is_work_day(date_time: datetime) -> bool:
             return True
     return False
 
+
+def is_okay_to_apply(config, date_served: datetime, days_to_apply) -> bool:
+        payload = {
+            "startDate": date_served.strftime("%Y-%m-%d"),
+            "intervalDays": days_to_apply
+        }
+        try:
+            response = requests.get(config.VIPS_API_ROOT_URL + '/api/validation/withinTimeframe', params=payload,
+                                    auth=(config.VIPS_API_USERNAME, config.VIPS_API_PASSWORD))
+        except requests.RequestException as e:
+            logging.error(f"Request failed: {e}")
+            return False
+
+        if response.status_code != 200:
+            logging.error(f"Unexpected status code {response.status_code}: {response.text}")
+            return False
+
+        try:
+            result = response.json()
+            return result.get("valid", "false").lower() == "true"
+        except ValueError:
+            logging.error("Invalid JSON response")
+            return False
 
 def status_get(prohibition_id: str, config, correlation_id='abcd') -> tuple:
     """
