@@ -299,11 +299,11 @@ def is_applicant_within_window_to_apply(**args) -> tuple:
     date_served = vips_str_to_datetime(date_served_string)
     prohibition = pro.prohibition_factory(vips_data['noticeTypeCd'])
     args['deadline_date_string'] = prohibition.get_deadline_date_string(date_served)
-    logging.info('deadline date string: ' + args.get('deadline_date_string'))
+    # logging.info('deadline date string: ' + args.get('deadline_date_string'))
     if prohibition.is_okay_to_apply(config, date_served):
         return True, args
-    error = 'the prohibition is older than one week'
-    args['error_string'] = "The Notice of Prohibition was issued more than 7 days ago."
+    error = 'the prohibition is older than allowed'
+    args['error_string'] = "The Notice of Prohibition was issued more than 7 days ago (or number of days based on Interpretation Act Rules calculation)."
     logging.info(error)
     return False, args
 
