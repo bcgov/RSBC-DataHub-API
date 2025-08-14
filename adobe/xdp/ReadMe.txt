@@ -1,0 +1,1 @@
+This folder will be used to maintain the XDP files created by John Revoy and used by the PDF Generator service (see Java folder). 
