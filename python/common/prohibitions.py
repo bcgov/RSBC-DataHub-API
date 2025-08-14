@@ -3,7 +3,7 @@ import logging.config
 from datetime import datetime, timedelta
 from python.common.config import Config
 import re
-import vips_api as vips
+import python.common.vips_api as vips
 
 logging.config.dictConfig(Config.LOGGING)
 
