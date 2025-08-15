@@ -5,9 +5,9 @@
 		<help-text/>
 	</before-you-begin-section>
 	<prohibition-information>
-		<control-prohibition-number>21-013187</control-prohibition-number>
+		<control-prohibition-number>99-9999999</control-prohibition-number>
 		<control-is-ul>false</control-is-ul>
-		<prohibition-number-clean>21013187</prohibition-number-clean>
+		<prohibition-number-clean>99999999</prohibition-number-clean>
 		<prohibition-no-image filename="Combo prohibition no.png" mediatype="image/png">/fr/service/persistence</prohibition-no-image>
 		<control-is-irp>true</control-is-irp>
 		<control-is-adp>false</control-is-adp>
@@ -31,14 +31,14 @@
 		<last-name-applicant>Lawyer_last</last-name-applicant>
 		<applicant-phone-number>555-555-5555</applicant-phone-number>
 		<control-3/>
-		<applicant-email-address>shaun.millar@gov.bc.ca</applicant-email-address>
-		<appeals-registry-email>chinedu.anaekwe@gov.bc.ca</appeals-registry-email>
-		<email-bcc>shaun.millar@nttdata.com</email-bcc>
-		<applicant-email-confirm>shaun.millar@gov.bc.ca</applicant-email-confirm>
+		<applicant-email-address>somebody@place.com</applicant-email-address>
+		<appeals-registry-email>somebody@place.com</appeals-registry-email>
+		<email-bcc>somebody@place.com</email-bcc>
+		<applicant-email-confirm>somebody@place.com</applicant-email-confirm>
 		<do-not-reply-address>form.handler.application@gov.bc.ca</do-not-reply-address>
 		<driver-information-label/>
-		<driver-first-name>Mark</driver-first-name>
-		<driver-last-name>Pelttest</driver-last-name>
+		<driver-first-name>John</driver-first-name>
+		<driver-last-name>Doe</driver-last-name>
 		<driver-bcdl>01000020</driver-bcdl>
 		<address-label/>
 		<street-address>1234 Main</street-address>
