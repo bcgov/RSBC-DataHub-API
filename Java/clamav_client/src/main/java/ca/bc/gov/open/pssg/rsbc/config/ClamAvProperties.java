@@ -5,11 +5,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "clamav.client")
 public class ClamAvProperties {
 
-    private String host = "localhost";
-    private int port = 3310;
-    private int timeout = 500;
-    private String user = "user";
-    private String password = "***REMOVED***";
+    private String host;
+    private int port;
+    private int timeout;
+    private String user;
+    private String password; 
 
     public String getHost() {
         return host;
