@@ -175,7 +175,9 @@ def application_create(form_type: str, **args):
             "reviewRoleTypeCd": args.get('applicant_role'),
             "firstGivenNm": args.get('applicant_first_name'),
             "surnameNm": args.get('applicant_last_name'),
-            "formData": args.get('xml'),
+            # Tmp fix for APR-201
+            # "formData": args.get('xml'),
+            # "formData" : 'PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPGZvcm0geG1sbnM6ZnI9Imh0dHA6Ly9vcmJlb24ub3JnL294Zi94bWwvZm9ybS1ydW5uZXIiIGZyOmRhdGEtZm9ybWF0LXZlcnNpb249IjQuMC4wIj4KCTxwbGFjZWhvbGRlcj50cnVlPC9wbGFjZWhvbGRlcj4KPC9mb3JtPg==',
             "manualEntryYN": 'N',
             "noticeSubjectCd": 'PERS',
         }
