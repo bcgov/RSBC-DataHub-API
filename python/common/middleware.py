@@ -605,52 +605,17 @@ def base_64_encode_xml(**args) -> tuple:
     return True, args
 
 
-def sanitize_consent_upload(xml_str: str) -> str:
-    try:
-        root = ET.fromstring(xml_str)
-        for node in root.iter('consent-upload'):
-            if 'data' in node.attrib and node.attrib['data'].strip():
-                logging.info("Sanitizing 'consent-upload' node.")
-                node.set('data', "")
-        return ET.tostring(root, encoding='unicode')
-    except ET.ParseError as e:
-        logging.error("Failed to parse XML: %s", e)
-        return xml_str  # Return original if parsing fails
-
-
 def compress_form_data_xml(**args) -> tuple:
     xml_base64 = args.get('xml_base64')
-
-    if not xml_base64:
-        logging.warning("Missing 'xml_base64' in arguments.")
-        return False, args
-
-    try:
-        original_len = len(xml_base64)
-        xml_bytes = base64.b64decode(xml_base64)
-        xml_str = xml_bytes.decode()
-
-        # Sanitize the 'consent' data from the incoming XML
-        sanitized_xml = sanitize_consent_upload(xml_str)
-
-        # Log the sanitized XML
-        logging.info("Sanitized XML:\n%s", sanitized_xml)
-
-        sanitized_bytes = sanitized_xml.encode()
-
-        # Compress and encode
-        xml_compressed = zlib.compress(sanitized_bytes)
-        xml_encoded = base64.b64encode(xml_compressed).decode()
-
-        args['xml'] = xml_encoded
-        compressed_len = len(xml_encoded)
-        percent_change = int((compressed_len - original_len) / original_len * 100)
-        logging.info("compressing form XML using zlib has reduced string length by: {}%".format(percent_change))
-        return True, args
-
-    except Exception as e:
-        logging.error("Compression failed: %s", e)
-        return False, args
+    original_len = len(xml_base64)
+    xml_bytes = base64.b64decode(xml_base64)
+    xml_compressed = zlib.compress(xml_bytes)
+    xml_encoded = base64.b64encode(xml_compressed).decode()
+    args['xml'] = xml_encoded
+    compressed_len = len(xml_encoded)
+    percent_change = int((compressed_len - original_len)/original_len * 100)
+    logging.info("compressing form XML using zlib has reduced string length by: {}%".format(percent_change))
+    return True, args
 
 
 def get_queue_name_from_parameters(**args) -> tuple:
