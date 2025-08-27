@@ -589,8 +589,8 @@ const Step2 = forwardRef((props: Props, ref) => {
               <Grid item xs={8} sx={{ padding: "1px" }}>
                 <FormField
                   id="attach-consent"
-                  labelText="Attach signed consent from driver"
-                  tooltipTitle="Attach signed consent from driver"
+                  labelText="Attach signed consent from driver (PDF only)"
+                  tooltipTitle="Attach signed consent from driver (PDF only)"
                   tooltipContent={
                     <p>
                       Please upload signed consent from the driver, authorizing
@@ -607,6 +607,7 @@ const Step2 = forwardRef((props: Props, ref) => {
                     inputRef={fileUploadRef}
                     onChange={handleFileUpload}
                     disabled={step2Data.sendConsentSeparately}
+                    inputProps={{ accept: ".pdf,application/pdf" }}
                   />
                   <IconButton
                     aria-label="delete"
