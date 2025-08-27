@@ -15,6 +15,7 @@ import json
 import xmltodict
 import base64
 import zlib
+import xml.etree.ElementTree as ET
 
 logging.config.dictConfig(Config.LOGGING)
 
@@ -303,7 +304,8 @@ def is_applicant_within_window_to_apply(**args) -> tuple:
     if prohibition.is_okay_to_apply(config, date_served):
         return True, args
     error = 'the prohibition is older than allowed'
-    args['error_string'] = "The Notice of Prohibition was issued more than 7 days ago (or number of days based on Interpretation Act Rules calculation)."
+    args[
+        'error_string'] = "The Notice of Prohibition was issued more than 7 days ago (or number of days based on Interpretation Act Rules calculation)."
     logging.info(error)
     return False, args
 
@@ -416,7 +418,8 @@ def query_for_additional_review_times(**args) -> tuple:
     datetime_to_query = args.get('max_review_date')
     review_type = args.get('presentation_type')
     while number_review_days_offered < config.MIN_REVIEW_DAYS_OFFERED and query_count < config.ADDITIONAL_DAYS_TO_QUERY:
-        logging.info("Querying for additional review dates. Number offered so far: {}".format(number_review_days_offered))
+        logging.info(
+            "Querying for additional review dates. Number offered so far: {}".format(number_review_days_offered))
         datetime_to_query = datetime_to_query + timedelta(days=1)
         query_count += 1
         if vips.is_work_day(datetime_to_query):
@@ -564,11 +567,11 @@ def create_form_payload(**args) -> tuple:
     xml = args.get('xml_base64')
     form_data['xml'] = xml
     args['payload'] = dict({
-            "event_version": config.PAYLOAD_VERSION_NUMBER,
-            "event_date_time": datetime.now().isoformat(),
-            "event_type": form_name,
-            form_name: form_data
-        })
+        "event_version": config.PAYLOAD_VERSION_NUMBER,
+        "event_date_time": datetime.now().isoformat(),
+        "event_type": form_name,
+        form_name: form_data
+    })
     return True, args
 
 
@@ -602,17 +605,52 @@ def base_64_encode_xml(**args) -> tuple:
     return True, args
 
 
+def sanitize_consent_upload(xml_str: str) -> str:
+    try:
+        root = ET.fromstring(xml_str)
+        for node in root.iter('consent-upload'):
+            if 'data' in node.attrib and node.attrib['data'].strip():
+                logging.info("Sanitizing 'consent-upload' node.")
+                node.set('data', "")
+        return ET.tostring(root, encoding='unicode')
+    except ET.ParseError as e:
+        logging.error("Failed to parse XML: %s", e)
+        return xml_str  # Return original if parsing fails
+
+
 def compress_form_data_xml(**args) -> tuple:
     xml_base64 = args.get('xml_base64')
-    original_len = len(xml_base64)
-    xml_bytes = base64.b64decode(xml_base64)
-    xml_compressed = zlib.compress(xml_bytes)
-    xml_encoded = base64.b64encode(xml_compressed).decode()
-    args['xml'] = xml_encoded
-    compressed_len = len(xml_encoded)
-    percent_change = int((compressed_len - original_len)/original_len * 100)
-    logging.info("compressing form XML using zlib has reduced string length by: {}%".format(percent_change))
-    return True, args
+
+    if not xml_base64:
+        logging.warning("Missing 'xml_base64' in arguments.")
+        return False, args
+
+    try:
+        original_len = len(xml_base64)
+        xml_bytes = base64.b64decode(xml_base64)
+        xml_str = xml_bytes.decode()
+
+        # Sanitize the 'consent' data from the incoming XML
+        sanitized_xml = sanitize_consent_upload(xml_str)
+
+        # Log the sanitized XML
+        logging.info("Sanitized XML:\n%s", sanitized_xml)
+
+        sanitized_bytes = sanitized_xml.encode()
+
+        # Compress and encode
+        xml_compressed = zlib.compress(sanitized_bytes)
+        xml_encoded = base64.b64encode(xml_compressed).decode()
+
+        args['xml'] = xml_encoded
+        compressed_len = len(xml_encoded)
+        percent_change = int((compressed_len - original_len) / original_len * 100)
+        logging.info("compressing form XML using zlib has reduced string length by: {}%".format(percent_change))
+        return True, args
+
+    except Exception as e:
+        logging.error("Compression failed: %s", e)
+        return False, args
 
 
 def get_queue_name_from_parameters(**args) -> tuple:
@@ -832,7 +870,8 @@ def is_any_unsent_disclosure(**args) -> tuple:
         for item in vips_data['disclosure']:
             if 'disclosedDtm' not in item:
                 unsent_disclosure.append(item)
-            elif (today - vips.vips_str_to_datetime(item['disclosedDtm'])).days > config.DAYS_ELAPSED_TO_RESEND_DISCLOSURE:
+            elif (today - vips.vips_str_to_datetime(
+                    item['disclosedDtm'])).days > config.DAYS_ELAPSED_TO_RESEND_DISCLOSURE:
                 unsent_disclosure.append(item)
             else:
                 args['subsequent_disclosure'] = True
