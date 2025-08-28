@@ -35,11 +35,9 @@ public class EmailAssemblyService {
 	 * @param doc
 	 * @param noticeNumber
 	 * @param applicationForm
-	 * @param consentForm   // Optional base64 encoded consent form value
 	 * @return
 	 */
-	public EmailRequest getEmailRequest(PDFRenderResponse resp, Document doc, String noticeNumber,
-			String consentForm) {
+	public EmailRequest getEmailRequest(PDFRenderResponse resp, Document doc, String noticeNumber) {	
 
 		EmailRequest er = new EmailRequest();
 		er.setSubject("Copy of Application form - Driving Prohibition " + noticeNumber + " Review");
@@ -79,13 +77,14 @@ public class EmailAssemblyService {
 			attachments.add(attachment);
 		}
 
-		// Add consent form (if available - assumed to already be b64 encoded) 
-		if ( null != consentForm && consentForm.length() > 0) {
-			EmailAttachment attachment = new EmailAttachment();
-			attachment.setFilecontents(consentForm);
-			attachment.setFilename("consent.pdf");
-			attachments.add(attachment);
-		} 
+// Consent form no longer held in the f1p3 or f1p4 XML form data.  		
+//		// Add consent form (if available - assumed to already be b64 encoded) 
+//		if ( null != consentForm && consentForm.length() > 0) {
+//			EmailAttachment attachment = new EmailAttachment();
+//			attachment.setFilecontents(consentForm);
+//			attachment.setFilename("consent.pdf");
+//			attachments.add(attachment);
+//		} 
 
 		er.setAttachment(attachments);
 
