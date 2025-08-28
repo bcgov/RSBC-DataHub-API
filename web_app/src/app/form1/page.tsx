@@ -101,17 +101,18 @@ export default function Page() {
 
     // Begin email of consent form (if attached)
     if (step2Data.consentFile && step2Data.consentFile.length > 0) {
-      try {
-        await sendConsentFormEmail(step1Data, step2Data);
-        console.log("Emailing of consent form data is done!! ");
-      } catch (error) {
+      let response = await sendConsentFormEmail(step1Data, step2Data);
+      if (response === 500) {
         setMessage(apiSubmitErrorMsg);
         setIsLoading(false);
+        setProgress(100);
         return;
+      } else {
+        console.log("Emailing of consent form data is done!! ");
+        setProgress(100);
+        setIsLoading(false);
       }
     }
-    setProgress(100);
-    setIsLoading(false);
     router.push("/form1/acknowledgement");
   };
 
