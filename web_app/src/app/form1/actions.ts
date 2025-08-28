@@ -54,6 +54,7 @@ export async function sendConsentFormEmail(
     "Sending consent form email for: ",
     step1Data.controlProhibitionNumber
   );
+
   try {
     const response = await axiosMailItClient.post(
       axiosMailItClient.getUri() + "/mail/send",
