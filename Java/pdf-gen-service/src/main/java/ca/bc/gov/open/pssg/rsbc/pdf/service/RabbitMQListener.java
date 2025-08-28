@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 
-import ca.bc.gov.open.pssg.rsbc.pdf.exception.EmailRequestAssemblyException;
 import ca.bc.gov.open.pssg.rsbc.pdf.exception.UnsupportedXMLFormTypeException;
 import ca.bc.gov.open.pssg.rsbc.pdf.models.EmailRequest;
 import ca.bc.gov.open.pssg.rsbc.pdf.models.EmailResponse;
@@ -93,17 +92,19 @@ public class RabbitMQListener {
         	PDFRenderResponse renderResp = pService.render(formType, xml, doc);
         	
         	//STEP 5 - Extract expected consent form data for form 1 types types 3 and 4. 
-        	String consentForm = null;
+        	//String consentForm = null;
         	
-        	//Consent form already in base64 format.  
-        	if (formType.equals(FormType.f1p3) || formType.equals(FormType.f1p4)) {
-        		consentForm = XmlUtilities.getConsentFormData(doc);
-        		if (null == consentForm || consentForm.length() == 0) {
-        			logger.info("No consent form attached.");
-        		}
-        	} 
+        	//Consent form already in base64 format. 
+// Consent form no longer held in the f1p3 or f1p4 XML form data.         	
+//        	if (formType.equals(FormType.f1p3) || formType.equals(FormType.f1p4)) {
+//        		consentForm = XmlUtilities.getConsentFormData(doc);
+//        		if (null == consentForm || consentForm.length() == 0) {
+//        			logger.info("No consent form attached.");
+//        		}
+//        	} 
         	
-        	EmailRequest req = aService.getEmailRequest(renderResp, doc, noticeNumber, consentForm);
+        	// EmailRequest req = aService.getEmailRequest(renderResp, doc, noticeNumber, consentForm);
+        	EmailRequest req = aService.getEmailRequest(renderResp, doc, noticeNumber);
         	
         	//STEP 6 - Mail it!
         	ResponseEntity<EmailResponse> eResp = eService.sendEmail(req, noticeNumber);
