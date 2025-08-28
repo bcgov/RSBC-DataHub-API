@@ -10,7 +10,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import ArrowForward from "@mui/icons-material/ArrowForward";
 import { Step1Data, Step2Data, Step3Data, Step4Data } from "../interfaces";
 import { generatePDF } from "../components/GeneratePDF";
-import { postForm1, sendEmail } from "./actions";
+import { postForm1, sendConsentFormEmail } from "./actions";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
 
@@ -102,6 +102,7 @@ export default function Page() {
     // Begin email of consent form (if attached)
     if (step2Data.consentFile && step2Data.consentFile.length > 0) {
       try {
+        await sendConsentFormEmail(step1Data, step2Data);
         console.log("Emailing of consent form data is done!! ");
       } catch (error) {
         setMessage(apiSubmitErrorMsg);
