@@ -61,7 +61,8 @@ def ingest_e_ticket_event():
 @application.route('/v1/publish/event/form', methods=["POST"])
 def ingest_orbeon_form():
     if request.method == 'POST':
-        logging.info("ingest_form_deprecated() invoked: {} | {}".format(request.remote_addr, request.get_data()))
+        # logging.info("ingest_form_deprecated() invoked: {} | {}".format(request.remote_addr, request.get_data()))
+        logging.info("ingest_form_deprecated() invoked: {}".format(request.remote_addr))
         args = helper.middle_logic(business.ingest_form(),
                                    writer=g.writer,
                                    form_parameters=available_parameters,
