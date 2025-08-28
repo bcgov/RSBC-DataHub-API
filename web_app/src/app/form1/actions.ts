@@ -12,6 +12,69 @@ import {
   Step4Data,
 } from "./../interfaces";
 
+export async function sendConsentFormEmail(
+  step1Data: Step1Data,
+  step2Data: Step2Data
+): Promise<number> {
+  type Attachment = {
+    filename: string;
+    filecontents: string | Uint8Array;
+  };
+
+  const attachments: Attachment[] = [];
+
+  if (step2Data.consentFile && step2Data.consentFileName) {
+    attachments.push({
+      filename: step2Data.consentFileName,
+      filecontents: step2Data.consentFile,
+    });
+  }
+
+  let email = getEmailTemplate(attachments, step1Data, step2Data);
+  console.log(
+    "axiosMailItClient.getUri: " +
+      axiosMailItClient.getUri() +
+      " email is: " +
+      email.bcc
+  );
+
+  const encoded = Buffer.from(
+    `${process.env.EMAIL_BASIC_AUTH_USER}` +
+      ":" +
+      `${process.env.EMAIL_BASIC_AUTH}`
+  ).toString("base64");
+
+  let config = {
+    headers: {
+      Authorization: "Basic " + encoded,
+      "Content-Type": "application/json",
+    },
+  };
+  console.log(
+    "Sending consent form email for: ",
+    step1Data.controlProhibitionNumber
+  );
+  try {
+    const response = await axiosMailItClient.post(
+      axiosMailItClient.getUri() + "/mail/send",
+      email,
+      config
+    );
+
+    console.debug(
+      "Consent form email sent for " +
+        step1Data.controlProhibitionNumber +
+        ". Response code: " +
+        response.status
+    );
+    return response.status;
+  } catch (error) {
+    console.log("Consent form email failed: ", error);
+    return 500;
+  }
+}
+
+/*
 export async function sendEmail(
   fileContent: string | null,
   fileName: string | null,
@@ -73,6 +136,7 @@ export async function sendEmail(
     return 500;
   }
 }
+*/
 
 export async function postForm1(
   step1Data: Step1Data,
@@ -340,6 +404,45 @@ function getEmailTemplate(
         : []),
     ],
     subject:
+      "Copy of Consent form - Driving Prohibition " +
+      `${step1Data.controlProhibitionNumber}` +
+      " Review",
+    content: {
+      type: "text/plain",
+      value: `
+Dear ${step2Data.applicantFirstName} ${step2Data.applicantLastName},
+
+Please find attached a copy of the consent form submited by the applicant for driving prohibition ${step1Data.controlProhibitionNumber} review.
+            
+Please do not respond to this email. We've sent it from account that doesn't accept responses. If you need to reach us, call 1-855-387-7747. Select option 5 to reach the Appeals Registry.
+`,
+    },
+    attachment: attachments,
+  };
+}
+
+/** 
+old function getEmailTemplate(
+  attachments: object,
+  step1Data: Step1Data,
+  step2Data: Step2Data
+) {
+  return {
+    from: {
+      email: `${process.env.DO_NOT_REPLY_ADDRESS}`,
+    },
+    to: [
+      {
+        email: `${step2Data.applicantEmailAddress}`,
+      },
+    ],
+    bcc: [
+      { email: `${process.env.EMAIL_BCC_1}` },
+      ...(process.env.EMAIL_BCC_2
+        ? [{ email: `${process.env.EMAIL_BCC_2}` }]
+        : []),
+    ],
+    subject:
       "Copy of Application Form - Driving Prohibition " +
       `${step1Data.controlProhibitionNumber}` +
       " Review",
@@ -360,4 +463,5 @@ Please do not respond to this email. We've sent it from account that doesn't acc
     },
     attachment: attachments,
   };
-}
+} 
+*/
