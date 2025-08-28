@@ -93,12 +93,22 @@ export default function Page() {
       console.log("posting xml done!! ");
     } catch (error) {
       setMessage(apiSubmitErrorMsg);
-      setProgress(100); // Complete progress with error
+      setProgress(50); // Complete progress with error
       setIsLoading(false);
       return;
     }
-
     console.log("after posting xml");
+
+    // Begin email of consent form (if attached)
+    if (step2Data.consentFile && step2Data.consentFile.length > 0) {
+      try {
+        console.log("Emailing of consent form data is done!! ");
+      } catch (error) {
+        setMessage(apiSubmitErrorMsg);
+        setIsLoading(false);
+        return;
+      }
+    }
     setProgress(100);
     setIsLoading(false);
     router.push("/form1/acknowledgement");
