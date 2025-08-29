@@ -566,6 +566,7 @@ const Step2 = forwardRef((props: Props, ref) => {
                         href="https://www2.gov.bc.ca/assets/gov/driving-and-transportation/driving/roadsafetybc/publications/authorization_for_representation_of_irp_adp_ul_24_hour_prohibition_vehicle_impoundment_reviews.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
+                        download
                         style={{
                           fontSize: "14px",
                           color: "#0066cc",
