@@ -15,7 +15,6 @@ import json
 import xmltodict
 import base64
 import zlib
-import xml.etree.ElementTree as ET
 
 logging.config.dictConfig(Config.LOGGING)
 
@@ -294,18 +293,17 @@ def is_applicant_within_window_to_apply(**args) -> tuple:
     that the date served is no older than 7 days.
     Prohibitions may not be appealed after 7 days.
     """
-    config = args.get('config')
     vips_data = args.get('vips_data')
+    today = args.get('today_date')
     date_served_string = vips_data['noticeServedDt']
     date_served = vips_str_to_datetime(date_served_string)
     prohibition = pro.prohibition_factory(vips_data['noticeTypeCd'])
     args['deadline_date_string'] = prohibition.get_deadline_date_string(date_served)
-    # logging.info('deadline date string: ' + args.get('deadline_date_string'))
-    if prohibition.is_okay_to_apply(config, date_served):
+    logging.info('deadline date string: ' + args.get('deadline_date_string'))
+    if prohibition.is_okay_to_apply(date_served, today):
         return True, args
-    error = 'the prohibition is older than allowed'
-    args[
-        'error_string'] = "The Notice of Prohibition was issued more than 7 days ago (or number of days based on Interpretation Act Rules calculation)."
+    error = 'the prohibition is older than one week'
+    args['error_string'] = "The Notice of Prohibition was issued more than 7 days ago."
     logging.info(error)
     return False, args
 
@@ -613,7 +611,7 @@ def compress_form_data_xml(**args) -> tuple:
     xml_encoded = base64.b64encode(xml_compressed).decode()
     args['xml'] = xml_encoded
     compressed_len = len(xml_encoded)
-    percent_change = int((compressed_len - original_len)/original_len * 100)
+    percent_change = int((compressed_len - original_len) / original_len * 100)
     logging.info("compressing form XML using zlib has reduced string length by: {}%".format(percent_change))
     return True, args
 
