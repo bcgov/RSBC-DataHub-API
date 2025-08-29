@@ -3,7 +3,6 @@ import logging.config
 from datetime import datetime, timedelta
 from python.common.config import Config
 import re
-import python.common.vips_api as vips
 
 logging.config.dictConfig(Config.LOGGING)
 
@@ -33,64 +32,68 @@ class ProhibitionBase:
     DAYS_TO_APPLY = 7
     DAYS_TO_PAY = DAYS_TO_APPLY + 1
 
+    @staticmethod
+    def is_okay_to_apply(date_served: datetime, today: datetime) -> bool:
+        """
+        IRPs and ADPs can only be appealed within 7 days after a driver receives their
+        prohibition.
+        """
+        if (today.date() - date_served.date()).days <= ProhibitionBase.DAYS_TO_APPLY:
+            return True
+        return False
 
-@staticmethod
-def is_okay_to_apply(date_served: datetime, today: datetime) -> bool:
-    """
-    IRPs and ADPs can only be appealed within 7 days after a driver receives their
-    prohibition.
-    """
-    if (today.date() - date_served.date()).days <= ProhibitionBase.DAYS_TO_APPLY:
-        return True
-    return False
+    @staticmethod
+    def is_okay_to_pay(date_served: datetime, today: datetime) -> bool:
+        """
+        IRPs and ADPs have only 8 days to pay for their prohibition review
+        after a driver receives their prohibition.
+        """
+        if (today.date() - date_served.date()).days <= ProhibitionBase.DAYS_TO_PAY:
+            return True
+        return False
 
+    @staticmethod
+    def get_deadline_date_string(date_served: datetime) -> str:
+        """
+        IRPs and ADPs have 7 days to apply. Returns deadline date string
+        in the format:  September 7, 2020
+        """
+        deadline_days = ProhibitionBase.DAYS_TO_APPLY + 1
+        return (date_served.date() + timedelta(days=deadline_days)).strftime("%B %-d, %Y")
 
-@staticmethod
-def get_deadline_date_string(date_served: datetime) -> str:
-    """
-    IRPs and ADPs have 7 days to apply. Returns deadline date string
-    in the format:  September 7, 2020
-    """
-    deadline_days = ProhibitionBase.DAYS_TO_APPLY + 1
-    return (date_served.date() + timedelta(days=deadline_days)).strftime("%B %-d, %Y")
+    @staticmethod
+    def get_min_max_review_dates(service_date: datetime, today: datetime) -> tuple:
+        """
+        IRP and ADP prohibition reviews must be scheduled within
+        a 7 to 14 window from the date of service.
+        """
+        earliest_possible_date = today + timedelta(
+            days=ProhibitionBase.MIN_DAYS_FROM_SCHEDULING_TO_REVIEW)
+        legislated_minimum = service_date + timedelta(days=ProhibitionBase.MIN_DAYS_FROM_SERVED_TO_REVIEW)
+        # The earliest possible review date is the greater of the
+        # legislated minimum date and the earliest possible date
+        if earliest_possible_date > legislated_minimum:
+            legislated_minimum = earliest_possible_date
+        legislated_maximum = service_date + timedelta(days=ProhibitionBase.MAX_DAYS_FROM_SERVED_TO_REVIEW)
+        if earliest_possible_date > legislated_maximum:
+            legislated_maximum = earliest_possible_date
+        return legislated_minimum, legislated_maximum
 
+    @staticmethod
+    def amount_due(presentation_type: str):
+        if presentation_type == "WRIT":
+            return ProhibitionBase.WRITTEN_REVIEW_PRICE
+        if presentation_type == "ORAL":
+            return ProhibitionBase.ORAL_REVIEW_PRICE
 
-@staticmethod
-def get_min_max_review_dates(service_date: datetime, today: datetime) -> tuple:
-    """
-    IRP and ADP prohibition reviews must be scheduled within
-    a 7 to 14 window from the date of service.
-    """
-    earliest_possible_date = today + timedelta(
-        days=ProhibitionBase.MIN_DAYS_FROM_SCHEDULING_TO_REVIEW)
-    legislated_minimum = service_date + timedelta(days=ProhibitionBase.MIN_DAYS_FROM_SERVED_TO_REVIEW)
-    # The earliest possible review date is the greater of the
-    # legislated minimum date and the earliest possible date
-    if earliest_possible_date > legislated_minimum:
-        legislated_minimum = earliest_possible_date
-    legislated_maximum = service_date + timedelta(days=ProhibitionBase.MAX_DAYS_FROM_SERVED_TO_REVIEW)
-    if earliest_possible_date > legislated_maximum:
-        legislated_maximum = earliest_possible_date
-    return legislated_minimum, legislated_maximum
+    @staticmethod
+    def type_verbose() -> str:
+        pass
 
-
-@staticmethod
-def amount_due(presentation_type: str):
-    if presentation_type == "WRIT":
-        return ProhibitionBase.WRITTEN_REVIEW_PRICE
-    if presentation_type == "ORAL":
-        return ProhibitionBase.ORAL_REVIEW_PRICE
-
-
-@staticmethod
-def type_verbose() -> str:
-    pass
-
-
-@staticmethod
-def is_eligible_for_oral_review(vips_data: dict):
-    # Unlicenced Driving Prohibitions are never eligible for oral reviews
-    return False
+    @staticmethod
+    def is_eligible_for_oral_review(vips_data: dict):
+        # Unlicenced Driving Prohibitions are never eligible for oral reviews
+        return False
 
 
 class UnlicencedDriver(ProhibitionBase):
@@ -101,7 +104,7 @@ class UnlicencedDriver(ProhibitionBase):
     CAN_APPLY_FOR_REVIEW_MORE_THAN_ONCE = True
 
     @staticmethod
-    def is_okay_to_apply(config, date_served: datetime) -> bool:
+    def is_okay_to_apply(date_served: datetime, today: datetime) -> bool:
         """
         UL Reviews are not restricted.  Applicants can apply anytime.
         """
