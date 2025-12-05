@@ -37,5 +37,5 @@ rsa==4.8
 safety==1.10.3
 six==1.16.0
 toml==0.10.2
-urllib3==1.26.7
+urllib3==2.6.0
 xmltodict==0.12.0
